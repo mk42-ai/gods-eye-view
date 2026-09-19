@@ -32,6 +32,7 @@ const REPO_ROOT = path.resolve(SRC_ROOT, '..');
  * (U+2580-259F) stay allowed: the chat caret is a text cursor, not an icon.
  */
 import {
+  CODE_ONLY_BLOCKS,
   FORBIDDEN_BLOCKS,
   checkIconGlyphs,
   findForbiddenGlyphs,
@@ -48,6 +49,7 @@ test('UI source files carry no emoji or icon-glyph code points (boundaries gate 
   const { files, offenders } = checkIconGlyphs(REPO_ROOT);
   assert.ok(files > 400, `scanned ${files} UI source files`);
   assert.equal(FORBIDDEN_BLOCKS.length, 9);
+  assert.equal(CODE_ONLY_BLOCKS.length, 1);
   assert.deepEqual(
     offenders,
     [],
@@ -56,7 +58,28 @@ test('UI source files carry no emoji or icon-glyph code points (boundaries gate 
   // The scanner catches every encoding a glyph can hide behind.
   assert.deepEqual(findForbiddenGlyphs('plain text · — … ° 1×'), []);
   assert.equal(findForbiddenGlyphs('a \u{1F6F0}\uFE0F b').length, 2);
-  assert.equal(findForbiddenGlyphs('&#x1F6F0; &#9650; \\u{1F6F0} \\u25B2 \\uD83D\\uDEF0').length, 5);
+  assert.equal(
+    findForbiddenGlyphs('&#x1F6F0; &#9650; \\u{1F6F0} \\u25B2 \\uD83D\\uDEF0')
+      .length,
+    5,
+  );
+  // Arrows: an icon glyph in code fails, a comment or the → separator does not.
+  assert.equal(
+    findForbiddenGlyphs("label: '\u21C4'", { file: 'x.js' }).length,
+    1,
+  );
+  assert.equal(
+    findForbiddenGlyphs("// A \u2194 B\nconst r = 'AUS \u2192 LAX';", {
+      file: 'x.js',
+    }).length,
+    0,
+  );
+  assert.equal(
+    findForbiddenGlyphs('<!-- \u21BB --><span>\u21BB</span>', {
+      file: 'x.html',
+    }).length,
+    1,
+  );
 });
 
 test('the assembled application markup renders icons, not glyphs', () => {
@@ -188,7 +211,11 @@ test('every mapped icon renders an <svg> on currentColor with a <title>/aria-lab
     assert.match(labelled, new RegExp(`aria-label="${name} icon"`), name);
     assert.match(labelled, new RegExp(`<title>${name} icon</title>`), name);
     assert.match(labelled, /<\/svg>$/, name);
-    assert.doesNotMatch(labelled, /\b(?:fill|stroke)="#[0-9a-f]{3,6}"/i, `${name}: hard-coded colour`);
+    assert.doesNotMatch(
+      labelled,
+      /\b(?:fill|stroke)="#[0-9a-f]{3,6}"/i,
+      `${name}: hard-coded colour`,
+    );
     assert.deepEqual(findForbiddenGlyphs(labelled), [], name);
     // Decorative form beside a visible label: hidden from the tree, no <title>.
     const decorative = iconMarkup(name);

@@ -145,7 +145,8 @@ export class LocationControls {
       this.orbitIndicator.id = 'orbit-indicator';
       const icon = this.doc.createElement('span');
       icon.className = 'orbit-icon';
-      icon.textContent = '↻';
+      // Inline Lucide orbit mark; the visible ORBIT text is the label.
+      setIconContent(icon, 'orbit', {}, this.doc);
       this.orbitIndicator.append(icon, ' ORBIT');
       this.doc.body.appendChild(this.orbitIndicator);
     }

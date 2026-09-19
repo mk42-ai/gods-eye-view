@@ -12,6 +12,10 @@
  * sanctioned way to draw one. `src/iconGlyphBoundary.test.mjs` runs the same
  * scanner under node:test and adds the rendered-DOM checks.
  *
+ * Arrows (U+2190-U+21FF) are checked in CODE ONLY — comments are blanked
+ * first and the `→` separator ("AUS → LAX", debug logs) is allowed — so a
+ * `↻` or `⇄` drawn as a button glyph fails while prose arrows do not.
+ *
  * Retained on purpose (never flagged): typography such as `·` `—` `…` `°`,
  * `×` as a multiplication sign, arrows in prose/comments, and the `▍` typing
  * caret (Block Elements) — see docs/brand/ICON_SOURCE.md §5.
@@ -36,8 +40,16 @@ export const FORBIDDEN_BLOCKS = Object.freeze([
     from: 0x2b00,
     to: 0x2bff,
   }),
-  Object.freeze({ label: 'U+FE0F variation selector-16', from: 0xfe0f, to: 0xfe0f }),
-  Object.freeze({ label: 'U+200D zero width joiner', from: 0x200d, to: 0x200d }),
+  Object.freeze({
+    label: 'U+FE0F variation selector-16',
+    from: 0xfe0f,
+    to: 0xfe0f,
+  }),
+  Object.freeze({
+    label: 'U+200D zero width joiner',
+    from: 0x200d,
+    to: 0x200d,
+  }),
   Object.freeze({
     label: 'U+25A0-U+25FF geometric shapes',
     from: 0x25a0,
@@ -56,6 +68,17 @@ export const FORBIDDEN_BLOCKS = Object.freeze([
   Object.freeze({ label: 'U+224B triple tilde', from: 0x224b, to: 0x224b }),
 ]);
 
+/** Checked only outside comments; `allow` lists code points that are punctuation. */
+export const CODE_ONLY_BLOCKS = Object.freeze([
+  Object.freeze({
+    label:
+      'U+2190-U+21FF arrows used as icons (comments and the U+2192 separator excluded)',
+    from: 0x2190,
+    to: 0x21ff,
+    allow: Object.freeze(new Set([0x2192])),
+  }),
+]);
+
 const UI_EXTENSIONS = /\.(?:js|mjs|cjs|html|css)$/;
 const ENTITY = /&#(x[0-9a-f]+|[0-9]+);/gi;
 const JS_ESCAPE =
@@ -68,11 +91,48 @@ export function forbiddenBlock(codePoint) {
   );
 }
 
-/** Every forbidden occurrence in `text` as `line:col <what> (<block>)`. */
-export function findForbiddenGlyphs(text) {
+const blank = (match) => match.replace(/[^\n]/g, ' ');
+
+/** Comments replaced by spaces (line/column positions are preserved). */
+export function stripComments(text, file = '') {
+  if (/\.(?:js|mjs|cjs)$/.test(file))
+    return text
+      .replace(/\/\*[\s\S]*?\*\//g, blank)
+      .replace(
+        /(^|[^:'"`\\])\/\/.*$/gm,
+        (match, lead) => lead + blank(match.slice(lead.length)),
+      );
+  if (/\.css$/.test(file)) return text.replace(/\/\*[\s\S]*?\*\//g, blank);
+  if (/\.html$/.test(file)) return text.replace(/<!--[\s\S]*?-->/g, blank);
+  return text;
+}
+
+/**
+ * Every forbidden occurrence in `text` as `line:col <what> (<block>)`. With a
+ * `file` name the code-only blocks are also checked, on the comment-stripped
+ * text of that file type.
+ */
+export function findForbiddenGlyphs(text, { file = '' } = {}) {
   const hits = [];
   const hex = (codePoint) =>
     `U+${codePoint.toString(16).toUpperCase().padStart(4, '0')}`;
+  stripComments(text, file)
+    .split('\n')
+    .forEach((line, index) => {
+      let column = 0;
+      for (const character of line) {
+        column += 1;
+        const codePoint = character.codePointAt(0);
+        const block = CODE_ONLY_BLOCKS.find(
+          ({ from, to, allow }) =>
+            codePoint >= from && codePoint <= to && !allow.has(codePoint),
+        );
+        if (block)
+          hits.push(
+            `${index + 1}:${column} ${hex(codePoint)} (${block.label})`,
+          );
+      }
+    });
   text.split('\n').forEach((line, index) => {
     let column = 0;
     for (const character of line) {
@@ -146,8 +206,10 @@ export function checkIconGlyphs(root) {
   const files = uiSourceFiles(root);
   const offenders = [];
   for (const file of files) {
-    for (const hit of findForbiddenGlyphs(readFileSync(file, 'utf8')))
-      offenders.push(`${path.relative(root, file).split(path.sep).join('/')}:${hit}`);
+    for (const hit of findForbiddenGlyphs(readFileSync(file, 'utf8'), { file }))
+      offenders.push(
+        `${path.relative(root, file).split(path.sep).join('/')}:${hit}`,
+      );
   }
   return { files: files.length, offenders };
 }
@@ -165,7 +227,11 @@ if (
     process.exitCode = 1;
   } else {
     console.log(
-      JSON.stringify({ iconGlyphScan: 'clean', files, blocks: FORBIDDEN_BLOCKS.length }),
+      JSON.stringify({
+        iconGlyphScan: 'clean',
+        files,
+        blocks: FORBIDDEN_BLOCKS.length + CODE_ONLY_BLOCKS.length,
+      }),
     );
   }
 }

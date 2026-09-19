@@ -318,6 +318,13 @@
       ]
     },
     {
+      "name": "orbit",
+      "replaces": "↻ U+21BB",
+      "usage": [
+        "ORBIT indicator beside the LOCATION controls (src/ui/locationControls.js)"
+      ]
+    },
+    {
       "name": "search",
       "replaces": "🔎 &#x1F50E;",
       "usage": ["LOCATION search toggle (src/ui/templates/command-dock.html)"]

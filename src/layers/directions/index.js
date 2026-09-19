@@ -137,7 +137,8 @@ export function directionsRowControls(state) {
   });
   chips.push({
     id: 'swap',
-    label: '⇄',
+    // Chip labels are text (data-toggle-chip); the word replaces the arrow glyph.
+    label: 'SWAP',
     disabled: !(a && b) || routing,
     state: 'idle',
     title: 'Swap A and B',
