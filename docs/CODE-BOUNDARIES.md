@@ -40,7 +40,7 @@ See [application construction](APPLICATION.md) and the
 
 ## Import direction gates
 
-`npm run check:boundaries` runs two complementary checks:
+`npm run check:boundaries` runs three complementary checks:
 
 1. `scripts/check-import-directions.mjs` parses every runtime JS/MJS/CJS file in
    `src/` and `server/`, including files unused by the current bundle. Static,
@@ -53,6 +53,13 @@ See [application construction](APPLICATION.md) and the
    assigns each export exactly once and lists its owned modules and external
    dependencies. Unused imports still count. Node exports have only a `node`
    condition; browser groups cannot use build-only dependency exceptions.
+3. `scripts/check-icon-glyphs.mjs` scans every non-test UI source file
+   (`src/**` JS/HTML/CSS, `index.html`, `style.css`, `public/*.html`) for emoji
+   code points and icon glyphs — literal, as HTML entities or as JS escapes —
+   and fails on any hit: icons are inline Lucide SVGs
+   (`src/ui/icons/layerIcon.js`), never characters. The retained typography
+   (`·` `—` `…` `°`, `×` as a multiplier, arrows in comments, the `▍` caret)
+   is listed in `docs/brand/ICON_SOURCE.md` §5.
 
 Portable source graphs cannot reach application/rendering, Node, Cesium or
 browser globals. This includes `sources/*`, dedicated `layers/*/source` exports,

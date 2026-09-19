@@ -26,120 +26,37 @@ const SRC_ROOT = fileURLToPath(new URL('.', import.meta.url));
 const REPO_ROOT = path.resolve(SRC_ROOT, '..');
 
 /**
- * Forbidden in UI source. Emoji blocks as requested by the icon audit, plus the
- * glyph blocks this UI used to draw icons with: Geometric Shapes (triangles,
- * circles, squares, play/collapse marks), Miscellaneous Technical (the
- * position indicator), Roman numerals (the pause mark), the triple tilde.
- * Block Elements (U+2580–259F) stay allowed: the chat caret is a text cursor,
- * not an icon.
+ * The scanner itself lives in scripts/check-icon-glyphs.mjs so that
+ * `npm run check:boundaries` runs the identical scan; this file adds the
+ * assembled-markup, registry and rendered-DOM checks on top. Block Elements
+ * (U+2580-259F) stay allowed: the chat caret is a text cursor, not an icon.
  */
-const FORBIDDEN = [
-  [
-    'U+1F000–U+1FAFF emoji (incl. regional indicators U+1F1E6–U+1F1FF)',
-    0x1f000,
-    0x1faff,
-  ],
-  ['U+2600–U+27BF misc symbols & dingbats', 0x2600, 0x27bf],
-  ['U+2B00–U+2BFF misc symbols and arrows', 0x2b00, 0x2bff],
-  ['U+FE0F variation selector-16', 0xfe0f, 0xfe0f],
-  ['U+200D zero width joiner', 0x200d, 0x200d],
-  ['U+25A0–U+25FF geometric shapes', 0x25a0, 0x25ff],
-  ['U+2300–U+23FF miscellaneous technical', 0x2300, 0x23ff],
-  ['U+2160–U+216F roman numerals used as glyphs', 0x2160, 0x216f],
-  ['U+224B triple tilde', 0x224b, 0x224b],
-];
-const UI_ROOTS = ['src'];
-const UI_FILES = ['index.html', 'style.css'];
-const UI_EXTENSIONS = /\.(?:js|mjs|cjs|html|css)$/;
-const ENTITY = /&#(x[0-9a-f]+|[0-9]+);/gi;
-const JS_ESCAPE =
-  /\\u\{([0-9a-f]{1,6})\}|\\u(d83[0-9a-f])\\u(d[c-f][0-9a-f]{2})|\\u([0-9a-f]{4})/gi;
+import {
+  FORBIDDEN_BLOCKS,
+  checkIconGlyphs,
+  findForbiddenGlyphs,
+  uiSourceFiles as scanFiles,
+} from '../scripts/check-icon-glyphs.mjs';
 
-function forbiddenBlock(codePoint) {
-  return FORBIDDEN.find(([, from, to]) => codePoint >= from && codePoint <= to);
-}
+export { findForbiddenGlyphs };
 
 function uiSourceFiles() {
-  const files = [];
-  const visit = (directory) => {
-    for (const entry of readdirSync(directory, { withFileTypes: true })) {
-      const absolute = path.join(directory, entry.name);
-      if (entry.isDirectory()) visit(absolute);
-      else if (
-        entry.isFile() &&
-        UI_EXTENSIONS.test(entry.name) &&
-        !/\.test\.mjs$/.test(entry.name)
-      )
-        files.push(absolute);
-    }
-  };
-  for (const root of UI_ROOTS) visit(path.join(REPO_ROOT, root));
-  for (const file of UI_FILES) files.push(path.join(REPO_ROOT, file));
-  const publicRoot = path.join(REPO_ROOT, 'public');
-  for (const entry of readdirSync(publicRoot, { withFileTypes: true })) {
-    if (entry.isFile() && /\.html$/.test(entry.name))
-      files.push(path.join(publicRoot, entry.name));
-  }
-  return files.sort();
+  return scanFiles(REPO_ROOT);
 }
 
-/** Every forbidden occurrence in `text` as `line:col U+XXXX (block)`. */
-export function findForbiddenGlyphs(text) {
-  const hits = [];
-  const lines = text.split('\n');
-  lines.forEach((line, index) => {
-    let column = 0;
-    for (const character of line) {
-      column += 1;
-      const codePoint = character.codePointAt(0);
-      const block = forbiddenBlock(codePoint);
-      if (block)
-        hits.push(
-          `${index + 1}:${column} U+${codePoint.toString(16).toUpperCase().padStart(4, '0')} (${block[0]})`,
-        );
-    }
-    for (const match of line.matchAll(ENTITY)) {
-      const value = match[1];
-      const codePoint = /^x/i.test(value)
-        ? Number.parseInt(value.slice(1), 16)
-        : Number.parseInt(value, 10);
-      const block = forbiddenBlock(codePoint);
-      if (block)
-        hits.push(
-          `${index + 1}:${match.index + 1} entity ${match[0]} (${block[0]})`,
-        );
-    }
-    for (const match of line.matchAll(JS_ESCAPE)) {
-      let codePoint;
-      if (match[1]) codePoint = Number.parseInt(match[1], 16);
-      else if (match[2])
-        codePoint =
-          (Number.parseInt(match[2], 16) - 0xd800) * 0x400 +
-          (Number.parseInt(match[3], 16) - 0xdc00) +
-          0x10000;
-      else codePoint = Number.parseInt(match[4], 16);
-      const block = forbiddenBlock(codePoint);
-      if (block)
-        hits.push(
-          `${index + 1}:${match.index + 1} escape ${match[0]} (${block[0]})`,
-        );
-    }
-  });
-  return hits;
-}
-
-test('UI source files carry no emoji or icon-glyph code points', () => {
-  const offenders = [];
-  for (const file of uiSourceFiles()) {
-    const hits = findForbiddenGlyphs(readFileSync(file, 'utf8'));
-    for (const hit of hits)
-      offenders.push(`${path.relative(REPO_ROOT, file)}:${hit}`);
-  }
+test('UI source files carry no emoji or icon-glyph code points (boundaries gate scanner)', () => {
+  const { files, offenders } = checkIconGlyphs(REPO_ROOT);
+  assert.ok(files > 400, `scanned ${files} UI source files`);
+  assert.equal(FORBIDDEN_BLOCKS.length, 9);
   assert.deepEqual(
     offenders,
     [],
     `Emoji / glyph icons in UI source (use src/ui/icons/layerIcon.js):\n${offenders.join('\n')}`,
   );
+  // The scanner catches every encoding a glyph can hide behind.
+  assert.deepEqual(findForbiddenGlyphs('plain text · — … ° 1×'), []);
+  assert.equal(findForbiddenGlyphs('a \u{1F6F0}\uFE0F b').length, 2);
+  assert.equal(findForbiddenGlyphs('&#x1F6F0; &#9650; \\u{1F6F0} \\u25B2 \\uD83D\\uDEF0').length, 5);
 });
 
 test('the assembled application markup renders icons, not glyphs', () => {
