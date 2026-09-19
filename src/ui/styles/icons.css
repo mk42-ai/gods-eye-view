@@ -1,0 +1,109 @@
+/* ── Inline Lucide icons (src/ui/icons/layerIcon.js) ─────────────────────
+ * One outline family for every former emoji / text-glyph icon: 24-unit grid,
+ * 2px round strokes, `currentColor`. Sizes come from the host's font-size
+ * (1em) unless a surface pins them below. Evidence: docs/brand/ICON_SOURCE.md.
+ */
+.od-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex: none;
+  vertical-align: -0.15em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: inherit;
+  pointer-events: none;
+}
+
+/* A filled variant for the one place a solid mark is the convention (HUD REC). */
+.od-icon--solid {
+  fill: currentColor;
+}
+
+/* Inline icon followed by a visible label inside a button (`PLAY`, `PAUSE`). */
+button > .od-icon:first-child:not(:only-child) {
+  margin-right: 0.15em;
+}
+
+/* ── DATA LAYERS rows ──────────────────────────────────────────────────────
+ * The row icon carries the brand green while the feed is live, the toggle's
+ * status colour otherwise, and the muted neutral when the layer is off
+ * (tokens: --od-green-500 accent, --od-neutral-400 "icons" role).
+ */
+.data-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--od-green-500, #3bb795);
+  transition: color var(--transition-fast, 150ms ease);
+}
+
+.data-toggle-row[data-feed-state='off'] .data-icon,
+.data-toggle-row[data-feed-state='enabling'] .data-icon,
+.data-toggle-row[data-feed-state='disabling'] .data-icon,
+.data-toggle-row[data-feed-state='uncertain'] .data-icon {
+  color: var(--od-neutral-400, #999999);
+}
+
+.data-toggle-row[data-feed-state='loading'] .data-icon {
+  color: var(--od-green-200, #adedd6);
+}
+
+.data-toggle-row[data-feed-state='stale'] .data-icon,
+.data-toggle-row[data-feed-state='partial'] .data-icon,
+.data-toggle-row[data-feed-state='fallback'] .data-icon {
+  color: #ffd27a;
+}
+
+.data-toggle-row[data-feed-state='degraded'] .data-icon {
+  color: #ffad72;
+}
+
+.data-toggle-row[data-feed-state='unavailable'] .data-icon {
+  color: #ff8585;
+}
+
+/* ── Key setup tier dots (metered = red, free = amber) ───────────────────── */
+.key-setup-tier .od-icon {
+  fill: currentColor;
+}
+
+.key-setup-tier[data-tier='metered'] {
+  color: #ff5c5c;
+}
+
+.key-setup-tier[data-tier='free'] {
+  color: #ffbe52;
+}
+
+/* ── HUD REC dot keeps its red glow on the filled icon ───────────────────── */
+#hud-rec-dot .od-icon {
+  filter: drop-shadow(0 0 4px rgba(255, 51, 51, 0.8));
+}
+
+/* ── Icon-only controls: centre the glyph replacement ────────────────────── */
+.panel-collapse-btn,
+.cockpit-utility-glyph,
+.tr3b-toggle {
+  display: inline-grid;
+  place-items: center;
+}
+
+.panel-collapse-btn .od-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Location tray city line: pin icon before the text. */
+.location-mini-city .od-icon,
+#location-city .od-icon {
+  margin-right: 0.35em;
+  vertical-align: -0.12em;
+}
