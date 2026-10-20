@@ -77,8 +77,7 @@ N-2 workflow-id validation + Vercel fix · N-3 endpoint default → `predefined-
 | Foundation live validation | ✅ 20/20 |
 
 ## 8. UI validation
-Not run this cycle — no UI consumes `/api/ondemand/v2` yet (Phase C, N-5/N-8). Existing UI untouched; `npm run build`
-green; `src/` never imports the foundation (guard test).
+Browser-level UI validation not run this cycle — no UI consumes `/api/ondemand/v2` yet (Phase C, N-5/N-8). Existing UI untouched; `npm run build` green locally and in the sandbox preview (`GET /` 200); `src/` never imports the foundation (guard test).
 
 ## 9. Commits on `integration/ondemand-native` (this cycle)
 | sha | message | timestamp |
@@ -113,6 +112,6 @@ otherwise always use the server key, and the new `/api/ondemand/v2/*` never read
 | Critical UI workflows | 0 / 6 (not started) | — |
 | Branding replacement | 0 / 45 user-facing lines replaced (plan ready; 2,902 total lines classified) | BRANDING_AUDIT |
 | Infrastructure consolidation | 0 / 17 CONSOLIDATE+REMOVE decisions executed (21 KEEP) | INFRASTRUCTURE_INVENTORY |
-| Deployment | integration branch pushed; preview of the branch on the real Vercel project not yet created; production BLOCKED (B-6) | BLOCKERS |
+| Deployment | integration branch pushed; ephemeral Vercel-Sandbox preview of `9067843` healthy (`/api/ondemand/v2/health` ok, live chat 200 — TEST_RESULTS §6); preview on the real Vercel project not yet created; production BLOCKED (B-6) | BLOCKERS, TEST_RESULTS §6 |
 
 GENERATED_UTC: 2026-10-20T22:15:00Z

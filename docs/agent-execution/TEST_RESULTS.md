@@ -121,4 +121,17 @@ Run started 2026-10-20T22:02:00Z, finished 2026-10-20T22:03:30Z — **20 PASS / 
 - Workflow terminal state within one request window (workflow runs > 100 s).
 - UI tests in a real browser for the new `/api/ondemand/v2` route (no UI consumes it yet — Phase C).
 
-GENERATED_UTC: 2026-10-20T22:05:05Z
+## 6. Ephemeral preview deployment of the integration branch (Vercel Sandbox, 2026-10-20T22:10:36Z)
+
+Working tree at `9067843` copied into a Vercel Sandbox (node22), `npm ci` + `npm run build` (vite, 11 s, `dist/index.html` emitted), served by `server/serverless/dev-server.mjs` on 0.0.0.0:5173 with `ONDEMAND_API_KEY` injected only into the process environment (never written to disk).
+
+| probe | result | evidence (redacted) |
+|---|---|---|
+| `GET /` | 200 | SPA shell served from `dist/` |
+| `GET /api/ondemand/v2/health` | 200 | `{"ok":true,"configured":true,"conversationBackend":"memory","contracts":13,"activePlugins":10,"defaultEndpointId":"predefined-gpt-6-luna","keySource":"server"}` |
+| `GET /api/ondemand/v2/contracts` | 200 | 13 contracts (10 active plugins, 1 inactive, 1 tool, 1 workflow) |
+| `POST /api/ondemand/v2/chat` sync with `objectContext` and a bogus `x-ondemand-key` header | 200, `x-ondemand-key-source: server` | answer "The object in your context is "Preview object at Yas Island."", `objectContextKey: demo:1`, `reused:false`, metrics totalTimeSec 2.41 |
+
+Preview URL and sandbox id are recorded in the run report (ephemeral, 90 min). This is NOT the real Vercel project (`ondemand-eand-spatial`); see NEXT_ACTIONS N-13.
+
+GENERATED_UTC: 2026-10-20T22:12:42Z
