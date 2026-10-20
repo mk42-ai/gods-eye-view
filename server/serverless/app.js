@@ -3,6 +3,7 @@ import { createMountRouter } from './router.js';
 import { mountSourceRoutes } from './sources-mounts.js';
 import { mountToolsRoute } from './tools-route.js';
 import { mountOndemandWorkflowSubpaths } from './ondemand-workflow-mount.js';
+import { mountFoundationRoutes } from '../ondemand/foundation/proxy-route.js';
 
 /** VITE_SERVERLESS_MODE / SERVERLESS_MODE mirror the client-side build-time flag; VERCEL is set by the platform itself. */
 /** Accept the usual truthy spellings (`true`, `1`, `yes`) for an env flag. */
@@ -188,6 +189,11 @@ async function createServerlessApi({ serverlessMode: explicitMode } = {}) {
   // (server/serverless/ondemand-workflow-mount.js; `stream` is the polling
   // surface re-shaped as same-origin SSE, not an upstream stream).
   mountOndemandWorkflowSubpaths(router);
+  // Phase B foundation (2026-10-20): /api/ondemand/v2/* — server-key-only
+  // proxy with object-context conversations, SSE relay and contracts
+  // (server/ondemand/foundation/proxy-route.js). Mounted BEFORE the provider
+  // plugins so no literal api/ondemand/*.js file shadows it.
+  mountFoundationRoutes(router);
 
   for (const plugin of localProviderPlugins()) {
     if (SKIP_ALWAYS.has(plugin.name)) continue;
