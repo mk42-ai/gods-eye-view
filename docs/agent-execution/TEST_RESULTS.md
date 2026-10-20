@@ -134,4 +134,84 @@ Working tree at `9067843` copied into a Vercel Sandbox (node22), `npm ci` + `npm
 
 Preview URL and sandbox id are recorded in the run report (ephemeral, 90 min). This is NOT the real Vercel project (`ondemand-eand-spatial`); see NEXT_ACTIONS N-13.
 
-GENERATED_UTC: 2026-10-20T22:12:42Z
+
+## 7. Cycle 2 (2026-10-20T22:20Z–23:35Z) — Phase C/D/E/F/G validation
+
+### 7.1 Live validation against the real OnDemand API — `npm run ondemand:foundation:live` (26/26 PASS, artefact `artifacts/foundation-live-2026-10-20T23-07Z.json`)
+
+| # | test | result | evidence (redacted) | timestamp |
+|---|---|---|---|---|
+| 1 | client.sessions.create (externalUserId + 1 pluginId) | PASS | `{"ms":321,"pluginIds":["plugin-1713924030"]}` | 2026-10-20T23:07:37Z |
+| 2 | client.sessions.list pagination | PASS | `{"count":2,"pagination":{"next":"6ad7e5257bb80aa7c2d976a5","limit":2}}` | 2026-10-20T23:07:38Z |
+| 3 | client.sessions.get | PASS | `{"keys":["id","companyId","externalUserId","agentIds","pluginIds","contextMetadata","title","status","createdBy","createdAt","updatedAt","liveSettings","isProcessing"]}` | 2026-10-20T23:07:38Z |
+| 4 | client.query.sync fulfillmentOnly (predefined-gpt-6-luna) | PASS | `{"ms":1797,"answer":"FOUNDATION-LIVE-OK","status":"completed"}` | 2026-10-20T23:07:40Z |
+| 5 | client.query.stream SSE parse (deltas, metricsLog, heartbeat, [DONE]) | PASS | `{"ttfbMs":2733,"totalMs":5588,"events":41,"distinct":["thinking","heartbeat","message","done"],"text":"A spatial intelligence workstation is a computer system designed to analyze, vis"}` | 2026-10-20T23:07:45Z |
+| 6 | client.query.stream abort propagation (caller abort stops upstream read) | PASS | `{"eventsBeforeAbort":3,"abortedError":true}` | 2026-10-20T23:07:48Z |
+| 7 | client.query.sync with plugin-1713924030 (Internet web search) | PASS | `{"ms":13073,"answer":"“Why Abu Dhabi Police are confiscating e-scooters” — Gulf News: https://gulfnews.com/"}` | 2026-10-20T23:08:01Z |
+| 8 | client: inactive plugin-1785777296 → OnDemandHttpError 400 (not retried) | PASS | `{"status":400,"message":"One or more agents are inactive or missing configuration: X"}` | 2026-10-20T23:08:02Z |
+| 9 | client.workflows.get (ONDEMAND_SPATIAL_WORKFLOW_ID real id) | PASS | `{"name":"OnDemand Spatial Advanced Workflow","isActive":true,"nodes":9,"trigger":"webhook"}` | 2026-10-20T23:08:02Z |
+| 10 | client.workflows.execute + follow (status + logs polling) | PASS | `{"status":"executing","terminal":false,"logLines":14}` | 2026-10-20T23:08:50Z |
+| 11 | route GET /api/ondemand/v2/health | PASS | `{"ok":true,"configured":true,"conversationBackend":"memory","contracts":13,"activePlugins":10,"defaultEndpointId":"predefined-gpt-6-luna","workflowId":{"configured":true,"source":"default","valid":true},"guards":{"rateLi` | 2026-10-20T23:08:50Z |
+| 12 | route GET /api/ondemand/v2/contracts | PASS | `{"contracts":13}` | 2026-10-20T23:08:50Z |
+| 13 | route POST /chat sync — object-context grounded, client key header ignored | PASS | `{"ms":3753,"status":200,"reused":false,"objectContextKey":"aircraft:live-A6-EVN","answer":"You’re looking at **EK203 (test object)**, an aircraft. Its altitude is **10,668**; the units aren’t specified in the provided da` | 2026-10-20T23:08:53Z |
+| 14 | route POST /chat sync — second turn reuses the SAME session (isolation key user+object) | PASS | `{"reused":true,"sameSession":true}` | 2026-10-20T23:08:57Z |
+| 15 | route POST /chat sync — different externalUserId gets a DIFFERENT session | PASS | `{"different":true}` | 2026-10-20T23:09:00Z |
+| 16 | route POST /chat stream — SSE relay (session preamble, message events, done) | PASS | `{"ms":3819,"bytes":1292,"head":"event: session\ndata: {\"sessionId\":\"6ad7f48cf922b50dc6673296\",\"objectContextKey\":\"camera:live-cam-1\",\"reused\":false,\"endpointId\":\"predefined-gpt-6-luna\",\"pluginI"}` | 2026-10-20T23:09:04Z |
+| 17 | route GET /messages (history via conversation key) | PASS | `{"count":2}` | 2026-10-20T23:09:04Z |
+| 18 | route GET /conversations (per-user listing) | PASS | `{"conversations":2}` | 2026-10-20T23:09:04Z |
+| 19 | route DELETE /conversations (close mapping) | PASS | `{"closed":true}` | 2026-10-20T23:09:04Z |
+| 20 | route POST /workflows/execute | PASS | `{"status":202,"streamPath":"/api/ondemand/v2/workflows/executions/<id>/stream"}` | 2026-10-20T23:09:04Z |
+| 21 | route POST /chat sync with objectContext → provenance.keySource=server, confidenceBasis present | PASS | `{"ms":3090,"status":200,"basis":"inferred","answerChars":116,"injectionFlags":[]}` | 2026-10-20T23:09:07Z |
+| 22 | route POST /chat with mismatching X-Workstation-User → 403 user_mismatch | PASS | `{"error":"user_mismatch"}` | 2026-10-20T23:09:07Z |
+| 23 | route POST /summaries/hud → five-word summary from the fulfilment endpoint | PASS | `{"ms":3384,"status":200,"summary":"Al Maryah Island Live Flights","error":null}` | 2026-10-20T23:09:11Z |
+| 24 | isolation: 3 concurrent users × same object → 3 distinct sessions, answers not crossed, same user reuses | PASS | `{"ms":5157,"distinctSessions":3,"answers":["ISO-A","ISO-B","ISO-C"]}` | 2026-10-20T23:09:16Z |
+| 25 | route POST /investigate → plan + sources + objects + synthesis (live plugin retrieval) | PASS | `{"ms":40668,"status":200,"plan":[{"name":"perplexity_research","pluginId":"plugin-1722260873"}],"sources":["perplexity_research:ok"],"counts":{"objects":1,"confirmed":0,"inferred":1,"unverified":0},"citations":[],"synthe` | 2026-10-20T23:09:57Z |
+| 26 | route POST /chat stream → session, deltas, provenance, done (in order) | PASS | `{"ms":3864,"bytes":1470,"events":["session","message","heartbeat","provenance","done"]}` | 2026-10-20T23:10:00Z |
+
+Rows 21–26 are new this cycle (Phase C/D/E/G): object-context sync chat with provenance, 403 on a mismatching
+`X-Workstation-User`, HUD summary on OnDemand (replaces the OpenAI bypass), **3 concurrent users × same object → 3
+distinct sessions with answers not crossed and same-user reuse**, a live `/investigate` (Perplexity plugin retrieval
++ synthesis), and the stream relay emitting `session → message → provenance → done` in order.
+
+### 7.2 Repository gates (all exit 0, 2026-10-20T23:05Z–23:12Z)
+
+| gate | command | result |
+|---|---|---|
+| boundaries (import directions + package ownership + brand marks) | `npm run check:boundaries` | PASS (775 modules; `scripts/package-boundaries.json` extended for `src/brand`, `server/brand`, `build/product-name.js`, `src/ondemand/miniChat.js`; `hud-summary.js` removed) |
+| secrets (source) | `npm run check:secrets` | PASS — 1,542 files |
+| secrets (dist) | `node scripts/check-no-secrets.mjs --dist` | PASS — 1,810 files incl. `dist/` (local and in the sandbox) |
+| foundation unit | `npm run test:foundation` | **48 / 48** (25 Phase B + 23 new in `phase-cdg.test.mjs`: intelligence objects, guards, orchestrator incl. parallel/isolated/partial-failure, v2 route rate limit / authz / sanitised context / stream provenance / investigate / hud / 3-user isolation, miniChat helpers) |
+| ondemand unit | `npm run test:ondemand` | **246 / 246** (243 + 3: workflow-id shape B-1, endpoint successor B-2, v1 tier snapshot) |
+| serverless unit | `npm run test:serverless` | 58 / 58 (HUD route now asserts 410 + replacement) |
+| touched suites | `node --test src/ondemand/*.test.mjs src/brand/productName.test.mjs src/hudSummaryResponse.test.mjs src/radioMarkup.test.mjs src/firstRunExperience.test.mjs src/pinokioLauncherContract.test.mjs src/voice/actionSchemas.test.mjs src/tooling/applicationHtml.test.mjs src/iconGlyphBoundary.test.mjs src/reasonableDefaults.test.mjs src/ui/layerPanel.test.mjs src/ui/cockpitController.test.mjs src/hudAltitudeDatum.test.mjs src/tooling/brandMarks.test.mjs` | PASS (voice tool-schema digests re-derived for the PRODUCT_NAME wording: `3306b0e0…`, `c699fac0a9d2ea28`, `d418ad65…`/26,266 chars) |
+| formatting | `npm run format:check` | PASS — 979 files |
+| build | `npm run build` | PASS (5.4 s local / 10.3 s sandbox); `dist/index.html` `<title>OnDemand Intelligence Workstation</title>`; `dist/brand/site.webmanifest` stamped |
+| full `npm test` on Node 24 | — | NOT RUN (container is Node 22; B-8 unchanged) |
+
+### 7.3 Browser validation of the live preview (ui-validator → headless Chromium 1440×900 + 390×844; artefacts `artifacts/ui-2026-10-20/*.jpg|*-report.json`)
+
+Preview: `https://sb-74qv32j82zmp.vercel.run` (sandbox `sbx_uvCelLuL0ADycaUJzgqhrB7b4S0K`, build of this cycle's tree copied in place, `node server/serverless/dev-server.mjs` with `ONDEMAND_API_KEY` in the process env only). Chromium needed the SwiftShader GL backend (the app is a Cesium/WebGL globe); the validator's socket-timeout handling was patched locally for `captureScreenshot` on WebGL pages.
+
+| # | checklist item | assertion(s) | 1440×900 | 390×844 | artefact |
+|---|---|---|---|---|---|
+| 1 | startup / brand | `#title-bar` renders, text contains "OnDemand Intelligence", no "OnDemand Spatial" / "GEV MIC", `.title-accent` visible, `document.title === 'OnDemand Intelligence Workstation'`, favicon link `/assets/brand/favicon.ico` | PASS | PASS | `cycle2-startup-*.jpg` |
+| 2 | mini chat opens from a data-layer row (earthquakes) | after clicking the row's ASK button: `#ondemand-mini-chat` visible, `data-object-type="earthquake"`, kind line names `earthquakes`, starters rendered, `localStorage['ondemand.apiKey']` absent, `ondemand.v2.externalUserId.default` = `ws-default-…`, key-state "server key" | PASS | PASS | `cycle2-minichat-*.jpg` |
+| 3 | context received by OnDemand + streaming | traffic row → starter click → turn completes (139 SSE events, first token 4,259 ms, total 7,887 ms), assistant message > 20 chars, status `READY · … · inferred`, `data-confidence` set, no browser key | PASS | PASS | `cycle2-minichat-stream-*.jpg` |
+| 4 | persistence + session isolation + object coverage | graphEdge → ask → newsArticle → ask → reopen graphEdge: 2 distinct sessions, same session resumed, 2 history rows replayed, "EDGE-ONE" visible and "NEWS-ONE" absent; `#hud-ask-ondemand` and `#cockpit-brief-ask` present | PASS | — | `cycle2-persist-isolation-1440x900.jpg` |
+| 5 | failure + cancel states | injected 502 → `.od-chat__msg--error`, status `TURN FAILED`; STOP during a stream → turn `cancelled`, status `CANCELLED`, STOP hidden, SEND re-enabled | PASS | — | `cycle2-failure-cancel-1440x900.jpg` |
+| 6 | `/api/ondemand/v2/health` (page) | contains `predefined-gpt-6-luna` | PASS | — | `cycle2-health-1440x900.jpg` |
+
+Console: the only error on every run is the expected `GET /api/setup/status` 404 (serverless mode has no key-setup route — pre-existing). No page errors, no failed `/api/ondemand/v2/*` requests.
+
+20-point checklist status: startup ✅ · auth n/a (anonymous workspace user; header binding enforced server-side when `ONDEMAND_V2_REQUIRE_USER_HEADER=1`) · dashboard/HUD ✅ (ASK affordance) · navigation ✅ (layer panel) · OnDemand data flow ✅ · search/filtering/maps/graphs/timelines — not separately exercised this cycle (unchanged code; covered by the existing `scripts/qa-*.mjs` harnesses, see N-15) · cards ✅ · mini chat opens from objects ✅ · context received ✅ · streaming + persistence ✅ · session isolation ✅ · source references ✅ (provenance event, `SOURCES` strip renders when citations exist) · data refresh — unchanged · failure states ✅ · browser refresh — resume path proven via re-open + `/messages` replay · responsive ✅ (390×844 on items 1–3).
+
+### 7.4 Platform-side changes made this cycle (Vercel project `prj_VbHbEhFSDFkdXCqlq8XqONoFWQHO`)
+
+| action | evidence | timestamp |
+|---|---|---|
+| `ONDEMAND_SPATIAL_WORKFLOW_ID` corrected from the 26-hex typo to `6aace534859f7b0abb53d99a` (PATCH env `lTU2obzhz3oJXEMI`) | API returned `updatedAt 1792535654031`, value length 24 | 22:34:14Z |
+| `ONDEMAND_FULFILLMENT_ENDPOINT_ID` set to `predefined-gpt-6-luna` (sensitive var kept sensitive) | `updatedAt 1792535668814` | 22:34:28Z |
+| `ELEVENLABS_API_KEY`, `ONDEMAND_KNOWLEDGE_PLUGIN_IDS` deleted | DELETE 200 for both ids | 23:30:34Z |
+| Flow Builder relaunch workflow `6ad7f961c2cfee207e8f3d07` created (cron `0 15 */6 * * *`), activated, test execution `6ad7f966c2cfee207e8f3d0d` | `POST /automation/api/workflow/` → id; `/activate` → 200; `/execute` → executionID | 23:30Z |
+
+GENERATED_UTC: 2026-10-20T23:35:00Z

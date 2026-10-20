@@ -1,22 +1,24 @@
 {
-  "generatedUtc": "2026-10-20T21:52:27Z",
+  "generatedUtc": "2026-10-20T23:32:00Z",
   "repo": "mk42-ai/gods-eye-view",
   "branch": "integration/ondemand-native",
   "summary": {
     "externalProviders": 54,
-    "callSites": 82,
-    "directBypasses": 4,
-    "ondemandCallSites": 13,
+    "callSites": 85,
+    "directBypasses": 2,
+    "ondemandCallSites": 17,
     "plannedToolWraps": 38,
     "keepDirect": 27,
-    "envVarsRead": 120
+    "envVarsRead": 120,
+    "removed": 1
   },
   "notes": [
     "Call-site counting scope: src/, server/, api/, scripts/, index.html production code; node_modules, dist, docs/ and *.test.mjs excluded (tests cited as evidence only).",
     "Internal same-origin calls (/api/*, navigator.sendBeacon to /api/realtime/debug-log in src/voice/realtimeDiagnostics.js:17) are not external and are not counted.",
     "No Gemini / generativelanguage call site exists in production code or scripts on this branch; no axios, XMLHttpRequest or EventSource usage found (SSE is piped server-side via fetch in server/ondemand/sse.js).",
     "ELEVENLABS_API_KEY is deny-listed in code (server/ondemand/config.js:400) \u2014 recorded as env-only bypass with no call site.",
-    "Entries 'usgs-fdsn-source' and 'nasa-firms-source' are counted as native because they are the already-registered OnDemand tool backends (docs/ondemand-tools/*.json)."
+    "Entries 'usgs-fdsn-source' and 'nasa-firms-source' are counted as native because they are the already-registered OnDemand tool backends (docs/ondemand-tools/*.json).",
+    "2026-10-20 cycle 2: openai-hud-summary migrated to OnDemand (v2/summaries/hud), elevenlabs env removed, three v2 foundation call sites added; bypasses 4 \u2192 2 (OpenAI Realtime pair, 501 in serverless)."
   ],
   "envVarsRead": [
     "AIRPLANES_LIVE_ENABLED",
@@ -319,7 +321,7 @@
       "proposedOnDemandPlugin": "native-ondemand (route voice through api/ondemand/stt.js + chat.js + tts.js; no OnDemand Realtime surface exists yet)",
       "migrationStatus": "bypass",
       "testStatus": "unit-tested (src/voice/realtimeBackend.test.mjs, server/serverless/app.test.mjs answers 501 in serverless mode)",
-      "blockers": "Vercel serverless returns 501 (server/serverless/app.js:159) \u2014 only live in local dev/Pinokio; no OnDemand low-latency speech-to-speech equivalent"
+      "blockers": "Vercel serverless returns 501 (server/serverless/app.js:159) \u2014 only live in local dev/Pinokio; no OnDemand low-latency speech-to-speech equivalent | 2026-10-20: still a bypass; disabled in serverless (501). Replacement path src/voice/ondemand/* exists; removal scheduled N-9b (needs qa-voice-routing proof)."
     },
     {
       "id": "openai-realtime-sdp-call",
@@ -334,27 +336,29 @@
       "proposedOnDemandPlugin": "native-ondemand (replace with OnDemand STT/TTS round-trip)",
       "migrationStatus": "bypass",
       "testStatus": "unit-tested (src/voice/realtimeBackend.test.mjs)",
-      "blockers": "Browser talks to api.openai.com directly; short-circuited when VITE_SERVERLESS_MODE=true"
+      "blockers": "Browser talks to api.openai.com directly; short-circuited when VITE_SERVERLESS_MODE=true | 2026-10-20: still a bypass; disabled in serverless (501). Replacement path src/voice/ondemand/* exists; removal scheduled N-9b (needs qa-voice-routing proof)."
     },
     {
       "id": "openai-hud-summary",
       "provider": "OpenAI (HUD summary)",
-      "endpoint": "POST https://api.openai.com/v1/responses",
-      "consumerComponent": "server/providers/openai/hud-summary.js:54 (mounted /api/openai/hud-summary, server/providers/openai.js:18)",
+      "endpoint": "RETIRED 2026-10-20 \u2014 was POST https://api.openai.com/v1/responses; now POST /api/ondemand/v2/summaries/hud \u2192 {ONDEMAND_BASE_URL}/chat/v1/sessions/{id}/query (fulfillmentOnly)",
+      "consumerComponent": "server/ondemand/foundation/proxy-route.js (hudSummaryPrompt/toFiveWordSummary); client src/services/requests.js:24",
       "layer": "serverless",
-      "authMethod": "apikey-env:OPENAI_API_KEY (model OPENAI_HUD_SUMMARY_MODEL)",
+      "authMethod": "apikey-env:ONDEMAND_API_KEY (server-only)",
       "responseSchema": "output_text (short HUD summary string)",
       "refreshFrequency": "on-demand (HUD refresh, rate-limited GEV_RATELIMIT_OPENAI_PER_MIN)",
       "requiredPermissions": "OpenAI API key",
-      "proposedOnDemandPlugin": "native-ondemand (api/ondemand/chat.js sync query with fulfillment endpoint)",
-      "migrationStatus": "bypass",
-      "testStatus": "unit-tested (src/hudSummaryResponse.test.mjs)",
-      "blockers": "Straightforward swap: text-in/text-out; needs prompt parity test"
+      "proposedOnDemandPlugin": "native-ondemand",
+      "migrationStatus": "native",
+      "testStatus": "unit-tested (server/ondemand/foundation/phase-cdg.test.mjs, src/hudSummaryResponse.test.mjs) + live (artifacts/foundation-live-2026-10-20T23-07Z.json row 25)",
+      "blockers": "",
+      "migratedUtc": "2026-10-20T23:32:00Z",
+      "legacyRoute": "/api/openai/hud-summary \u2192 410 Gone (server/providers/openai.js); server/providers/openai/hud-summary.js deleted"
     },
     {
       "id": "elevenlabs-env-only",
       "provider": "ElevenLabs",
-      "endpoint": "(no call site) \u2014 ELEVENLABS_API_KEY present as Vercel env var only",
+      "endpoint": "none \u2014 ELEVENLABS_API_KEY deleted from Vercel project prj_VbHbEhFSDFkdXCqlq8XqONoFWQHO on 2026-10-20T23:30:34Z (env id eazEtCde0VLgUCIO)",
       "consumerComponent": "server/ondemand/config.js:400 (deny-list), api/ondemand/health.js:125 (deny-list)",
       "layer": "serverless",
       "authMethod": "apikey-env:ELEVENLABS_API_KEY (never read)",
@@ -362,9 +366,10 @@
       "refreshFrequency": "n/a",
       "requiredPermissions": "n/a",
       "proposedOnDemandPlugin": "native-ondemand (TTS already served by api/ondemand/tts.js)",
-      "migrationStatus": "bypass",
+      "migrationStatus": "removed",
       "testStatus": "unit-tested (server/ondemand/deny-list.test.mjs asserts the name never appears in source)",
-      "blockers": "env-only bypass, no call site: remove the dangling Vercel env var"
+      "blockers": "",
+      "removedUtc": "2026-10-20T23:32:00Z"
     },
     {
       "id": "opensky-states",
@@ -1370,6 +1375,54 @@
       "migrationStatus": "keep-direct",
       "testStatus": "untested",
       "blockers": ""
+    },
+    {
+      "id": "ondemand-v2-chat",
+      "provider": "OnDemand",
+      "endpoint": "POST /api/ondemand/v2/chat \u2192 {ONDEMAND_BASE_URL}/chat/v1/sessions/{id}/query (sync + SSE relay with provenance event)",
+      "consumerComponent": "src/ondemand/miniChat.js (all object types); server/ondemand/foundation/proxy-route.js",
+      "layer": "serverless",
+      "authMethod": "apikey-env:ONDEMAND_API_KEY (server-only; client key header never read)",
+      "responseSchema": "sync: {answer, citations[], confidenceBasis, intelligenceObjectId, provenance}; stream: event session|message|provenance|done",
+      "refreshFrequency": "on-demand",
+      "requiredPermissions": "OnDemand chat scope",
+      "proposedOnDemandPlugin": "native-ondemand",
+      "migrationStatus": "native",
+      "testStatus": "unit (phase-cdg.test.mjs) + live rows 23, 26, 28",
+      "blockers": "",
+      "addedUtc": "2026-10-20T23:32:00Z"
+    },
+    {
+      "id": "ondemand-v2-investigate",
+      "provider": "OnDemand",
+      "endpoint": "POST /api/ondemand/v2/investigate \u2192 parallel sessions.create + query (plugin-1713924030 / plugin-1722260873 / plugin-1751872652 \u2026) + synthesis query",
+      "consumerComponent": "server/ondemand/foundation/orchestrator.js; src/ondemand/miniChat.js openInvestigation()",
+      "layer": "serverless",
+      "authMethod": "apikey-env:ONDEMAND_API_KEY",
+      "responseSchema": "ondemand-workstation/investigation/1 {plan, sources[], objects[], entities[], relationships[], synthesis, timings, provenance}",
+      "refreshFrequency": "on-demand",
+      "requiredPermissions": "OnDemand chat scope + active plugins",
+      "proposedOnDemandPlugin": "native-ondemand",
+      "migrationStatus": "native",
+      "testStatus": "unit (phase-cdg.test.mjs) + live row 27 (perplexity_research ok, 40.7 s)",
+      "blockers": "",
+      "addedUtc": "2026-10-20T23:32:00Z"
+    },
+    {
+      "id": "ondemand-v2-hud-summary",
+      "provider": "OnDemand",
+      "endpoint": "POST /api/ondemand/v2/summaries/hud \u2192 query fulfillmentOnly on config.fulfillmentEndpointId",
+      "consumerComponent": "src/hud.js via src/services/requests.js",
+      "layer": "serverless",
+      "authMethod": "apikey-env:ONDEMAND_API_KEY",
+      "responseSchema": "{configured, summary (5 words), error, provenance}",
+      "refreshFrequency": "15 s cadence (HUD)",
+      "requiredPermissions": "OnDemand chat scope",
+      "proposedOnDemandPlugin": "native-ondemand",
+      "migrationStatus": "native",
+      "testStatus": "unit + live row 25",
+      "blockers": "",
+      "addedUtc": "2026-10-20T23:32:00Z"
     }
   ]
 }

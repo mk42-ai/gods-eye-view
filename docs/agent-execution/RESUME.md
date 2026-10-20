@@ -43,4 +43,12 @@ RESUME ONDEMAND INTELLIGENCE MISSION. Read the repository's docs/agent-execution
 | Checkpoints | `docs/agent-execution/{MASTER_STATE,INTEGRATION_MATRIX,TEST_RESULTS,BLOCKERS,NEXT_ACTIONS,RESUME}.md`, `api-inventory.json` |
 | Subagent inventories | `docs/agent-execution/{ARCHITECTURE_INVENTORY,BRANDING_AUDIT,INFRASTRUCTURE_INVENTORY,FRONTEND_RECON}.md` |
 
-GENERATED_UTC: 2026-10-20T22:13:00Z
+## Cycle-2 additions (2026-10-20T23:40Z)
+- Step 4 gate list now also runs `npm run format:check` and `node scripts/check-no-secrets.mjs --dist` after `npm run build`; foundation tests are 48 (`phase-cdg.test.mjs` covers Phases C/D/E/G).
+- Step 9 live validation is 26 rows (expect 26/26); rows 21–26 need ~70 s because `/investigate` performs a real plugin retrieval.
+- Browser proof is produced with the `ui-validator` skill against the sandbox preview; the app is a WebGL globe, so launch Chromium through a wrapper adding `--use-gl=angle --use-angle=swiftshader` (see BLOCKERS B-11) and keep `--viewport-only`.
+- The sandbox preview is redeployed IN PLACE (copy the changed-file tarball, `npm run build`, restart `node server/serverless/dev-server.mjs` with `ONDEMAND_API_KEY` in the process env only — never in `.env`).
+- Relaunch workflow: `6ad7f961c2cfee207e8f3d07` (ACTIVE, every 6 h) re-emits the trigger sentence; it cannot start the agent itself.
+- New artefacts: `docs/agent-execution/artifacts/foundation-live-*.json`, `artifacts/ui-2026-10-20/*`, `BRAND_ASSETS.md`, `INFRASTRUCTURE_DECISIONS.md`.
+
+GENERATED_UTC: 2026-10-20T23:40:00Z

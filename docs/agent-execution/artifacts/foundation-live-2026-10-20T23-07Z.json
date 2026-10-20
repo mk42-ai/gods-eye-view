@@ -1,0 +1,163 @@
+{
+ "generatedUtc": "2026-10-20T23:10:00Z",
+ "pass": 26,
+ "fail": 0,
+ "rows": [
+  {
+   "test": "client.sessions.create (externalUserId + 1 pluginId)",
+   "result": "PASS",
+   "evidence": "{\"ms\":321,\"pluginIds\":[\"plugin-1713924030\"]}",
+   "timestamp": "2026-10-20T23:07:37Z"
+  },
+  {
+   "test": "client.sessions.list pagination",
+   "result": "PASS",
+   "evidence": "{\"count\":2,\"pagination\":{\"next\":\"6ad7e5257bb80aa7c2d976a5\",\"limit\":2}}",
+   "timestamp": "2026-10-20T23:07:38Z"
+  },
+  {
+   "test": "client.sessions.get",
+   "result": "PASS",
+   "evidence": "{\"keys\":[\"id\",\"companyId\",\"externalUserId\",\"agentIds\",\"pluginIds\",\"contextMetadata\",\"title\",\"status\",\"createdBy\",\"createdAt\",\"updatedAt\",\"liveSettings\",\"isProcessing\"]}",
+   "timestamp": "2026-10-20T23:07:38Z"
+  },
+  {
+   "test": "client.query.sync fulfillmentOnly (predefined-gpt-6-luna)",
+   "result": "PASS",
+   "evidence": "{\"ms\":1797,\"answer\":\"FOUNDATION-LIVE-OK\",\"status\":\"completed\"}",
+   "timestamp": "2026-10-20T23:07:40Z"
+  },
+  {
+   "test": "client.query.stream SSE parse (deltas, metricsLog, heartbeat, [DONE])",
+   "result": "PASS",
+   "evidence": "{\"ttfbMs\":2733,\"totalMs\":5588,\"events\":41,\"distinct\":[\"thinking\",\"heartbeat\",\"message\",\"done\"],\"text\":\"A spatial intelligence workstation is a computer system designed to analyze, vis\"}",
+   "timestamp": "2026-10-20T23:07:45Z"
+  },
+  {
+   "test": "client.query.stream abort propagation (caller abort stops upstream read)",
+   "result": "PASS",
+   "evidence": "{\"eventsBeforeAbort\":3,\"abortedError\":true}",
+   "timestamp": "2026-10-20T23:07:48Z"
+  },
+  {
+   "test": "client.query.sync with plugin-1713924030 (Internet web search)",
+   "result": "PASS",
+   "evidence": "{\"ms\":13073,\"answer\":\"\u201cWhy Abu Dhabi Police are confiscating e-scooters\u201d \u2014 Gulf News: https://gulfnews.com/\"}",
+   "timestamp": "2026-10-20T23:08:01Z"
+  },
+  {
+   "test": "client: inactive plugin-1785777296 \u2192 OnDemandHttpError 400 (not retried)",
+   "result": "PASS",
+   "evidence": "{\"status\":400,\"message\":\"One or more agents are inactive or missing configuration: X\"}",
+   "timestamp": "2026-10-20T23:08:02Z"
+  },
+  {
+   "test": "client.workflows.get (ONDEMAND_SPATIAL_WORKFLOW_ID real id)",
+   "result": "PASS",
+   "evidence": "{\"name\":\"OnDemand Spatial Advanced Workflow\",\"isActive\":true,\"nodes\":9,\"trigger\":\"webhook\"}",
+   "timestamp": "2026-10-20T23:08:02Z"
+  },
+  {
+   "test": "client.workflows.execute + follow (status + logs polling)",
+   "result": "PASS",
+   "evidence": "{\"status\":\"executing\",\"terminal\":false,\"logLines\":14}",
+   "timestamp": "2026-10-20T23:08:50Z"
+  },
+  {
+   "test": "route GET /api/ondemand/v2/health",
+   "result": "PASS",
+   "evidence": "{\"ok\":true,\"configured\":true,\"conversationBackend\":\"memory\",\"contracts\":13,\"activePlugins\":10,\"defaultEndpointId\":\"predefined-gpt-6-luna\",\"workflowId\":{\"configured\":true,\"source\":\"default\",\"valid\":true},\"guards\":{\"rateLimitPerMinute\":60,\"userHeaderRequired\":false,\"promptInjectionFencing\":true},\"keySource\":\"server\"}",
+   "timestamp": "2026-10-20T23:08:50Z"
+  },
+  {
+   "test": "route GET /api/ondemand/v2/contracts",
+   "result": "PASS",
+   "evidence": "{\"contracts\":13}",
+   "timestamp": "2026-10-20T23:08:50Z"
+  },
+  {
+   "test": "route POST /chat sync \u2014 object-context grounded, client key header ignored",
+   "result": "PASS",
+   "evidence": "{\"ms\":3753,\"status\":200,\"reused\":false,\"objectContextKey\":\"aircraft:live-A6-EVN\",\"answer\":\"You\u2019re looking at **EK203 (test object)**, an aircraft. Its altitude is **10,668**; the units aren\u2019t specified in the provided data.\"}",
+   "timestamp": "2026-10-20T23:08:53Z"
+  },
+  {
+   "test": "route POST /chat sync \u2014 second turn reuses the SAME session (isolation key user+object)",
+   "result": "PASS",
+   "evidence": "{\"reused\":true,\"sameSession\":true}",
+   "timestamp": "2026-10-20T23:08:57Z"
+  },
+  {
+   "test": "route POST /chat sync \u2014 different externalUserId gets a DIFFERENT session",
+   "result": "PASS",
+   "evidence": "{\"different\":true}",
+   "timestamp": "2026-10-20T23:09:00Z"
+  },
+  {
+   "test": "route POST /chat stream \u2014 SSE relay (session preamble, message events, done)",
+   "result": "PASS",
+   "evidence": "{\"ms\":3819,\"bytes\":1292,\"head\":\"event: session\\ndata: {\\\"sessionId\\\":\\\"6ad7f48cf922b50dc6673296\\\",\\\"objectContextKey\\\":\\\"camera:live-cam-1\\\",\\\"reused\\\":false,\\\"endpointId\\\":\\\"predefined-gpt-6-luna\\\",\\\"pluginI\"}",
+   "timestamp": "2026-10-20T23:09:04Z"
+  },
+  {
+   "test": "route GET /messages (history via conversation key)",
+   "result": "PASS",
+   "evidence": "{\"count\":2}",
+   "timestamp": "2026-10-20T23:09:04Z"
+  },
+  {
+   "test": "route GET /conversations (per-user listing)",
+   "result": "PASS",
+   "evidence": "{\"conversations\":2}",
+   "timestamp": "2026-10-20T23:09:04Z"
+  },
+  {
+   "test": "route DELETE /conversations (close mapping)",
+   "result": "PASS",
+   "evidence": "{\"closed\":true}",
+   "timestamp": "2026-10-20T23:09:04Z"
+  },
+  {
+   "test": "route POST /workflows/execute",
+   "result": "PASS",
+   "evidence": "{\"status\":202,\"streamPath\":\"/api/ondemand/v2/workflows/executions/<id>/stream\"}",
+   "timestamp": "2026-10-20T23:09:04Z"
+  },
+  {
+   "test": "route POST /chat sync with objectContext \u2192 provenance.keySource=server, confidenceBasis present",
+   "result": "PASS",
+   "evidence": "{\"ms\":3090,\"status\":200,\"basis\":\"inferred\",\"answerChars\":116,\"injectionFlags\":[]}",
+   "timestamp": "2026-10-20T23:09:07Z"
+  },
+  {
+   "test": "route POST /chat with mismatching X-Workstation-User \u2192 403 user_mismatch",
+   "result": "PASS",
+   "evidence": "{\"error\":\"user_mismatch\"}",
+   "timestamp": "2026-10-20T23:09:07Z"
+  },
+  {
+   "test": "route POST /summaries/hud \u2192 five-word summary from the fulfilment endpoint",
+   "result": "PASS",
+   "evidence": "{\"ms\":3384,\"status\":200,\"summary\":\"Al Maryah Island Live Flights\",\"error\":null}",
+   "timestamp": "2026-10-20T23:09:11Z"
+  },
+  {
+   "test": "isolation: 3 concurrent users \u00d7 same object \u2192 3 distinct sessions, answers not crossed, same user reuses",
+   "result": "PASS",
+   "evidence": "{\"ms\":5157,\"distinctSessions\":3,\"answers\":[\"ISO-A\",\"ISO-B\",\"ISO-C\"]}",
+   "timestamp": "2026-10-20T23:09:16Z"
+  },
+  {
+   "test": "route POST /investigate \u2192 plan + sources + objects + synthesis (live plugin retrieval)",
+   "result": "PASS",
+   "evidence": "{\"ms\":40668,\"status\":200,\"plan\":[{\"name\":\"perplexity_research\",\"pluginId\":\"plugin-1722260873\"}],\"sources\":[\"perplexity_research:ok\"],\"counts\":{\"objects\":1,\"confirmed\":0,\"inferred\":1,\"unverified\":0},\"citations\":[],\"synthesisParsed\":true,\"synthesisError\":null,\"timings\":{\"retrievalMs\":35931,\"synthesisMs\":4736,\"totalMs\":40668}}",
+   "timestamp": "2026-10-20T23:09:57Z"
+  },
+  {
+   "test": "route POST /chat stream \u2192 session, deltas, provenance, done (in order)",
+   "result": "PASS",
+   "evidence": "{\"ms\":3864,\"bytes\":1470,\"events\":[\"session\",\"message\",\"heartbeat\",\"provenance\",\"done\"]}",
+   "timestamp": "2026-10-20T23:10:00Z"
+  }
+ ]
+}
