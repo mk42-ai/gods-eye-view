@@ -1,3 +1,4 @@
+import { PRODUCT_NAME } from './brand/productName.js';
 /**
  * Serverless-deployment notice banner.
  *
@@ -68,7 +69,7 @@ function installServerlessNotice(doc = document) {
   const text = doc.createElement('span');
   text.style.cssText = 'flex:1 1 auto';
   text.textContent =
-    'OnDemand Spatial is running as a serverless deployment: live vessels ' +
+    `${PRODUCT_NAME} is running as a serverless deployment: live vessels ` +
     '(AISStream relay) and voice control (OpenAI Realtime) need a persistent ' +
     'server and are turned off here.';
   banner.appendChild(text);

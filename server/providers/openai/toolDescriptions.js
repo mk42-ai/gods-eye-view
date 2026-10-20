@@ -1,7 +1,7 @@
+import { PRODUCT_NAME } from '../../brand/productName.js';
 export const ACTION_DESCRIPTIONS = {
   fly_to_location: {
-    description:
-      'Fly the OnDemand Spatial camera to a known city, geocoded country/region/city/landmark, or explicit WGS84 coordinate. Countries/cities frame the whole place; landmarks/buildings use close framing.',
+    description: `Fly the ${PRODUCT_NAME} camera to a known city, geocoded country/region/city/landmark, or explicit WGS84 coordinate. Countries/cities frame the whole place; landmarks/buildings use close framing.`,
     $position: 1,
     parameters: {
       properties: {
@@ -17,7 +17,7 @@ export const ACTION_DESCRIPTIONS = {
         },
         viewMode: {
           description:
-            'Optional framing intent. Usually omit this; GEV infers whole-place framing for countries/cities and close framing for landmarks.',
+            'Optional framing intent. Usually omit this; the app infers whole-place framing for countries/cities and close framing for landmarks.',
           $position: 2,
         },
         rangeM: {
@@ -76,8 +76,7 @@ export const ACTION_DESCRIPTIONS = {
     $position: 1,
   },
   set_layer_visibility: {
-    description:
-      'Enable or disable one registered OnDemand Spatial data layer.',
+    description: `Enable or disable one registered ${PRODUCT_NAME} data layer.`,
     $position: 1,
     parameters: {
       properties: {
@@ -103,7 +102,7 @@ export const ACTION_DESCRIPTIONS = {
     },
   },
   set_panel_open: {
-    description: 'Open or close a GEV UI panel/dropdown.',
+    description: 'Open or close an app UI panel/dropdown.',
     $position: 1,
   },
   set_context_mode: {
@@ -144,12 +143,12 @@ export const ACTION_DESCRIPTIONS = {
     },
   },
   set_visual_style: {
-    description: 'Set the active OnDemand Spatial visual filter/style.',
+    description: `Set the active ${PRODUCT_NAME} visual filter/style.`,
     $position: 1,
   },
   get_entity_context: {
     description:
-      'Get current GEV scene context, including basemap/3D-tile target context, selected entity metadata if active, and entities currently visible in the camera view.',
+      'Get current scene context, including basemap/3D-tile target context, selected entity metadata if active, and entities currently visible in the camera view.',
     $position: 1,
     parameters: {
       properties: {

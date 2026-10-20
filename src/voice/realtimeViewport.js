@@ -2,6 +2,7 @@ import {
   shouldSendViewportImage,
   hasStructuredViewIdentity,
 } from './realtimeProtocol.js';
+import { PRODUCT_NAME } from '../brand/productName.js';
 // Viewport-screenshot size guards (M13). The old code clamped WIDTH only, so a
 // tall portrait window produced an oversized capture whose dc.send could throw.
 // Cap total pixels (clamps both dimensions) and drop the image entirely if the
@@ -237,7 +238,7 @@ export class RealtimeViewport {
         content: [
           {
             type: 'input_text',
-            text: 'Current OnDemand Spatial viewport screenshot. Read any clearly visible street, building, and place labels in the image and combine them with the structured nearbyPlaces, streetLabels, and scene context. Do not invent labels that are not legible.',
+            text: `Current ${PRODUCT_NAME} viewport screenshot. Read any clearly visible street, building, and place labels in the image and combine them with the structured nearbyPlaces, streetLabels, and scene context. Do not invent labels that are not legible.`,
           },
           {
             type: 'input_image',

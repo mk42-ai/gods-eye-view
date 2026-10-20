@@ -19,6 +19,7 @@
 import * as mgrsModule from 'mgrs';
 import { layerFeedState } from '../data/feedState.js';
 import { LayerPanel } from '../ui/layerPanel.js';
+import { PRODUCT_NAME } from '../brand/productName.js';
 
 export const ENTITY_CONTEXT_SCHEMA = 'ondemand-spatial/entity-chat/1';
 export const MAX_NEARBY = 10;
@@ -895,7 +896,7 @@ export function entitySystemInstruction(context) {
     .slice(0, 12)
     .join(', ');
   return [
-    'You are the OnDemand Spatial analyst embedded in a live 3D globe console.',
+    `You are the ${PRODUCT_NAME} analyst embedded in a live 3D globe console.`,
     `The operator has selected a ${kind}: ${label} at MGRS ${mgrs} (scene "${context?.scene?.name || 'unknown'}").`,
     'The JSON block after this instruction is the ground truth for this conversation: the selected entity (fields are null when the feed did not report them), the camera scene, the status text of EVERY data layer exactly as the DATA LAYERS panel shows it, the nearest aircraft/vessels/satellites (capped at 10 each) and the tool catalogue this console can call.',
     'Rules: answer concisely (2–6 sentences or a short list) in plain text; state units (m, kt, km, °); never invent identity, route or position data that is not in the JSON — say "not reported" instead; when a layer is DEGRADED/STALE/FALLBACK/UNAVAILABLE, say so before relying on it; distances are great-circle from the selected entity.',

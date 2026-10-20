@@ -30,6 +30,7 @@ import {
 } from './intents.js';
 import { normalizeMapActions, voiceUserId } from './transport.js';
 import { GEV_ACTION_SCHEMAS } from '../actionSchemas.js';
+import { PRODUCT_NAME } from '../../brand/productName.js';
 
 export const STATES = Object.freeze([
   'idle',
@@ -116,7 +117,7 @@ export function composeQuery(transcript, context = {}, extras = {}) {
     transcript.trim(),
     '',
     '[ondemand-spatial voice turn]',
-    'You are the spoken assistant of the OnDemand Spatial globe. Answer in at most two short plain-text sentences (no markdown, no lists). Layers listed as localActionsApplied were already toggled — confirm them briefly instead of asking.',
+    `You are the spoken assistant of the ${PRODUCT_NAME} globe. Answer in at most two short plain-text sentences (no markdown, no lists). Layers listed as localActionsApplied were already toggled — confirm them briefly instead of asking.`,
     `If a map change would help, end with exactly one line: MAPACTIONS: [{"name":"<action>","args":{...}}] using only these action names: ${ACTION_NAMES.join(', ')}. Otherwise omit that line.`,
     `Scene context (JSON): ${json}`,
   ].join('\n');
