@@ -26,7 +26,12 @@
   "vite-build": {
     "runtime": "node",
     "exports": ["./build/vite", "./build/html"],
-    "modules": ["build/vite.js", "build/application-html.js"],
+    "modules": [
+      "build/vite.js",
+      "build/application-html.js",
+      "build/product-name.js",
+      "server/brand/productName.js"
+    ],
     "external": ["vite-plugin-cesium"]
   },
   "live-providers": {
@@ -271,7 +276,6 @@
       "server/providers/openai.js",
       "server/providers/openai/constants.js",
       "server/providers/openai/debug-log.js",
-      "server/providers/openai/hud-summary.js",
       "server/providers/openai/instructions.js",
       "server/providers/openai/rate-limit.js",
       "server/providers/openai/realtime.js",
@@ -280,7 +284,8 @@
       "src/voice/voiceCost.js",
       "src/voice/actionSchemas.js",
       "server/providers/openai/toolDescriptions.js",
-      "src/sources/rateLimit.js"
+      "src/sources/rateLimit.js",
+      "server/brand/productName.js"
     ],
     "external": []
   },
@@ -1200,7 +1205,8 @@
       "src/voice/realtimeFacade.js",
       "src/voice/realtimeRadio.js",
       "src/voice/realtimeTurns.js",
-      "src/voice/realtimeConnection.js"
+      "src/voice/realtimeConnection.js",
+      "src/brand/productName.js"
     ],
     "external": []
   },
@@ -1838,7 +1844,9 @@
       "src/ondemand/entityContext.js",
       "src/ondemand/cameraContext.js",
       "src/ui/icons/layerIcon.js",
-      "src/ui/icons/lucideIcons.generated.js"
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/brand/productName.js",
+      "src/ondemand/miniChat.js"
     ],
     "external": [
       "@mapbox/vector-tile",

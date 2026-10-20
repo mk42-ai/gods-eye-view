@@ -58,7 +58,7 @@
  * empty second at all, so the bounded wait expires and FAILS. Quiet that never
  * arrives IS the failure, which is why the timeout is an assertion rather than a
  * fall-through — and it is what keeps this honest if the churn ever stops being a
- * one-shot. It would: when `/api/openai/hud-summary` is unreachable the summary
+ * one-shot. It would: when `/api/ondemand/v2/summaries/hud` is unreachable the summary
  * stays dirty and re-types every 15 s, so that machine gets a loud repeatable
  * failure here rather than a coin flip.
  *

@@ -1,5 +1,4 @@
 import { defaultSourceRoot } from './common/source-root.js';
-import { handleHudSummary } from './openai/hud-summary.js';
 import { createDebugLogHandler } from './openai/debug-log.js';
 import { createRealtimeTokenHandler } from './openai/realtime.js';
 
@@ -15,7 +14,20 @@ function openAiRealtimeProxy({
   realtime = {},
 } = {}) {
   function install(middlewares) {
-    middlewares.use('/api/openai/hud-summary', handleHudSummary);
+    // /api/openai/hud-summary RETIRED 2026-10-20 (BLOCKERS B-7): the HUD
+    // summary is served by /api/ondemand/v2/summaries/hud on the OnDemand
+    // fulfilment endpoint (server/ondemand/foundation/proxy-route.js).
+    middlewares.use('/api/openai/hud-summary', (req, res) => {
+      res.statusCode = 410;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-store');
+      res.end(
+        JSON.stringify({
+          error: 'gone',
+          replacement: '/api/ondemand/v2/summaries/hud',
+        }),
+      );
+    });
 
     middlewares.use(
       '/api/realtime/debug-log',

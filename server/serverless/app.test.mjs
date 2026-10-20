@@ -152,14 +152,12 @@ test('serverless guard: /api/realtime/debug-log is a silent 204 no-op', async ()
   assert.equal(res.body, '');
 });
 
-test('/api/openai/hud-summary is left mounted (only token + debug-log are guarded)', async () => {
+test('/api/openai/hud-summary is retired: 410 Gone pointing at /api/ondemand/v2/summaries/hud (B-7, 2026-10-20)', async () => {
   const api = await apiPromise;
   const res = mockRes();
-  // GET is rejected by the real handler (it only accepts POST) — reaching
-  // THAT 405 (not our 501 guard, and not the 404 not-found layer) proves the
-  // real openai-realtime-proxy handler is still mounted for this sub-route.
   await api.handle(mockReq('/api/openai/hud-summary'), res);
-  assert.equal(res.statusCode, 405);
+  assert.equal(res.statusCode, 410);
+  assert.equal(JSON.parse(res.body).replacement, '/api/ondemand/v2/summaries/hud');
 });
 
 test('key setup is never mounted: /api/setup/status falls through to the not-found layer', async () => {

@@ -184,13 +184,28 @@ export const TOOL_CONTRACTS = Object.freeze([
     kind: 'ondemand-tool',
     toolRoute: '/api/tools/earthquake_search',
     inputs: {
-      bbox: {
-        type: 'array',
-        items: { type: 'number' },
-        description: '[west, south, east, north]',
+      // USGS FDSN parameter names — exactly server/sources/usgs-earthquakes.js ALLOWED_PARAMS.
+      starttime: {
+        type: 'string',
+        format: 'date-time',
+        description: 'UTC start (ISO date or date-time)',
       },
-      minMagnitude: { type: 'number', minimum: 0, maximum: 10 },
-      hours: { type: 'integer', minimum: 1, maximum: 720 },
+      endtime: { type: 'string', format: 'date-time' },
+      minmagnitude: { type: 'number', minimum: -2, maximum: 10 },
+      maxmagnitude: { type: 'number', minimum: -2, maximum: 10 },
+      latitude: { type: 'number', minimum: -90, maximum: 90, format: 'lat' },
+      longitude: { type: 'number', minimum: -180, maximum: 180, format: 'lon' },
+      maxradiuskm: { type: 'number', minimum: 0, maximum: 20001.6 },
+      minlatitude: { type: 'number', minimum: -90, maximum: 90 },
+      maxlatitude: { type: 'number', minimum: -90, maximum: 90 },
+      minlongitude: { type: 'number', minimum: -360, maximum: 360 },
+      maxlongitude: { type: 'number', minimum: -360, maximum: 360 },
+      limit: { type: 'integer', minimum: 1, maximum: 200 },
+      orderby: {
+        type: 'string',
+        enum: ['time', 'time-asc', 'magnitude', 'magnitude-asc'],
+      },
+      mode: { type: 'string', enum: ['query', 'count'] },
     },
     outputs: {
       count: { type: 'integer', required: true },

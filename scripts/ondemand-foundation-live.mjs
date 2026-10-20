@@ -42,7 +42,11 @@ const ENDPOINT =
 const USER = 'gev-foundation-live';
 const client = createOnDemandClient({ log: () => {} });
 const store = createConversationStore({ backend: 'memory' });
-const handler = createFoundationHandler({ client, store });
+const handler = createFoundationHandler({
+  client,
+  store,
+  audit: () => {}, // audit lines go to stdout in production; keep this script's JSON clean
+});
 
 async function call(method, url, body, headers = {}) {
   const res = makeRes();
@@ -339,6 +343,200 @@ try {
     {
       status: r.statusCode,
       streamPath: r.json().streamPath?.replace(/[0-9a-f]{24}/, '<id>'),
+    },
+  );
+  // ---- cycle 2 (2026-10-20): Phase C/D/E/G surfaces against the LIVE platform ----
+  // 23 sync chat with object context: citations + confidence + provenance
+  const tC = Date.now();
+  r = await call(
+    'POST',
+    '/chat',
+    {
+      externalUserId: `${USER}-c2`,
+      objectContext: {
+        objectType: 'earthquake',
+        objectId: 'live-probe-1',
+        label: 'M4.1 probe near Abu Dhabi',
+        position: { lat: 24.45, lon: 54.65 },
+      },
+      query:
+        'In one sentence, what is this object context about? Cite nothing.',
+      responseMode: 'sync',
+    },
+    { 'x-workstation-user': `${USER}-c2` },
+  );
+  ok(
+    'route POST /chat sync with objectContext → provenance.keySource=server, confidenceBasis present',
+    r.statusCode === 200 &&
+      r.json().provenance?.keySource === 'server' &&
+      typeof r.json().confidenceBasis === 'string' &&
+      r.json().objectContextKey === 'earthquake:live-probe-1'
+      ? 'PASS'
+      : 'FAIL',
+    {
+      ms: Date.now() - tC,
+      status: r.statusCode,
+      basis: r.json().confidenceBasis,
+      answerChars: String(r.json().answer || '').length,
+      injectionFlags: r.json().injectionFlags,
+    },
+  );
+  // 24 authz mismatch
+  r = await call(
+    'POST',
+    '/chat',
+    { externalUserId: `${USER}-c2`, query: 'x', responseMode: 'sync' },
+    { 'x-workstation-user': 'somebody-else' },
+  );
+  ok(
+    'route POST /chat with mismatching X-Workstation-User → 403 user_mismatch',
+    r.statusCode === 403 && r.json().error === 'user_mismatch'
+      ? 'PASS'
+      : 'FAIL',
+    r.json(),
+  );
+  // 25 HUD summary on OnDemand (replaces the OpenAI bypass)
+  const tH = Date.now();
+  r = await call('POST', '/summaries/hud', {
+    placeLabels: ['Abu Dhabi', 'Al Maryah Island'],
+    streetLabels: ['Corniche Road'],
+    nearbyPlaceLabels: ['Louvre Abu Dhabi'],
+    enabledLayerLabels: ['Live Flights', 'Earthquakes'],
+  });
+  ok(
+    'route POST /summaries/hud → five-word summary from the fulfilment endpoint',
+    r.statusCode === 200 &&
+      String(r.json().summary || '').split(' ').length === 5 &&
+      r.json().provenance?.provider === 'OnDemand'
+      ? 'PASS'
+      : 'FAIL',
+    {
+      ms: Date.now() - tH,
+      status: r.statusCode,
+      summary: r.json().summary,
+      error: r.json().error,
+    },
+  );
+  // 26 three concurrent users on the same object → three distinct sessions; same user+object reused
+  const users = ['iso-a', 'iso-b', 'iso-c'].map((u) => `${USER}-${u}`);
+  const tI = Date.now();
+  const iso = await Promise.all(
+    users.map((u) =>
+      call(
+        'POST',
+        '/chat',
+        {
+          externalUserId: u,
+          objectContext: { objectType: 'organization', objectId: 'iso-org' },
+          query: `Reply with exactly: ISO-${u.slice(-1).toUpperCase()}`,
+          responseMode: 'sync',
+        },
+        { 'x-workstation-user': u },
+      ),
+    ),
+  );
+  const isoSessions = iso.map((x) => x.json().sessionId);
+  const isoAnswers = iso.map((x) => String(x.json().answer || '').trim());
+  const again = await call(
+    'POST',
+    '/chat',
+    {
+      externalUserId: users[0],
+      objectContext: { objectType: 'organization', objectId: 'iso-org' },
+      query: 'Reply with exactly: ISO-A2',
+      responseMode: 'sync',
+    },
+    { 'x-workstation-user': users[0] },
+  );
+  ok(
+    'isolation: 3 concurrent users × same object → 3 distinct sessions, answers not crossed, same user reuses',
+    iso.every((x) => x.statusCode === 200) &&
+      new Set(isoSessions).size === 3 &&
+      isoAnswers[0].includes('ISO-A') &&
+      isoAnswers[1].includes('ISO-B') &&
+      isoAnswers[2].includes('ISO-C') &&
+      again.json().sessionId === isoSessions[0] &&
+      again.json().reused === true
+      ? 'PASS'
+      : 'FAIL',
+    {
+      ms: Date.now() - tI,
+      distinctSessions: new Set(isoSessions).size,
+      answers: isoAnswers,
+    },
+  );
+  // 27 investigation: parallel plugin retrieval + synthesis (bounded to 1 plugin to keep the probe short)
+  const tV = Date.now();
+  r = await call(
+    'POST',
+    '/investigate',
+    {
+      externalUserId: `${USER}-inv`,
+      objectContext: {
+        objectType: 'newsArticle',
+        objectId: 'abu-dhabi-probe',
+        label: 'Abu Dhabi',
+      },
+      question:
+        'What is one verifiable recent news item about Abu Dhabi? Cite the URL.',
+      maxPlugins: 1,
+    },
+    { 'x-workstation-user': `${USER}-inv` },
+  );
+  const rep = r.json();
+  ok(
+    'route POST /investigate → plan + sources + objects + synthesis (live plugin retrieval)',
+    r.statusCode === 200 &&
+      rep.schema === 'ondemand-workstation/investigation/1' &&
+      rep.sources.some((x) => x.status === 'ok') &&
+      rep.provenance?.keySource === 'server'
+      ? 'PASS'
+      : 'FAIL',
+    {
+      ms: Date.now() - tV,
+      status: r.statusCode,
+      plan: rep.plan?.plugins,
+      sources: rep.sources?.map(
+        (x) => `${x.contract}:${x.status}${x.error ? ':' + x.error : ''}`,
+      ),
+      counts: rep.counts,
+      citations: rep.objects
+        ?.flatMap((o) => o.citations?.map((c) => c.url) || [])
+        .slice(0, 3),
+      synthesisParsed: rep.synthesis?.parsed,
+      synthesisError: rep.synthesisError,
+      timings: rep.timings,
+    },
+  );
+  // 28 stream relay carries provenance event before done
+  const tS = Date.now();
+  r = await call(
+    'POST',
+    '/chat',
+    {
+      externalUserId: `${USER}-c2`,
+      objectContext: { objectType: 'graphEdge', objectId: 'a-b' },
+      query: 'Reply with exactly: STREAM-OK',
+    },
+    { 'x-workstation-user': `${USER}-c2` },
+  );
+  const streamText = r.text();
+  ok(
+    'route POST /chat stream → session, deltas, provenance, done (in order)',
+    r.statusCode === 200 &&
+      streamText.indexOf('event: session') <
+        streamText.indexOf('event: provenance') &&
+      streamText.indexOf('event: provenance') <
+        streamText.indexOf('event: done') &&
+      streamText.includes('STREAM')
+      ? 'PASS'
+      : 'FAIL',
+    {
+      ms: Date.now() - tS,
+      bytes: streamText.length,
+      events: [...streamText.matchAll(/^event: (\w+)/gm)]
+        .map((m) => m[1])
+        .filter((v, i, a) => a.indexOf(v) === i),
     },
   );
 } catch (err) {
