@@ -35,7 +35,7 @@
  *   -------------------- | ----------------------------------- | --------------------- | ---------------------------
  *   baseUrl               | ONDEMAND_BASE_URL                  | ONDEMAND_API_BASE    | 'https://api.on-demand.io'
  *   reasoningEndpointId   | ONDEMAND_REASONING_ENDPOINT_ID      | ONDEMAND_ENDPOINT_ID | 'low' (documented reasoningMode, §3.1/§12)
- *   fulfillmentEndpointId | ONDEMAND_FULFILLMENT_ENDPOINT_ID    | ONDEMAND_ENDPOINT_ID | 'predefined-gpt-5.6-luna' (ASK winner)
+ *   fulfillmentEndpointId | ONDEMAND_FULFILLMENT_ENDPOINT_ID    | ONDEMAND_ENDPOINT_ID | 'predefined-gpt-6-luna' (ASK winner)
  *   reasoningMode         | ONDEMAND_REASONING_MODE (validated) | —                     | '' (field omitted upstream)
  *   flowVersion           | ONDEMAND_SPATIAL_FLOW_VERSION       | GODS_EYE_FLOW_VERSION (checked FIRST) | '1' (FLOW_DEFAULTS)
  *   spatialFlowId         | ONDEMAND_SPATIAL_WORKFLOW_ID        | ONDEMAND_SPATIAL_FLOW_ID | '6aace534859f7b0abb53d99a' (FLOW_DEFAULTS)
@@ -49,7 +49,7 @@
  *
  *   Tier        | fulfillmentEndpointId        | reasoningMode | measured
  *   ----------- | ---------------------------- | ------------- | ---------------------
- *   ASK         | 'predefined-gpt-5.6-luna'    | 'low'         | 4,189 ms / 1,880 ms
+ *   ASK         | 'predefined-gpt-6-luna'    | 'low'         | 4,189 ms / 1,880 ms
  *   INVESTIGATE | 'predefined-claude-sonnet-5' | 'low'         | 6,480 ms / 4,053 ms
  *   DEEP        | 'predefined-claude-sonnet-5' | 'high'        | same model, `high` reasoning
  *

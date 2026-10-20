@@ -116,6 +116,32 @@ export const SPATIAL_CONTEXT_FIELDS = Object.freeze([
  * expressed (it differs from INVESTIGATE only by `reasoningMode: 'high'`,
  * which has no documented llm-node field), so the deepest expressible tier
  * for the reasoning-heavy nodes is INVESTIGATE (the same model). */
+/**
+ * Tier table the LIVE v1 workflow (`FLOW_DEFAULTS.spatialFlowId`,
+ * docs/ondemand-workflows/ondemand-spatial-advanced-v1.json) was built with
+ * on 2026-09-18 — a FROZEN snapshot, deliberately decoupled from
+ * `TIER_DEFAULTS` in config.js, whose ASK endpoint moved to
+ * `predefined-gpt-6-luna` on 2026-10-20 after `predefined-gpt-5.6-luna` was
+ * found inactive (BLOCKERS.md B-2). The v1 nodes on the platform still name
+ * the old id; a rebuild with the current tiers is workflow v2 (bump
+ * WORKFLOW_VERSION + re-export) and must not be mistaken for v1.
+ */
+export const WORKFLOW_V1_TIERS = Object.freeze({
+  ASK: Object.freeze({
+    fulfillmentEndpointId: 'predefined-gpt-5.6-luna',
+    reasoningMode: 'low',
+  }),
+  INVESTIGATE: Object.freeze({
+    fulfillmentEndpointId: 'predefined-claude-sonnet-5',
+    reasoningMode: 'low',
+  }),
+  DEEP: Object.freeze({
+    fulfillmentEndpointId: 'predefined-claude-sonnet-5',
+    reasoningMode: 'high',
+  }),
+});
+export const WORKFLOW_V1_FULFILLMENT_ENDPOINT_ID = 'predefined-gpt-5.6-luna';
+
 export const NODE_TIERS = Object.freeze({
   session_context: 'ASK',
   spatial_context_builder: 'ASK',

@@ -103,7 +103,7 @@ import {
   isConfigured,
   cameraChatPublicConfig,
 } from './_config.js';
-import { ondemandFetch } from '../../server/ondemand/client.js';
+import { ondemandFetch, clientKeyAllowed } from '../../server/ondemand/client.js';
 import {
   assertMethod,
   rejectCrossOrigin,
@@ -182,6 +182,26 @@ function configDiagnostic(cfg) {
       resolvedVia: resolvedVia(src.spatialFlowId, cfg.workflowIdEnv),
       canonical: cfg.workflowIdEnv.canonical,
       alias: cfg.workflowIdEnv.alias,
+      // Cycle 2 (B-1): when an env var holds a malformed id this names the
+      // offending env NAME and the operator action; the value is never echoed.
+      ...(cfg.spatialFlowIdInvalidEnvName
+        ? {
+            invalidEnvName: cfg.spatialFlowIdInvalidEnvName,
+            warning: `${cfg.spatialFlowIdInvalidEnvName} is not a 24-hex OnDemand workflow id; the built-in default is in use — correct or delete the variable`,
+          }
+        : {}),
+    },
+    fulfillmentEndpointId: {
+      configured: true,
+      source: src.fulfillmentEndpointId,
+      // Cycle 2 (B-2): the env/default still named a retired endpoint id;
+      // it was rewritten to the active successor (ENDPOINT_SUCCESSORS).
+      ...(cfg.fulfillmentEndpointSuperseded
+        ? {
+            superseded: cfg.fulfillmentEndpointSuperseded,
+            warning: `${cfg.fulfillmentEndpointSuperseded} is inactive on the platform; requests use ${cfg.fulfillmentEndpointId} — update the env var`,
+          }
+        : {}),
     },
     // Platform-registration ids (2026-09-19) — presence + source ONLY.
     spatialAgentId: registrationDiagnostic('spatialAgentId', cfg),
@@ -216,6 +236,9 @@ function registrationDiagnostic(row, cfg) {
 function resolvedVia(source, envNames) {
   if (source === envNames.alias) return 'alias';
   if (source === envNames.canonical) return 'canonical';
+  // 'default-invalid-env' (server/ondemand/config.js WORKFLOW_ID_INVALID_SOURCE):
+  // an env var named a non-24-hex workflow id; the built-in default is used.
+  if (source === 'default-invalid-env') return 'invalid';
   return 'default';
 }
 
@@ -279,6 +302,9 @@ export default async function handler(req, res) {
       // docs/ONDEMAND_CAMERA_CHAT_ADDENDUM_2026-09-21.md. Published keyless
       // too so the panel can show WHICH endpoint/agents it would use.
       cameraChat: cameraChatPublicConfig(),
+      // Phase B/C key handling: whether the legacy browser-held key override
+      // is honoured by this deployment (ONDEMAND_ALLOW_CLIENT_KEY=1, dev only).
+      clientKeyAllowed: clientKeyAllowed(),
       checkedAt,
       message:
         'ONDEMAND_API_KEY is not set. Set it in the Vercel project Environment Variables (or in .env for local dev) and redeploy/restart.',
@@ -343,6 +369,7 @@ export default async function handler(req, res) {
     reasoningModeInvalid: cfg.reasoningModeInvalid,
     config: configDiagnostic(cfg),
     cameraChat: cameraChatPublicConfig(),
+    clientKeyAllowed: clientKeyAllowed(),
     checkedAt,
     message: messageFor(ondemand),
   };

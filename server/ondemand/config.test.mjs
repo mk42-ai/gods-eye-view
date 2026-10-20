@@ -139,7 +139,7 @@ describe('server/ondemand/config.js', () => {
     assert.equal(config.reasoningEndpointId, 'low');
     assert.ok(DOCUMENTED_REASONING_MODES.includes(config.reasoningEndpointId));
     // fulfillment default = the benchmarked ASK winner.
-    assert.equal(config.fulfillmentEndpointId, 'predefined-gpt-5.6-luna');
+    assert.equal(config.fulfillmentEndpointId, 'predefined-gpt-6-luna');
     assert.equal(
       config.fulfillmentEndpointId,
       TIER_DEFAULTS.ASK.fulfillmentEndpointId,
@@ -180,12 +180,14 @@ describe('server/ondemand/config.js — getConfig()', () => {
         'defaultPluginIds',
         'flowVersion',
         'fulfillmentEndpointId',
+        'fulfillmentEndpointSuperseded',
         'reasoningEndpointId',
         'reasoningMode',
         'reasoningModeInvalid',
         'sources',
         'spatialAgentId',
         'spatialFlowId',
+        'spatialFlowIdInvalidEnvName',
         'requestTimeoutMs',
         'tiers',
         'flowDefaults',
@@ -215,7 +217,7 @@ describe('server/ondemand/config.js — getConfig()', () => {
   });
 
   test('exposes exactly the fields a consumer like a selftest route needs', () => {
-    process.env.ONDEMAND_SPATIAL_FLOW_ID = 'wf-9';
+    process.env.ONDEMAND_SPATIAL_FLOW_ID = 'aaaaaaaaaaaaaaaaaaaaaaa9';
     process.env.ONDEMAND_SPATIAL_AGENT_ID = 'plugin-9';
     __reloadConfigForTests();
     const {
@@ -227,8 +229,8 @@ describe('server/ondemand/config.js — getConfig()', () => {
     } = getConfig();
     assert.equal(apiKey, '');
     assert.equal(baseUrl, 'https://api.on-demand.io');
-    assert.equal(fulfillmentEndpointId, 'predefined-gpt-5.6-luna');
-    assert.equal(spatialFlowId, 'wf-9');
+    assert.equal(fulfillmentEndpointId, 'predefined-gpt-6-luna');
+    assert.equal(spatialFlowId, 'aaaaaaaaaaaaaaaaaaaaaaa9');
     assert.deepEqual(defaultPluginIds, ['plugin-9']);
   });
 });
@@ -287,7 +289,7 @@ describe('server/ondemand/config.js — TIER_DEFAULTS / tierDefaults() (benchmar
       'INVESTIGATE',
     ]);
     assert.deepEqual(TIER_DEFAULTS.ASK, {
-      fulfillmentEndpointId: 'predefined-gpt-5.6-luna',
+      fulfillmentEndpointId: 'predefined-gpt-6-luna',
       reasoningMode: 'low',
     });
     assert.deepEqual(TIER_DEFAULTS.INVESTIGATE, {
@@ -354,7 +356,7 @@ describe('server/ondemand/config.js — TIER_DEFAULTS / tierDefaults() (benchmar
     assert.equal(cfg.tiers, TIER_DEFAULTS);
     assert.equal(
       cfg.tiers.ASK.fulfillmentEndpointId,
-      'predefined-gpt-5.6-luna',
+      'predefined-gpt-6-luna',
     );
     // the env override wins for the reconciled field itself, as before
     assert.equal(cfg.fulfillmentEndpointId, 'predefined-override');
@@ -577,7 +579,7 @@ describe('server/ondemand/config.js — accepted env-var aliases (docs/ONDEMAND_
 
     test('neither set -> the step-3 INVESTIGATE default, source "default"', () => {
       __reloadConfigForTests();
-      assert.equal(config.fulfillmentEndpointId, 'predefined-gpt-5.6-luna');
+      assert.equal(config.fulfillmentEndpointId, 'predefined-gpt-6-luna');
       assert.equal(configSources().fulfillmentEndpointId, 'default');
     });
   });
@@ -658,6 +660,7 @@ describe('server/ondemand/config.js — accepted env-var aliases (docs/ONDEMAND_
           'ONDEMAND_SPATIAL_WORKFLOW_ID',
           'ONDEMAND_SPATIAL_FLOW_ID',
           'default',
+          'default-invalid-env',
         ],
       });
       assert.equal(getConfig().workflowIdEnv, WORKFLOW_ID_ENV);
@@ -676,10 +679,10 @@ describe('server/ondemand/config.js — accepted env-var aliases (docs/ONDEMAND_
     });
 
     test('canonical only: honours ONDEMAND_SPATIAL_WORKFLOW_ID and names it as the source', () => {
-      process.env.ONDEMAND_SPATIAL_WORKFLOW_ID = 'wf-canonical';
+      process.env.ONDEMAND_SPATIAL_WORKFLOW_ID = 'cccccccccccccccccccccccc';
       __reloadConfigForTests();
-      assert.equal(config.spatialFlowId, 'wf-canonical');
-      assert.equal(getConfig().spatialFlowId, 'wf-canonical');
+      assert.equal(config.spatialFlowId, 'cccccccccccccccccccccccc');
+      assert.equal(getConfig().spatialFlowId, 'cccccccccccccccccccccccc');
       assert.equal(
         configSources().spatialFlowId,
         'ONDEMAND_SPATIAL_WORKFLOW_ID',
@@ -688,18 +691,18 @@ describe('server/ondemand/config.js — accepted env-var aliases (docs/ONDEMAND_
     });
 
     test('alias only: honours ONDEMAND_SPATIAL_FLOW_ID (still accepted) and names it as the source', () => {
-      process.env.ONDEMAND_SPATIAL_FLOW_ID = 'wf-alias';
+      process.env.ONDEMAND_SPATIAL_FLOW_ID = 'aaaaaaaaaaaaaaaaaaaaaaaa';
       __reloadConfigForTests();
-      assert.equal(config.spatialFlowId, 'wf-alias');
+      assert.equal(config.spatialFlowId, 'aaaaaaaaaaaaaaaaaaaaaaaa');
       assert.equal(configSources().spatialFlowId, 'ONDEMAND_SPATIAL_FLOW_ID');
       assert.equal(configSources().spatialFlowId, WORKFLOW_ID_ENV.alias);
     });
 
     test('BOTH set with different values: the canonical ONDEMAND_SPATIAL_WORKFLOW_ID wins — canonical-first', () => {
-      process.env.ONDEMAND_SPATIAL_WORKFLOW_ID = 'wf-canonical';
-      process.env.ONDEMAND_SPATIAL_FLOW_ID = 'wf-alias';
+      process.env.ONDEMAND_SPATIAL_WORKFLOW_ID = 'cccccccccccccccccccccccc';
+      process.env.ONDEMAND_SPATIAL_FLOW_ID = 'aaaaaaaaaaaaaaaaaaaaaaaa';
       __reloadConfigForTests();
-      assert.equal(config.spatialFlowId, 'wf-canonical');
+      assert.equal(config.spatialFlowId, 'cccccccccccccccccccccccc');
       assert.equal(
         configSources().spatialFlowId,
         'ONDEMAND_SPATIAL_WORKFLOW_ID',
@@ -712,9 +715,9 @@ describe('server/ondemand/config.js — accepted env-var aliases (docs/ONDEMAND_
 
     test('a whitespace-only canonical falls through to the alias', () => {
       process.env.ONDEMAND_SPATIAL_WORKFLOW_ID = '   ';
-      process.env.ONDEMAND_SPATIAL_FLOW_ID = 'wf-alias';
+      process.env.ONDEMAND_SPATIAL_FLOW_ID = 'aaaaaaaaaaaaaaaaaaaaaaaa';
       __reloadConfigForTests();
-      assert.equal(config.spatialFlowId, 'wf-alias');
+      assert.equal(config.spatialFlowId, 'aaaaaaaaaaaaaaaaaaaaaaaa');
       assert.equal(configSources().spatialFlowId, 'ONDEMAND_SPATIAL_FLOW_ID');
     });
 
@@ -726,12 +729,39 @@ describe('server/ondemand/config.js — accepted env-var aliases (docs/ONDEMAND_
       assert.equal(configSources().spatialFlowId, 'default');
     });
 
+    test('B-1 (2026-10-20): a malformed env value (26-hex typo) is rejected → built-in default, source "default-invalid-env", env NAME remembered', () => {
+      delete process.env.ONDEMAND_SPATIAL_FLOW_ID;
+      process.env.ONDEMAND_SPATIAL_WORKFLOW_ID = '6aace534859f9f7b0abb53d99a'; // 26 hex
+      __reloadConfigForTests();
+      assert.equal(config.spatialFlowId, FLOW_DEFAULTS.spatialFlowId);
+      assert.equal(configSources().spatialFlowId, 'default-invalid-env');
+      assert.equal(config.spatialFlowIdInvalidEnvName, 'ONDEMAND_SPATIAL_WORKFLOW_ID');
+      assert.equal(getConfig().spatialFlowIdInvalidEnvName, 'ONDEMAND_SPATIAL_WORKFLOW_ID');
+      // a valid id is trimmed and honoured
+      process.env.ONDEMAND_SPATIAL_WORKFLOW_ID = ' 6aace534859f7b0abb53d99a ';
+      __reloadConfigForTests();
+      assert.equal(config.spatialFlowId, '6aace534859f7b0abb53d99a');
+      assert.equal(configSources().spatialFlowId, 'ONDEMAND_SPATIAL_WORKFLOW_ID');
+      assert.equal(config.spatialFlowIdInvalidEnvName, '');
+    });
+
+    test('B-2 (2026-10-20): a retired fulfillment endpoint id in env is rewritten to its active successor; env NAME kept as source', () => {
+      process.env.ONDEMAND_FULFILLMENT_ENDPOINT_ID = 'predefined-gpt-5.6-luna';
+      __reloadConfigForTests();
+      assert.equal(config.fulfillmentEndpointId, 'predefined-gpt-6-luna');
+      assert.equal(config.fulfillmentEndpointSuperseded, 'predefined-gpt-5.6-luna');
+      assert.equal(configSources().fulfillmentEndpointId, 'ONDEMAND_FULFILLMENT_ENDPOINT_ID');
+      delete process.env.ONDEMAND_FULFILLMENT_ENDPOINT_ID;
+      __reloadConfigForTests();
+      assert.equal(config.fulfillmentEndpointSuperseded, '');
+    });
+
     test('sources.spatialFlowId is always one of WORKFLOW_ID_ENV.order (names only, never a value)', () => {
       for (const env of [
         {},
-        { ONDEMAND_SPATIAL_WORKFLOW_ID: 'wf-c' },
-        { ONDEMAND_SPATIAL_FLOW_ID: 'wf-a' },
-        { ONDEMAND_SPATIAL_WORKFLOW_ID: 'wf-c', ONDEMAND_SPATIAL_FLOW_ID: 'wf-a' },
+        { ONDEMAND_SPATIAL_WORKFLOW_ID: 'cccccccccccccccccccccc0c' },
+        { ONDEMAND_SPATIAL_FLOW_ID: 'aaaaaaaaaaaaaaaaaaaaaa0a' },
+        { ONDEMAND_SPATIAL_WORKFLOW_ID: 'cccccccccccccccccccccc0c', ONDEMAND_SPATIAL_FLOW_ID: 'aaaaaaaaaaaaaaaaaaaaaa0a' },
       ]) {
         delete process.env.ONDEMAND_SPATIAL_WORKFLOW_ID;
         delete process.env.ONDEMAND_SPATIAL_FLOW_ID;
@@ -739,8 +769,8 @@ describe('server/ondemand/config.js — accepted env-var aliases (docs/ONDEMAND_
         __reloadConfigForTests();
         const source = configSources().spatialFlowId;
         assert.ok(WORKFLOW_ID_ENV.order.includes(source), source);
-        assert.notEqual(source, 'wf-c');
-        assert.notEqual(source, 'wf-a');
+        assert.notEqual(source, 'cccccccccccccccccccccc0c');
+        assert.notEqual(source, 'aaaaaaaaaaaaaaaaaaaaaa0a');
       }
     });
   });

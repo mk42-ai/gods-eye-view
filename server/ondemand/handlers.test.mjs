@@ -157,7 +157,7 @@ describe('api/ondemand/health.js', () => {
     // benchmarked tier defaults (ids only) ride along even unkeyed
     assert.deepEqual(body.config.tiers, {
       ASK: {
-        fulfillmentEndpointId: 'predefined-gpt-5.6-luna',
+        fulfillmentEndpointId: 'predefined-gpt-6-luna',
         reasoningMode: 'low',
       },
       INVESTIGATE: {
@@ -275,7 +275,7 @@ describe('api/ondemand/health.js', () => {
     assert.equal(body.config.reasoningEndpointId.source, 'default');
     assert.equal(
       body.config.tiers.ASK.fulfillmentEndpointId,
-      'predefined-gpt-5.6-luna',
+      'predefined-gpt-6-luna',
     );
     assert.equal(body.config.tiers.DEEP.reasoningMode, 'high');
   });
@@ -317,8 +317,8 @@ describe('api/ondemand/health.js', () => {
 
   test('config.spatialFlowId reports resolvedVia "canonical" when ONDEMAND_SPATIAL_WORKFLOW_ID (checked first) is set — never the value', async () => {
     configureWithKey({
-      ONDEMAND_SPATIAL_WORKFLOW_ID: 'wf-canonical-7',
-      ONDEMAND_SPATIAL_FLOW_ID: 'wf-alias-8',
+      ONDEMAND_SPATIAL_WORKFLOW_ID: 'cccccccccccccccccccccc07',
+      ONDEMAND_SPATIAL_FLOW_ID: 'aaaaaaaaaaaaaaaaaaaaaa08',
     });
     activeStub = stubFetchSequence([...healthyReadProbes(), ttsEnvelope()]);
     const res = await runHealth();
@@ -330,12 +330,12 @@ describe('api/ondemand/health.js', () => {
       canonical: 'ONDEMAND_SPATIAL_WORKFLOW_ID',
       alias: 'ONDEMAND_SPATIAL_FLOW_ID',
     });
-    assert.equal(res.text().includes('wf-canonical-7'), false);
-    assert.equal(res.text().includes('wf-alias-8'), false);
+    assert.equal(res.text().includes('cccccccccccccccccccccc07'), false);
+    assert.equal(res.text().includes('aaaaaaaaaaaaaaaaaaaaaa08'), false);
   });
 
   test('config.spatialFlowId reports resolvedVia "alias" when only ONDEMAND_SPATIAL_FLOW_ID is set (unkeyed response too)', async () => {
-    process.env.ONDEMAND_SPATIAL_FLOW_ID = 'wf-alias-8';
+    process.env.ONDEMAND_SPATIAL_FLOW_ID = 'aaaaaaaaaaaaaaaaaaaaaa08';
     __reloadConfigForTests(); // no key: the unkeyed body carries the same block
     const res = await runHealth();
     const body = res.json();
@@ -347,7 +347,7 @@ describe('api/ondemand/health.js', () => {
       canonical: 'ONDEMAND_SPATIAL_WORKFLOW_ID',
       alias: 'ONDEMAND_SPATIAL_FLOW_ID',
     });
-    assert.equal(res.text().includes('wf-alias-8'), false);
+    assert.equal(res.text().includes('aaaaaaaaaaaaaaaaaaaaaa08'), false);
   });
 
   test('reasoningModeInvalid is true (and config.reasoningMode.valid is false) when an undocumented ONDEMAND_REASONING_MODE is set', async () => {
@@ -954,7 +954,7 @@ describe('api/ondemand/chat.js — validation (no network)', () => {
     await chatHandler(req, res);
     assert.equal(res.statusCode, 200);
     const sentBody = JSON.parse(activeStub.calls[1].init.body);
-    assert.equal(sentBody.endpointId, 'predefined-gpt-5.6-luna');
+    assert.equal(sentBody.endpointId, 'predefined-gpt-6-luna');
   });
 
   test('responseMode webhook -> 501 not documented', async () => {
@@ -1194,7 +1194,7 @@ describe('api/ondemand/chat.js — mode "capability-loop" (server/ondemand/capab
     assert.equal(body.mode, 'capability-loop');
     assert.equal(body.ok, true);
     assert.equal(body.tier, 'ASK');
-    assert.equal(body.endpointId, 'predefined-gpt-5.6-luna');
+    assert.equal(body.endpointId, 'predefined-gpt-6-luna');
     assert.equal(body.reasoningMode, 'low');
     assert.equal(body.reasoningModeSent, false);
     assert.deepEqual(
@@ -1212,7 +1212,7 @@ describe('api/ondemand/chat.js — mode "capability-loop" (server/ondemand/capab
     assert.ok(String(answerCall.url).endsWith('/sessions/sess-loop/query'));
     const decisionBody = JSON.parse(decisionCall.init.body);
     assert.equal(decisionBody.responseMode, 'sync');
-    assert.equal(decisionBody.endpointId, 'predefined-gpt-5.6-luna');
+    assert.equal(decisionBody.endpointId, 'predefined-gpt-6-luna');
     assert.equal('reasoningMode' in decisionBody, false);
     const answerBody = JSON.parse(JSON.parse(answerCall.init.body).query);
     assert.equal(answerBody.toolResults[0].data.items[0].utc_offset, '+04:00');
@@ -1414,7 +1414,7 @@ describe('api/ondemand/workflow.js — smoke', () => {
   });
 
   test('execute with a client-supplied "input" field -> 501 not documented, no network', async () => {
-    configureWithKey({ ONDEMAND_SPATIAL_FLOW_ID: 'wf-default' });
+    configureWithKey({ ONDEMAND_SPATIAL_FLOW_ID: 'dddddddddddddddddddddddd' });
     activeStub = stubFetchSequence([
       () => {
         throw new Error('network should not be called');
