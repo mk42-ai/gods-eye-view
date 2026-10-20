@@ -88,6 +88,61 @@ export function layerKeyRequirementTooltip(layer = {}) {
   return requiresKeyId ? keySetupRequirement(requiresKeyId) : '';
 }
 
+/** Object type the mini chat uses for a layer row (FRONTEND_RECON §1). */
+export function layerObjectType(layer = {}) {
+  const feed = layerFeedState(layer.stats || {});
+  if (feed === 'degraded' || feed === 'unavailable' || feed === 'stale')
+    return 'providerBadge';
+  switch (layer.id) {
+    case 'earthquakes':
+      return 'earthquake';
+    case 'firms':
+    case 'fires':
+      return 'fire';
+    case 'traffic':
+      return 'trafficLayer';
+    default:
+      return 'layerPanel';
+  }
+}
+
+/** Context payload for a layer row — stats only (no records unless supplied). */
+export function layerAskContext(layer = {}, records = null) {
+  const stats = layer.stats || {};
+  const feed = layerFeedState(stats);
+  const type = layerObjectType(layer);
+  return {
+    objectType: type,
+    objectId: layer.id,
+    label: layer.name || layer.id,
+    fields: {
+      layerId: layer.id,
+      enabled: Boolean(layer.enabled),
+      feedState: feed,
+      status: stats.status ?? null,
+      providerStatus: stats.providerStatus ?? null,
+      providerError:
+        stats.providerError ?? stats.error ?? stats.lastError ?? null,
+      degraded: stats.degraded ?? feed === 'degraded',
+      stale: stats.stale ?? feed === 'stale',
+      count: stats.count ?? null,
+      lastUpdateUtc: stats.lastUpdate
+        ? new Date(stats.lastUpdate).toISOString()
+        : null,
+      source: stats.source || layer.source || null,
+      ...(Array.isArray(records) && records.length
+        ? { sample: records.slice(0, 20), sampleCount: records.length }
+        : {}),
+    },
+    provenance: {
+      provider: stats.source || layer.source || 'layer',
+      fetchedAt: stats.lastUpdate
+        ? new Date(stats.lastUpdate).toISOString()
+        : null,
+    },
+  };
+}
+
 /** Layer row presentation over supplied state and actions; no layer imports. */
 export class LayerPanel {
   constructor({
@@ -98,9 +153,11 @@ export class LayerPanel {
     getRowControls,
     hasRowControls,
     subscribeRowControls,
+    getLayerAnalystRecords = null,
     onHiddenRefresh = () => {},
   }) {
     this.getAll = getLayers;
+    this._layerAnalystRecords = getLayerAnalystRecords;
     this.isEnabled = isEnabled;
     this.setEnabled = setEnabled;
     this.setLayerParams = setLayerParams;
@@ -272,7 +329,35 @@ export class LayerPanel {
         }
       });
 
+      // ASK ONDEMAND per layer row (Phase E): the row's live stats become the
+      // object context — provider status / DEGRADED reason / counts — so the
+      // operator can ask "why is this degraded?" or "what is in view?".
+      const ask = document.createElement('button');
+      ask.type = 'button';
+      ask.className = 'data-ask-btn ask-ondemand-btn--inline';
+      ask.textContent = 'ASK';
+      ask.title = `Ask OnDemand about ${panelLabel(layer)}`;
+      ask.setAttribute('aria-label', `Ask OnDemand about ${panelLabel(layer)}`);
+      ask.setAttribute(
+        'data-ask-object',
+        `${layerObjectType(layer)}:${layer.id}`,
+      );
+      this._bind(ask, 'click', (event) => {
+        event.stopPropagation?.();
+        const current =
+          this.getAll().find(({ id }) => id === layer.id) || layer;
+        if (typeof window !== 'undefined')
+          window.dispatchEvent(
+            new CustomEvent('gev:ask-object', {
+              detail: layerAskContext(
+                current,
+                this._layerAnalystRecords?.(current.id),
+              ),
+            }),
+          );
+      });
       right.appendChild(count);
+      right.appendChild(ask);
       right.appendChild(toggle);
       topRow.appendChild(left);
       topRow.appendChild(right);

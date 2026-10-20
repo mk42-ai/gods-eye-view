@@ -335,3 +335,195 @@ body.scene-playback-mode #ondemand-entity-chat {
     bottom: max(72px, calc(env(safe-area-inset-bottom) + 64px));
   }
 }
+
+/* ---------------------------------------------------------------------------
+   ASK ONDEMAND mini chat for every object type (src/ondemand/miniChat.js,
+   2026-10-20 Phase E). Shares the .od-chat skin above; sits beside the entity
+   overlay so an entity chat and an object chat can be open at once. */
+#ondemand-mini-chat {
+  position: fixed;
+  z-index: 186;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(88px, calc(env(safe-area-inset-bottom) + 72px));
+  width: min(27rem, calc(100vw - 2rem));
+  max-height: min(36rem, calc(100dvh - 7rem));
+  display: flex;
+  flex-direction: column;
+  color: var(--od-neutral-100, #f3f3f3);
+  background: rgba(22, 22, 22, 0.94);
+  border: 1px solid rgba(59, 183, 149, 0.45);
+  border-radius: 12px;
+  box-shadow:
+    0 1.2rem 3.6rem rgba(0, 0, 0, 0.6),
+    0 0 1.6rem rgba(59, 183, 149, 0.12);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  font: 11px/1.4 var(--font-sans, 'Inter', system-ui, sans-serif);
+  overflow: hidden;
+}
+#ondemand-mini-chat[hidden] {
+  display: none;
+}
+/* When both panels are open, stack the object chat to the left of the entity chat. */
+#ondemand-entity-chat:not([hidden]) ~ #ondemand-mini-chat {
+  right: calc(
+    max(18px, env(safe-area-inset-right)) + min(26rem, calc(100vw - 2rem)) +
+      12px
+  );
+}
+.od-chat__header--mini {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+}
+.od-chat__starters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px 0;
+}
+.od-chat__starters[hidden] {
+  display: none;
+}
+.od-chat__starter {
+  border: 1px solid rgba(59, 183, 149, 0.4);
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: var(--od-green-200, #adedd6);
+  background: rgba(59, 183, 149, 0.1);
+  font: 10px/1.3 var(--font-sans, 'Inter', system-ui, sans-serif);
+  cursor: pointer;
+  text-align: left;
+}
+.od-chat__starter:hover,
+.od-chat__starter:focus-visible {
+  color: var(--od-ink, #161616);
+  background: var(--od-green-500, #3bb795);
+}
+.od-chat__activity {
+  margin: 0;
+  padding: 4px 12px;
+  list-style: none;
+  border-top: 1px dashed rgba(59, 183, 149, 0.3);
+  font: 9px/1.4 var(--font-mono, monospace);
+  color: var(--od-green-200, #adedd6);
+  max-height: 6.4em;
+  overflow: hidden;
+}
+.od-chat__activity[hidden] {
+  display: none;
+}
+.od-chat__activity[data-hidden-rows]::before {
+  content: '… ' attr(data-hidden-rows) ' earlier step(s)';
+  display: block;
+  opacity: 0.6;
+}
+.od-chat__activity-row {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.od-chat__sources {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-top: 1px solid rgba(243, 243, 243, 0.08);
+  font: 9px/1.4 var(--font-mono, monospace);
+}
+.od-chat__sources[hidden] {
+  display: none;
+}
+.od-chat__sources-label {
+  color: var(--od-neutral-400, #9a9a9a);
+  letter-spacing: 0.08em;
+}
+.od-chat__cite {
+  color: var(--od-green-200, #adedd6);
+  text-decoration: underline dotted;
+  overflow-wrap: anywhere;
+}
+.od-chat__cite:hover {
+  color: var(--od-green-500, #3bb795);
+}
+.od-chat__msg--assistant[data-confidence='confirmed'] {
+  border-left: 3px solid var(--od-green-500, #3bb795);
+}
+.od-chat__msg--assistant[data-confidence='unverified'] {
+  border-left: 3px solid #e3b341;
+}
+.od-chat__msg--assistant[data-confidence='inferred'] {
+  border-left: 3px solid rgba(243, 243, 243, 0.35);
+}
+
+/* Compact inline ASK affordance used on layer rows, the HUD summary and the
+   cockpit brief footer. */
+.ask-ondemand-btn--inline {
+  grid-column: auto;
+  min-height: 0;
+  padding: 2px 7px;
+  border: 1px solid rgba(59, 183, 149, 0.5);
+  border-radius: 999px;
+  color: var(--od-green-200, #adedd6);
+  background: rgba(59, 183, 149, 0.12);
+  font: 600 9px/1.4 var(--font-mono, monospace);
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ask-ondemand-btn--inline:hover,
+.ask-ondemand-btn--inline:focus-visible {
+  color: var(--od-ink, #161616);
+  background: var(--od-green-500, #3bb795);
+  border-color: var(--od-green-500, #3bb795);
+}
+.data-ask-btn {
+  margin-right: 6px;
+}
+.hud-ask-ondemand {
+  margin-left: 8px;
+  pointer-events: auto;
+}
+.cockpit-brief-ask {
+  margin-left: auto;
+}
+
+/* Empty / unavailable states reuse the generated brand placeholders
+   (public/assets/brand, docs/agent-execution/BRAND_ASSETS.md). */
+.od-empty-state {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 18px 12px;
+  text-align: center;
+  color: var(--od-neutral-400, #9a9a9a);
+  font: 10px/1.5 var(--font-sans, 'Inter', system-ui, sans-serif);
+}
+.od-empty-state::before {
+  content: '';
+  width: 96px;
+  height: 96px;
+  border-radius: 12px;
+  background: center / cover no-repeat;
+  opacity: 0.9;
+}
+.od-empty-state--no-results::before {
+  background-image: url('/assets/brand/empty-no-results.png');
+}
+.od-empty-state--no-sessions::before {
+  background-image: url('/assets/brand/empty-no-sessions.png');
+}
+.od-empty-state--source-unavailable::before {
+  background-image: url('/assets/brand/empty-source-unavailable.png');
+}
+
+@media (max-width: 640px) {
+  #ondemand-mini-chat,
+  #ondemand-entity-chat:not([hidden]) ~ #ondemand-mini-chat {
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    max-height: 70dvh;
+    border-radius: 12px 12px 0 0;
+  }
+}

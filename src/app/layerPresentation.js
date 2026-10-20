@@ -50,6 +50,16 @@ export class LayerPresentation {
             return null;
           }
         },
+        // ASK ONDEMAND context: a small sample of the layer's in-memory
+        // records when the layer exposes them (earthquakes do).
+        getLayerAnalystRecords: (id) => {
+          const module = this.manager.layers.get(id)?.module;
+          try {
+            return module?.getAnalystRecords?.(50) || null;
+          } catch {
+            return null;
+          }
+        },
         hasRowControls: (id) =>
           typeof this.manager.layers.get(id)?.module?.getRowControls ===
           'function',

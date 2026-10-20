@@ -179,7 +179,7 @@ export function historyRows(pages) {
     }
     const query = typeof message?.query === 'string' ? message.query : '';
     const answer = typeof message?.answer === 'string' ? message.answer : '';
-    if (query.startsWith('You are the OnDemand Spatial analyst')) {
+    if (/^You are the .+ analyst/.test(query)) {
       rows.push({
         role: 'system',
         text: `context loaded earlier · OnDemand: ${answer || 'ok'}`,
@@ -539,6 +539,8 @@ export function createEntityChat(deps = {}) {
     history: { loaded: false, pages: 0, rows: 0, error: null },
     cameraConfig: null,
     apiCalls: [],
+    /** null = unknown (health not fetched yet), true only when the server allows the dev override. */
+    clientKeyAllowed: deps.clientKeyAllowed ?? null,
   };
   /** entityKey → { promise, sessionId, context, primedOk, error } */
   const sessions = new Map();
@@ -546,8 +548,13 @@ export function createEntityChat(deps = {}) {
   const ui = {};
   let destroyed = false;
 
+  // 2026-10-20 (Phase C): the browser-held key is a DEV-ONLY path. The
+  // header is sent only after /api/ondemand/health reported
+  // `clientKeyAllowed: true` (ONDEMAND_ALLOW_CLIENT_KEY=1 on the server);
+  // production deployments never receive it and the KEY control stays hidden.
   function keyHeaders(extra = {}) {
     const headers = { ...extra };
+    if (state.clientKeyAllowed !== true) return headers;
     const key = readStoredApiKey(storage);
     if (key) headers[API_KEY_HEADER] = key;
     return headers;
@@ -759,7 +766,10 @@ export function createEntityChat(deps = {}) {
 
   function syncKeyState() {
     if (!ui.keyState) return;
-    const hasKey = Boolean(readStoredApiKey(storage));
+    const allowed = state.clientKeyAllowed === true;
+    if (ui.keyToggle) ui.keyToggle.hidden = !allowed;
+    if (!allowed && ui.keyRow) ui.keyRow.hidden = true;
+    const hasKey = allowed && Boolean(readStoredApiKey(storage));
     ui.keyState.textContent = hasKey ? 'using your key' : 'server key';
     ui.keyState.setAttribute('data-key-source', hasKey ? 'request' : 'server');
     if (ui.keyInput)
@@ -1161,6 +1171,10 @@ export function createEntityChat(deps = {}) {
       );
       state.cameraConfig = health?.cameraChat || null;
       state.serverConfigured = health?.configured === true;
+      if (health && 'clientKeyAllowed' in health) {
+        state.clientKeyAllowed = health.clientKeyAllowed === true;
+        syncKeyState();
+      }
       if (health && health.configured !== true && !readStoredApiKey(storage)) {
         setStatus('NOT CONFIGURED · ONDEMAND_API_KEY is not set on the server');
         appendMessage(

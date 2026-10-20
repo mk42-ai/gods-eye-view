@@ -269,16 +269,21 @@ const AIRCRAFT = {
 };
 const VESSEL = { mmsi: '366999999', name: 'TEXAS STAR', latitude: 29.9, longitude: -95.9, speedKt: 12 };
 
-function harness({ storage = makeStorage(), fetchOverrides, dataManager } = {}) {
+function harness({ storage = makeStorage(), fetchOverrides, dataManager, clientKeyAllowed = true } = {}) {
   const document = makeDocument();
   const window = makeWindow();
   const { fetchImpl, calls } = makeFetch(fetchOverrides);
   const clock = makeClock();
+  // The browser-held key is a DEV-ONLY path since 2026-10-20: the header is
+  // sent only when the server reports clientKeyAllowed (ONDEMAND_ALLOW_CLIENT_KEY=1).
+  // The key tests below exercise that dev path explicitly; the production
+  // default (null/false) is covered by its own test.
   const controller = createEntityChat({
     document,
     window,
     fetch: fetchImpl,
     storage,
+    clientKeyAllowed,
     now: clock.now,
     performanceNow: clock.performanceNow,
     dataManager: dataManager ?? { getAll: () => [{ id: 'flights', name: 'Live Flights', enabled: true, source: 'OpenSky', stats: { count: 3, lastUpdate: clock.now() - 1000, source: 'OpenSky' } }], layers: new Map() },
@@ -310,7 +315,7 @@ describe('createEntityChat — sessions and the context turn', () => {
     assert.equal(prime.sessionId, 'sess-1-abc123def456');
     assert.equal(prime.responseMode, 'sync');
     assert.equal(prime.fulfillmentOnly, true);
-    assert.match(prime.query, /^You are the OnDemand Spatial analyst/);
+    assert.match(prime.query, /^You are the OnDemand Intelligence Workstation analyst/);
     const [, contextJson] = prime.query.split('\nCONTEXT_JSON:\n');
     const context = JSON.parse(contextJson);
     assert.equal(context.schema, ENTITY_CONTEXT_SCHEMA);
@@ -442,6 +447,21 @@ describe('createEntityChat — streaming turns', () => {
 });
 
 describe('createEntityChat — browser-only key', () => {
+  test('PRODUCTION DEFAULT (2026-10-20): without the server dev flag a stored key is NEVER sent and the KEY control is hidden', async () => {
+    const storage = makeStorage({ [API_KEY_STORAGE_KEY]: LEAK_KEY });
+    const h = harness({ storage, clientKeyAllowed: null });
+    await h.controller.open({ entity: AIRCRAFT, kind: 'aircraft' });
+    await h.controller.send('anything');
+    const proxyCalls = h.calls.filter((c) => c.url === '/api/ondemand/sessions' || c.url === '/api/ondemand/chat');
+    assert.equal(proxyCalls.length, 3);
+    for (const call of proxyCalls) {
+      assert.equal(call.init.headers[API_KEY_HEADER], undefined, `${call.url} must not carry the key`);
+      assert.equal(String(call.init.body || '').includes(LEAK_KEY), false);
+    }
+    assert.equal(h.byId(SELECTORS.keyToggle).hidden, true);
+    assert.equal(h.byId(SELECTORS.keyState).textContent, 'server key');
+  });
+
   test('a stored key travels ONLY as the x-ondemand-key header: never in a body, never in the DOM', async () => {
     const storage = makeStorage({ [API_KEY_STORAGE_KEY]: LEAK_KEY });
     const h = harness({ storage });

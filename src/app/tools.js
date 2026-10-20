@@ -4,6 +4,7 @@ import { initDrawTool } from '../annotations/drawTool.js';
 import { initGevVoiceCommands } from '../voice/gevRealtime.js';
 import { installScopeMask, destroyScopeMask } from '../scopeMask.js';
 import { installEntityChat } from '../ondemand/entityChat.js';
+import { installMiniChat } from '../ondemand/miniChat.js';
 import {
   installRenderGovernor,
   getRenderGovernorDiagnostics,
@@ -124,6 +125,11 @@ export function createApplicationTools({
   // tracking layers' selection lanes; tears itself down on the app signal.
   // `__godsEyeView.entityChat.openFirstVisible('aircraft')` drives it headless.
   debug.entityChat = installEntityChat({ viewer, dataManager, signal });
+  // ASK ONDEMAND for every other object type (earthquake, fire, traffic,
+  // regional brief, HUD summary, provider badge, graph node/edge, …) on the
+  // server-key-only /api/ondemand/v2 foundation (src/ondemand/miniChat.js).
+  // Any widget opens it with `gev:ask-object` or createAskOnDemandButton().
+  debug.miniChat = installMiniChat({ signal });
   const voiceCommands = initGevVoiceCommands({
     ...voice,
     floorServices: operations.surface.groundFloor,
