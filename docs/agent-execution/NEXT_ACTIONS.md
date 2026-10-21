@@ -1,6 +1,6 @@
 # NEXT_ACTIONS — ONDEMAND-NATIVE INTELLIGENCE PLATFORM
 
-Branch `integration/ondemand-native` · updated 2026-10-21T08:58:00Z (UTC, cycle 5). Ordered queue; the resume protocol
+Branch `integration/ondemand-native` · updated 2026-10-21T10:35:00Z (UTC, cycle 6). Ordered queue; the resume protocol
 (`RESUME.md`) starts at the first item whose status is not DONE. Each item names its acceptance evidence.
 
 | # | action | depends on | acceptance evidence | status |
@@ -35,6 +35,10 @@ Branch `integration/ondemand-native` · updated 2026-10-21T08:58:00Z (UTC, cycle
 | N-24 | Follow-up pinning: reset `userScrolledUp` on user-message submit so a follow-up after scrolling up re-pins to the bottom (`scripts/qa-verify-perf.mjs` Part 2). | — | perf Part 2 6/6 PASS. | TODO |
 | N-26 | Optional UX: RETRY LAST TURN button in the mini chat after `TURN FAILED` (re-submits the failed user message; today recovery = send again, verified both viewports). | — | cycle-5 parity check d shows `retryAffordanceExists:true`; unit test in `miniChat*.test.mjs`. | TODO (B-19) |
 | N-27 | Successor-sandbox hygiene: when a verification cycle outlives the 90-min sandbox, re-create from the same tree and re-run A–G (done once in cycle 5); fold the recipe into RESUME step 10. | — | RESUME.md names the recipe; TEST_RESULTS records both URLs with timestamps. | DONE (cycle 5) |
+| N-28 | Mobile serverless notice vs composer (B-21), deliverable media rendering (B-22), PLUGINS dock beside the open chat (B-23), `/plugins/verify` 404 for unknown names (B-24) — fixed in cycle 6. | — | TEST_RESULTS §11.4–11.6: 16/16 after-fix browser checks, 13 new unit tests, A–G 14/14 post-fix. | DONE (cycle 6) |
+| N-29 | Add the deliverable-media checks (thumbnail → lightbox, poster → side pane, no `<video autoplay>` in the transcript, composer hit-test under the banner, dock reachability) as permanent Scenario-A/D checks in `scripts/qa-chat-intelligent-ui.mjs` + the Playwright spec, so they run in every cycle instead of a /tmp script. | — | harness report lists `media_*`/`composer_hit_test` checks; spec updated. | TODO |
+| N-30 | Serve `/brand/site.webmanifest` with `application/manifest+json` from `server/serverless/dev-server.mjs` (cosmetic; Vercel already does). | — | `curl -I` shows the manifest type on the sandbox. | TODO |
+| N-31 | `__odPlugins.getSelectedPluginIds()` should return plugin ids only (tool-route names leak in when tool toggles are checked). | — | unit test in `pluginPanel.test.mjs`; voice/mini-chat forward ≤ 10 `plugin-\d{10}` ids. | TODO |
 | N-25 | Set `ONDEMAND_INVESTIGATE_BUDGET_MS=50000` on the Vercel project (name only) so `/investigate` always finishes inside the 60 s function limit; re-run mobile `2c`. | Vercel admin | `2c` PASS (`planTurnSettled=true`). | TODO (operator action) |
 
 ## Phase C exit criteria (what "done" means for the next cycle)
@@ -44,4 +48,4 @@ Branch `integration/ondemand-native` · updated 2026-10-21T08:58:00Z (UTC, cycle
 4. Typecheck + lint + secrets + boundaries + full unit suite green in CI on Node 24: ⬜ (4,188 pass on Node 22; static gates green; Node 24 CI run for 2 allocation benches pending N-21).
 5. Preview deployment of the integration branch healthy (`/api/ondemand/v2/health` ok, B-1 fixed): ✅ (Preview `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` healthy, v2/health 200, B-1 resolved).
 
-GENERATED_UTC: 2026-10-21T08:58:00Z
+GENERATED_UTC: 2026-10-21T10:35:00Z

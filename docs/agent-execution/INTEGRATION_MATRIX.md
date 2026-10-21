@@ -240,4 +240,16 @@ Deny-listed by code (never read, present only as a Vercel env var): `ELEVENLABS_
 | Browser scenarios A–G | 14 cells | **14 / 14 PASS** (+ 14/14 on the successor sandbox) | 08:01Z–08:24Z, 08:38Z–08:39Z | `results-matrix.json` |
 | Brand assets `/assets/brand/*` + `/brand/mark-light.svg` | 12 files | 12/12 HTTP 200, sha256 = catalog (3 = attached originals), 0 eye motifs | 08:1xZ | `agent2/RESULTS.md` |
 
-GENERATED_UTC: 2026-10-21T08:58:00Z
+## Cycle-6 verification evidence (2026-10-21T09:17Z–10:3xZ, brand-new live sandbox `https://sb-4asza5droe1u.vercel.run`, deploy source `712a552`)
+| surface | rows | result | when (UTC) | artefact (`docs/agent-execution/artifacts/sandbox-verify-2026-10-21/`) |
+|---|---|---|---|---|
+| Health gate `GET /api/health` + `GET /` | 2 | 200 + 200 (`<title>OnDemand Intelligence Workstation</title>`, `x-ondemand-key-source: server`) | 09:19:13Z | `retry-0917/health/` |
+| Browser scenarios A–G (pre-fix, clean tree) | 14 cells | **14 / 14 PASS** | 09:26Z–09:27Z | `retry-0917/orchestrator-ag/` |
+| Five-agent swarm (A,B+parity · C,D+empty states · E,F,G+parity+3-way isolation · plugin lifecycle · branding+assets) | 99 cells | **91 PASS · 0 FAIL · 8 DEFECT** (→ 4 real defects B-21…B-24, all fixed) | 09:32Z–10:03Z | `retry-0917/agent{1..5}/` |
+| Plugin lifecycle API (`/plugins`, `/plugins/verify` ready · failed `inactive_on_account` · all-10 ready · 403 `user_mismatch` · unknown name) | 9 probes | 8 PASS + unknown-name 500 → fixed to **404 `unknown_plugin`** (re-probed 10:26:15Z) | 09:33Z–09:58Z | `retry-0917/agent4/api/`, `retry-0917/fixes-after/verify-unknown-plugin-after.json` |
+| Plugin badges (`VERIFY → VERIFYING… → READY / FAILED`) | 2 viewports | PASS (server audit sequence installing→authenticating cited from the unit test; UI collapses them into VERIFYING…) | 09:4xZ | `retry-0917/agent4/browser/` |
+| Browser scenarios A–G (post-fix, rebuilt tree on the same sandbox) | 14 cells | **14 / 14 PASS** | 10:22Z–10:23Z | `retry-0917/fixes-after/ag/` |
+| After-fix checks (composer hit-test + real tap, thumbnails/lightbox, poster/side pane, PDF preview, dock reachability, banner restore) | 16 | **16 / 16 PASS** | 10:23Z–10:25Z | `retry-0917/fixes-after/results.json` |
+| Brand assets `/assets/brand/*` (12 required + favicon-16/32/48 + og-image) | 16 files | 16/16 HTTP 200, sha256 = catalogue = `public/assets/brand`, OCR ≤ 3 chars, 0 concentric pairs | 09:33Z–09:38Z | `retry-0917/agent5/asset-results.json` |
+
+GENERATED_UTC: 2026-10-21T10:35:00Z
