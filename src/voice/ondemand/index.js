@@ -177,6 +177,14 @@ export function installOndemandVoice({
       layers: readLayers(dataManager),
     }),
     toolsCatalogue: () => transport.tools(),
+    getPluginIds: () => {
+      try {
+        const ids = win.__odPlugins?.getSelectedPluginIds?.();
+        return Array.isArray(ids) ? ids.slice(0, 4) : [];
+      } catch {
+        return [];
+      }
+    },
     ...pipelineOptions,
   });
 

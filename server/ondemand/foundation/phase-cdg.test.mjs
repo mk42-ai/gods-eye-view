@@ -183,6 +183,65 @@ describe('orchestrator', () => {
     await investigate({ client, store }, { externalUserId: 'u1', question: 'again', objectContext: { objectType: 'earthquake', objectId: 'us1' } });
     assert.equal(calls.filter((c) => c[0] === 'create').length, 3);
   });
+  test('investigate() enforces deadline budget: plugin timeout returns status timeout and synthesis still produced', async () => {
+    let n = 0;
+    const client = {
+      sessions: { create: async () => ({ id: `${++n}`.padStart(24, '0') }) },
+      query: {
+        sync: async (sid, input, options) => {
+          if (input.fulfillmentOnly) {
+            return {
+              data: {
+                messageId: 'synth-1',
+                answer: JSON.stringify({
+                  summary: 'Synthesised from available sources despite timeout',
+                  claims: [{ text: 'Known fact', status: 'confirmed', sources: ['https://example.com'] }],
+                  entities: [],
+                  relationships: [],
+                }),
+              },
+            };
+          }
+          // internet_web_search succeeds fast
+          if (input.pluginIds?.[0] === 'plugin-1713924030') {
+            return { data: { messageId: 'm1', answer: 'Quick fact https://example.com' } };
+          }
+          // other plugin hangs until aborted by the budget signal
+          return new Promise((resolve, reject) => {
+            const onAbort = () => {
+              const err = new Error('ondemand_timeout');
+              err.name = 'OnDemandAbortError';
+              err.reason = 'timeout';
+              err.status = 504;
+              reject(err);
+            };
+            if (options?.signal?.aborted) return onAbort();
+            options?.signal?.addEventListener?.('abort', onAbort, { once: true });
+          });
+        },
+      },
+    };
+    const store = createConversationStore({ backend: 'memory' });
+    const tStart = Date.now();
+    const report = await investigate(
+      { client, store },
+      {
+        externalUserId: 'u1',
+        question: 'what happened?',
+        objectContext: { objectType: 'earthquake', objectId: 'us-slow' },
+        budgetMs: 400,
+      },
+    );
+    const duration = Date.now() - tStart;
+    assert.ok(duration < 1500, `Investigation took ${duration}ms, expected under 1500ms`);
+    assert.ok(report.sources.length >= 2);
+    const timedOut = report.sources.find((s) => s.contract === 'x_search');
+    assert.ok(timedOut, 'x_search should be present');
+    assert.equal(timedOut.status, 'timeout');
+    assert.equal(timedOut.error, 'retrieval_timeout');
+    assert.equal(report.sources.find((s) => s.contract === 'internet_web_search')?.status, 'ok');
+    assert.equal(report.synthesis?.summary, 'Synthesised from available sources despite timeout');
+  });
 });
 
 describe('proxy-route v2 — Phase C/E/G surfaces', () => {

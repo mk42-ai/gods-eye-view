@@ -145,6 +145,26 @@ test('serverless alias: /api/voice/health answers 200 with voice health shape', 
   );
 });
 
+test('liveness alias: GET /api/health answers with the foundation health payload', async () => {
+  const api = await apiPromise;
+  const res = mockRes();
+  await api.handle(mockReq('/api/health'), res);
+  assert.equal(res.statusCode, 200);
+  const body = JSON.parse(res.body);
+  assert.equal(body.ok, true);
+  assert.equal(body.keySource, 'server');
+  assert.equal(typeof body.contracts, 'number');
+  const keySourceHeader = Object.keys(res.headers).find(
+    (h) => h.toLowerCase() === 'x-ondemand-key-source',
+  );
+  assert.equal(res.headers[keySourceHeader], 'server');
+
+  // Only GET/HEAD are aliased — a POST still hits the not-found layer.
+  const post = mockRes();
+  await api.handle(mockReq('/api/health', { method: 'POST' }), post);
+  assert.equal(post.statusCode, 404);
+});
+
 test('key setup is never mounted: /api/setup/status falls through to the not-found layer', async () => {
   const api = await apiPromise;
   const res = mockRes();

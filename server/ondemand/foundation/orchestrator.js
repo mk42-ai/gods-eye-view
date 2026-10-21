@@ -29,6 +29,7 @@ import {
   combineObjects,
 } from './intelligence-object.js';
 import { wrapUntrusted, flagInjection, sanitizeUntrusted } from './guards.js';
+import { linkedSignal } from './client.js';
 
 /** Object type → preferred research contracts (names from contracts.js). */
 export const RETRIEVAL_PLAN = Object.freeze({
@@ -137,6 +138,7 @@ async function runPlugin({
         }
       : `global#${contract.name}`,
   );
+  const link = linkedSignal(signal, timeoutMs);
   try {
     let conv = await store.get(externalUserId, ctxKey);
     if (!conv?.sessionId) {
@@ -165,7 +167,7 @@ async function runPlugin({
         fulfillmentOnly: false,
         reasoningEffort: 'low',
       },
-      { signal, timeoutMs },
+      { signal: link.signal, timeoutMs },
     );
     await store.touch(externalUserId, ctxKey);
     const answer = out?.data?.answer ?? '';
@@ -189,13 +191,19 @@ async function runPlugin({
       object: obj,
     };
   } catch (err) {
+    const isTimeout =
+      link.timedOut() ||
+      (err?.name === 'OnDemandAbortError' && err?.reason === 'timeout') ||
+      err?.status === 504 ||
+      /timeout/i.test(err?.message || '');
     return {
       contract: contract.name,
       pluginId: contract.pluginId,
-      status: 'error',
+      status: isTimeout ? 'timeout' : 'error',
       ms: Date.now() - started,
-      error:
-        err?.name === 'OnDemandHttpError'
+      error: isTimeout
+        ? 'retrieval_timeout'
+        : err?.name === 'OnDemandHttpError'
           ? `upstream_${err.status}`
           : err?.message || 'error',
       upstream:
@@ -203,6 +211,8 @@ async function runPlugin({
           ? err.upstream.message
           : undefined,
     };
+  } finally {
+    link.cleanup();
   }
 }
 
@@ -230,11 +240,15 @@ async function runTool({ contract, objectContext, toolInvoker }) {
       }),
     };
   } catch (err) {
+    const isTimeout =
+      (err?.name === 'OnDemandAbortError' && err?.reason === 'timeout') ||
+      err?.status === 504 ||
+      /timeout/i.test(err?.message || '');
     return {
       contract: contract.name,
-      status: 'error',
+      status: isTimeout ? 'timeout' : 'error',
       ms: Date.now() - started,
-      error: err?.message || 'error',
+      error: isTimeout ? 'retrieval_timeout' : err?.message || 'error',
     };
   }
 }
@@ -383,6 +397,16 @@ export async function investigate(deps, input) {
   const objectContext = input.objectContext
     ? sanitizeUntrusted(input.objectContext)
     : undefined;
+  const envBudget = Number(process.env.ONDEMAND_INVESTIGATE_BUDGET_MS);
+  const budgetMs =
+    Number.isFinite(envBudget) && envBudget > 0
+      ? envBudget
+      : (input.budgetMs ?? 50_000);
+  const configuredTimeout = input.timeoutMs ?? budgetMs;
+  const pluginTimeoutMs = Math.min(
+    configuredTimeout,
+    Math.floor(budgetMs * 0.6),
+  );
   const plan = planRetrieval(objectContext, {
     maxPlugins: input.maxPlugins ?? 2,
     pluginIds: input.pluginIds,
@@ -398,7 +422,7 @@ export async function investigate(deps, input) {
       question: input.question,
       endpointId,
       signal: input.signal,
-      timeoutMs: input.timeoutMs ?? 90_000,
+      timeoutMs: pluginTimeoutMs,
     }),
   );
   const toolRuns = plan.tools.map((t) =>
@@ -408,7 +432,22 @@ export async function investigate(deps, input) {
       toolInvoker,
     }),
   );
-  const results = await Promise.all([...pluginRuns, ...toolRuns]);
+  const results = (await Promise.allSettled([...pluginRuns, ...toolRuns])).map(
+    (settled) => {
+      if (settled.status === 'fulfilled') return settled.value;
+      const err = settled.reason;
+      const isTimeout =
+        (err?.name === 'OnDemandAbortError' && err?.reason === 'timeout') ||
+        err?.status === 504 ||
+        /timeout/i.test(err?.message || '');
+      return {
+        contract: 'unknown',
+        status: isTimeout ? 'timeout' : 'error',
+        ms: 0,
+        error: isTimeout ? 'retrieval_timeout' : err?.message || 'error',
+      };
+    },
+  );
   const retrievalMs = Date.now() - t0;
 
   const combined = combineObjects(
@@ -420,6 +459,12 @@ export async function investigate(deps, input) {
   let synthesisMs = 0;
   let synthesisError = null;
   const t1 = Date.now();
+  const elapsedMs = t1 - t0;
+  const remainingBudgetMs = budgetMs - elapsedMs;
+  const synthesisTimeoutMs = Math.max(1000, remainingBudgetMs - 3000);
+  const reasoningEffort =
+    remainingBudgetMs < 20_000 ? 'low' : input.reasoningEffort || 'medium';
+  const synthLink = linkedSignal(input.signal, synthesisTimeoutMs);
   try {
     const ctxKey = objectContextKey(
       objectContext
@@ -446,9 +491,9 @@ export async function investigate(deps, input) {
         endpointId,
         responseMode: 'sync',
         fulfillmentOnly: true,
-        reasoningEffort: input.reasoningEffort || 'medium',
+        reasoningEffort,
       },
-      { signal: input.signal, timeoutMs: input.timeoutMs ?? 90_000 },
+      { signal: synthLink.signal, timeoutMs: synthesisTimeoutMs },
     );
     await store.touch(input.externalUserId, ctxKey);
     synthesis = {
@@ -457,10 +502,18 @@ export async function investigate(deps, input) {
       messageId: out?.data?.messageId,
     };
   } catch (err) {
-    synthesisError =
-      err?.name === 'OnDemandHttpError'
+    const isTimeout =
+      synthLink.timedOut() ||
+      (err?.name === 'OnDemandAbortError' && err?.reason === 'timeout') ||
+      err?.status === 504 ||
+      /timeout/i.test(err?.message || '');
+    synthesisError = isTimeout
+      ? 'synthesis_timeout'
+      : err?.name === 'OnDemandHttpError'
         ? `upstream_${err.status}`
         : err?.message || 'error';
+  } finally {
+    synthLink.cleanup();
   }
   synthesisMs = Date.now() - t1;
 

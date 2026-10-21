@@ -208,6 +208,28 @@ async function createServerlessApi({ serverlessMode: explicitMode } = {}) {
     next();
   });
 
+  // Liveness alias (2026-10-21): GET/HEAD /api/health -> /api/ondemand/v2/health.
+  // Sandbox/preview orchestration and uptime probes expect a top-level
+  // `/api/health`; the authoritative payload is the foundation health route
+  // (server key source, contracts, workflow id validity, guards), so this is a
+  // pure URL rewrite — no second health implementation, no extra function.
+  // Root-mounted on purpose: a path-mounted layer gets its mount prefix
+  // re-attached by the router when it calls next(), which would undo the
+  // rewrite (see router.js "req.url is restored").
+  router.use((req, res, next) => {
+    const method = req.method || 'GET';
+    if (
+      (method === 'GET' || method === 'HEAD') &&
+      /^\/api\/health(?:\?|$)/.test(req.url || '')
+    ) {
+      const query = req.url.includes('?')
+        ? req.url.slice(req.url.indexOf('?'))
+        : '';
+      req.url = '/api/ondemand/v2/health' + query;
+    }
+    next();
+  });
+
   // Phase B foundation (2026-10-20): /api/ondemand/v2/* — server-key-only
   // proxy with object-context conversations, SSE relay and contracts
   // (server/ondemand/foundation/proxy-route.js). Mounted BEFORE the provider

@@ -738,9 +738,20 @@ export function createFoundationHandler(deps = {}) {
               objectContext,
               pluginIds,
               maxPlugins: Math.min(
-                Math.max(Number(body.maxPlugins) || 2, 1),
+                Math.max(
+                  Number.isFinite(Number(body.maxPlugins)) &&
+                    Number(body.maxPlugins) > 0
+                    ? Number(body.maxPlugins)
+                    : 1,
+                  1,
+                ),
                 4,
               ),
+              budgetMs:
+                Number.isFinite(Number(body.budgetMs)) &&
+                Number(body.budgetMs) > 0
+                  ? Number(body.budgetMs)
+                  : undefined,
               endpointId:
                 typeof body.endpointId === 'string'
                   ? body.endpointId

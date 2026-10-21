@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createOdVoiceUi, bindOdVoiceUi, placeBesideGevMic } from './ui.js';
+import { installOndemandVoice } from './index.js';
 
 /** Minimal element good enough for ui.js (no innerHTML parsing: the template markup is pre-built). */
 function el(doc, tag, { id = '', className = '' } = {}) {
@@ -285,3 +286,63 @@ test('bindOdVoiceUi mirrors pipeline events: state chip, detail, transcript/answ
   ui.button.click();
   assert.equal(pipeline.presses, 1, 'unbound');
 });
+
+test('installOndemandVoice wires plugin selection from win.__odPlugins to transport.voiceTurn', async () => {
+  const { doc } = makeDoc();
+  const capturedCalls = [];
+  const fakeTransport = {
+    hasKey: () => true,
+    health: () => Promise.resolve({ ok: true }),
+    tools: () => [],
+    voiceTurn: async (args) => {
+      capturedCalls.push(args);
+      return {
+        answer: 'Hello with plugins',
+        transcript: args.transcript,
+        route: 'chat',
+      };
+    },
+  };
+  const win = {
+    __odPlugins: {
+      getSelectedPluginIds: () => [
+        'plugin-1',
+        'plugin-2',
+        'plugin-3',
+        'plugin-4',
+        'plugin-5',
+      ],
+    },
+  };
+  const fakeRecorder = {
+    start: async () => {},
+    stop: async () => {},
+    cancel: () => {},
+  };
+  const fakePlayer = {
+    play: async () => {},
+    stop: () => {},
+    pause: () => {},
+  };
+  const api = installOndemandVoice({
+    doc,
+    win,
+    transport: fakeTransport,
+    recorder: fakeRecorder,
+    player: fakePlayer,
+  });
+
+  try {
+    await api.submitText('Test with plugins');
+    assert.equal(capturedCalls.length, 1);
+    assert.deepEqual(capturedCalls[0].pluginIds, [
+      'plugin-1',
+      'plugin-2',
+      'plugin-3',
+      'plugin-4',
+    ]);
+  } finally {
+    api.dispose();
+  }
+});
+

@@ -1291,6 +1291,9 @@ export function createMiniChat(deps = {}) {
       return report;
     } catch (error) {
       const aborted = error?.name === 'AbortError';
+      const msg = String(error?.message || error || '');
+      const isTimeoutOr504 =
+        msg.includes('504') || /timeout|timed out|budget/i.test(msg);
       renderAnswer(
         card.node,
         aborted
@@ -1299,6 +1302,12 @@ export function createMiniChat(deps = {}) {
         document,
       );
       card.node.classList.add('od-chat__msg--error');
+      if (!aborted && isTimeoutOr504) {
+        showEmptyState(
+          'source-unavailable',
+          'Investigation exceeded the time budget — try fewer sources',
+        );
+      }
       setStatus(aborted ? 'CANCELLED' : 'INVESTIGATION FAILED');
       renderDevDetails();
       return null;

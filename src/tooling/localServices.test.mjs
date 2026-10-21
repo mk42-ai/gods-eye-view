@@ -18,7 +18,7 @@ import {
 } from 'ondemand-spatial/server/providers/regional';
 import { keySetupEndpoint } from 'ondemand-spatial/server/standalone/key-setup';
 // OpenAI Realtime provider retired 2026-10-21 — voice is served by
-// /api/ondemand/v2/voice/turn (server/ondemand/foundation/voice-route.js).
+// /api/ondemand/v2/voice/turn (the foundation voice route: voice-route.js).
 
 function install(plugin, preview = false) {
   const routes = new Map();
