@@ -1,0 +1,308 @@
+{
+  "startedAt": "2026-10-21T08:00:56.701Z",
+  "endedAt": "2026-10-21T08:01:22.683Z",
+  "baseUrl": "https://sb-72vtzc1c6cf8.vercel.run",
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "byViewport": {
+      "1440x900": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0
+      },
+      "390x844": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "id": "A",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "app_boots",
+          "pass": true,
+          "detail": "Loading screen hidden or globe canvas active"
+        },
+        {
+          "name": "title_contains_product_name",
+          "pass": true,
+          "detail": "document.title=\"OnDemand Intelligence Workstation\""
+        },
+        {
+          "name": "no_legacy_brand_terms",
+          "pass": true,
+          "detail": "No forbidden terms visible"
+        },
+        {
+          "name": "brand_mark_present",
+          "pass": true,
+          "detail": "Found 2 [data-brand-mark] element(s)"
+        },
+        {
+          "name": "foundation_health_200",
+          "pass": true,
+          "detail": "status 200, ok=true, keySource=server"
+        },
+        {
+          "name": "foundation_contracts_min_13",
+          "pass": true,
+          "detail": "status 200, 33 contracts"
+        }
+      ],
+      "durationMs": 1319,
+      "screenshot": "A-1440x900.png",
+      "startedAt": "2026-10-21T08:01:01.357Z",
+      "endedAt": "2026-10-21T08:01:02.676Z"
+    },
+    {
+      "id": "B",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "mini_chat_opens_earthquake",
+          "pass": true,
+          "detail": "Mini chat opened with data-open=\"true\""
+        },
+        {
+          "name": "status_streaming_and_stop_visible",
+          "pass": true,
+          "detail": "streamingStatusSeen=true, stopButtonSeen=true"
+        },
+        {
+          "name": "assistant_message_and_settle",
+          "pass": true,
+          "detail": "settled within 90s, assistant message chars: 83"
+        },
+        {
+          "name": "key_source_server_header",
+          "pass": true,
+          "detail": "x-ondemand-key-source header: \"server\""
+        },
+        {
+          "name": "no_client_api_key_in_localstorage",
+          "pass": true,
+          "detail": "localStorage ondemand.apiKey is null"
+        }
+      ],
+      "durationMs": 5992,
+      "screenshot": "B-1440x900.png",
+      "startedAt": "2026-10-21T08:01:03.173Z",
+      "endedAt": "2026-10-21T08:01:09.165Z"
+    },
+    {
+      "id": "A",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "app_boots",
+          "pass": true,
+          "detail": "Loading screen hidden or globe canvas active"
+        },
+        {
+          "name": "title_contains_product_name",
+          "pass": true,
+          "detail": "document.title=\"OnDemand Intelligence Workstation\""
+        },
+        {
+          "name": "no_legacy_brand_terms",
+          "pass": true,
+          "detail": "No forbidden terms visible"
+        },
+        {
+          "name": "brand_mark_present",
+          "pass": true,
+          "detail": "Found 2 [data-brand-mark] element(s)"
+        },
+        {
+          "name": "foundation_health_200",
+          "pass": true,
+          "detail": "status 200, ok=true, keySource=server"
+        },
+        {
+          "name": "foundation_contracts_min_13",
+          "pass": true,
+          "detail": "status 200, 33 contracts"
+        }
+      ],
+      "durationMs": 194,
+      "screenshot": "A-390x844.png",
+      "startedAt": "2026-10-21T08:01:13.963Z",
+      "endedAt": "2026-10-21T08:01:14.156Z"
+    },
+    {
+      "id": "B",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "mini_chat_opens_earthquake",
+          "pass": true,
+          "detail": "Mini chat opened with data-open=\"true\""
+        },
+        {
+          "name": "status_streaming_and_stop_visible",
+          "pass": true,
+          "detail": "streamingStatusSeen=true, stopButtonSeen=true"
+        },
+        {
+          "name": "assistant_message_and_settle",
+          "pass": true,
+          "detail": "settled within 90s, assistant message chars: 164"
+        },
+        {
+          "name": "key_source_server_header",
+          "pass": true,
+          "detail": "x-ondemand-key-source header: \"server\""
+        },
+        {
+          "name": "no_client_api_key_in_localstorage",
+          "pass": true,
+          "detail": "localStorage ondemand.apiKey is null"
+        }
+      ],
+      "durationMs": 6022,
+      "screenshot": "B-390x844.png",
+      "startedAt": "2026-10-21T08:01:16.419Z",
+      "endedAt": "2026-10-21T08:01:22.441Z"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:01:00.514Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:01:03.201Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:01:11.794Z"
+    }
+  ],
+  "failedRequests": [
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T08:01:00.514Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T08:01:00.544Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtox7u-e6b35550&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "atUtc": "2026-10-21T08:01:03.201Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T08:01:11.794Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T08:01:11.808Z"
+    }
+  ],
+  "ondemandCalls": [
+    {
+      "atUtc": "2026-10-21T08:01:00.514Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 1329,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:01:03.201Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtox7u-e6b35550&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 404,
+      "ms": 2,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:01:03.733Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 3062,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:01:03.897Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 682,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:01:10.286Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 3663,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:01:11.794Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 83,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:01:16.700Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtox7u-e6b35550&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 200,
+      "ms": 271,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:01:16.903Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 412,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:01:17.003Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 3807,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:01:20.316Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 3045,
+      "keySource": "server"
+    }
+  ]
+}

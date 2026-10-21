@@ -56,7 +56,24 @@ export function isValidKeyOverride(value) {
  *   `rejected` is true when a header WAS present but failed validation, so a
  *   handler can answer 400 instead of silently falling back to the server key.
  */
+export const CLIENT_KEY_FLAG = 'ONDEMAND_ALLOW_CLIENT_KEY';
+
+/**
+ * Dev-only gate for the legacy browser-held key (added 2026-10-20, Phase B
+ * foundation): the per-request `x-ondemand-key` override is honoured ONLY
+ * when `ONDEMAND_ALLOW_CLIENT_KEY=1` is set on the server. In every other
+ * deployment the header is ignored and the server key is used, so a client
+ * never needs to hold a key (docs/agent-execution/MASTER_STATE.md "Key
+ * handling"). Env is read per call so tests can toggle it.
+ */
+export function clientKeyAllowed(env = process.env) {
+  return env[CLIENT_KEY_FLAG] === '1' || env[CLIENT_KEY_FLAG] === 'true';
+}
+
 export function resolveRequestKey(req) {
+  if (!clientKeyAllowed()) {
+    return { apiKeyOverride: undefined, source: 'server', rejected: false };
+  }
   const raw = req?.headers?.[KEY_OVERRIDE_HEADER];
   const value = Array.isArray(raw) ? raw[0] : raw;
   if (value === undefined || value === null || value === '') {

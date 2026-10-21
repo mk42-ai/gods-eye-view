@@ -82,7 +82,10 @@ function immediateTimers() {
 }
 
 test('readStoredKey / keyHeaders: header only when a key is stored (trimmed), never otherwise', () => {
-  assert.equal(readStoredKey(memoryStorage({ 'ondemand.apiKey': `  ${SECRET} ` })), SECRET);
+  assert.equal(
+    readStoredKey(memoryStorage({ 'ondemand.apiKey': `  ${SECRET} ` })),
+    SECRET,
+  );
   assert.equal(readStoredKey(memoryStorage()), '');
   assert.equal(readStoredKey(null), '');
   assert.equal(
@@ -99,13 +102,22 @@ test('readStoredKey / keyHeaders: header only when a key is stored (trimmed), ne
 });
 
 test('voiceUserId is the per-day id the spec names', () => {
-  assert.equal(voiceUserId(() => Date.UTC(2026, 8, 18, 12)), 'ondemand-spatial-voice-2026-09-18');
+  assert.equal(
+    voiceUserId(() => Date.UTC(2026, 8, 18, 12)),
+    'ondemand-spatial-voice-2026-09-18',
+  );
 });
 
 test('STT request shape: multipart media upload {file,name,sessionId,plugins,sizeBytes,responseMode} then JSON {audioUrl}; key header on both', async () => {
   const fetch = fakeFetch([
-    json(201, { message: 'Media Created', data: { id: 'file-1', url: 'https://cdn.example/utt.webm' } }),
-    json(200, { message: 'ok', data: { text: '  show military flights near me ' } }),
+    json(201, {
+      message: 'Media Created',
+      data: { id: 'file-1', url: 'https://cdn.example/utt.webm' },
+    }),
+    json(200, {
+      message: 'ok',
+      data: { text: '  show military flights near me ' },
+    }),
   ]);
   const transport = createTransport({
     fetch,
@@ -121,7 +133,11 @@ test('STT request shape: multipart media upload {file,name,sessionId,plugins,siz
   assert.equal(upload.url, PATHS.media);
   assert.equal(upload.method, 'POST');
   assert.ok(upload.body instanceof FormData);
-  assert.equal(upload.headers['Content-Type'], undefined, 'browser sets the multipart boundary');
+  assert.equal(
+    upload.headers['Content-Type'],
+    undefined,
+    'browser sets the multipart boundary',
+  );
   assert.equal(upload.headers[KEY_HEADER], SECRET);
   const file = upload.body.get('file');
   assert.ok(file && typeof file.arrayBuffer === 'function');
@@ -136,7 +152,9 @@ test('STT request shape: multipart media upload {file,name,sessionId,plugins,siz
   assert.equal(stt.method, 'POST');
   assert.equal(stt.headers['Content-Type'], 'application/json');
   assert.equal(stt.headers[KEY_HEADER], SECRET);
-  assert.deepEqual(JSON.parse(stt.body), { audioUrl: 'https://cdn.example/utt.webm' });
+  assert.deepEqual(JSON.parse(stt.body), {
+    audioUrl: 'https://cdn.example/utt.webm',
+  });
 });
 
 test('no stored key → no x-ondemand-key header on any call', async () => {
@@ -159,9 +177,17 @@ test('session + chat stream: POST {sessionId, query, responseMode:"stream"}; ful
     'event:message\ndata:{"sessionId":"s1","messageId":"m1","eventIndex":5,"eventType":"metricsLog","publicMetrics":{"totalTimeSec":1.2}}\n\n',
     'event:message\ndata:[DONE]\n\n',
   ];
-  const fetch = fakeFetch([json(201, { sessionId: 'sess-9', reused: false }), sse(frames)]);
-  const transport = createTransport({ fetch, storage: memoryStorage({ 'ondemand.apiKey': SECRET }) });
-  const session = await transport.createSession({ userId: 'ondemand-spatial-voice-2026-09-18' });
+  const fetch = fakeFetch([
+    json(201, { sessionId: 'sess-9', reused: false }),
+    sse(frames),
+  ]);
+  const transport = createTransport({
+    fetch,
+    storage: memoryStorage({ 'ondemand.apiKey': SECRET }),
+  });
+  const session = await transport.createSession({
+    userId: 'ondemand-spatial-voice-2026-09-18',
+  });
   assert.equal(session.sessionId, 'sess-9');
   const deltas = [];
   const statuses = [];
@@ -175,14 +201,22 @@ test('session + chat stream: POST {sessionId, query, responseMode:"stream"}; ful
   assert.equal(answer.messageId, 'm1');
   assert.equal(answer.streamed, true);
   assert.deepEqual(answer.metrics, { totalTimeSec: 1.2 });
-  assert.deepEqual(answer.statusLogs.map((s) => s.statusType), ['fulfilling']);
+  assert.deepEqual(
+    answer.statusLogs.map((s) => s.statusType),
+    ['fulfilling'],
+  );
   assert.deepEqual(statuses, ['fulfilling']);
-  assert.deepEqual(deltas.map((d) => d[1]), ['Two', ' tracks.', ' military']);
+  assert.deepEqual(
+    deltas.map((d) => d[1]),
+    ['Two', ' tracks.', ' military'],
+  );
   assert.equal(deltas[deltas.length - 1][0], 'Two military tracks.');
 
   const [sessions, chat] = fetch.calls;
   assert.equal(sessions.url, PATHS.sessions);
-  assert.deepEqual(JSON.parse(sessions.body), { userId: 'ondemand-spatial-voice-2026-09-18' });
+  assert.deepEqual(JSON.parse(sessions.body), {
+    userId: 'ondemand-spatial-voice-2026-09-18',
+  });
   assert.equal(chat.url, PATHS.chat);
   assert.equal(chat.method, 'POST');
   assert.equal(chat.headers.Accept, 'text/event-stream');
@@ -196,18 +230,25 @@ test('session + chat stream: POST {sessionId, query, responseMode:"stream"}; ful
 
 test('chat stream [ERROR]: frame throws a TransportError with the upstream message', async () => {
   const fetch = fakeFetch([
-    sse(['event:message\ndata:[ERROR]:{"message":"Model context length exceeded","errorCode":"context_length_exceeded"}\n\n']),
+    sse([
+      'event:message\ndata:[ERROR]:{"message":"Model context length exceeded","errorCode":"context_length_exceeded"}\n\n',
+    ]),
   ]);
   const transport = createTransport({ fetch });
   await assert.rejects(
     transport.chatStream({ sessionId: 's', query: 'q' }),
-    (error) => error instanceof TransportError && /context length exceeded/.test(error.message),
+    (error) =>
+      error instanceof TransportError &&
+      /context length exceeded/.test(error.message),
   );
 });
 
 test('proxy errors map to TransportError with status/code; 501/503/404 are "unavailable"', async () => {
   const fetch = fakeFetch([
-    json(503, { error: 'not_configured', message: 'ONDEMAND_API_KEY is not set on the server.' }),
+    json(503, {
+      error: 'not_configured',
+      message: 'ONDEMAND_API_KEY is not set on the server.',
+    }),
     json(501, { error: 'not_documented', feature: 'stt raw-audio upload' }),
     json(400, { error: 'endpointId_required', message: 'No endpointId…' }),
   ]);
@@ -245,10 +286,19 @@ test('proxy errors map to TransportError with status/code; 501/503/404 are "unav
 test('TTS request shape: POST /api/ondemand/tts?format=audio {input, voice}; audio bytes → Blob (octet-stream re-typed as audio/mpeg); JSON envelope → hosted url', async () => {
   const bytes = new Uint8Array([0xff, 0xfb, 0x90, 0x00]);
   const fetch = fakeFetch([
-    new Response(bytes, { status: 200, headers: { 'content-type': 'application/octet-stream' } }),
-    json(200, { message: 'ok', data: { audioUrl: 'https://cdn.example/answer.mp3' } }),
+    new Response(bytes, {
+      status: 200,
+      headers: { 'content-type': 'application/octet-stream' },
+    }),
+    json(200, {
+      message: 'ok',
+      data: { audioUrl: 'https://cdn.example/answer.mp3' },
+    }),
   ]);
-  const transport = createTransport({ fetch, storage: memoryStorage({ 'ondemand.apiKey': SECRET }) });
+  const transport = createTransport({
+    fetch,
+    storage: memoryStorage({ 'ondemand.apiKey': SECRET }),
+  });
   const spoken = await transport.synthesize('Military flights layer on.');
   assert.equal(spoken.kind, 'blob');
   assert.equal(spoken.blob.type, 'audio/mpeg');
@@ -258,11 +308,20 @@ test('TTS request shape: POST /api/ondemand/tts?format=audio {input, voice}; aud
   assert.equal(call.method, 'POST');
   assert.match(call.headers.Accept, /^audio\/mpeg/);
   assert.equal(call.headers[KEY_HEADER], SECRET);
-  assert.deepEqual(JSON.parse(call.body), { input: 'Military flights layer on.', voice: 'alloy' });
+  assert.deepEqual(JSON.parse(call.body), {
+    input: 'Military flights layer on.',
+    voice: 'alloy',
+  });
 
   const hosted = await transport.synthesize('again', { voice: 'nova' });
-  assert.deepEqual({ kind: hosted.kind, url: hosted.url }, { kind: 'url', url: 'https://cdn.example/answer.mp3' });
-  assert.deepEqual(JSON.parse(fetch.calls[1].body), { input: 'again', voice: 'nova' });
+  assert.deepEqual(
+    { kind: hosted.kind, url: hosted.url },
+    { kind: 'url', url: 'https://cdn.example/answer.mp3' },
+  );
+  assert.deepEqual(JSON.parse(fetch.calls[1].body), {
+    input: 'again',
+    voice: 'nova',
+  });
   await assert.rejects(transport.synthesize(''), /nothing to speak/);
 });
 
@@ -273,7 +332,11 @@ test('workflow: execute is input-less (POST /api/ondemand/workflow/execute {}), 
     message: 'One anomalous military track verified north of the airport.',
     entities: [],
     actions: [
-      { name: 'set_layer_visibility', params: { layerId: 'military', enabled: true }, reason: 'needed' },
+      {
+        name: 'set_layer_visibility',
+        params: { layerId: 'military', enabled: true },
+        reason: 'needed',
+      },
       { name: 'not_a_real_action', params: {} },
       { name: 'track_entity', params: { query: 'RCH421' } },
     ],
@@ -297,7 +360,9 @@ test('workflow: execute is input-less (POST /api/ondemand/workflow/execute {}), 
     },
     () =>
       json(200, {
-        data: [{ timestamp: 1, nodeKey: 'session_context', message: 'started' }],
+        data: [
+          { timestamp: 1, nodeKey: 'session_context', message: 'started' },
+        ],
       }),
     // poll 3: success
     () => json(200, { data: { status: 'success', endedAtInMilliseconds: 99 } }),
@@ -308,7 +373,16 @@ test('workflow: execute is input-less (POST /api/ondemand/workflow/execute {}), 
           { timestamp: 2, nodeKey: 'structured_response', message: 'done' },
         ],
       }),
-    () => json(200, { data: { outputs: { structured_response: { value: '```json\n' + JSON.stringify(structured) + '\n```' } } } }),
+    () =>
+      json(200, {
+        data: {
+          outputs: {
+            structured_response: {
+              value: '```json\n' + JSON.stringify(structured) + '\n```',
+            },
+          },
+        },
+      }),
   ]);
   const transport = createTransport({
     fetch,
@@ -337,7 +411,11 @@ test('workflow: execute is input-less (POST /api/ondemand/workflow/execute {}), 
   assert.deepEqual(statuses, ['executing', 'executing', 'success']);
   assert.equal(result.message, structured.message);
   assert.deepEqual(result.mapActions, [
-    { name: 'set_layer_visibility', args: { layerId: 'military', enabled: true }, reason: 'needed' },
+    {
+      name: 'set_layer_visibility',
+      args: { layerId: 'military', enabled: true },
+      reason: 'needed',
+    },
     { name: 'track_entity', args: { query: 'RCH421' } },
   ]);
   assert.deepEqual(result.nodeKeys, ['structured_response']);
@@ -390,7 +468,10 @@ test('workflow poll: budget exhausted → status "timeout" (no outputs read); ab
     setTimeout: (fn) => queueMicrotask(fn),
     clearTimeout: () => {},
   });
-  await assert.rejects(aborting.runWorkflow({ signal: controller.signal }), (error) => error.name === 'AbortError');
+  await assert.rejects(
+    aborting.runWorkflow({ signal: controller.signal }),
+    (error) => error.name === 'AbortError',
+  );
 });
 
 test('createSseParser handles split chunks, CRLF, comments and multi-line data', () => {
@@ -408,8 +489,14 @@ test('createSseParser handles split chunks, CRLF, comments and multi-line data',
 
 test('createAnswerAccumulator orders deltas by eventIndex and exposes done', () => {
   const acc = createAnswerAccumulator();
-  acc.consume({ event: 'message', data: '{"eventType":"fulfillment","eventIndex":2,"answer":"B"}' });
-  acc.consume({ event: 'message', data: '{"eventType":"fulfillment","eventIndex":1,"answer":"A"}' });
+  acc.consume({
+    event: 'message',
+    data: '{"eventType":"fulfillment","eventIndex":2,"answer":"B"}',
+  });
+  acc.consume({
+    event: 'message',
+    data: '{"eventType":"fulfillment","eventIndex":1,"answer":"A"}',
+  });
   assert.equal(acc.done, false);
   acc.consume({ event: 'message', data: '[DONE]' });
   assert.equal(acc.text, 'AB');
@@ -440,11 +527,51 @@ test('normalizeMapActions / parseNodeValue', () => {
 });
 
 test('tools catalogue is cached and never throws; a missing route yields []', async () => {
-  const fetch = fakeFetch([json(200, { tools: [{ id: 'earthquake_search', name: 'Quakes', tools: [] }] })]);
+  const fetch = fakeFetch([
+    json(200, {
+      tools: [{ id: 'earthquake_search', name: 'Quakes', tools: [] }],
+    }),
+  ]);
   const transport = createTransport({ fetch, now: () => 0 });
   assert.equal((await transport.tools())[0].id, 'earthquake_search');
   await transport.tools();
   assert.equal(fetch.calls.length, 1);
-  const missing = createTransport({ fetch: fakeFetch([json(404, { error: 'Unknown API route' })]) });
+  const missing = createTransport({
+    fetch: fakeFetch([json(404, { error: 'Unknown API route' })]),
+  });
   assert.deepEqual(await missing.tools(), []);
+});
+
+test('voiceTurn POSTs /api/ondemand/v2/voice/turn and parses SSE stream into result', async () => {
+  const sseBody = [
+    'event: turn\ndata: {"turnId":"t-1","mode":"chat"}\n\n',
+    'event: session\ndata: {"sessionId":"s-1","reused":false}\n\n',
+    'event: delta\ndata: {"text":"Hello "}\n\n',
+    'event: delta\ndata: {"text":"world"}\n\n',
+    'event: answer\ndata: {"text":"Hello world","citations":[],"confidenceBasis":"confirmed"}\n\n',
+    'event: tts\ndata: {"audioUrl":"https://audio.example/1.mp3","ms":120}\n\n',
+    'event: done\ndata: {"turnId":"t-1","metrics":{"sttMs":0,"chatMs":50,"ttsMs":120,"totalMs":170}}\n\n',
+  ].join('');
+
+  const fetch = fakeFetch([
+    new Response(sseBody, {
+      status: 200,
+      headers: { 'content-type': 'text/event-stream' },
+    }),
+  ]);
+
+  const transport = createTransport({ fetch });
+  const events = [];
+  const res = await transport.voiceTurn({
+    externalUserId: 'test-user',
+    transcript: 'hello',
+    onEvent: (e) => events.push(e),
+  });
+
+  assert.equal(fetch.calls[0].url, '/api/ondemand/v2/voice/turn');
+  assert.equal(res.transcript, 'hello');
+  assert.equal(res.answer, 'Hello world');
+  assert.equal(res.audioUrl, 'https://audio.example/1.mp3');
+  assert.equal(res.metrics.totalMs, 170);
+  assert.ok(events.length >= 6);
 });

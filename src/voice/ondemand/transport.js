@@ -39,6 +39,8 @@ export const PATHS = Object.freeze({
   workflowExecute: '/api/ondemand/workflow/execute',
   health: '/api/ondemand/health',
   tools: '/api/tools',
+  voiceTurn: '/api/ondemand/v2/voice/turn',
+  voiceHealth: '/api/ondemand/v2/voice/health',
 });
 export const WORKFLOW_POLL = Object.freeze({
   timeoutMs: 90_000,
@@ -768,6 +770,126 @@ export function createTransport({
     return requestJson(PATHS.health, { signal });
   }
 
+  /**
+   * POST /api/ondemand/v2/voice/turn and stream SSE events.
+   * Resolves {transcript, answer, audioUrl, citations, provenance, metrics, workflow}.
+   */
+  async function voiceTurn({
+    externalUserId,
+    audioUrl,
+    transcript,
+    objectContext,
+    pluginIds,
+    mode = 'chat',
+    tts = true,
+    voice = 'alloy',
+    signal,
+    onEvent,
+  } = {}) {
+    const body = {
+      externalUserId: externalUserId || voiceUserId(now),
+      mode,
+      tts,
+      voice,
+    };
+    if (audioUrl) body.audioUrl = audioUrl;
+    if (transcript) body.transcript = transcript;
+    if (objectContext) body.objectContext = objectContext;
+    if (Array.isArray(pluginIds)) body.pluginIds = pluginIds;
+
+    const response = await request(PATHS.voiceTurn, {
+      method: 'POST',
+      json: body,
+      headers: { Accept: 'text/event-stream' },
+      signal,
+    });
+
+    const parser = createSseParser();
+    let resTranscript = transcript || '';
+    let resAnswer = '';
+    let resAudioUrl = null;
+    let resCitations = [];
+    let resProvenance = null;
+    let resMetrics = null;
+    let resWorkflow = null;
+
+    const handleFrame = ({ event, data }) => {
+      let parsed = data;
+      if (typeof data === 'string') {
+        try {
+          parsed = JSON.parse(data);
+        } catch {
+          parsed = data;
+        }
+      }
+      onEvent?.({ event, data: parsed });
+
+      switch (event) {
+        case 'transcript':
+          if (parsed?.text) resTranscript = parsed.text;
+          break;
+        case 'delta':
+          if (parsed?.text) resAnswer += parsed.text;
+          break;
+        case 'answer':
+          if (parsed?.text) resAnswer = parsed.text;
+          if (parsed?.citations) resCitations = parsed.citations;
+          if (parsed?.provenance) resProvenance = parsed.provenance;
+          break;
+        case 'tts':
+          if (parsed?.audioUrl) resAudioUrl = parsed.audioUrl;
+          break;
+        case 'workflow':
+          resWorkflow = parsed;
+          break;
+        case 'done':
+          if (parsed?.metrics) resMetrics = parsed.metrics;
+          break;
+        case 'error':
+          throw new TransportError(parsed?.message || 'voice turn failed', {
+            status: 502,
+            code: parsed?.code || 'voice_turn_error',
+            payload: parsed,
+            path: PATHS.voiceTurn,
+          });
+      }
+    };
+
+    if (response.body?.getReader) {
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      try {
+        for (;;) {
+          if (signal?.aborted) throw abortError();
+          const { value, done } = await reader.read();
+          if (done) break;
+          const frames = parser.push(decoder.decode(value, { stream: true }));
+          for (const f of frames) handleFrame(f);
+        }
+      } finally {
+        try {
+          reader.releaseLock();
+        } catch {}
+      }
+    } else {
+      const text = await response.text();
+      const frames = parser.push(text);
+      for (const f of frames) handleFrame(f);
+    }
+    const endFrames = parser.end();
+    for (const f of endFrames) handleFrame(f);
+
+    return {
+      transcript: resTranscript,
+      answer: resAnswer,
+      audioUrl: resAudioUrl,
+      citations: resCitations,
+      provenance: resProvenance,
+      metrics: resMetrics,
+      workflow: resWorkflow,
+    };
+  }
+
   return {
     request,
     requestJson,
@@ -783,6 +905,7 @@ export function createTransport({
     synthesize,
     tools,
     health,
+    voiceTurn,
     /** True when a per-browser key is present (never returns the key itself). */
     hasKey: () => readStoredKey(storage).length > 0,
   };

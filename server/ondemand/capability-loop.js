@@ -39,6 +39,7 @@ import {
   validateStructuredResponse,
   STRUCTURED_RESPONSE_KEYS,
 } from './workflow-definition.js';
+import { PRODUCT_NAME } from '../brand/productName.js';
 
 export const EXCLUDED_STATUSES = Object.freeze(['PENDING', 'rendering-only']);
 export const DEFAULT_MAX_DECISIONS = 4;
@@ -206,7 +207,7 @@ export function validateDecision(
 
 export function decisionSystemPrompt(maxDecisions) {
   return (
-    `You are the capability router of the OnDemand Spatial intelligence gateway. ` +
+    `You are the capability router of the ${PRODUCT_NAME} intelligence gateway. ` +
     `You will receive a JSON object with the analyst query, the live spatial context (viewport bbox, centre, UTC now, active layers) and a CATALOGUE of executable data capabilities (id, provider, description, params, required_params). ` +
     `Decide which capabilities (0 to ${maxDecisions}) the gateway must execute to answer the query, and with which parameters. ` +
     `Use ONLY capabilityId values that appear in the catalogue and ONLY parameter names listed for that capability; derive geographic parameters from the spatial context and time parameters from "now". ` +
@@ -217,7 +218,7 @@ export function decisionSystemPrompt(maxDecisions) {
 
 export function answerSystemPrompt() {
   return (
-    `You are the OnDemand Spatial intelligence analyst. You receive the analyst query, the spatial context, and TOOL RESULTS that the gateway executed for you (each with provenance: provider, license, fetched_at, freshness, coverage, completeness). ` +
+    `You are the ${PRODUCT_NAME} intelligence analyst. You receive the analyst query, the spatial context, and TOOL RESULTS that the gateway executed for you (each with provenance: provider, license, fetched_at, freshness, coverage, completeness). ` +
     `Answer ONLY from those results and the spatial context; never invent entities, coordinates, counts or sources. Distinguish observed values from inferences; state what could not be checked (failed or missing capabilities). ` +
     `Respond with ONE JSON object and nothing else, with EXACTLY these seven keys: ${STRUCTURED_RESPONSE_KEYS.join(', ')}. ` +
     `"message": 3–8 plain sentences quoting literal values; "entities": [{id, layerId, label, role, latitude, longitude}] taken from the results; "actions": [] or MapActions from this allow-list only: fly_to_location, set_layer_visibility, annotate_map, analyst_query, frame_overhead, track_entity (each {name, params, reason, findingIds}); "evidence": [{findingId, entityId, field, value, sourceLayer}]; "sources": one entry per tool result {id: capabilityId, kind: "capability", label: provider, status: "used"|"failed"|"empty"}; "suggestedNextActions": [{label, action|null}]; "runMeta": {"mode":"capability-loop","executed":[capabilityIds],"generatedAtUtc":<now>}.`

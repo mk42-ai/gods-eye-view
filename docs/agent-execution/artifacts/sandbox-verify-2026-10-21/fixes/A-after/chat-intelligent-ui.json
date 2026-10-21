@@ -1,0 +1,182 @@
+{
+  "startedAt": "2026-10-21T08:24:20.851Z",
+  "endedAt": "2026-10-21T08:24:41.213Z",
+  "baseUrl": "https://sb-72vtzc1c6cf8.vercel.run",
+  "summary": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0,
+    "byViewport": {
+      "1440x900": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "bootMs": 5957,
+        "loaderHidden": true
+      },
+      "390x844": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "bootMs": 5156,
+        "loaderHidden": true
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "id": "A",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "app_boots",
+          "pass": true,
+          "detail": "Loading screen hidden or globe canvas active"
+        },
+        {
+          "name": "title_contains_product_name",
+          "pass": true,
+          "detail": "document.title=\"OnDemand Intelligence Workstation\""
+        },
+        {
+          "name": "no_legacy_brand_terms",
+          "pass": true,
+          "detail": "No forbidden terms visible"
+        },
+        {
+          "name": "brand_mark_present",
+          "pass": true,
+          "detail": "Found 2 [data-brand-mark] element(s)"
+        },
+        {
+          "name": "foundation_health_200",
+          "pass": true,
+          "detail": "status 200, ok=true, keySource=server"
+        },
+        {
+          "name": "foundation_contracts_min_13",
+          "pass": true,
+          "detail": "status 200, 33 contracts"
+        }
+      ],
+      "durationMs": 235,
+      "screenshot": "A-1440x900.png",
+      "startedAt": "2026-10-21T08:24:30.972Z",
+      "endedAt": "2026-10-21T08:24:31.207Z"
+    },
+    {
+      "id": "A",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "app_boots",
+          "pass": true,
+          "detail": "Loading screen hidden or globe canvas active"
+        },
+        {
+          "name": "title_contains_product_name",
+          "pass": true,
+          "detail": "document.title=\"OnDemand Intelligence Workstation\""
+        },
+        {
+          "name": "no_legacy_brand_terms",
+          "pass": true,
+          "detail": "No forbidden terms visible"
+        },
+        {
+          "name": "brand_mark_present",
+          "pass": true,
+          "detail": "Found 2 [data-brand-mark] element(s)"
+        },
+        {
+          "name": "foundation_health_200",
+          "pass": true,
+          "detail": "status 200, ok=true, keySource=server"
+        },
+        {
+          "name": "foundation_contracts_min_13",
+          "pass": true,
+          "detail": "status 200, 33 contracts"
+        }
+      ],
+      "durationMs": 211,
+      "screenshot": "A-390x844.png",
+      "startedAt": "2026-10-21T08:24:40.765Z",
+      "endedAt": "2026-10-21T08:24:40.976Z"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:24:24.011Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:24:33.969Z"
+    }
+  ],
+  "failedRequests": [
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T08:24:24.011Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T08:24:24.017Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T08:24:33.969Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T08:24:34.017Z"
+    }
+  ],
+  "ondemandCalls": [
+    {
+      "atUtc": "2026-10-21T08:24:24.011Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 235,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:24:28.660Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 3419,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:24:33.970Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 90,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:24:39.485Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 3891,
+      "keySource": "server"
+    }
+  ]
+}

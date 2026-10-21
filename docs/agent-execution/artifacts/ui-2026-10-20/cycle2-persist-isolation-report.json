@@ -1,0 +1,52 @@
+{
+ "url": "https://sb-74qv32j82zmp.vercel.run/",
+ "ok": true,
+ "screenshots": [
+  "cycle2-persist-isolation-1440x900.png"
+ ],
+ "assertions": [
+  {
+   "kind": "http-status",
+   "target": "https://sb-74qv32j82zmp.vercel.run/",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "kind": "wait-selector",
+   "target": "#data-toggles .data-ask-btn",
+   "ok": true,
+   "detail": "appeared"
+  },
+  {
+   "kind": "eval",
+   "target": "(async()=>{const mc=window.__godsEyeView.miniChat;mc.open({objectType:'graphEdge',objectId:'acme--globex',label:'ACME \u2194 Globex'});const a=await mc.ask('Reply with exactly: EDGE-ONE');const sA=mc.getSt",
+   "ok": true,
+   "detail": "\"{\\\"aOk\\\":true,\\\"bOk\\\":true,\\\"distinct\\\":true,\\\"resumed\\\":true,\\\"hist\\\":2,\\\"hasEdge\\\":true,\\\"hasNews\\\":false,\\\"hudAsk\\\":true,\\\"briefAsk\\\":true,\\\"noKey\\\":true}\""
+  },
+  {
+   "kind": "eval",
+   "target": "window.__isoResult.aOk && window.__isoResult.bOk && window.__isoResult.distinct && window.__isoResult.resumed && window.__isoResult.hist >= 2 && window.__isoResult.hasEdge && !window.__isoResult.hasNe",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "kind": "page-rendered",
+   "target": "document.body",
+   "ok": true,
+   "detail": "innerText=1474 chars, bodyHeight=757px"
+  }
+ ],
+ "consoleErrors": [
+  "Failed to load resource: the server responded with a status of 404 () https://sb-74qv32j82zmp.vercel.run/api/setup/status",
+  "Failed to load resource: the server responded with a status of 404 () https://sb-74qv32j82zmp.vercel.run/api/ondemand/v2/messages?externalUserId=ws-default-mvhbcas0-7cb118c4&objectContextKey=graphEdge%3Aacme--globex&limit=20&sort=asc",
+  "Failed to load resource: the server responded with a status of 404 () https://sb-74qv32j82zmp.vercel.run/api/ondemand/v2/messages?externalUserId=ws-default-mvhbcas0-7cb118c4&objectContextKey=newsArticle%3An-77&limit=20&sort=asc"
+ ],
+ "pageErrors": [],
+ "failedRequests": [
+  "Fetch: net::ERR_ABORTED https://sb-74qv32j82zmp.vercel.run/api/setup/status"
+ ],
+ "browser": "/tmp/chromium-swiftshader.sh",
+ "httpStatus": 200,
+ "title": "OnDemand Intelligence Workstation",
+ "textLength": 1474
+}

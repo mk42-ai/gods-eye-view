@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { GEV_ACTION_SCHEMAS, createActionTools } from './actionSchemas.js';
-import { GEV_REALTIME_TOOLS } from '../../server/providers/openai/tools.js';
+import { GEV_REALTIME_TOOLS } from '../../server/voice/tools.js';
 
 const stable = (value) =>
   Array.isArray(value)
@@ -21,9 +21,11 @@ test('the complete Realtime tool payload retains its pre-extraction contract and
     .digest('hex');
   assert.equal(
     digest,
-    // Re-derived 2026-09-18 (OnDemand Spatial rebrand): the product name in
-    // three tool descriptions changed from "God's Eye View"; nothing else.
-    'ca5e8d980966d16d06168f3607b5379534a5806f1862f747365273d4ebbee29d',
+    // Re-derived 2026-10-20 (PRODUCT_NAME rebrand, BRANDING_AUDIT §2 rows
+    // 26–31): the product name in the tool descriptions is now the env-driven
+    // PRODUCT_NAME (default 'OnDemand Intelligence Workstation') and four
+    // 'GEV' wordings became neutral; no argument/shape changed.
+    '3306b0e0bdfae4506cdb66f74807a8a26b1174c835e29238d93c7e7f9e1248a5',
   );
 });
 

@@ -1,17 +1,17 @@
 /**
  * src/voice/ondemand/index.js — wire the OnDemand turn-based voice pipeline
- * into a running OnDemand Spatial application (dev AND serverless builds).
+ * into the running workstation application (dev AND serverless builds).
  *
  * Called from src/main.js once `application.start()` resolves with the
  * component map (`{ scene, controls, data, tools }`); falls back to the
  * `window.__godsEyeView` debug handle for anything the map does not carry.
- * Installs the OD VOICE control beside the GEV MIC control, exposes a small
- * headless driving surface on `window.__odVoice`, and returns `dispose()`.
+ * Installs the OD VOICE control (the only voice control since the OpenAI
+ * Realtime stack was removed on 2026-10-21), exposes a small headless driving
+ * surface on `window.__odVoice`, and returns `dispose()`.
  *
- * Nothing here touches the existing OpenAI Realtime stack (src/voice/*): the
- * only shared piece is the MapAction runner it already created, reused
- * read-only for `mapActions` dispatch (created lazily from the same factory
- * when the debug handle has none).
+ * The MapAction runner (src/voice/gevActions.js) is shared with the tool
+ * layer and reused read-only for `mapActions` dispatch (created lazily from
+ * the same factory when the debug handle has none).
  */
 
 import { layerFeedState } from '../../data/feedState.js';
@@ -177,6 +177,14 @@ export function installOndemandVoice({
       layers: readLayers(dataManager),
     }),
     toolsCatalogue: () => transport.tools(),
+    getPluginIds: () => {
+      try {
+        const ids = win.__odPlugins?.getSelectedPluginIds?.();
+        return Array.isArray(ids) ? ids.slice(0, 4) : [];
+      } catch {
+        return [];
+      }
+    },
     ...pipelineOptions,
   });
 

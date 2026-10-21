@@ -41,7 +41,12 @@ import healthHandler, {
 
 const SERVER_KEY = 'server-key-9f1e2d3c';
 const USER_KEY = 'user-key-DO-NOT-LEAK-a1b2c3';
+// Phase B (2026-10-20): the per-request override is a DEV-ONLY path behind
+// ONDEMAND_ALLOW_CLIENT_KEY=1 (server/ondemand/client.js#clientKeyAllowed).
+// These tests exercise the legacy behaviour WITH the flag on; the flag-off
+// default is covered in foundation/foundation.test.mjs.
 const ENV_KEYS = [
+  'ONDEMAND_ALLOW_CLIENT_KEY',
   'ONDEMAND_API_KEY',
   'ONDEMAND_FULFILLMENT_ENDPOINT_ID',
   'ONDEMAND_ENDPOINT_ID',
@@ -55,6 +60,7 @@ let originalConsole;
 beforeEach(() => {
   savedEnv = Object.fromEntries(ENV_KEYS.map((k) => [k, process.env[k]]));
   for (const k of ENV_KEYS) delete process.env[k];
+  process.env.ONDEMAND_ALLOW_CLIENT_KEY = '1';
   __resetStoreForTests();
   __resetSpeechProbeCacheForTests();
   // Mock console: every handler line is captured so the key can be proven
@@ -179,7 +185,10 @@ describe('server/ondemand/client.js — resolveRequestKey / isValidKeyOverride',
 
   test('bindOndemandFetch: the bound fetch sends the override as apikey; unbound sends the server key', async () => {
     configureServerKey();
-    activeStub = stubFetchSequence([jsonResponse(200, {}), jsonResponse(200, {})]);
+    activeStub = stubFetchSequence([
+      jsonResponse(200, {}),
+      jsonResponse(200, {}),
+    ]);
     await bindOndemandFetch(USER_KEY)('https://example.test/a', {
       method: 'GET',
     });
@@ -423,7 +432,9 @@ describe('api/ondemand/chat.js — x-ondemand-key', () => {
     await chatHandler(
       makeReq({
         method: 'POST',
-        headers: { [KEY_OVERRIDE_HEADER]: 'k'.repeat(KEY_OVERRIDE_MAX_LEN + 1) },
+        headers: {
+          [KEY_OVERRIDE_HEADER]: 'k'.repeat(KEY_OVERRIDE_MAX_LEN + 1),
+        },
         body: { sessionId: 's', query: 'q', responseMode: 'sync' },
       }),
       res,
@@ -446,7 +457,12 @@ describe('api/ondemand/chat.js — x-ondemand-key', () => {
       makeReq({
         method: 'POST',
         headers: { [KEY_OVERRIDE_HEADER]: USER_KEY },
-        body: { sessionId: 's', query: 'q', endpointId: 'e', responseMode: 'sync' },
+        body: {
+          sessionId: 's',
+          query: 'q',
+          endpointId: 'e',
+          responseMode: 'sync',
+        },
       }),
       res,
     );

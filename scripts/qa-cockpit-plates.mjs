@@ -268,7 +268,7 @@ async function main() {
       if (url.pathname === '/api/opensky-track') {
         return void request.respond(stubJson({ path: [] }));
       }
-      if (url.pathname === '/api/openai/hud-summary') {
+      if (url.pathname === '/api/ondemand/v2/summaries/hud') {
         return void request.respond(stubJson({ summary: 'Cockpit plate QA' }));
       }
       return void request.continue();

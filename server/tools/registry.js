@@ -23,6 +23,17 @@ import * as military from './military.js';
 import * as vessels from './vessels.js';
 import * as traffic from './traffic.js';
 import * as earthquakes from './earthquakes.js';
+import * as fires from './fires.js';
+import * as overpass from './overpass.js';
+import * as places from './places.js';
+import * as gbfs from './gbfs.js';
+import * as transit from './transit.js';
+import * as regional from './regional.js';
+import * as terrain from './terrain.js';
+import * as cctv from './cctv.js';
+import * as militaryInstallations from './military_installations.js';
+import * as radio from './radio.js';
+import * as space from './space.js';
 
 const MODULES = Object.freeze([
   satellites,
@@ -31,6 +42,17 @@ const MODULES = Object.freeze([
   vessels,
   traffic,
   earthquakes,
+  fires,
+  overpass,
+  places,
+  gbfs,
+  transit,
+  regional,
+  terrain,
+  cctv,
+  militaryInstallations,
+  radio,
+  space,
 ]);
 
 /** Every plugin descriptor with its tools, in stable registration order. */

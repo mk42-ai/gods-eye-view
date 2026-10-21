@@ -30,6 +30,7 @@ import {
 } from './intents.js';
 import { normalizeMapActions, voiceUserId } from './transport.js';
 import { GEV_ACTION_SCHEMAS } from '../actionSchemas.js';
+import { PRODUCT_NAME } from '../../brand/productName.js';
 
 export const STATES = Object.freeze([
   'idle',
@@ -116,7 +117,7 @@ export function composeQuery(transcript, context = {}, extras = {}) {
     transcript.trim(),
     '',
     '[ondemand-spatial voice turn]',
-    'You are the spoken assistant of the OnDemand Spatial globe. Answer in at most two short plain-text sentences (no markdown, no lists). Layers listed as localActionsApplied were already toggled — confirm them briefly instead of asking.',
+    `You are the spoken assistant of the ${PRODUCT_NAME} globe. Answer in at most two short plain-text sentences (no markdown, no lists). Layers listed as localActionsApplied were already toggled — confirm them briefly instead of asking.`,
     `If a map change would help, end with exactly one line: MAPACTIONS: [{"name":"<action>","args":{...}}] using only these action names: ${ACTION_NAMES.join(', ')}. Otherwise omit that line.`,
     `Scene context (JSON): ${json}`,
   ].join('\n');
@@ -140,6 +141,7 @@ export function createVoicePipeline({
   setLayerEnabled = null,
   sceneContext = () => ({}),
   toolsCatalogue = null,
+  getPluginIds = () => [],
   now = () => Date.now(),
   setTimeout: setTimer = globalThis.setTimeout?.bind(globalThis),
   clearTimeout: clearTimer = globalThis.clearTimeout?.bind(globalThis),
@@ -334,6 +336,7 @@ export function createVoicePipeline({
     turn.metrics.audioBytes = blob.size;
     const signal = turn.controller.signal;
     let transcript = '';
+    let audioUrl = null;
     const t0 = now();
     try {
       const session = await ensureSession(signal).catch((error) => {
@@ -345,6 +348,7 @@ export function createVoicePipeline({
         signal,
       });
       transcript = result.text;
+      audioUrl = result.audioUrl;
       turn.metrics.sttMs = now() - t0;
       turn.metrics.sttUploadMs = result.uploadMs;
     } catch (error) {
@@ -365,6 +369,7 @@ export function createVoicePipeline({
       return turn;
     }
     turn.transcript = transcript;
+    turn.audioUrl = audioUrl;
     await runTurn(turn);
     return turn;
   }
@@ -531,14 +536,210 @@ export function createVoicePipeline({
     return text.replace(/\n?\s*MAPACTIONS?\s*:[\s\S]*$/i, '').trim();
   }
 
+  async function runVoiceTurn(turn) {
+    const signal = turn.controller.signal;
+    const initialTranscript = turn.transcript || '';
+    let localResults = [];
+    if (initialTranscript) {
+      if (!turn._transcriptEmitted) {
+        emit({ type: 'transcript', text: initialTranscript, turn: turn.id });
+        turn._transcriptEmitted = true;
+      }
+      const intents = matchLayerIntents(initialTranscript);
+      localResults = await applyLocalIntents(turn, intents);
+      if (signal.aborted || activeTurn !== turn) return;
+    }
+
+    const route =
+      turn.mode === 'auto'
+        ? initialTranscript
+          ? classify(initialTranscript)
+          : 'chat'
+        : turn.mode;
+    turn.route = route;
+
+    setState(
+      'thinking',
+      route === 'workflow' ? 'OnDemand workflow + chat…' : 'OnDemand chat…',
+    );
+    emit({ type: 'route', route, turn: turn.id });
+
+    const pluginIds =
+      typeof getPluginIds === 'function' ? getPluginIds() || [] : [];
+    let runningDelta = '';
+    let spoken = '';
+    let ttsAudioUrl = null;
+
+    try {
+      const turnResult = await transport.voiceTurn({
+        externalUserId: userId,
+        audioUrl: turn.audioUrl,
+        transcript: turn.transcript,
+        objectContext: sceneContext?.(),
+        pluginIds,
+        mode: route === 'workflow' ? 'workflow' : 'chat',
+        tts: true,
+        voice,
+        signal,
+        onEvent: ({ event, data }) => {
+          if (signal.aborted || activeTurn !== turn) return;
+          switch (event) {
+            case 'transcript':
+              turn.transcript = data?.text || '';
+              emit({
+                type: 'transcript',
+                text: turn.transcript,
+                turn: turn.id,
+              });
+              if (!initialTranscript) {
+                const freshIntents = matchLayerIntents(turn.transcript);
+                if (freshIntents.length) {
+                  void applyLocalIntents(turn, freshIntents);
+                }
+              }
+              break;
+            case 'status':
+              emit({ type: 'status', ...data, turn: turn.id });
+              break;
+            case 'delta':
+              runningDelta += data?.text || '';
+              emit({
+                type: 'answer',
+                text: partialDisplay(runningDelta),
+                partial: true,
+                source: route,
+                turn: turn.id,
+              });
+              break;
+            case 'workflow':
+              emit({ type: 'workflow', ...data, turn: turn.id });
+              break;
+            case 'answer':
+              spoken = data?.text || '';
+              const { mapActions } = extractMapActions(spoken);
+              emit({
+                type: 'answer',
+                text: spoken,
+                partial: false,
+                source: route,
+                turn: turn.id,
+              });
+              if (mapActions.length) {
+                void dispatch(turn, normalizeMapActions(mapActions), route);
+              }
+              break;
+            case 'tts':
+              ttsAudioUrl = data?.audioUrl;
+              break;
+            case 'tts_error':
+              emit({
+                type: 'tts-unavailable',
+                message: data?.message || 'TTS unavailable',
+                turn: turn.id,
+              });
+              break;
+          }
+        },
+      });
+
+      if (turnResult?.answer && !spoken) spoken = turnResult.answer;
+      if (turnResult?.audioUrl && !ttsAudioUrl)
+        ttsAudioUrl = turnResult.audioUrl;
+      if (turnResult?.metrics) {
+        turn.metrics = { ...turn.metrics, ...turnResult.metrics };
+      }
+    } catch (error) {
+      if (isAbort(error) || activeTurn !== turn) return;
+      if (error?.status === 404 && typeof transport.chatStream === 'function') {
+        turn._useLegacy = true;
+        return runLegacyTurn(turn, localResults);
+      }
+      setState('error', error?.message || 'Voice turn failed');
+      emit({
+        type: 'error',
+        message: error?.message || 'Voice turn failed',
+        status: error?.status ?? null,
+        turn: turn.id,
+      });
+      activeTurn = null;
+      return;
+    }
+
+    if (signal.aborted || activeTurn !== turn) return;
+
+    if (ttsAudioUrl) {
+      setState('speaking', 'Speaking…');
+      stopMonitor();
+      if (typeof recorder.monitor === 'function') {
+        try {
+          monitor = await recorder.monitor({
+            onSpeech: () => {
+              if (activeTurn === turn && state === 'speaking') {
+                void bargeIn('voice');
+              }
+            },
+          });
+        } catch {
+          monitor = null;
+        }
+      }
+      if (signal.aborted || activeTurn !== turn) {
+        stopMonitor();
+        return;
+      }
+      try {
+        const tPlay = now();
+        const outcome = await player.play(
+          { kind: 'url', url: ttsAudioUrl },
+          { signal },
+        );
+        turn.metrics.playbackMs = now() - tPlay;
+        turn.metrics.interrupted = Boolean(outcome?.interrupted);
+      } catch (error) {
+        if (!isAbort(error) && activeTurn === turn) {
+          emit({
+            type: 'tts-unavailable',
+            message: error?.message || 'Playback failed',
+            turn: turn.id,
+          });
+        }
+      } finally {
+        if (activeTurn === turn) stopMonitor();
+      }
+    }
+
+    if (signal.aborted || activeTurn !== turn) return;
+    history.push({
+      transcript: turn.transcript,
+      answer: spoken,
+      route,
+      metrics: turn.metrics,
+    });
+    if (history.length > 20) history.shift();
+    activeTurn = null;
+    setState('idle', summarize(turn));
+    emit({ type: 'metrics', metrics: turn.metrics, turn: turn.id });
+  }
+
   async function runTurn(turn) {
+    if (typeof transport.voiceTurn === 'function' && !turn._useLegacy) {
+      return runVoiceTurn(turn);
+    }
+    return runLegacyTurn(turn);
+  }
+
+  async function runLegacyTurn(turn, precomputedLocalResults = null) {
     const { transcript } = turn;
     const signal = turn.controller.signal;
-    emit({ type: 'transcript', text: transcript, turn: turn.id });
+    if (!turn._transcriptEmitted) {
+      emit({ type: 'transcript', text: transcript, turn: turn.id });
+      turn._transcriptEmitted = true;
+    }
 
     // 1. Local fast path — before any network call, works without OnDemand.
     const intents = matchLayerIntents(transcript);
-    const localResults = await applyLocalIntents(turn, intents);
+    const localResults =
+      precomputedLocalResults || (await applyLocalIntents(turn, intents));
     if (signal.aborted || activeTurn !== turn) return;
 
     // 2. Route.

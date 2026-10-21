@@ -177,7 +177,7 @@ describe('api/ondemand/chat.js — profile camera', () => {
     const res = makeRes();
     await chatHandler(makeReq({ method: 'POST', url: '/api/ondemand/chat', body: { sessionId: 's', query: 'q', responseMode: 'stream' } }), res);
     const body = JSON.parse(activeStub.calls[0].init.body);
-    assert.deepEqual(body, { query: 'q', endpointId: 'predefined-gpt-5.6-luna', responseMode: 'stream' });
+    assert.deepEqual(body, { query: 'q', endpointId: 'predefined-gpt-6-luna', responseMode: 'stream' });
     assert.equal(res.getHeader('X-OnDemand-Profile'), undefined);
   });
 

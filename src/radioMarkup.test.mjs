@@ -1,5 +1,4 @@
-import { readRealtimeSource } from './testSupport/readRealtimeSource.mjs';
-import { GEV_REALTIME_TOOLS } from '../server/providers/openai/tools.js';
+import { GEV_REALTIME_TOOLS } from '../server/voice/tools.js';
 import { readShellSource } from './testSupport/readShellSource.mjs';
 import { expandApplicationHtml } from '../build/application-html.js';
 import { readLayerSource } from './testSupport/readLayerSource.mjs';
@@ -19,8 +18,8 @@ const radio = ['playback', 'interaction'].map(name =>
   readFileSync(new URL(`./layers/radio/${name}.js`, import.meta.url), 'utf8')
 ).join('\n').replace(/layerState\.|parts\.\w+\./g, '');
 const rocketLaunches = readLayerSource(new URL('./data/rocketLaunches.js', import.meta.url), 'utf8');
-const realtime = readRealtimeSource();
-const voice = readFileSync(new URL('./voice/actionSchemas.js', import.meta.url), 'utf8') + '\n' + ['toolDescriptions', 'instructions'].map(name => readFileSync(new URL(`../server/providers/openai/${name}.js`, import.meta.url), 'utf8')).join('\n');
+// OpenAI Realtime stack retired 2026-10-21 (voice runs on /api/ondemand/v2/voice/turn).
+const voice = readFileSync(new URL('./voice/actionSchemas.js', import.meta.url), 'utf8') + '\n' + ['toolDescriptions', 'instructions'].map(name => readFileSync(new URL(`../server/voice/${name}.js`, import.meta.url), 'utf8')).join('\n');
 const css = readStylesheet(new URL('../style.css', import.meta.url));
 
 function realtimeTools() { return GEV_REALTIME_TOOLS; }
@@ -191,7 +190,8 @@ test('no unchanged Realtime tool definition drifts silently', () => {
   // Re-derived 2026-09-18 for the OnDemand Spatial rebrand: the three tool
   // descriptions that named the product (fly_to_location, set_layer_enabled,
   // set_visual_style wording) now say "OnDemand Spatial"; nothing else moved.
-  assert.equal(digest, 'c301ddce07c90202', 'an unchanged Realtime tool definition drifted');
+  // Re-derived 2026-10-20 (PRODUCT_NAME rebrand): wording only, no shape change.
+  assert.equal(digest, 'c699fac0a9d2ea28', 'an unchanged Realtime tool definition drifted');
 });
 
 test('Radio volume and mission speed share the Sharpen slider visual language', () => {
@@ -353,5 +353,4 @@ test('successful explicit user playback hands the speaker from voice to Radio', 
   assert.match(radioBindings, /togglePlayback\(\{ origin: 'user' \}\)/);
   assert.match(radioBindings, /cycleStation\(direction, \{[\s\S]*?origin: 'user'/);
   assert.match(radioBindings, /commitTuningStation\(station\.id, \{ origin: 'user' \}\)/);
-  assert.match(realtime, /event\.origin === 'user' &&\s*event\.action === 'play' &&\s*this\.isActive\(\)[\s\S]*?this\.stop\(\{ preserveRadioPlayback: true \}\)/);
 });

@@ -76,7 +76,7 @@
         "url": "https://github.com/bilawalsidhu/gods-eye-view/blob/main/LICENSE",
         "status": "OK"
       },
-      "attribution": "OnDemand Spatial demo.timezone (nautical zone estimate)",
+      "attribution": "Demo timezone (nautical zone estimate)",
       "gate3_row": "dynamic-capability probe",
       "notes": "Registered with ZERO frontend changes to prove OnDemand selects a capability purely from this registry (docs/audit/capability-loop-verification.md)."
     },

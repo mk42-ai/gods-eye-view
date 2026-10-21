@@ -36,7 +36,7 @@
  *   -------------------- | ----------------------------------- | ------------------------ | ---------------------------
  *   baseUrl               | ONDEMAND_BASE_URL                  | ONDEMAND_API_BASE       | 'https://api.on-demand.io'
  *   reasoningEndpointId   | ONDEMAND_REASONING_ENDPOINT_ID      | ONDEMAND_ENDPOINT_ID    | 'low' (documented reasoningMode, §3.1/§12)
- *   fulfillmentEndpointId | ONDEMAND_FULFILLMENT_ENDPOINT_ID    | ONDEMAND_ENDPOINT_ID    | 'predefined-gpt-5.6-luna' (ASK winner)
+ *   fulfillmentEndpointId | ONDEMAND_FULFILLMENT_ENDPOINT_ID    | ONDEMAND_ENDPOINT_ID    | 'predefined-gpt-6-luna' (ASK winner's active successor, 2026-10-20)
  *   reasoningMode         | ONDEMAND_REASONING_MODE (validated) | —                        | '' (field omitted upstream)
  *   flowVersion           | ONDEMAND_SPATIAL_FLOW_VERSION       | GODS_EYE_FLOW_VERSION (checked FIRST) | '1' (FLOW_DEFAULTS, 2026-09-18)
  *   spatialFlowId         | ONDEMAND_SPATIAL_WORKFLOW_ID        | ONDEMAND_SPATIAL_FLOW_ID | '6aace534859f7b0abb53d99a' (FLOW_DEFAULTS)
@@ -59,7 +59,7 @@
  *
  *   Tier        | fulfillmentEndpointId        | reasoningMode | sync total / stream ttfd
  *   ----------- | ---------------------------- | ------------- | ------------------------
- *   ASK         | 'predefined-gpt-5.6-luna'    | 'low'         | 4,189 ms / 1,880 ms
+ *   ASK         | 'predefined-gpt-6-luna'      | 'low'         | 2,752 ms / 2,562 ms (2026-10-20 re-check)
  *   INVESTIGATE | 'predefined-claude-sonnet-5' | 'low'         | 6,480 ms / 4,053 ms
  *   DEEP        | 'predefined-claude-sonnet-5' | 'high'        | (same model, deeper reasoning)
  *
@@ -384,6 +384,22 @@ export const WORKFLOW_ID_ENV = Object.freeze({
     'ONDEMAND_SPATIAL_WORKFLOW_ID',
     'ONDEMAND_SPATIAL_FLOW_ID',
     'default',
+    'default-invalid-env',
+  ]),
+});
+
+/**
+ * Env names of the `voiceFlowId` row and the order they are consulted in
+ * (`reconcile` — canonical `ONDEMAND_VOICE_WORKFLOW_ID`). Default =
+ * FLOW_DEFAULTS.voiceFlowId ('6ad8160ab28e35aa11d85632').
+ */
+export const VOICE_WORKFLOW_ID_ENV = Object.freeze({
+  canonical: 'ONDEMAND_VOICE_WORKFLOW_ID',
+  alias: null,
+  order: Object.freeze([
+    'ONDEMAND_VOICE_WORKFLOW_ID',
+    'default',
+    'default-invalid-env',
   ]),
 });
 
@@ -496,7 +512,14 @@ const REASONING_ENDPOINT_DEFAULT_TIER = 'low';
  */
 export const TIER_DEFAULTS = Object.freeze({
   ASK: Object.freeze({
-    fulfillmentEndpointId: 'predefined-gpt-5.6-luna',
+    // 2026-10-20 (cycle 2, docs/agent-execution/BLOCKERS.md B-2): the
+    // benchmark winner `predefined-gpt-5.6-luna` is INACTIVE in the live
+    // endpoints registry (GET /config/v1/public/endpoints, 92 ids / 23
+    // active); its active successor `predefined-gpt-6-luna` answered a
+    // sync query in 2,752 ms and streamed with ttfb 2,562 ms
+    // (TEST_RESULTS §2 rows 32, 36). ENDPOINT_SUCCESSORS below maps the
+    // retired id for operators whose env still names it.
+    fulfillmentEndpointId: 'predefined-gpt-6-luna',
     reasoningMode: 'low',
   }),
   INVESTIGATE: Object.freeze({
@@ -508,6 +531,29 @@ export const TIER_DEFAULTS = Object.freeze({
     reasoningMode: 'high',
   }),
 });
+
+/**
+ * Retired predefined endpoint ids → their active successor (live registry
+ * check 2026-10-20T21:30:11Z). When an env var still names a retired id the
+ * reconciled value is rewritten to the successor and
+ * `sources.fulfillmentEndpointId` keeps the env NAME, while
+ * `fulfillmentEndpointSuperseded` records the retired id so health can show
+ * the operator what to change. Never sent upstream as-is.
+ */
+export const ENDPOINT_SUCCESSORS = Object.freeze({
+  'predefined-gpt-5.6-luna': 'predefined-gpt-6-luna',
+});
+
+/**
+ * Shape of an OnDemand object id (workflow, session, message): 24 lowercase
+ * hex characters (MongoDB ObjectId). The Vercel project was found carrying a
+ * 26-hex `ONDEMAND_SPATIAL_WORKFLOW_ID` (BLOCKERS.md B-1) that made every
+ * workflow call 404; `reconcileWorkflowId` below rejects such a value and
+ * falls back to FLOW_DEFAULTS.spatialFlowId with source
+ * `'default-invalid-env'` so the typo is visible in health instead of silent.
+ */
+export const OBJECT_ID_SHAPE = /^[0-9a-f]{24}$/;
+export const WORKFLOW_ID_INVALID_SOURCE = 'default-invalid-env';
 
 /**
  * Non-secret defaults of the Agents Flow Builder workflow this repository
@@ -537,6 +583,7 @@ export const TIER_DEFAULTS = Object.freeze({
  */
 export const FLOW_DEFAULTS = Object.freeze({
   spatialFlowId: '6aace534859f7b0abb53d99a',
+  voiceFlowId: '6ad8160ab28e35aa11d85632',
   flowVersion: '1',
 });
 
@@ -598,11 +645,22 @@ function computeConfig() {
   // tier winner of the 2026-09-18 benchmark (TIER_DEFAULTS.ASK, fastest
   // 200: sync 4,189 ms / ttfd 1,880 ms) — ids are volatile per §12, so this
   // default is expected to need revisiting as the predefined list changes.
-  const fulfillmentEndpointResult = reconcile(
+  const fulfillmentEndpointRaw = reconcile(
     'ONDEMAND_FULFILLMENT_ENDPOINT_ID',
     'ONDEMAND_ENDPOINT_ID',
     TIER_DEFAULTS.ASK.fulfillmentEndpointId,
   );
+  // Retired-id rewrite (cycle 2, B-2): keep the env NAME as the source but
+  // send the active successor upstream; remember the retired id for health.
+  const fulfillmentSuccessor =
+    ENDPOINT_SUCCESSORS[String(fulfillmentEndpointRaw.value).trim()];
+  const fulfillmentEndpointResult = fulfillmentSuccessor
+    ? {
+        value: fulfillmentSuccessor,
+        source: fulfillmentEndpointRaw.source,
+        superseded: String(fulfillmentEndpointRaw.value).trim(),
+      }
+    : fulfillmentEndpointRaw;
 
   const reasoningModeResult = reconcileReasoningMode();
 
@@ -612,11 +670,41 @@ function computeConfig() {
   // on the target Vercel project (2026-09-18 audit), so the default — the
   // real id of the workflow this repo created (FLOW_DEFAULTS) — is what a
   // stock deployment resolves to.
-  const spatialFlowResult = reconcile(
+  const spatialFlowRaw = reconcile(
     WORKFLOW_ID_ENV.canonical,
     WORKFLOW_ID_ENV.alias,
     FLOW_DEFAULTS.spatialFlowId,
   );
+  // Shape validation (cycle 2, B-1): an env value that is not a 24-hex
+  // object id can only ever 404 upstream, so it is replaced by the built-in
+  // default and reported as 'default-invalid-env' (never the bad value).
+  const spatialFlowInvalid =
+    spatialFlowRaw.source !== 'default' &&
+    !OBJECT_ID_SHAPE.test(String(spatialFlowRaw.value).trim());
+  const spatialFlowResult = spatialFlowInvalid
+    ? {
+        value: FLOW_DEFAULTS.spatialFlowId,
+        source: WORKFLOW_ID_INVALID_SOURCE,
+        invalidEnvName: spatialFlowRaw.source,
+      }
+    : { ...spatialFlowRaw, value: String(spatialFlowRaw.value).trim() };
+
+  // Voice workflow id for `POST /workflow/{id}/execute`
+  const voiceFlowRaw = reconcile(
+    VOICE_WORKFLOW_ID_ENV.canonical,
+    VOICE_WORKFLOW_ID_ENV.alias,
+    FLOW_DEFAULTS.voiceFlowId,
+  );
+  const voiceFlowInvalid =
+    voiceFlowRaw.source !== 'default' &&
+    !OBJECT_ID_SHAPE.test(String(voiceFlowRaw.value).trim());
+  const voiceFlowResult = voiceFlowInvalid
+    ? {
+        value: FLOW_DEFAULTS.voiceFlowId,
+        source: WORKFLOW_ID_INVALID_SOURCE,
+        invalidEnvName: voiceFlowRaw.source,
+      }
+    : { ...voiceFlowRaw, value: String(voiceFlowRaw.value).trim() };
 
   // Informational only — never sent upstream (§7.3: workflow versioning is
   // NOT FOUND IN LIVE DOCS). String, not number: a version "1" vs 1 has no
@@ -682,6 +770,7 @@ function computeConfig() {
     spatialAgentId: defaultPluginIds[0] || '',
     defaultPluginIds,
     spatialFlowId: spatialFlowResult.value,
+    voiceFlowId: voiceFlowResult.value,
     // See the header comment: reconciled for env-name/health purposes only;
     // not itself sent upstream by any handler in this task.
     reasoningEndpointId: reasoningEndpointResult.value,
@@ -689,6 +778,13 @@ function computeConfig() {
     // the predefined list is documented as volatile (§12); this single
     // constant is the one place that assumption is made, deliberately.
     fulfillmentEndpointId: fulfillmentEndpointResult.value,
+    // Retired endpoint id an env var still names (rewritten to the active
+    // successor above) — '' when nothing was rewritten. Surfaced by health.
+    fulfillmentEndpointSuperseded: fulfillmentEndpointResult.superseded || '',
+    // Env NAME whose workflow-id value failed the 24-hex shape check ('' when
+    // valid). Names only — the rejected value is never kept.
+    spatialFlowIdInvalidEnvName: spatialFlowResult.invalidEnvName || '',
+    voiceFlowIdInvalidEnvName: voiceFlowResult.invalidEnvName || '',
     // Guide-only, free-string, stream-only field (§3.1 "reasoningMode" row,
     // §12 "Reasoning mode values") — NOT in the OpenAPI schema. Validated
     // against DOCUMENTED_REASONING_MODES above.
@@ -719,6 +815,7 @@ function computeConfig() {
       fulfillmentEndpointId: fulfillmentEndpointResult.source,
       defaultPluginIds: defaultPluginIdsSource,
       spatialFlowId: spatialFlowResult.source,
+      voiceFlowId: voiceFlowResult.source,
       reasoningMode: reasoningModeResult.source,
       flowVersion: flowVersionResult.source,
       requestTimeoutMs: timeoutOverridden
@@ -760,11 +857,23 @@ export const config = {
   get spatialFlowId() {
     return state.spatialFlowId;
   },
+  get voiceFlowId() {
+    return state.voiceFlowId;
+  },
   get reasoningEndpointId() {
     return state.reasoningEndpointId;
   },
   get fulfillmentEndpointId() {
     return state.fulfillmentEndpointId;
+  },
+  get fulfillmentEndpointSuperseded() {
+    return state.fulfillmentEndpointSuperseded;
+  },
+  get spatialFlowIdInvalidEnvName() {
+    return state.spatialFlowIdInvalidEnvName;
+  },
+  get voiceFlowIdInvalidEnvName() {
+    return state.voiceFlowIdInvalidEnvName;
   },
   get reasoningMode() {
     return state.reasoningMode;
@@ -843,10 +952,14 @@ export function getConfig() {
     baseUrls: baseUrls(),
     reasoningEndpointId: state.reasoningEndpointId,
     fulfillmentEndpointId: state.fulfillmentEndpointId,
+    fulfillmentEndpointSuperseded: state.fulfillmentEndpointSuperseded,
     reasoningMode: state.reasoningMode,
     reasoningModeInvalid: state.reasoningModeInvalid,
     flowVersion: state.flowVersion,
     spatialFlowId: state.spatialFlowId,
+    spatialFlowIdInvalidEnvName: state.spatialFlowIdInvalidEnvName,
+    voiceFlowId: state.voiceFlowId,
+    voiceFlowIdInvalidEnvName: state.voiceFlowIdInvalidEnvName,
     defaultPluginIds: state.defaultPluginIds,
     spatialAgentId: state.spatialAgentId,
     requestTimeoutMs: state.requestTimeoutMs,
@@ -864,6 +977,7 @@ export function getConfig() {
     // (ONDEMAND_SPATIAL_WORKFLOW_ID → ONDEMAND_SPATIAL_FLOW_ID → default)
     // and the order they are consulted in — see WORKFLOW_ID_ENV.
     workflowIdEnv: WORKFLOW_ID_ENV,
+    voiceWorkflowIdEnv: VOICE_WORKFLOW_ID_ENV,
     // Platform-registration ids (2026-09-19): resolved VALUES (server-side
     // only) plus `packAvailable`; the env NAMES / pack path live in
     // `registrationIdEnv` and the resolved SOURCE class of each row in

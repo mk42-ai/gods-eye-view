@@ -194,6 +194,7 @@ export class IntelHUD {
           <div class="hud-summary-wrap">
             <div class="hud-summary-label">SUMMARY</div>
             <div class="hud-summary" id="hud-summary">Awaiting telemetry...</div>
+            <button type="button" class="hud-ask-ondemand ask-ondemand-btn--inline" id="hud-ask-ondemand" data-ask-object="hudSummary:global" title="Ask OnDemand about this summary">ASK</button>
           </div>
         </div>
       </div>
@@ -238,6 +239,39 @@ export class IntelHUD {
         <span id="hud-bottom-line">LAT: --  LON: --  MGRS: ---</span>
       </div>
     `;
+    // ASK ONDEMAND on the HUD summary line (Phase E, FRONTEND_RECON #25):
+    // opens the contextual mini chat with the current summary + locality.
+    this._el
+      .querySelector('#hud-ask-ondemand')
+      ?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const summaryText =
+          document.getElementById('hud-summary')?.textContent || '';
+        const enabledLayers =
+          this._dataManager
+            ?.getAll?.()
+            ?.filter((layer) => layer.enabled)
+            .map((layer) => layer.name) || [];
+        window.dispatchEvent(
+          new CustomEvent('gev:ask-object', {
+            detail: {
+              objectType: 'hudSummary',
+              objectId: 'global',
+              label: 'HUD summary',
+              fields: {
+                summaryText,
+                mode: document.getElementById('hud-mode')?.textContent || null,
+                layersActive: enabledLayers,
+                lastSummarySignature: this._lastSummarySignature || null,
+              },
+              provenance: {
+                provider: 'OnDemand · /api/ondemand/v2/summaries/hud',
+                fetchedAt: new Date().toISOString(),
+              },
+            },
+          }),
+        );
+      });
     this._el.dataset.variant = this._variant;
   }
 

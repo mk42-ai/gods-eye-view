@@ -1,0 +1,21 @@
+HTTP/2 200 
+date: Wed, 21 Oct 2026 08:11:55 GMT
+content-type: application/json; charset=utf-8
+content-length: 337
+cache-control: no-store
+x-ondemand-key-source: server
+server: Vercel
+x-vercel-id: iad1::w5lsh-1792570315977-329ad72ba0c1
+strict-transport-security: max-age=63072000
+x-vercel-internal-path-type: sandbox
+x-vercel-internal-metadata-state: origin_fresh
+x-vercel-internal-cache-level: unknown
+x-vercel-internal-project-id: u
+x-vercel-internal-owner-id: u
+x-vercel-internal-deployment-id: u
+x-vercel-internal-proxy-pool: green
+x-vercel-internal-request-cpu-ms: 1
+x-vercel-internal-proxy-cpu-load: 38
+x-vercel-internal-timing: vcoe_from_proxy=19
+
+{"ok":true,"configured":true,"conversationBackend":"memory","contracts":33,"activePlugins":10,"defaultEndpointId":"predefined-gpt-6-luna","workflowId":{"configured":true,"source":"ONDEMAND_SPATIAL_WORKFLOW_ID","valid":true},"guards":{"rateLimitPerMinute":60,"userHeaderRequired":false,"promptInjectionFencing":true},"keySource":"server"}

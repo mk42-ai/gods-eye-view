@@ -1,12 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createVoicePipeline, composeQuery, STATES, LIMITS } from './pipeline.js';
+import {
+  createVoicePipeline,
+  composeQuery,
+  STATES,
+  LIMITS,
+} from './pipeline.js';
 import { createSilenceDetector } from './audio.js';
 import { createTransport, KEY_HEADER } from './transport.js';
 
 const SECRET = 'od-secret-key-XYZ';
 const flush = async (n = 6) => {
-  for (let i = 0; i < n; i += 1) await new Promise((resolve) => setImmediate(resolve));
+  for (let i = 0; i < n; i += 1)
+    await new Promise((resolve) => setImmediate(resolve));
 };
 
 function deferred() {
@@ -26,7 +32,10 @@ function abortError() {
 }
 
 /** Fake recorder exposing the callbacks the pipeline registered. */
-function fakeRecorder({ failStart = null, blob = new Blob([new Uint8Array(8)], { type: 'audio/webm' }) } = {}) {
+function fakeRecorder({
+  failStart = null,
+  blob = new Blob([new Uint8Array(8)], { type: 'audio/webm' }),
+} = {}) {
   const recorder = {
     starts: 0,
     monitors: 0,
@@ -75,7 +84,11 @@ function fakePlayer() {
       const gate = deferred();
       player.plays.push(source);
       player.current = gate;
-      signal?.addEventListener?.('abort', () => gate.resolve({ interrupted: true }), { once: true });
+      signal?.addEventListener?.(
+        'abort',
+        () => gate.resolve({ interrupted: true }),
+        { once: true },
+      );
       return gate.promise;
     },
     stop() {
@@ -104,7 +117,10 @@ function fakeTransport(overrides = {}) {
       return { sessionId: 'sess-1', reused: false };
     },
     async transcribe(blob, options) {
-      calls.push(['transcribe', { size: blob?.size, sessionId: options?.sessionId }]);
+      calls.push([
+        'transcribe',
+        { size: blob?.size, sessionId: options?.sessionId },
+      ]);
       return { text: 'show military flights near me', uploadMs: 5, totalMs: 9 };
     },
     async chatStream({ query, onDelta, signal }) {
@@ -129,19 +145,38 @@ function fakeTransport(overrides = {}) {
     runWorkflow({ signal, onLog, onStatus }) {
       calls.push(['runWorkflow']);
       transport.workflowSignal = signal;
-      onStatus?.({ executionId: 'exec-1', status: 'executing', elapsedMs: 10, polls: 1 });
+      onStatus?.({
+        executionId: 'exec-1',
+        status: 'executing',
+        elapsedMs: 10,
+        polls: 1,
+      });
       onLog?.({ timestamp: 1, nodeKey: 'session_context', message: 'started' });
       return new Promise((resolve, reject) => {
-        signal?.addEventListener?.('abort', () => reject(abortError()), { once: true });
+        signal?.addEventListener?.('abort', () => reject(abortError()), {
+          once: true,
+        });
         workflowGate.promise.then(resolve, reject);
       });
     },
     async synthesize(text, { voice }) {
       calls.push(['synthesize', { text, voice }]);
-      return { kind: 'blob', blob: new Blob([new Uint8Array(4)], { type: 'audio/mpeg' }), ms: 3 };
+      return {
+        kind: 'blob',
+        blob: new Blob([new Uint8Array(4)], { type: 'audio/mpeg' }),
+        ms: 3,
+      };
     },
     async tools() {
-      return [{ id: 'earthquake_search', name: 'Quakes', tools: [{ name: 'earthquake_search', path: '/api/tools/earthquake_search' }] }];
+      return [
+        {
+          id: 'earthquake_search',
+          name: 'Quakes',
+          tools: [
+            { name: 'earthquake_search', path: '/api/tools/earthquake_search' },
+          ],
+        },
+      ];
     },
     hasKey: () => false,
     ...overrides,
@@ -174,7 +209,8 @@ function manualTimers() {
 }
 
 function harness(options = {}) {
-  const transport = options.transport || fakeTransport(options.transportOverrides);
+  const transport =
+    options.transport || fakeTransport(options.transportOverrides);
   const recorder = options.recorder || fakeRecorder(options.recorderOptions);
   const player = options.player || fakePlayer();
   const timers = manualTimers();
@@ -189,10 +225,12 @@ function harness(options = {}) {
     now: () => (clock += 10),
     setTimeout: timers.setTimeout,
     clearTimeout: timers.clearTimeout,
-    setLayerEnabled: options.setLayerEnabled ?? (async (id, enabled) => {
-      layerCalls.push([id, enabled]);
-      return true;
-    }),
+    setLayerEnabled:
+      options.setLayerEnabled ??
+      (async (id, enabled) => {
+        layerCalls.push([id, enabled]);
+        return true;
+      }),
     runMapAction: async (name, args) => {
       actionCalls.push([name, args]);
       return { ok: true };
@@ -200,18 +238,45 @@ function harness(options = {}) {
     sceneContext: () => ({
       camera: { lat: 37.7749, lon: -122.4194, heightM: 1200 },
       scene: 'San Francisco',
-      layers: [{ id: 'flights', enabled: true, state: 'nominal' }, { id: 'military', enabled: false, state: 'unavailable', reason: 'keyless' }],
+      layers: [
+        { id: 'flights', enabled: true, state: 'nominal' },
+        {
+          id: 'military',
+          enabled: false,
+          state: 'unavailable',
+          reason: 'keyless',
+        },
+      ],
     }),
     userId: 'ondemand-spatial-voice-2026-09-18',
+    getPluginIds: options.getPluginIds,
     ...(options.pipeline || {}),
   });
   pipeline.subscribe((event) => events.push(event));
-  const states = () => events.filter((e) => e.type === 'state').map((e) => e.state);
-  return { pipeline, transport, recorder, player, timers, layerCalls, actionCalls, events, states };
+  const states = () =>
+    events.filter((e) => e.type === 'state').map((e) => e.state);
+  return {
+    pipeline,
+    transport,
+    recorder,
+    player,
+    timers,
+    layerCalls,
+    actionCalls,
+    events,
+    states,
+  };
 }
 
 test('STATES / LIMITS are the documented ones', () => {
-  assert.deepEqual(STATES, ['idle', 'listening', 'transcribing', 'thinking', 'speaking', 'error']);
+  assert.deepEqual(STATES, [
+    'idle',
+    'listening',
+    'transcribing',
+    'thinking',
+    'speaking',
+    'error',
+  ]);
   assert.equal(LIMITS.maxUtteranceMs, 12_000);
   assert.equal(LIMITS.silenceMs, 1_200);
   assert.equal(LIMITS.workflowTimeoutMs, 90_000);
@@ -224,7 +289,10 @@ test('full turn: press → listening → silence → transcribing → thinking �
   assert.equal(action, 'listen');
   assert.equal(h.pipeline.getState(), 'listening');
   assert.equal(h.recorder.starts, 1);
-  assert.ok([...h.timers.timers.values()].some((t) => t.ms === 12_000), '12 s utterance cap armed');
+  assert.ok(
+    [...h.timers.timers.values()].some((t) => t.ms === 12_000),
+    '12 s utterance cap armed',
+  );
 
   h.recorder.speech();
   h.recorder.silence(); // ≈1.2 s of quiet after speech → send
@@ -251,7 +319,10 @@ test('full turn: press → listening → silence → transcribing → thinking �
   const intentIndex = h.events.findIndex((e) => e.type === 'intents');
   const chatIndex = h.transport.calls.findIndex((c) => c[0] === 'chatStream');
   assert.ok(intentIndex >= 0 && chatIndex >= 0);
-  assert.ok(order.includes('runWorkflow'), 'spatial task → workflow route triggers execute');
+  assert.ok(
+    order.includes('runWorkflow'),
+    'spatial task → workflow route triggers execute',
+  );
   assert.equal(h.events.find((e) => e.type === 'route').route, 'workflow');
 
   // the chat query carries the transcript + scene context + local actions
@@ -259,14 +330,29 @@ test('full turn: press → listening → silence → transcribing → thinking �
   assert.ok(query.startsWith('show military flights near me'));
   assert.match(query, /"scene":"San Francisco"/);
   assert.match(query, /"lat":37\.7749/);
-  assert.match(query, /"localActionsApplied":\[\{"layerId":"military","enabled":true,"ok":true\}\]/);
-  assert.match(query, /"tools":\[\{"id":"earthquake_search","tools":\["earthquake_search"\]\}\]/);
+  assert.match(
+    query,
+    /"localActionsApplied":\[\{"layerId":"military","enabled":true,"ok":true\}\]/,
+  );
+  assert.match(
+    query,
+    /"tools":\[\{"id":"earthquake_search","tools":\["earthquake_search"\]\}\]/,
+  );
   assert.match(query, /MAPACTIONS/);
 
   // transcript + streamed answer events, MAPACTIONS line stripped from the spoken text
-  assert.equal(h.events.find((e) => e.type === 'transcript').text, 'show military flights near me');
-  const partials = h.events.filter((e) => e.type === 'answer' && e.partial).map((e) => e.text);
-  assert.deepEqual(partials, ['Military', 'Military flights layer is on.', 'Military flights layer is on.']);
+  assert.equal(
+    h.events.find((e) => e.type === 'transcript').text,
+    'show military flights near me',
+  );
+  const partials = h.events
+    .filter((e) => e.type === 'answer' && e.partial)
+    .map((e) => e.text);
+  assert.deepEqual(partials, [
+    'Military',
+    'Military flights layer is on.',
+    'Military flights layer is on.',
+  ]);
   const finalAnswer = h.events.find((e) => e.type === 'answer' && !e.partial);
   assert.equal(finalAnswer.text, 'Military flights layer is on.');
   assert.equal(finalAnswer.source, 'chat');
@@ -280,7 +366,8 @@ test('full turn: press → listening → silence → transcribing → thinking �
   assert.equal(h.recorder.monitorStopped, 1);
 
   // the workflow poll is still pending after the spoken answer — let it finish
-  const wfEvents = () => h.events.filter((e) => e.type === 'workflow').map((e) => e.phase);
+  const wfEvents = () =>
+    h.events.filter((e) => e.type === 'workflow').map((e) => e.phase);
   assert.deepEqual(wfEvents(), ['executing', 'status', 'log']);
   h.transport.workflowGate.resolve({
     ok: true,
@@ -291,15 +378,25 @@ test('full turn: press → listening → silence → transcribing → thinking �
     polls: 4,
     logs: [{}, {}],
     message: 'One track verified.',
-    mapActions: [{ name: 'set_layer_visibility', args: { layerId: 'military', enabled: true } }],
+    mapActions: [
+      {
+        name: 'set_layer_visibility',
+        args: { layerId: 'military', enabled: true },
+      },
+    ],
     error: null,
   });
   await flush(6);
   assert.deepEqual(wfEvents(), ['executing', 'status', 'log', 'done']);
-  const done = h.events.find((e) => e.type === 'workflow' && e.phase === 'done');
+  const done = h.events.find(
+    (e) => e.type === 'workflow' && e.phase === 'done',
+  );
   assert.equal(done.timeToFirstLogMs, 1400);
   assert.equal(done.executionId, 'exec-1');
-  assert.deepEqual(h.actionCalls[1], ['set_layer_visibility', { layerId: 'military', enabled: true }]);
+  assert.deepEqual(h.actionCalls[1], [
+    'set_layer_visibility',
+    { layerId: 'military', enabled: true },
+  ]);
   const metrics = h.events.find((e) => e.type === 'metrics').metrics;
   assert.equal(typeof metrics.sttMs, 'number');
   assert.equal(metrics.chatFirstDeltaMs, 40);
@@ -317,12 +414,20 @@ test('barge-in: press while speaking stops playback, abandons the pending workfl
   const action = await h.pipeline.press();
   assert.equal(action, 'barge-in');
   assert.equal(h.player.stops >= 1, true);
-  assert.equal(h.transport.workflowSignal.aborted, true, 'pending poll abandoned');
+  assert.equal(
+    h.transport.workflowSignal.aborted,
+    true,
+    'pending poll abandoned',
+  );
   assert.equal(h.pipeline.getState(), 'listening');
   assert.equal(h.recorder.starts, 2);
   await flush(4);
-  assert.ok(h.events.some((e) => e.type === 'barge-in' && e.origin === 'button'));
-  assert.ok(h.events.some((e) => e.type === 'workflow' && e.phase === 'abandoned'));
+  assert.ok(
+    h.events.some((e) => e.type === 'barge-in' && e.origin === 'button'),
+  );
+  assert.ok(
+    h.events.some((e) => e.type === 'workflow' && e.phase === 'abandoned'),
+  );
 
   // the monitor hearing speech during playback is the other barge-in trigger
   h.recorder.silence();
@@ -332,7 +437,9 @@ test('barge-in: press while speaking stops playback, abandons the pending workfl
   await flush(4);
   assert.equal(h.pipeline.getState(), 'listening');
   assert.equal(h.recorder.starts, 3);
-  assert.ok(h.events.some((e) => e.type === 'barge-in' && e.origin === 'voice'));
+  assert.ok(
+    h.events.some((e) => e.type === 'barge-in' && e.origin === 'voice'),
+  );
 });
 
 test('12 s utterance cap: without a silence verdict the pipeline stops listening itself (stopReason "max")', async () => {
@@ -348,9 +455,14 @@ test('12 s utterance cap: without a silence verdict the pipeline stops listening
 });
 
 test('silence detector: "speech" once after sustained energy, "stop" once ≈1.2 s after the speaker goes quiet, never before speech', () => {
-  const detector = createSilenceDetector({ silenceMs: 1200, threshold: 0.02, minSpeechMs: 100 });
+  const detector = createSilenceDetector({
+    silenceMs: 1200,
+    threshold: 0.02,
+    minSpeechMs: 100,
+  });
   // quiet room: nothing fires, no matter how long
-  for (let t = 0; t <= 5000; t += 50) assert.equal(detector.feed(0.001, t), null);
+  for (let t = 0; t <= 5000; t += 50)
+    assert.equal(detector.feed(0.001, t), null);
   assert.equal(detector.spoke, false);
   // speech onset: sustained 100 ms before the verdict
   assert.equal(detector.feed(0.1, 6000), null);
@@ -371,15 +483,22 @@ test('silence detector: "speech" once after sustained energy, "stop" once ≈1.2
 });
 
 test('error states: microphone denied → error; transcription 503 → error with the proxy reason; a later press recovers', async () => {
-  const denied = harness({ recorderOptions: { failStart: new Error('Permission denied') } });
+  const denied = harness({
+    recorderOptions: { failStart: new Error('Permission denied') },
+  });
   await denied.pipeline.press();
   assert.equal(denied.pipeline.getState(), 'error');
-  assert.match(denied.pipeline.getDetail(), /Microphone unavailable: Permission denied/);
+  assert.match(
+    denied.pipeline.getDetail(),
+    /Microphone unavailable: Permission denied/,
+  );
 
   const h = harness({
     transportOverrides: {
       async transcribe() {
-        const error = new Error('OnDemand is not configured on this deployment');
+        const error = new Error(
+          'OnDemand is not configured on this deployment',
+        );
         error.status = 503;
         throw error;
       },
@@ -389,7 +508,10 @@ test('error states: microphone denied → error; transcription 503 → error wit
   h.recorder.silence();
   await flush(8);
   assert.equal(h.pipeline.getState(), 'error');
-  assert.equal(h.pipeline.getDetail(), 'Transcription failed: OnDemand is not configured on this deployment');
+  assert.equal(
+    h.pipeline.getDetail(),
+    'Transcription failed: OnDemand is not configured on this deployment',
+  );
   assert.equal(await h.pipeline.press(), 'listen');
   assert.equal(h.pipeline.getState(), 'listening');
 });
@@ -398,12 +520,16 @@ test('OnDemand chat unavailable (503): the local fast path still flips the layer
   const h = harness({
     transportOverrides: {
       async chatStream() {
-        const error = new Error('OnDemand is not configured on this deployment');
+        const error = new Error(
+          'OnDemand is not configured on this deployment',
+        );
         error.status = 503;
         throw error;
       },
       runWorkflow() {
-        const error = new Error('OnDemand is not configured on this deployment');
+        const error = new Error(
+          'OnDemand is not configured on this deployment',
+        );
         error.status = 503;
         return Promise.reject(error);
       },
@@ -417,13 +543,21 @@ test('OnDemand chat unavailable (503): the local fast path still flips the layer
   assert.equal(answer.source, 'local');
   assert.equal(answer.reason, 'OnDemand is not configured on this deployment');
   assert.equal(h.pipeline.getState(), 'speaking');
-  assert.match(h.pipeline.getDetail(), /Speaking \(local\) — OnDemand is not configured/);
+  assert.match(
+    h.pipeline.getDetail(),
+    /Speaking \(local\) — OnDemand is not configured/,
+  );
   h.player.finish();
   await turn;
   await flush(4);
   assert.equal(h.pipeline.getState(), 'idle');
-  assert.match(h.pipeline.getDetail(), /Answered locally — OnDemand is not configured/);
-  assert.ok(h.events.some((e) => e.type === 'workflow' && e.phase === 'failed'));
+  assert.match(
+    h.pipeline.getDetail(),
+    /Answered locally — OnDemand is not configured/,
+  );
+  assert.ok(
+    h.events.some((e) => e.type === 'workflow' && e.phase === 'failed'),
+  );
 
   // no local intent to fall back on → error state with the reason
   const bare = harness({
@@ -437,15 +571,24 @@ test('OnDemand chat unavailable (503): the local fast path still flips the layer
   });
   await bare.pipeline.submitText('tell me a joke');
   assert.equal(bare.pipeline.getState(), 'error');
-  assert.equal(bare.pipeline.getDetail(), 'OnDemand proxy route not found (dev server?)');
-  assert.equal(bare.transport.calls.some((c) => c[0] === 'runWorkflow'), false, 'chat route: no workflow');
+  assert.equal(
+    bare.pipeline.getDetail(),
+    'OnDemand proxy route not found (dev server?)',
+  );
+  assert.equal(
+    bare.transport.calls.some((c) => c[0] === 'runWorkflow'),
+    false,
+    'chat route: no workflow',
+  );
 });
 
 test('TTS unavailable: the answer is still shown, playback skipped, turn ends idle with the tts-unavailable event', async () => {
   const h = harness({
     transportOverrides: {
       async synthesize() {
-        const error = new Error('OnDemand proxy does not support this call (not_documented)');
+        const error = new Error(
+          'OnDemand proxy does not support this call (not_documented)',
+        );
         error.status = 501;
         throw error;
       },
@@ -455,7 +598,9 @@ test('TTS unavailable: the answer is still shown, playback skipped, turn ends id
   await flush(4);
   assert.equal(h.pipeline.getState(), 'idle');
   assert.equal(h.player.plays.length, 0);
-  assert.ok(h.events.some((e) => e.type === 'tts-unavailable' && e.status === 501));
+  assert.ok(
+    h.events.some((e) => e.type === 'tts-unavailable' && e.status === 501),
+  );
   assert.equal(h.events.find((e) => e.type === 'route').route, 'chat');
 });
 
@@ -465,18 +610,25 @@ test('press during thinking cancels the turn (idle); submitText with mode "chat"
     transportOverrides: {
       chatStream: ({ signal }) =>
         new Promise((resolve, reject) => {
-          signal.addEventListener('abort', () => reject(abortError()), { once: true });
+          signal.addEventListener('abort', () => reject(abortError()), {
+            once: true,
+          });
           gate.promise.then(resolve);
         }),
     },
   });
-  const turnPromise = h.pipeline.submitText('what is flying overhead', { mode: 'chat' });
+  const turnPromise = h.pipeline.submitText('what is flying overhead', {
+    mode: 'chat',
+  });
   await flush(4);
   assert.equal(h.pipeline.getState(), 'thinking');
   assert.equal(await h.pipeline.press(), 'cancel');
   assert.equal(h.pipeline.getState(), 'idle');
   await turnPromise;
-  assert.equal(h.transport.calls.some((c) => c[0] === 'runWorkflow'), false);
+  assert.equal(
+    h.transport.calls.some((c) => c[0] === 'runWorkflow'),
+    false,
+  );
   assert.equal(h.pipeline.setMode('chat'), 'chat');
   assert.equal(h.pipeline.getMode(), 'chat');
   assert.equal(h.pipeline.setMode('bogus'), 'chat');
@@ -490,10 +642,16 @@ test('key handling: the x-ondemand-key header goes out only when a key is stored
     bodies.push({ url: String(url), headers: { ...(init.headers || {}) } });
     const path = String(url);
     const jsonRes = (status, body) =>
-      new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
-    if (path === '/api/ondemand/sessions') return jsonRes(201, { sessionId: 'sess-k', reused: false });
-    if (path === '/api/ondemand/media') return jsonRes(201, { data: { url: 'https://cdn.example/a.webm' } });
-    if (path === '/api/ondemand/stt') return jsonRes(200, { data: { text: 'hide satellites' } });
+      new Response(JSON.stringify(body), {
+        status,
+        headers: { 'content-type': 'application/json' },
+      });
+    if (path === '/api/ondemand/sessions')
+      return jsonRes(201, { sessionId: 'sess-k', reused: false });
+    if (path === '/api/ondemand/media')
+      return jsonRes(201, { data: { url: 'https://cdn.example/a.webm' } });
+    if (path === '/api/ondemand/stt')
+      return jsonRes(200, { data: { text: 'hide satellites' } });
     if (path === '/api/ondemand/chat') {
       return new Response(
         new ReadableStream({
@@ -510,11 +668,16 @@ test('key handling: the x-ondemand-key header goes out only when a key is stored
       );
     }
     if (path.startsWith('/api/ondemand/tts'))
-      return new Response(new Uint8Array([1]), { status: 200, headers: { 'content-type': 'audio/mpeg' } });
+      return new Response(new Uint8Array([1]), {
+        status: 200,
+        headers: { 'content-type': 'audio/mpeg' },
+      });
     if (path === '/api/tools') return jsonRes(200, { tools: [] });
     return jsonRes(404, { error: 'Unknown API route' });
   };
-  const withKey = harness({ transport: createTransport({ fetch, storage, now: () => 0 }) });
+  const withKey = harness({
+    transport: createTransport({ fetch, storage, now: () => 0 }),
+  });
   await withKey.pipeline.press();
   withKey.recorder.silence();
   await flush(16);
@@ -522,28 +685,154 @@ test('key handling: the x-ondemand-key header goes out only when a key is stored
   await flush(6);
   assert.equal(withKey.pipeline.getState(), 'idle');
   assert.ok(bodies.length >= 4);
-  assert.ok(bodies.every((b) => b.headers[KEY_HEADER] === SECRET), 'every proxy call carries the key');
+  assert.ok(
+    bodies.every((b) => b.headers[KEY_HEADER] === SECRET),
+    'every proxy call carries the key',
+  );
   assert.deepEqual(withKey.layerCalls, [['satellites', false]]);
-  const serialized = JSON.stringify(withKey.events) + withKey.pipeline.getDetail();
-  assert.equal(serialized.includes(SECRET), false, 'key never leaks into events/state');
+  const serialized =
+    JSON.stringify(withKey.events) + withKey.pipeline.getDetail();
+  assert.equal(
+    serialized.includes(SECRET),
+    false,
+    'key never leaks into events/state',
+  );
 
   bodies.length = 0;
-  const withoutKey = harness({ transport: createTransport({ fetch, storage: null, now: () => 0 }) });
-  const turn = withoutKey.pipeline.submitText('hide satellites', { mode: 'chat' });
+  const withoutKey = harness({
+    transport: createTransport({ fetch, storage: null, now: () => 0 }),
+  });
+  const turn = withoutKey.pipeline.submitText('hide satellites', {
+    mode: 'chat',
+  });
   await flush(16);
   withoutKey.player.finish();
   await turn;
   assert.ok(bodies.length >= 2);
-  assert.ok(bodies.every((b) => !(KEY_HEADER in b.headers)), 'no key → no header');
+  assert.ok(
+    bodies.every((b) => !(KEY_HEADER in b.headers)),
+    'no key → no header',
+  );
 });
 
 test('composeQuery keeps the context bounded and never drops the utterance', () => {
-  const layers = Array.from({ length: 80 }, (_, i) => ({ id: `layer-${i}`, enabled: true, state: 'degraded', reason: 'x'.repeat(200) }));
-  const tools = Array.from({ length: 40 }, (_, i) => ({ id: `tool-${i}`, tools: Array.from({ length: 20 }, (_, j) => ({ name: `t${i}-${j}` })) }));
+  const layers = Array.from({ length: 80 }, (_, i) => ({
+    id: `layer-${i}`,
+    enabled: true,
+    state: 'degraded',
+    reason: 'x'.repeat(200),
+  }));
+  const tools = Array.from({ length: 40 }, (_, i) => ({
+    id: `tool-${i}`,
+    tools: Array.from({ length: 20 }, (_, j) => ({ name: `t${i}-${j}` })),
+  }));
   const query = composeQuery('what is nearby', { layers, tools });
   assert.ok(query.startsWith('what is nearby'));
-  const contextJson = query.slice(query.indexOf('Scene context (JSON): ') + 'Scene context (JSON): '.length);
+  const contextJson = query.slice(
+    query.indexOf('Scene context (JSON): ') + 'Scene context (JSON): '.length,
+  );
   assert.ok(contextJson.length <= LIMITS.maxContextChars + 100);
   const parsed = JSON.parse(contextJson);
   assert.ok(parsed.layers.length <= LIMITS.maxLayersInContext);
+});
+
+test('voiceTurn path: pipeline drives transport.voiceTurn, passes getPluginIds, relays events and handles TTS playback', async () => {
+  let voiceTurnArgs = null;
+  const fakeTrans = {
+    hasKey: () => false,
+    async voiceTurn(opts) {
+      voiceTurnArgs = opts;
+      opts.onEvent?.({
+        event: 'transcript',
+        data: { text: opts.transcript || 'what is in view' },
+      });
+      opts.onEvent?.({
+        event: 'status',
+        data: {
+          statusType: 'executing',
+          statusMessage: 'Thinking',
+          executedAgents: ['agent-1'],
+        },
+      });
+      opts.onEvent?.({ event: 'delta', data: { text: 'You are looking ' } });
+      opts.onEvent?.({ event: 'delta', data: { text: 'at Dubai Marina.' } });
+      opts.onEvent?.({
+        event: 'answer',
+        data: { text: 'You are looking at Dubai Marina.' },
+      });
+      opts.onEvent?.({
+        event: 'tts',
+        data: { audioUrl: 'https://cdn.example/voice-turn-audio.mp3' },
+      });
+      opts.onEvent?.({
+        event: 'done',
+        data: {
+          turnId: 't-1',
+          metrics: { sttMs: 0, chatMs: 30, ttsMs: 40, totalMs: 70 },
+        },
+      });
+      return {
+        transcript: opts.transcript || 'what is in view',
+        answer: 'You are looking at Dubai Marina.',
+        audioUrl: 'https://cdn.example/voice-turn-audio.mp3',
+        metrics: { totalMs: 70 },
+      };
+    },
+  };
+
+  const h = harness({
+    transport: fakeTrans,
+    getPluginIds: () => ['plugin-1713924030'],
+  });
+
+  const turnPromise = h.pipeline.submitText('what is in view');
+  await flush(16);
+  assert.equal(h.pipeline.getState(), 'speaking');
+  assert.equal(
+    voiceTurnArgs.externalUserId,
+    'ondemand-spatial-voice-2026-09-18',
+  );
+  assert.deepEqual(voiceTurnArgs.pluginIds, ['plugin-1713924030']);
+  assert.equal(voiceTurnArgs.transcript, 'what is in view');
+
+  h.player.finish();
+  await flush(6);
+  await turnPromise;
+  assert.equal(h.pipeline.getState(), 'idle');
+});
+
+test('voiceTurn barge-in: press while speaking or in-flight aborts signal and stops player', async () => {
+  let abortedSignal = null;
+  const fakeTrans = {
+    hasKey: () => false,
+    async voiceTurn(opts) {
+      abortedSignal = opts.signal;
+      opts.onEvent?.({ event: 'transcript', data: { text: 'first question' } });
+      opts.onEvent?.({
+        event: 'answer',
+        data: { text: 'First answer is being spoken now.' },
+      });
+      opts.onEvent?.({
+        event: 'tts',
+        data: { audioUrl: 'https://cdn.example/barge-in-audio.mp3' },
+      });
+      return {
+        transcript: 'first question',
+        answer: 'First answer is being spoken now.',
+        audioUrl: 'https://cdn.example/barge-in-audio.mp3',
+      };
+    },
+  };
+
+  const h = harness({ transport: fakeTrans });
+  void h.pipeline.submitText('first question');
+  await flush(16);
+  assert.equal(h.pipeline.getState(), 'speaking');
+
+  // User presses button to barge in while speaking
+  const action = await h.pipeline.press();
+  assert.equal(action, 'barge-in');
+  assert.ok(h.player.stops >= 1);
+  assert.equal(h.pipeline.getState(), 'listening');
+  assert.ok(abortedSignal?.aborted);
 });

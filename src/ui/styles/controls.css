@@ -270,7 +270,13 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: var(--bg-dark);
+  background-color: #0b1526;
+  background-image:
+    linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)),
+    url('/assets/brand/backdrop-network.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;

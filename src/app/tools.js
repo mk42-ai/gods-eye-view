@@ -1,9 +1,11 @@
 import { SceneDirector } from '../scenes/director.js';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
-import { initGevVoiceCommands } from '../voice/gevRealtime.js';
+import { createGevActionRunner } from '../voice/gevActions.js';
 import { installScopeMask, destroyScopeMask } from '../scopeMask.js';
 import { installEntityChat } from '../ondemand/entityChat.js';
+import { installMiniChat } from '../ondemand/miniChat.js';
+import { installPluginPanel } from '../ondemand/pluginPanel.js';
 import {
   installRenderGovernor,
   getRenderGovernorDiagnostics,
@@ -124,12 +126,21 @@ export function createApplicationTools({
   // tracking layers' selection lanes; tears itself down on the app signal.
   // `__godsEyeView.entityChat.openFirstVisible('aircraft')` drives it headless.
   debug.entityChat = installEntityChat({ viewer, dataManager, signal });
-  const voiceCommands = initGevVoiceCommands({
+  // ASK ONDEMAND for every other object type (earthquake, fire, traffic,
+  // regional brief, HUD summary, provider badge, graph node/edge, …) on the
+  // server-key-only /api/ondemand/v2 foundation (src/ondemand/miniChat.js).
+  // Any widget opens it with `gev:ask-object` or createAskOnDemandButton().
+  debug.miniChat = installMiniChat({ signal });
+  // PLUGINS panel (src/ondemand/pluginPanel.js): honest lifecycle badges from
+  // GET /api/ondemand/v2/plugins and per-turn plugin selection consumed by the
+  // mini chat (`getPluginIds`) and the voice pipeline. Mounted after the mini
+  // chat so it can dock into the panel's header slot.
+  debug.pluginPanel = installPluginPanel({ signal });
+  const runner = createGevActionRunner({
     ...voice,
     floorServices: operations.surface.groundFloor,
     annotationResolver: operations.annotationResolver,
     searchNavigation: operations.searchAndFlyTo,
-    signal,
     placeSearch,
     viewer,
     styleManager,
@@ -137,8 +148,14 @@ export function createApplicationTools({
     sceneDirector,
     annotations,
   });
+  const voiceCommands = {
+    runner,
+    protocol: 'ondemand-voice',
+    stop() {},
+  };
+  window.__gevVoiceCommands = voiceCommands;
   defer(() => {
-    voiceCommands.stop({ removeUi: true });
+    voiceCommands.stop();
     if (window.__gevVoiceCommands === voiceCommands)
       delete window.__gevVoiceCommands;
   });

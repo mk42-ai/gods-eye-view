@@ -524,7 +524,7 @@ describe('entitySystemPrompt', () => {
     const ctx = build();
     const instruction = entitySystemInstruction(ctx);
     assert.ok(new TextEncoder().encode(instruction).length <= 2048, `${instruction.length} chars`);
-    assert.match(instruction, /OnDemand Spatial analyst/);
+    assert.match(instruction, /OnDemand Intelligence Workstation analyst/);
     assert.match(instruction, /UAL1234/);
     assert.match(instruction, /14R PU 2090 4906/);
     assert.match(instruction, /MapAction/);

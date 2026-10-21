@@ -518,7 +518,7 @@ async function main() {
       window.fetch = (input, init) => {
         const url = typeof input === 'string' ? input : (input && input.url) || '';
         const T = window.__TURN;
-        if (url.includes('/api/openai/hud-summary')) {
+        if (url.includes('/api/ondemand/v2/summaries/hud')) {
           return Promise.resolve(jsonResponse({ summary: 'Turning-flight QA' }));
         }
         // Serve-time truth: position/track/timestamp all as of (now + offset).

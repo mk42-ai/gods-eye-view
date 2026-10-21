@@ -2,6 +2,7 @@ import { createStandaloneApplication } from './standalone/application.js';
 import { describeError } from './standalone/errors.js';
 import { installServerlessNotice } from './serverlessMode.js';
 import { installOndemandVoice } from './voice/ondemand/index.js';
+import { PRODUCT_NAME } from './brand/productName.js';
 
 const application = createStandaloneApplication({
   googleApiKey: import.meta.env.GOOGLE_MAPS_API_KEY,
@@ -10,7 +11,7 @@ const application = createStandaloneApplication({
 });
 
 application.start().catch((error) => {
-  console.error('OnDemand Spatial initialization failed:', error);
+  console.error(`${PRODUCT_NAME} initialization failed:`, error);
   const loaderStatus = document.querySelector('#loading-screen .loader-status');
   loaderStatus.textContent = `Error: ${describeError(error)}`;
   loaderStatus.style.color = '#ff4444';

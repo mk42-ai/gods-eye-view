@@ -2,7 +2,7 @@
   "name": "ondemand-spatial",
   "private": true,
   "version": "0.1.1",
-  "description": "OnDemand Spatial — a real-time spatial intelligence console for planet Earth: photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/fires/CCTV and OnDemand-powered analysis. Runs in a browser and on Vercel serverless functions.",
+  "description": "OnDemand Spatial \u2014 a real-time spatial intelligence console for planet Earth: photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/fires/CCTV and OnDemand-powered analysis. Runs in a browser and on Vercel serverless functions.",
   "type": "module",
   "license": "MIT",
   "author": "Bilawal Sidhu",
@@ -28,7 +28,6 @@
     "ais",
     "satellites",
     "voice-control",
-    "openai-realtime",
     "visualization"
   ],
   "scripts": {
@@ -44,12 +43,15 @@
     "test": "node scripts/run-unit-tests.mjs",
     "test:serverless": "node --test server/serverless/*.test.mjs",
     "test:ondemand": "node --test server/ondemand/*.test.mjs",
+    "test:foundation": "node --test server/ondemand/foundation/*.test.mjs",
+    "ondemand:foundation:live": "node scripts/ondemand-foundation-live.mjs",
     "ondemand:contract": "node scripts/ondemand-contract-test.mjs",
     "dev:serverless": "node server/serverless/dev-server.mjs",
     "start:serverless": "npm run build && node server/serverless/dev-server.mjs",
     "test:track": "node scripts/track-regression.mjs",
     "qa:map-source-tray": "node scripts/qa-map-source-tray.mjs",
     "check:boundaries": "node scripts/check-import-directions.mjs && node scripts/check-package-boundaries.mjs && node scripts/check-brand-marks.mjs",
+    "check:secrets": "node scripts/check-no-secrets.mjs",
     "qa:transit": "node scripts/qa-transit.mjs",
     "qa:chat": "node scripts/qa-chat-harness.mjs"
   },
@@ -121,9 +123,6 @@
     "./server/providers/regional": {
       "node": "./server/providers/regional.js"
     },
-    "./server/providers/openai": {
-      "node": "./server/providers/openai.js"
-    },
     "./server/standalone/key-setup": {
       "node": "./server/standalone/key-setup.js"
     },
@@ -180,11 +179,6 @@
     "./maps/terrain": "./src/maps/terrain.js",
     "./maps/3d": "./src/maps/google3d.js",
     "./maps/defaults": "./src/maps/defaultSources.js",
-    "./voice/controller": "./src/voice/realtimeController.js",
-    "./voice/control": "./src/voice/control.js",
-    "./voice/realtime-backend": "./src/voice/realtimeBackend.js",
-    "./voice/commands": "./src/voice/commands.js",
-    "./voice/cost": "./src/voice/voiceCost.js",
     "./application/scene": "./src/app/scene.js",
     "./application/controls": "./src/app/controls.js",
     "./application/data": "./src/app/data.js",
@@ -222,9 +216,6 @@
     "./sources/cctv-types": "./src/sources/cctvTypes.js",
     "./sources/regional": "./src/data/regionalModel.js",
     "./voice/action-schemas": "./src/voice/actionSchemas.js",
-    "./voice/session": "./src/voice/session.js",
-    "./voice/session-controls": "./src/voice/sessionCommands.js",
-    "./voice/realtime-session": "./src/voice/realtimeSession.js",
     "./layers/alpr/source": "./src/layers/alpr/source.js",
     "./layers/bikeshare/source": "./src/layers/bikeshare/source.js",
     "./layers/cctv/source": "./src/layers/cctv/source.js",

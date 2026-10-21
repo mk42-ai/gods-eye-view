@@ -13,7 +13,7 @@ export const CREDENTIALS = Object.freeze([
   { name: 'GOOGLE_MAPS_API_KEY', label: 'Google Maps', keychain: [['google-maps-api', 'api-key'], ['google-maps-api', 'default'], ['google-maps-api', 'key']] },
   { name: 'GOOGLE_MAPS_SERVER_API_KEY', label: 'Google Places / Street View server', keychain: [] },
   { name: 'CESIUM_ION_TOKEN', label: 'Cesium ion', keychain: [['cesium-ion', 'token']] },
-  { name: 'OPENAI_API_KEY', label: 'OpenAI voice', keychain: [['openai-api', 'api-key']] },
+  { name: 'ONDEMAND_API_KEY', label: 'OnDemand (voice, HUD summary, ASK ONDEMAND) — server only', keychain: [['ondemand-api', 'api-key']] },
   { name: 'AISSTREAM_API_KEY', label: 'AISStream vessels', keychain: [['aisstream-api', 'api-key']] },
   { name: 'FIRMS_MAP_KEY', label: 'NASA FIRMS fires', keychain: [['firms-map', 'map-key']] },
   { name: 'TOMTOM_API_KEY', label: 'TomTom traffic', keychain: [['tomtom-api', 'api-key']] },
@@ -143,7 +143,7 @@ export function buildCapabilitySummary(credentials) {
     flights: configured('OPENSKY_CLIENT_ID') && configured('OPENSKY_CLIENT_SECRET')
       ? 'OpenSky OAuth credentials present (runtime mode and validity not verified)'
       : 'OpenSky OAuth credentials not configured',
-    voice: configured('OPENAI_API_KEY') ? 'available' : 'off until an OpenAI key is added',
+    voice: configured('ONDEMAND_API_KEY') ? 'available (OnDemand turn-based voice)' : 'off until ONDEMAND_API_KEY is set on the server',
     vessels: configured('AISSTREAM_API_KEY') ? 'live AISStream feed' : 'off until an AISStream key is added',
     fires: configured('FIRMS_MAP_KEY') ? 'live NASA FIRMS feed' : 'off until a FIRMS key is added',
     traffic: configured('TOMTOM_API_KEY') ? 'live TomTom flow' : 'built-in traffic simulation',

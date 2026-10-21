@@ -1,0 +1,255 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "OnDemand Spatial OpenStreetMap Features (Overpass)",
+    "version": "1.0.0",
+    "description": "Query mapped OpenStreetMap features (nodes, ways, and relations) within radius of a coordinate by feature class: amenity, building, highway, power, military, aeroway, leisure, natural. Backed by the OnDemand Spatial Overpass mirror rotation (caches, bounded QL, and multi-mirror failover). Reports live mirror answers or structured degraded status when public mirrors refuse cloud-egress traffic.",
+    "x-ondemand-spatial": {
+      "pluginId": "overpass",
+      "category": "Research",
+      "conversationStarters": [
+        "Find hospitals and clinics (amenity) within 1500m of central Austin (lat 30.27, lon -97.74)",
+        "List power infrastructure features within 2000m of lat 51.5074, lon -0.1278 in London",
+        "What aeroway or aviation features exist within 3000m of Dubai International Airport (lat 25.25, lon 55.36)?",
+        "Search for military features near lat 36.95, lon -76.30 (Norfolk)"
+      ],
+      "auth": "none — same-origin proxy; upstream credentials stay server-side",
+      "generatedBy": "scripts/generate-tool-openapi.mjs"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ondemand-eand-spatial-opal.vercel.app",
+      "description": "OnDemand Spatial deployment (preview or production)"
+    }
+  ],
+  "paths": {
+    "/api/tools/osm_features_near": {
+      "get": {
+        "operationId": "osm_features_near",
+        "summary": "Query OpenStreetMap features near a coordinate by radius and feature class (Overpass QL)",
+        "description": "Queries OpenStreetMap features (nodes, ways, and relations) within radius_m (10 to 3000 m) of lat/lon for a given feature_class (amenity, building, highway, power, military, aeroway, leisure, natural). Returns normalised OSM features with tags, centre coordinates, type, and id. Uses the bounded Overpass QL proxy rotation across configured Overpass mirrors (OVERPASS_ENDPOINTS/OVERPASS_UPSTREAMS); reports mirror status as live or degraded with the known cloud-egress blocker note when public mirrors time out.",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "required": true,
+            "description": "Centre latitude in decimal degrees (WGS84).",
+            "schema": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          },
+          {
+            "name": "lon",
+            "in": "query",
+            "required": true,
+            "description": "Centre longitude in decimal degrees (WGS84).",
+            "schema": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          {
+            "name": "radius_m",
+            "in": "query",
+            "required": false,
+            "description": "Search radius in metres (10 to 3000). Default 500 metres.",
+            "schema": {
+              "type": "number",
+              "minimum": 10,
+              "maximum": 3000,
+              "default": 500
+            }
+          },
+          {
+            "name": "feature_class",
+            "in": "query",
+            "required": false,
+            "description": "OSM top-level feature class key to filter. Default amenity.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "amenity",
+                "building",
+                "highway",
+                "power",
+                "military",
+                "aeroway",
+                "leisure",
+                "natural"
+              ],
+              "default": "amenity"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of features to return (1 to 200). Default 50.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tool result envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error (unknown/missing/invalid parameter)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream failure with a structured reason",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Provider unavailable (missing key / no data) with a structured reason",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Provider": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "live",
+              "stale",
+              "degraded",
+              "unavailable"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "fetchedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "ageSec": {
+            "type": "integer",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "ToolResult": {
+        "type": "object",
+        "required": [
+          "ok",
+          "tool",
+          "data"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "tool": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "provider": {
+            "$ref": "#/components/schemas/Provider"
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "generatedAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ToolError": {
+        "type": "object",
+        "required": [
+          "ok",
+          "error"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "tool": {
+            "type": "string"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "param": {
+                "type": "string"
+              }
+            }
+          },
+          "provider": {
+            "$ref": "#/components/schemas/Provider"
+          }
+        }
+      }
+    }
+  }
+}

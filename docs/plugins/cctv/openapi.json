@@ -1,0 +1,245 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "OnDemand Spatial CCTV Camera Catalogue (Open Data)",
+    "version": "1.0.0",
+    "description": "Catalogued public traffic and surveillance cameras inside a geographic bounding box across North America, the UK, Europe, and Australia: Austin Open Data, Caltrans (California highways), Transport for London (TfL JamCams), Ontario 511, DriveBC, Fintraffic (Finland), TxDOT (Texas statewide), Tallinn, Calgary, and NSW. Returns camera metadata (ID, label, coordinates, city, operator source, feed type) without streaming media frames.",
+    "x-ondemand-spatial": {
+      "pluginId": "cctv",
+      "category": "Research",
+      "conversationStarters": [
+        "Find traffic cameras in downtown Austin inside bbox 30.25,-97.77 to 30.29,-97.72",
+        "List public CCTV cameras along London highway corridors (bbox 51.48,-0.18 to 51.54,-0.08)",
+        "Are there Caltrans highway cameras around San Francisco (bbox 37.70,-122.52 to 37.82,-122.38)?",
+        "Locate surveillance and traffic cameras near Vancouver (bbox 49.20,-123.20 to 49.32,-123.00)"
+      ],
+      "auth": "none — same-origin proxy; upstream credentials stay server-side",
+      "generatedBy": "scripts/generate-tool-openapi.mjs"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ondemand-eand-spatial-opal.vercel.app",
+      "description": "OnDemand Spatial deployment (preview or production)"
+    }
+  ],
+  "paths": {
+    "/api/tools/cameras_in_bbox": {
+      "get": {
+        "operationId": "cameras_in_bbox",
+        "summary": "Traffic and surveillance cameras within a bounding box (metadata only)",
+        "description": "Returns metadata for catalogued public traffic cameras inside a bounding box (lamin, lomin, lamax, lomax). Sources include Austin, Caltrans, TfL JamCams, TxDOT, DriveBC, Fintraffic, Calgary, NSW, and Tallinn. Metadata only: camera ID, label/name, coordinates, city, source kind, and feed type — no media frames.",
+        "parameters": [
+          {
+            "name": "lamin",
+            "in": "query",
+            "required": true,
+            "description": "Bounding-box south latitude in decimal degrees.",
+            "schema": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          },
+          {
+            "name": "lomin",
+            "in": "query",
+            "required": true,
+            "description": "Bounding-box west longitude in decimal degrees.",
+            "schema": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          {
+            "name": "lamax",
+            "in": "query",
+            "required": true,
+            "description": "Bounding-box north latitude in decimal degrees.",
+            "schema": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          },
+          {
+            "name": "lomax",
+            "in": "query",
+            "required": true,
+            "description": "Bounding-box east longitude in decimal degrees.",
+            "schema": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of cameras to return (1 to 200). Default 50.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tool result envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error (unknown/missing/invalid parameter)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream failure with a structured reason",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Provider unavailable (missing key / no data) with a structured reason",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Provider": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "live",
+              "stale",
+              "degraded",
+              "unavailable"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "fetchedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "ageSec": {
+            "type": "integer",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "ToolResult": {
+        "type": "object",
+        "required": [
+          "ok",
+          "tool",
+          "data"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "tool": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "provider": {
+            "$ref": "#/components/schemas/Provider"
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "generatedAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ToolError": {
+        "type": "object",
+        "required": [
+          "ok",
+          "error"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "tool": {
+            "type": "string"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "param": {
+                "type": "string"
+              }
+            }
+          },
+          "provider": {
+            "$ref": "#/components/schemas/Provider"
+          }
+        }
+      }
+    }
+  }
+}

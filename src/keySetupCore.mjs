@@ -50,14 +50,6 @@ export const KEY_SETUP_KEYS = Object.freeze([
     hidden: true,
   }),
   Object.freeze({
-    id: 'openai',
-    title: 'OPENAI',
-    unlocks: 'Voice control — talk to the planet',
-    getUrl: 'https://platform.openai.com/api-keys',
-    envVars: Object.freeze(['OPENAI_API_KEY']),
-    tier: 'metered',
-  }),
-  Object.freeze({
     id: 'aisstream',
     title: 'AISSTREAM',
     unlocks: 'Live ships, worldwide',

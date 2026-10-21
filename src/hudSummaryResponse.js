@@ -1,10 +1,15 @@
-export const HUD_SUMMARY_UNCONFIGURED_CODE = 'OPENAI_NOT_CONFIGURED';
+// 2026-10-20: the HUD summary moved from the OpenAI bypass to
+// /api/ondemand/v2/summaries/hud (the server-side foundation proxy route);
+// the graceful "no key" shape is unchanged, only the code name follows.
+export const HUD_SUMMARY_UNCONFIGURED_CODE = 'ONDEMAND_NOT_CONFIGURED';
+/** Legacy code emitted by the retired OpenAI route — still recognised. */
+export const HUD_SUMMARY_LEGACY_UNCONFIGURED_CODE = 'OPENAI_NOT_CONFIGURED';
 
 /**
  * Describe the optional HUD summary capability without turning a deliberately
  * keyless boot into an HTTP failure.
  *
- * @param {unknown} apiKey - Candidate server-side OpenAI credential.
+ * @param {unknown} apiKey - Candidate server-side OnDemand credential.
  * @returns {{ statusCode: 200, payload: { configured: false, code: string, error: null, summary: null } }|null}
  *   A graceful unconfigured response, or null when the provider is configured.
  */
@@ -31,7 +36,8 @@ export function isHudSummaryUnconfigured(status, data) {
     keys.length === 4 &&
     status === 200 &&
     data?.configured === false &&
-    data?.code === HUD_SUMMARY_UNCONFIGURED_CODE &&
+    (data?.code === HUD_SUMMARY_UNCONFIGURED_CODE ||
+      data?.code === HUD_SUMMARY_LEGACY_UNCONFIGURED_CODE) &&
     data?.error === null &&
     data?.summary === null
   );

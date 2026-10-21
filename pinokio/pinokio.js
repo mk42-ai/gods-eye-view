@@ -1,6 +1,6 @@
 module.exports = {
   version: '3.6',
-  title: "OnDemand Spatial",
+  title: process.env.PRODUCT_NAME || "OnDemand Intelligence Workstation",
   description: 'A live 3D intelligence console for planet Earth.',
   menu: async (kernel, info) => {
     const installed = await kernel.exists(__dirname, '.installed');
@@ -23,7 +23,7 @@ module.exports = {
       const local = info.local('start.js');
       if (local?.url) {
         return [
-          { default: true, icon: 'fa-solid fa-earth-americas', text: 'Open OnDemand Spatial', href: local.url },
+          { default: true, icon: 'fa-solid fa-earth-americas', text: `Open ${process.env.PRODUCT_NAME || 'OnDemand Intelligence Workstation'}`, href: local.url },
           { icon: 'fa-solid fa-terminal', text: 'Server', href: 'start.js' },
         ];
       }

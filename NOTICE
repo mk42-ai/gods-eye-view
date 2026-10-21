@@ -1,0 +1,9 @@
+OnDemand Intelligence Workstation — third-party notices
+
+This product includes code from the God's Eye View project
+(https://github.com/bilawalsidhu/gods-eye-view), Copyright (c) 2026 Bilawal Sidhu,
+licensed under the MIT License (see LICENSE). The upstream credit line was moved
+from the first-run screen to this file on 2026-10-20 (docs/agent-execution/BRANDING_AUDIT.md §2 row 1).
+
+Icons: Lucide (ISC) — public/brand/icons/LICENSE-icons.md.
+3-D models and data-source licences: public/models/README.md, DATA_SOURCES.md.

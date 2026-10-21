@@ -131,35 +131,38 @@ test('serverless /api/ais-live without any scene hint answers idle (never 501); 
   assert.equal(bad.statusCode, 400);
 });
 
-test('serverless guard: /api/realtime/token answers 501 unavailable_in_serverless', async () => {
+test('serverless alias: /api/voice/health answers 200 with voice health shape', async () => {
   const api = await apiPromise;
   const res = mockRes();
-  await api.handle(mockReq('/api/realtime/token'), res);
-  assert.equal(res.statusCode, 501);
-  assert.deepEqual(JSON.parse(res.body), {
-    error: 'unavailable_in_serverless',
-    feature: 'voice-realtime',
-    message:
-      'Voice control (OpenAI Realtime ephemeral session) is unavailable in the serverless deployment',
-  });
+  await api.handle(mockReq('/api/voice/health'), res);
+  assert.equal(res.statusCode, 200);
+  const body = JSON.parse(res.body);
+  assert.equal(body.ok, true);
+  assert.deepEqual(body.services, ['speech_to_text', 'text_to_speech']);
+  assert.equal(
+    body.realtimeTransport,
+    'turn-based (OnDemand exposes no realtime audio API)',
+  );
 });
 
-test('serverless guard: /api/realtime/debug-log is a silent 204 no-op', async () => {
+test('liveness alias: GET /api/health answers with the foundation health payload', async () => {
   const api = await apiPromise;
   const res = mockRes();
-  await api.handle(mockReq('/api/realtime/debug-log', { method: 'POST' }), res);
-  assert.equal(res.statusCode, 204);
-  assert.equal(res.body, '');
-});
+  await api.handle(mockReq('/api/health'), res);
+  assert.equal(res.statusCode, 200);
+  const body = JSON.parse(res.body);
+  assert.equal(body.ok, true);
+  assert.equal(body.keySource, 'server');
+  assert.equal(typeof body.contracts, 'number');
+  const keySourceHeader = Object.keys(res.headers).find(
+    (h) => h.toLowerCase() === 'x-ondemand-key-source',
+  );
+  assert.equal(res.headers[keySourceHeader], 'server');
 
-test('/api/openai/hud-summary is left mounted (only token + debug-log are guarded)', async () => {
-  const api = await apiPromise;
-  const res = mockRes();
-  // GET is rejected by the real handler (it only accepts POST) — reaching
-  // THAT 405 (not our 501 guard, and not the 404 not-found layer) proves the
-  // real openai-realtime-proxy handler is still mounted for this sub-route.
-  await api.handle(mockReq('/api/openai/hud-summary'), res);
-  assert.equal(res.statusCode, 405);
+  // Only GET/HEAD are aliased — a POST still hits the not-found layer.
+  const post = mockRes();
+  await api.handle(mockReq('/api/health', { method: 'POST' }), post);
+  assert.equal(post.statusCode, 404);
 });
 
 test('key setup is never mounted: /api/setup/status falls through to the not-found layer', async () => {
@@ -311,8 +314,14 @@ test('GET /api/ondemand/workflow/status|logs|outputs carry the original query on
         upstream.calls.map((c) => c.method),
         ['GET', 'GET', 'GET'],
       );
-      assert.match(upstream.calls[0].url, /\/automation\/api\/execution\/abc%2F1$/);
-      assert.match(upstream.calls[1].url, /\/automation\/api\/execution\/abc\/logs$/);
+      assert.match(
+        upstream.calls[0].url,
+        /\/automation\/api\/execution\/abc%2F1$/,
+      );
+      assert.match(
+        upstream.calls[1].url,
+        /\/automation\/api\/execution\/abc\/logs$/,
+      );
       assert.match(
         upstream.calls[2].url,
         /\/automation\/api\/execution\/abc\/node\/outputs$/,
@@ -361,7 +370,12 @@ test('GET /api/ondemand/workflow/stream re-shapes status/logs polling as SSE: op
     const structured = {
       message: 'Two military tracks verified.',
       entities: [],
-      actions: [{ name: 'set_layer_visibility', params: { layerId: 'military', enabled: true } }],
+      actions: [
+        {
+          name: 'set_layer_visibility',
+          params: { layerId: 'military', enabled: true },
+        },
+      ],
       evidence: [],
       sources: [],
       suggestedNextActions: [],
@@ -369,16 +383,32 @@ test('GET /api/ondemand/workflow/stream re-shapes status/logs polling as SSE: op
     };
     const upstream = stubUpstream([
       jsonUpstream(200, {
-        data: { status: 'success', endedAtInMilliseconds: 1700000001000, timeTakenInMilliseconds: 812 },
+        data: {
+          status: 'success',
+          endedAtInMilliseconds: 1700000001000,
+          timeTakenInMilliseconds: 812,
+        },
       }),
       jsonUpstream(200, {
         data: [
-          { timestamp: 1700000000500, nodeKey: 'session_context', message: 'started' },
-          { timestamp: 1700000000900, nodeKey: 'structured_response', message: 'done' },
+          {
+            timestamp: 1700000000500,
+            nodeKey: 'session_context',
+            message: 'started',
+          },
+          {
+            timestamp: 1700000000900,
+            nodeKey: 'structured_response',
+            message: 'done',
+          },
         ],
       }),
       jsonUpstream(200, {
-        data: { outputs: { structured_response: { value: JSON.stringify(structured) } } },
+        data: {
+          outputs: {
+            structured_response: { value: JSON.stringify(structured) },
+          },
+        },
       }),
     ]);
     try {
@@ -388,7 +418,10 @@ test('GET /api/ondemand/workflow/stream re-shapes status/logs polling as SSE: op
         res,
       );
       assert.equal(res.statusCode, 200);
-      assert.equal(res.headers['Content-Type'], 'text/event-stream; charset=utf-8');
+      assert.equal(
+        res.headers['Content-Type'],
+        'text/event-stream; charset=utf-8',
+      );
       assert.equal(res.headers['X-OnDemand-Stream'], 'polling-reshaped');
       const frames = res.body
         .split('\n\n')
@@ -417,7 +450,11 @@ test('GET /api/ondemand/workflow/stream re-shapes status/logs polling as SSE: op
       // One poll cycle (status, logs) + the outputs read — no upstream stream.
       assert.deepEqual(
         upstream.calls.map((c) => c.url.replace(/^.*\/automation\/api/, '')),
-        ['/execution/exec-9', '/execution/exec-9/logs', '/execution/exec-9/node/outputs'],
+        [
+          '/execution/exec-9',
+          '/execution/exec-9/logs',
+          '/execution/exec-9/node/outputs',
+        ],
       );
     } finally {
       upstream.restore();
@@ -445,7 +482,10 @@ test('streamExecution polls with the injected sleep until terminal, dedupes logs
   const answers = [
     // poll 1
     { status: 200, json: { data: { status: 'executing' } } },
-    { status: 200, json: { data: [{ timestamp: 1, nodeKey: 'a', message: 'one' }] } },
+    {
+      status: 200,
+      json: { data: [{ timestamp: 1, nodeKey: 'a', message: 'one' }] },
+    },
     // poll 2 (same log again + a new one)
     { status: 200, json: { data: { status: 'executing' } } },
     {
@@ -494,6 +534,12 @@ test('streamExecution polls with the injected sleep until terminal, dedupes logs
   assert.equal(done.logCount, 2);
   assert.equal(done.timeToFirstLogMs, 0);
   assert.equal(done.structuredResponse, undefined); // no outputs read on timeout
-  assert.match(seenUrls[0], /^\/api\/ondemand\/workflow\?executionId=exec-t&action=status$/);
-  assert.match(seenUrls[1], /^\/api\/ondemand\/workflow\?executionId=exec-t&action=logs$/);
+  assert.match(
+    seenUrls[0],
+    /^\/api\/ondemand\/workflow\?executionId=exec-t&action=status$/,
+  );
+  assert.match(
+    seenUrls[1],
+    /^\/api\/ondemand\/workflow\?executionId=exec-t&action=logs$/,
+  );
 });

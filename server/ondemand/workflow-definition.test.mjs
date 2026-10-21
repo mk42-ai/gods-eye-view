@@ -13,12 +13,19 @@ import {
   WORKFLOW_NAME,
   WORKFLOW_CREATED_AS,
   WORKFLOW_VERSION,
+  WORKFLOW_V1_TIERS,
+  WORKFLOW_V1_FULFILLMENT_ENDPOINT_ID,
 } from './workflow-definition.js';
-import { TIER_DEFAULTS, FLOW_DEFAULTS } from './config.js';
+import { TIER_DEFAULTS as CURRENT_TIER_DEFAULTS, FLOW_DEFAULTS } from './config.js';
+
+// The live v1 workflow is pinned to the FROZEN tier snapshot it was created
+// with (2026-09-18); config.js TIER_DEFAULTS has since moved ASK to
+// predefined-gpt-6-luna (2026-10-20, B-2) and describes workflow v2.
+const TIER_DEFAULTS = WORKFLOW_V1_TIERS;
 import { GEV_ACTION_SCHEMAS } from '../../src/voice/actionSchemas.js';
 
 const ACTION_NAMES = GEV_ACTION_SCHEMAS.map((s) => s.name);
-const FULFILLMENT = 'predefined-gpt-5.6-luna';
+const FULFILLMENT = WORKFLOW_V1_FULFILLMENT_ENDPOINT_ID;
 
 function build(nowIso = '2026-09-18T07:00:00.000Z') {
   return buildSpatialWorkflowDefinition({
@@ -220,6 +227,13 @@ describe('server/ondemand/workflow-definition.js — OnDemand Spatial Advanced W
       'predefined-claude-sonnet-5',
       'predefined-gpt-5.6-luna',
     ]);
+  });
+
+  test('config.js TIER_DEFAULTS (workflow v2 candidate) differs from the frozen v1 tiers only by the ASK endpoint successor', () => {
+    assert.equal(CURRENT_TIER_DEFAULTS.ASK.fulfillmentEndpointId, 'predefined-gpt-6-luna');
+    assert.equal(CURRENT_TIER_DEFAULTS.ASK.reasoningMode, WORKFLOW_V1_TIERS.ASK.reasoningMode);
+    assert.deepEqual(CURRENT_TIER_DEFAULTS.INVESTIGATE, WORKFLOW_V1_TIERS.INVESTIGATE);
+    assert.deepEqual(CURRENT_TIER_DEFAULTS.DEEP, WORKFLOW_V1_TIERS.DEEP);
   });
 
   test('the Spatial Action Planner enumerates exactly the 28 MapAction names from src/voice/actionSchemas.js', () => {

@@ -17,7 +17,7 @@
  *     way — `for await (const chunk of req)`
  *     (server/providers/common/request.js `readRequestBodyCapped`, used by
  *     the `/api/overpass` POST route) or `req.on('data'|'end', ...)`
- *     (`readRequestBody`, used by `/api/openai/hud-summary`) — so a request
+ *     (`readRequestBody`, used by the legacy provider POST routes) — so a request
  *     whose body Vercel already consumed would look empty to them.
  *     `rehydrateBody` replays the already-parsed body as a single chunk
  *     through both reading styles.
