@@ -290,4 +290,40 @@ Checkpoint before any chat-UI change: tag `checkpoint-2026-10-21-pre-integration
 
 20-point checklist status after cycle 3: startup ✅ · auth n/a (anonymous workspace user, server-side principal binding) · dashboard/HUD ✅ · navigation ✅ · OnDemand data flow ✅ · search/filtering/maps/graphs/timelines — unchanged code, not separately exercised (N-15) · cards ✅ · mini chat opens from objects ✅ · context received ✅ (grounded answers, provenance) · streaming + persistence ✅ (B, E) · session isolation ✅ (E + live row 26) · source references ✅ (C) · data refresh — unchanged · failure states ✅ (G + empty states) · browser refresh — resume via re-open + `/messages` replay (D/E) · responsive ✅ (every scenario at 390×844) · voice ✅ (turn-based on OnDemand) · plugin lifecycle ✅ (honest badges).
 
-GENERATED_UTC: 2026-10-21T04:13:00Z
+## 9. Cycle 4 (2026-10-21T04:17Z–07:28Z) — verification swarm on the real-project preview + sandbox resume
+
+### 9.1 Five-agent verification of preview `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` (commit `d44264f`) — artefacts `artifacts/verify-2026-10-21/`
+| agent | scope | result | artefact |
+|---|---|---|---|
+| 1 | desktop 1440×900 walkthrough (`scripts/qa-verify-walkthrough.mjs`) | 15 PASS / 1 FAIL / 2 PARTIAL of 18 — FAIL `1g_voice_plugin_selection` (voice turn did not forward ticked plugin ids) | `desktop/RESULTS.md` |
+| 2 | mobile 390×844 walkthrough (`scripts/qa-verify-mobile.mjs`) | 15 PASS / 4 FAIL of 19 — `2c` investigate turn > 60 s, `2m3` touch targets < 44 px, `2m5` voice button covered by open chat, `2g` plugin-id forwarding | `mobile/RESULTS.md` |
+| 3 | live API matrix (`scripts/qa-verify-api.mjs`) | 47 PASS / 6 EXPECTED-DEGRADED / 2 UNSUPPORTED / 0 FAIL of 55 (`GET /api/health` → 404 recorded UNSUPPORTED) | `api/RESULTS.md`, `api-log.json` |
+| 4 | scenarios A–G + perf + no-fake-content audit (`scripts/qa-verify-perf.mjs`) | 32 PASS / 2 FAIL of 34 — follow-up pinning after the user scrolled up | `scenarios/RESULTS.md` |
+| 5 | fixes for the above (uncommitted at the end of cycle 4's first run; landed in this checkpoint) | see §9.2 | this commit |
+
+### 9.2 Fixes landed in this checkpoint (interrupted work recovered from the working tree, re-tested 2026-10-21T07:15Z)
+| fix | file(s) | test |
+|---|---|---|
+| Investigate deadline budget: per-plugin timeout = min(configured, 60 % of budget), `Promise.allSettled`, `status:"timeout"` / `retrieval_timeout` rows, synthesis gets the remaining budget (low effort when < 20 s); `budgetMs` accepted by `POST /investigate` (`ONDEMAND_INVESTIGATE_BUDGET_MS` default 50 s < Vercel 60 s) | `server/ondemand/foundation/orchestrator.js`, `proxy-route.js` | `phase-cdg.test.mjs` "enforces deadline budget" (76/76 foundation) |
+| Mini chat shows the `source-unavailable` empty state on a 504/timeout investigation | `src/ondemand/miniChat.js` | `miniChat*.test.mjs` 10/10 |
+| Voice turn forwards the PLUGINS panel selection (`win.__odPlugins.getSelectedPluginIds`, max 4) | `src/voice/ondemand/index.js` | `ui.test.mjs` "wires plugin selection" |
+| `GET/HEAD /api/health` liveness alias → foundation `/api/ondemand/v2/health` (pure URL rewrite, GET/HEAD only; POST still 404) | `server/serverless/app.js` | `app.test.mjs` "liveness alias" (57/57 serverless) |
+
+Gates re-run 2026-10-21T07:16Z–07:20Z: `format:check` ✓ (965 files) · `check:boundaries` ✓ · `check:secrets` ✓ (1,591 files) · `test:foundation` 76/76 · `test:serverless` 57/57 · `test:ondemand` 250/250.
+
+### 9.3 Fresh ephemeral preview (Vercel Sandbox, node22) — resume after `sb-6pg586b0uu6v` refused connections
+| item | value |
+|---|---|
+| sandbox | `sbx_pZgfovEYwxtQu48zPwIg0rVujhWO` → `https://sb-72vtzc1c6cf8.vercel.run` (brand-new, 90 min) |
+| install / build | `PUPPETEER_SKIP_DOWNLOAD=1 npm ci` (129 packages, 5 s) · `npm run build` 5.4 s, `dist/index.html` `<title>OnDemand Intelligence Workstation</title>` · `check-no-secrets.mjs --dist` ✓ |
+| env | 21 keys from the Vercel project (plain values copied; sensitive ones use the repo's documented defaults) in the sandbox `.env` (gitignored); `ONDEMAND_API_KEY` only in the server process environment |
+| server | `node server/serverless/dev-server.mjs` PID 248, started 2026-10-21T07:24:30Z, `0.0.0.0:5173` |
+| `GET /api/health` | **200** on the first poll (07:24:47Z): `{"ok":true,"configured":true,"conversationBackend":"memory","contracts":33,"activePlugins":10,"defaultEndpointId":"predefined-gpt-6-luna","workflowId":{"configured":true,"source":"ONDEMAND_SPATIAL_WORKFLOW_ID","valid":true},"guards":{"rateLimitPerMinute":60,"userHeaderRequired":false,"promptInjectionFencing":true},"keySource":"server"}` |
+| brand assets | `/assets/brand/favicon.ico` 200 `image/x-icon` · `/assets/brand/mark-mono.png` 200 `image/png` 882,285 B · `/assets/brand/mark-primary.png` 200 `image/png` 828,607 B |
+| headless Chromium (ui-validator) 1440×900 | 15/15: `#hud-ask-ondemand` click opens `#ondemand-mini-chat[data-open=true]`, text "OnDemand Intelligence" + "ASK ONDEMAND" present, "God's Eye" / "GEV MIC" / "Gods Eye" / `\bGEV\b` absent, `document.title` exact, favicon link → `/assets/brand/favicon.ico`, no eye-motif asset; 0 page errors; console: expected `/api/setup/status` 404 + `/messages` 404 on a never-queried object |
+| headless Chromium 390×844 | 8/8 (same branding assertions) |
+| verified_at | 2026-10-21T07:27:54Z — screenshots `root-verify-1440x900.png`, `root-verify-390x844.png` (turn attachments) |
+
+Known gaps carried to NEXT_ACTIONS: `2m3` touch targets, `2m5` voice button overlap, follow-up pinning (N-22…N-24); `ONDEMAND_INVESTIGATE_BUDGET_MS` should be set on the Vercel project (N-25).
+
+GENERATED_UTC: 2026-10-21T07:30:00Z

@@ -14,7 +14,7 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 | **ORIGINAL_SHA** | `1c9558cde07fdddb8d7d01b64f7143f0bbc9d116` (HEAD of `origin/ondemand-serverless`) |
 | Recovery tag + branch | `recovery/pre-ondemand-rebuild-20261020` → `1c9558c` (tag object `74a2609`), pushed 2026-10-20T21:26:36Z |
 | Working branch | `integration/ondemand-native` (created from `1c9558c`, pushed 21:27:07Z) |
-| Current commit (this checkpoint) | cycle-3 feature commit + the cycle-3 checkpoint-docs commit that carries this file (see §9) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
+| Current commit (this checkpoint) | cycle-4 checkpoint commit that carries this file (see §9) on top of `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
 | Uncommitted changes / stashes at discovery | none (`git status` clean, `git stash list` empty) |
 | Resume path taken | **Fresh discovery** — `docs/agent-execution/RESUME.md` and `MASTER_STATE.md` did not exist at `1c9558c` (the repo has a different checkpoint lineage: `docs/CLOSEOUT.md`, `docs/handover/*`, `docs/audit/*`, read as prior art) |
 
@@ -115,6 +115,12 @@ N-18 register the 17 OpenAPI plugins in the dashboard (API create is 500/524) ·
 ## 8. UI validation
 Browser-level UI validation not run this cycle — no UI consumes `/api/ondemand/v2` yet (Phase C, N-5/N-8). Existing UI untouched; `npm run build` green locally and in the sandbox preview (`GET /` 200); `src/` never imports the foundation (guard test).
 
+## 3d. Completed in cycle 4 (evidence TEST_RESULTS §9, artefacts `artifacts/verify-2026-10-21/`)
+- Five-agent verification of the real-project preview `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8`: desktop 15/18, mobile 15/19, API 47 PASS + 6 expected-degraded + 2 unsupported / 55, scenarios A–G 14/14 + perf 4/6 + no-fake-content 14/14.
+- Fixes landed: investigate deadline budget (`timeout` rows, synthesis within budget, `budgetMs`), mini-chat 504 → `source-unavailable` empty state, voice turn forwards the PLUGINS selection, `GET /api/health` liveness alias. Gates green (foundation 76, serverless 57, ondemand 250).
+- Fresh ephemeral preview `https://sb-72vtzc1c6cf8.vercel.run` (sandbox `sbx_pZgfovEYwxtQu48zPwIg0rVujhWO`): `/api/health` 200 (`keySource:"server"`, 33 contracts), brand assets 200, headless-Chromium 15/15 at 1440×900 and 8/8 at 390×844 with zero legacy branding.
+- Open: N-22…N-25 (mobile touch targets, voice-button overlap, follow-up pinning, `ONDEMAND_INVESTIGATE_BUDGET_MS` on the Vercel project).
+
 ## 9. Commits on `integration/ondemand-native` (this cycle)
 | sha | message | timestamp |
 |---|---|---|
@@ -129,7 +135,9 @@ Browser-level UI validation not run this cycle — no UI consumes `/api/ondemand
 | 34319fb | feat(ask-ondemand): contextual mini chat for every object type on the v2 foundation | 2026-10-20T23:39Z |
 | f89d3ca | docs(agent-execution): cycle-2 checkpoint | 2026-10-20T23:36:39Z |
 | 75a0792 | chore(checkpoint): cycle-3 baseline (tag `checkpoint-2026-10-21-pre-integration-audit`) | 2026-10-21T01:22:13Z |
-| (cycle 3 feature) | feat(ondemand): voice turn on OnDemand (OpenAI Realtime removed), plugin lifecycle, 21 tool contracts + in-process invoker, 11 tool wrappers, UI upgrades, A–G harness | see `git log` |
+| d44264f | feat(ondemand): voice turn on OnDemand (OpenAI Realtime removed), plugin lifecycle, 21 tool contracts + in-process invoker, 11 tool wrappers, UI upgrades, A–G harness | 2026-10-21T04:04:17Z |
+| 226217f | docs(agent-execution): cycle-3 checkpoint (tag `checkpoint-2026-10-21-verify-cycle4`) | 2026-10-21T04:12:28Z |
+| (cycle 4) | fix(ondemand): investigate deadline budget, 504 empty state, voice plugin forwarding, /api/health alias + verification artefacts + cycle-4 checkpoint docs | see `git log` |
 | (cycle 3 docs) | docs(agent-execution): cycle-3 checkpoint — INTEGRATION_AUDIT, live docs, trigger decision, TEST_RESULTS §8, BLOCKERS B-14…17, NEXT_ACTIONS N-18…21, RESUME | see `git log` |
 
 ## 10. Blockers
@@ -161,4 +169,4 @@ otherwise always use the server key, and the new `/api/ondemand/v2/*` never read
 | Infrastructure consolidation | OpenAI Realtime provider removed (component 7/38 DONE); voice, plugin lifecycle and tool invoker run in-process — Vercel function count unchanged; redundant AI orchestrators remaining: **0** | INFRASTRUCTURE_DECISIONS.md |
 | Deployment | real-project previews via the Vercel REST API: checkpoint `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` (02:08Z) and post-change `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` READY 04:05Z (`/api/ondemand/v2/health` ok, voice/health ok, 14/14 scenarios, `/api/realtime/token` 404); production still Git-linked to the sibling repo (B-6) | TEST_RESULTS §8.4/§8.5 |
 
-GENERATED_UTC: 2026-10-21T04:13:00Z
+GENERATED_UTC: 2026-10-21T07:30:00Z

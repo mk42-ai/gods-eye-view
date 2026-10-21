@@ -47,6 +47,7 @@ RESUME ONDEMAND INTELLIGENCE MISSION. Read the repository's docs/agent-execution
 - Voice workflow `6ad8160ab28e35aa11d85632` (ACTIVE, webhook trigger). The API `execute` endpoint carries no body and the webhook URL is not returned by the API (dashboard-only, Bearer-JWT gated) → the interactive voice path is the direct Services+Chat chain; the workflow is the auditable/async path (TRIGGER_DECISION.md).
 - Relaunch workflow `6ad7f961c2cfee207e8f3d07` (ACTIVE, cron every 6 h) re-emits the trigger sentence; it cannot start the agent (B-12).
 - Plugin creation from OpenAPI is dashboard-only (API create → 500/524, B-15); 17 OpenAPI documents are ready to paste.
+- Ephemeral previews: `vercel` CLI is blocked but the Vercel **Sandbox** CLI works (`sandbox create --runtime node22 --timeout 90m --publish-port 5173`, copy a tgz of the tree without `node_modules/.git/dist/docs/media`, `PUPPETEER_SKIP_DOWNLOAD=1 npm ci`, `npm run build`, `node server/serverless/dev-server.mjs` with `ONDEMAND_API_KEY` only in the process env). `GET /api/health` is a liveness alias of `/api/ondemand/v2/health` since cycle 4. If a prior sandbox refuses connections it has expired — create a new one, never reuse the URL.
 - Vercel CLI is blocked in the agent container; deploy previews with `POST https://api.vercel.com/v13/deployments` (`gitSource` repoId 1375642703) against project `prj_VbHbEhFSDFkdXCqlq8XqONoFWQHO` (B-6 workaround).
 
-GENERATED_UTC: 2026-10-21T03:55:00Z
+GENERATED_UTC: 2026-10-21T07:30:00Z

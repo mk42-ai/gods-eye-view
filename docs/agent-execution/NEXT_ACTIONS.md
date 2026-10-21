@@ -30,6 +30,10 @@ Branch `integration/ondemand-native` · updated 2026-10-21T03:45:00Z (UTC, cycle
 | N-19 | Configure operator keys for NASA FIRMS and TomTom in Vercel project environment (`NASA_FIRMS_MAP_KEY`, `TOMTOM_API_KEY`). | Vercel admin | `/api/tools/fire_detection_search` and `/api/tools/traffic_flow_at_point` return HTTP 200 (closes B-17). | TODO (operator action) |
 | N-20 | Extract webhook trigger URL from OnDemand dashboard for voice workflow `6ad8160ab28e35aa11d85632` and configure Vercel env var `ONDEMAND_VOICE_WEBHOOK_URL` (names only). | dashboard access | mode 'workflow' in `/api/ondemand/v2/voice/turn` delivers dynamic user audio/transcript payloads to Flow Builder DAG. | TODO (operator action) |
 | N-21 | Run full test suite on Node 24 in CI environment (`.github/workflows/ci.yml`). | Node 24 runner | All 4,35x tests pass, including the 2 allocation microbenchmarks (`assertNode24AllocationRuntime`), closes B-8. | TODO |
+| N-22 | Mobile touch targets ≥ 44 px for the mini chat controls (`#ondemand-mini-chat-send/-close/-expand`, `#od-voice-button`) — verify-2026-10-21 mobile `2m3`. | — | `scripts/qa-verify-mobile.mjs` `2m3` PASS (0 below 44 px). | TODO |
+| N-23 | Keep `#od-voice-button` usable while the mini chat is open at 390×844 (`2m5`): dock the chat above the voice control or move the control into the chat footer. | N-22 | `2m5` PASS (`usable=true`). | TODO |
+| N-24 | Follow-up pinning: reset `userScrolledUp` on user-message submit so a follow-up after scrolling up re-pins to the bottom (`scripts/qa-verify-perf.mjs` Part 2). | — | perf Part 2 6/6 PASS. | TODO |
+| N-25 | Set `ONDEMAND_INVESTIGATE_BUDGET_MS=50000` on the Vercel project (name only) so `/investigate` always finishes inside the 60 s function limit; re-run mobile `2c`. | Vercel admin | `2c` PASS (`planTurnSettled=true`). | TODO (operator action) |
 
 ## Phase C exit criteria (what "done" means for the next cycle)
 1. 0 direct AI bypasses; 1 AI gateway (OnDemand) — INTEGRATION_MATRIX counts updated: ✅ (OpenAI Realtime completely removed; direct AI bypasses = 0).
@@ -38,4 +42,4 @@ Branch `integration/ondemand-native` · updated 2026-10-21T03:45:00Z (UTC, cycle
 4. Typecheck + lint + secrets + boundaries + full unit suite green in CI on Node 24: ⬜ (4,188 pass on Node 22; static gates green; Node 24 CI run for 2 allocation benches pending N-21).
 5. Preview deployment of the integration branch healthy (`/api/ondemand/v2/health` ok, B-1 fixed): ✅ (Preview `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` healthy, v2/health 200, B-1 resolved).
 
-GENERATED_UTC: 2026-10-21T03:45:00Z
+GENERATED_UTC: 2026-10-21T07:30:00Z
