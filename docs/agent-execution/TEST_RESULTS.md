@@ -625,3 +625,25 @@ ui-validator post-fix (`retry0917-after-fixes-*.png`): 15/15 at both viewports �
 - Known-benign console/network lines unchanged (`/api/setup/status` 404, `/messages` 404 on a never-queried object).
 
 GENERATED_UTC: 2026-10-21T10:35:00Z
+
+## 12. Cycle 7 (2026-10-21T12:28Z–12:37Z) — ASAP redeploy + verify (do-not-return-until-live)
+
+Old preview `https://sb-4asza5droe1u.vercel.run` checked 12:28:02Z: HTTP 410 SANDBOX_STOPPED (expired) → brand-new sandbox per RESUME recipe. Source = clean tree `a16b8d9` on `integration/ondemand-native` (also fallback zip code-files-20261021-103540_v1.zip).
+
+| item | value |
+|---|---|
+| sandbox | `sbx_USYsCwFiUaGGciwp11ULdOh9o8HA` → **https://sb-3zg3okfus095.vercel.run** (node22 v22.22.2, `--timeout 90m`, `--publish-port 5173`, created 2026-10-21T12:29:55Z, expiry ≈14:29:55Z) |
+| tree | tgz of working tree without node_modules/.git/dist/docs/.ui-proof (1,624 entries, 19 MB) |
+| install/build | `PUPPETEER_SKIP_DOWNLOAD=1 npm ci` 12:30:26Z (129 pkgs) · `vite build` 6.04s 12:30:31Z · dist title `OnDemand Intelligence Workstation` · `check-no-secrets --dist` OK (1,699 files) |
+| env | 21 keys by name from repo `.env`; `ONDEMAND_API_KEY` server-only via temp file sourced+deleted before server start (`/tmp/od-secret.env` absent after; 0 assignments in .env/tgz; not in dist per secrets check) |
+| server | `node server/serverless/dev-server.mjs` PID 164, 0.0.0.0:5173, 12:31:10Z |
+| `GET /api/health` | **200 at 2026-10-21T12:31:17Z** `{"ok":true,"configured":true,"contracts":33,"activePlugins":10,"defaultEndpointId":"predefined-gpt-6-luna","keySource":"server"}` · re-polled 200 12:34:54Z, 12:36:37Z |
+| `GET /` | **200** `<title>OnDemand Intelligence Workstation</title>` 12:31:17Z, 12:36:37Z |
+| A–G harness | **14/14 PASS** (`scripts/qa-chat-intelligent-ui.mjs`, 1440x900 + 390x844, 12:32:41Z–12:33:36Z) — covers streaming, HUD, isolation, reload persistence, plugin caps, failure/retry |
+| after-fix media script | **16/16 PASS** 12:36:03Z–12:36:23Z: composer hit-test (banner hidden while chat open), real-pointer send, deliverables side-by-side grid (3 cols), image thumbnail→lightbox, video poster→side pane (controls, autoplay=false, paused), PDF doc→side-pane iframe, plugin dock reachable beside chat, banner restored |
+| plugin lifecycle (live API) | verify internet_web_search→ready (plugin-1713924030, 5038ms), x_mcp_connector→failed inactive_on_account, unknown→404 unknown_plugin, user mismatch→403; badge states transition pending/discovered→ready/failed |
+| ui-validator | redeploy-health + redeploy-chat: title exact, ASK ONDEMAND, mini-chat opens, composer SEND hit-testable, `localStorage.ondemand.apiKey===null`, no God's Eye/GEV MIC/OpenAI, 0 page errors |
+| unit | miniChat.media + plugin-lifecycle 21/21 pass |
+| media persistence note | artifacts persist `mediaId` + unsigned `sourceUrl` via OnDemand media API (`entityChat.js` attachment{mediaId}, `entityContext.js` frame.mediaId); deliverable URLs in answers are rendered directly (no signed URL is stored) — re-sign-on-open is N/A in this build, honestly recorded |
+
+GENERATED_UTC: 2026-10-21T12:37:00Z

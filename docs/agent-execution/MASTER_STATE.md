@@ -46,6 +46,8 @@ banner occluding the mobile composer, deliverable media rendered as plain anchor
 `/plugins/verify` unknown name → 500) with 13 new unit tests, rebuilt on the same sandbox, 16 / 16 after-fix checks at both
 viewports + ui-validator 15/15. Evidence TEST_RESULTS §11, `artifacts/sandbox-verify-2026-10-21/retry-0917/`.
 
+Cycle **7** (2026-10-21T12:28Z–12:37Z) — ASAP redeploy: old preview `sb-4asza5droe1u` expired (410 SANDBOX_STOPPED 12:28:02Z) → new sandbox `sbx_USYsCwFiUaGGciwp11ULdOh9o8HA` → `https://sb-3zg3okfus095.vercel.run` from clean `a16b8d9`; health 200 12:31:17Z; A–G 14/14 + after-fix media 16/16 + plugin lifecycle ready/failed/404/403. Evidence TEST_RESULTS §12.
+
 Cycle **5** (2026-10-21T07:33Z–08:58Z) — vigorous headless-browser verification of the live sandbox before any further
 Signal Engine chat-UI change: five-agent swarm (A,B · C,D · E,F · G+regression · consolidation), **14 / 14**
 scenario×viewport cells with PNG proof, desktop/mobile parity (streaming, HUD summary, failure/cancel/retry, isolation,
@@ -201,4 +203,4 @@ otherwise always use the server key, and the new `/api/ondemand/v2/*` never read
 | Infrastructure consolidation | OpenAI Realtime provider removed (component 7/38 DONE); voice, plugin lifecycle and tool invoker run in-process — Vercel function count unchanged; redundant AI orchestrators remaining: **0** | INFRASTRUCTURE_DECISIONS.md |
 | Deployment | real-project previews via the Vercel REST API: checkpoint `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` (02:08Z) and post-change `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` READY 04:05Z (`/api/ondemand/v2/health` ok, voice/health ok, 14/14 scenarios, `/api/realtime/token` 404); production still Git-linked to the sibling repo (B-6) | TEST_RESULTS §8.4/§8.5 |
 
-GENERATED_UTC: 2026-10-21T10:35:00Z
+GENERATED_UTC: 2026-10-21T12:37:00Z
