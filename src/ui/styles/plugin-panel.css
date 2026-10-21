@@ -32,6 +32,38 @@
     0 0 1.2rem rgba(59, 183, 149, 0.12);
 }
 
+/* While the ASK ONDEMAND mini chat (z-index 186) is open it used to sit on top
+   of this dock (same right/bottom corner), so VERIFY / REFRESH / toggles were
+   unreachable by a real pointer (sandbox-verify-2026-10-21/retry-0917 agent 4,
+   defect B5). Dock to the LEFT of the open chat on desktop, and left of the
+   media side pane when that is open too; on narrow screens stack above the
+   chat sheet. */
+body:has(#ondemand-mini-chat[data-open='true']) #ondemand-plugin-dock {
+  right: calc(
+    max(18px, env(safe-area-inset-right)) + min(27rem, calc(100vw - 2rem)) +
+      12px
+  );
+}
+body:has(#ondemand-mini-chat[data-open='true']):has(
+    #ondemand-mini-chat-media[data-open='true']
+  )
+  #ondemand-plugin-dock {
+  right: calc(
+    max(18px, env(safe-area-inset-right)) + min(27rem, calc(100vw - 2rem)) +
+      12px + min(30rem, calc(100vw - 32rem)) + 12px
+  );
+}
+@media (max-width: 640px) {
+  body:has(#ondemand-mini-chat[data-open='true']) #ondemand-plugin-dock {
+    right: 0;
+    left: 0;
+    bottom: 70dvh;
+    width: 100vw;
+    max-height: 28dvh;
+    border-radius: 8px 8px 0 0;
+  }
+}
+
 /* Collapsible container */
 .od-plugins__details {
   width: 100%;

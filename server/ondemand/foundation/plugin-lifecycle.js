@@ -561,6 +561,20 @@ export function createPluginLifecycle(options = {}) {
           ).map((c) => c.name);
         }
 
+        const unknown = namesToVerify.filter((name) => !getContract(name));
+        if (unknown.length) {
+          // Honest 404 instead of letting verify() throw into a 500: the
+          // caller named a plugin that is not in the contract registry.
+          sendJson(res, 404, {
+            error: 'unknown_plugin',
+            message: `Unknown plugin contract(s): ${unknown
+              .map((n) => String(n).slice(0, 64))
+              .join(', ')}`,
+            unknown,
+          });
+          return true;
+        }
+
         const updatedEntries = await Promise.all(
           namesToVerify.map((name) =>
             verify(name, { externalUserId, audit: handleAudit }),

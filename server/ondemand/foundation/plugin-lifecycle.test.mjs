@@ -451,6 +451,35 @@ describe('plugin-lifecycle', () => {
     assert.equal(body.plugins[0].state, 'ready');
   });
 
+  test('handle() answers 404 unknown_plugin for a name outside the registry (never a 500, never a fake ready)', async () => {
+    const client = createMockClient();
+    const lifecycle = createPluginLifecycle({
+      client,
+      registry: contractRegistry,
+    });
+    const req = makeReq({
+      method: 'POST',
+      url: '/plugins/verify',
+      body: { externalUserId: 'legit-user', names: ['does_not_exist'] },
+    });
+    const res = makeRes();
+    const handled = await lifecycle.handle(req, res, {
+      path: '/plugins/verify',
+      method: 'POST',
+      authorize: (id) => ({ user: id }),
+    });
+    assert.equal(handled, true);
+    assert.equal(res.statusCode, 404);
+    const body = res.json();
+    assert.equal(body.error, 'unknown_plugin');
+    assert.deepEqual(body.unknown, ['does_not_exist']);
+    assert.equal(
+      lifecycle.snapshot().plugins.some((p) => p.name === 'does_not_exist'),
+      false,
+      'no entry is fabricated for an unknown name',
+    );
+  });
+
   test('verifyAll runs with concurrency bound', async () => {
     let maxConcurrent = 0;
     let currentConcurrent = 0;
