@@ -153,7 +153,7 @@ reopens the same panel.
 - **What to get first:** the free [Cesium ion](https://cesium.com/ion) token
   (eligible personal, non-commercial use; current terms and quotas apply) for
   photorealistic 3D and world terrain; a Google Maps key only for the
-  billing-enabled, metered route + place search; OpenAI when you want to talk
+  billing-enabled, metered route + place search; a server-side OnDemand key when you want to talk
   to the world. Full map, costs included, in [Keys & Costs](#-api-keys).
 
 <details>
@@ -200,7 +200,7 @@ Choose a first-run mission, or try these in order. The GIFs show Google Photorea
 
 ![Cycling a dense live globe through CRT, FLIR, and NVG in one continuous view](docs/media/01-style-sweep.gif)
 
-7. **Talk to it** _(needs an OpenAI key)_: _"Take me to LAX and select the nearest airborne aircraft."_
+7. **Talk to it** _(needs `ONDEMAND_API_KEY` on the server)_: _"Take me to LAX and select the nearest airborne aircraft."_
 8. **Come home.** Hit **Reset Globe** — or just say _"zoom out to a globe view."_
 
 **Keyboard:** `1`–`7` visual styles · `H` HUD · `D` detection · `C` cockpit · `Esc` out.
@@ -225,15 +225,15 @@ _Why cockpit mode exists: you're riding a real aircraft over real terrain — an
 
 ## 🎙️ Talk to It
 
-> Voice needs an **OpenAI key**. Without one the entire app still runs — the mic button just reports voice is unavailable. The same key drives the **AI HUD summary**: a terse, five-word intelligence-style readout of the current view that regenerates as you move.
+> Voice runs on **OnDemand** (`ONDEMAND_API_KEY`, server-side only — turn-based STT → chat → TTS). Without it the entire app still runs — the mic button just reports voice is unavailable. The same key drives the **AI HUD summary**: a terse, five-word intelligence-style readout of the current view that regenerates as you move.
 
-Click **GEV MIC**, grant the microphone, and just talk. This is more than a voice-controlled remote:
+Click **OD VOICE**, grant the microphone, and just talk. This is more than a voice-controlled remote:
 
 - **🧠 It knows what it's looking at.** The agent pulls live scene context before answering — including coordinates, street names, active layers, and view scale. Ask _"what city is this?"_ mid-flight and it knows.
 - **🎯 Entity Q&A.** Click any plane, ship, or datacenter and ask _"what's this?"_ It answers using the object's live telemetry.
 - **👁️ Visual grounding.** At street level, it reads a viewport screenshot to identify legible signage and building names, and is instructed never to hallucinate labels.
 - **🎬 Cinematic framing.** _"Show me the planes overhead"_ pulls the camera back, angles it, and frames the live traffic like a director.
-- **🔒 Honest and secure.** The agent only confirms actions that succeeded. Your `OPENAI_API_KEY` never touches the browser; the client only gets a short-lived session token.
+- **🔒 Honest and secure.** The agent only confirms actions that succeeded. Your `ONDEMAND_API_KEY` never touches the browser; every turn is relayed by the same-origin `/api/ondemand/v2/voice/turn` route.
 
 Twenty-eight tools, four jobs — the commands below come straight from the product's voice test suite and tool playbook:
 
@@ -329,7 +329,7 @@ Once the basics click, run these:
 | **🪦 Walk the boneyard**            | Fly from regional context down into dense, fully resolved rows of retired aircraft.                                                                                                                       |
 | **🏗️ Orbit Three Gorges**           | Sweep the dam and its terrain at a glance — then flip on the **Dams** layer and find 703 more.                                                                                                            |
 
-_🎙️ = voice missions — they need an OpenAI key._
+_🎙️ = voice missions — they need `ONDEMAND_API_KEY` on the server._
 
 ![Resolving a selected aircraft's recent flight path into stacked 3D loops above the terrain](docs/media/07-helicopter-loops.gif)
 
@@ -354,8 +354,8 @@ How the globe handles live data:
 - **Honest satellites.** SGP4 propagation with orbit rings that stay locked to their satellites via GMST realignment — no drift, no per-second flicker.
 - **Sits on the real ground.** Entity heights are aligned to work with Google 3D tiles, so aircraft park on aprons and cameras stand on street corners instead of floating.
 - **Caching and request budgets.** An OpenSky credit governor, a TomTom daily tile budget, and disk-cached TLEs reduce repeated requests. These controls do not replace provider quotas or billing controls.
-- **Server-side credentials.** Every API that touches a private key (OpenAI, AISStream, OpenSky OAuth, camera frames) is brokered through a hardened server-side proxy with SSRF protection, response caps, and sanitized errors. The only keys the browser sees are Google Maps and Cesium ion (restrict both at the provider).
-- **No framework.** Vanilla JavaScript, **CesiumJS**, and **Vite** — plus **Google Photorealistic 3D Tiles** for the planet and the **OpenAI Realtime API** for voice. Fast to read, fast to hack on.
+- **Server-side credentials.** Every API that touches a private key (OnDemand, AISStream, OpenSky OAuth, camera frames) is brokered through a hardened server-side proxy with SSRF protection, response caps, and sanitized errors. The only keys the browser sees are Google Maps and Cesium ion (restrict both at the provider).
+- **No framework.** Vanilla JavaScript, **CesiumJS**, and **Vite** — plus **Google Photorealistic 3D Tiles** for the planet and **OnDemand** (chat sessions, speech-to-text, text-to-speech, plugins) for voice and intelligence. Fast to read, fast to hack on.
 
 ```
 src/
@@ -364,7 +364,7 @@ src/
 ├── hud.js                  # Intelligence HUD + AI scene summary
 ├── keySetup.js             # POWER UP panel — in-app provider keys (dev server only)
 ├── mapStackController.js   # Basemap switching — Google 3D / Esri / OSM / ion stacks
-├── voice/                  # OpenAI Realtime session + 28 voice tools
+├── voice/                  # OnDemand turn-based voice pipeline (src/voice/ondemand) + 28 voice tools
 ├── data/                   # One module per layer + orchestration + context store
 │   ├── iconOrientation.js  # Screen-projected headings + horizon cull
 │   └── local_data/         # Bundled datasets (per-folder provenance)
@@ -392,7 +392,7 @@ Six keys. Four have a free tier, and the two 🔴 ones are metered:
 | --- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 🟡  | **Cesium ion**  | 🗺️ Google Photorealistic 3D, world terrain, and additional ion-hosted imagery stacks. The free Community plan is for eligible individual, personal/non-commercial use and has quotas | [cesium.com/ion](https://cesium.com/ion) — use a public `assets:read` token and check current [pricing/eligibility](https://cesium.com/platform/cesium-ion/pricing/) |
 | 🔴  | **Google Maps** | Direct Google Photorealistic 3D + Google place search ([Map Tiles API](https://developers.google.com/maps/documentation/tile))                                                       | [Google Cloud Console](https://console.cloud.google.com/) — URL-restrict it                                                                                          |
-| 🔴  | **OpenAI**      | 🎙️ The voice experience + AI HUD summary. The mini model works; the standard model is noticeably smarter. Want Gemini or another provider behind the mic? PRs welcome                | [platform.openai.com](https://platform.openai.com) — metered, see costs below                                                                                        |
+| 🔴  | **OnDemand**    | 🎙️ The voice experience, the AI HUD summary and ASK ONDEMAND (server-side `ONDEMAND_API_KEY`; the browser never holds it). Endpoints and plugins are chosen in `server/ondemand/config.js` | [on-demand.io](https://on-demand.io) — metered, see costs below                                                                                                      |
 | 🟡  | **AISStream**   | 🚢 Live global ships                                                                                                                                                                 | [aisstream.io](https://aisstream.io) — free signup                                                                                                                   |
 | 🟡  | **NASA FIRMS**  | 🔥 Live active fires                                                                                                                                                                 | [firms.modaps.eosdis.nasa.gov](https://firms.modaps.eosdis.nasa.gov/api/map_key/) — free                                                                             |
 | 🟡  | **TomTom**      | 🚦 Live flow speeds and congestion colors for the simulated traffic layer                                                                                                            | [developer.tomtom.com](https://developer.tomtom.com) — free tier available                                                                                           |
@@ -425,11 +425,11 @@ For headless machines, coding agents, or scripted setups:
 
 ```bash
 # Put keys in .env (see .env.example), or pass them as env vars:
-OPENAI_API_KEY="…" AISSTREAM_API_KEY="…" npm run dev -- --host localhost --port 4173
+ONDEMAND_API_KEY="…" AISSTREAM_API_KEY="…" npm run dev -- --host localhost --port 4173
 
 # On macOS, store any of them in the Keychain and dev-fresh.sh pulls them in:
 security add-generic-password -U -s "google-maps-api" -a "api-key" -w
-security add-generic-password -U -s "openai-api"      -a "api-key" -w
+security add-generic-password -U -s "ondemand-api"    -a "api-key" -w
 security add-generic-password -U -s "aisstream-api"   -a "api-key" -w
 security add-generic-password -U -s "firms-map"       -a "map-key" -w
 security add-generic-password -U -s "cesium-ion"      -a "token"   -w
@@ -448,7 +448,7 @@ Honest numbers, roughly, as of mid-2026 — always check the provider pricing pa
 | **🟢 Most layers**       | **$0, no signup.** OpenSky anon, USGS, CelesTrak, adsb.lol, city CCTV, Radio Browser, GBFS, Launch Library 2, bundled datasets.                                                                                                                                                                                                                                             |
 | **🟡 The free-key tier** | **$0 with a signup.** AISStream, FIRMS, TomTom, OpenSky, plus Cesium ion for eligible personal/non-commercial use. Provider quotas and eligibility still apply.                                                                                                                                                                                                             |
 | **🗺️ Google 3D tiles**   | **Free through an eligible Cesium ion Community account within its quota; metered through a direct Google key.** Use the direct route for GEV place search or commercial deployment, verify current provider terms, and set budget alerts where billing is enabled.                                                                                                         |
-| **🔴 OpenAI voice**      | **The one that costs real money — so the app meters it for you.** Realtime audio runs a few cents per active minute; an evening of heavy use is single-digit dollars. A live session-spend readout sits next to the mic, with an STD/MINI model toggle, a $2 warning, and a **$5 hard cap that ends the session**. The voice context window is kept deliberately short too. |
+| **🔴 OnDemand voice**    | **The one that costs real money — keep an eye on it.** Each voice turn is one speech-to-text call, one chat turn (plus any plugins you ticked) and one text-to-speech call on your OnDemand account; the `/api/ondemand/v2/*` routes are rate-limited per user (`ONDEMAND_V2_RATELIMIT_PER_MIN`) and the investigate budget is capped (`ONDEMAND_INVESTIGATE_BUDGET_MS`). Set usage limits on the OnDemand side too. |
 
 Google's direct 3D route is surprisingly generous: the first 1,000 Photorealistic
 3D Tiles sessions each month are currently free, and one root request supports
@@ -464,7 +464,7 @@ Everything above is the deliberately cheap baseline — enough to get a real tas
 
 ### 🔒 Sharing an instance
 
-By default nobody else can reach your server — it binds to localhost. To share on your LAN, opt in explicitly (`npm run dev -- --host 0.0.0.0 --port 4173`, or `HOST=0.0.0.0 ./scripts/dev-fresh.sh` on macOS/Linux) — but know that ⚠️ **a LAN-visible server brokers your configured API keys to anyone who can reach it.** Set the per-IP throttles (`GEV_RATELIMIT_OPENAI_PER_MIN`, `GEV_RATELIMIT_GOOGLE_PER_MIN` — see `.env.example`) and, before anything else, **configure provider quotas, usage limits, and billing alerts**: app-level throttles are not billing caps, and a budget alert alone does not stop spending. Full threat model in [SECURITY.md](SECURITY.md).
+By default nobody else can reach your server — it binds to localhost. To share on your LAN, opt in explicitly (`npm run dev -- --host 0.0.0.0 --port 4173`, or `HOST=0.0.0.0 ./scripts/dev-fresh.sh` on macOS/Linux) — but know that ⚠️ **a LAN-visible server brokers your configured API keys to anyone who can reach it.** Set the per-IP throttles (`ONDEMAND_V2_RATELIMIT_PER_MIN`, `GEV_RATELIMIT_GOOGLE_PER_MIN` — see `.env.example`) and, before anything else, **configure provider quotas, usage limits, and billing alerts**: app-level throttles are not billing caps, and a budget alert alone does not stop spending. Full threat model in [SECURITY.md](SECURITY.md).
 
 Provider Settings is disabled when the server is shared, so remote users cannot
 access the key-entry panel.

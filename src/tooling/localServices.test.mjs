@@ -157,14 +157,14 @@ test('weather-only requests share upstream work and retain fresh and stale respo
 test('key setup writes only the supplied application root, retains request guards and stays absent from preview', async (t) => {
   const first = root(t),
     untouched = root(t);
-  env(t, 'OPENAI_API_KEY', undefined);
+  env(t, 'AISSTREAM_API_KEY', undefined);
   const plugin = keySetupEndpoint({ sourceRoot: first });
   assert.equal(plugin.apply({}, { command: 'serve', isPreview: true }), false);
   assert.equal(plugin.configurePreviewServer, undefined);
   const routes = install(plugin);
   const handler = routes.get('/api/setup/keys');
   const body = JSON.stringify({
-    OPENAI_API_KEY: 'sk-fixture-only-not-a-real-key',
+    AISSTREAM_API_KEY: 'sk-fixture-only-not-a-real-key',
   });
   assert.equal(
     (
@@ -181,7 +181,7 @@ test('key setup writes only the supplied application root, retains request guard
   assert.equal(saved.status, 200);
   assert.match(
     readFileSync(path.join(first, '.env'), 'utf8'),
-    /OPENAI_API_KEY=sk-fixture-only-not-a-real-key/,
+    /AISSTREAM_API_KEY=sk-fixture-only-not-a-real-key/,
   );
   if (process.platform !== 'win32')
     assert.equal(statSync(path.join(first, '.env')).mode & 0o777, 0o600);

@@ -81,16 +81,8 @@ Source: `docs/audit/closeout-2026-09-19.md` §A.3 (grep of `process.env.*` / `im
 | `FIRMS_MAP_KEY` | optional (legacy `/api/firms` provider) | catch-all → server/providers/firms.js | no |
 | `LL2_API_TOKEN` | optional | catch-all → server/providers/space/launch-library.js | no |
 | `TFL_APP_KEY` | optional | catch-all → server/providers/cctv/sources.js | no |
-| `OPENAI_API_KEY` | optional (voice/HUD summary; OnDemand-only voice does not need it) | catch-all → server/providers/openai/{hud-summary,realtime}.js | no |
-| `OPENAI_HUD_SUMMARY_MODEL` | optional | catch-all → openai/hud-summary.js | no |
-| `OPENAI_REALTIME_MODEL` | optional | catch-all → openai/realtime.js | no |
-| `OPENAI_REALTIME_MODEL_MINI` | optional | catch-all → openai/realtime.js | no |
-| `OPENAI_REALTIME_VOICE` | optional | catch-all → openai/realtime.js | no |
-| `OPENAI_REALTIME_REASONING_EFFORT` | optional | catch-all → openai/realtime.js | no |
-| `OPENAI_REALTIME_CONTEXT_TOKENS` | optional | catch-all → openai/realtime.js | no |
-| `OPENAI_REALTIME_CONTEXT_RETENTION` | optional | catch-all → openai/realtime.js | no |
 | `GEV_RATELIMIT_GOOGLE_PER_MIN` | optional | catch-all → server/providers/places/google.js | no |
-| `GEV_RATELIMIT_OPENAI_PER_MIN` | optional | catch-all → server/providers/openai/rate-limit.js | no |
+| ~~`OPENAI_*`~~ / ~~`GEV_RATELIMIT_OPENAI_PER_MIN`~~ | **retired 2026-10-21** (OpenAI Realtime + HUD-summary bypass removed; voice, HUD summary and chat run on `ONDEMAND_API_KEY` via `/api/ondemand/v2/*`) | — | no |
 | `GOOGLE_MAPS_API_KEY` | optional (browser Places/Maps) | local dev only (server/standalone/vite.config.js / src/main.js) — not read by the deployment; `src/main.js` reads it at BUILD time via `import.meta.env` | no |
 | `GOOGLE_MAPS_SERVER_API_KEY` | optional | src/keySetupCore.mjs (key-setup UI only) | no |
 | `CESIUM_ION_TOKEN` | optional (Cesium ion assets) | local dev only (server/standalone/vite.config.js / src/main.js) — not read by the deployment; `src/main.js` at BUILD time | no |
