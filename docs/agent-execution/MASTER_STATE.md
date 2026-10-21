@@ -14,7 +14,7 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 | **ORIGINAL_SHA** | `1c9558cde07fdddb8d7d01b64f7143f0bbc9d116` (HEAD of `origin/ondemand-serverless`) |
 | Recovery tag + branch | `recovery/pre-ondemand-rebuild-20261020` → `1c9558c` (tag object `74a2609`), pushed 2026-10-20T21:26:36Z |
 | Working branch | `integration/ondemand-native` (created from `1c9558c`, pushed 21:27:07Z) |
-| Current commit (this checkpoint) | cycle-4 checkpoint commit that carries this file (see §9) on top of `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
+| Current commit (this checkpoint) | cycle-5 checkpoint commit that carries this file (see §9; tag `checkpoint-2026-10-21-post-sandbox-verification`) on top of `aa3eb8d` (cycle-4 docs) ← `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
 | Uncommitted changes / stashes at discovery | none (`git status` clean, `git stash list` empty) |
 | Resume path taken | **Fresh discovery** — `docs/agent-execution/RESUME.md` and `MASTER_STATE.md` did not exist at `1c9558c` (the repo has a different checkpoint lineage: `docs/CLOSEOUT.md`, `docs/handover/*`, `docs/audit/*`, read as prior art) |
 
@@ -36,6 +36,14 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 Cross-check of `ondemand-eand-spatial` (12 refs, newest `feat/exec-brief-v1.4-b7c0d3d` 2026-09-12): valuable, non-overlapping work = build gates `check-no-secrets.mjs` (**ported this cycle**), `check-forbidden-terms.mjs`, `check-remote-assets.mjs`, `check-contrast.mjs` (N-14), and a React "Ask the deal" SSE drawer (`api/_lib/deal.ts`) that the new foundation supersedes. The two repos share no code and must not be merged.
 
 ## 2. Engineering cycle
+Cycle **5** (2026-10-21T07:33Z–08:58Z) — vigorous headless-browser verification of the live sandbox before any further
+Signal Engine chat-UI change: five-agent swarm (A,B · C,D · E,F · G+regression · consolidation), **14 / 14**
+scenario×viewport cells with PNG proof, desktop/mobile parity (streaming, HUD summary, failure/cancel/retry, isolation,
+reload persistence), plugin lifecycle probes (API + badges), branding + 12 generated-asset checks (HTTP/sha256/OCR/Hough),
+legacy OpenAI/Realtime audit (0 runtime refs) followed by removal of the last user-facing OpenAI residue (Provider Settings
+row, doctor/dev-fresh, docs), full unit suite 4,675 (4,674 pass · 0 fail · 1 win32-only skip), successor sandbox after the
+90-min expiry. Evidence TEST_RESULTS §10, `artifacts/sandbox-verify-2026-10-21/`.
+
 Cycle **3** (2026-10-21T01:17Z–) — integration audit (161 call sites), OpenAI Realtime removed and voice re-routed
 through `/api/ondemand/v2/voice/turn` (OnDemand Services STT/TTS + Chat SSE), honest plugin lifecycle
 (`/plugins`, `/plugins/verify`, PLUGINS panel), 11 new OnDemand REST tool wrappers (21 tools / 17 plugins, 33
@@ -121,6 +129,13 @@ Browser-level UI validation not run this cycle — no UI consumes `/api/ondemand
 - Fresh ephemeral preview `https://sb-72vtzc1c6cf8.vercel.run` (sandbox `sbx_pZgfovEYwxtQu48zPwIg0rVujhWO`): `/api/health` 200 (`keySource:"server"`, 33 contracts), brand assets 200, headless-Chromium 15/15 at 1440×900 and 8/8 at 390×844 with zero legacy branding.
 - Open: N-22…N-25 (mobile touch targets, voice-button overlap, follow-up pinning, `ONDEMAND_INVESTIGATE_BUDGET_MS` on the Vercel project).
 
+## 3e. Completed in cycle 5 (evidence TEST_RESULTS §10, artefacts `artifacts/sandbox-verify-2026-10-21/`)
+- Live sandbox `sb-72vtzc1c6cf8` verified end-to-end: A–G 14/14 at 1440×900 + 390×844 (PNG per cell), parity 6/6 groups, plugin lifecycle API 8/8 probes (READY / FAILED `inactive_on_account` / 403 `user_mismatch`) + badge transitions on both viewports, branding 0 legacy terms, 12/12 assets HTTP 200 + sha256 match, 0 eye motifs (OCR + Hough), 3 attached originals byte-identical to the served files.
+- Harness fixes (no app change): boot wait on `#loading-screen.hidden` (Scenario A screenshots had captured the loader overlay — before/after kept), self-seeding D/E, `--format png`.
+- Legacy residue removed: `OPENAI` Provider-Settings row (`src/keySetupCore.mjs`) + `OPENAI_API_KEY` out of the bundle, `setup-doctor`/`dev-fresh` now report `ONDEMAND_API_KEY`, README/TESTING/SECURITY/CONTRIBUTING/CLOSEOUT rewritten (OD VOICE, OnDemand key), regression test added; `dist/` 0 hits for `api.openai.com|realtime/token|OPENAI_API_KEY`.
+- Unit suites: 4,675 tests · 4,674 pass · 0 fail · 1 skipped (win32-only) on Node 22; gates green.
+- Successor sandbox `sbx_5nzv1jxgsXOEfEknNB6MTQhA2Xgk` → `https://sb-6p9xpg654ouc.vercel.run` (A–G 14/14 again) after the primary hit its 90-min lifetime (410 at 08:53:29Z).
+
 ## 9. Commits on `integration/ondemand-native` (this cycle)
 | sha | message | timestamp |
 |---|---|---|
@@ -137,7 +152,8 @@ Browser-level UI validation not run this cycle — no UI consumes `/api/ondemand
 | 75a0792 | chore(checkpoint): cycle-3 baseline (tag `checkpoint-2026-10-21-pre-integration-audit`) | 2026-10-21T01:22:13Z |
 | d44264f | feat(ondemand): voice turn on OnDemand (OpenAI Realtime removed), plugin lifecycle, 21 tool contracts + in-process invoker, 11 tool wrappers, UI upgrades, A–G harness | 2026-10-21T04:04:17Z |
 | 226217f | docs(agent-execution): cycle-3 checkpoint (tag `checkpoint-2026-10-21-verify-cycle4`) | 2026-10-21T04:12:28Z |
-| (cycle 4) | fix(ondemand): investigate deadline budget, 504 empty state, voice plugin forwarding, /api/health alias + verification artefacts + cycle-4 checkpoint docs | see `git log` |
+| 9e26be5 · 844bf45 · aa3eb8d | cycle 4: fix(ondemand) investigate budget / 504 empty state / voice plugin forwarding / `/api/health` alias · test(qa) verification harness + artefacts · docs cycle-4 checkpoint | 2026-10-21T07:2xZ |
+| 7b669a3 · eb4ec15 · (this commit) | test(qa): sandbox verification swarm artefacts + harness boot-wait/self-seed/png · chore(legacy): remove the OpenAI Provider-Settings row and OpenAI wording (doctor, dev-fresh, docs) · docs(agent-execution): cycle-5 checkpoint (tag `checkpoint-2026-10-21-post-sandbox-verification`) | 2026-10-21T08:59Z–09:0xZ |
 | (cycle 3 docs) | docs(agent-execution): cycle-3 checkpoint — INTEGRATION_AUDIT, live docs, trigger decision, TEST_RESULTS §8, BLOCKERS B-14…17, NEXT_ACTIONS N-18…21, RESUME | see `git log` |
 
 ## 10. Blockers
@@ -163,10 +179,10 @@ otherwise always use the server key, and the new `/api/ondemand/v2/*` never read
 | Session isolation | 3 / 3 concurrent users × same object → 3 distinct sessions (live row 26, re-run 03:48Z); browser E: same object replays 4 messages, different object isolated (both viewports) | TEST_RESULTS §8 |
 | Source traceability | 34 / 34 live rows + 14 / 14 browser scenarios carry timestamps + artefacts; every v2 answer and every voice `answer` event carries `provenance{provider,endpointId,pluginIds,keySource:'server',fetchedAt}` + `citations[]` + `confidenceBasis` | TEST_RESULTS §8 |
 | Integration tests (real endpoints) | **34 / 34** live (`npm run ondemand:foundation:live`, 03:46:44Z–03:49:30Z) | artifacts/foundation-live-2026-10-21T03-49Z.json |
-| Unit tests | **4,188 / 4,188** full `npm test` on Node 22 (75 foundation · 250 ondemand · 56 serverless · 101 tools+serverless · …); 2 allocation micro-benchmarks skipped (Node-24 calibrated, B-8) | TEST_RESULTS §8.2 |
-| UI tests | **14 / 14** scenario×viewport passes post-change (baseline 12 / 14); harness `scripts/qa-chat-intelligent-ui.mjs`; spec `web/tests/chat-intelligent-ui-payloads.spec.ts` | artifacts/ui-2026-10-21 |
-| Branding replacement | **0** user-facing legacy occurrences (scenario A asserts no "God's Eye"/"GEV MIC"/"OpenAI" visible text at both viewports; brand backdrop + manifest + favicons wired) | brandAssets.test.mjs, scenario A |
+| Unit tests | **4,675 tests · 4,674 pass · 0 fail · 1 skipped** (win32-only DACL test) on Node 22 — src 4,191 · foundation 76 · ondemand 250 · serverless 57 · tools 45 · providers+sources 56; 2 allocation micro-benchmark files skipped (Node-24 calibrated, B-8) | TEST_RESULTS §10.6 |
+| UI tests | **14 / 14** scenario×viewport passes on the live sandbox (cycle 5, PNG proof per cell, + 14/14 on the successor sandbox) and post-change preview (cycle 3; baseline 12 / 14); harness `scripts/qa-chat-intelligent-ui.mjs`; spec `web/tests/chat-intelligent-ui-payloads.spec.ts`; extra parity/plugin/branding rows in `artifacts/sandbox-verify-2026-10-21/results-matrix.json` | artifacts/ui-2026-10-21 |
+| Branding replacement | **0** user-facing legacy occurrences (scenario A + ui-validator assert no "God's Eye"/"GEV MIC"/"OpenAI" visible text at both viewports; cycle 5 also removed the OPENAI Provider-Settings row and the OpenAI wording from README/TESTING/SECURITY/CONTRIBUTING/CLOSEOUT/doctor/dev-fresh; 12/12 brand assets 200 + sha256, 0 eye motifs) | brandAssets.test.mjs, scenario A |
 | Infrastructure consolidation | OpenAI Realtime provider removed (component 7/38 DONE); voice, plugin lifecycle and tool invoker run in-process — Vercel function count unchanged; redundant AI orchestrators remaining: **0** | INFRASTRUCTURE_DECISIONS.md |
 | Deployment | real-project previews via the Vercel REST API: checkpoint `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` (02:08Z) and post-change `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` READY 04:05Z (`/api/ondemand/v2/health` ok, voice/health ok, 14/14 scenarios, `/api/realtime/token` 404); production still Git-linked to the sibling repo (B-6) | TEST_RESULTS §8.4/§8.5 |
 
-GENERATED_UTC: 2026-10-21T07:30:00Z
+GENERATED_UTC: 2026-10-21T08:58:00Z

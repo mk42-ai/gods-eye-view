@@ -326,4 +326,105 @@ Gates re-run 2026-10-21T07:16Z–07:20Z: `format:check` ✓ (965 files) · `chec
 
 Known gaps carried to NEXT_ACTIONS: `2m3` touch targets, `2m5` voice button overlap, follow-up pinning (N-22…N-24); `ONDEMAND_INVESTIGATE_BUDGET_MS` should be set on the Vercel project (N-25).
 
-GENERATED_UTC: 2026-10-21T07:30:00Z
+## 10. Cycle 5 (2026-10-21T07:33Z–08:55Z) — vigorous headless-browser verification of the live sandbox (five-agent swarm)
+
+Target: the cycle-4 sandbox `sbx_pZgfovEYwxtQu48zPwIg0rVujhWO` → `https://sb-72vtzc1c6cf8.vercel.run` (workspace head `aa3eb8d`, serverless preview server PID 248, 21 env keys, `ONDEMAND_API_KEY` only in the process env). `GET /api/health` → **200** at 07:33:11Z before the swarm started (same body as §9.3). Artefacts: `artifacts/sandbox-verify-2026-10-21/` (`results-matrix.json`, `RESULTS.md`, per-agent `agentN/RESULTS.md`, PNG proof for every cell).
+
+### 10.1 Scenario × viewport matrix — `scripts/qa-chat-intelligent-ui.mjs` (Puppeteer + SwiftShader, `--format png`), **14 / 14 PASS**
+Agents: 1 → A,B · 2 → C,D · 3 → E,F · 4 → G (each at 1440×900 then 390×844) · 5 → consolidation. Every cell has a PNG screenshot.
+
+| scenario | viewport | status | ms | checks | run_at (UTC) | screenshot (under `docs/agent-execution/`) |
+|---|---|---|---|---|---|---|
+| A | 1440x900 | **PASS** | 235 | 6/6 | 2026-10-21T08:24:30.972Z | `artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-1440x900.png` |
+| B | 1440x900 | **PASS** | 5992 | 5/5 | 2026-10-21T08:01:03.173Z | `artifacts/sandbox-verify-2026-10-21/agent1/ab/B-1440x900.png` |
+| C | 1440x900 | **PASS** | 8699 | 2/2 | 2026-10-21T08:02:15.521Z | `artifacts/sandbox-verify-2026-10-21/agent2/cd/C-1440x900.png` |
+| D | 1440x900 | **PASS** | 98 | 4/4 | 2026-10-21T08:02:27.088Z | `artifacts/sandbox-verify-2026-10-21/agent2/cd/D-1440x900.png` |
+| E | 1440x900 | **PASS** | 7314 | 2/2 | 2026-10-21T08:03:38.512Z | `artifacts/sandbox-verify-2026-10-21/agent3/ef/E-1440x900.png` |
+| F | 1440x900 | **PASS** | 401 | 3/3 | 2026-10-21T08:03:47.291Z | `artifacts/sandbox-verify-2026-10-21/agent3/ef/F-1440x900.png` |
+| G | 1440x900 | **PASS** | 7409 | 3/3 | 2026-10-21T08:03:03.425Z | `artifacts/sandbox-verify-2026-10-21/agent4/g/G-1440x900.png` |
+| A | 390x844 | **PASS** | 211 | 6/6 | 2026-10-21T08:24:40.765Z | `artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-390x844.png` |
+| B | 390x844 | **PASS** | 6022 | 5/5 | 2026-10-21T08:01:16.419Z | `artifacts/sandbox-verify-2026-10-21/agent1/ab/B-390x844.png` |
+| C | 390x844 | **PASS** | 7039 | 2/2 | 2026-10-21T08:02:36.371Z | `artifacts/sandbox-verify-2026-10-21/agent2/cd/C-390x844.png` |
+| D | 390x844 | **PASS** | 161 | 4/4 | 2026-10-21T08:02:46.022Z | `artifacts/sandbox-verify-2026-10-21/agent2/cd/D-390x844.png` |
+| E | 390x844 | **PASS** | 3978 | 2/2 | 2026-10-21T08:03:52.517Z | `artifacts/sandbox-verify-2026-10-21/agent3/ef/E-390x844.png` |
+| F | 390x844 | **PASS** | 79 | 3/3 | 2026-10-21T08:03:57.204Z | `artifacts/sandbox-verify-2026-10-21/agent3/ef/F-390x844.png` |
+| G | 390x844 | **PASS** | 6315 | 3/3 | 2026-10-21T08:03:16.821Z | `artifacts/sandbox-verify-2026-10-21/agent4/g/G-390x844.png` |
+
+Harness changes this cycle (harness only, no app change): scenario D/E now **self-seed** one real earthquake turn when run on a fresh page (`ensureEarthquakeHistory`, so `--scenarios E,F` is order-independent), `--format png`, and the boot wait now waits for `#loading-screen.hidden` **before** the canvas fallback and logs `Boot [vp]: loader hidden=… after N ms` (5–6.4 s on the sandbox).
+
+### 10.2 Before/after evidence (the only fix needed)
+The original boot wait returned as soon as a canvas + `dataManager` existed, so the Scenario A screenshots — taken ~1 s after boot — showed the `#loading-screen` overlay (backdrop + wordmark) rather than the UI under test; the DOM checks had passed regardless. Scenario A was re-run at both viewports after the fix; the agents' focused scripts got the same wait and their extra-check screenshots were recaptured (pre-fix captures kept under `fixes/overlay-before/`).
+
+| cell | issue | before | after | fix |
+|---|---|---|---|---|
+| A@1440x900 | Harness boot-wait originally returned as soon as a canvas + dataManager existed, so Scenario A screenshot (~1s post-boot) captured #loading-screen ove… | `artifacts/sandbox-verify-2026-10-21/fixes/A-before/A-1440x900-before.png` (2026-10-21T08:01:01.357Z) | `artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-1440x900.png` (2026-10-21T08:24:30.972Z) | scripts/qa-chat-intelligent-ui.mjs boot wait (loader hidden first) — harness-only, no app change |
+| A@390x844 | Harness boot-wait originally returned as soon as a canvas + dataManager existed, so Scenario A screenshot (~1s post-boot) captured #loading-screen ove… | `artifacts/sandbox-verify-2026-10-21/fixes/A-before/A-390x844-before.png` (2026-10-21T08:01:13.963Z) | `artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-390x844.png` (2026-10-21T08:24:40.765Z) | scripts/qa-chat-intelligent-ui.mjs boot wait (loader hidden first) — harness-only, no app change |
+| agent2/empty-states-backdrop | Focused script (/tmp/agent2-empty.mjs) boot wait captured loading screen backdrop rather than settled UI states; recaptured with #loading-screen.hidde… | `artifacts/sandbox-verify-2026-10-21/fixes/overlay-before/check-backdrop-1440x900.png` (2026-10-21T08:18:03.646Z) | `artifacts/sandbox-verify-2026-10-21/agent2/check-backdrop-1440x900.png` (2026-10-21T08:27:40.612Z) | Applied loader hidden check to /tmp/agent2-empty.mjs — harness-only, no app change |
+| agent3/plugin-badges | Focused script (/tmp/agent3-plugins.mjs) captured plugin panel while initial overlay was still fading; recaptured with loader hidden wait… | `artifacts/sandbox-verify-2026-10-21/fixes/overlay-before/check-plugins-ready-1440x900.png` (2026-10-21T08:21:34.810Z) | `artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-1440x900.png` (2026-10-21T08:27:40.606Z) | Applied loader hidden check to /tmp/agent3-plugins.mjs — harness-only, no app change |
+| agent4/regression-failure-reload | Focused script (/tmp/agent4-regression.mjs) captured failure and reload states before loading overlay had completely cleared; recaptured with loader h… | `artifacts/sandbox-verify-2026-10-21/fixes/overlay-before/check-failure-1440x900.png` (2026-10-21T08:18:20.956Z) | `artifacts/sandbox-verify-2026-10-21/agent4/check-failure-1440x900.png` (2026-10-21T08:28:42.240Z) | Applied loader hidden check to /tmp/agent4-regression.mjs — harness-only, no app change |
+
+### 10.3 Additional checks (both viewports)
+| check | viewport | status | checks | run_at (UTC) | screenshot | evidence |
+|---|---|---|---|---|---|---|
+| parity-streaming | both | **PASS** | 4/4 | 2026-10-21T08:08:00.204Z | `artifacts/sandbox-verify-2026-10-21/agent1/check-streaming-1440x900.png` | sameKeySource=true (server); bothStreamed=true; stopButtonVisible=true; TTFT desktop=3332ms, mobile=4417ms, |diff|=1085ms; localStorageApiKeyIsNull=true; finalStatus="READY · inferred"; assistantChars: desktop=96, mobile=147 |
+| parity-hud-summary | both | **PASS** | 3/3 | 2026-10-21T08:08:12.606Z | `artifacts/sandbox-verify-2026-10-21/agent1/check-hud-summary-1440x900.png` | hudSummaryPopulated=true (active telemetry, isAwaitingTelemetry=false); bothHudOpenable=true (objectType="hudSummary", kind="HUD SUMMARY · global"); mobile bounding box fits 390x844 with zero horizontal scroll (scrollWidth 390 <= innerWidth 390) |
+| parity-failure-retry | both | **PASS** | 4/4 | 2026-10-21T08:28:53.874Z | `artifacts/sandbox-verify-2026-10-21/agent4/check-recovery-1440x900.png` | sameFailureUiElement=true (.od-chat__msg--error + status TURN FAILED + .od-empty-state--source-unavailable); sameRecoveryKeySource=true (server); assistant characters desktop=386, mobile=367; retryAffordanceExists=false on both (retry conducted via composer) |
+| parity-cancel | both | **PASS** | 2/2 | 2026-10-21T08:28:58.182Z | `artifacts/sandbox-verify-2026-10-21/agent4/check-cancel-1440x900.png` | statusText="CANCELLED" within 5s after clicking stop; noFurtherTextArrivedFor3s=true (0 tokens received over 3s window on both desktop and mobile) |
+| parity-session-isolation | both | **PASS** | 2/2 | 2026-10-21T08:29:08.276Z | `artifacts/sandbox-verify-2026-10-21/agent4/check-isolation-1440x900.png` | bothIsolated=true; alertMessageCount=0, alertEmptyState="No prior investigation for this object", alertContainsFire=false; fireReopenedMessageCount=4 restored without message bleed |
+| parity-reload-persistence | both | **PASS** | 2/2 | 2026-10-21T08:29:18.317Z | `artifacts/sandbox-verify-2026-10-21/agent4/check-reload-persist-1440x900.png` | bothPersistedAfterReload=true; full page.reload() restored all 4 conversation turns from server conversation store (/api/ondemand/v2/messages) on both desktop and mobile |
+| plugin-lifecycle-api | both | **PASS** | 8/8 | 2026-10-21T08:06:05.434Z | — (API / grep) | GET plugins before: 32 discovered; POST verify websearch: ready (6075ms); POST verify xmcp: failed inactive_on_account (400); POST verify all: 10 active ready (latencies 4712-11391ms, avg 6186.2ms); GET plugins after: 10 ready, 1 failed, 21 discovered; POST us |
+| plugin-lifecycle-badges | 1440x900 | **PASS** | 4/4 | 2026-10-21T08:27:40.606Z | `artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-1440x900.png` | initialBadgesCount=32; websearch click transitioned to VERIFYING… (disabled) then READY (latency 4526ms, 6m ago); xmcp transitioned to FAILED ("This research source is currently inactive on the OnDemand account."); summaryCount="10 ready" |
+| plugin-lifecycle-badges | 390x844 | **PASS** | 4/4 | 2026-10-21T08:27:40.606Z | `artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-390x844.png` | initialBadgesCount=32; websearch click transitioned to VERIFYING… (disabled) then READY (latency 4526ms, just now); xmcp transitioned to FAILED ("This research source is currently inactive on the OnDemand account."); summaryCount="10 ready" |
+| branding-title-wordmark | 1440x900 | **PASS** | 3/3 | 2026-10-21T08:02:08.763Z | `artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png` | document.title="OnDemand Intelligence Workstation"; #title-bar [data-product-wordmark] contains "OnDemand Intelligence"; brand mark SVG 52x34.88px rendered at (x:49, y:43) |
+| branding-title-wordmark | 390x844 | **PASS** | 3/3 | 2026-10-21T08:02:08.763Z | `artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-390x844.png` | document.title="OnDemand Intelligence Workstation"; #title-bar [data-product-wordmark] contains "OnDemand Intelligence"; brand mark SVG 36x24.14px rendered at (x:29, y:25) |
+| branding-no-legacy-terms | 1440x900 | **PASS** | 2/2 | 2026-10-21T08:02:08.763Z | `artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png` | 0 forbidden terms in document.body.innerText (case-insensitive check for "God's Eye", "GEV MIC", "Gods Eye", "OpenAI"); no eye motif in DOM tags or attributes |
+| branding-no-legacy-terms | 390x844 | **PASS** | 2/2 | 2026-10-21T08:02:08.763Z | `artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-390x844.png` | 0 forbidden terms in document.body.innerText (case-insensitive check for "God's Eye", "GEV MIC", "Gods Eye", "OpenAI"); no eye motif in DOM tags or attributes |
+| legacy-openai-realtime-grep | both | **PASS** | 4/4 | 2026-10-21T08:24:30.000Z | — (API / grep) | runtime OpenAI/Realtime references: 0; non-test grep hits: 45 across 19 files (GTFS-realtime=20, docs/comments/settings metadata=21, symbol identifiers=4); production bundle 0 runtime calls; provider directory removed in d44264f |
+
+Plugin lifecycle detail (agent 3, `artifacts/sandbox-verify-2026-10-21/agent3/api/*.json`): `GET /plugins` 32 entries all `discovered` → `POST /plugins/verify internet_web_search` → `ready` (6,075 ms, `answerPreview:"READY"`) → `x_mcp_connector` → `failed` `inactive_on_account` (400, non-retryable) → verify-all → 10/10 active plugins `ready` (4,712–11,391 ms) → `GET /plugins` 10 ready · 1 failed · 21 tools `discovered` (route-level) → header/body principal mismatch → **403 `user_mismatch`**. In the DOM the badge goes DISCOVERED → `VERIFYING…` (button disabled) → READY (+latency, "just now") or FAILED (+`.od-plugin__error`), summary "10 ready"; `installing`/`authenticating` are server-side states inside one verify request (audited `plugin_state from→to`, unit test "happy path transitions in order").
+
+Desktop/mobile parity (agents 1 + 4): streaming TTFT 3,332 ms vs 4,417 ms, both `X-OnDemand-Key-Source: server`, no `localStorage.ondemand.apiKey`; HUD summary populated ("NORMAL STREET NEAR UT TOWER (AUSTIN) 2KM | …") and `#hud-ask-ondemand` opens `hudSummary:global` on both; synthetic 502 → `.od-chat__msg--error` + `TURN FAILED` + `source-unavailable` empty state on both; STOP → `CANCELLED` with no further tokens; recovery turn settles READY (server key) on both; a fresh `alert` object shows 0 messages / "No prior investigation for this object" while the `fire` object keeps 4; hard reload restores the 4 messages from the server-side store on both; globe camera finite after all of it. No explicit RETRY button exists (retry = send again) — recorded, not a failure.
+
+### 10.4 Branding + generated assets (agent 2)
+`document.title === "OnDemand Intelligence Workstation"`, wordmark present, 0 hits for "God's Eye"/"GEV MIC"/"Gods Eye"/"OpenAI" in `body.innerText`, favicon link → `/assets/brand/favicon.ico`, no `eye` in any image/svg/background-image reference, header mark `/brand/mark-light.svg` 52×35 px (desktop) / 36×24 px (mobile).
+
+| asset | HTTP | sha256 | rendered desktop | rendered mobile | no text / eye motif |
+|---|---|---|---|---|---|
+| `/assets/brand/backdrop-network.png` | 200 `image/png` 1,243,829 B | Catalog: MATCH (cba96745...); Original: N/A | YES (#loading-screen background-image) | YES (#loading-screen background-image) | FAIL on strict automated OCR threshold (10 alnum chars noise from graph nodes/lines); PASS on visual inspection (abstract network constellation graph; no text; no eye motif) |
+| `/assets/brand/empty-no-results.png` | 200 `image/png` 854,662 B | Catalog: MATCH (91c63a81...); Original: N/A | YES (.od-empty-state--no-results::before) | YES (.od-empty-state--no-results::before) | PASS (noise <= 3 chars; 0 concentric circles) |
+| `/assets/brand/empty-no-sessions.png` | 200 `image/png` 833,892 B | Catalog: MATCH (99986406...); Original: MATCH (p2UMfLtxCv.png) | YES (.od-empty-state--no-sessions::before) | YES (.od-empty-state--no-sessions::before) | PASS (noise <= 3 chars; 0 concentric circles; palette verified) |
+| `/assets/brand/empty-source-unavailable.png` | 200 `image/png` 851,438 B | Catalog: MATCH (9722bbf3...); Original: N/A | YES (.od-empty-state--source-unavailable::before) | YES (.od-empty-state--source-unavailable::before) | PASS (noise <= 3 chars; 0 concentric circles) |
+| `/assets/brand/mark-primary.png` | 200 `image/png` 828,607 B | Catalog: MATCH (43abf5cc...); Original: N/A | Not rendered directly in UI | Not rendered directly in UI | PASS (noise <= 3 chars; 0 concentric circles) |
+| `/assets/brand/mark-mono.png` | 200 `image/png` 882,285 B | Catalog: MATCH (e38da23a...); Original: N/A | Not rendered directly in UI | Not rendered directly in UI | PASS (noise <= 3 chars; 0 concentric circles) |
+| `/assets/brand/mark-variant-a.png` | 200 `image/png` 770,292 B | Catalog: MATCH (0556ca19...); Original: MATCH (8dxSOsnbYr.png) | Not rendered in UI | Not rendered in UI | PASS (noise <= 3 chars; 0 concentric circles) |
+| `/assets/brand/mark-variant-b.png` | 200 `image/png` 848,084 B | Catalog: MATCH (f7ea09b7...); Original: MATCH (QUKWX8jhhC.png) | Not rendered in UI | Not rendered in UI | PASS (noise <= 3 chars; 0 concentric circles) |
+| `/assets/brand/favicon.ico` | 200 `image/x-icon` 655 B | Catalog: MATCH (fdd1dc86...); Original: N/A | YES (browser tab / bookmark icon via <link rel="icon">) | YES (browser tab / bookmark icon via <link rel="icon">) | PASS |
+| `/assets/brand/favicon-32.png` | 200 `image/png` 1,714 B | Catalog: MATCH (c6666d54...); Original: N/A | YES (head link sizes="32x32") | YES (head link sizes="32x32") | PASS |
+| `/assets/brand/apple-touch-icon.png` | 200 `image/png` 30,314 B | Catalog: MATCH (ca5a07dc...); Original: N/A | YES (head link <link rel="apple-touch-icon">) | YES (iOS bookmark/home screen icon) | PASS |
+| `/brand/mark-light.svg` | 200 `image/svg+xml` 653 B | Source: MATCH (ee640260...); Catalog: N/A | YES (renders inside #title-bar and #loading-screen) | YES (renders inside #title-bar) | PASS |
+
+OCR (tesseract psm 6/11) + Pillow palette + OpenCV HoughCircles over the 8 generated PNGs: 0 concentric (eye-like) structures; `empty-no-sessions.png` background `#071226` (target `#0B1526`, Δ ≤ 4), 16,097 slate `#8A94A6` px, 1,042 emerald `#0AC985` px. The three attached originals (`p2UMfLtxCv.png`, `8dxSOsnbYr.png`, `QUKWX8jhhC.png`) are byte-identical to the served `empty-no-sessions.png`, `mark-variant-a.png`, `mark-variant-b.png`.
+
+### 10.5 Legacy OpenAI / Realtime audit (agent 4 + follow-up cleanup)
+`grep -rn -i -E "openai|realtime|/api/realtime" server src api` (non-test): 45 hits in 19 files — 0 runtime OpenAI/Realtime transport, 20 GTFS-Realtime transit naming, 21 historical comments / legacy error code (`OPENAI_NOT_CONFIGURED` still recognised), 4 internal symbols (`GEV_REALTIME_TOOLS`, `realtimeInstructions`). `server/providers/openai` is gone (d44264f), `src/voice` has no realtime module, `dist/` has 0 `api.openai.com` / `realtime/token` hits. The one residue the audit surfaced — the dead **OPENAI** row in the Provider Settings registry (`src/keySetupCore.mjs`, which also put `OPENAI_API_KEY` into the production bundle) — was removed this cycle together with the OpenAI wording in `scripts/setup-doctor.mjs`, `scripts/dev-fresh.sh`, README/TESTING/SECURITY/CONTRIBUTING/docs/CLOSEOUT and three stale code comments; a regression test now asserts the row and the env var stay out of the registry. After the rebuild: **0** files in `dist/assets` match `api.openai.com|realtime/token|OPENAI_API_KEY`.
+
+### 10.6 Unit suites (Node 22.23.3) — before and after the cleanup
+| run | result | when |
+|---|---|---|
+| `npm test` (src) before cleanup | 4,190 tests → **4,189 pass / 0 fail / 1 skipped** (`Windows production hardener … native tools`, win32-only) + 2 allocation files skipped (Node-24 calibrated, B-8) | 08:02:11Z–08:03:13Z |
+| foundation / ondemand / serverless / tools / providers+sources | 76 / 250 / 57 / 45 / 56 — all pass | 08:03Z–08:05Z |
+| **total before** | **4,674 tests · 4,673 pass · 0 fail · 1 skipped** | |
+| `npm test` (src) after cleanup | 4,191 tests → **4,190 pass / 0 fail / 1 skipped** (+1 regression test) | 08:51:37Z–08:52:30Z |
+| all server suites after cleanup | 484 / 484 | 08:52Z |
+| **total after** | **4,675 tests · 4,674 pass · 0 fail · 1 skipped** | |
+| gates | `format:check` 965 files ✓ · `check:boundaries` ✓ (brand marks 2 files) · `check:secrets` ✓ · `vite build` 5.4 s · `check-no-secrets --dist` ✓ · `<title>OnDemand Intelligence Workstation</title>` | 08:53Z |
+
+### 10.7 Sandboxes
+| sandbox | URL | role | health |
+|---|---|---|---|
+| `sbx_pZgfovEYwxtQu48zPwIg0rVujhWO` | `https://sb-72vtzc1c6cf8.vercel.run` | verification target (all 14 cells + extra checks) | 200 at 07:33:11Z … 08:36:13Z; **410 at 08:53:29Z** (90-min sandbox lifetime reached) |
+| `sbx_5nzv1jxgsXOEfEknNB6MTQhA2Xgk` | `https://sb-6p9xpg654ouc.vercel.run` | successor started 08:37:11Z from the same tree (`npm ci`, `vite build` 6.3 s, `check-no-secrets --dist` ✓, same 21 env keys, key only in the process env); A–G re-run **14 / 14** at 08:38:32Z–08:39:31Z (`artifacts/sandbox-verify-2026-10-21/successor-ag/`) | 200 at 08:38:13Z (first poll) |
+
+Known-benign console/network lines in every run: `GET /api/setup/status` 404 (no key-setup wizard in the serverless build), `GET /api/ondemand/v2/messages` 404 on a never-queried object (renders the no-sessions empty state), and the synthetic `POST /api/ondemand/v2/chat` 502 injected by scenario G / the failure checks. Nothing unexpected.
+
+GENERATED_UTC: 2026-10-21T08:58:00Z

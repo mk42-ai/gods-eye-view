@@ -1,6 +1,6 @@
 # NEXT_ACTIONS — ONDEMAND-NATIVE INTELLIGENCE PLATFORM
 
-Branch `integration/ondemand-native` · updated 2026-10-21T03:45:00Z (UTC, cycle 3). Ordered queue; the resume protocol
+Branch `integration/ondemand-native` · updated 2026-10-21T08:58:00Z (UTC, cycle 5). Ordered queue; the resume protocol
 (`RESUME.md`) starts at the first item whose status is not DONE. Each item names its acceptance evidence.
 
 | # | action | depends on | acceptance evidence | status |
@@ -23,7 +23,7 @@ Branch `integration/ondemand-native` · updated 2026-10-21T03:45:00Z (UTC, cycle
 | N-5b | Port the entity (aircraft/vessel/satellite) and camera chat surfaces onto `createMiniChat` (profile `camera` keeps frame attach via `/api/ondemand/media`), delete the legacy KEY row, keep `SELECTORS` for the QA harness. | N-5 | `npm run qa:chat` green; `grep -rn "x-ondemand-key" src` → only the dev-flag path. | PARTLY DONE (cycle 3: MiniChat handles 6/6 P0 widgets and empty states rendered by both miniChat + entityChat, developer details drawer added; entity/camera chat still running through entityChat.js with client key disabled in production) |
 | N-9b | Remove OpenAI Realtime (`server/providers/openai/realtime.js`, `src/voice/realtime*.js`, `ws`) after `scripts/qa-voice-routing.mjs` proves `src/voice/ondemand/*` end-to-end; delete `OPENAI_*` from `.env.example`. | N-5b | INTEGRATION_MATRIX directBypasses = 0. | **DONE (cycle 3)** — OpenAI Realtime removed entirely; voice served by `/api/ondemand/v2/voice/turn`; direct AI bypasses = 0 |
 | N-9c | Fold `server/ondemand/capability-loop.js` into `foundation/orchestrator.js` (tool execution via `toolInvoker`), retire the INVESTIGATE tier of the legacy chat route. | N-11 | one orchestration path; capability-loop tests moved. | TODO |
-| N-15 | Browser checklist items not exercised in cycle 2 (search, filtering, map/graph/timeline interactions, data refresh, hard reload): run `scripts/qa-application.mjs`, `qa-firstrun.mjs`, `qa-overlay-baseline.mjs` against the preview on Node 24 and fold the results into TEST_RESULTS §7.3. | — | 20/20 checklist rows with artefacts. | PARTLY DONE (cycle 3: browser harness `scripts/qa-chat-intelligent-ui.mjs` ran scenarios A–G across 1440x900 and 390x844: baseline 12/14; spec `web/tests/chat-intelligent-ui-payloads.spec.ts` authored; post-change run in progress) |
+| N-15 | Browser checklist items not exercised in cycle 2 (search, filtering, map/graph/timeline interactions, data refresh, hard reload): run `scripts/qa-application.mjs`, `qa-firstrun.mjs`, `qa-overlay-baseline.mjs` against the preview on Node 24 and fold the results into TEST_RESULTS §7.3. | — | 20/20 checklist rows with artefacts. | PARTLY DONE (cycle 3: harness A–G baseline 12/14 → 14/14; cycle 5: 14/14 on the live sandbox with PNG proof per cell + parity, plugin-lifecycle, branding and asset checks — `artifacts/sandbox-verify-2026-10-21/`; remaining: search/filter/map/graph/timeline interaction rows of the 20-point checklist) |
 | N-16 | Workflow v2 definition: rebuild the Spatial Advanced Workflow with `TIER_DEFAULTS` (gpt-6-luna), bump `WORKFLOW_VERSION`, re-export `docs/ondemand-workflows/*-v2.json`, update the live workflow via PATCH; re-benchmark the three tiers with `scripts/ondemand-contract-test.mjs`. | N-3 | live workflow nodes no longer name an inactive endpoint. | TODO |
 | N-17 | Enforce `ONDEMAND_V2_REQUIRE_USER_HEADER=1` on the deployment once the workspace/user identity is issued server-side (session cookie → `X-Workstation-User`), and promote the conversation store to KV (N-7). | N-7 | health `guards.userHeaderRequired:true`, `conversationBackend:"kv+memory"`. | TODO |
 | N-18 | Register the 17 OpenAPI plugins in the OnDemand dashboard and paste returned plugin IDs into tool contracts (`server/ondemand/foundation/contracts.js`), following `docs/plugins/REGISTRY.md`. | dashboard access | `GET /plugin/v1/list` total ≥ 17; active plugin IDs reflected in `/api/ondemand/v2/plugins`. | TODO (operator action) |
@@ -33,6 +33,8 @@ Branch `integration/ondemand-native` · updated 2026-10-21T03:45:00Z (UTC, cycle
 | N-22 | Mobile touch targets ≥ 44 px for the mini chat controls (`#ondemand-mini-chat-send/-close/-expand`, `#od-voice-button`) — verify-2026-10-21 mobile `2m3`. | — | `scripts/qa-verify-mobile.mjs` `2m3` PASS (0 below 44 px). | TODO |
 | N-23 | Keep `#od-voice-button` usable while the mini chat is open at 390×844 (`2m5`): dock the chat above the voice control or move the control into the chat footer. | N-22 | `2m5` PASS (`usable=true`). | TODO |
 | N-24 | Follow-up pinning: reset `userScrolledUp` on user-message submit so a follow-up after scrolling up re-pins to the bottom (`scripts/qa-verify-perf.mjs` Part 2). | — | perf Part 2 6/6 PASS. | TODO |
+| N-26 | Optional UX: RETRY LAST TURN button in the mini chat after `TURN FAILED` (re-submits the failed user message; today recovery = send again, verified both viewports). | — | cycle-5 parity check d shows `retryAffordanceExists:true`; unit test in `miniChat*.test.mjs`. | TODO (B-19) |
+| N-27 | Successor-sandbox hygiene: when a verification cycle outlives the 90-min sandbox, re-create from the same tree and re-run A–G (done once in cycle 5); fold the recipe into RESUME step 10. | — | RESUME.md names the recipe; TEST_RESULTS records both URLs with timestamps. | DONE (cycle 5) |
 | N-25 | Set `ONDEMAND_INVESTIGATE_BUDGET_MS=50000` on the Vercel project (name only) so `/investigate` always finishes inside the 60 s function limit; re-run mobile `2c`. | Vercel admin | `2c` PASS (`planTurnSettled=true`). | TODO (operator action) |
 
 ## Phase C exit criteria (what "done" means for the next cycle)
@@ -42,4 +44,4 @@ Branch `integration/ondemand-native` · updated 2026-10-21T03:45:00Z (UTC, cycle
 4. Typecheck + lint + secrets + boundaries + full unit suite green in CI on Node 24: ⬜ (4,188 pass on Node 22; static gates green; Node 24 CI run for 2 allocation benches pending N-21).
 5. Preview deployment of the integration branch healthy (`/api/ondemand/v2/health` ok, B-1 fixed): ✅ (Preview `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` healthy, v2/health 200, B-1 resolved).
 
-GENERATED_UTC: 2026-10-21T07:30:00Z
+GENERATED_UTC: 2026-10-21T08:58:00Z

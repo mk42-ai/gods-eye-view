@@ -127,9 +127,11 @@ Base URL: `ONDEMAND_BASE_URL` (alias `ONDEMAND_API_BASE`, default `https://api.o
 All direct AI/LLM/speech bypasses have been completely removed from runtime code. Verified by repository inspection:
 
 ```bash
-# Grep command verified 2026-10-21:
+# Grep command verified 2026-10-21 (re-run 08:53Z after the cycle-5 cleanup):
 $ grep -rnE "api.openai.com|realtime/token|OPENAI_API_KEY" src server api --exclude="*.test.mjs"
-src/keySetupCore.mjs:57:    envVars: Object.freeze(['OPENAI_API_KEY']),
+(no output — the last hit, the OPENAI row of the Provider Settings registry in src/keySetupCore.mjs, was removed in cycle 5)
+$ grep -l -iE "api\.openai\.com|realtime/token|OPENAI_API_KEY" dist/assets/*.js | wc -l
+0
 ```
 
 - **Runtime hits in `src/`, `server/`, `api/`:** **0**
@@ -221,4 +223,21 @@ The remaining external integration call sites cannot and should not be wrapped i
 
 Deny-listed by code (never read, present only as a Vercel env var): `ELEVENLABS_API_KEY`, `ONDEMAND_KNOWLEDGE_PLUGIN_IDS` (server/ondemand/config.js:400, api/ondemand/health.js:125). Script-only vars (QA_*, PUPPETEER_EXECUTABLE_PATH, VERCEL_TOKEN, ONDEMAND_PROXY_BASE) are excluded from the count.
 
-GENERATED_UTC: 2026-10-21T03:45:00Z
+## Cycle-5 verification evidence (2026-10-21T07:33Z–08:58Z, live sandbox `https://sb-72vtzc1c6cf8.vercel.run`)
+
+| surface | probe | result | timestamp (UTC) | artefact |
+|---|---|---|---|---|
+| `GET /api/health` (alias) + `/api/ondemand/v2/health` | liveness + config | 200 `ok:true, contracts:33, activePlugins:10, keySource:"server"` | 07:33:11Z, 08:11:55Z, successor 08:38:13Z | `artifacts/sandbox-verify-2026-10-21/agent3/api/health.json` |
+| `GET /api/ondemand/v2/contracts` | registry | 200, 33 contracts (11 plugin · 21 tool · 1 workflow), 11/11 pluginIds match `/^plugin-\d+$/`, activePlugins 10 | 08:11:56Z | `agent3/api/contracts.json` |
+| `GET /api/ondemand/v2/plugins` | lifecycle snapshot | 32 entries all `discovered` before; 10 `ready` · 1 `failed` · 21 `discovered` after | 08:06:05Z / 08:08:35Z | `agent3/api/plugins-{before,after}.json` |
+| `POST /api/ondemand/v2/plugins/verify` `internet_web_search` (plugin-1713924030) | real session + probe | `ready`, 6,075 ms, `answerPreview:"READY"` | 08:07:04Z | `agent3/api/verify-websearch.json` |
+| `POST …/plugins/verify` `x_mcp_connector` (plugin-1785777296) | inactive plugin | `failed` `inactive_on_account` (400, retryable:false) | 08:07:45Z | `agent3/api/verify-xmcp.json` |
+| `POST …/plugins/verify` (all active) | 10 plugins | 10/10 `ready`, 4,712–11,391 ms | 08:08:20Z | `agent3/api/verify-all.json` |
+| `POST …/plugins/verify` header≠body principal | Phase G binding | **403 `user_mismatch`** | 08:11:07Z | `agent3/api/auth-probe-mismatch.json` |
+| `POST /api/ondemand/v2/chat` (SSE) | browser, both viewports | streamed, `X-OnDemand-Key-Source: server`, no browser key; TTFT 3.3 s / 4.4 s | 08:08:00Z–08:08:25Z | `agent1/parity.json` |
+| `POST /api/ondemand/v2/summaries/hud` | browser | 200, 2.9–4.0 s, HUD populated | 08:02:18Z | `agent2/cd/chat-intelligent-ui.json` |
+| `GET /api/ondemand/v2/messages` | persistence | 404 on a fresh object (no-sessions empty state) → 200 with 4 messages after reload | 08:28Z–08:29Z | `agent4/regression.json` |
+| Browser scenarios A–G | 14 cells | **14 / 14 PASS** (+ 14/14 on the successor sandbox) | 08:01Z–08:24Z, 08:38Z–08:39Z | `results-matrix.json` |
+| Brand assets `/assets/brand/*` + `/brand/mark-light.svg` | 12 files | 12/12 HTTP 200, sha256 = catalog (3 = attached originals), 0 eye motifs | 08:1xZ | `agent2/RESULTS.md` |
+
+GENERATED_UTC: 2026-10-21T08:58:00Z
