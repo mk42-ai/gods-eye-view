@@ -214,4 +214,80 @@ Console: the only error on every run is the expected `GET /api/setup/status` 404
 | `ELEVENLABS_API_KEY`, `ONDEMAND_KNOWLEDGE_PLUGIN_IDS` deleted | DELETE 200 for both ids | 23:30:34Z |
 | Flow Builder relaunch workflow `6ad7f961c2cfee207e8f3d07` created (cron `0 15 */6 * * *`), activated, test execution `6ad7f966c2cfee207e8f3d0d` | `POST /automation/api/workflow/` → id; `/activate` → 200; `/execute` → executionID | 23:30Z |
 
-GENERATED_UTC: 2026-10-20T23:35:00Z
+## 8. Cycle 3 (2026-10-21T01:17Z–) — integration audit, voice re-route, plugin lifecycle, tool wrappers
+
+Checkpoint before any chat-UI change: tag `checkpoint-2026-10-21-pre-integration-audit` → commit `75a0792f47ff8c6016ca8845c27d472a00a2303f` (2026-10-21T01:22:13Z, pushed).
+
+### 8.1 Baseline (checkpoint 75a0792, before changes)
+
+| gate | result | timestamp (UTC) |
+|---|---|---|
+| `npm run test:foundation` | 48 / 48 | 2026-10-21T01:22:28Z |
+| `npm run test:ondemand` | 246 / 246 | 01:22:29Z |
+| `npm run test:serverless` | 58 / 58 | 01:22:30Z |
+| `npm run ondemand:foundation:live` (real API) | **52 / 52 PASS** (26 client + 26 route rows) | 01:22:40Z–01:24:15Z |
+| `npx vite build` | OK — reproduced the Vercel warning `src/ondemand/entityContext.js (56:17): "default" is not exported by node_modules/mgrs/dist/mgrs.esm.js` | 01:46Z |
+| Requested spec `web/tests/chat-intelligent-ui-payloads.spec.ts` | **did not exist** in the repo at 75a0792, in `code-files-20261020-233921_v1.zip` (2,184 entries) or in `code-files-20261020-221619_v1.zip` (2,323 entries) — searched for `spec.ts`, `web/tests`, `playwright`, `interactive-ui`, `GROWTH`, `Plan/Run` → 0 hits. Authored this cycle (see 8.3). | 01:40Z |
+| Browser scenarios A–G (new harness `scripts/qa-chat-intelligent-ui.mjs`) against the checkpoint deployed to the REAL Vercel project (`dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx`, https://ondemand-eand-spatial-3lmhl22k7-schoolhack-web-team.vercel.app) | **12 / 14** — A FAIL at 1440×900 and 390×844 (serverless notice text still named "voice control (OpenAI Realtime)"); B–G PASS at both viewports | 02:20Z–02:30Z · `artifacts/ui-2026-10-21/baseline/{A..G}-{1440x900,390x844}.jpg`, `chat-intelligent-ui.json` |
+
+### 8.2 Post-change gates (working tree of this cycle, before the docs commit)
+
+| gate | result | timestamp (UTC) |
+|---|---|---|
+| `npm run test:foundation` | **75 / 75** (+13 plugin-lifecycle, +9 voice-route, +5 tool-contracts) | 2026-10-21T03:34Z |
+| `npm run test:ondemand` | **250 / 250** (+4 config `voiceFlowId`) | 03:34Z |
+| `npm run test:serverless` | **56 / 56** (−2 retired `/api/realtime/*` expectations) | 03:34Z |
+| `node --test server/tools/*.test.mjs src/ondemand/*.test.mjs src/brand/*.test.mjs src/voice/*.test.mjs src/voice/ondemand/*.test.mjs` | **473 / 473** | 03:35Z |
+| full `npm test` (Node 22.23.3) | **4,188 / 4,188 pass, 0 fail** (2 allocation micro-benchmarks skipped — calibrated for Node 24, B-8) | 03:41:35Z–03:45Z |
+| `node scripts/format.mjs --check` · `check-import-directions` · `check-package-boundaries` · `check-brand-marks` · `check-no-secrets` (+ `--dist`) | all exit 0 (965 files formatted; 764 modules; brand marks 2 files) | 03:36Z–03:47Z |
+| `npx vite build` | OK in 5.7 s, **mgrs warning gone** | 03:47Z |
+| `npm run ondemand:foundation:live` (real API) | **34 / 34 PASS** — 26 cycle-2 rows + 8 new: `/voice/health`, `/voice/turn` transcript → `turn, session, 12× delta, answer, tts (https), done` in 7,860 ms, `/voice/turn` 400 validation, 403 user_mismatch, `/plugins` snapshot (32 entries, all `discovered`, none READY before a probe), `/plugins/verify` → `internet_web_search` READY (4,706 ms, session+probe) and `x_mcp_connector` FAILED `inactive_on_account`, `/contracts` 33 (21 `ondemand-tool`), `/investigate` on an earthquake object → `earthquake_search:ok` **in-process** + `internet_web_search:ok` (22.3 s; B-13 closed) | 03:46:44Z–03:49:30Z · `artifacts/foundation-live-2026-10-21T03-49Z.json` |
+| Platform drift found while re-running: `POST …/query` with the literal probe text "Reply with exactly: FOUNDATION-LIVE-OK" → **403 `content_policy_violation`** upstream (03:37:14Z, 03:41:36Z, reproduced by curl 03:46:02Z; "Reply with exactly: ISO-A" / "STREAM-OK" / "READY" pass). Script re-phrased to "Respond with only this text: …" → passes. Recorded as BLOCKERS B-14. | — | 03:46Z |
+| Browser scenarios A–G against the local serverless preview of the post-change build (`node server/serverless/dev-server.mjs`, port 4317, real key in process env) | **14 / 14 PASS** (A 6/6, B 5/5, C 2/2, D 3/3, E 2/2, F 3/3, G 3/3 at both 1440×900 and 390×844); console errors 7 / failed requests 9 — all the expected `/api/setup/status` 404s, `/messages` 404 on a never-queried object and the synthetic 502s injected by scenario G | 03:47:30Z–03:48:20Z · `artifacts/ui-2026-10-21/after-local/*` |
+
+### 8.3 Scenario definitions (web/tests/chat-intelligent-ui-payloads.spec.ts ↔ scripts/qa-chat-intelligent-ui.mjs)
+
+| id | scenario | checks |
+|---|---|---|
+| A | deliverables | boot (loading hidden / globe canvas), title "OnDemand Intelligence Workstation", no "God's Eye"/"GEV MIC"/"OpenAI" visible text, brand mark, `/v2/health` ok, `/v2/contracts` ≥ 13 |
+| B | pipeline and waiting | mini chat opens for an earthquake object, status leaves IDLE, STOP visible mid-turn, assistant message, settles ≤ 90 s, `X-OnDemand-Key-Source: server`, no key in localStorage |
+| C | citations | news question completes; SOURCES strip or honest no-sources/confidence label |
+| D | root-first UI | 390×844: panel inside viewport, input visible, no horizontal scroll; 1440×900: no brand-mark overlap; close → `data-open=false`; re-open restores transcript |
+| E | summarization vs history | same object replays ≥ 2 prior messages; a different object is isolated |
+| F | settings and plugin caps | `activePlugins ≤ 10`, every `pluginId` matches `plugin-\d+`, `/v2/plugins` states ∈ allowed set, no READY without `verifiedAt` |
+| G | failure/retry + cross-app regression | synthetic 502 → `.od-chat__msg--error` + TURN FAILED; retry recovers; HUD still interactive, no page errors |
+
+### 8.4 OnDemand platform actions (2026-10-21)
+
+| action | evidence | UTC |
+|---|---|---|
+| Voice workflow created (`POST /automation/api/workflow/`) — webhook trigger, `voice_turn_input` (inputText `{payload}`) → `voice_agent_answer` (llm `predefined-gpt-6-luna`, plugin `plugin-1713924030`) → `o_analyzer` | id `6ad8160ab28e35aa11d85632` | 01:31:54Z |
+| Activated (`/activate`) | `GET /workflow/{id}` → `isActive: true` | 01:31:58Z |
+| Sample execution via API trigger (`/execute`) | `6ad81615c2cfee207e8f3e12` → `status: success`, 7,399 ms; node outputs show the API trigger carries no payload (`voice_turn_input.value === "{payload}"`) — see TRIGGER_DECISION.md | 01:32:05Z |
+| Webhook trigger URL discovery | `GET /workflow/{id}` returns no URL; `/automation/webhook/{id}` → 401 (Bearer JWT only); `/automation/api/webhook/{id}` → 404 — 11 probes in ONDEMAND_LIVE_DOCS_2026-10-21.md | 01:33Z–02:00Z |
+| Plugin registration via API | MCP `plugin_v1_plugin_create` → no plugin created (list total 0); `POST /plugin/v1` → 500; `public_v1_plugin_ai_generated_tool_create` → HTTP 524 — dashboard-only (B-15) | 01:28Z–01:31Z |
+| Vercel env `ONDEMAND_VOICE_WORKFLOW_ID` added (production+preview, plain) | `POST /v10/projects/{id}/env?upsert=true` → created | 02:08:54Z |
+| Checkpoint preview on the real project via REST (`POST /v13/deployments` with `gitSource` repoId 1375642703 ref `integration/ondemand-native`) | `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` READY, `/api/ondemand/v2/health` ok, title "OnDemand Intelligence Workstation" | 02:07:06Z → 02:08:40Z |
+
+### 8.5 Post-change preview on the REAL Vercel project (commit `d44264f`)
+
+| item | value | UTC |
+|---|---|---|
+| Feature commit | `d44264fddfc4d561c3ad5f9fd0cf7d38a530cfda` (130 files, +16,103 / −11,859) pushed to `origin/integration/ondemand-native` | 2026-10-21T04:04:17Z |
+| Deployment (`POST /v13/deployments`, `gitSource` repoId 1375642703, sha d44264f) | `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` → READY · https://ondemand-eand-spatial-qrli9v1uy-schoolhack-web-team.vercel.app | created 04:04:31Z, READY 04:05:00Z |
+| `GET /api/ondemand/v2/health` | `ok, configured, contracts 33, activePlugins 10, defaultEndpointId predefined-gpt-6-luna, workflowId source ONDEMAND_SPATIAL_WORKFLOW_ID valid` | 04:06:07Z |
+| `GET /api/ondemand/v2/voice/health` + alias `/api/voice/health` | `ok, configured, voiceFlowId.resolvedVia ONDEMAND_VOICE_WORKFLOW_ID, services [speech_to_text, text_to_speech]`; alias 200 | 04:06:08Z |
+| `GET /api/ondemand/v2/plugins` | 32 entries, all `discovered` (no fabricated READY) | 04:06:09Z |
+| `GET /api/tools/geocode_place?q=Eiffel+Tower` (new tool, live) | 200 `status OK`, lat 48.8582599 lng 2.294… | 04:06:10Z |
+| `GET /site.webmanifest` | 200 `application/manifest+json` | 04:06:11Z |
+| `GET /api/realtime/token` (retired OpenAI path) | **404** | 04:06:11Z |
+| `POST /api/voice/turn` (transcript, tts:true) on the preview | SSE `turn ×1, session ×1, delta ×22, answer ×1, tts ×1, done ×1` | 04:06:24Z |
+| Browser scenarios A–G (`scripts/qa-chat-intelligent-ui.mjs`) against the preview | **14 / 14 PASS** (A 6/6, B 5/5, C 2/2, D 3/3, E 2/2, F 3/3, G 3/3 × {1440×900, 390×844}); failed requests 10 = `/api/setup/status` 404s, unqueried-object `/messages` 404s, scenario-G synthetic 502s | 04:06:12Z–04:07:04Z · `artifacts/ui-2026-10-21/after/{A..G}-*.jpg`, `chat-intelligent-ui.json` |
+| ui-validator `cycle3-startup` (1440×900 + 390×844) | title "OnDemand Intelligence Workstation"; text "OnDemand Intelligence" present; "God's Eye" / "GEV MIC" / "OpenAI" absent; `#loading-screen` background-image contains `backdrop-network`; manifest link present — **PASS** | 04:08Z · `artifacts/ui-2026-10-21/proof/cycle3-startup-*.jpg` |
+| ui-validator `cycle3-minichat-plugins` (both viewports) | `gev:ask-object` opens `#ondemand-mini-chat` (`data-open=true`); `#ondemand-mini-chat-dev` is a collapsed `<details>` "Developer details"; no-sessions empty state rendered for a fresh object; `#ondemand-plugin-panel` visible with ≥ 10 state badges all ∈ {DISCOVERED, INSTALLING, AUTHENTICATING, INVOKING, READY, FAILED} and **none READY before a probe**; `localStorage['ondemand.apiKey']` absent; `#gev-voice-control` gone, `od-voice-*` present — **PASS** | 04:10Z · `proof/cycle3-minichat-plugins-*.jpg` |
+| ui-validator `cycle3-plugin-verify` (1440×900) | click VERIFY on `internet_web_search` → badge becomes **READY** with verified-time/latency text (real session + probe through `/plugins/verify`); click VERIFY on `x_mcp_connector` → **FAILED** with `.od-plugin__error` text (inactive_on_account) — **PASS** | 04:10Z · `proof/cycle3-plugin-verify-1440x900.jpg` |
+| ui-validator `cycle3-voice-turn` (1440×900) | `#od-voice-button` visible, `#gev-voice-control` absent; `window.__odVoice.submitText(...)` drives a real turn through `/api/ondemand/v2/voice/turn`: pipeline states include `thinking` and reach `speaking`/transcript/metrics with no `error`; history length ≥ 1 — **PASS** | 04:11Z · `proof/cycle3-voice-turn-1440x900.jpg` |
+
+20-point checklist status after cycle 3: startup ✅ · auth n/a (anonymous workspace user, server-side principal binding) · dashboard/HUD ✅ · navigation ✅ · OnDemand data flow ✅ · search/filtering/maps/graphs/timelines — unchanged code, not separately exercised (N-15) · cards ✅ · mini chat opens from objects ✅ · context received ✅ (grounded answers, provenance) · streaming + persistence ✅ (B, E) · session isolation ✅ (E + live row 26) · source references ✅ (C) · data refresh — unchanged · failure states ✅ (G + empty states) · browser refresh — resume via re-open + `/messages` replay (D/E) · responsive ✅ (every scenario at 390×844) · voice ✅ (turn-based on OnDemand) · plugin lifecycle ✅ (honest badges).
+
+GENERATED_UTC: 2026-10-21T04:13:00Z

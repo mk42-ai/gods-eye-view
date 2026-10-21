@@ -14,7 +14,7 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 | **ORIGINAL_SHA** | `1c9558cde07fdddb8d7d01b64f7143f0bbc9d116` (HEAD of `origin/ondemand-serverless`) |
 | Recovery tag + branch | `recovery/pre-ondemand-rebuild-20261020` → `1c9558c` (tag object `74a2609`), pushed 2026-10-20T21:26:36Z |
 | Working branch | `integration/ondemand-native` (created from `1c9558c`, pushed 21:27:07Z) |
-| Current commit (this checkpoint) | `34319fb` (cycle-2 feature units) + the cycle-2 checkpoint-docs commit that carries this file (see §9) — cycle 1 ended at `0f5341e` |
+| Current commit (this checkpoint) | cycle-3 feature commit + the cycle-3 checkpoint-docs commit that carries this file (see §9) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
 | Uncommitted changes / stashes at discovery | none (`git status` clean, `git stash list` empty) |
 | Resume path taken | **Fresh discovery** — `docs/agent-execution/RESUME.md` and `MASTER_STATE.md` did not exist at `1c9558c` (the repo has a different checkpoint lineage: `docs/CLOSEOUT.md`, `docs/handover/*`, `docs/audit/*`, read as prior art) |
 
@@ -36,7 +36,16 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 Cross-check of `ondemand-eand-spatial` (12 refs, newest `feat/exec-brief-v1.4-b7c0d3d` 2026-09-12): valuable, non-overlapping work = build gates `check-no-secrets.mjs` (**ported this cycle**), `check-forbidden-terms.mjs`, `check-remote-assets.mjs`, `check-contrast.mjs` (N-14), and a React "Ask the deal" SSE drawer (`api/_lib/deal.ts`) that the new foundation supersedes. The two repos share no code and must not be merged.
 
 ## 2. Engineering cycle
-Cycle **2** — Phase A/B complete (cycle 1); this cycle delivered Phase C (migration: HUD bypass → OnDemand, env
+Cycle **3** (2026-10-21T01:17Z–) — integration audit (161 call sites), OpenAI Realtime removed and voice re-routed
+through `/api/ondemand/v2/voice/turn` (OnDemand Services STT/TTS + Chat SSE), honest plugin lifecycle
+(`/plugins`, `/plugins/verify`, PLUGINS panel), 11 new OnDemand REST tool wrappers (21 tools / 17 plugins, 33
+contracts, in-process tool invoker → B-13 closed), UI upgrades (brand backdrop, empty states, Developer details,
+mgrs warning), live OnDemand docs re-read (36 pages) + trigger decision, voice workflow `6ad8160ab28e35aa11d85632`
+created/activated/executed, real-project preview via the Vercel REST API. Resume path taken: RESUME.md 10-step
+protocol from `f89d3ca` (gates green, live 52/52); 9 parallel subagents with non-overlapping file ownership; see
+TEST_RESULTS §8 and §3c below.
+
+Cycle **2** (history) — Phase A/B complete (cycle 1); this cycle delivered Phase C (migration: HUD bypass → OnDemand, env
 hygiene, contracts fixed), Phase D (orchestrator on OnDemand sessions), Phase E (ASK ONDEMAND mini chat for every
 object type on the v2 foundation), Phase F branding (env-driven PRODUCT_NAME, 45/45 P0 lines, brand asset set),
 Phase G guards (rate limit, principal binding, prompt-injection fencing, tool-arg validation, audit) and Phase H
@@ -61,11 +70,24 @@ from `0f5341e` (MASTER_STATE matched HEAD; gates green; first non-DONE NEXT_ACTI
 - Live validation 26/26 (incl. 3 concurrent users × same object → 3 sessions, answers not crossed); browser validation 5 passes at 1440×900 (+390×844).
 - Flow Builder relaunch workflow `6ad7f961c2cfee207e8f3d07` created + activated (limitation recorded: it cannot drive the agent).
 
+## 3c. Completed in cycle 3 (evidence TEST_RESULTS §8, INTEGRATION_MATRIX "Cycle-3 migration evidence", BLOCKERS B-14…B-17)
+- Checkpoint tag `checkpoint-2026-10-21-pre-integration-audit` (`75a0792`) before any chat-UI change; baseline 48/246/58 units, 52/52 live, browser A–G 12/14 (A failed on the "OpenAI Realtime" notice).
+- `INTEGRATION_AUDIT.md` + `integration-audit.json`: 161 call sites (32 ondemand-native · 10 proxied-tool · 53 direct-provider · 17 direct-browser · 4 bypass-ai · 25 stub · 20 test-only) with file:line and replacement per row.
+- `ONDEMAND_LIVE_DOCS_2026-10-21.md` (36 live pages, probe log) + `TRIGGER_DECISION.md`: interactive voice = direct STT → chat stream → TTS (per-turn `pluginIds`); Flow Builder workflow = auditable async path (`execute` has no body; webhook URL dashboard-only).
+- OpenAI Realtime removed entirely (35 files incl. `server/providers/openai*`, `src/voice/realtime*`); `src/voice/gevActions.js` map-action layer kept; `/api/realtime/*` mounts gone; direct AI bypasses **4 → 0**.
+- `voice-route.js`: `POST /api/ondemand/v2/voice/turn` SSE (`turn, transcript, session, status*, delta*, answer, tts|tts_error, done|error`, heartbeats, abort propagation, server key only), `GET /voice/health`, alias `/api/voice/*`; live turn 7.9 s with https TTS (live row 30); client pipeline `voiceTurn` with barge-in; `ONDEMAND_VOICE_WORKFLOW_ID` (default `6ad8160ab28e35aa11d85632`) in config + Vercel env.
+- `plugin-lifecycle.js` + `pluginPanel.js`: discovered → installing → authenticating → ready | failed driven by real session+probe calls; invoking counters from `/chat`; live: `internet_web_search` READY 4.7 s, `x_mcp_connector` FAILED `inactive_on_account`.
+- `tool-contracts.js`: 20 registry-derived `ondemand-tool` contracts (+ earthquake) → 33 contracts; `createToolInvoker()` wired into the serverless app and the live script; `/investigate` on an earthquake runs `earthquake_search:ok` in-process.
+- 11 new tool modules (`fires, overpass, places, gbfs, transit, regional, terrain, cctv, military_installations, radio, space`), OpenAPI regenerated for 17 plugins (0 drift), `docs/plugins/REGISTRY.md` with the live table (14 ok · 2 not_found · 2 not_configured · 2 upstream_unavailable · 1 vessel not_found).
+- UI: `backdrop-network.png` on loading + first-run screens; empty states (no-sessions / no-results / source-unavailable) in mini + entity chat; `#ondemand-mini-chat-dev` "Developer details" holding activity/metrics/frames/provenance; `site.webmanifest`; mgrs build warning fixed; `BRAND_ASSETS.md` re-verified (16 files, sha256).
+- Gates: full `npm test` 4,188/4,188 (Node 22), live 34/34, browser A–G 14/14 on the post-change local preview; package exports/boundaries pruned of the retired voice modules.
+- Platform: voice workflow created 01:31:54Z, activated, execution `6ad81615c2cfee207e8f3e12` success 7.4 s; plugin API creation proven dashboard-only (B-15); content-policy drift (B-14) recorded and the live script re-phrased.
+
 ## 4. In progress
-- None at checkpoint time (every unit is committed). The next cycle starts at NEXT_ACTIONS N-5b / N-9b / N-11 / N-15.
+- None at checkpoint time. Post-change preview `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` (https://ondemand-eand-spatial-qrli9v1uy-schoolhack-web-team.vercel.app, commit `d44264f`) READY with 14/14 browser scenarios + 4 ui-validator passes (TEST_RESULTS §8.5). Next cycle starts at NEXT_ACTIONS N-18 (dashboard plugin registration) / N-5b / N-16 / N-21.
 
 ## 5. Remaining (summary — full queue in NEXT_ACTIONS.md)
-N-5b port entity/camera chat onto miniChat · N-6 typecheck+lint · N-7 KV conversations · N-9b remove OpenAI Realtime (last 2 bypass call sites) · N-9c fold capability loop into the orchestrator · N-11 register 38 geodata tools + wire `toolInvoker` live · N-12 media verification · N-13 Node-24 full suite + real-project preview + production re-link (B-6) · N-14 sibling gates · N-15 remaining browser checklist rows via the Puppeteer harnesses · N-16 workflow v2 definition · N-17 enforce user header + KV.
+N-18 register the 17 OpenAPI plugins in the dashboard (API create is 500/524) · N-19 operator keys (`TOMTOM_API_KEY`, `NASA_FIRMS_MAP_KEY`) · N-20 webhook trigger URL → `ONDEMAND_VOICE_WEBHOOK_URL` · N-21 Node-24 CI · B-6 production re-link. Older: N-5b port entity/camera chat onto miniChat · N-6 typecheck+lint · N-7 KV conversations · N-9b remove OpenAI Realtime (last 2 bypass call sites) · N-9c fold capability loop into the orchestrator · N-11 register 38 geodata tools + wire `toolInvoker` live · N-12 media verification · N-13 Node-24 full suite + real-project preview + production re-link (B-6) · N-14 sibling gates · N-15 remaining browser checklist rows via the Puppeteer harnesses · N-16 workflow v2 definition · N-17 enforce user header + KV.
 
 ## 6. Subagent deliverables (Phase A, parallel, non-overlapping)
 
@@ -105,7 +127,10 @@ Browser-level UI validation not run this cycle — no UI consumes `/api/ondemand
 | 99c9ed7 | feat(ondemand): intelligence orchestration, provenance objects and Phase G guards on /api/ondemand/v2 | 2026-10-20T23:39Z |
 | f7dff65 | chore(ondemand): remove the retired OpenAI HUD-summary provider file | 2026-10-20T23:39Z |
 | 34319fb | feat(ask-ondemand): contextual mini chat for every object type on the v2 foundation | 2026-10-20T23:39Z |
-| (next) | docs(agent-execution): cycle-2 checkpoint — MASTER_STATE, INTEGRATION_MATRIX, TEST_RESULTS §7, BLOCKERS, NEXT_ACTIONS, RESUME, INFRASTRUCTURE_DECISIONS, artifacts | see `git log` |
+| f89d3ca | docs(agent-execution): cycle-2 checkpoint | 2026-10-20T23:36:39Z |
+| 75a0792 | chore(checkpoint): cycle-3 baseline (tag `checkpoint-2026-10-21-pre-integration-audit`) | 2026-10-21T01:22:13Z |
+| (cycle 3 feature) | feat(ondemand): voice turn on OnDemand (OpenAI Realtime removed), plugin lifecycle, 21 tool contracts + in-process invoker, 11 tool wrappers, UI upgrades, A–G harness | see `git log` |
+| (cycle 3 docs) | docs(agent-execution): cycle-3 checkpoint — INTEGRATION_AUDIT, live docs, trigger decision, TEST_RESULTS §8, BLOCKERS B-14…17, NEXT_ACTIONS N-18…21, RESUME | see `git log` |
 
 ## 10. Blockers
 See `BLOCKERS.md` — B-1 Vercel workflow-id typo (S1), B-6 production Git-link (S1), B-2 inactive endpoint default, B-3 plugin-set rejections (mitigated), B-4 media create, B-5 no log SSE (mitigated), B-7 OpenAI bypasses, B-8 Node 24 suite, B-9 no typecheck/lint, B-10 `/fallbacks` n/a.
@@ -117,23 +142,23 @@ override is **off by default** (`clientKeyAllowed()` requires `ONDEMAND_ALLOW_CL
 otherwise always use the server key, and the new `/api/ondemand/v2/*` never reads the header
 (`X-OnDemand-Key-Source: server` always). The Settings-drawer key field becomes a no-op until N-5 removes it.
 
-## 12. Scorecard (denominators are the ACTUAL inventory counts — cycle 2)
+## 12. Scorecard (denominators are the ACTUAL inventory counts — cycle 3, 2026-10-21)
 
 | metric | numerator / denominator | source |
 |---|---|---|
-| External API discovery | 85 / 85 call sites inventoried (54 providers; 82 at discovery + 3 new v2 foundation call sites) | api-inventory.json |
-| OnDemand migration | 17 / 85 call sites OnDemand-native; 27 keep-direct by design; 38 planned tool wraps; 1 removed → **17 / 58 migratable** (was 13 / 55) | INTEGRATION_MATRIX |
-| Plugin invocation validation | 10 / 11 account plugins accepted at session creation; **2 / 10 exercised end-to-end live** (web search row 7, Perplexity via `/investigate` row 27); 1 / 1 workflow executed; 13 / 13 contracts registered; earthquake tool contract schema-validated (unit) | TEST_RESULTS §7.1 |
-| Direct API bypasses | **2** remaining / 4 found (HUD summary migrated, ElevenLabs removed; OpenAI Realtime pair 501 in serverless) | INTEGRATION_MATRIX |
-| Critical navigation workflows | 6 / 6 P0 widgets carry an ASK affordance (earthquakes, fires, traffic, DEGRADED/provider badge, regional brief, HUD summary); 3 / 6 clicked through in the browser pass (earthquakes, traffic, HUD/brief presence) | TEST_RESULTS §7.3 |
-| Contextual mini chat | **10 / 9 designated object types** have panel labels + starters (organization/entity, intelligenceCard, mapMarker, timelineEvent, graphNode, graphEdge, chart, tableRow, newsArticle, alert) + 12 globe types; 4 object types exercised live in the browser (earthquake, trafficLayer, graphEdge, newsArticle, alert via injected failure) | miniChat.js OBJECT_TYPES, §7.3 |
-| Session isolation | 3 / 3 concurrent users × same object → 3 distinct sessions, answers not crossed (live row 26); same user × 3 objects → 3 sessions (unit); browser re-open resumes the same session with history (§7.3 row 4) | TEST_RESULTS |
-| Source traceability | 26 / 26 live rows + 5 / 5 browser passes carry timestamps + artefacts; every v2 answer carries `provenance{provider,endpointId,pluginIds,keySource,fetchedAt}` + `citations[]` + `confidenceBasis` | TEST_RESULTS §7 |
-| Integration tests (real endpoints) | **26 / 26** live (`npm run ondemand:foundation:live`) | artifacts/foundation-live-2026-10-20T23-07Z.json |
-| Unit tests | 48 / 48 foundation · 246 / 246 ondemand · 58 / 58 serverless · 58 / 58 touched src suites (full `npm test` on Node 24: not run, B-8) | TEST_RESULTS §7.2 |
-| UI tests | **5 / 5** ui-validator passes (1440×900; 3 of them also 390×844) | artifacts/ui-2026-10-20 |
-| Branding replacement | **0** user-facing legacy occurrences remaining in rendered markup / prompts (45 / 45 P0 lines replaced; the do-not-rename identifier table untouched; P1 docs prose still names the old product in evidence files by design) | productName.test.mjs, BRANDING_AUDIT §3 |
-| Infrastructure consolidation | 6 / 17 CONSOLIDATE+REMOVE decisions executed (#9, #11, #17-var, #16, #15, #10-v2); redundant AI orchestrators remaining: **0** | INFRASTRUCTURE_DECISIONS.md |
-| Deployment | ephemeral Vercel-Sandbox preview of this tree healthy (`/api/ondemand/v2/health` ok, defaultEndpointId `predefined-gpt-6-luna`, brand assets served); real-project preview + production still BLOCKED (B-6) | TEST_RESULTS §7.3 |
+| External API discovery | **161 / 161** call sites inventoried file:line (integration-audit.json, 2026-10-21T02:15:18Z); the earlier provider inventory (54 providers / 85 call sites) is kept in api-inventory.json | INTEGRATION_AUDIT.md |
+| OnDemand migration | 34 OnDemand-native call sites · **21 / 21** repo tools exposed as OnDemand REST tools (17 plugins, OpenAPI generated, 0 drift) fronting 47 of the 53 direct-provider rows · UNSUPPORTED by design: persistent AIS websocket relay, browser tiles/3D-tiles/Cesium ion, fonts CDN (INTEGRATION_MATRIX "UNSUPPORTED") | INTEGRATION_MATRIX cycle-3 section |
+| Plugin invocation validation | 10 / 11 account plugins accepted at session creation; **3 / 10 exercised end-to-end live** (web search rows 7/30/34, Perplexity via `/investigate` row 27, lifecycle probe); 2 / 2 workflows executed (`6aace534…`, voice `6ad8160a…` execution `6ad81615c2cfee207e8f3e12`); **33 / 33** contracts registered (11 plugins · 21 tools · 1 workflow); 21 / 21 tool routes live-checked (14 ok · 7 honest failures: not_found/not_configured/upstream_unavailable); platform-side plugin registration of the 17 OpenAPI docs: **0 / 17** (dashboard-only, B-15) | TEST_RESULTS §8.2, docs/plugins/REGISTRY.md |
+| Direct API bypasses | **0** remaining / 4 found (HUD summary migrated cycle 2; ElevenLabs removed cycle 2; OpenAI Realtime token + WebRTC pair removed cycle 3 — 35 files deleted; grep in RESUME invariants → 0 runtime hits) | INTEGRATION_MATRIX, B-7 RESOLVED |
+| Critical navigation workflows | 6 / 6 P0 widgets carry an ASK affordance; browser scenarios A–G **14 / 14** at 1440×900 + 390×844 on the post-change preview (startup/branding, pipeline+waiting, citations, root-first layout, history vs isolation, plugin caps, failure/retry + cross-app regression) | TEST_RESULTS §8.2 |
+| Contextual mini chat | **10 / 9 designated object types** (+12 globe types) with starters; empty states + Developer details added; per-turn plugin selection from the PLUGINS panel | miniChat.js, pluginPanel.js |
+| Session isolation | 3 / 3 concurrent users × same object → 3 distinct sessions (live row 26, re-run 03:48Z); browser E: same object replays 4 messages, different object isolated (both viewports) | TEST_RESULTS §8 |
+| Source traceability | 34 / 34 live rows + 14 / 14 browser scenarios carry timestamps + artefacts; every v2 answer and every voice `answer` event carries `provenance{provider,endpointId,pluginIds,keySource:'server',fetchedAt}` + `citations[]` + `confidenceBasis` | TEST_RESULTS §8 |
+| Integration tests (real endpoints) | **34 / 34** live (`npm run ondemand:foundation:live`, 03:46:44Z–03:49:30Z) | artifacts/foundation-live-2026-10-21T03-49Z.json |
+| Unit tests | **4,188 / 4,188** full `npm test` on Node 22 (75 foundation · 250 ondemand · 56 serverless · 101 tools+serverless · …); 2 allocation micro-benchmarks skipped (Node-24 calibrated, B-8) | TEST_RESULTS §8.2 |
+| UI tests | **14 / 14** scenario×viewport passes post-change (baseline 12 / 14); harness `scripts/qa-chat-intelligent-ui.mjs`; spec `web/tests/chat-intelligent-ui-payloads.spec.ts` | artifacts/ui-2026-10-21 |
+| Branding replacement | **0** user-facing legacy occurrences (scenario A asserts no "God's Eye"/"GEV MIC"/"OpenAI" visible text at both viewports; brand backdrop + manifest + favicons wired) | brandAssets.test.mjs, scenario A |
+| Infrastructure consolidation | OpenAI Realtime provider removed (component 7/38 DONE); voice, plugin lifecycle and tool invoker run in-process — Vercel function count unchanged; redundant AI orchestrators remaining: **0** | INFRASTRUCTURE_DECISIONS.md |
+| Deployment | real-project previews via the Vercel REST API: checkpoint `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` (02:08Z) and post-change `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` READY 04:05Z (`/api/ondemand/v2/health` ok, voice/health ok, 14/14 scenarios, `/api/realtime/token` 404); production still Git-linked to the sibling repo (B-6) | TEST_RESULTS §8.4/§8.5 |
 
-GENERATED_UTC: 2026-10-20T23:40:00Z
+GENERATED_UTC: 2026-10-21T04:13:00Z

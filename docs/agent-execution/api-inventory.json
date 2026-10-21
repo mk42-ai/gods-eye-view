@@ -10,7 +10,13 @@
     "plannedToolWraps": 38,
     "keepDirect": 27,
     "envVarsRead": 120,
-    "removed": 1
+    "removed": 1,
+    "cycle3": {
+      "generatedUtc": "2026-10-21T03:45:00Z",
+      "directBypasses": 0,
+      "removedCallSites": 2,
+      "toolWrappers": 21
+    }
   },
   "notes": [
     "Call-site counting scope: src/, server/, api/, scripts/, index.html production code; node_modules, dist, docs/ and *.test.mjs excluded (tests cited as evidence only).",
@@ -18,7 +24,8 @@
     "No Gemini / generativelanguage call site exists in production code or scripts on this branch; no axios, XMLHttpRequest or EventSource usage found (SSE is piped server-side via fetch in server/ondemand/sse.js).",
     "ELEVENLABS_API_KEY is deny-listed in code (server/ondemand/config.js:400) \u2014 recorded as env-only bypass with no call site.",
     "Entries 'usgs-fdsn-source' and 'nasa-firms-source' are counted as native because they are the already-registered OnDemand tool backends (docs/ondemand-tools/*.json).",
-    "2026-10-20 cycle 2: openai-hud-summary migrated to OnDemand (v2/summaries/hud), elevenlabs env removed, three v2 foundation call sites added; bypasses 4 \u2192 2 (OpenAI Realtime pair, 501 in serverless)."
+    "2026-10-20 cycle 2: openai-hud-summary migrated to OnDemand (v2/summaries/hud), elevenlabs env removed, three v2 foundation call sites added; bypasses 4 \u2192 2 (OpenAI Realtime pair, 501 in serverless).",
+    "2026-10-21 cycle 3: OpenAI Realtime removed entirely (server/providers/openai/* and src/voice/realtime* deleted, /api/realtime/token removed); directBypasses reduced to 0; voice served by /api/ondemand/v2/voice/turn; 21 geodata tools implemented across 17 OpenAPI plugins with in-process toolInvoker (see integration-audit.json for 161 baseline call sites)."
   ],
   "envVarsRead": [
     "AIRPLANES_LIVE_ENABLED",
