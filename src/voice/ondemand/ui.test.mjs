@@ -60,7 +60,9 @@ function el(doc, tag, { id = '', className = '' } = {}) {
       (node.listeners[type] ||= []).push(fn);
     },
     removeEventListener(type, fn) {
-      node.listeners[type] = (node.listeners[type] || []).filter((f) => f !== fn);
+      node.listeners[type] = (node.listeners[type] || []).filter(
+        (f) => f !== fn,
+      );
     },
     click() {
       for (const fn of node.listeners.click || []) fn();
@@ -75,7 +77,8 @@ function find(root, selector) {
     for (const child of n.children) {
       if (
         (selector.startsWith('#') && child.id === selector.slice(1)) ||
-        (selector.startsWith('.') && child.classList.contains(selector.slice(1)))
+        (selector.startsWith('.') &&
+          child.classList.contains(selector.slice(1)))
       )
         out.push(child);
       walk(child);
@@ -100,23 +103,41 @@ function makeDoc({ withTemplate = true, withGevMic = true } = {}) {
   doc.body.appendChild(dock);
   const controlPanel = el(doc, 'div', { id: 'control-panel' });
   if (withTemplate) {
-    const root = el(doc, 'div', { id: 'od-voice-control', className: 'od-voice' });
+    const root = el(doc, 'div', {
+      id: 'od-voice-control',
+      className: 'od-voice',
+    });
     const heading = el(doc, 'div', { className: 'od-voice-heading' });
     heading.appendChild(el(doc, 'span', { className: 'od-voice-kicker' }));
-    heading.appendChild(el(doc, 'button', { id: 'od-voice-route', className: 'od-voice-route' }));
+    heading.appendChild(
+      el(doc, 'button', { id: 'od-voice-route', className: 'od-voice-route' }),
+    );
     root.appendChild(heading);
     const row = el(doc, 'div', { className: 'od-voice-row' });
-    const button = el(doc, 'button', { id: 'od-voice-button', className: 'od-voice-btn' });
+    const button = el(doc, 'button', {
+      id: 'od-voice-button',
+      className: 'od-voice-btn',
+    });
     button.appendChild(el(doc, 'span', { className: 'od-voice-btn-label' }));
     row.appendChild(button);
     const meta = el(doc, 'div', { className: 'od-voice-meta' });
-    meta.appendChild(el(doc, 'span', { id: 'od-voice-status', className: 'od-voice-chip' }));
-    meta.appendChild(el(doc, 'span', { id: 'od-voice-detail', className: 'od-voice-detail' }));
+    meta.appendChild(
+      el(doc, 'span', { id: 'od-voice-status', className: 'od-voice-chip' }),
+    );
+    meta.appendChild(
+      el(doc, 'span', { id: 'od-voice-detail', className: 'od-voice-detail' }),
+    );
     row.appendChild(meta);
     root.appendChild(row);
-    root.appendChild(el(doc, 'div', { id: 'od-voice-transcript', className: 'od-voice-line' }));
-    root.appendChild(el(doc, 'div', { id: 'od-voice-answer', className: 'od-voice-line' }));
-    root.appendChild(el(doc, 'div', { id: 'od-voice-workflow', className: 'od-voice-line' }));
+    root.appendChild(
+      el(doc, 'div', { id: 'od-voice-transcript', className: 'od-voice-line' }),
+    );
+    root.appendChild(
+      el(doc, 'div', { id: 'od-voice-answer', className: 'od-voice-line' }),
+    );
+    root.appendChild(
+      el(doc, 'div', { id: 'od-voice-workflow', className: 'od-voice-line' }),
+    );
     dock.appendChild(root);
   }
   dock.appendChild(el(doc, 'div', { id: 'location-bar' }));
@@ -155,19 +176,26 @@ function fakePipeline() {
   return pipeline;
 }
 
-test('the template control is adopted and moved right beside #gev-voice-control (existing button untouched)', () => {
+test('the template control is adopted and placed in the first voice slot before #gev-voice-control', () => {
   const { doc, dock } = makeDoc();
   const ui = createOdVoiceUi({ doc });
   assert.equal(ui.root.id, 'od-voice-control');
-  assert.ok(ui.button && ui.status && ui.route && ui.transcript && ui.answer && ui.workflow);
-  assert.deepEqual(
-    dock.children.map((c) => c.id),
-    ['location-bar', 'gev-voice-control', 'od-voice-control', 'control-panel'],
+  assert.ok(
+    ui.button &&
+      ui.status &&
+      ui.route &&
+      ui.transcript &&
+      ui.answer &&
+      ui.workflow,
   );
-  assert.equal(placeBesideGevMic(ui.root, doc), 'beside-gev-mic');
   assert.deepEqual(
     dock.children.map((c) => c.id),
-    ['location-bar', 'gev-voice-control', 'od-voice-control', 'control-panel'],
+    ['location-bar', 'od-voice-control', 'gev-voice-control', 'control-panel'],
+  );
+  assert.equal(placeBesideGevMic(ui.root, doc), 'first-voice-slot');
+  assert.deepEqual(
+    dock.children.map((c) => c.id),
+    ['location-bar', 'od-voice-control', 'gev-voice-control', 'control-panel'],
     'idempotent',
   );
 });
@@ -196,15 +224,50 @@ test('bindOdVoiceUi mirrors pipeline events: state chip, detail, transcript/answ
 
   pipeline.emit({ type: 'transcript', text: 'show military flights near me' });
   // The speaker chevron is an inline SVG (aria-hidden); only the text is read.
-  assert.equal(ui.transcript.textContent.trim(), 'show military flights near me');
-  pipeline.emit({ type: 'answer', text: 'Military flights layer is on.', partial: true, source: 'chat' });
+  assert.equal(
+    ui.transcript.textContent.trim(),
+    'show military flights near me',
+  );
+  pipeline.emit({
+    type: 'status',
+    statusType: 'executing',
+    statusMessage: 'Searching flights',
+    executedAgents: ['agent-1'],
+  });
+  assert.equal(ui.workflow.textContent, 'Searching flights · agent-1');
+  assert.equal(ui.workflow.dataset.phase, 'executing');
+  pipeline.emit({
+    type: 'answer',
+    text: 'Military flights layer is on.',
+    partial: true,
+    source: 'chat',
+  });
   assert.equal(ui.answer.textContent.trim(), 'Military flights layer is on.');
   assert.equal(ui.answer.dataset.partial, 'true');
-  pipeline.emit({ type: 'workflow', phase: 'done', executionId: 'exec-1', status: 'success', timeToFirstLogMs: 1400, totalMs: 9000, actionCount: 2 });
-  assert.equal(ui.workflow.textContent, 'workflow exec-1: success · first log 1400 ms · total 9000 ms · 2 action(s)');
-  pipeline.emit({ type: 'state', state: 'error', detail: 'Transcription failed: OnDemand is not configured on this deployment' });
+  pipeline.emit({
+    type: 'workflow',
+    phase: 'done',
+    executionId: 'exec-1',
+    status: 'success',
+    timeToFirstLogMs: 1400,
+    totalMs: 9000,
+    actionCount: 2,
+  });
+  assert.equal(
+    ui.workflow.textContent,
+    'workflow exec-1: success · first log 1400 ms · total 9000 ms · 2 action(s)',
+  );
+  pipeline.emit({
+    type: 'state',
+    state: 'error',
+    detail:
+      'Transcription failed: OnDemand is not configured on this deployment',
+  });
   assert.equal(ui.status.textContent, 'ERROR');
-  assert.equal(ui.detail.textContent, 'Transcription failed: OnDemand is not configured on this deployment');
+  assert.equal(
+    ui.detail.textContent,
+    'Transcription failed: OnDemand is not configured on this deployment',
+  );
   assert.equal(ui.buttonLabel.textContent, 'RETRY');
 
   ui.route.click();

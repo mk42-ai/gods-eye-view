@@ -4,6 +4,7 @@ import { mountSourceRoutes } from './sources-mounts.js';
 import { mountToolsRoute } from './tools-route.js';
 import { mountOndemandWorkflowSubpaths } from './ondemand-workflow-mount.js';
 import { mountFoundationRoutes } from '../ondemand/foundation/proxy-route.js';
+import { createToolInvoker } from '../ondemand/foundation/tool-contracts.js';
 
 /** VITE_SERVERLESS_MODE / SERVERLESS_MODE mirror the client-side build-time flag; VERCEL is set by the platform itself. */
 /** Accept the usual truthy spellings (`true`, `1`, `yes`) for an env flag. */
@@ -156,25 +157,6 @@ async function createServerlessApi({ serverlessMode: explicitMode } = {}) {
     // until a request arrives, and every socket it opens is closed within
     // the same invocation.
     aisServerlessProxy().configureServer(fakeServer);
-    router.use(
-      '/api/realtime/token',
-      unavailableInServerless(
-        'voice-realtime',
-        'Voice control (OpenAI Realtime ephemeral session) is unavailable in the serverless deployment',
-      ),
-    );
-    // Best-effort diagnostic sink (server/providers/openai/debug-log.js
-    // normally appends JSONL under `${sourceRoot}/.gev-logs`, which resolves
-    // under the read-only deployment directory, not /tmp). The client already
-    // avoids calling this under the serverless flag (src/voice/realtimeBackend.js
-    // never reaches a connected session to begin with), so a residual call is
-    // answered as a silent no-op rather than a 501 that would surface as a
-    // console error for a purely cosmetic diagnostics line.
-    router.use('/api/realtime/debug-log', (req, res) => {
-      res.statusCode = 204;
-      res.setHeader('Cache-Control', 'no-store');
-      res.end();
-    });
   }
 
   // Gate 3 — every /api/sources/* adapter (row 1 earthquakes onwards) is
@@ -189,11 +171,50 @@ async function createServerlessApi({ serverlessMode: explicitMode } = {}) {
   // (server/serverless/ondemand-workflow-mount.js; `stream` is the polling
   // surface re-shaped as same-origin SSE, not an upstream stream).
   mountOndemandWorkflowSubpaths(router);
+  // Alias mount /api/voice/turn and /api/voice/health -> /api/ondemand/v2/voice/turn|health
+  let voiceHandlerPromise = null;
+  const getVoiceHandler = () => {
+    if (!voiceHandlerPromise) {
+      voiceHandlerPromise =
+        import('../ondemand/foundation/voice-route.js').then((m) =>
+          m.createVoiceTurnHandler(),
+        );
+    }
+    return voiceHandlerPromise;
+  };
+
+  router.use('/api/voice', async (req, res, next) => {
+    const sub = req.url.split('?')[0];
+    if (sub === '/turn' || sub === '/health') {
+      const handler = await getVoiceHandler();
+      const handled = await handler(req, res, {
+        path: '/voice' + req.url,
+        method: req.method,
+      });
+      if (handled) return;
+    }
+    req.url = '/api/ondemand/v2/voice' + req.url;
+    next();
+  });
+
+  router.use((req, res, next) => {
+    if (
+      req.url &&
+      (req.url.startsWith('/api/voice/turn') ||
+        req.url.startsWith('/api/voice/health'))
+    ) {
+      req.url = req.url.replace(/^\/api\/voice\//, '/api/ondemand/v2/voice/');
+    }
+    next();
+  });
+
   // Phase B foundation (2026-10-20): /api/ondemand/v2/* — server-key-only
   // proxy with object-context conversations, SSE relay and contracts
   // (server/ondemand/foundation/proxy-route.js). Mounted BEFORE the provider
   // plugins so no literal api/ondemand/*.js file shadows it.
-  mountFoundationRoutes(router);
+  // B-13 (2026-10-21): `/investigate` now runs repo tools in-process through
+  // the registry-derived invoker (same whitelist validation as /api/tools).
+  mountFoundationRoutes(router, { toolInvoker: createToolInvoker() });
 
   for (const plugin of localProviderPlugins()) {
     if (SKIP_ALWAYS.has(plugin.name)) continue;

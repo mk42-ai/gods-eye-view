@@ -568,11 +568,39 @@ export function createOnDemandClient(options = {}) {
     },
   };
 
+  // ---------- services (Services API: STT / TTS) ----------
+  const services = {
+    /** @param {{ audioUrl: string }} input */
+    async speechToText({ audioUrl }, opts = {}) {
+      if (!audioUrl)
+        throw new Error('services.speechToText: audioUrl required');
+      const out = await json(`${urls().services}/execute/speech_to_text`, {
+        method: 'POST',
+        body: { audioUrl },
+        timeoutMs: opts.timeoutMs ?? 45_000,
+        ...opts,
+      });
+      return out?.data ?? out;
+    },
+    /** @param {{ input: string, model?: string, voice?: string }} input */
+    async textToSpeech({ input, model = 'tts-1', voice = 'alloy' }, opts = {}) {
+      if (!input) throw new Error('services.textToSpeech: input required');
+      const out = await json(`${urls().services}/execute/text_to_speech`, {
+        method: 'POST',
+        body: { input, model, voice },
+        timeoutMs: opts.timeoutMs ?? 30_000,
+        ...opts,
+      });
+      return out?.data ?? out;
+    },
+  };
+
   return Object.freeze({
     sessions,
     query,
     media,
     workflows,
+    services,
     /** Low-level escape hatch (still key-injecting, still retrying). */
     request,
     isConfigured,

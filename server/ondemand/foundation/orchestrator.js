@@ -63,7 +63,13 @@ export const RETRIEVAL_PLAN = Object.freeze({
 /** Object type → repo tool contracts that can ground the question. */
 export const TOOL_PLAN = Object.freeze({
   earthquake: ['earthquake_search'],
-  mapMarker: ['earthquake_search'],
+  mapMarker: ['earthquake_search', 'geocode_place'],
+  fire: ['fire_detection_search'],
+  trafficLayer: ['cameras_in_bbox'],
+  aircraft: ['flights_in_bbox'],
+  vessel: ['vessels_in_bbox'],
+  satellite: ['list_satellites_in_scene'],
+  regionalBrief: ['regional_brief'],
   default: [],
 });
 
@@ -235,6 +241,51 @@ async function runTool({ contract, objectContext, toolInvoker }) {
 
 export function toolArgsFor(contract, objectContext, now = new Date()) {
   const pos = objectContext?.position || {};
+  const hasPos = Number.isFinite(pos.lat) && Number.isFinite(pos.lon);
+  const lat = hasPos ? Number(pos.lat.toFixed(4)) : null;
+  const lon = hasPos ? Number(pos.lon.toFixed(4)) : null;
+  const bbox = (deg) =>
+    hasPos
+      ? {
+          lamin: Math.max(-90, lat - deg),
+          lamax: Math.min(90, lat + deg),
+          lomin: Math.max(-180, lon - deg),
+          lomax: Math.min(180, lon + deg),
+        }
+      : null;
+  // Registry-derived tools (server/tools/*, contracts via tool-contracts.js):
+  // args follow each tool's own whitelist; a tool whose inputs cannot be
+  // satisfied from the object context yields {} and is skipped by validation.
+  if (hasPos) {
+    switch (contract.name) {
+      case 'fire_detection_search':
+        return {
+          latitude: lat,
+          longitude: lon,
+          radius_km: 100,
+          day_range: 2,
+          limit: 100,
+        };
+      case 'cameras_in_bbox':
+        return { ...bbox(0.15), limit: 50 };
+      case 'flights_in_bbox':
+        return { lat, lon, radiusNm: 60, limit: 200 };
+      case 'vessels_in_bbox':
+        return { lat, lon, radiusKm: 100, limit: 200 };
+      case 'list_satellites_in_scene':
+        return { lat, lon, radiusKm: 1500, limit: 100 };
+      case 'regional_brief':
+        return { lat, lon };
+      default:
+        break;
+    }
+  }
+  if (contract.name === 'geocode_place') {
+    const q = String(
+      objectContext?.label || objectContext?.objectId || '',
+    ).trim();
+    return q ? { q: q.slice(0, 120) } : {};
+  }
   if (
     contract.name === 'earthquake_search' &&
     Number.isFinite(pos.lat) &&

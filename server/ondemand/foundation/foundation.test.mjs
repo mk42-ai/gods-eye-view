@@ -327,7 +327,9 @@ describe('plugin contract', () => {
   });
   test('registry refuses duplicates and lists only active plugin ids', () => {
     const r = createContractRegistry();
-    assert.equal(contractRegistry.size(), 13);
+    // 11 plugins + 1 hand-written tool + 20 registry-derived tools + 1 workflow (2026-10-21)
+    assert.equal(contractRegistry.size(), 33);
+    assert.equal(contractRegistry.list({ kind: 'ondemand-tool' }).length, 21);
     const active = contractRegistry.activePluginIds();
     assert.equal(active.length, 10);
     assert.equal(
@@ -420,7 +422,7 @@ describe('proxy route (/api/ondemand/v2)', () => {
       makeReq({ method: 'GET', url: '/contracts', headers: { host: 'h' } }),
       res,
     );
-    assert.equal(res.json().contracts.length, 13);
+    assert.equal(res.json().contracts.length, 33);
   });
   test('chat sync: creates a session keyed by object context, grounds the prompt, reuses on second call; client key header ignored', async () => {
     const f = recordingFetch([

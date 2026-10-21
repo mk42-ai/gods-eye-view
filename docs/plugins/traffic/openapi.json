@@ -19,7 +19,7 @@
   },
   "servers": [
     {
-      "url": "https://sb-1dqoce558p0v.vercel.run",
+      "url": "https://ondemand-eand-spatial-opal.vercel.app",
       "description": "OnDemand Spatial deployment (preview or production)"
     }
   ],
@@ -127,7 +127,7 @@
       "get": {
         "operationId": "road_network_status",
         "summary": "Road-network configuration: source, Overpass mirrors in force, known blocker",
-        "description": "Reports the road-network configuration point of this deployment (server/providers/overpass/constants.js roadNetworkConfig()): `source` is ROAD_NETWORK_SOURCE — \"overpass\" (default: OSM roads via the Overpass mirrors) or \"off\" (the OSM road fetch is disabled); `upstreams` is the ordered Overpass mirror list actually in force (the OVERPASS_UPSTREAMS csv override when set, else the default public mirrors); `blocker` is the fixed operator note explaining why public mirrors are not dependable from cloud egress; `fromEnv` says whether each variable is set (never its value). `tomtom.configured` says whether live TomTom traffic is enabled (TOMTOM_API_KEY present). No parameters.",
+        "description": "Reports the road-network configuration point of this deployment (server/providers/overpass/constants.js roadNetworkConfig()): `source` is ROAD_NETWORK_SOURCE — \"overpass\" (default: OSM roads via the Overpass mirrors) or \"off\" (the OSM road fetch is disabled); `upstreams` is the ordered Overpass mirror list actually in force (the OVERPASS_ENDPOINTS csv override — alias OVERPASS_UPSTREAMS — when set, else the default public mirrors; `endpointsSource` names which); `blocker` is the fixed operator note explaining why public mirrors are not dependable from cloud egress; `fromEnv` says whether each variable is set (never its value). `tomtom.configured` says whether live TomTom traffic is enabled (TOMTOM_API_KEY present). No parameters.",
         "parameters": [],
         "responses": {
           "200": {

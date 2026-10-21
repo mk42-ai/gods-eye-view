@@ -14,6 +14,7 @@ import {
 } from '../server/ondemand/foundation/client.js';
 import { createConversationStore } from '../server/ondemand/foundation/conversation-store.js';
 import { createFoundationHandler } from '../server/ondemand/foundation/proxy-route.js';
+import { createToolInvoker } from '../server/ondemand/foundation/tool-contracts.js';
 import { contractRegistry } from '../server/ondemand/foundation/contracts.js';
 import { __reloadConfigForTests } from '../server/ondemand/config.js';
 import { makeReq, makeRes } from '../server/ondemand/test-helpers.mjs';
@@ -46,6 +47,7 @@ const handler = createFoundationHandler({
   client,
   store,
   audit: () => {}, // audit lines go to stdout in production; keep this script's JSON clean
+  toolInvoker: createToolInvoker(), // B-13: repo tools run in-process inside /investigate
 });
 
 async function call(method, url, body, headers = {}) {
@@ -83,7 +85,10 @@ try {
   // 2 client: sync query
   const t1 = Date.now();
   const q = await client.query.sync(s.id, {
-    query: 'Reply with exactly: FOUNDATION-LIVE-OK',
+    // 2026-10-21: the phrasing 'Reply with exactly: FOUNDATION-LIVE-OK' started
+    // returning 403 content_policy_violation upstream (platform drift, BLOCKERS
+    // B-14); the same token with 'Respond with only this text:' passes.
+    query: 'Respond with only this text: FOUNDATION-LIVE-OK',
     endpointId: ENDPOINT,
     fulfillmentOnly: true,
     reasoningEffort: 'low',
@@ -537,6 +542,185 @@ try {
       events: [...streamText.matchAll(/^event: (\w+)/gm)]
         .map((m) => m[1])
         .filter((v, i, a) => a.indexOf(v) === i),
+    },
+  );
+
+  // ---- cycle 3 (2026-10-21): voice turn, plugin lifecycle, registry-derived tools ----
+  // 29 voice health
+  r = await call('GET', '/voice/health');
+  const vh = r.json();
+  ok(
+    'route GET /voice/health → configured, STT+TTS services, turn-based transport',
+    r.statusCode === 200 &&
+      vh.ok === true &&
+      vh.configured === true &&
+      Array.isArray(vh.services) &&
+      vh.services.includes('speech_to_text') &&
+      vh.services.includes('text_to_speech')
+      ? 'PASS'
+      : 'FAIL',
+    vh,
+  );
+  // 30 voice turn (transcript path): STT skipped → chat stream → TTS, SSE in order, done with metrics
+  const tVt = Date.now();
+  r = await call(
+    'POST',
+    '/voice/turn',
+    {
+      externalUserId: `${USER}-voice`,
+      transcript: 'In one short sentence, what is the local time zone of Dubai?',
+      objectContext: {
+        objectType: 'mapMarker',
+        objectId: 'dubai-voice-probe',
+        label: 'Dubai',
+        position: { lat: 25.2, lon: 55.27 },
+      },
+      tts: true,
+    },
+    { 'x-workstation-user': `${USER}-voice` },
+  );
+  const vt = r.text();
+  const vEvents = [...vt.matchAll(/^event: ([\w_-]+)/gm)].map((m) => m[1]);
+  const ttsLine = vt.match(/^event: tts\ndata: (.*)$/m);
+  let ttsUrl = null;
+  try {
+    ttsUrl = ttsLine ? JSON.parse(ttsLine[1]).audioUrl : null;
+  } catch {
+    /* no tts */
+  }
+  ok(
+    'route POST /voice/turn (transcript) → turn, session, delta…, answer, tts(https), done — same-origin SSE, server key',
+    r.statusCode === 200 &&
+      vEvents.indexOf('turn') === 0 &&
+      vEvents.includes('answer') &&
+      vEvents.includes('done') &&
+      vEvents.indexOf('answer') < vEvents.indexOf('done') &&
+      typeof ttsUrl === 'string' &&
+      /^https:\/\//.test(ttsUrl)
+      ? 'PASS'
+      : 'FAIL',
+    {
+      ms: Date.now() - tVt,
+      status: r.statusCode,
+      events: vEvents.filter((v, i, a) => a.indexOf(v) === i),
+      deltas: vEvents.filter((e) => e === 'delta').length,
+      ttsHttps: typeof ttsUrl === 'string' && ttsUrl.startsWith('https://'),
+      keySource: r.headers?.['x-ondemand-key-source'],
+    },
+  );
+  // 31 voice turn validation: neither transcript nor audioUrl → 400
+  r = await call(
+    'POST',
+    '/voice/turn',
+    { externalUserId: `${USER}-voice` },
+    { 'x-workstation-user': `${USER}-voice` },
+  );
+  ok(
+    'route POST /voice/turn without transcript/audioUrl → 400 validation (no upstream call)',
+    r.statusCode === 400 ? 'PASS' : 'FAIL',
+    { status: r.statusCode, body: r.text().slice(0, 160) },
+  );
+  // 32 voice turn authz: mismatching principal → 403
+  r = await call(
+    'POST',
+    '/voice/turn',
+    { externalUserId: `${USER}-voice`, transcript: 'hello' },
+    { 'x-workstation-user': 'someone-else' },
+  );
+  ok(
+    'route POST /voice/turn with mismatching X-Workstation-User → 403 user_mismatch',
+    r.statusCode === 403 ? 'PASS' : 'FAIL',
+    { status: r.statusCode, body: r.text().slice(0, 120) },
+  );
+  // 33 plugin lifecycle snapshot: every contract starts discovered/inactive, no fabricated READY
+  r = await call('GET', '/plugins');
+  const snap = r.json();
+  ok(
+    'route GET /plugins → lifecycle snapshot (contracts listed, nothing READY before a real probe)',
+    r.statusCode === 200 &&
+      Array.isArray(snap.plugins) &&
+      snap.plugins.length >= 30 &&
+      !snap.plugins.some((p) => p.state === 'ready')
+      ? 'PASS'
+      : 'FAIL',
+    {
+      count: snap.plugins?.length,
+      states: snap.plugins?.reduce((a, p) => {
+        a[p.state] = (a[p.state] || 0) + 1;
+        return a;
+      }, {}),
+    },
+  );
+  // 34 plugin verify: real session + probe → ready (internet web search); inactive X MCP → failed
+  const tPv = Date.now();
+  r = await call(
+    'POST',
+    '/plugins/verify',
+    {
+      externalUserId: `${USER}-plugins`,
+      names: ['internet_web_search', 'x_mcp_connector'],
+    },
+    { 'x-workstation-user': `${USER}-plugins` },
+  );
+  const ver = r.json();
+  const web = ver.plugins?.find((p) => p.name === 'internet_web_search');
+  const xm = ver.plugins?.find((p) => p.name === 'x_mcp_connector');
+  ok(
+    'route POST /plugins/verify → internet_web_search READY via live session+probe; x_mcp_connector FAILED inactive_on_account (honest)',
+    r.statusCode === 200 &&
+      web?.state === 'ready' &&
+      typeof web.verifiedAt === 'string' &&
+      xm?.state === 'failed' &&
+      xm?.error?.code === 'inactive_on_account'
+      ? 'PASS'
+      : 'FAIL',
+    {
+      ms: Date.now() - tPv,
+      web: web && { state: web.state, latencyMs: web.latencyMs, verifiedAt: web.verifiedAt },
+      xMcp: xm && { state: xm.state, code: xm.error?.code },
+    },
+  );
+  // 35 /contracts now carries the registry-derived tool contracts (21 tools)
+  r = await call('GET', '/contracts');
+  const cl = r.json().contracts || [];
+  ok(
+    'route GET /contracts → 33 contracts incl. 21 ondemand-tool contracts derived from server/tools/registry.js',
+    r.statusCode === 200 &&
+      cl.length === 33 &&
+      cl.filter((c) => c.kind === 'ondemand-tool').length === 21
+      ? 'PASS'
+      : 'FAIL',
+    { total: cl.length, tools: cl.filter((c) => c.kind === 'ondemand-tool').length },
+  );
+  // 36 investigate on an earthquake object: repo tool runs IN-PROCESS (B-13 closed) + plugin
+  const tI2 = Date.now();
+  r = await call(
+    'POST',
+    '/investigate',
+    {
+      externalUserId: `${USER}-inv2`,
+      objectContext: {
+        objectType: 'earthquake',
+        objectId: 'eq-tokyo-probe',
+        label: 'Earthquake near Tokyo',
+        position: { lat: 35.68, lon: 139.69 },
+      },
+      question: 'How many earthquakes above M2.5 were recorded within 300 km in the last 7 days?',
+      maxPlugins: 1,
+    },
+    { 'x-workstation-user': `${USER}-inv2` },
+  );
+  const rep2 = r.json();
+  const toolRow = rep2.sources?.find((x) => x.contract === 'earthquake_search');
+  ok(
+    'route POST /investigate (earthquake) → earthquake_search tool executed in-process (status ok, not skipped) + plugin',
+    r.statusCode === 200 && toolRow && toolRow.status === 'ok' ? 'PASS' : 'FAIL',
+    {
+      ms: Date.now() - tI2,
+      sources: rep2.sources?.map(
+        (x) => `${x.contract}:${x.status}${x.error ? ':' + x.error : ''}${x.reason ? ':' + x.reason : ''}`,
+      ),
+      counts: rep2.counts,
     },
   );
 } catch (err) {

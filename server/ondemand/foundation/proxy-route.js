@@ -74,6 +74,8 @@ import {
 } from './guards.js';
 import { investigate } from './orchestrator.js';
 import { fromChatAnswer } from './intelligence-object.js';
+import { createPluginLifecycle } from './plugin-lifecycle.js';
+import { createVoiceTurnHandler } from './voice-route.js';
 
 export const FOUNDATION_MOUNT = '/api/ondemand/v2';
 const KEY_SOURCE_HEADER = 'X-OnDemand-Key-Source';
@@ -235,7 +237,13 @@ function writeSse(res, event, data) {
   );
 }
 
-async function handleChat(req, res, client, store, { authorize, audit } = {}) {
+async function handleChat(
+  req,
+  res,
+  client,
+  store,
+  { authorize, audit, lifecycle } = {},
+) {
   const body = await readJsonBody(req, { maxBytes: MAX_BODY });
   const externalUserId = validateExternalUserId(body.externalUserId);
   if (authorize && !authorize(externalUserId)) return;
@@ -288,8 +296,21 @@ async function handleChat(req, res, client, store, { authorize, audit } = {}) {
     pluginIds: (pluginIds || []).join(','),
     injectionFlags: injectionFlags.length,
   });
+  const turnId = `${conv.sessionId}:${Date.now().toString(36)}`;
+  for (const id of pluginIds || []) lifecycle?.markInvoking?.(id, turnId);
+  const settleInvocation = (ok, error) => {
+    for (const id of pluginIds || [])
+      lifecycle?.markInvoked?.(id, { ok, error: error || null });
+  };
   if (responseMode === 'sync') {
-    const out = await client.query.sync(conv.sessionId, input);
+    let out;
+    try {
+      out = await client.query.sync(conv.sessionId, input);
+    } catch (err) {
+      settleInvocation(false, err?.message || 'sync_failed');
+      throw err;
+    }
+    settleInvocation(true);
     await store.touch(externalUserId, conv.objectContextKey);
     const answer = out?.data?.answer ?? '';
     const object = fromChatAnswer({
@@ -342,6 +363,7 @@ async function handleChat(req, res, client, store, { authorize, audit } = {}) {
   } catch (err) {
     req.off?.('close', abort);
     res.off?.('close', abort);
+    settleInvocation(false, err?.message || 'stream_failed');
     if (controller.signal.aborted) {
       try {
         res.end();
@@ -412,7 +434,9 @@ async function handleChat(req, res, client, store, { authorize, audit } = {}) {
       writeSse(res, evt.event, evt.data);
     }
     await store.touch(externalUserId, conv.objectContextKey);
+    settleInvocation(true);
   } catch (err) {
+    settleInvocation(false, err?.message || 'stream_failed');
     if (!controller.signal.aborted) {
       const [, payload] = errorToResponse(err);
       writeSse(res, 'error', payload);
@@ -481,6 +505,21 @@ export function createFoundationHandler(deps = {}) {
   const audit =
     deps.audit ||
     ((event, fields) => auditEvent(event, fields, { apiKey: config.apiKey }));
+  // Phase C (2026-10-21): real plugin lifecycle — discovered → installing →
+  // authenticating → ready | failed, driven only by live session/probe calls
+  // (plugin-lifecycle.js). One instance per handler/process; the chat path
+  // marks invocations so the UI badges reflect genuine use.
+  let lifecycle = deps.lifecycle || null;
+  const getLifecycle = (client) => {
+    if (!lifecycle)
+      lifecycle = createPluginLifecycle({
+        client,
+        audit,
+        endpointId: config.fulfillmentEndpointId,
+        toolInvoker: deps.toolInvoker,
+      });
+    return lifecycle;
+  };
   return async function foundationHandler(req, res) {
     if (rejectCrossOrigin(req, res)) return;
     res.setHeader(KEY_SOURCE_HEADER, 'server'); // the client key is never used here
@@ -643,8 +682,35 @@ export function createFoundationHandler(deps = {}) {
         sendJson(res, 405, { error: 'method_not_allowed' });
         return;
       }
+      if (path === '/voice/turn' || path === '/voice/health') {
+        // Phase C/N-9b (2026-10-21): OnDemand-native voice turn — STT (Services
+        // API) → chat stream (per-turn pluginIds) → TTS, relayed as same-origin
+        // SSE with abort propagation (voice-route.js). Replaces OpenAI Realtime.
+        const voice = createVoiceTurnHandler({
+          client,
+          store,
+          authorize,
+          audit,
+        });
+        if (await voice(req, res, { path, method })) return;
+      }
+      if (path === '/plugins' || path === '/plugins/verify') {
+        if (
+          await getLifecycle(client).handle(req, res, {
+            path,
+            method,
+            authorize,
+            audit,
+          })
+        )
+          return;
+      }
       if (path === '/chat' && method === 'POST') {
-        await handleChat(req, res, client, store, { authorize, audit });
+        await handleChat(req, res, client, store, {
+          authorize,
+          audit,
+          lifecycle: getLifecycle(client),
+        });
         return;
       }
       if (path === '/investigate' && method === 'POST') {

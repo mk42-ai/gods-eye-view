@@ -388,6 +388,21 @@ export const WORKFLOW_ID_ENV = Object.freeze({
   ]),
 });
 
+/**
+ * Env names of the `voiceFlowId` row and the order they are consulted in
+ * (`reconcile` — canonical `ONDEMAND_VOICE_WORKFLOW_ID`). Default =
+ * FLOW_DEFAULTS.voiceFlowId ('6ad8160ab28e35aa11d85632').
+ */
+export const VOICE_WORKFLOW_ID_ENV = Object.freeze({
+  canonical: 'ONDEMAND_VOICE_WORKFLOW_ID',
+  alias: null,
+  order: Object.freeze([
+    'ONDEMAND_VOICE_WORKFLOW_ID',
+    'default',
+    'default-invalid-env',
+  ]),
+});
+
 // DENY-LIST — see the header comment and docs/ONDEMAND_PROXY_DESIGN.md
 // "Environment name reconciliation (2026-09-18)". Built from parts (never a
 // literal) so this file itself never contains the two denied strings —
@@ -568,6 +583,7 @@ export const WORKFLOW_ID_INVALID_SOURCE = 'default-invalid-env';
  */
 export const FLOW_DEFAULTS = Object.freeze({
   spatialFlowId: '6aace534859f7b0abb53d99a',
+  voiceFlowId: '6ad8160ab28e35aa11d85632',
   flowVersion: '1',
 });
 
@@ -673,6 +689,23 @@ function computeConfig() {
       }
     : { ...spatialFlowRaw, value: String(spatialFlowRaw.value).trim() };
 
+  // Voice workflow id for `POST /workflow/{id}/execute`
+  const voiceFlowRaw = reconcile(
+    VOICE_WORKFLOW_ID_ENV.canonical,
+    VOICE_WORKFLOW_ID_ENV.alias,
+    FLOW_DEFAULTS.voiceFlowId,
+  );
+  const voiceFlowInvalid =
+    voiceFlowRaw.source !== 'default' &&
+    !OBJECT_ID_SHAPE.test(String(voiceFlowRaw.value).trim());
+  const voiceFlowResult = voiceFlowInvalid
+    ? {
+        value: FLOW_DEFAULTS.voiceFlowId,
+        source: WORKFLOW_ID_INVALID_SOURCE,
+        invalidEnvName: voiceFlowRaw.source,
+      }
+    : { ...voiceFlowRaw, value: String(voiceFlowRaw.value).trim() };
+
   // Informational only — never sent upstream (§7.3: workflow versioning is
   // NOT FOUND IN LIVE DOCS). String, not number: a version "1" vs 1 has no
   // semantic difference to any consumer, and a string avoids NaN handling.
@@ -737,6 +770,7 @@ function computeConfig() {
     spatialAgentId: defaultPluginIds[0] || '',
     defaultPluginIds,
     spatialFlowId: spatialFlowResult.value,
+    voiceFlowId: voiceFlowResult.value,
     // See the header comment: reconciled for env-name/health purposes only;
     // not itself sent upstream by any handler in this task.
     reasoningEndpointId: reasoningEndpointResult.value,
@@ -750,6 +784,7 @@ function computeConfig() {
     // Env NAME whose workflow-id value failed the 24-hex shape check ('' when
     // valid). Names only — the rejected value is never kept.
     spatialFlowIdInvalidEnvName: spatialFlowResult.invalidEnvName || '',
+    voiceFlowIdInvalidEnvName: voiceFlowResult.invalidEnvName || '',
     // Guide-only, free-string, stream-only field (§3.1 "reasoningMode" row,
     // §12 "Reasoning mode values") — NOT in the OpenAPI schema. Validated
     // against DOCUMENTED_REASONING_MODES above.
@@ -780,6 +815,7 @@ function computeConfig() {
       fulfillmentEndpointId: fulfillmentEndpointResult.source,
       defaultPluginIds: defaultPluginIdsSource,
       spatialFlowId: spatialFlowResult.source,
+      voiceFlowId: voiceFlowResult.source,
       reasoningMode: reasoningModeResult.source,
       flowVersion: flowVersionResult.source,
       requestTimeoutMs: timeoutOverridden
@@ -821,6 +857,9 @@ export const config = {
   get spatialFlowId() {
     return state.spatialFlowId;
   },
+  get voiceFlowId() {
+    return state.voiceFlowId;
+  },
   get reasoningEndpointId() {
     return state.reasoningEndpointId;
   },
@@ -832,6 +871,9 @@ export const config = {
   },
   get spatialFlowIdInvalidEnvName() {
     return state.spatialFlowIdInvalidEnvName;
+  },
+  get voiceFlowIdInvalidEnvName() {
+    return state.voiceFlowIdInvalidEnvName;
   },
   get reasoningMode() {
     return state.reasoningMode;
@@ -916,6 +958,8 @@ export function getConfig() {
     flowVersion: state.flowVersion,
     spatialFlowId: state.spatialFlowId,
     spatialFlowIdInvalidEnvName: state.spatialFlowIdInvalidEnvName,
+    voiceFlowId: state.voiceFlowId,
+    voiceFlowIdInvalidEnvName: state.voiceFlowIdInvalidEnvName,
     defaultPluginIds: state.defaultPluginIds,
     spatialAgentId: state.spatialAgentId,
     requestTimeoutMs: state.requestTimeoutMs,
@@ -933,6 +977,7 @@ export function getConfig() {
     // (ONDEMAND_SPATIAL_WORKFLOW_ID → ONDEMAND_SPATIAL_FLOW_ID → default)
     // and the order they are consulted in — see WORKFLOW_ID_ENV.
     workflowIdEnv: WORKFLOW_ID_ENV,
+    voiceWorkflowIdEnv: VOICE_WORKFLOW_ID_ENV,
     // Platform-registration ids (2026-09-19): resolved VALUES (server-side
     // only) plus `packAvailable`; the env NAMES / pack path live in
     // `registrationIdEnv` and the resolved SOURCE class of each row in

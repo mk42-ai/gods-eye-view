@@ -19,7 +19,7 @@
   },
   "servers": [
     {
-      "url": "https://sb-1dqoce558p0v.vercel.run",
+      "url": "https://ondemand-eand-spatial-opal.vercel.app",
       "description": "OnDemand Spatial deployment (preview or production)"
     }
   ],

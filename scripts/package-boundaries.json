@@ -266,29 +266,6 @@
     ],
     "external": []
   },
-  "openai-provider": {
-    "runtime": "node",
-    "exports": ["./server/providers/openai"],
-    "modules": [
-      "server/providers/common/rate-limit.js",
-      "server/providers/common/request.js",
-      "server/providers/common/source-root.js",
-      "server/providers/openai.js",
-      "server/providers/openai/constants.js",
-      "server/providers/openai/debug-log.js",
-      "server/providers/openai/instructions.js",
-      "server/providers/openai/rate-limit.js",
-      "server/providers/openai/realtime.js",
-      "server/providers/openai/tools.js",
-      "src/hudSummaryResponse.js",
-      "src/voice/voiceCost.js",
-      "src/voice/actionSchemas.js",
-      "server/providers/openai/toolDescriptions.js",
-      "src/sources/rateLimit.js",
-      "server/brand/productName.js"
-    ],
-    "external": []
-  },
   "standalone-key-setup": {
     "runtime": "node",
     "exports": ["./server/standalone/key-setup"],
@@ -1175,41 +1152,6 @@
     ],
     "external": ["cesium"]
   },
-  "voice-connection": {
-    "exports": [
-      "./voice/controller",
-      "./voice/control",
-      "./voice/realtime-backend",
-      "./voice/commands",
-      "./voice/cost",
-      "./voice/realtime-session"
-    ],
-    "modules": [
-      "src/voice/realtimeController.js",
-      "src/voice/realtimeBackend.js",
-      "src/voice/control.js",
-      "src/voice/layerSummary.js",
-      "src/voice/voiceCost.js",
-      "src/voice/commands.js",
-      "src/voice/session.js",
-      "src/voice/sessionCommands.js",
-      "src/voice/realtimeSession.js",
-      "src/voice/realtimeEvents.js",
-      "src/voice/realtimePreferences.js",
-      "src/voice/realtimeProtocol.js",
-      "src/voice/realtimeDiagnostics.js",
-      "src/voice/realtimeViewport.js",
-      "src/voice/realtimeInputPolicy.js",
-      "src/voice/realtimeInput.js",
-      "src/voice/realtimeCost.js",
-      "src/voice/realtimeFacade.js",
-      "src/voice/realtimeRadio.js",
-      "src/voice/realtimeTurns.js",
-      "src/voice/realtimeConnection.js",
-      "src/brand/productName.js"
-    ],
-    "external": []
-  },
   "application-components": {
     "exports": [
       "./application/scene",
@@ -1722,14 +1664,8 @@
       "src/ui/visualInput.js",
       "src/ui/visualPresets.js",
       "src/ui/visualSettings.js",
-      "src/voice/commands.js",
-      "src/voice/control.js",
       "src/voice/gevActions.js",
-      "src/voice/gevRealtime.js",
       "src/voice/layerSummary.js",
-      "src/voice/realtimeBackend.js",
-      "src/voice/realtimeController.js",
-      "src/voice/voiceCost.js",
       "src/weatherEffectsMath.js",
       "src/worldFocus.js",
       "src/layers/flights/records.js",
@@ -1751,10 +1687,6 @@
       "src/search/coordinateGeocoder.js",
       "src/search/coordinateParser.js",
       "src/search/presetGeocoder.js",
-      "src/voice/session.js",
-      "src/voice/sessionCommands.js",
-      "src/voice/realtimeSession.js",
-      "src/voice/realtimeEvents.js",
       "src/app/localGeojsonServices.js",
       "src/data/feedState.js",
       "src/layers/alpr/records.js",
@@ -1801,17 +1733,6 @@
       "src/ui/layerBindings.js",
       "src/ui/displayBindings.js",
       "src/ui/shellFacade.js",
-      "src/voice/realtimePreferences.js",
-      "src/voice/realtimeProtocol.js",
-      "src/voice/realtimeDiagnostics.js",
-      "src/voice/realtimeViewport.js",
-      "src/voice/realtimeInputPolicy.js",
-      "src/voice/realtimeInput.js",
-      "src/voice/realtimeCost.js",
-      "src/voice/realtimeFacade.js",
-      "src/voice/realtimeRadio.js",
-      "src/voice/realtimeTurns.js",
-      "src/voice/realtimeConnection.js",
       "src/director/clock.js",
       "src/director/timeline.js",
       "src/scenes/shotPresentation.js",
@@ -1846,7 +1767,8 @@
       "src/ui/icons/layerIcon.js",
       "src/ui/icons/lucideIcons.generated.js",
       "src/brand/productName.js",
-      "src/ondemand/miniChat.js"
+      "src/ondemand/miniChat.js",
+      "src/ondemand/pluginPanel.js"
     ],
     "external": [
       "@mapbox/vector-tile",
@@ -2453,20 +2375,6 @@
   "voice-action-schemas": {
     "exports": ["./voice/action-schemas"],
     "modules": ["src/voice/actionSchemas.js"],
-    "external": []
-  },
-  "voice-session": {
-    "exports": ["./voice/session"],
-    "modules": ["src/voice/session.js"],
-    "external": []
-  },
-  "voice-session-controls": {
-    "exports": ["./voice/session-controls"],
-    "modules": [
-      "src/voice/sessionCommands.js",
-      "src/voice/session.js",
-      "src/voice/control.js"
-    ],
     "external": []
   },
   "alpr-source": {

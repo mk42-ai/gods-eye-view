@@ -33,7 +33,7 @@ const ROUTE_ORDER = ['auto', 'workflow', 'chat'];
 
 export const OD_VOICE_MARKUP = `
       <div class="od-voice-heading">
-        <span class="od-voice-kicker">OD VOICE</span>
+        <span class="od-voice-kicker">VOICE</span>
         <button id="od-voice-route" class="od-voice-route" type="button" aria-label="Thinking route: automatic" title="Thinking route — AUTO picks the workflow for spatial tasks, chat otherwise">AUTO</button>
       </div>
       <div class="od-voice-row">
@@ -79,15 +79,16 @@ export function createOdVoiceUi({ doc = globalThis.document } = {}) {
   };
 }
 
-/** Sit immediately after the existing GEV MIC control when it exists. */
+/** Take the GEV MIC's place as the first voice slot in #command-dock. */
 export function placeBesideGevMic(root, doc = globalThis.document) {
   const dock = doc.getElementById('command-dock');
   const gevMic = doc.getElementById('gev-voice-control');
-  if (gevMic?.parentElement && gevMic.nextSibling !== root) {
-    gevMic.parentElement.insertBefore(root, gevMic.nextSibling);
-    return 'beside-gev-mic';
+  if (gevMic?.parentElement) {
+    if (gevMic.previousSibling !== root) {
+      gevMic.parentElement.insertBefore(root, gevMic);
+    }
+    return 'first-voice-slot';
   }
-  if (gevMic?.parentElement) return 'beside-gev-mic';
   if (dock) {
     if (root.parentElement !== dock) dock.appendChild(root);
     return 'dock';
@@ -219,6 +220,18 @@ export function bindOdVoiceUi(
                 `${r.layerId} ${r.enabled ? 'on' : 'off'}${r.ok ? '' : ' (failed)'}`,
             )
             .join(', ')}`;
+        }
+        break;
+      case 'status':
+        if (workflow) {
+          const agents = event.executedAgents?.length
+            ? ` · ${event.executedAgents.join(', ')}`
+            : '';
+          const PROCESSING_LABEL = 'processing…';
+          const label =
+            event.statusMessage || event.statusType || PROCESSING_LABEL;
+          workflow.textContent = label + agents;
+          workflow.dataset.phase = event.statusType || 'status';
         }
         break;
       case 'workflow':

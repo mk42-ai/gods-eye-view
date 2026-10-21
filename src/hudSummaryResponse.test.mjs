@@ -5,7 +5,6 @@ import {
   isHudSummaryUnconfigured,
   keylessHudSummaryResponse,
 } from './hudSummaryResponse.js';
-import { openAiRealtimeProxy } from '../vite.config.js';
 
 const UNCONFIGURED_PAYLOAD = {
   configured: false,
@@ -14,17 +13,6 @@ const UNCONFIGURED_PAYLOAD = {
   summary: null,
 };
 
-function installOpenAiRoutes() {
-  const routes = new Map();
-  openAiRealtimeProxy().configureServer({
-    middlewares: {
-      use(path, handler) {
-        routes.set(path, handler);
-      },
-    },
-  });
-  return routes;
-}
 
 function invokeRoute(handler, { method = 'GET', url = '/', remoteAddress = '127.0.0.1' } = {}) {
   return new Promise((resolve, reject) => {
@@ -122,11 +110,6 @@ test('the v2 HUD summary route answers the graceful unconfigured shape when no O
   }
 });
 
-test('the retired OpenAI HUD route answers 410 Gone and names the replacement', async () => {
-  const routes = installOpenAiRoutes();
-  const hud = routes.get('/api/openai/hud-summary');
-  assert.equal(typeof hud, 'function');
-  const response = await invokeRoute(hud, { method: 'POST' });
-  assert.equal(response.statusCode, 410);
-  assert.equal(response.body.replacement, '/api/ondemand/v2/summaries/hud');
-});
+// The OpenAI provider module (and its 410 tombstone for /api/openai/hud-summary)
+// was deleted 2026-10-21 together with the OpenAI Realtime stack; the HUD summary
+// lives only on /api/ondemand/v2/summaries/hud (covered above).

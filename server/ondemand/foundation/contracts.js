@@ -18,6 +18,7 @@ import {
   createContractRegistry,
   COMMON_ERRORS,
 } from './plugin-contract.js';
+import { buildToolContracts } from './tool-contracts.js';
 
 const VERIFIED_AT = '2026-10-20T21:31:48Z';
 
@@ -257,9 +258,20 @@ export const WORKFLOW_CONTRACTS = Object.freeze([
   }),
 ]);
 
+/**
+ * Registry-derived tool contracts (2026-10-21): one per repo tool in
+ * server/tools/registry.js except `earthquake_search`, which keeps the
+ * hand-written contract above. 21 tools / 17 plugins at generation time;
+ * the live per-tool verification table is docs/plugins/REGISTRY.md.
+ */
+export const GENERATED_TOOL_CONTRACTS = buildToolContracts({
+  verifiedAt: '2026-10-21T03:20:00Z',
+});
+
 /** Process-wide registry of every contract above. */
 export const contractRegistry = createContractRegistry([
   ...RESEARCH_CONTRACTS,
   ...TOOL_CONTRACTS,
+  ...GENERATED_TOOL_CONTRACTS,
   ...WORKFLOW_CONTRACTS,
 ]);

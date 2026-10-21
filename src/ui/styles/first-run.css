@@ -18,9 +18,13 @@
   padding: 1.15rem;
   overflow: hidden;
   color: var(--text-primary);
-  background:
-    linear-gradient(145deg, rgba(10, 27, 37, 0.97), rgba(7, 13, 22, 0.95)),
-    rgba(7, 17, 25, 0.96);
+  background-color: #0b1526;
+  background-image:
+    linear-gradient(145deg, rgba(10, 27, 37, 0.94), rgba(7, 13, 22, 0.92)),
+    url('/assets/brand/backdrop-network.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   border: 1px solid rgba(54, 220, 255, 0.42);
   border-radius: 0.65rem;
   box-shadow:

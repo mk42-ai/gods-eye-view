@@ -53,7 +53,7 @@ const EARTH_RADIUS_KM = 6371.0088;
 const toMgrsRaw =
   typeof mgrsModule.forward === 'function'
     ? mgrsModule.forward
-    : mgrsModule.default?.forward;
+    : Reflect.get(mgrsModule, 'default')?.forward;
 
 /** @param {string} layerId @returns {'aircraft'|'vessel'|'satellite'|'camera'|null} */
 export function kindForLayer(layerId) {

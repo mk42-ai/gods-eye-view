@@ -915,6 +915,10 @@ export function createEntityChat(deps = {}) {
   }
 
   function appendMessage(role, text) {
+    if (role === 'user' || role === 'assistant') {
+      const emptyNode = ui.transcript?.querySelector?.('.od-empty-state');
+      if (emptyNode) emptyNode.remove?.();
+    }
     const message = { role, text: text ?? '' };
     state.messages.push(message);
     if (ui.transcript) {
@@ -1202,6 +1206,19 @@ export function createEntityChat(deps = {}) {
         const message = appendMessage(row.role, row.text);
         message.node?.setAttribute?.('data-history', 'true');
         if (row.id) message.node?.setAttribute?.('data-message-id', row.id);
+      }
+    } else if (
+      fresh &&
+      entry.reused &&
+      (!entry.historyRows || entry.historyRows.length === 0)
+    ) {
+      if (ui.transcript) {
+        const emptyNode = el(document, 'div', {
+          className: 'od-empty-state od-empty-state--no-sessions',
+          text: 'No prior investigation for this object',
+          attrs: { 'data-empty-state': 'no-sessions' },
+        });
+        ui.transcript.appendChild(emptyNode);
       }
     }
     if (entry.primedOk) {

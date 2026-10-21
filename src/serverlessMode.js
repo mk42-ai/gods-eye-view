@@ -6,11 +6,11 @@ import { PRODUCT_NAME } from './brand/productName.js';
  * Vercel deployment runs — see vercel.json's `buildCommand`). When it is on,
  * a couple of features that need a persistent server process instead of a
  * Vercel Function — the live-vessel AISStream relay
- * (src/sources/live/standalone.js `createAisStreamSource`) and voice
- * control's OpenAI Realtime token minting (src/voice/realtimeBackend.js
- * `requestToken`) — are short-circuited at their source rather than left to
- * fail per-request against an endpoint that can only ever answer 501 for
- * them (see server/serverless/app.js). This module is the user-visible half
+ * (src/sources/live/standalone.js `createAisStreamSource`) —
+ * is short-circuited at its source rather than left to
+ * fail per-request against an endpoint that can only ever answer 501
+ * (see server/serverless/app.js). Voice control is routed through OnDemand.
+ * This module is the user-visible half
  * of that: a small, dismissible, non-blocking banner naming what is off.
  *
  * Deliberately imported ONLY from src/main.js. Nothing else in the app
@@ -70,8 +70,8 @@ function installServerlessNotice(doc = document) {
   text.style.cssText = 'flex:1 1 auto';
   text.textContent =
     `${PRODUCT_NAME} is running as a serverless deployment: live vessels ` +
-    '(AISStream relay) and voice control (OpenAI Realtime) need a persistent ' +
-    'server and are turned off here.';
+    '(AISStream relay) need a persistent server and are turned off here. ' +
+    'Voice control is available through OnDemand.';
   banner.appendChild(text);
 
   const dismiss = doc.createElement('button');

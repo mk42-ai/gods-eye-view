@@ -1,6 +1,6 @@
 import { expandApplicationHtml } from '../build/application-html.js';
 import { readStylesheet } from './testSupport/readStylesheet.mjs';
-import { GEV_REALTIME_TOOLS } from '../server/providers/openai/tools.js';
+import { GEV_REALTIME_TOOLS } from '../server/voice/tools.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -668,7 +668,7 @@ test('the voice TOOL SCHEMA matches the pinned release — the mission mapping i
     'd418ad65e16b0833f338db965fcccb8bfaacd15e6d6c48511f23fc70c7aa8c41', // re-derived 2026-10-20: env-driven PRODUCT_NAME wording + neutral 'GEV' phrases in tool descriptions
     'the first-run missions must ride EXISTING tools: no schema edit, no cache bust',
   );
-  const instructions = fs.readFileSync(new URL('../server/providers/openai/instructions.js', import.meta.url), 'utf8');
+  const instructions = fs.readFileSync(new URL('../server/voice/instructions.js', import.meta.url), 'utf8');
 
   // ...and the mapping that makes them reachable by voice is one instruction
   // string, whose rollback is deleting that string. Anchored to a LIVE array

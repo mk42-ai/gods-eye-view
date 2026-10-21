@@ -40,6 +40,7 @@ export const MINI_CHAT_ID = 'ondemand-mini-chat';
 export const ASK_OBJECT_EVENT = 'gev:ask-object';
 export const USER_STORAGE_KEY = 'ondemand.v2.externalUserId';
 export const WORKSPACE_STORAGE_KEY = 'ondemand.v2.workspace';
+export const DEV_DETAILS_STORAGE_KEY = 'ondemand.miniChat.devDetails';
 export const V2_BASE = '/api/ondemand/v2';
 export const ACTIVITY_WINDOW = 200;
 export const MAX_CONTEXT_BYTES = 48 * 1024;
@@ -210,9 +211,111 @@ export const SELECTORS = Object.freeze({
   close: `#${MINI_CHAT_ID}-close`,
   expand: `#${MINI_CHAT_ID}-expand`,
   starters: `#${MINI_CHAT_ID}-starters`,
+  dev: `#${MINI_CHAT_ID}-dev`,
   message: '.od-chat__msg',
   assistantMessage: '.od-chat__msg--assistant',
 });
+
+/**
+ * Select the CSS modifier class for an empty state kind.
+ * @param {'no-sessions'|'no-results'|'source-unavailable'|string} kind
+ * @returns {string|null}
+ */
+export function emptyStateFor(kind) {
+  switch (kind) {
+    case 'no-sessions':
+    case 'noSessions':
+      return 'od-empty-state--no-sessions';
+    case 'no-results':
+    case 'noResults':
+      return 'od-empty-state--no-results';
+    case 'source-unavailable':
+    case 'sourceUnavailable':
+      return 'od-empty-state--source-unavailable';
+    default:
+      return null;
+  }
+}
+
+/**
+ * Pure helper summarizing developer/debug details into string lines.
+ * @param {{
+ *   provenance?: { provider?: string, endpointId?: string, pluginIds?: string[], keySource?: string, fetchedAt?: string },
+ *   metrics?: { ttfb?: number, tokens?: number, latency?: number },
+ *   frames?: number,
+ *   request?: { method?: string, path?: string, objectType?: string, objectId?: string|number, sessionId?: string }
+ * }} [input]
+ * @returns {string[]}
+ */
+export function summarizeDevDetails({
+  provenance,
+  metrics,
+  frames,
+  request,
+} = {}) {
+  const lines = [];
+
+  if (request) {
+    const parts = [];
+    if (request.method || request.path) {
+      parts.push(`${request.method || 'POST'} ${request.path || ''}`.trim());
+    }
+    if (request.objectType || request.objectId) {
+      parts.push(
+        `object: ${request.objectType || ''}/${request.objectId || ''}`,
+      );
+    }
+    if (request.sessionId) {
+      parts.push(`session: ${request.sessionId}`);
+    }
+    if (parts.length) {
+      lines.push(`Request: ${parts.join(' · ')}`);
+    }
+  }
+
+  if (provenance) {
+    const keySource = provenance.keySource || 'server';
+    lines.push(`Key source: ${keySource}`);
+    if (provenance.provider) {
+      lines.push(`Provider: ${provenance.provider}`);
+    }
+    if (provenance.endpointId) {
+      lines.push(`Endpoint: ${provenance.endpointId}`);
+    }
+    if (Array.isArray(provenance.pluginIds) && provenance.pluginIds.length) {
+      lines.push(`Plugins: ${provenance.pluginIds.join(', ')}`);
+    }
+    if (provenance.fetchedAt) {
+      lines.push(`Fetched at: ${provenance.fetchedAt}`);
+    }
+    lines.push(
+      `Provenance: ${JSON.stringify({
+        provider: provenance.provider ?? null,
+        endpointId: provenance.endpointId ?? null,
+        pluginIds: provenance.pluginIds ?? [],
+        keySource,
+        fetchedAt: provenance.fetchedAt ?? null,
+      })}`,
+    );
+  }
+
+  if (metrics) {
+    const metricParts = [];
+    if (metrics.ttfb != null) metricParts.push(`ttfb ${metrics.ttfb} ms`);
+    if (metrics.tokens != null) metricParts.push(`tokens ${metrics.tokens}`);
+    if (metrics.latency != null)
+      metricParts.push(`latency ${metrics.latency} ms`);
+    if (metricParts.length) {
+      lines.push(`Metrics: ${metricParts.join(' · ')}`);
+    }
+  }
+
+  if (frames != null) {
+    lines.push(`SSE frames: ${frames}`);
+  }
+
+  return lines;
+}
 
 const PRINTABLE = /[^\x21-\x7e]/g;
 
@@ -418,6 +521,19 @@ export function createMiniChat(deps = {}) {
         return null;
       }
     })();
+  // Per-turn plugin selection (src/ondemand/pluginPanel.js): the panel owns
+  // the checkboxes, this reads them at send time; nothing is pre-selected.
+  const getPluginIds =
+    typeof deps.getPluginIds === 'function'
+      ? deps.getPluginIds
+      : () => {
+          try {
+            const ids = win?.__odPlugins?.getSelectedPluginIds?.();
+            return Array.isArray(ids) ? ids : [];
+          } catch {
+            return [];
+          }
+        };
   const raf =
     deps.raf ??
     ((cb) =>
@@ -441,6 +557,7 @@ export function createMiniChat(deps = {}) {
     error: null,
     lastProvenance: null,
     firstTokenMs: null,
+    metricsLog: [],
   };
   const ui = {};
   let abortController = null;
@@ -520,10 +637,6 @@ export function createMiniChat(deps = {}) {
     ui.keyState = el(document, 'span', {
       className: 'od-chat__key-state',
       text: 'server key',
-      attrs: {
-        title:
-          'Requests use the server-held OnDemand key; this browser never stores one.',
-      },
     });
     statusRow.append(ui.status, ui.keyState);
     panel.appendChild(statusRow);
@@ -549,20 +662,61 @@ export function createMiniChat(deps = {}) {
     });
     panel.appendChild(ui.transcript);
 
-    ui.activity = el(document, 'ul', {
-      id: `${MINI_CHAT_ID}-activity`,
-      className: 'od-chat__activity',
-      attrs: { 'aria-label': 'OnDemand activity' },
-    });
-    ui.activity.hidden = true;
-    panel.appendChild(ui.activity);
-
     ui.sources = el(document, 'div', {
       id: `${MINI_CHAT_ID}-sources`,
       className: 'od-chat__sources',
     });
     ui.sources.hidden = true;
     panel.appendChild(ui.sources);
+
+    let devOpen = false;
+    try {
+      devOpen = storage?.getItem?.(DEV_DETAILS_STORAGE_KEY) === '1';
+    } catch {
+      /* storage unavailable */
+    }
+    ui.devDetails = el(document, 'details', {
+      id: `${MINI_CHAT_ID}-dev`,
+      className: 'od-chat__dev',
+    });
+    if (devOpen) ui.devDetails.open = true;
+    ui.devDetails.addEventListener?.('toggle', () => {
+      try {
+        storage?.setItem?.(
+          DEV_DETAILS_STORAGE_KEY,
+          ui.devDetails.open ? '1' : '0',
+        );
+      } catch {
+        /* storage unavailable */
+      }
+    });
+
+    const devSummary = el(document, 'summary', {
+      text: 'Developer details',
+    });
+    ui.devDetails.appendChild(devSummary);
+
+    const devBody = el(document, 'div', {
+      id: `${MINI_CHAT_ID}-dev-body`,
+      className: 'od-chat__dev-body',
+    });
+
+    ui.devLines = el(document, 'div', {
+      id: `${MINI_CHAT_ID}-dev-lines`,
+      className: 'od-chat__dev-lines',
+    });
+    devBody.appendChild(ui.devLines);
+
+    ui.activity = el(document, 'ul', {
+      id: `${MINI_CHAT_ID}-activity`,
+      className: 'od-chat__activity',
+      attrs: { 'aria-label': 'OnDemand activity' },
+    });
+    ui.activity.hidden = true;
+    devBody.appendChild(ui.activity);
+
+    ui.devDetails.appendChild(devBody);
+    panel.appendChild(ui.devDetails);
 
     const composer = el(document, 'form', { className: 'od-chat__composer' });
     ui.input = el(document, 'input', {
@@ -613,7 +767,31 @@ export function createMiniChat(deps = {}) {
     if (force || !userScrolledUp) ui.transcript.scrollTop = 1e9;
   }
 
+  function showEmptyState(kind, text) {
+    clearEmptyState();
+    if (!ui.transcript) return;
+    const modifier = emptyStateFor(kind);
+    const node = el(document, 'div', {
+      className: `od-empty-state ${modifier || ''}`.trim(),
+      text,
+      attrs: { 'data-empty-state': kind },
+    });
+    ui.emptyState = node;
+    ui.transcript.appendChild(node);
+    pinScroll();
+  }
+
+  function clearEmptyState() {
+    if (ui.emptyState) {
+      ui.emptyState.remove?.();
+      ui.emptyState = null;
+    }
+    const existing = ui.transcript?.querySelector?.('.od-empty-state');
+    if (existing) existing.remove?.();
+  }
+
   function appendMessage(role, text, extra = {}) {
+    clearEmptyState();
     const node = el(document, 'div', {
       className: `od-chat__msg od-chat__msg--${role}`,
       attrs: { 'data-role': role, ...(extra.attrs || {}) },
@@ -657,6 +835,7 @@ export function createMiniChat(deps = {}) {
     if (state.activity.length > ACTIVITY_WINDOW)
       state.activity.splice(0, state.activity.length - ACTIVITY_WINDOW);
     renderActivity();
+    renderDevDetails();
   }
   function renderActivity() {
     if (!ui.activity) return;
@@ -676,6 +855,49 @@ export function createMiniChat(deps = {}) {
         String(state.activity.length - 6),
       );
     } else ui.activity.removeAttribute('data-hidden-rows');
+  }
+
+  function renderDevDetails() {
+    if (!ui.devLines) return;
+    const request = state.context
+      ? {
+          method: 'POST',
+          path: `${apiBase}${V2_BASE}/chat`,
+          objectType: state.context.objectType,
+          objectId: state.context.objectId,
+          sessionId: state.sessionId,
+        }
+      : null;
+    const lastTurn = state.turns.at(-1);
+    const metrics = lastTurn
+      ? {
+          ttfb: lastTurn.firstTokenMs,
+          tokens: lastTurn.tokens ?? null,
+          latency: lastTurn.totalMs,
+        }
+      : null;
+    const frames = lastTurn?.events ?? 0;
+    const provenance = state.lastProvenance
+      ? {
+          provider: state.lastProvenance.provider || null,
+          endpointId: state.lastProvenance.endpointId || null,
+          pluginIds: state.lastProvenance.pluginIds || [],
+          keySource: state.lastProvenance.keySource || 'server',
+          fetchedAt: state.lastProvenance.fetchedAt || null,
+        }
+      : {
+          keySource: 'server',
+        };
+
+    const lines = summarizeDevDetails({ provenance, metrics, frames, request });
+    ui.devLines.replaceChildren(
+      ...lines.map((line) =>
+        el(document, 'div', {
+          className: 'od-chat__dev-line',
+          text: line,
+        }),
+      ),
+    );
   }
 
   function renderSources() {
@@ -743,6 +965,17 @@ export function createMiniChat(deps = {}) {
       );
       if (response.status === 404) {
         state.history.loaded = true;
+        if (
+          state.turns.length === 0 &&
+          !ui.transcript?.querySelector?.('.od-chat__msg')
+        ) {
+          showEmptyState(
+            'no-sessions',
+            'No prior investigation for this object',
+          );
+        }
+        renderStarters();
+        renderDevDetails();
         return;
       }
       if (!response.ok) throw new Error(`history ${response.status}`);
@@ -761,17 +994,26 @@ export function createMiniChat(deps = {}) {
       }
       state.history.rows = rows.length;
       state.history.loaded = true;
-      if (rows.length) setStatus(`RESUMED · ${rows.length} earlier message(s)`);
+      if (
+        rows.length === 0 &&
+        state.turns.length === 0 &&
+        !ui.transcript?.querySelector?.('.od-chat__msg')
+      ) {
+        showEmptyState('no-sessions', 'No prior investigation for this object');
+      }
+      setStatus('READY');
     } catch (error) {
       state.history.error = error?.message || String(error);
       state.history.loaded = true;
     }
     renderStarters();
+    renderDevDetails();
   }
 
   function open(context) {
     if (destroyed) return;
     build();
+    clearEmptyState();
     const bounded = boundContext(context);
     const key = objectKeyOf(bounded);
     const switching = key !== state.objectKey;
@@ -803,8 +1045,9 @@ export function createMiniChat(deps = {}) {
     ui.panel.hidden = false;
     ui.panel.setAttribute('data-open', 'true');
     state.open = true;
-    setStatus(switching ? 'READY · new context' : 'READY');
+    setStatus('READY');
     renderStarters();
+    renderDevDetails();
     if (switching) void loadHistory();
     ui.input?.focus?.();
     return state;
@@ -812,6 +1055,7 @@ export function createMiniChat(deps = {}) {
 
   async function ask(text, { pluginIds } = {}) {
     if (!state.context || state.busy) return null;
+    if (!Array.isArray(pluginIds)) pluginIds = getPluginIds().slice(0, 4);
     state.busy = true;
     ui.send.disabled = true;
     ui.stop.hidden = false;
@@ -823,6 +1067,7 @@ export function createMiniChat(deps = {}) {
       status: null,
       firstTokenMs: null,
       totalMs: null,
+      tokens: 0,
       events: 0,
       ok: false,
     };
@@ -875,8 +1120,8 @@ export function createMiniChat(deps = {}) {
             if (turn.firstTokenMs === null) {
               turn.firstTokenMs = Date.now() - started;
               state.firstTokenMs = turn.firstTokenMs;
-              setStatus(`STREAMING · first token ${turn.firstTokenMs} ms`);
             }
+            turn.tokens += 1;
             answer += evt.text;
             scheduleWrite(assistant, answer);
           } else if (evt.type === 'activity') {
@@ -887,6 +1132,7 @@ export function createMiniChat(deps = {}) {
               if (!state.citations.some((x) => x.url === c.url))
                 state.citations.push(c);
             renderSources();
+            renderDevDetails();
           } else if (evt.type === 'done') done = true;
           else if (evt.type === 'error') streamError = evt.message;
         }
@@ -905,20 +1151,31 @@ export function createMiniChat(deps = {}) {
       flushWrite();
       turn.totalMs = Date.now() - started;
       if (streamError) throw new Error(`stream error · ${streamError}`);
-      if (!answer)
+      if (!answer) {
         renderAnswer(
           assistant.node,
           done ? '(empty answer)' : '(no answer received)',
           document,
         );
+      }
       turn.ok = true;
+      state.metricsLog.push({
+        ttfb: turn.firstTokenMs,
+        tokens: turn.tokens,
+        latency: turn.totalMs,
+      });
       const basis = state.lastProvenance?.confidenceBasis;
-      setStatus(`READY · ${turn.totalMs} ms${basis ? ` · ${basis}` : ''}`);
+      setStatus(basis ? `READY · ${basis}` : 'READY');
       if (basis) assistant.node.setAttribute('data-confidence', basis);
+      if (!answer || !answer.trim()) {
+        showEmptyState('no-results', 'No results from the selected sources');
+      }
+      renderDevDetails();
     } catch (error) {
       flushWrite();
       const aborted = error?.name === 'AbortError';
       turn.error = aborted ? 'cancelled' : error?.message || String(error);
+      turn.totalMs = Date.now() - started;
       if (!answer) {
         assistant.node.classList.remove('od-chat__msg--assistant');
         assistant.node.classList.add('od-chat__msg--error');
@@ -930,6 +1187,25 @@ export function createMiniChat(deps = {}) {
         document,
       );
       setStatus(aborted ? 'CANCELLED' : 'TURN FAILED');
+
+      if (!aborted) {
+        const status = turn.status;
+        const msg = String(turn.error || '');
+        const isUnavailable =
+          status === 503 ||
+          status === 502 ||
+          status === 504 ||
+          msg.includes('503') ||
+          msg.includes('502') ||
+          msg.includes('504') ||
+          msg.includes('not_configured') ||
+          error?.name === 'TypeError' ||
+          /network|failed to fetch/i.test(msg);
+        if (isUnavailable) {
+          showEmptyState('source-unavailable', turn.error);
+        }
+      }
+      renderDevDetails();
     } finally {
       assistant.node.removeAttribute('data-streaming');
       abortController = null;
@@ -968,6 +1244,9 @@ export function createMiniChat(deps = {}) {
           externalUserId,
           objectContext: state.context,
           question: q,
+          ...(getPluginIds().length
+            ? { pluginIds: getPluginIds().slice(0, 4) }
+            : {}),
         }),
         signal: abortController?.signal,
       });
@@ -1002,8 +1281,13 @@ export function createMiniChat(deps = {}) {
         pushActivity(
           `${s.contract}: ${s.status}${s.error ? ` (${s.error})` : ''}`,
         );
-      setStatus(`INVESTIGATION READY · ${Date.now() - started} ms`);
+      setStatus('READY');
       state.lastInvestigation = report;
+      const sourcesEmpty = !report.sources || report.sources.length === 0;
+      if (sourcesEmpty) {
+        showEmptyState('no-results', 'No results from the selected sources');
+      }
+      renderDevDetails();
       return report;
     } catch (error) {
       const aborted = error?.name === 'AbortError';
@@ -1016,6 +1300,7 @@ export function createMiniChat(deps = {}) {
       );
       card.node.classList.add('od-chat__msg--error');
       setStatus(aborted ? 'CANCELLED' : 'INVESTIGATION FAILED');
+      renderDevDetails();
       return null;
     } finally {
       card.node.removeAttribute('data-streaming');
@@ -1091,6 +1376,7 @@ export function installMiniChat({
   storage,
   signal,
   raf,
+  getPluginIds,
 } = {}) {
   const controller = createMiniChat({
     document,
@@ -1098,6 +1384,7 @@ export function installMiniChat({
     fetch: fetchImpl,
     storage,
     raf,
+    getPluginIds,
   });
   const onAsk = (event) => {
     if (event?.detail?.objectType) controller.open(event.detail);
