@@ -47,12 +47,20 @@ function installServerlessNotice(doc = document) {
   const banner = doc.createElement('div');
   banner.setAttribute('role', 'status');
   banner.setAttribute('data-gev-serverless-notice', '');
+  // Stacking: the notice is informational and must never intercept input
+  // meant for the ASK ONDEMAND panels (#ondemand-mini-chat z-index 186,
+  // #ondemand-entity-chat 185, src/ui/styles/ondemand-chat.css) or the key
+  // setup dialog (190). It used to sit at z-index 2147483000, which at
+  // 390×844 covered the mini chat's composer (input + SEND) so real taps never
+  // reached it (sandbox-verify-2026-10-21/retry-0917, agents 1–3). It now
+  // stacks BELOW those surfaces; when a chat panel is open the banner is
+  // hidden outright (see `syncWithChatPanels`) and comes back once it closes.
   banner.style.cssText = [
     'position:fixed',
     'left:12px',
     'right:12px',
     'bottom:12px',
-    'z-index:2147483000',
+    'z-index:180',
     'max-width:640px',
     'margin:0 auto',
     'padding:10px 14px',
@@ -83,6 +91,7 @@ function installServerlessNotice(doc = document) {
     'font-size:16px;line-height:1;cursor:pointer;padding:0 2px';
   dismiss.addEventListener('click', () => {
     banner.remove();
+    banner.dispatchEvent?.(new Event('gev:serverless-notice-dismissed'));
     try {
       window.sessionStorage?.setItem(DISMISSED_KEY, '1');
     } catch {
@@ -92,7 +101,89 @@ function installServerlessNotice(doc = document) {
   banner.appendChild(dismiss);
 
   (doc.body || doc.documentElement).appendChild(banner);
+  const stopSync = syncWithChatPanels(banner, doc);
+  banner.addEventListener('gev:serverless-notice-dismissed', stopSync, {
+    once: true,
+  });
   return banner;
 }
 
-export { installServerlessNotice, isServerlessBuild };
+/** Selectors of the chat surfaces the notice must never cover. */
+const CHAT_PANEL_SELECTORS = ['#ondemand-mini-chat', '#ondemand-entity-chat'];
+
+/**
+ * True when an ASK ONDEMAND panel is currently open (`data-open="true"` or
+ * simply not hidden).
+ * @param {Document} doc
+ */
+function chatPanelOpen(doc) {
+  for (const selector of CHAT_PANEL_SELECTORS) {
+    const panel = doc.querySelector?.(selector);
+    if (!panel) continue;
+    if (panel.getAttribute?.('data-open') === 'true') return true;
+    if (panel.getAttribute?.('data-open') === null && panel.hidden === false)
+      return true;
+  }
+  return false;
+}
+
+/**
+ * Hide the banner while a chat panel is open and restore it when the panel
+ * closes. The panels are appended lazily to <body>, so one observer watches
+ * the body's direct children (not the whole subtree — the HUD rewrites text
+ * every frame) and attaches an attribute observer (`hidden`, `data-open`) to
+ * each panel the first time it appears; `gev:ask-object` is the fast path.
+ * Exported for unit tests.
+ * @param {HTMLElement} banner
+ * @param {Document} [doc]
+ * @returns {() => void} disconnect
+ */
+function syncWithChatPanels(banner, doc = document) {
+  const apply = () => {
+    banner.hidden = chatPanelOpen(doc);
+  };
+  apply();
+  const observers = [];
+  const Observer = globalThis.MutationObserver;
+  const root = doc.body || doc.documentElement;
+  const watched = new Set();
+  const watchPanels = () => {
+    for (const selector of CHAT_PANEL_SELECTORS) {
+      const panel = doc.querySelector?.(selector);
+      if (!panel || watched.has(panel)) continue;
+      watched.add(panel);
+      if (typeof Observer === 'function') {
+        const o = new Observer(apply);
+        o.observe(panel, {
+          attributes: true,
+          attributeFilter: ['hidden', 'data-open'],
+        });
+        observers.push(o);
+      }
+    }
+    apply();
+  };
+  watchPanels();
+  if (typeof Observer === 'function' && root) {
+    const bodyObserver = new Observer(watchPanels);
+    bodyObserver.observe(root, { childList: true });
+    observers.push(bodyObserver);
+  }
+  const onAsk = () => {
+    // The panel flips data-open inside the listener that runs after ours;
+    // defer one tick so apply() sees the new state.
+    setTimeout(watchPanels, 0);
+  };
+  globalThis.addEventListener?.('gev:ask-object', onAsk);
+  return () => {
+    for (const o of observers) o.disconnect?.();
+    globalThis.removeEventListener?.('gev:ask-object', onAsk);
+  };
+}
+
+export {
+  installServerlessNotice,
+  isServerlessBuild,
+  chatPanelOpen,
+  syncWithChatPanels,
+};
