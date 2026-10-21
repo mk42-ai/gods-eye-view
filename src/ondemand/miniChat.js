@@ -212,6 +212,9 @@ export const SELECTORS = Object.freeze({
   expand: `#${MINI_CHAT_ID}-expand`,
   starters: `#${MINI_CHAT_ID}-starters`,
   dev: `#${MINI_CHAT_ID}-dev`,
+  lightbox: `#${MINI_CHAT_ID}-lightbox`,
+  mediaPane: `#${MINI_CHAT_ID}-media`,
+  deliverables: '.od-chat__deliverables',
   message: '.od-chat__msg',
   assistantMessage: '.od-chat__msg--assistant',
 });
@@ -471,27 +474,236 @@ function parseBlock(block) {
   return { type: event, payload };
 }
 
-/** Render markdown-ish links as anchors, everything else as text (no HTML injection). */
-export function renderAnswer(node, text, document) {
-  node.replaceChildren();
+/* ---------------------------------------------------------------------------
+   Deliverable media (sandbox-verify-2026-10-21/retry-0917 Scenario A).
+   An assistant answer may carry URLs to deliverables. They are classified by
+   extension (never by fetching — the browser holds no key and must not probe
+   arbitrary hosts) and rendered as:
+     • image    → inline thumbnail (`<img loading=lazy>`) that opens a lightbox
+     • video    → poster card (a `<video preload=metadata>` that NEVER autoplays
+                  in the transcript, with a play affordance) that opens the
+                  media side pane where playback is user-initiated
+     • document → preview card (PDF / Office / CSV / JSON / text) laid out side
+                  by side in a `.od-chat__deliverables` grid; PDFs open in the
+                  side pane (`<iframe>` of the PDF itself), other documents open
+                  in a new tab
+   Anything else stays a plain `.od-chat__cite` anchor (citations). No HTML
+   injection: every node is built with createElement; URLs must be http(s). */
+export const MEDIA_KINDS = Object.freeze({
+  image: /\.(?:png|jpe?g|gif|webp|avif|svg)(?:[?#].*)?$/i,
+  video: /\.(?:mp4|webm|mov|m4v|ogv)(?:[?#].*)?$/i,
+  document:
+    /\.(?:pdf|docx?|pptx?|xlsx?|csv|tsv|json|txt|md|geojson|kml|kmz|zip)(?:[?#].*)?$/i,
+});
+
+/**
+ * Classify a deliverable URL by its path extension.
+ * @param {string} url
+ * @returns {'image'|'video'|'document'|null}
+ */
+export function classifyMediaUrl(url) {
+  let pathname = '';
+  try {
+    pathname = new URL(String(url)).pathname;
+  } catch {
+    return null;
+  }
+  if (MEDIA_KINDS.image.test(pathname)) return 'image';
+  if (MEDIA_KINDS.video.test(pathname)) return 'video';
+  if (MEDIA_KINDS.document.test(pathname)) return 'document';
+  return null;
+}
+
+/** Last path segment of a URL, for a human label. */
+export function mediaFileName(url) {
+  try {
+    const u = new URL(String(url));
+    const name = decodeURIComponent(
+      u.pathname.split('/').filter(Boolean).pop() || '',
+    );
+    return (name || u.hostname).slice(0, 80);
+  } catch {
+    return String(url).slice(0, 80);
+  }
+}
+
+/**
+ * Split an answer into text and link tokens. Exported so the media rendering
+ * can be unit-tested without a DOM.
+ * @param {string} text
+ * @returns {Array<{kind:'text',text:string}|{kind:'link',url:string,label:string,media:'image'|'video'|'document'|null}>}
+ */
+export function tokenizeAnswer(text) {
   const parts = String(text).split(
     /(\[[^\]]{1,200}\]\(https?:\/\/[^\s)]+\)|https?:\/\/[^\s)\]>"']+)/g,
   );
+  const out = [];
   for (const part of parts) {
     if (!part) continue;
     const md = /^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/.exec(part);
     if (md || /^https?:\/\//.test(part)) {
-      const a = document.createElement('a');
-      a.href = md ? md[2] : part;
-      a.textContent = md
-        ? md[1]
-        : part.replace(/^https?:\/\//, '').slice(0, 60);
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.className = 'od-chat__cite';
-      node.appendChild(a);
-    } else node.appendChild(document.createTextNode(part));
+      const url = md ? md[2] : part;
+      out.push({
+        kind: 'link',
+        url,
+        label: md ? md[1] : part.replace(/^https?:\/\//, '').slice(0, 60),
+        media: classifyMediaUrl(url),
+      });
+    } else out.push({ kind: 'text', text: part });
   }
+  return out;
+}
+
+/** Render markdown-ish links as anchors, everything else as text (no HTML injection). */
+export function renderAnswer(node, text, document, options = {}) {
+  node.replaceChildren();
+  const tokens = tokenizeAnswer(text);
+  const deliverables = [];
+  for (const tok of tokens) {
+    if (tok.kind === 'text') {
+      node.appendChild(document.createTextNode(tok.text));
+      continue;
+    }
+    const a = document.createElement('a');
+    a.href = tok.url;
+    a.textContent = tok.label;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.className = 'od-chat__cite';
+    if (tok.media) {
+      a.setAttribute('data-media', tok.media);
+      if (!deliverables.some((d) => d.url === tok.url)) deliverables.push(tok);
+    }
+    node.appendChild(a);
+  }
+  if (deliverables.length && options.media !== false) {
+    node.appendChild(renderDeliverables(deliverables, document, options));
+  }
+}
+
+/**
+ * Build the side-by-side deliverables grid under an assistant message.
+ * @param {Array<{url:string,label:string,media:string}>} items
+ * @param {Document} document
+ * @param {{onOpen?:(item:object)=>void}} options
+ */
+export function renderDeliverables(items, document, options = {}) {
+  const grid = el(document, 'div', {
+    className: 'od-chat__deliverables',
+    attrs: {
+      'data-count': String(items.length),
+      role: 'group',
+      'aria-label': 'Deliverables',
+    },
+  });
+  for (const item of items.slice(0, 12)) {
+    const card = el(document, 'figure', {
+      className: `od-chat__deliverable od-chat__deliverable--${item.media}`,
+      attrs: { 'data-media': item.media, 'data-url': item.url },
+    });
+    const open = () => options.onOpen?.(item);
+    if (item.media === 'image') {
+      const button = el(document, 'button', {
+        className: 'od-chat__thumb',
+        attrs: {
+          type: 'button',
+          title: 'Open image',
+          'aria-label': `Open image ${mediaFileName(item.url)}`,
+        },
+      });
+      const img = el(document, 'img', {
+        className: 'od-chat__thumb-img',
+        attrs: {
+          src: item.url,
+          alt: item.label || mediaFileName(item.url),
+          loading: 'lazy',
+          decoding: 'async',
+          referrerpolicy: 'no-referrer',
+        },
+      });
+      button.appendChild(img);
+      button.addEventListener?.('click', open);
+      card.appendChild(button);
+    } else if (item.media === 'video') {
+      const button = el(document, 'button', {
+        className: 'od-chat__poster',
+        attrs: {
+          type: 'button',
+          title: 'Play in side pane',
+          'aria-label': `Play video ${mediaFileName(item.url)}`,
+        },
+      });
+      // Poster only: metadata preload paints the first frame; no autoplay,
+      // no controls, muted so a browser never starts it on its own.
+      const video = el(document, 'video', {
+        className: 'od-chat__poster-video',
+        attrs: {
+          src: item.url,
+          preload: 'metadata',
+          muted: '',
+          playsinline: '',
+          tabindex: '-1',
+          'aria-hidden': 'true',
+        },
+      });
+      if ('autoplay' in video) video.autoplay = false;
+      if ('controls' in video) video.controls = false;
+      button.appendChild(video);
+      button.appendChild(
+        el(document, 'span', {
+          className: 'od-chat__poster-play',
+          text: 'PLAY',
+        }),
+      );
+      button.addEventListener?.('click', open);
+      card.appendChild(button);
+    } else {
+      const button = el(document, 'button', {
+        className: 'od-chat__doc',
+        attrs: {
+          type: 'button',
+          title: 'Preview document',
+          'aria-label': `Preview document ${mediaFileName(item.url)}`,
+        },
+      });
+      button.appendChild(
+        el(document, 'span', {
+          className: 'od-chat__doc-ext',
+          text: docExtension(item.url),
+        }),
+      );
+      button.appendChild(
+        el(document, 'span', {
+          className: 'od-chat__doc-name',
+          text: mediaFileName(item.url),
+        }),
+      );
+      button.addEventListener?.('click', open);
+      card.appendChild(button);
+    }
+    const caption = el(document, 'figcaption', {
+      className: 'od-chat__deliverable-caption',
+    });
+    const link = el(document, 'a', {
+      className: 'od-chat__deliverable-link',
+      text:
+        item.media === 'image'
+          ? 'open original'
+          : item.media === 'video'
+            ? 'open video'
+            : 'download',
+      attrs: { href: item.url, target: '_blank', rel: 'noopener noreferrer' },
+    });
+    caption.appendChild(link);
+    card.appendChild(caption);
+    grid.appendChild(card);
+  }
+  return grid;
+}
+
+function docExtension(url) {
+  const m = /\.([a-z0-9]{1,6})(?:[?#].*)?$/i.exec(mediaFileName(url));
+  return (m ? m[1] : 'doc').toUpperCase().slice(0, 6);
 }
 
 function el(document, tag, { id, className, text, attrs } = {}) {
@@ -573,6 +785,159 @@ export function createMiniChat(deps = {}) {
     'X-Workstation-Workspace': workspace,
     ...extra,
   });
+
+  /** renderAnswer bound to this panel's document + media viewer. */
+  const renderAnswerLocal = (node, text) =>
+    renderAnswer(node, text, document, { onOpen: openMedia });
+
+  // --- Deliverable media viewer: lightbox (images) + side pane (video/PDF).
+  function buildMediaViewer() {
+    if (ui.lightbox) return;
+    const lightbox = el(document, 'div', {
+      id: `${MINI_CHAT_ID}-lightbox`,
+      className: 'od-chat__lightbox',
+      attrs: {
+        role: 'dialog',
+        'aria-modal': 'true',
+        'aria-label': 'Image preview',
+        'data-open': 'false',
+      },
+    });
+    lightbox.hidden = true;
+    const lbClose = el(document, 'button', {
+      className: 'od-chat__icon-btn od-chat__lightbox-close',
+      attrs: { type: 'button', 'aria-label': 'Close image preview' },
+    });
+    setIconContent(lbClose, 'x', {}, document);
+    lbClose.addEventListener?.('click', () => closeLightbox());
+    const lbImg = el(document, 'img', {
+      className: 'od-chat__lightbox-img',
+      attrs: { alt: '', decoding: 'async', referrerpolicy: 'no-referrer' },
+    });
+    const lbCaption = el(document, 'a', {
+      className: 'od-chat__lightbox-caption',
+      attrs: { target: '_blank', rel: 'noopener noreferrer' },
+    });
+    lightbox.append(lbClose, lbImg, lbCaption);
+    lightbox.addEventListener?.('click', (event) => {
+      if (event?.target === lightbox) closeLightbox();
+    });
+    lightbox.addEventListener?.('keydown', (event) => {
+      if (event?.key === 'Escape') closeLightbox();
+    });
+    ui.lightbox = lightbox;
+    ui.lightboxImg = lbImg;
+    ui.lightboxCaption = lbCaption;
+    (document.body || document.documentElement).appendChild(lightbox);
+
+    const pane = el(document, 'aside', {
+      id: `${MINI_CHAT_ID}-media`,
+      className: 'od-chat__media-pane',
+      attrs: {
+        role: 'region',
+        'aria-label': 'Deliverable preview',
+        'data-open': 'false',
+      },
+    });
+    pane.hidden = true;
+    const paneHeader = el(document, 'header', {
+      className: 'od-chat__media-header',
+    });
+    ui.mediaTitle = el(document, 'strong', {
+      className: 'od-chat__media-title',
+    });
+    const paneClose = el(document, 'button', {
+      className: 'od-chat__icon-btn od-chat__media-close',
+      attrs: { type: 'button', 'aria-label': 'Close preview' },
+    });
+    setIconContent(paneClose, 'x', {}, document);
+    paneClose.addEventListener?.('click', () => closeMediaPane());
+    paneHeader.append(ui.mediaTitle, paneClose);
+    ui.mediaBody = el(document, 'div', { className: 'od-chat__media-body' });
+    pane.append(paneHeader, ui.mediaBody);
+    ui.mediaPane = pane;
+    (document.body || document.documentElement).appendChild(pane);
+  }
+
+  function openLightbox(item) {
+    buildMediaViewer();
+    ui.lightboxImg.setAttribute('src', item.url);
+    ui.lightboxImg.setAttribute('alt', item.label || mediaFileName(item.url));
+    ui.lightboxCaption.setAttribute('href', item.url);
+    ui.lightboxCaption.textContent = mediaFileName(item.url);
+    ui.lightbox.hidden = false;
+    ui.lightbox.setAttribute('data-open', 'true');
+    ui.lightbox.setAttribute('tabindex', '-1');
+    ui.lightbox.focus?.();
+  }
+  function closeLightbox() {
+    if (!ui.lightbox) return;
+    ui.lightbox.hidden = true;
+    ui.lightbox.setAttribute('data-open', 'false');
+    ui.lightboxImg.removeAttribute?.('src');
+  }
+
+  function openMediaPane(item) {
+    buildMediaViewer();
+    ui.mediaBody.replaceChildren();
+    ui.mediaTitle.textContent = mediaFileName(item.url);
+    ui.mediaPane.setAttribute('data-media', item.media);
+    if (item.media === 'video') {
+      // Playback is user-initiated inside the pane (controls, no autoplay).
+      const video = el(document, 'video', {
+        className: 'od-chat__media-video',
+        attrs: {
+          src: item.url,
+          preload: 'metadata',
+          controls: '',
+          playsinline: '',
+        },
+      });
+      if ('autoplay' in video) video.autoplay = false;
+      ui.mediaBody.appendChild(video);
+    } else if (/\.pdf(?:[?#].*)?$/i.test(item.url)) {
+      const frame = el(document, 'iframe', {
+        className: 'od-chat__media-frame',
+        attrs: {
+          src: item.url,
+          title: `PDF preview ${mediaFileName(item.url)}`,
+          loading: 'lazy',
+          referrerpolicy: 'no-referrer',
+          sandbox: '',
+        },
+      });
+      ui.mediaBody.appendChild(frame);
+    } else {
+      ui.mediaBody.appendChild(
+        el(document, 'p', {
+          className: 'od-chat__media-note',
+          text: 'No inline preview for this file type.',
+        }),
+      );
+    }
+    ui.mediaBody.appendChild(
+      el(document, 'a', {
+        className: 'od-chat__media-link',
+        text: 'open original',
+        attrs: { href: item.url, target: '_blank', rel: 'noopener noreferrer' },
+      }),
+    );
+    ui.mediaPane.hidden = false;
+    ui.mediaPane.setAttribute('data-open', 'true');
+  }
+  function closeMediaPane() {
+    if (!ui.mediaPane) return;
+    ui.mediaPane.hidden = true;
+    ui.mediaPane.setAttribute('data-open', 'false');
+    ui.mediaBody.replaceChildren(); // stops any playback
+  }
+
+  /** Deliverable click: image → lightbox; video / PDF → side pane. */
+  function openMedia(item) {
+    if (!item?.url) return;
+    if (item.media === 'image') openLightbox(item);
+    else openMediaPane(item);
+  }
 
   function build() {
     if (ui.panel) return;
@@ -796,7 +1161,7 @@ export function createMiniChat(deps = {}) {
       className: `od-chat__msg od-chat__msg--${role}`,
       attrs: { 'data-role': role, ...(extra.attrs || {}) },
     });
-    if (role === 'assistant') renderAnswer(node, text, document);
+    if (role === 'assistant') renderAnswerLocal(node, text);
     else node.textContent = text;
     ui.transcript.appendChild(node);
     pinScroll();
@@ -813,7 +1178,7 @@ export function createMiniChat(deps = {}) {
       frameScheduled = false;
       if (pendingNode && pendingText !== null) {
         pendingNode.text = pendingText;
-        renderAnswer(pendingNode.node, pendingText, document);
+        renderAnswerLocal(pendingNode.node, pendingText);
         pinScroll();
       }
     });
@@ -822,7 +1187,7 @@ export function createMiniChat(deps = {}) {
   function flushWrite() {
     if (pendingNode && pendingText !== null) {
       pendingNode.text = pendingText;
-      renderAnswer(pendingNode.node, pendingText, document);
+      renderAnswerLocal(pendingNode.node, pendingText);
       pinScroll();
     }
     pendingNode = null;
@@ -1029,6 +1394,8 @@ export function createMiniChat(deps = {}) {
       ui.transcript.replaceChildren();
       renderActivity();
       renderSources();
+      closeLightbox();
+      closeMediaPane();
     } else if (context?.fields) {
       state.context = bounded; // refresh displayed attributes, same session
     }
@@ -1152,10 +1519,9 @@ export function createMiniChat(deps = {}) {
       turn.totalMs = Date.now() - started;
       if (streamError) throw new Error(`stream error · ${streamError}`);
       if (!answer) {
-        renderAnswer(
+        renderAnswerLocal(
           assistant.node,
           done ? '(empty answer)' : '(no answer received)',
-          document,
         );
       }
       turn.ok = true;
@@ -1181,10 +1547,9 @@ export function createMiniChat(deps = {}) {
         assistant.node.classList.add('od-chat__msg--error');
         assistant.node.setAttribute('data-role', 'error');
       }
-      renderAnswer(
+      renderAnswerLocal(
         assistant.node,
         answer ? `${answer}\n\n[${turn.error}]` : turn.error,
-        document,
       );
       setStatus(aborted ? 'CANCELLED' : 'TURN FAILED');
 
@@ -1271,7 +1636,7 @@ export function createMiniChat(deps = {}) {
       );
       if (report.synthesisError)
         lines.push(`Synthesis unavailable: ${report.synthesisError}`);
-      renderAnswer(card.node, lines.join('\n'), document);
+      renderAnswerLocal(card.node, lines.join('\n'));
       for (const o of report.objects || [])
         for (const c of o.citations || [])
           if (!state.citations.some((x) => x.url === c.url))
@@ -1294,12 +1659,11 @@ export function createMiniChat(deps = {}) {
       const msg = String(error?.message || error || '');
       const isTimeoutOr504 =
         msg.includes('504') || /timeout|timed out|budget/i.test(msg);
-      renderAnswer(
+      renderAnswerLocal(
         card.node,
         aborted
           ? 'Investigation cancelled.'
           : `Investigation failed: ${error?.message || error}`,
-        document,
       );
       card.node.classList.add('od-chat__msg--error');
       if (!aborted && isTimeoutOr504) {
@@ -1325,6 +1689,8 @@ export function createMiniChat(deps = {}) {
     state.open = false;
     ui.panel.hidden = true;
     ui.panel.setAttribute('data-open', 'false');
+    closeLightbox();
+    closeMediaPane();
     abortController?.abort();
   }
 
@@ -1332,6 +1698,8 @@ export function createMiniChat(deps = {}) {
     destroyed = true;
     close();
     ui.panel?.parentNode?.removeChild?.(ui.panel);
+    ui.lightbox?.parentNode?.removeChild?.(ui.lightbox);
+    ui.mediaPane?.parentNode?.removeChild?.(ui.mediaPane);
   }
 
   return {
@@ -1339,6 +1707,11 @@ export function createMiniChat(deps = {}) {
     close,
     ask,
     openInvestigation,
+    openMedia,
+    closeMedia: () => {
+      closeLightbox();
+      closeMediaPane();
+    },
     destroy,
     getState: () => ({ ...state, externalUserId, workspace }),
     externalUserId,

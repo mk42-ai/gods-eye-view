@@ -556,6 +556,202 @@ body.scene-playback-mode #ondemand-entity-chat {
   background-image: url('/assets/brand/empty-source-unavailable.png');
 }
 
+/* Deliverable media under an assistant answer (src/ondemand/miniChat.js
+   renderDeliverables): documents side by side, images as thumbnails that open
+   the lightbox, videos as a poster that opens the media side pane. Nothing in
+   the transcript ever autoplays. */
+.od-chat__deliverables {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(59, 183, 149, 0.3);
+  white-space: normal;
+}
+.od-chat__deliverable {
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.od-chat__thumb,
+.od-chat__poster,
+.od-chat__doc {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(243, 243, 243, 0.16);
+  border-radius: 8px;
+  background: rgba(243, 243, 243, 0.06);
+  color: var(--od-neutral-100, #f3f3f3);
+  cursor: pointer;
+}
+.od-chat__thumb:hover,
+.od-chat__thumb:focus-visible,
+.od-chat__poster:hover,
+.od-chat__poster:focus-visible,
+.od-chat__doc:hover,
+.od-chat__doc:focus-visible {
+  border-color: var(--od-green-500, #3bb795);
+  outline: none;
+}
+.od-chat__thumb-img,
+.od-chat__poster-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.od-chat__poster-play {
+  position: absolute;
+  inset: auto 6px 6px auto;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--od-green-500, #3bb795);
+  color: var(--od-ink, #161616);
+  font: 700 8px/1 var(--font-mono, monospace);
+  letter-spacing: 0.14em;
+}
+.od-chat__doc {
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+}
+.od-chat__doc-ext {
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgba(59, 183, 149, 0.18);
+  color: var(--od-green-200, #adedd6);
+  font: 700 9px/1 var(--font-mono, monospace);
+  letter-spacing: 0.12em;
+}
+.od-chat__doc-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 9px/1.3 var(--font-mono, monospace);
+  color: var(--od-neutral-100, #f3f3f3);
+}
+.od-chat__deliverable-caption {
+  font: 8px/1.3 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+.od-chat__deliverable-link {
+  color: var(--od-green-200, #adedd6);
+  text-decoration: underline dotted;
+}
+
+/* Image lightbox */
+.od-chat__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 188; /* above both chat panels, below key setup (190) */
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 24px;
+  background: rgba(10, 12, 16, 0.86);
+  backdrop-filter: blur(6px);
+}
+.od-chat__lightbox[hidden] {
+  display: none;
+}
+.od-chat__lightbox-img {
+  max-width: min(92vw, 1200px);
+  max-height: 80vh;
+  border-radius: 10px;
+  box-shadow: 0 1.2rem 3.6rem rgba(0, 0, 0, 0.6);
+  object-fit: contain;
+}
+.od-chat__lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+.od-chat__lightbox-caption {
+  color: var(--od-green-200, #adedd6);
+  font: 10px/1.3 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+}
+
+/* Media side pane (video / PDF) — docks to the left of the mini chat on
+   desktop, becomes a bottom sheet above it on narrow screens. */
+.od-chat__media-pane {
+  position: fixed;
+  z-index: 187;
+  right: calc(
+    max(18px, env(safe-area-inset-right)) + min(27rem, calc(100vw - 2rem)) +
+      12px
+  );
+  bottom: max(88px, calc(env(safe-area-inset-bottom) + 72px));
+  width: min(30rem, calc(100vw - 32rem));
+  max-height: min(36rem, calc(100dvh - 7rem));
+  display: flex;
+  flex-direction: column;
+  color: var(--od-neutral-100, #f3f3f3);
+  background: rgba(22, 22, 22, 0.96);
+  border: 1px solid rgba(59, 183, 149, 0.45);
+  border-radius: 12px;
+  box-shadow: 0 1.2rem 3.6rem rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  font: 11px/1.4 var(--font-sans, 'Inter', system-ui, sans-serif);
+}
+.od-chat__media-pane[hidden] {
+  display: none;
+}
+.od-chat__media-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 10px 8px 12px;
+  border-bottom: 1px solid rgba(59, 183, 149, 0.28);
+  background: rgba(59, 183, 149, 0.08);
+}
+.od-chat__media-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 600 11px/1.2 var(--font-mono, monospace);
+  letter-spacing: 0.06em;
+}
+.od-chat__media-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 12rem;
+  padding: 10px 12px;
+  overflow: auto;
+}
+.od-chat__media-video,
+.od-chat__media-frame {
+  width: 100%;
+  min-height: 14rem;
+  border: 0;
+  border-radius: 8px;
+  background: #000;
+}
+.od-chat__media-frame {
+  flex: 1 1 auto;
+  min-height: 22rem;
+}
+.od-chat__media-note,
+.od-chat__media-link {
+  margin: 0;
+  color: var(--od-green-200, #adedd6);
+  font: 10px/1.4 var(--font-mono, monospace);
+}
+
 @media (max-width: 640px) {
   #ondemand-mini-chat,
   #ondemand-entity-chat:not([hidden]) ~ #ondemand-mini-chat {
@@ -565,5 +761,16 @@ body.scene-playback-mode #ondemand-entity-chat {
     width: 100vw;
     max-height: 70dvh;
     border-radius: 12px 12px 0 0;
+  }
+  .od-chat__media-pane {
+    right: 0;
+    left: 0;
+    bottom: 70dvh;
+    width: 100vw;
+    max-height: 28dvh;
+    border-radius: 12px 12px 0 0;
+  }
+  .od-chat__media-frame {
+    min-height: 14rem;
   }
 }
