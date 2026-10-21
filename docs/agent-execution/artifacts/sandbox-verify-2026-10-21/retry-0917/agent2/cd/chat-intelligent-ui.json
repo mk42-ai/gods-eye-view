@@ -1,0 +1,254 @@
+{
+  "startedAt": "2026-10-21T09:32:29.423Z",
+  "endedAt": "2026-10-21T09:33:09.092Z",
+  "baseUrl": "https://sb-4asza5droe1u.vercel.run",
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "byViewport": {
+      "1440x900": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "bootMs": 5749,
+        "loaderHidden": true
+      },
+      "390x844": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "bootMs": 5265,
+        "loaderHidden": true
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "id": "C",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "citations_query_completed",
+          "pass": true,
+          "detail": "Turn completed within 90s"
+        },
+        {
+          "name": "citations_or_honest_state",
+          "pass": true,
+          "detail": "links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+        }
+      ],
+      "durationMs": 9035,
+      "screenshot": "C-1440x900.png",
+      "startedAt": "2026-10-21T09:32:40.377Z",
+      "endedAt": "2026-10-21T09:32:49.412Z"
+    },
+    {
+      "id": "D",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "earthquake_history_available",
+          "pass": true,
+          "detail": "transcript messages=2 (from earlier scenario)"
+        },
+        {
+          "name": "desktop_no_hud_brand_mark_overlap",
+          "pass": true,
+          "detail": "overlap=false, checked against 2 brand mark(s)"
+        },
+        {
+          "name": "close_button_sets_closed",
+          "pass": true,
+          "detail": "Mini chat closed (data-open=\"false\")"
+        },
+        {
+          "name": "reopen_restores_transcript",
+          "pass": true,
+          "detail": "Transcript replayed 2 messages upon reopen (expected >= 2)"
+        }
+      ],
+      "durationMs": 11,
+      "screenshot": "D-1440x900.png",
+      "startedAt": "2026-10-21T09:32:50.502Z",
+      "endedAt": "2026-10-21T09:32:50.513Z"
+    },
+    {
+      "id": "C",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "citations_query_completed",
+          "pass": true,
+          "detail": "Turn completed within 90s"
+        },
+        {
+          "name": "citations_or_honest_state",
+          "pass": true,
+          "detail": "links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+        }
+      ],
+      "durationMs": 8843,
+      "screenshot": "C-390x844.png",
+      "startedAt": "2026-10-21T09:32:59.326Z",
+      "endedAt": "2026-10-21T09:33:08.169Z"
+    },
+    {
+      "id": "D",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "earthquake_history_available",
+          "pass": true,
+          "detail": "transcript messages=4 (from earlier scenario)"
+        },
+        {
+          "name": "mobile_viewport_fit_and_input_visible",
+          "pass": true,
+          "detail": "fitsViewport=true, inputVisible=true, noHScroll=true"
+        },
+        {
+          "name": "close_button_sets_closed",
+          "pass": true,
+          "detail": "Mini chat closed (data-open=\"false\")"
+        },
+        {
+          "name": "reopen_restores_transcript",
+          "pass": true,
+          "detail": "Transcript replayed 4 messages upon reopen (expected >= 2)"
+        }
+      ],
+      "durationMs": 25,
+      "screenshot": "D-390x844.png",
+      "startedAt": "2026-10-21T09:33:08.509Z",
+      "endedAt": "2026-10-21T09:33:08.534Z"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T09:32:34.013Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T09:32:41.015Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T09:32:52.411Z"
+    }
+  ],
+  "failedRequests": [
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T09:32:34.013Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T09:32:34.024Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhwyosf-34ae0cc6&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "atUtc": "2026-10-21T09:32:41.015Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T09:32:52.411Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T09:32:52.452Z"
+    }
+  ],
+  "ondemandCalls": [
+    {
+      "atUtc": "2026-10-21T09:32:34.014Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 343,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T09:32:40.986Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 5858,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T09:32:41.015Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhwyosf-34ae0cc6&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 404,
+      "ms": 8,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T09:32:41.569Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 498,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T09:32:45.742Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 4722,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T09:32:52.412Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 60,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T09:32:59.017Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 4849,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T09:32:59.526Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhwyosf-34ae0cc6&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 200,
+      "ms": 174,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T09:32:59.671Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 295,
+      "keySource": "server"
+    }
+  ]
+}

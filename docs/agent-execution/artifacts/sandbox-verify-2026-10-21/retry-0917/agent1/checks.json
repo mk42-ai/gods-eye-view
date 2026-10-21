@@ -1,0 +1,68 @@
+[
+  {
+    "check": "streaming-parity",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 8232,
+    "run_at_iso8601": "2026-10-21T09:40:49.439Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-streaming-1440x900.png",
+    "evidence": "send-button hit-test={\"rect\":{\"x\":1195,\"y\":769,\"w\":208,\"h\":32},\"inViewport\":true,\"disabled\":false,\"topAtCenter\":\"ondemand-mini-chat-send\",\"hitsButton\":true,\"inputRect\":{\"x\":1003,\"y\":769,\"w\":186,\"h\":32},\"inputTop\":\"ondemand-mini-chat-input\",\"inputHit\":true}; baseline assistant msgs (history)=0; TTFT=3693 ms; STOP visible during stream=true (at first text: true); POST /api/ondemand/v2/chat status=200 x-ondemand-key-source=server; final status=\"READY · inferred\"; localStorage ondemand.apiKey=null; assistant chars=102",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "hud-summary-parity",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 1495,
+    "run_at_iso8601": "2026-10-21T09:40:50.934Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-hud-summary-1440x900.png",
+    "evidence": "#hud-summary=\"NORMAL STREET NEAR UT TOWER (AUSTIN) 2KM | NORTH AMERICA | ALT 627M | WINDOW 2x1KM | SUN -42° | ONA 50° | UTC-7\" (ok=true); #hud-ask-ondemand present=true; chat opened=true; data-object-type=hudSummary; kind label=\"HUD SUMMARY · global\"; scrollWidth=1440 innerWidth=1440",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "media-rendering-audit",
+    "scenario": "A",
+    "viewport": "1440x900",
+    "status": "DEFECT",
+    "duration_ms": 3829,
+    "run_at_iso8601": "2026-10-21T09:40:54.763Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-media-rendering-1440x900.png",
+    "evidence": "intercepted POST /api/ondemand/v2/chat=1; assistant node class=\"od-chat__msg od-chat__msg--assistant\"; <a>=3 (.od-chat__cite=3) <img>=0 <video>=0 <picture>=0 <iframe>=0; lightbox/dialog in node=0, lightbox-ish in document=4, [role=dialog] in document=1 ([\"ondemand-mini-chat\"]); [autoplay] in node=0, video[autoplay] in document=0, <video> in document=0; anchors=[{\"href\":\"https://example.com/brief.pdf\",\"text\":\"example.com/brief.pdf\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/figure.png\",\"text\":\"example.com/figure.png\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/clip.mp4\",\"text\":\"example.com/clip.mp4\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"}]; status=\"READY · inferred\" — media deliverables render as plain .od-chat__cite anchors; no thumbnail/lightbox/poster/side-pane implementation exists (src/ondemand/miniChat.js renderAnswer(), ~L475-497; src/ui/styles/ondemand-chat.css .od-chat__cite L440). Positive safety property holds: 0 <video autoplay> in transcript.",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "streaming-parity",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 7956,
+    "run_at_iso8601": "2026-10-21T09:41:12.025Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-streaming-390x844.png",
+    "evidence": "send-button hit-test={\"rect\":{\"x\":205,\"y\":801,\"w\":166,\"h\":32},\"inViewport\":true,\"disabled\":false,\"topAtCenter\":\"SPAN\",\"hitsButton\":false,\"inputRect\":{\"x\":13,\"y\":801,\"w\":186,\"h\":32},\"inputTop\":\"SPAN\",\"inputHit\":false}; baseline assistant msgs (history)=0; TTFT=3350 ms; STOP visible during stream=true (at first text: true); POST /api/ondemand/v2/chat status=200 x-ondemand-key-source=server; final status=\"READY · inferred\"; localStorage ondemand.apiKey=null; assistant chars=138",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "hud-summary-parity",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 1344,
+    "run_at_iso8601": "2026-10-21T09:41:13.369Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-hud-summary-390x844.png",
+    "evidence": "#hud-summary=\"NORMAL STREET NEAR UT TOWER (AUSTIN) 2KM | NORTH AMERICA | ALT 627M | WINDOW 2x3KM | SUN -42° | ONA 50° | UTC-7\" (ok=true); #hud-ask-ondemand present=true; chat opened=true; data-object-type=hudSummary; kind label=\"HUD SUMMARY · global\"; scrollWidth=390 innerWidth=390 (no horizontal overflow=true)",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "media-rendering-audit",
+    "scenario": "A",
+    "viewport": "390x844",
+    "status": "DEFECT",
+    "duration_ms": 3861,
+    "run_at_iso8601": "2026-10-21T09:41:17.230Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-media-rendering-390x844.png",
+    "evidence": "intercepted POST /api/ondemand/v2/chat=1; assistant node class=\"od-chat__msg od-chat__msg--assistant\"; <a>=3 (.od-chat__cite=3) <img>=0 <video>=0 <picture>=0 <iframe>=0; lightbox/dialog in node=0, lightbox-ish in document=4, [role=dialog] in document=1 ([\"ondemand-mini-chat\"]); [autoplay] in node=0, video[autoplay] in document=0, <video> in document=0; anchors=[{\"href\":\"https://example.com/brief.pdf\",\"text\":\"example.com/brief.pdf\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/figure.png\",\"text\":\"example.com/figure.png\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/clip.mp4\",\"text\":\"example.com/clip.mp4\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"}]; status=\"READY · inferred\" — media deliverables render as plain .od-chat__cite anchors; no thumbnail/lightbox/poster/side-pane implementation exists (src/ondemand/miniChat.js renderAnswer(), ~L475-497; src/ui/styles/ondemand-chat.css .od-chat__cite L440). Positive safety property holds: 0 <video autoplay> in transcript.",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  }
+]

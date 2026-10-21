@@ -1,0 +1,122 @@
+{
+ "check-3way-isolation-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 68.39,
+  "ok": true
+ },
+ "check-banner-occlusion-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 67.27,
+  "ok": true
+ },
+ "check-banner-occlusion-390x844.png": {
+  "size": [
+   390,
+   844
+  ],
+  "mean_gray": 66.77,
+  "ok": true
+ },
+ "check-cancel-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 69.05,
+  "ok": true
+ },
+ "check-cancel-390x844.png": {
+  "size": [
+   390,
+   844
+  ],
+  "mean_gray": 74.26,
+  "ok": true
+ },
+ "check-failure-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 67.8,
+  "ok": true
+ },
+ "check-failure-390x844.png": {
+  "size": [
+   390,
+   844
+  ],
+  "mean_gray": 67.04,
+  "ok": true
+ },
+ "check-isolation-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 68.97,
+  "ok": true
+ },
+ "check-isolation-390x844.png": {
+  "size": [
+   390,
+   844
+  ],
+  "mean_gray": 72.09,
+  "ok": true
+ },
+ "check-isolation-alert-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 67.33,
+  "ok": true
+ },
+ "check-isolation-alert-390x844.png": {
+  "size": [
+   390,
+   844
+  ],
+  "mean_gray": 67.33,
+  "ok": true
+ },
+ "check-recovery-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 69.09,
+  "ok": true
+ },
+ "check-recovery-390x844.png": {
+  "size": [
+   390,
+   844
+  ],
+  "mean_gray": 72.88,
+  "ok": true
+ },
+ "check-reload-persist-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 69.16,
+  "ok": true
+ },
+ "check-reload-persist-390x844.png": {
+  "size": [
+   390,
+   844
+  ],
+  "mean_gray": 72.09,
+  "ok": true
+ }
+}

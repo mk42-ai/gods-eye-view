@@ -1,0 +1,867 @@
+[
+  {
+    "check": "identity",
+    "scenario": "title+wordmark+brand-mark+favicon-link",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 11931,
+    "run_at_iso8601": "2026-10-21T09:34:42.545Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "title": "OnDemand Intelligence Workstation",
+      "wordmark": "OnDemand Intelligence Workstation",
+      "brand_marks": [
+        {
+          "tag": "span",
+          "w": 52,
+          "h": 34.875,
+          "src": ""
+        },
+        {
+          "tag": "span",
+          "w": 127.14263916015625,
+          "h": 85.2998046875,
+          "src": ""
+        }
+      ],
+      "icon_links": [
+        "/assets/brand/favicon.ico",
+        "/assets/brand/favicon-16.png",
+        "/assets/brand/favicon-32.png",
+        "/assets/brand/favicon-48.png",
+        "/brand/mark.svg"
+      ],
+      "manifest": "/brand/site.webmanifest"
+    }
+  },
+  {
+    "check": "loading-screen-backdrop",
+    "scenario": "#loading-screen computed background-image",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:34:54.752Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "backgroundImage": "linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\")"
+    }
+  },
+  {
+    "check": "legacy-terms",
+    "scenario": "base page (chat closed)",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:34:54.788Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "user_facing_hits": 0,
+      "hits": [],
+      "internal_identifiers_allowed": [
+        "style[id=\"gev-screen-whiteboard-styles\"]",
+        "input[class=\"gev-quantitative-slider\"]",
+        "output[class=\"gev-slider-value\"]",
+        "div[class=\"gev-screen-whiteboard\"]",
+        "svg[class=\"gev-screen-whiteboard-svg\"]",
+        "filter[id=\"gev-sketch\"]",
+        "window.__godsEyeView"
+      ]
+    }
+  },
+  {
+    "check": "eye-motif",
+    "scenario": "base page (chat closed)",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:34:54.890Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "assets_scanned": 54,
+      "flagged": [
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        }
+      ],
+      "note": "Only hit is the Lucide UI glyph 'scan-eye' (data-icon attribute on the DISPLAY\u203aHUD toggle, src/ui/templates/display-controls.html:10; a viewfinder/focus pictogram from the icon set, not a brand eye motif). No image/CSS URL or <title>/<desc> contains 'eye'. Classified as allowed; listed for the orchestrator to decide.",
+      "url_or_title_hits": 0
+    }
+  },
+  {
+    "check": "mini-chat-open",
+    "scenario": "gev:ask-object earthquake",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 4886,
+    "run_at_iso8601": "2026-10-21T09:34:59.776Z",
+    "screenshot": "agent5/check-branding-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "chatOpen": true,
+      "pluginPanel": {
+        "present": true,
+        "open": true,
+        "rows": 32,
+        "summary": "PLUGINS10 ready"
+      },
+      "keySetup": {
+        "chipPresent": false,
+        "rootPresent": false
+      },
+      "keySetupVisible": false
+    }
+  },
+  {
+    "check": "legacy-terms",
+    "scenario": "chat open + plugins panel open (settings/key-setup not present)",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:34:59.776Z",
+    "screenshot": "agent5/check-branding-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "user_facing_hits": 0,
+      "hits": [],
+      "internal_identifiers_allowed": [
+        "style[id=\"gev-screen-whiteboard-styles\"]",
+        "input[class=\"gev-quantitative-slider\"]",
+        "output[class=\"gev-slider-value\"]",
+        "div[class=\"gev-screen-whiteboard\"]",
+        "svg[class=\"gev-screen-whiteboard-svg\"]",
+        "filter[id=\"gev-sketch\"]",
+        "window.__godsEyeView"
+      ]
+    }
+  },
+  {
+    "check": "eye-motif",
+    "scenario": "chat open + plugins panel open",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:34:59.776Z",
+    "screenshot": "agent5/check-branding-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "assets_scanned": 56,
+      "flagged": [
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        }
+      ],
+      "note": "Only hit is the Lucide UI glyph 'scan-eye' (data-icon attribute on the DISPLAY\u203aHUD toggle, src/ui/templates/display-controls.html:10; a viewfinder/focus pictogram from the icon set, not a brand eye motif). No image/CSS URL or <title>/<desc> contains 'eye'. Classified as allowed; listed for the orchestrator to decide.",
+      "url_or_title_hits": 0
+    }
+  },
+  {
+    "check": "identity",
+    "scenario": "title+wordmark+brand-mark+favicon-link",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 9543,
+    "run_at_iso8601": "2026-10-21T09:35:00.337Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "title": "OnDemand Intelligence Workstation",
+      "wordmark": "OnDemand Intelligence Workstation",
+      "brand_marks": [
+        {
+          "tag": "span",
+          "w": 36,
+          "h": 24.140625,
+          "src": ""
+        },
+        {
+          "tag": "span",
+          "w": 125.46502685546875,
+          "h": 84.17431640625,
+          "src": ""
+        }
+      ],
+      "icon_links": [
+        "/assets/brand/favicon.ico",
+        "/assets/brand/favicon-16.png",
+        "/assets/brand/favicon-32.png",
+        "/assets/brand/favicon-48.png",
+        "/brand/mark.svg"
+      ],
+      "manifest": "/brand/site.webmanifest"
+    }
+  },
+  {
+    "check": "loading-screen-backdrop",
+    "scenario": "#loading-screen computed background-image",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:35:09.898Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "backgroundImage": "linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\")"
+    }
+  },
+  {
+    "check": "legacy-terms",
+    "scenario": "base page (chat closed)",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:35:09.925Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "user_facing_hits": 0,
+      "hits": [],
+      "internal_identifiers_allowed": [
+        "style[id=\"gev-screen-whiteboard-styles\"]",
+        "input[class=\"gev-quantitative-slider\"]",
+        "output[class=\"gev-slider-value\"]",
+        "div[class=\"gev-screen-whiteboard\"]",
+        "svg[class=\"gev-screen-whiteboard-svg\"]",
+        "filter[id=\"gev-sketch\"]",
+        "window.__godsEyeView"
+      ]
+    }
+  },
+  {
+    "check": "eye-motif",
+    "scenario": "base page (chat closed)",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:35:10.006Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "assets_scanned": 54,
+      "flagged": [
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        }
+      ],
+      "note": "Only hit is the Lucide UI glyph 'scan-eye' (data-icon attribute on the DISPLAY\u203aHUD toggle, src/ui/templates/display-controls.html:10; a viewfinder/focus pictogram from the icon set, not a brand eye motif). No image/CSS URL or <title>/<desc> contains 'eye'. Classified as allowed; listed for the orchestrator to decide.",
+      "url_or_title_hits": 0
+    }
+  },
+  {
+    "check": "mini-chat-open",
+    "scenario": "gev:ask-object earthquake",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 3716,
+    "run_at_iso8601": "2026-10-21T09:35:13.722Z",
+    "screenshot": "agent5/check-branding-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "chatOpen": true,
+      "pluginPanel": {
+        "present": true,
+        "open": true,
+        "rows": 32,
+        "summary": "PLUGINS10 ready"
+      },
+      "keySetup": {
+        "chipPresent": false,
+        "rootPresent": false
+      },
+      "keySetupVisible": false
+    }
+  },
+  {
+    "check": "legacy-terms",
+    "scenario": "chat open + plugins panel open (settings/key-setup not present)",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:35:13.722Z",
+    "screenshot": "agent5/check-branding-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "user_facing_hits": 0,
+      "hits": [],
+      "internal_identifiers_allowed": [
+        "style[id=\"gev-screen-whiteboard-styles\"]",
+        "input[class=\"gev-quantitative-slider\"]",
+        "output[class=\"gev-slider-value\"]",
+        "div[class=\"gev-screen-whiteboard\"]",
+        "svg[class=\"gev-screen-whiteboard-svg\"]",
+        "filter[id=\"gev-sketch\"]",
+        "window.__godsEyeView"
+      ]
+    }
+  },
+  {
+    "check": "eye-motif",
+    "scenario": "chat open + plugins panel open",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:35:13.722Z",
+    "screenshot": "agent5/check-branding-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "assets_scanned": 56,
+      "flagged": [
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        }
+      ],
+      "note": "Only hit is the Lucide UI glyph 'scan-eye' (data-icon attribute on the DISPLAY\u203aHUD toggle, src/ui/templates/display-controls.html:10; a viewfinder/focus pictogram from the icon set, not a brand eye motif). No image/CSS URL or <title>/<desc> contains 'eye'. Classified as allowed; listed for the orchestrator to decide.",
+      "url_or_title_hits": 0
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "mark-primary.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 1288,
+    "run_at_iso8601": "2026-10-21T09:36:02Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/mark-primary.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 828607,
+      "sha256": "43abf5cc21779088c665d9b9b3d9e58f28d08e20974d75716304b637b919bd3d",
+      "catalog_sha256": "43abf5cc21779088c665d9b9b3d9e58f28d08e20974d75716304b637b919bd3d",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 0,
+      "ocr_psm11_sample": "<>",
+      "ocr_psm6_sample": "",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 198,
+      "hough_naive_concentric_pairs": 7,
+      "hough_strong_circles": 2,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": "naive Hough (param2=40, minDist=4) reports 7 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \u2014 strong pass is authoritative"
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "mark-mono.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 1490,
+    "run_at_iso8601": "2026-10-21T09:36:03Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/mark-mono.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 882285,
+      "sha256": "e38da23ac4f292dc57555af16258f7c22e54cfc50545e6d59c499afbb7133b5a",
+      "catalog_sha256": "e38da23ac4f292dc57555af16258f7c22e54cfc50545e6d59c499afbb7133b5a",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 2,
+      "ocr_psm11_sample": "",
+      "ocr_psm6_sample": "Bi",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 147,
+      "hough_naive_concentric_pairs": 6,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": "naive Hough (param2=40, minDist=4) reports 6 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \u2014 strong pass is authoritative"
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "empty-no-results.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 4939,
+    "run_at_iso8601": "2026-10-21T09:36:05Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/empty-no-results.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 854662,
+      "sha256": "91c63a81ed15f52ade8dff2bca6a8d03888eae88c2aca72bbb58b24b28f2363d",
+      "catalog_sha256": "91c63a81ed15f52ade8dff2bca6a8d03888eae88c2aca72bbb58b24b28f2363d",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 2,
+      "ocr_psm11_sample": "",
+      "ocr_psm6_sample": "ee\n=",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 969,
+      "hough_naive_concentric_pairs": 36,
+      "hough_strong_circles": 1,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": "naive Hough (param2=40, minDist=4) reports 36 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \u2014 strong pass is authoritative"
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "empty-no-sessions.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 10362,
+    "run_at_iso8601": "2026-10-21T09:36:10Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/empty-no-sessions.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 833892,
+      "sha256": "99986406498b95f24f70557a203369b71d2a65921196fac8decfe3c2d4add732",
+      "catalog_sha256": "99986406498b95f24f70557a203369b71d2a65921196fac8decfe3c2d4add732",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 2,
+      "ocr_psm6_alnum": 2,
+      "ocr_psm11_sample": "an",
+      "ocr_psm6_sample": "(og",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 1653,
+      "hough_naive_concentric_pairs": 59,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": "naive Hough (param2=40, minDist=4) reports 59 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \u2014 strong pass is authoritative"
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "empty-source-unavailable.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 866,
+    "run_at_iso8601": "2026-10-21T09:36:20Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/empty-source-unavailable.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 851438,
+      "sha256": "9722bbf35ca0dfcdffd1598378751f2f405a7a86ac100d2a84c0cb464ec28d04",
+      "catalog_sha256": "9722bbf35ca0dfcdffd1598378751f2f405a7a86ac100d2a84c0cb464ec28d04",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 3,
+      "ocr_psm11_sample": "-----",
+      "ocr_psm6_sample": "Sre",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 226,
+      "hough_naive_concentric_pairs": 10,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": "naive Hough (param2=40, minDist=4) reports 10 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \u2014 strong pass is authoritative"
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "backdrop-network.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 1050,
+    "run_at_iso8601": "2026-10-21T09:36:21Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 1243829,
+      "sha256": "cba96745119c9aa84b8383aed402f3349788d8896d5d2753e246448df5710b03",
+      "catalog_sha256": "cba96745119c9aa84b8383aed402f3349788d8896d5d2753e246448df5710b03",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 10,
+      "ocr_psm6_alnum": 0,
+      "ocr_psm11_sample": "Ta\n\nme\n\nke <\n\nax\n\n>\n\neo",
+      "ocr_psm6_sample": "",
+      "ocr_no_text_le3": false,
+      "hough_naive_circles": 0,
+      "hough_naive_concentric_pairs": 0,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": [
+        0,
+        []
+      ],
+      "note": "psm11 alnum=10 is OCR noise on the dark network texture (documented caveat); psm6 alnum=0; downscaled 384x256 contiguous text-like regions = 0 -> no text"
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "mark-variant-a.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 1158,
+    "run_at_iso8601": "2026-10-21T09:36:22Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/mark-variant-a.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 770292,
+      "sha256": "0556ca19503c624cce8670cfd17aa9d9ea69e2d2e3ba37ef14aea0cb73aaeb51",
+      "catalog_sha256": "0556ca19503c624cce8670cfd17aa9d9ea69e2d2e3ba37ef14aea0cb73aaeb51",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 2,
+      "ocr_psm11_sample": "",
+      "ocr_psm6_sample": "cs",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 235,
+      "hough_naive_concentric_pairs": 22,
+      "hough_strong_circles": 4,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": "naive Hough (param2=40, minDist=4) reports 22 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \u2014 strong pass is authoritative"
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "mark-variant-b.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 1121,
+    "run_at_iso8601": "2026-10-21T09:36:23Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/mark-variant-b.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 848084,
+      "sha256": "f7ea09b785ea93a3897241b805584852be3dc67ebc04ed1d978e22855bea8efa",
+      "catalog_sha256": "f7ea09b785ea93a3897241b805584852be3dc67ebc04ed1d978e22855bea8efa",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 2,
+      "ocr_psm11_sample": "",
+      "ocr_psm6_sample": "cs",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 198,
+      "hough_naive_concentric_pairs": 10,
+      "hough_strong_circles": 1,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": "naive Hough (param2=40, minDist=4) reports 10 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \u2014 strong pass is authoritative"
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "favicon.ico",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 571,
+    "run_at_iso8601": "2026-10-21T09:36:24Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/favicon.ico",
+      "http_status": 200,
+      "content_type": "image/x-icon",
+      "bytes": 655,
+      "sha256": "fdd1dc86e6bfcf25f22df8edf59af02bf979b38fb99a6dbbbf4cc6c3fe8757d0",
+      "catalog_sha256": "fdd1dc86e6bfcf25f22df8edf59af02bf979b38fb99a6dbbbf4cc6c3fe8757d0",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 0,
+      "ocr_psm11_sample": "",
+      "ocr_psm6_sample": "&",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 1,
+      "hough_naive_concentric_pairs": 0,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": ""
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "apple-touch-icon.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 561,
+    "run_at_iso8601": "2026-10-21T09:36:25Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/apple-touch-icon.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 30314,
+      "sha256": "ca5a07dc2d5a3ab67546837dcd3ba9526112ad1f44f6b12d360cc877422e13c6",
+      "catalog_sha256": "ca5a07dc2d5a3ab67546837dcd3ba9526112ad1f44f6b12d360cc877422e13c6",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 2,
+      "ocr_psm11_sample": "~~",
+      "ocr_psm6_sample": "Ss",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 3,
+      "hough_naive_concentric_pairs": 0,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": ""
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "android-chrome-192.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 427,
+    "run_at_iso8601": "2026-10-21T09:36:25Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/android-chrome-192.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 34284,
+      "sha256": "0d8df8839bdda401a4e605120f7bc4d8de3735469c18e9e09e73bb9d1d87a204",
+      "catalog_sha256": "0d8df8839bdda401a4e605120f7bc4d8de3735469c18e9e09e73bb9d1d87a204",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 2,
+      "ocr_psm11_sample": "~~",
+      "ocr_psm6_sample": "es",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 2,
+      "hough_naive_concentric_pairs": 0,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": ""
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "android-chrome-512.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 500,
+    "run_at_iso8601": "2026-10-21T09:36:26Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/android-chrome-512.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 231053,
+      "sha256": "bc5d55abb81cd40ec72759fea9ba6f23e77fe35322fbf350fecd618b731a2f6d",
+      "catalog_sha256": "bc5d55abb81cd40ec72759fea9ba6f23e77fe35322fbf350fecd618b731a2f6d",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 2,
+      "ocr_psm11_sample": "",
+      "ocr_psm6_sample": "Bi",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 32,
+      "hough_naive_concentric_pairs": 0,
+      "hough_strong_circles": 3,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": ""
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "favicon-16.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 521,
+    "run_at_iso8601": "2026-10-21T09:36:26Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/favicon-16.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 638,
+      "sha256": "e9cab6f53df06debf1d6f9482996c6c0b784c1f438a2127ac8e8e741f0fdd068",
+      "catalog_sha256": "e9cab6f53df06debf1d6f9482996c6c0b784c1f438a2127ac8e8e741f0fdd068",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 0,
+      "ocr_psm11_sample": "",
+      "ocr_psm6_sample": "&",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 1,
+      "hough_naive_concentric_pairs": 0,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": ""
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "favicon-32.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 754,
+    "run_at_iso8601": "2026-10-21T09:36:27Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/favicon-32.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 1714,
+      "sha256": "c6666d54405b2c41652e9d26d24b34980301aec28e0c8cc56a8a69b588eed281",
+      "catalog_sha256": "c6666d54405b2c41652e9d26d24b34980301aec28e0c8cc56a8a69b588eed281",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 0,
+      "ocr_psm11_sample": "",
+      "ocr_psm6_sample": "&",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 7,
+      "hough_naive_concentric_pairs": 0,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": ""
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "favicon-48.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 729,
+    "run_at_iso8601": "2026-10-21T09:36:28Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/favicon-48.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 3143,
+      "sha256": "b561065689cfc438ff27c8520da3a6f6ef3d68387eac731474a79d984b7b35fd",
+      "catalog_sha256": "b561065689cfc438ff27c8520da3a6f6ef3d68387eac731474a79d984b7b35fd",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 0,
+      "ocr_psm6_alnum": 0,
+      "ocr_psm11_sample": "",
+      "ocr_psm6_sample": "&",
+      "ocr_no_text_le3": true,
+      "hough_naive_circles": 10,
+      "hough_naive_concentric_pairs": 0,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": ""
+    }
+  },
+  {
+    "check": "brand-asset",
+    "scenario": "og-image.png",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 1235,
+    "run_at_iso8601": "2026-10-21T09:36:28Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/og-image.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 515862,
+      "sha256": "93ddea86633a972d9481f60d17a3d21e3d555aa639c63b57cbeb75cb65a5e9d9",
+      "catalog_sha256": "93ddea86633a972d9481f60d17a3d21e3d555aa639c63b57cbeb75cb65a5e9d9",
+      "match_catalog": true,
+      "match_local_public_assets_brand": true,
+      "ocr_psm11_alnum": 9,
+      "ocr_psm6_alnum": 43,
+      "ocr_psm11_sample": "Se\n\n\u00bb\n\nSS\n\nSw\n\nane",
+      "ocr_psm6_sample": "\u00b0 p\ngi\nse Oy\n\u201ce\n. .\n5 ai\n<\nx \\\na \u2014\u2014\u2014 \\\nae S A\nVag a\n* J . WA",
+      "ocr_no_text_le3": false,
+      "hough_naive_circles": 41,
+      "hough_naive_concentric_pairs": 1,
+      "hough_strong_circles": 0,
+      "hough_strong_concentric_pairs": 0,
+      "backdrop_text_regions": null,
+      "note": "og-image is a composite (backdrop + mark); OCR psm6 alnum=43 is pure noise fragments (no dictionary words); strong-circle concentric pairs 0; naive pass 1 pair -> noise; naive Hough (param2=40, minDist=4) reports 1 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \u2014 strong pass is authoritative"
+    }
+  },
+  {
+    "check": "webmanifest",
+    "scenario": "GET /brand/site.webmanifest + icon paths",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 1000,
+    "run_at_iso8601": "2026-10-21T09:37:16Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/brand/site.webmanifest",
+      "http_status": 200,
+      "content_type": "application/octet-stream",
+      "name": "OnDemand Intelligence Workstation",
+      "icons": {
+        "/assets/brand/android-chrome-192.png": "200 image/png 34284",
+        "/assets/brand/android-chrome-512.png": "200 image/png 231053"
+      },
+      "note": "MINOR: manifest served as application/octet-stream instead of application/manifest+json (browsers accept it; not a functional defect). Also /brand/mark.svg (svg icon link) 200 image/svg+xml 748 B, /assets/brand/og-image.png 200 image/png."
+    }
+  },
+  {
+    "check": "favicon-resolves",
+    "scenario": "GET /assets/brand/favicon.ico",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:37:16Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/favicon.ico",
+      "http_status": 200,
+      "content_type": "image/x-icon",
+      "bytes": 655
+    }
+  },
+  {
+    "check": "css-empty-state-wiring",
+    "scenario": "src/ui/styles/ondemand-chat.css (read-only grep)",
+    "viewport": "n/a",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:38:28Z",
+    "screenshot": null,
+    "evidence": {
+      "lines": {
+        "549-551": ".od-empty-state--no-results::before { background-image: url(/assets/brand/empty-no-results.png) }",
+        "552-554": ".od-empty-state--no-sessions::before { background-image: url(/assets/brand/empty-no-sessions.png) }",
+        "555-557": ".od-empty-state--source-unavailable::before { background-image: url(/assets/brand/empty-source-unavailable.png) }"
+      },
+      "loading_screen_css": "src/ui/styles/controls.css:269-276 #loading-screen background-image: linear-gradient(...), url(/assets/brand/backdrop-network.png)"
+    }
+  }
+]

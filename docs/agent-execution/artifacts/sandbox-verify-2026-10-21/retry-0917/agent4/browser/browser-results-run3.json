@@ -1,0 +1,622 @@
+[
+  {
+    "viewport": "1440x900",
+    "run_at": "2026-10-21T09:47:09.647Z",
+    "attempts": [
+      {
+        "name": "internet_web_search",
+        "mode": "mouse",
+        "hit": {
+          "rect": {
+            "x": 1361.390625,
+            "y": 617.171875,
+            "w": 49.609375,
+            "h": 15.59375
+          },
+          "hitIsButton": false,
+          "hit": "div#.od-empty-state.od-empty-state--no-sessions",
+          "pointerEvents": "auto",
+          "visibility": "visible"
+        },
+        "clicked_at": "2026-10-21T09:47:20.275Z",
+        "total_ms": 3346,
+        "mutation_sequence": [
+          {
+            "t_ms": 0,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "13m ago4788ms\"READY\"",
+            "toggleDisabled": false
+          }
+        ],
+        "polled_100ms_sequence": [
+          {
+            "t_ms": 200,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "13m ago4788ms\"READY\"",
+            "toggleDisabled": false
+          }
+        ],
+        "final": {
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "ready",
+          "badge": "READY",
+          "sub": "13m ago4788ms\"READY\"",
+          "toggleDisabled": false
+        }
+      },
+      {
+        "name": "internet_web_search",
+        "mode": "dom",
+        "hit": {
+          "rect": {
+            "x": 1361.390625,
+            "y": 617.171875,
+            "w": 49.609375,
+            "h": 15.59375
+          },
+          "hitIsButton": false,
+          "hit": "div#.od-empty-state.od-empty-state--no-sessions",
+          "pointerEvents": "auto",
+          "visibility": "visible"
+        },
+        "clicked_at": "2026-10-21T09:47:23.651Z",
+        "total_ms": 4267,
+        "mutation_sequence": [
+          {
+            "t_ms": 0,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "13m ago4788ms\"READY\"",
+            "toggleDisabled": false
+          },
+          {
+            "t_ms": 2,
+            "btn": "VERIFYING…",
+            "btnDisabled": true,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "13m ago4788ms\"READY\"",
+            "toggleDisabled": false
+          },
+          {
+            "t_ms": 4197,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "just now4169ms\"READY\"",
+            "toggleDisabled": false
+          }
+        ],
+        "polled_100ms_sequence": [
+          {
+            "t_ms": 4,
+            "btn": "VERIFYING…",
+            "btnDisabled": true,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "13m ago4788ms\"READY\"",
+            "toggleDisabled": false
+          },
+          {
+            "t_ms": 4265,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "just now4169ms\"READY\"",
+            "toggleDisabled": false
+          }
+        ],
+        "final": {
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "ready",
+          "badge": "READY",
+          "sub": "just now4169ms\"READY\"",
+          "toggleDisabled": false
+        }
+      },
+      {
+        "name": "x_mcp_connector",
+        "mode": "mouse",
+        "hit": {
+          "rect": {
+            "x": 1361.390625,
+            "y": 707.515625,
+            "w": 49.609375,
+            "h": 15.59375
+          },
+          "hitIsButton": false,
+          "hit": "div#.od-empty-state.od-empty-state--no-sessions",
+          "pointerEvents": "auto",
+          "visibility": "visible"
+        },
+        "clicked_at": "2026-10-21T09:47:27.927Z",
+        "total_ms": 3002,
+        "mutation_sequence": [
+          {
+            "t_ms": 0,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          }
+        ],
+        "polled_100ms_sequence": [
+          {
+            "t_ms": 335,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          }
+        ],
+        "final": {
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "failed",
+          "badge": "FAILED",
+          "sub": "This research source is currently inactive on the OnDemand account.",
+          "toggleDisabled": true
+        }
+      },
+      {
+        "name": "x_mcp_connector",
+        "mode": "dom",
+        "hit": {
+          "rect": {
+            "x": 1361.390625,
+            "y": 707.515625,
+            "w": 49.609375,
+            "h": 15.59375
+          },
+          "hitIsButton": false,
+          "hit": "div#.od-empty-state.od-empty-state--no-sessions",
+          "pointerEvents": "auto",
+          "visibility": "visible"
+        },
+        "clicked_at": "2026-10-21T09:47:30.932Z",
+        "total_ms": 108,
+        "mutation_sequence": [
+          {
+            "t_ms": 0,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          },
+          {
+            "t_ms": 1,
+            "btn": "VERIFYING…",
+            "btnDisabled": true,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          },
+          {
+            "t_ms": 41,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          }
+        ],
+        "polled_100ms_sequence": [
+          {
+            "t_ms": 6,
+            "btn": "VERIFYING…",
+            "btnDisabled": true,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          },
+          {
+            "t_ms": 108,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          }
+        ],
+        "final": {
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "failed",
+          "badge": "FAILED",
+          "sub": "This research source is currently inactive on the OnDemand account.",
+          "toggleDisabled": true
+        }
+      }
+    ],
+    "netLog": [
+      {
+        "t": "2026-10-21T09:47:12.166Z",
+        "phase": "request",
+        "method": "GET",
+        "url": "/api/ondemand/v2/plugins",
+        "postData": null,
+        "headers": {
+          "x-workstation-user": "anonymous"
+        }
+      },
+      {
+        "t": "2026-10-21T09:47:12.445Z",
+        "phase": "response",
+        "method": "GET",
+        "url": "/api/ondemand/v2/plugins",
+        "status": 200,
+        "body": "{\"generatedAt\":\"2026-10-21T09:47:12.228Z\",\"plugins\":[{\"name\":\"perplexity_research\",\"pluginId\":\"plugin-1722260873\",\"provider\":\"OnDemand · Perplexity investigation research\",\"kind\":\"ondemand-plugin\",\"availability\":\"active\",\"state\":\"ready\",\"verifiedAt\":\"2026-10-21T09:34:17.234Z\",\"latencyMs\":5048,\"error\":null,\"lastInvokedAt\":null,\"invocations\":0,\"answerPreview\":\"READY\"},{\"name\":\"internet_web_search\",\"pluginId\":\"plugin-1713924030\",\"provider\":\"OnDemand · Internet web search\",\"kind\":\"ondemand-plugin\",\""
+      },
+      {
+        "t": "2026-10-21T09:47:23.654Z",
+        "phase": "request",
+        "method": "POST",
+        "url": "/api/ondemand/v2/plugins/verify",
+        "postData": "{\"externalUserId\":\"anonymous\",\"names\":[\"internet_web_search\"]}",
+        "headers": {
+          "x-workstation-user": "anonymous"
+        }
+      },
+      {
+        "t": "2026-10-21T09:47:27.886Z",
+        "phase": "response",
+        "method": "POST",
+        "url": "/api/ondemand/v2/plugins/verify",
+        "status": 200,
+        "body": "{\"plugins\":[{\"name\":\"internet_web_search\",\"pluginId\":\"plugin-1713924030\",\"provider\":\"OnDemand · Internet web search\",\"kind\":\"ondemand-plugin\",\"availability\":\"active\",\"state\":\"ready\",\"verifiedAt\":\"2026-10-21T09:47:27.826Z\",\"latencyMs\":4169,\"error\":null,\"lastInvokedAt\":null,\"invocations\":0,\"answerPreview\":\"READY\"}]}"
+      },
+      {
+        "t": "2026-10-21T09:47:30.934Z",
+        "phase": "request",
+        "method": "POST",
+        "url": "/api/ondemand/v2/plugins/verify",
+        "postData": "{\"externalUserId\":\"anonymous\",\"names\":[\"x_mcp_connector\"]}",
+        "headers": {
+          "x-workstation-user": "anonymous"
+        }
+      },
+      {
+        "t": "2026-10-21T09:47:30.973Z",
+        "phase": "response",
+        "method": "POST",
+        "url": "/api/ondemand/v2/plugins/verify",
+        "status": 200,
+        "body": "{\"plugins\":[{\"name\":\"x_mcp_connector\",\"pluginId\":\"plugin-1785777296\",\"provider\":\"OnDemand · X MCP connector\",\"kind\":\"ondemand-plugin\",\"availability\":\"inactive\",\"state\":\"failed\",\"verifiedAt\":null,\"latencyMs\":null,\"error\":{\"code\":\"inactive_on_account\",\"httpStatus\":400,\"message\":\"This research source is currently inactive on the OnDemand account.\",\"retryable\":false,\"failedAt\":\"2026-10-21T09:47:30.958Z\"},\"lastInvokedAt\":null,\"invocations\":0}]}"
+      }
+    ],
+    "screenshot": "/home/appuser/work/6692b763e851d28a036ab30e/6ad7d892f922b50dc6673071/gods-eye-view/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent4/browser/check-plugins-run3-1440x900.png",
+    "finished_at": "2026-10-21T09:47:31.562Z"
+  },
+  {
+    "viewport": "390x844",
+    "run_at": "2026-10-21T09:47:31.643Z",
+    "attempts": [
+      {
+        "name": "internet_web_search",
+        "mode": "mouse",
+        "hit": {
+          "rect": {
+            "x": 311.390625,
+            "y": 561.171875,
+            "w": 49.609375,
+            "h": 15.59375
+          },
+          "hitIsButton": false,
+          "hit": "div#ondemand-mini-chat-starters.od-chat__starters",
+          "pointerEvents": "auto",
+          "visibility": "visible"
+        },
+        "clicked_at": "2026-10-21T09:47:41.335Z",
+        "total_ms": 3042,
+        "mutation_sequence": [
+          {
+            "t_ms": 0,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "just now4169ms\"READY\"",
+            "toggleDisabled": false
+          }
+        ],
+        "polled_100ms_sequence": [
+          {
+            "t_ms": 91,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "just now4169ms\"READY\"",
+            "toggleDisabled": false
+          }
+        ],
+        "final": {
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "ready",
+          "badge": "READY",
+          "sub": "just now4169ms\"READY\"",
+          "toggleDisabled": false
+        }
+      },
+      {
+        "name": "internet_web_search",
+        "mode": "dom",
+        "hit": {
+          "rect": {
+            "x": 311.390625,
+            "y": 561.171875,
+            "w": 49.609375,
+            "h": 15.59375
+          },
+          "hitIsButton": false,
+          "hit": "div#ondemand-mini-chat-starters.od-chat__starters",
+          "pointerEvents": "auto",
+          "visibility": "visible"
+        },
+        "clicked_at": "2026-10-21T09:47:44.380Z",
+        "total_ms": 108,
+        "mutation_sequence": [
+          {
+            "t_ms": 0,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "just now4169ms\"READY\"",
+            "toggleDisabled": false
+          },
+          {
+            "t_ms": 2,
+            "btn": "VERIFYING…",
+            "btnDisabled": true,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "just now4169ms\"READY\"",
+            "toggleDisabled": false
+          },
+          {
+            "t_ms": 22,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "just now4169ms\"READY\"",
+            "toggleDisabled": false
+          }
+        ],
+        "polled_100ms_sequence": [
+          {
+            "t_ms": 7,
+            "btn": "VERIFYING…",
+            "btnDisabled": true,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "just now4169ms\"READY\"",
+            "toggleDisabled": false
+          },
+          {
+            "t_ms": 107,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "ready",
+            "badge": "READY",
+            "sub": "just now4169ms\"READY\"",
+            "toggleDisabled": false
+          }
+        ],
+        "final": {
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "ready",
+          "badge": "READY",
+          "sub": "just now4169ms\"READY\"",
+          "toggleDisabled": false
+        }
+      },
+      {
+        "name": "x_mcp_connector",
+        "mode": "mouse",
+        "hit": {
+          "rect": {
+            "x": 311.390625,
+            "y": 651.515625,
+            "w": 49.609375,
+            "h": 15.59375
+          },
+          "hitIsButton": false,
+          "hit": "div#.od-empty-state.od-empty-state--no-sessions",
+          "pointerEvents": "auto",
+          "visibility": "visible"
+        },
+        "clicked_at": "2026-10-21T09:47:44.491Z",
+        "total_ms": 3073,
+        "mutation_sequence": [
+          {
+            "t_ms": 0,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          }
+        ],
+        "polled_100ms_sequence": [
+          {
+            "t_ms": 22,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          }
+        ],
+        "final": {
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "failed",
+          "badge": "FAILED",
+          "sub": "This research source is currently inactive on the OnDemand account.",
+          "toggleDisabled": true
+        }
+      },
+      {
+        "name": "x_mcp_connector",
+        "mode": "dom",
+        "hit": {
+          "rect": {
+            "x": 311.390625,
+            "y": 651.515625,
+            "w": 49.609375,
+            "h": 15.59375
+          },
+          "hitIsButton": false,
+          "hit": "div#.od-empty-state.od-empty-state--no-sessions",
+          "pointerEvents": "auto",
+          "visibility": "visible"
+        },
+        "clicked_at": "2026-10-21T09:47:47.568Z",
+        "total_ms": 110,
+        "mutation_sequence": [
+          {
+            "t_ms": 0,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          },
+          {
+            "t_ms": 2,
+            "btn": "VERIFYING…",
+            "btnDisabled": true,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          },
+          {
+            "t_ms": 22,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          }
+        ],
+        "polled_100ms_sequence": [
+          {
+            "t_ms": 5,
+            "btn": "VERIFYING…",
+            "btnDisabled": true,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          },
+          {
+            "t_ms": 109,
+            "btn": "VERIFY",
+            "btnDisabled": false,
+            "state": "failed",
+            "badge": "FAILED",
+            "sub": "This research source is currently inactive on the OnDemand account.",
+            "toggleDisabled": true
+          }
+        ],
+        "final": {
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "failed",
+          "badge": "FAILED",
+          "sub": "This research source is currently inactive on the OnDemand account.",
+          "toggleDisabled": true
+        }
+      }
+    ],
+    "netLog": [
+      {
+        "t": "2026-10-21T09:47:33.198Z",
+        "phase": "request",
+        "method": "GET",
+        "url": "/api/ondemand/v2/plugins",
+        "postData": null,
+        "headers": {
+          "x-workstation-user": "anonymous"
+        }
+      },
+      {
+        "t": "2026-10-21T09:47:33.424Z",
+        "phase": "response",
+        "method": "GET",
+        "url": "/api/ondemand/v2/plugins",
+        "status": 200,
+        "body": "{\"generatedAt\":\"2026-10-21T09:47:33.218Z\",\"plugins\":[{\"name\":\"perplexity_research\",\"pluginId\":\"plugin-1722260873\",\"provider\":\"OnDemand · Perplexity investigation research\",\"kind\":\"ondemand-plugin\",\"availability\":\"active\",\"state\":\"ready\",\"verifiedAt\":\"2026-10-21T09:34:17.234Z\",\"latencyMs\":5048,\"error\":null,\"lastInvokedAt\":null,\"invocations\":0,\"answerPreview\":\"READY\"},{\"name\":\"internet_web_search\",\"pluginId\":\"plugin-1713924030\",\"provider\":\"OnDemand · Internet web search\",\"kind\":\"ondemand-plugin\",\""
+      },
+      {
+        "t": "2026-10-21T09:47:44.382Z",
+        "phase": "request",
+        "method": "POST",
+        "url": "/api/ondemand/v2/plugins/verify",
+        "postData": "{\"externalUserId\":\"anonymous\",\"names\":[\"internet_web_search\"]}",
+        "headers": {
+          "x-workstation-user": "anonymous"
+        }
+      },
+      {
+        "t": "2026-10-21T09:47:44.412Z",
+        "phase": "response",
+        "method": "POST",
+        "url": "/api/ondemand/v2/plugins/verify",
+        "status": 200,
+        "body": "{\"plugins\":[{\"name\":\"internet_web_search\",\"pluginId\":\"plugin-1713924030\",\"provider\":\"OnDemand · Internet web search\",\"kind\":\"ondemand-plugin\",\"availability\":\"active\",\"state\":\"ready\",\"verifiedAt\":\"2026-10-21T09:47:27.826Z\",\"latencyMs\":4169,\"error\":null,\"lastInvokedAt\":null,\"invocations\":0,\"answerPreview\":\"READY\"}]}"
+      },
+      {
+        "t": "2026-10-21T09:47:47.572Z",
+        "phase": "request",
+        "method": "POST",
+        "url": "/api/ondemand/v2/plugins/verify",
+        "postData": "{\"externalUserId\":\"anonymous\",\"names\":[\"x_mcp_connector\"]}",
+        "headers": {
+          "x-workstation-user": "anonymous"
+        }
+      },
+      {
+        "t": "2026-10-21T09:47:47.591Z",
+        "phase": "response",
+        "method": "POST",
+        "url": "/api/ondemand/v2/plugins/verify",
+        "status": 200,
+        "body": "{\"plugins\":[{\"name\":\"x_mcp_connector\",\"pluginId\":\"plugin-1785777296\",\"provider\":\"OnDemand · X MCP connector\",\"kind\":\"ondemand-plugin\",\"availability\":\"inactive\",\"state\":\"failed\",\"verifiedAt\":null,\"latencyMs\":null,\"error\":{\"code\":\"inactive_on_account\",\"httpStatus\":400,\"message\":\"This research source is currently inactive on the OnDemand account.\",\"retryable\":false,\"failedAt\":\"2026-10-21T09:47:47.573Z\"},\"lastInvokedAt\":null,\"invocations\":0}]}"
+      }
+    ],
+    "screenshot": "/home/appuser/work/6692b763e851d28a036ab30e/6ad7d892f922b50dc6673071/gods-eye-view/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent4/browser/check-plugins-run3-390x844.png",
+    "finished_at": "2026-10-21T09:47:47.940Z"
+  }
+]

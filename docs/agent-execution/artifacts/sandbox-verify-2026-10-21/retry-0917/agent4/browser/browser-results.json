@@ -1,0 +1,886 @@
+[
+  {
+    "viewport": "1440x900",
+    "initial": {
+      "run_at": "2026-10-21T09:35:08.007Z",
+      "boot_ms": 12198,
+      "miniOpen": "true",
+      "present": true,
+      "visible": true,
+      "detailsOpen": true,
+      "toggledOpen": false,
+      "summary": "10 ready",
+      "rowCount": 32,
+      "countsByState": {
+        "ready": 10,
+        "failed": 1,
+        "discovered": 21
+      },
+      "screenshot": "/home/appuser/work/6692b763e851d28a036ab30e/6ad7d892f922b50dc6673071/gods-eye-view/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent4/browser/check-plugins-initial-1440x900.png"
+    },
+    "ready": {
+      "name": "internet_web_search",
+      "settled": false,
+      "total_ms": 30088,
+      "sequence": [
+        {
+          "t_ms": 136,
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "ready",
+          "badge": "READY",
+          "sub": "1m ago4788ms\"READY\""
+        }
+      ],
+      "final": {
+        "btn": "VERIFY",
+        "btnDisabled": false,
+        "state": "ready",
+        "badge": "READY",
+        "sub": "1m ago4788ms\"READY\""
+      }
+    },
+    "failed": {
+      "name": "x_mcp_connector",
+      "settled": false,
+      "total_ms": 30061,
+      "sequence": [
+        {
+          "t_ms": 11,
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "failed",
+          "badge": "FAILED",
+          "sub": "This research source is currently inactive on the OnDemand account."
+        }
+      ],
+      "final": {
+        "btn": "VERIFY",
+        "btnDisabled": false,
+        "state": "failed",
+        "badge": "FAILED",
+        "sub": "This research source is currently inactive on the OnDemand account."
+      }
+    },
+    "after": {
+      "summary": "10 ready",
+      "countsByState": {
+        "ready": 10,
+        "failed": 1,
+        "discovered": 21
+      },
+      "rows": [
+        {
+          "id": "plugin-1722260873",
+          "name": "perplexity_research",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "just now5048ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1713924030",
+          "name": "internet_web_search",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "1m ago4788ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1741871229",
+          "name": "gpt_search",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "just now4473ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1751872652",
+          "name": "x_search",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "just now4612ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1785777296",
+          "name": "x_mcp_connector",
+          "state": "failed",
+          "badge": "FAILED",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "This research source is currently inactive on the OnDemand account.",
+          "toggleDisabled": true
+        },
+        {
+          "id": "plugin-1716372717",
+          "name": "tiktok_scraper",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "just now4613ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1716164040",
+          "name": "instagram_user_info",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "just now5999ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1785987361",
+          "name": "instagram_professional",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "just now5721ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1784356219",
+          "name": "youtube_captions",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "just now5529ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1748003575",
+          "name": "reddit_posts",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "just now4529ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1718116202",
+          "name": "linkedin_search",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "just now5981ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "earthquake_search",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "list_satellites_in_scene",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "satellite_passes",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "flights_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "flight_by_icao24",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "military_flights_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "vessels_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "vessel_by_mmsi",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "traffic_flow_at_point",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "road_network_status",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "fire_detection_search",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "osm_features_near",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "geocode_place",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "bike_share_status_near",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "transit_vehicles_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "regional_brief",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "terrain_height_at",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "cameras_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "military_installations_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "radio_stations_near",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "rocket_launches_recent",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        }
+      ]
+    },
+    "selectedIds": {
+      "ok": true,
+      "ids": [],
+      "hasHandle": true
+    },
+    "selectedIdsAfterSelectAll": [
+      "plugin-1722260873",
+      "plugin-1713924030",
+      "plugin-1741871229",
+      "plugin-1751872652",
+      "plugin-1716372717",
+      "plugin-1716164040",
+      "plugin-1785987361",
+      "plugin-1784356219",
+      "plugin-1748003575",
+      "plugin-1718116202",
+      "earthquake_search",
+      "list_satellites_in_scene",
+      "satellite_passes",
+      "flights_in_bbox",
+      "flight_by_icao24",
+      "military_flights_in_bbox",
+      "vessels_in_bbox",
+      "vessel_by_mmsi",
+      "traffic_flow_at_point",
+      "road_network_status",
+      "fire_detection_search",
+      "osm_features_near",
+      "geocode_place",
+      "bike_share_status_near",
+      "transit_vehicles_in_bbox",
+      "regional_brief",
+      "terrain_height_at",
+      "cameras_in_bbox",
+      "military_installations_in_bbox",
+      "radio_stations_near",
+      "rocket_launches_recent"
+    ],
+    "selectedIdsAfterReset": [],
+    "netLog": [
+      {
+        "t": "2026-10-21T09:35:14.593Z",
+        "url": "/api/ondemand/v2/plugins",
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "finished_at": "2026-10-21T09:36:24.992Z"
+  },
+  {
+    "viewport": "390x844",
+    "initial": {
+      "run_at": "2026-10-21T09:36:25.145Z",
+      "boot_ms": 9719,
+      "miniOpen": "true",
+      "present": true,
+      "visible": true,
+      "detailsOpen": true,
+      "toggledOpen": false,
+      "summary": "10 ready",
+      "rowCount": 32,
+      "countsByState": {
+        "ready": 10,
+        "failed": 1,
+        "discovered": 21
+      },
+      "screenshot": "/home/appuser/work/6692b763e851d28a036ab30e/6ad7d892f922b50dc6673071/gods-eye-view/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent4/browser/check-plugins-initial-390x844.png"
+    },
+    "ready": {
+      "name": "internet_web_search",
+      "settled": false,
+      "total_ms": 30010,
+      "sequence": [
+        {
+          "t_ms": 8,
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "ready",
+          "badge": "READY",
+          "sub": "2m ago4788ms\"READY\""
+        }
+      ],
+      "final": {
+        "btn": "VERIFY",
+        "btnDisabled": false,
+        "state": "ready",
+        "badge": "READY",
+        "sub": "2m ago4788ms\"READY\""
+      }
+    },
+    "failed": {
+      "name": "x_mcp_connector",
+      "settled": false,
+      "total_ms": 30099,
+      "sequence": [
+        {
+          "t_ms": 9,
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "state": "failed",
+          "badge": "FAILED",
+          "sub": "This research source is currently inactive on the OnDemand account."
+        }
+      ],
+      "final": {
+        "btn": "VERIFY",
+        "btnDisabled": false,
+        "state": "failed",
+        "badge": "FAILED",
+        "sub": "This research source is currently inactive on the OnDemand account."
+      }
+    },
+    "after": {
+      "summary": "10 ready",
+      "countsByState": {
+        "ready": 10,
+        "failed": 1,
+        "discovered": 21
+      },
+      "rows": [
+        {
+          "id": "plugin-1722260873",
+          "name": "perplexity_research",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "2m ago5048ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1713924030",
+          "name": "internet_web_search",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "2m ago4788ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1741871229",
+          "name": "gpt_search",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "2m ago4473ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1751872652",
+          "name": "x_search",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "2m ago4612ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1785777296",
+          "name": "x_mcp_connector",
+          "state": "failed",
+          "badge": "FAILED",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "This research source is currently inactive on the OnDemand account.",
+          "toggleDisabled": true
+        },
+        {
+          "id": "plugin-1716372717",
+          "name": "tiktok_scraper",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "2m ago4613ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1716164040",
+          "name": "instagram_user_info",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "2m ago5999ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1785987361",
+          "name": "instagram_professional",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "2m ago5721ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1784356219",
+          "name": "youtube_captions",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "2m ago5529ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1748003575",
+          "name": "reddit_posts",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "2m ago4529ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "plugin-1718116202",
+          "name": "linkedin_search",
+          "state": "ready",
+          "badge": "READY",
+          "btn": "VERIFY",
+          "btnDisabled": false,
+          "sub": "2m ago5981ms\"READY\"",
+          "toggleDisabled": false
+        },
+        {
+          "id": "earthquake_search",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "list_satellites_in_scene",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "satellite_passes",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "flights_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "flight_by_icao24",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "military_flights_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "vessels_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "vessel_by_mmsi",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "traffic_flow_at_point",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "road_network_status",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "fire_detection_search",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "osm_features_near",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "geocode_place",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "bike_share_status_near",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "transit_vehicles_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "regional_brief",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "terrain_height_at",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "cameras_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "military_installations_in_bbox",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "radio_stations_near",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        },
+        {
+          "id": "rocket_launches_recent",
+          "name": null,
+          "state": "discovered",
+          "badge": "DISCOVERED",
+          "btn": null,
+          "btnDisabled": null,
+          "sub": null,
+          "toggleDisabled": false
+        }
+      ]
+    },
+    "selectedIds": {
+      "ok": true,
+      "ids": [],
+      "hasHandle": true
+    },
+    "selectedIdsAfterSelectAll": [
+      "plugin-1722260873",
+      "plugin-1713924030",
+      "plugin-1741871229",
+      "plugin-1751872652",
+      "plugin-1716372717",
+      "plugin-1716164040",
+      "plugin-1785987361",
+      "plugin-1784356219",
+      "plugin-1748003575",
+      "plugin-1718116202",
+      "earthquake_search",
+      "list_satellites_in_scene",
+      "satellite_passes",
+      "flights_in_bbox",
+      "flight_by_icao24",
+      "military_flights_in_bbox",
+      "vessels_in_bbox",
+      "vessel_by_mmsi",
+      "traffic_flow_at_point",
+      "road_network_status",
+      "fire_detection_search",
+      "osm_features_near",
+      "geocode_place",
+      "bike_share_status_near",
+      "transit_vehicles_in_bbox",
+      "regional_brief",
+      "terrain_height_at",
+      "cameras_in_bbox",
+      "military_installations_in_bbox",
+      "radio_stations_near",
+      "rocket_launches_recent"
+    ],
+    "selectedIdsAfterReset": [],
+    "netLog": [
+      {
+        "t": "2026-10-21T09:36:27.333Z",
+        "url": "/api/ondemand/v2/plugins",
+        "status": 200,
+        "method": "GET"
+      }
+    ],
+    "finished_at": "2026-10-21T09:37:38.128Z"
+  }
+]

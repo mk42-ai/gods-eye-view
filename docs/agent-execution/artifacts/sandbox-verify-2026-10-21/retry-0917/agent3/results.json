@@ -1,0 +1,562 @@
+[
+  {
+    "check": "harness-scenario",
+    "scenario": "E",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 5944,
+    "run_at_iso8601": "2026-10-21T09:33:09.332Z",
+    "screenshot": "agent3/efg/E-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "checks": [
+        {
+          "name": "history_messages_present_before_switch",
+          "pass": true,
+          "detail": "Found 2 prior messages in transcript"
+        },
+        {
+          "name": "session_isolated_for_different_object",
+          "pass": true,
+          "detail": "Isolated transcript: containsEarthquake=false, msgs=0"
+        }
+      ],
+      "detail": null,
+      "png_bytes_nonzero": true,
+      "mean_gray": 67.19,
+      "brightness_gt_40": true
+    }
+  },
+  {
+    "check": "harness-scenario",
+    "scenario": "F",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 179,
+    "run_at_iso8601": "2026-10-21T09:33:16.712Z",
+    "screenshot": "agent3/efg/F-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "checks": [
+        {
+          "name": "active_plugins_cap_and_id_regex",
+          "pass": true,
+          "detail": "activePlugins=10/10, validPluginIds=33/33"
+        },
+        {
+          "name": "plugin_panel_lifecycle_states",
+          "pass": true,
+          "detail": "present, 32 badges, allValid=true"
+        },
+        {
+          "name": "plugins_api_probe",
+          "pass": true,
+          "detail": "probe result: 200 mounted (obj)"
+        }
+      ],
+      "detail": null,
+      "png_bytes_nonzero": true,
+      "mean_gray": 67.14,
+      "brightness_gt_40": true
+    }
+  },
+  {
+    "check": "harness-scenario",
+    "scenario": "G",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 5938,
+    "run_at_iso8601": "2026-10-21T09:33:17.998Z",
+    "screenshot": "agent3/efg/G-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "checks": [
+        {
+          "name": "synthetic_502_error_ui",
+          "pass": true,
+          "detail": "Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable"
+        },
+        {
+          "name": "retry_recovery_turn_success",
+          "pass": true,
+          "detail": "Recovered turn completed (status READY)"
+        },
+        {
+          "name": "globe_and_hud_interactive_stability",
+          "pass": true,
+          "detail": "canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+        }
+      ],
+      "detail": null,
+      "png_bytes_nonzero": true,
+      "mean_gray": 68.74,
+      "brightness_gt_40": true
+    }
+  },
+  {
+    "check": "harness-scenario",
+    "scenario": "E",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 4914,
+    "run_at_iso8601": "2026-10-21T09:33:32.944Z",
+    "screenshot": "agent3/efg/E-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "checks": [
+        {
+          "name": "history_messages_present_before_switch",
+          "pass": true,
+          "detail": "Found 7 prior messages in transcript"
+        },
+        {
+          "name": "session_isolated_for_different_object",
+          "pass": true,
+          "detail": "Isolated transcript: containsEarthquake=false, msgs=0"
+        }
+      ],
+      "detail": null,
+      "png_bytes_nonzero": true,
+      "mean_gray": 67.65,
+      "brightness_gt_40": true
+    }
+  },
+  {
+    "check": "harness-scenario",
+    "scenario": "F",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 84,
+    "run_at_iso8601": "2026-10-21T09:33:38.219Z",
+    "screenshot": "agent3/efg/F-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "checks": [
+        {
+          "name": "active_plugins_cap_and_id_regex",
+          "pass": true,
+          "detail": "activePlugins=10/10, validPluginIds=33/33"
+        },
+        {
+          "name": "plugin_panel_lifecycle_states",
+          "pass": true,
+          "detail": "present, 32 badges, allValid=true"
+        },
+        {
+          "name": "plugins_api_probe",
+          "pass": true,
+          "detail": "probe result: 200 mounted (obj)"
+        }
+      ],
+      "detail": null,
+      "png_bytes_nonzero": true,
+      "mean_gray": 67.52,
+      "brightness_gt_40": true
+    }
+  },
+  {
+    "check": "harness-scenario",
+    "scenario": "G",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 6285,
+    "run_at_iso8601": "2026-10-21T09:33:38.439Z",
+    "screenshot": "agent3/efg/G-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "checks": [
+        {
+          "name": "synthetic_502_error_ui",
+          "pass": true,
+          "detail": "Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable"
+        },
+        {
+          "name": "retry_recovery_turn_success",
+          "pass": true,
+          "detail": "Recovered turn completed (status READY)"
+        },
+        {
+          "name": "globe_and_hud_interactive_stability",
+          "pass": true,
+          "detail": "canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+        }
+      ],
+      "detail": null,
+      "png_bytes_nonzero": true,
+      "mean_gray": 61.74,
+      "brightness_gt_40": true
+    }
+  },
+  {
+    "check": "failure",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 5610,
+    "run_at_iso8601": "2026-10-21T09:41:16.988Z",
+    "screenshot": "agent3/check-failure-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "intercepted": 1,
+      "status": "TURN FAILED",
+      "emptyState": {
+        "kind": "source-unavailable",
+        "text": "upstream_error \u00b7 Synthetic 502 (HTTP 502)"
+      },
+      "errorMsgs": 1,
+      "transcript": [
+        {
+          "role": "user",
+          "history": null,
+          "len": 15,
+          "text": "Trigger failure"
+        },
+        {
+          "role": "error",
+          "history": null,
+          "len": 41,
+          "text": "upstream_error \u00b7 Synthetic 502 (HTTP 502)"
+        }
+      ],
+      "run_log": "agent3/parity-run1-desktop.log"
+    }
+  },
+  {
+    "check": "retry-recovery",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 7307,
+    "run_at_iso8601": "2026-10-21T09:41:22.633Z",
+    "screenshot": "agent3/check-recovery-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "status": "READY \u00b7 inferred",
+      "chatResponse": {
+        "status": 200,
+        "keySource": "server",
+        "at": "2026-10-21T09:41:24.112Z"
+      },
+      "assistantLen": 107,
+      "assistantPreview": "Parity Fire is an object classified as a fire, but no location, time window, or other details are provided.",
+      "retryAffordance": "none (recovery via composer)",
+      "run_log": "agent3/parity-run1-desktop.log"
+    }
+  },
+  {
+    "check": "cancel",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 3373,
+    "run_at_iso8601": "2026-10-21T09:41:29.940Z",
+    "screenshot": "agent3/check-cancel-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "status": "CANCELLED",
+      "cancel_latency_ms": 2,
+      "lenAfterCancel": 9,
+      "lenAfter3s": 9,
+      "run_log": "agent3/parity-run1-desktop.log"
+    }
+  },
+  {
+    "check": "isolation",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 9250,
+    "run_at_iso8601": "2026-10-21T09:41:33.313Z",
+    "screenshot": "agent3/check-isolation-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "alertMsgs": 0,
+      "alertEmptyState": {
+        "kind": "no-sessions",
+        "text": "No prior investigation for this object"
+      },
+      "alertContainsFire": false,
+      "fireMsgsBefore": 6,
+      "fireMsgsReplayed": 2,
+      "fireReplayHistoryAttr": 2,
+      "fireReplayLive": 0,
+      "alertScreenshot": "agent3/check-isolation-alert-1440x900.png",
+      "run_log": "agent3/parity-run1-desktop.log"
+    }
+  },
+  {
+    "check": "reload-persistence",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 12717,
+    "run_at_iso8601": "2026-10-21T09:41:42.563Z",
+    "screenshot": "agent3/check-reload-persist-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "restoredMsgs": 2,
+      "historyAttr": 2,
+      "messagesResponses": [
+        {
+          "status": 200,
+          "at": "2026-10-21T09:41:51.123Z"
+        }
+      ],
+      "preview": [
+        "Recover: summarize this object in one sentence.",
+        "Parity Fire is an object classified as a fire, but no locati"
+      ],
+      "run_log": "agent3/parity-run1-desktop.log"
+    }
+  },
+  {
+    "check": "failure",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 2937,
+    "run_at_iso8601": "2026-10-21T09:52:05.550Z",
+    "screenshot": "agent3/check-failure-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "intercepted": 1,
+      "status": "TURN FAILED",
+      "emptyState": {
+        "kind": "source-unavailable",
+        "text": "upstream_error \u00b7 Synthetic 502 (HTTP 502)"
+      },
+      "errorMsgs": 1,
+      "transcript": [
+        {
+          "role": "user",
+          "history": null,
+          "len": 15,
+          "text": "Trigger failure"
+        },
+        {
+          "role": "error",
+          "history": null,
+          "len": 41,
+          "text": "upstream_error \u00b7 Synthetic 502 (HTTP 502)"
+        }
+      ],
+      "run_log": "agent3/parity-run2-mobile.log"
+    }
+  },
+  {
+    "check": "retry-recovery",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 6154,
+    "run_at_iso8601": "2026-10-21T09:52:08.491Z",
+    "screenshot": "agent3/check-recovery-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "status": "READY \u00b7 inferred",
+      "chatResponse": {
+        "status": 200,
+        "keySource": "server",
+        "at": "2026-10-21T09:52:09.093Z"
+      },
+      "assistantLen": 104,
+      "assistantPreview": "Confirmed: This object is a fire labeled \u201cParity Fire\u201d; its location and other details are not provided.",
+      "retryAffordance": "none (recovery via composer)",
+      "run_log": "agent3/parity-run2-mobile.log"
+    }
+  },
+  {
+    "check": "cancel",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 3166,
+    "run_at_iso8601": "2026-10-21T09:52:14.645Z",
+    "screenshot": "agent3/check-cancel-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "status": "CANCELLED",
+      "cancel_latency_ms": 5,
+      "lenAfterCancel": 9,
+      "lenAfter3s": 9,
+      "run_log": "agent3/parity-run2-mobile.log"
+    }
+  },
+  {
+    "check": "isolation",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 8834,
+    "run_at_iso8601": "2026-10-21T09:52:17.811Z",
+    "screenshot": "agent3/check-isolation-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "alertMsgs": 0,
+      "alertEmptyState": {
+        "kind": "no-sessions",
+        "text": "No prior investigation for this object"
+      },
+      "alertContainsFire": false,
+      "fireMsgsBefore": 6,
+      "fireMsgsReplayed": 2,
+      "fireReplayHistoryAttr": 2,
+      "fireReplayLive": 0,
+      "alertScreenshot": "agent3/check-isolation-alert-390x844.png",
+      "run_log": "agent3/parity-run2-mobile.log"
+    }
+  },
+  {
+    "check": "reload-persistence",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 10804,
+    "run_at_iso8601": "2026-10-21T09:52:26.645Z",
+    "screenshot": "agent3/check-reload-persist-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "restoredMsgs": 2,
+      "historyAttr": 2,
+      "messagesResponses": [
+        {
+          "status": 200,
+          "at": "2026-10-21T09:52:34.924Z"
+        }
+      ],
+      "preview": [
+        "Recover: summarize this object in one sentence.",
+        "Confirmed: This object is a fire labeled \u201cParity Fire\u201d; its "
+      ],
+      "run_log": "agent3/parity-run2-mobile.log"
+    }
+  },
+  {
+    "check": "3way-isolation",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 40759,
+    "run_at_iso8601": "2026-10-21T09:52:37.462Z",
+    "screenshot": "agent3/check-3way-isolation-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "storageKey": "ondemand.v2.externalUserId.default",
+      "externalUserIds": [
+        "iso-user-1-0917",
+        "iso-user-2-0917",
+        "iso-user-3-0917"
+      ],
+      "perPage": [
+        {
+          "page": 1,
+          "userId": "iso-user-1-0917",
+          "userMsgs": 1,
+          "own": 1,
+          "foreign": 0,
+          "status": "READY \u00b7 inferred",
+          "assistantLen": 2
+        },
+        {
+          "page": 2,
+          "userId": "iso-user-2-0917",
+          "userMsgs": 1,
+          "own": 1,
+          "foreign": 0,
+          "status": "READY \u00b7 inferred",
+          "assistantLen": 2
+        },
+        {
+          "page": 3,
+          "userId": "iso-user-3-0917",
+          "userMsgs": 1,
+          "own": 1,
+          "foreign": 0,
+          "status": "READY \u00b7 inferred",
+          "assistantLen": 2
+        }
+      ],
+      "run_log": "agent3/parity-run2-mobile.log"
+    }
+  },
+  {
+    "check": "composer-hit-testable-under-serverless-banner",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": null,
+    "run_at_iso8601": "2026-10-21T10:03:00Z",
+    "screenshot": "agent3/check-banner-occlusion-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "bannerPresent": true,
+      "banner": {
+        "x": 400,
+        "y": 813,
+        "w": 640,
+        "h": 75
+      },
+      "send": {
+        "x": 1195,
+        "y": 769,
+        "w": 208,
+        "h": 32
+      },
+      "input": {
+        "x": 1003,
+        "y": 769,
+        "w": 186,
+        "h": 32
+      },
+      "sendOverlapPx": 0,
+      "inputOverlapPx": 0,
+      "sendHittable": true,
+      "inputHittable": true,
+      "bannerZ": "2147483000",
+      "chatZ": "186",
+      "source": "src/serverlessMode.js installServerlessNotice(): position:fixed;bottom:12px;left/right:12px;z-index:2147483000 vs #ondemand-mini-chat z-index 186",
+      "repro": "parity-run1-desktop.log mobile block: puppeteer page.click(#ondemand-mini-chat-send) at real coordinates landed on the banner span (elementFromPoint) -> no user message, no POST /api/ondemand/v2/chat; tap-probe-390x844.log / tap-probe2-390x844.log show elementsFromPoint stack (banner span, banner div z=2147483000, then button#ondemand-mini-chat-send)",
+      "workaround_used_for_parity_checks": "element.click() via page.evaluate (bypasses hit-testing) in parity-run2-mobile.log; the app logic itself is correct, only the real-pointer path is blocked until the banner is dismissed (\u00d7 button) or sessionStorage dismissal key is set"
+    }
+  },
+  {
+    "check": "composer-hit-testable-under-serverless-banner",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "DEFECT",
+    "duration_ms": null,
+    "run_at_iso8601": "2026-10-21T10:03:00Z",
+    "screenshot": "agent3/check-banner-occlusion-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "bannerPresent": true,
+      "banner": {
+        "x": 12,
+        "y": 739,
+        "w": 366,
+        "h": 93
+      },
+      "send": {
+        "x": 205,
+        "y": 801,
+        "w": 166,
+        "h": 32
+      },
+      "input": {
+        "x": 13,
+        "y": 801,
+        "w": 186,
+        "h": 32
+      },
+      "sendOverlapPx": 5146,
+      "inputOverlapPx": 5766,
+      "sendHittable": false,
+      "inputHittable": false,
+      "bannerZ": "2147483000",
+      "chatZ": "186",
+      "source": "src/serverlessMode.js installServerlessNotice(): position:fixed;bottom:12px;left/right:12px;z-index:2147483000 vs #ondemand-mini-chat z-index 186",
+      "repro": "parity-run1-desktop.log mobile block: puppeteer page.click(#ondemand-mini-chat-send) at real coordinates landed on the banner span (elementFromPoint) -> no user message, no POST /api/ondemand/v2/chat; tap-probe-390x844.log / tap-probe2-390x844.log show elementsFromPoint stack (banner span, banner div z=2147483000, then button#ondemand-mini-chat-send)",
+      "workaround_used_for_parity_checks": "element.click() via page.evaluate (bypasses hit-testing) in parity-run2-mobile.log; the app logic itself is correct, only the real-pointer path is blocked until the banner is dismissed (\u00d7 button) or sessionStorage dismissal key is set"
+    }
+  }
+]
