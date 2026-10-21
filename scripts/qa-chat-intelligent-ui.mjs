@@ -3,7 +3,7 @@
  * Intelligent UI Chat Verification Harness (Scenarios A–G across viewports).
  *
  * Usage:
- *   node scripts/qa-chat-intelligent-ui.mjs --url <base> --out <dir> [--viewports 1440x900,390x844] [--scenarios A-G]
+ *   node scripts/qa-chat-intelligent-ui.mjs --url <base> --out <dir> [--viewports 1440x900,390x844] [--scenarios A-G] [--format jpg|png]
  *
  * Scenarios:
  *   A: Deliverables — boot, branding, title, health & contracts endpoints
@@ -111,15 +111,16 @@ const globalTimer = setTimeout(() => {
 }, TOTAL_TIMEOUT_MS);
 
 // Screenshot helper (pauses Cesium render loop if present)
+const SHOT_FORMAT = (args.format || 'jpg').toLowerCase() === 'png' ? 'png' : 'jpeg';
 async function captureScreenshot(page, scenarioId, viewportName) {
-  const filename = `${scenarioId}-${viewportName}.jpg`;
+  const filename = `${scenarioId}-${viewportName}.${SHOT_FORMAT === 'png' ? 'png' : 'jpg'}`;
   const filePath = path.join(outDir, filename);
   try {
     await page.evaluate(() => {
       const v = window.__godsEyeView?.viewer;
       if (v) v.useDefaultRenderLoop = false;
     }).catch(() => {});
-    await page.screenshot({ path: filePath, type: 'jpeg', quality: 60 });
+    await page.screenshot(SHOT_FORMAT === 'png' ? { path: filePath, type: 'png' } : { path: filePath, type: 'jpeg', quality: 60 });
     await page.evaluate(() => {
       const v = window.__godsEyeView?.viewer;
       if (v) v.useDefaultRenderLoop = true;
@@ -128,6 +129,49 @@ async function captureScreenshot(page, scenarioId, viewportName) {
     log(`Warning: Failed to capture screenshot ${filename}: ${err?.message}`);
   }
   return filename;
+}
+
+
+// Seed helper: scenarios D/E/G assume the earthquake object already carries a
+// transcript (normally produced by B/C on the same page). When a subset such as
+// "--scenarios E,F" runs on a fresh page, seed one real turn first so every
+// scenario is self-contained and the cells stay independent of run order.
+async function ensureEarthquakeHistory(page, { minMessages = 2 } = {}) {
+  await page.evaluate(() => {
+    window.dispatchEvent(
+      new CustomEvent('gev:ask-object', {
+        detail: { objectType: 'earthquake', objectId: 'earthquakes-global', label: 'Global Earthquakes' },
+      })
+    );
+  });
+  await page
+    .waitForFunction(() => document.getElementById('ondemand-mini-chat')?.getAttribute('data-open') === 'true', { timeout: 10000 })
+    .catch(() => {});
+  const count = await page.evaluate(() => document.querySelectorAll('#ondemand-mini-chat-transcript .od-chat__msg').length);
+  if (count >= minMessages) return { seeded: false, count };
+  log(`Seeding earthquake transcript (found ${count} message(s), need ${minMessages})`);
+  await page.evaluate((text) => {
+    const input = document.getElementById('ondemand-mini-chat-input');
+    if (input) {
+      input.value = text;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    document.getElementById('ondemand-mini-chat-send')?.click();
+  }, 'Summarize this object in one sentence.');
+  await page
+    .waitForFunction(
+      () => {
+        const s = document.getElementById('ondemand-mini-chat-status')?.textContent || '';
+        const stop = document.getElementById('ondemand-mini-chat-stop');
+        const stopHidden = !stop || stop.hidden || stop.style.display === 'none';
+        const msgs = document.querySelectorAll('#ondemand-mini-chat-transcript .od-chat__msg').length;
+        return (s.includes('READY') || s.includes('IDLE') || s.includes('FAILED')) && stopHidden && msgs >= 2;
+      },
+      { timeout: 90000 }
+    )
+    .catch(() => {});
+  const after = await page.evaluate(() => document.querySelectorAll('#ondemand-mini-chat-transcript .od-chat__msg').length);
+  return { seeded: true, count: after };
 }
 
 // Timeout wrapper per scenario
@@ -233,18 +277,32 @@ try {
     log(`Navigating page to: ${appUrl}`);
     await page.goto(appUrl, { waitUntil: 'domcontentloaded', timeout: 90000 });
 
-    // Wait for boot: loading screen hides OR canvas exists
-    await page.waitForFunction(
-      () => {
-        const loading = document.querySelector('#loading-screen');
-        const canvas = document.querySelector('canvas');
-        const dm = window.__godsEyeView?.dataManager;
-        return (loading && loading.classList.contains('hidden')) || (canvas && dm);
-      },
-      { timeout: 90000 }
-    ).catch(() => {});
+    // Wait for boot. The loading overlay (#loading-screen, z-index 1000) only
+    // hides after the style restore + a 0.8 s opacity transition; a screenshot
+    // taken while it is still fading shows the loader instead of the UI under
+    // test, so prefer "loader hidden" and only fall back to canvas+dataManager.
+    const bootT0 = Date.now();
+    const loaderHidden = await page
+      .waitForFunction(
+        () => {
+          const loading = document.querySelector('#loading-screen');
+          return !loading || loading.classList.contains('hidden');
+        },
+        { timeout: 90000 }
+      )
+      .then(() => true)
+      .catch(() => false);
+    if (!loaderHidden) {
+      await page
+        .waitForFunction(() => document.querySelector('canvas') && window.__godsEyeView?.dataManager, { timeout: 30000 })
+        .catch(() => {});
+    }
+    const bootMs = Date.now() - bootT0;
+    results.summary.byViewport[vp.name].bootMs = bootMs;
+    results.summary.byViewport[vp.name].loaderHidden = loaderHidden;
+    log(`Boot [${vp.name}]: loader hidden=${loaderHidden} after ${bootMs} ms`);
 
-    // Settle delay
+    // Settle delay (also lets the loader's 0.8 s fade finish)
     await new Promise((r) => setTimeout(r, 2000));
 
     // Run each scenario in sequence on this page
@@ -523,15 +581,13 @@ try {
             });
           } else if (scId === 'D') {
             // Scenario D: Root-first UI
-            // Ensure mini chat is open
-            await page.evaluate(() => {
-              window.dispatchEvent(
-                new CustomEvent('gev:ask-object', {
-                  detail: { objectType: 'earthquake', objectId: 'earthquakes-global', label: 'Global Earthquakes' },
-                })
-              );
+            // Ensure mini chat is open with a transcript to replay (self-seeding when run alone)
+            const seedD = await ensureEarthquakeHistory(page);
+            checks.push({
+              name: 'earthquake_history_available',
+              pass: seedD.count >= 2,
+              detail: `transcript messages=${seedD.count}${seedD.seeded ? ' (seeded in this scenario)' : ' (from earlier scenario)'}`,
             });
-            await page.waitForFunction(() => document.getElementById('ondemand-mini-chat')?.getAttribute('data-open') === 'true', { timeout: 10000 });
 
             if (vp.width <= 640) {
               // Mobile 390x844 layout assertions
@@ -609,10 +665,9 @@ try {
             });
           } else if (scId === 'E') {
             // Scenario E: Summarization vs history
-            // 1. Transcript child count >= 2 for current earthquake object
-            const priorCount = await page.evaluate(() => {
-              return document.querySelectorAll('#ondemand-mini-chat-transcript .od-chat__msg').length;
-            });
+            // 1. Transcript child count >= 2 for the earthquake object (self-seeding when run alone)
+            const seedE = await ensureEarthquakeHistory(page);
+            const priorCount = seedE.count;
 
             checks.push({
               name: 'history_messages_present_before_switch',

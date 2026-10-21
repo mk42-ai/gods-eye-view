@@ -1,0 +1,762 @@
+{
+  "live_sandbox_url": "https://sb-72vtzc1c6cf8.vercel.run",
+  "sandbox_id": "sbx_pZgfovEYwxtQu48zPwIg0rVujhWO",
+  "successor_sandbox": {
+    "url": "https://sb-6p9xpg654ouc.vercel.run",
+    "sandbox_id": "sbx_5nzv1jxgsXOEfEknNB6MTQhA2Xgk",
+    "cells_passed": 14,
+    "cells_total": 14
+  },
+  "workspace_head_before": "aa3eb8d",
+  "results_matrix": [
+    {
+      "scenario": "A",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 235,
+      "checks_passed": "6/6",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:24:30.972Z",
+      "agent": 1,
+      "evidence": "app_boots: Loading screen hidden or globe canvas active; title_contains_product_name: document.title=\"OnDemand Intelligence Workstation\"; no_legacy_brand_terms: No forbidden terms visible; brand_mark_present: Found 2 [data-brand-mark] element(s); foundation_health_200: status 200, ok=true, keySource=server; foundation_contracts_min_13: status 200, 33 contracts"
+    },
+    {
+      "scenario": "B",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 5992,
+      "checks_passed": "5/5",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/ab/B-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/ab/B-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:01:03.173Z",
+      "agent": 1,
+      "evidence": "mini_chat_opens_earthquake: Mini chat opened with data-open=\"true\"; status_streaming_and_stop_visible: streamingStatusSeen=true, stopButtonSeen=true; assistant_message_and_settle: settled within 90s, assistant message chars: 83; key_source_server_header: x-ondemand-key-source header: \"server\"; no_client_api_key_in_localstorage: localStorage ondemand.apiKey is null"
+    },
+    {
+      "scenario": "C",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 8699,
+      "checks_passed": "2/2",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/C-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/C-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:02:15.521Z",
+      "agent": 2,
+      "evidence": "citations_query_completed: Turn completed within 90s; citations_or_honest_state: links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+    },
+    {
+      "scenario": "D",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 98,
+      "checks_passed": "4/4",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/D-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/D-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:02:27.088Z",
+      "agent": 2,
+      "evidence": "earthquake_history_available: transcript messages=2 (from earlier scenario); desktop_no_hud_brand_mark_overlap: overlap=false, checked against 2 brand mark(s); close_button_sets_closed: Mini chat closed (data-open=\"false\"); reopen_restores_transcript: Transcript replayed 2 messages upon reopen (expected >= 2)"
+    },
+    {
+      "scenario": "E",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 7314,
+      "checks_passed": "2/2",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/E-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/E-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:03:38.512Z",
+      "agent": 3,
+      "evidence": "history_messages_present_before_switch: Found 2 prior messages in transcript; session_isolated_for_different_object: Isolated transcript: containsEarthquake=false, msgs=0"
+    },
+    {
+      "scenario": "F",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 401,
+      "checks_passed": "3/3",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/F-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/F-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:03:47.291Z",
+      "agent": 3,
+      "evidence": "active_plugins_cap_and_id_regex: activePlugins=10/10, validPluginIds=33/33; plugin_panel_lifecycle_states: present, 32 badges, allValid=true; plugins_api_probe: probe result: 200 mounted (obj)"
+    },
+    {
+      "scenario": "G",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 7409,
+      "checks_passed": "3/3",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/g/G-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/g/G-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:03:03.425Z",
+      "agent": 4,
+      "evidence": "synthetic_502_error_ui: Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable; retry_recovery_turn_success: Recovered turn completed (status READY); globe_and_hud_interactive_stability: canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+    },
+    {
+      "scenario": "A",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 211,
+      "checks_passed": "6/6",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-390x844.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-390x844.png",
+      "run_at_iso8601": "2026-10-21T08:24:40.765Z",
+      "agent": 1,
+      "evidence": "app_boots: Loading screen hidden or globe canvas active; title_contains_product_name: document.title=\"OnDemand Intelligence Workstation\"; no_legacy_brand_terms: No forbidden terms visible; brand_mark_present: Found 2 [data-brand-mark] element(s); foundation_health_200: status 200, ok=true, keySource=server; foundation_contracts_min_13: status 200, 33 contracts"
+    },
+    {
+      "scenario": "B",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 6022,
+      "checks_passed": "5/5",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/ab/B-390x844.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/ab/B-390x844.png",
+      "run_at_iso8601": "2026-10-21T08:01:16.419Z",
+      "agent": 1,
+      "evidence": "mini_chat_opens_earthquake: Mini chat opened with data-open=\"true\"; status_streaming_and_stop_visible: streamingStatusSeen=true, stopButtonSeen=true; assistant_message_and_settle: settled within 90s, assistant message chars: 164; key_source_server_header: x-ondemand-key-source header: \"server\"; no_client_api_key_in_localstorage: localStorage ondemand.apiKey is null"
+    },
+    {
+      "scenario": "C",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 7039,
+      "checks_passed": "2/2",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/C-390x844.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/C-390x844.png",
+      "run_at_iso8601": "2026-10-21T08:02:36.371Z",
+      "agent": 2,
+      "evidence": "citations_query_completed: Turn completed within 90s; citations_or_honest_state: links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+    },
+    {
+      "scenario": "D",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 161,
+      "checks_passed": "4/4",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/D-390x844.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/D-390x844.png",
+      "run_at_iso8601": "2026-10-21T08:02:46.022Z",
+      "agent": 2,
+      "evidence": "earthquake_history_available: transcript messages=4 (from earlier scenario); mobile_viewport_fit_and_input_visible: fitsViewport=true, inputVisible=true, noHScroll=true; close_button_sets_closed: Mini chat closed (data-open=\"false\"); reopen_restores_transcript: Transcript replayed 4 messages upon reopen (expected >= 2)"
+    },
+    {
+      "scenario": "E",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 3978,
+      "checks_passed": "2/2",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/E-390x844.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/E-390x844.png",
+      "run_at_iso8601": "2026-10-21T08:03:52.517Z",
+      "agent": 3,
+      "evidence": "history_messages_present_before_switch: Found 4 prior messages in transcript; session_isolated_for_different_object: Isolated transcript: containsEarthquake=false, msgs=0"
+    },
+    {
+      "scenario": "F",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 79,
+      "checks_passed": "3/3",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/F-390x844.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/F-390x844.png",
+      "run_at_iso8601": "2026-10-21T08:03:57.204Z",
+      "agent": 3,
+      "evidence": "active_plugins_cap_and_id_regex: activePlugins=10/10, validPluginIds=33/33; plugin_panel_lifecycle_states: present, 32 badges, allValid=true; plugins_api_probe: probe result: 200 mounted (obj)"
+    },
+    {
+      "scenario": "G",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 6315,
+      "checks_passed": "3/3",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/g/G-390x844.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/g/G-390x844.png",
+      "run_at_iso8601": "2026-10-21T08:03:16.821Z",
+      "agent": 4,
+      "evidence": "synthetic_502_error_ui: Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable; retry_recovery_turn_success: Recovered turn completed (status READY); globe_and_hud_interactive_stability: canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+    },
+    {
+      "scenario": "parity-streaming",
+      "viewport": "both",
+      "status": "PASS",
+      "duration_ms": 24960,
+      "checks_passed": "4/4",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/check-streaming-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/check-streaming-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:08:00.204Z",
+      "agent": 1,
+      "evidence": "sameKeySource=true (server); bothStreamed=true; stopButtonVisible=true; TTFT desktop=3332ms, mobile=4417ms, |diff|=1085ms; localStorageApiKeyIsNull=true; finalStatus=\"READY · inferred\"; assistantChars: desktop=96, mobile=147"
+    },
+    {
+      "scenario": "parity-hud-summary",
+      "viewport": "both",
+      "status": "PASS",
+      "duration_ms": 1388,
+      "checks_passed": "3/3",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/check-hud-summary-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/check-hud-summary-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:08:12.606Z",
+      "agent": 1,
+      "evidence": "hudSummaryPopulated=true (active telemetry, isAwaitingTelemetry=false); bothHudOpenable=true (objectType=\"hudSummary\", kind=\"HUD SUMMARY · global\"); mobile bounding box fits 390x844 with zero horizontal scroll (scrollWidth 390 <= innerWidth 390)"
+    },
+    {
+      "scenario": "parity-failure-retry",
+      "viewport": "both",
+      "status": "PASS",
+      "duration_ms": 26000,
+      "checks_passed": "4/4",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-recovery-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-recovery-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:28:53.874Z",
+      "agent": 4,
+      "evidence": "sameFailureUiElement=true (.od-chat__msg--error + status TURN FAILED + .od-empty-state--source-unavailable); sameRecoveryKeySource=true (server); assistant characters desktop=386, mobile=367; retryAffordanceExists=false on both (retry conducted via composer)"
+    },
+    {
+      "scenario": "parity-cancel",
+      "viewport": "both",
+      "status": "PASS",
+      "duration_ms": 5000,
+      "checks_passed": "2/2",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-cancel-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-cancel-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:28:58.182Z",
+      "agent": 4,
+      "evidence": "statusText=\"CANCELLED\" within 5s after clicking stop; noFurtherTextArrivedFor3s=true (0 tokens received over 3s window on both desktop and mobile)"
+    },
+    {
+      "scenario": "parity-session-isolation",
+      "viewport": "both",
+      "status": "PASS",
+      "duration_ms": 3000,
+      "checks_passed": "2/2",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-isolation-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-isolation-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:29:08.276Z",
+      "agent": 4,
+      "evidence": "bothIsolated=true; alertMessageCount=0, alertEmptyState=\"No prior investigation for this object\", alertContainsFire=false; fireReopenedMessageCount=4 restored without message bleed"
+    },
+    {
+      "scenario": "parity-reload-persistence",
+      "viewport": "both",
+      "status": "PASS",
+      "duration_ms": 10000,
+      "checks_passed": "2/2",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-reload-persist-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-reload-persist-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:29:18.317Z",
+      "agent": 4,
+      "evidence": "bothPersistedAfterReload=true; full page.reload() restored all 4 conversation turns from server conversation store (/api/ondemand/v2/messages) on both desktop and mobile"
+    },
+    {
+      "scenario": "plugin-lifecycle-api",
+      "viewport": "both",
+      "status": "PASS",
+      "duration_ms": 350000,
+      "checks_passed": "8/8",
+      "screenshot": null,
+      "screenshot_url": null,
+      "run_at_iso8601": "2026-10-21T08:06:05.434Z",
+      "agent": 3,
+      "evidence": "GET plugins before: 32 discovered; POST verify websearch: ready (6075ms); POST verify xmcp: failed inactive_on_account (400); POST verify all: 10 active ready (latencies 4712-11391ms, avg 6186.2ms); GET plugins after: 10 ready, 1 failed, 21 discovered; POST user mismatch probe: 403 user_mismatch; GET health: 200 (contracts=33, active=10, keySource=server); GET contracts: 200 (11/11 plugin IDs valid regex)"
+    },
+    {
+      "scenario": "plugin-lifecycle-badges",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 25000,
+      "checks_passed": "4/4",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:27:40.606Z",
+      "agent": 3,
+      "evidence": "initialBadgesCount=32; websearch click transitioned to VERIFYING… (disabled) then READY (latency 4526ms, 6m ago); xmcp transitioned to FAILED (\"This research source is currently inactive on the OnDemand account.\"); summaryCount=\"10 ready\""
+    },
+    {
+      "scenario": "plugin-lifecycle-badges",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 25000,
+      "checks_passed": "4/4",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-390x844.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-390x844.png",
+      "run_at_iso8601": "2026-10-21T08:27:40.606Z",
+      "agent": 3,
+      "evidence": "initialBadgesCount=32; websearch click transitioned to VERIFYING… (disabled) then READY (latency 4526ms, just now); xmcp transitioned to FAILED (\"This research source is currently inactive on the OnDemand account.\"); summaryCount=\"10 ready\""
+    },
+    {
+      "scenario": "branding-title-wordmark",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 500,
+      "checks_passed": "3/3",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:02:08.763Z",
+      "agent": 2,
+      "evidence": "document.title=\"OnDemand Intelligence Workstation\"; #title-bar [data-product-wordmark] contains \"OnDemand Intelligence\"; brand mark SVG 52x34.88px rendered at (x:49, y:43)"
+    },
+    {
+      "scenario": "branding-title-wordmark",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 500,
+      "checks_passed": "3/3",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-390x844.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-390x844.png",
+      "run_at_iso8601": "2026-10-21T08:02:08.763Z",
+      "agent": 2,
+      "evidence": "document.title=\"OnDemand Intelligence Workstation\"; #title-bar [data-product-wordmark] contains \"OnDemand Intelligence\"; brand mark SVG 36x24.14px rendered at (x:29, y:25)"
+    },
+    {
+      "scenario": "branding-no-legacy-terms",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 200,
+      "checks_passed": "2/2",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+      "run_at_iso8601": "2026-10-21T08:02:08.763Z",
+      "agent": 2,
+      "evidence": "0 forbidden terms in document.body.innerText (case-insensitive check for \"God's Eye\", \"GEV MIC\", \"Gods Eye\", \"OpenAI\"); no eye motif in DOM tags or attributes"
+    },
+    {
+      "scenario": "branding-no-legacy-terms",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 200,
+      "checks_passed": "2/2",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-390x844.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-390x844.png",
+      "run_at_iso8601": "2026-10-21T08:02:08.763Z",
+      "agent": 2,
+      "evidence": "0 forbidden terms in document.body.innerText (case-insensitive check for \"God's Eye\", \"GEV MIC\", \"Gods Eye\", \"OpenAI\"); no eye motif in DOM tags or attributes"
+    },
+    {
+      "scenario": "legacy-openai-realtime-grep",
+      "viewport": "both",
+      "status": "PASS",
+      "duration_ms": 1250,
+      "checks_passed": "4/4",
+      "screenshot": null,
+      "screenshot_url": null,
+      "run_at_iso8601": "2026-10-21T08:24:30.000Z",
+      "agent": 4,
+      "evidence": "runtime OpenAI/Realtime references: 0; non-test grep hits: 45 across 19 files (GTFS-realtime=20, docs/comments/settings metadata=21, symbol identifiers=4); production bundle 0 runtime calls; provider directory removed in d44264f"
+    }
+  ],
+  "before_after_evidence": [
+    {
+      "cell": "A@1440x900",
+      "issue": "Harness boot-wait originally returned as soon as a canvas + dataManager existed, so Scenario A screenshot (~1s post-boot) captured #loading-screen overlay instead of settled UI; checks passed via DOM",
+      "before_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-before/A-1440x900-before.png",
+      "after_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-1440x900.png",
+      "before_run_at": "2026-10-21T08:01:01.357Z",
+      "after_run_at": "2026-10-21T08:24:30.972Z",
+      "fix": "scripts/qa-chat-intelligent-ui.mjs boot wait (loader hidden first) — harness-only, no app change"
+    },
+    {
+      "cell": "A@390x844",
+      "issue": "Harness boot-wait originally returned as soon as a canvas + dataManager existed, so Scenario A screenshot (~1s post-boot) captured #loading-screen overlay instead of settled UI; checks passed via DOM",
+      "before_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-before/A-390x844-before.png",
+      "after_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-390x844.png",
+      "before_run_at": "2026-10-21T08:01:13.963Z",
+      "after_run_at": "2026-10-21T08:24:40.765Z",
+      "fix": "scripts/qa-chat-intelligent-ui.mjs boot wait (loader hidden first) — harness-only, no app change"
+    },
+    {
+      "cell": "agent2/empty-states-backdrop",
+      "issue": "Focused script (/tmp/agent2-empty.mjs) boot wait captured loading screen backdrop rather than settled UI states; recaptured with #loading-screen.hidden wait",
+      "before_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/overlay-before/check-backdrop-1440x900.png",
+      "after_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-backdrop-1440x900.png",
+      "before_run_at": "2026-10-21T08:18:03.646Z",
+      "after_run_at": "2026-10-21T08:27:40.612Z",
+      "fix": "Applied loader hidden check to /tmp/agent2-empty.mjs — harness-only, no app change"
+    },
+    {
+      "cell": "agent3/plugin-badges",
+      "issue": "Focused script (/tmp/agent3-plugins.mjs) captured plugin panel while initial overlay was still fading; recaptured with loader hidden wait",
+      "before_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/overlay-before/check-plugins-ready-1440x900.png",
+      "after_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-1440x900.png",
+      "before_run_at": "2026-10-21T08:21:34.810Z",
+      "after_run_at": "2026-10-21T08:27:40.606Z",
+      "fix": "Applied loader hidden check to /tmp/agent3-plugins.mjs — harness-only, no app change"
+    },
+    {
+      "cell": "agent4/regression-failure-reload",
+      "issue": "Focused script (/tmp/agent4-regression.mjs) captured failure and reload states before loading overlay had completely cleared; recaptured with loader hidden wait",
+      "before_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/overlay-before/check-failure-1440x900.png",
+      "after_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-failure-1440x900.png",
+      "before_run_at": "2026-10-21T08:18:20.956Z",
+      "after_run_at": "2026-10-21T08:28:42.240Z",
+      "fix": "Applied loader hidden check to /tmp/agent4-regression.mjs — harness-only, no app change"
+    }
+  ],
+  "unit_test_summary": {
+    "passed": 4673,
+    "failed": 0,
+    "skipped": 1,
+    "total": 4674,
+    "node": "22.23.3",
+    "breakdown": {
+      "npm_test_src": {
+        "passed": 4189,
+        "failed": 0,
+        "skipped": 1,
+        "total": 4190,
+        "scope": "src/**/*.test.mjs"
+      },
+      "test_foundation": {
+        "passed": 76,
+        "failed": 0,
+        "skipped": 0,
+        "total": 76,
+        "scope": "server/ondemand/foundation/*.test.mjs"
+      },
+      "test_ondemand": {
+        "passed": 250,
+        "failed": 0,
+        "skipped": 0,
+        "total": 250,
+        "scope": "server/ondemand/*.test.mjs"
+      },
+      "test_serverless": {
+        "passed": 57,
+        "failed": 0,
+        "skipped": 0,
+        "total": 57,
+        "scope": "server/serverless/*.test.mjs"
+      },
+      "node_test_tools": {
+        "passed": 45,
+        "failed": 0,
+        "skipped": 0,
+        "total": 45,
+        "scope": "server/tools/*.test.mjs"
+      },
+      "node_test_providers_sources": {
+        "passed": 56,
+        "failed": 0,
+        "skipped": 0,
+        "total": 56,
+        "scope": "server/providers/*.test.mjs server/sources/*.test.mjs"
+      }
+    },
+    "skipped_detail": "Windows production hardener applies its exact DACL with native tools (platform-gated to win32)",
+    "allocation_benchmarks_skipped_files": 2
+  },
+  "asset_render_checks": [
+    {
+      "asset": "/assets/brand/backdrop-network.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 1243829,
+      "sha256_match": "Catalog: MATCH (cba96745...); Original: N/A",
+      "rendered_desktop": "YES (#loading-screen background-image)",
+      "rendered_mobile": "YES (#loading-screen background-image)",
+      "no_text_or_eye_motif": "FAIL on strict automated OCR threshold (10 alnum chars noise from graph nodes/lines); PASS on visual inspection (abstract network constellation graph; no text; no eye motif)",
+      "ocr_evidence": "psm 11: 10 alnum ('Ta me ke < ax > eo'); psm 6: 0 alnum ('')",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-backdrop-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-backdrop-1440x900.png",
+      "notes": "Trips strict automated OCR noise threshold (10 noise chars from dense constellation graph line intersections), but passes visual and Hough inspection (0 concentric pairs); abstract network constellation topology"
+    },
+    {
+      "asset": "/assets/brand/empty-no-results.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 854662,
+      "sha256_match": "Catalog: MATCH (91c63a81...); Original: N/A",
+      "rendered_desktop": "YES (.od-empty-state--no-results::before)",
+      "rendered_mobile": "YES (.od-empty-state--no-results::before)",
+      "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+      "ocr_evidence": "psm 11: 0 alnum (''); psm 6: 2 alnum ('ee =')",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-no-results-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-no-results-1440x900.png",
+      "notes": "Rendered in UI via .od-empty-state--no-results::before on empty research search"
+    },
+    {
+      "asset": "/assets/brand/empty-no-sessions.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 833892,
+      "sha256_match": "Catalog: MATCH (99986406...); Original: MATCH (p2UMfLtxCv.png)",
+      "rendered_desktop": "YES (.od-empty-state--no-sessions::before)",
+      "rendered_mobile": "YES (.od-empty-state--no-sessions::before)",
+      "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles; palette verified)",
+      "ocr_evidence": "psm 11: 2 alnum ('an'); psm 6: 2 alnum ('(og')",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-no-sessions-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-no-sessions-1440x900.png",
+      "notes": "Rendered in UI via .od-empty-state--no-sessions::before on unqueried entity context; palette verified within tolerance"
+    },
+    {
+      "asset": "/assets/brand/empty-source-unavailable.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 851438,
+      "sha256_match": "Catalog: MATCH (9722bbf3...); Original: N/A",
+      "rendered_desktop": "YES (.od-empty-state--source-unavailable::before)",
+      "rendered_mobile": "YES (.od-empty-state--source-unavailable::before)",
+      "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+      "ocr_evidence": "psm 11: 0 alnum ('-----'); psm 6: 3 alnum ('Sre')",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-source-unavailable-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-source-unavailable-1440x900.png",
+      "notes": "Rendered in UI via .od-empty-state--source-unavailable::before on synthetic 502 / upstream failure"
+    },
+    {
+      "asset": "/assets/brand/mark-primary.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 828607,
+      "sha256_match": "Catalog: MATCH (43abf5cc...); Original: N/A",
+      "rendered_desktop": "Not rendered directly in UI",
+      "rendered_mobile": "Not rendered directly in UI",
+      "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+      "ocr_evidence": "psm 11: 0 alnum ('<>'); psm 6: 0 alnum ('')",
+      "screenshot": null,
+      "screenshot_url": null,
+      "notes": "Served HTTP 200 but not rendered directly in UI (feeds og-image.png composite for social preview; UI uses /brand/mark-light.svg)"
+    },
+    {
+      "asset": "/assets/brand/mark-mono.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 882285,
+      "sha256_match": "Catalog: MATCH (e38da23a...); Original: N/A",
+      "rendered_desktop": "Not rendered directly in UI",
+      "rendered_mobile": "Not rendered directly in UI",
+      "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+      "ocr_evidence": "psm 11: 0 alnum (''); psm 6: 2 alnum ('Bi')",
+      "screenshot": null,
+      "screenshot_url": null,
+      "notes": "Served HTTP 200 but not rendered directly in UI (source asset used to generate favicon.ico, favicon-32.png, apple-touch-icon.png)"
+    },
+    {
+      "asset": "/assets/brand/mark-variant-a.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 770292,
+      "sha256_match": "Catalog: MATCH (0556ca19...); Original: MATCH (8dxSOsnbYr.png)",
+      "rendered_desktop": "Not rendered in UI",
+      "rendered_mobile": "Not rendered in UI",
+      "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+      "ocr_evidence": "psm 11: 0 alnum (''); psm 6: 2 alnum ('cs')",
+      "screenshot": null,
+      "screenshot_url": null,
+      "notes": "Served HTTP 200 but not rendered in UI (alternate candidate mark in static brand library)"
+    },
+    {
+      "asset": "/assets/brand/mark-variant-b.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 848084,
+      "sha256_match": "Catalog: MATCH (f7ea09b7...); Original: MATCH (QUKWX8jhhC.png)",
+      "rendered_desktop": "Not rendered in UI",
+      "rendered_mobile": "Not rendered in UI",
+      "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+      "ocr_evidence": "psm 11: 0 alnum (''); psm 6: 2 alnum ('cs')",
+      "screenshot": null,
+      "screenshot_url": null,
+      "notes": "Served HTTP 200 but not rendered in UI (alternate candidate mark in static brand library)"
+    },
+    {
+      "asset": "/assets/brand/favicon.ico",
+      "http_status": 200,
+      "content_type": "image/x-icon",
+      "bytes": 655,
+      "sha256_match": "Catalog: MATCH (fdd1dc86...); Original: N/A",
+      "rendered_desktop": "YES (browser tab / bookmark icon via <link rel=\"icon\">)",
+      "rendered_mobile": "YES (browser tab / bookmark icon via <link rel=\"icon\">)",
+      "no_text_or_eye_motif": "PASS",
+      "ocr_evidence": "N/A (derived icon)",
+      "screenshot": null,
+      "screenshot_url": null,
+      "notes": "Browser tab / bookmark icon via <link rel=\"icon\" href=\"/assets/brand/favicon.ico\" sizes=\"any\">"
+    },
+    {
+      "asset": "/assets/brand/favicon-32.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 1714,
+      "sha256_match": "Catalog: MATCH (c6666d54...); Original: N/A",
+      "rendered_desktop": "YES (head link sizes=\"32x32\")",
+      "rendered_mobile": "YES (head link sizes=\"32x32\")",
+      "no_text_or_eye_motif": "PASS",
+      "ocr_evidence": "psm 11: 0, psm 6: 1 ('&')",
+      "screenshot": null,
+      "screenshot_url": null,
+      "notes": "Head link <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/assets/brand/favicon-32.png\">"
+    },
+    {
+      "asset": "/assets/brand/apple-touch-icon.png",
+      "http_status": 200,
+      "content_type": "image/png",
+      "bytes": 30314,
+      "sha256_match": "Catalog: MATCH (ca5a07dc...); Original: N/A",
+      "rendered_desktop": "YES (head link <link rel=\"apple-touch-icon\">)",
+      "rendered_mobile": "YES (iOS bookmark/home screen icon)",
+      "no_text_or_eye_motif": "PASS",
+      "ocr_evidence": "psm 11: 0, psm 6: 2 ('Ss')",
+      "screenshot": null,
+      "screenshot_url": null,
+      "notes": "Head link <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/assets/brand/apple-touch-icon.png\">"
+    },
+    {
+      "asset": "/brand/mark-light.svg",
+      "http_status": 200,
+      "content_type": "image/svg+xml",
+      "bytes": 653,
+      "sha256_match": "Source: MATCH (ee640260...); Catalog: N/A",
+      "rendered_desktop": "YES (renders inside #title-bar and #loading-screen)",
+      "rendered_mobile": "YES (renders inside #title-bar)",
+      "no_text_or_eye_motif": "PASS",
+      "ocr_evidence": "SVG vector markup (no text nodes)",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+      "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+      "notes": "Primary brand mark rendered in UI inside #title-bar and #loading-screen"
+    }
+  ],
+  "plugin_lifecycle": {
+    "api": {
+      "plugins_before_total": 32,
+      "plugins_before_states": {
+        "discovered": 32
+      },
+      "plugins_after_total": 32,
+      "plugins_after_states": {
+        "ready": 10,
+        "failed": 1,
+        "discovered": 21
+      },
+      "verify_active_websearch": {
+        "name": "internet_web_search",
+        "state": "ready",
+        "latency_ms": 6075,
+        "verified_at": "2026-10-21T08:07:04.013Z",
+        "error": null,
+        "answer_preview": "READY"
+      },
+      "verify_inactive_xmcp": {
+        "name": "x_mcp_connector",
+        "state": "failed",
+        "error_code": "inactive_on_account",
+        "http_status": 400,
+        "retryable": false,
+        "message": "This research source is currently inactive on the OnDemand account."
+      },
+      "verify_all_batch": {
+        "plugins_verified": 10,
+        "ready_count": 10,
+        "failed_count": 0,
+        "latency_range_ms": {
+          "min": 4712,
+          "max": 11391,
+          "avg": 6186.2
+        }
+      },
+      "auth_probe_principal_mismatch": {
+        "endpoint": "POST /api/ondemand/v2/plugins/verify",
+        "header_user": "someone-else",
+        "body_user": "agent3-probe",
+        "http_status": 403,
+        "error": "user_mismatch",
+        "timestamp": "2026-10-21T08:11:07.000Z"
+      },
+      "health_probe": {
+        "status": 200,
+        "ok": true,
+        "configured": true,
+        "conversation_backend": "memory",
+        "contracts": 33,
+        "active_plugins": 10,
+        "key_source": "server"
+      },
+      "contracts_probe": {
+        "status": 200,
+        "total_contracts": 33,
+        "active_plugins": 10,
+        "valid_plugin_ids_regex": "11/11 match /^plugin-\\d+$/ (0 invalid)",
+        "kinds": {
+          "ondemand-plugin": 11,
+          "ondemand-tool": 21,
+          "ondemand-workflow": 1
+        }
+      }
+    },
+    "badges": {
+      "1440x900": {
+        "initial_count": 32,
+        "websearch": {
+          "initial_click": "VERIFYING… (disabled)",
+          "final_state": "READY",
+          "timing": "6m ago",
+          "latency": "4526ms"
+        },
+        "x_mcp_connector": {
+          "final_state": "FAILED",
+          "error_message": "This research source is currently inactive on the OnDemand account."
+        },
+        "summary_count": "10 ready"
+      },
+      "390x844": {
+        "initial_count": 32,
+        "websearch": {
+          "initial_click": "VERIFYING… (disabled)",
+          "final_state": "READY",
+          "timing": "just now",
+          "latency": "4526ms"
+        },
+        "x_mcp_connector": {
+          "final_state": "FAILED",
+          "error_message": "This research source is currently inactive on the OnDemand account."
+        },
+        "summary_count": "10 ready"
+      }
+    },
+    "note": "installing/authenticating are server-side transitions inside one verify request (audited: plugin_state from→to); the DOM shows discovered → VERIFYING… → READY|FAILED"
+  },
+  "legacy_audit": {
+    "runtime_openai_realtime_references": 0,
+    "non_test_grep_hits": 45,
+    "classification": {
+      "1_runtime_openai_realtime_transport": {
+        "count": 0,
+        "description": "Live network calls to api.openai.com, WebSocket realtime clients, realtime/token endpoints, or runtime reads of OPENAI_API_KEY for API requests"
+      },
+      "2_gtfs_realtime_transit_feeds": {
+        "count": 20,
+        "description": "Transit vehicle position feeds, protobuf decoders, and feed registries named after GTFS-Realtime industry standard (server/tools/transit.js, src/sources/transitService.js, src/data/transitFeeds.js, src/data/gtfsRealtime.js, src/data/transitProxy.js, src/data/dataCredits.js)"
+      },
+      "3_historical_comments_legacy_codes_settings_metadata": {
+        "count": 21,
+        "description": "Architectural comments documenting deprecation/replacement of OpenAI Realtime, legacy error-code constants (OPENAI_NOT_CONFIGURED), and provider metadata in settings dialog (server/ondemand/foundation/*, src/keySetupCore.mjs, src/hudSummaryResponse.js, src/voice/ondemand/*)"
+      },
+      "4_voice_toolset_symbol_identifiers": {
+        "count": 4,
+        "description": "Internal test hooks and symbol identifiers named GEV_REALTIME_TOOLS and realtimeInstructions (server/voice/tools.js, server/voice/instructions.js)"
+      }
+    },
+    "bundle": {
+      "dist_assets_api_openai_com_hits": 0,
+      "dist_assets_realtime_token_hits": 0,
+      "dist_assets_openai_api_key_hits": 1,
+      "dist_assets_openai_api_key_context": "Settings UI provider metadata modal definition in dist/assets/index-BLGPMGkc.js",
+      "forbidden_brand_names_hits": 0,
+      "forbidden_brand_names_checked": [
+        "god's eye",
+        "gods eye",
+        "gev mic"
+      ]
+    },
+    "live_title": "OnDemand Intelligence Workstation"
+  },
+  "console_and_network": {
+    "known_benign": [
+      "GET /api/setup/status 404 (serverless build has no key-setup wizard)",
+      "GET /api/ondemand/v2/messages 404 on a never-queried object (renders the no-sessions empty state)",
+      "POST /api/ondemand/v2/chat 502 — the synthetic injection of scenario G / failure checks"
+    ],
+    "unexpected": []
+  },
+  "generated_utc": "2026-10-21T08:49:23Z"
+}

@@ -1,0 +1,45 @@
+server/ondemand/foundation/voice-route.js:209:        realtimeTransport:
+server/ondemand/foundation/voice-route.js:210:          'turn-based (OnDemand exposes no realtime audio API)',
+server/ondemand/foundation/proxy-route.js:30: *                                                    (replaces the OpenAI bypass server/providers/openai/hud-summary.js)
+server/ondemand/foundation/proxy-route.js:150:/** Five-word HUD summary (replaces the OpenAI bypass; text in, text out). */
+server/ondemand/foundation/proxy-route.js:688:        // SSE with abort propagation (voice-route.js). Replaces OpenAI Realtime.
+server/providers/common/rate-limit.js:5: * Opt-in per-IP rate limiter for the cost-bearing API proxies (OpenAI / Google).
+server/tools/transit.js:2: * server/tools/transit.js — OnDemand-callable GTFS-Realtime transit vehicle
+server/tools/transit.js:25:    'from official GTFS-Realtime feeds across North America, Europe, and Australia: ' +
+server/tools/transit.js:262:            provider: `${selectedFeed.operator} GTFS-Realtime`,
+server/voice/tools.js:4:export const GEV_REALTIME_TOOLS = createActionTools(ACTION_DESCRIPTIONS);
+server/voice/instructions.js:5:function realtimeInstructions(
+server/voice/instructions.js:47:    // GEV_REALTIME_TOOLS is deliberately untouched — deleting this one
+server/voice/instructions.js:74:export { realtimeInstructions };
+server/serverless/vercel-adapter.js:20: *     (`readRequestBody`, used by `/api/openai/hud-summary`) — so a request
+src/sources/transitService.js:3: * GTFS-Realtime transit proxy for the Transit data layer.
+src/sources/transitService.js:87: * Vite plugin: GTFS-Realtime VehiclePositions proxy for the Transit layer.
+src/sources/httpBody.js:58: * readResponseTextCapped — for protobuf upstreams (GTFS-Realtime).
+src/hudSummaryResponse.js:1:// 2026-10-20: the HUD summary moved from the OpenAI bypass to
+src/hudSummaryResponse.js:5:/** Legacy code emitted by the retired OpenAI route — still recognised. */
+src/hudSummaryResponse.js:6:export const HUD_SUMMARY_LEGACY_UNCONFIGURED_CODE = 'OPENAI_NOT_CONFIGURED';
+src/keySetupCore.mjs:53:    id: 'openai',
+src/keySetupCore.mjs:54:    title: 'OPENAI',
+src/keySetupCore.mjs:56:    getUrl: 'https://platform.openai.com/api-keys',
+src/keySetupCore.mjs:57:    envVars: Object.freeze(['OPENAI_API_KEY']),
+src/layers/vessels/selection.js:185:   * the realtime/voice layer can describe what the user has selected.
+src/data/transitFeeds.js:3: * @description Registry of keyless, openly licensed GTFS-Realtime
+src/data/transitFeeds.js:142:    url: 'https://cdn.mbta.com/realtime/VehiclePositions.pb',
+src/data/transitFeeds.js:190:        "Metro Transit's GTFS-realtime feeds are refreshed every 5 seconds.",
+src/data/transitFeeds.js:191:      note: 'The realtime feed is published from a developer page carrying operational guidance and no licence text of its own. The public-domain statement below belongs to the Metropolitan Council metadata for the COMPANION SCHEDULE dataset, not to this feed: "None. This dataset is public domain under the Minnesota Government Data Practices Act". Credited as a courtesy, the way the other public agency feeds are.',
+src/data/transitFeeds.js:203:    url: 'https://realtime.hsl.fi/realtime/vehicle-positions/v2/hsl',
+src/data/transitFeeds.js:244:    url: 'https://api.entur.io/realtime/v1/gtfs-rt/vehicle-positions',
+src/data/transitFeeds.js:265:    url: 'https://gtfsrt.api.translink.com.au/api/realtime/seq/VehiclePositions',
+src/data/gtfsRealtime.js:2: * @module gtfsRealtime
+src/data/gtfsRealtime.js:3: * @description Minimal GTFS-Realtime decoder for VehiclePosition feeds.
+src/data/gtfsRealtime.js:8: * `gtfs-realtime-bindings`, no protobufjs, no generated code: the GTFS-RT
+src/data/gtfsRealtime.js:11: * Field numbers (gtfs-realtime.proto, v2.0):
+src/data/gtfsRealtime.js:13: *   FeedHeader         1 gtfs_realtime_version, 2 incrementality, 3 timestamp
+src/data/gtfsRealtime.js:151: * Decode a raw GTFS-Realtime FeedMessage.
+src/data/transitProxy.js:20:} from './gtfsRealtime.js';
+src/data/transitProxy.js:230: * A DIFFERENTIAL feed is refused outright. Differential GTFS-Realtime carries
+src/data/dataCredits.js:188:    html: 'Transit vehicles: operator GTFS-Realtime feeds (each operator is credited below when its vehicles are shown)',
+src/voice/ondemand/pipeline.js:8: * client-facing realtime/advanced-voice WebSocket or WebRTC surface
+src/voice/ondemand/index.js:11: * Nothing here touches the existing OpenAI Realtime stack (src/voice/*): the
+src/voice/gevActions.js:1284: * sequences shots for minutes and must not block the realtime tool loop.
+src/voice/gevActions.js:1636:  // Realtime models can reasonably interpret "play news near Austin" as Play

@@ -1,0 +1,23 @@
+HTTP/2 403 
+date: Wed, 21 Oct 2026 08:11:07 GMT
+content-type: application/json; charset=utf-8
+content-length: 25
+cache-control: no-store
+x-ondemand-key-source: server
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 59
+server: Vercel
+x-vercel-id: iad1::5lgsf-1792570267236-35df8cf313ad
+strict-transport-security: max-age=63072000
+x-vercel-internal-path-type: sandbox
+x-vercel-internal-metadata-state: origin_fresh
+x-vercel-internal-cache-level: unknown
+x-vercel-internal-project-id: u
+x-vercel-internal-owner-id: u
+x-vercel-internal-deployment-id: u
+x-vercel-internal-proxy-pool: green
+x-vercel-internal-request-cpu-ms: 0
+x-vercel-internal-proxy-cpu-load: 42
+x-vercel-internal-timing: vcoe_from_proxy=25
+
+{"error":"user_mismatch"}
