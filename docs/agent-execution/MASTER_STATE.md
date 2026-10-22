@@ -14,7 +14,7 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 | **ORIGINAL_SHA** | `1c9558cde07fdddb8d7d01b64f7143f0bbc9d116` (HEAD of `origin/ondemand-serverless`) |
 | Recovery tag + branch | `recovery/pre-ondemand-rebuild-20261020` → `1c9558c` (tag object `74a2609`), pushed 2026-10-20T21:26:36Z |
 | Working branch | `integration/ondemand-native` (created from `1c9558c`, pushed 21:27:07Z) |
-| Current commit (this checkpoint) | cycle-6 checkpoint commit that carries this file (see §9; tag `checkpoint-2026-10-21-preview-retry`) on top of `712a552` (cycle-5 docs, tag `checkpoint-2026-10-21-post-sandbox-verification`) ← `aa3eb8d` (cycle-4 docs) ← `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
+| Current commit (this checkpoint) | `6b49fe9` (cycle-7 ASAP redeploy checkpoint) + cycle-8 working-tree unit (embeddability fix, see TEST_RESULTS §13); cycle-6 checkpoint commit that carries this file (see §9; tag `checkpoint-2026-10-21-preview-retry`) on top of `712a552` (cycle-5 docs, tag `checkpoint-2026-10-21-post-sandbox-verification`) ← `aa3eb8d` (cycle-4 docs) ← `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
 | Uncommitted changes / stashes at discovery | none (`git status` clean, `git stash list` empty) |
 | Resume path taken | **Fresh discovery** — `docs/agent-execution/RESUME.md` and `MASTER_STATE.md` did not exist at `1c9558c` (the repo has a different checkpoint lineage: `docs/CLOSEOUT.md`, `docs/handover/*`, `docs/audit/*`, read as prior art) |
 
@@ -36,6 +36,8 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 Cross-check of `ondemand-eand-spatial` (12 refs, newest `feat/exec-brief-v1.4-b7c0d3d` 2026-09-12): valuable, non-overlapping work = build gates `check-no-secrets.mjs` (**ported this cycle**), `check-forbidden-terms.mjs`, `check-remote-assets.mjs`, `check-contrast.mjs` (N-14), and a React "Ask the deal" SSE drawer (`api/_lib/deal.ts`) that the new foundation supersedes. The two repos share no code and must not be merged.
 
 ## 2. Engineering cycle
+Cycle **8** (2026-10-22T06:27Z–06:34Z) — **emergency preview redeploy**: the previously reported preview sandbox stopped serving, so a brand-new Vercel Sandbox `sbx_EdkizkMGv6ASKOnpEmUWOAlaQrRc` → `https://sb-1ek30lyxzsd3.vercel.run` was built from `6b49fe9` + the embeddability unit (`build/vite.js` framing headers removed, test updated); npm ci 7 s, vite build 8.27 s, secrets gate green with 0 key-value hits in `dist`/`.env`, health **200** `configured:true` `keySource:server`, `/` **200** with the neutral title, no `X-Frame-Options` / `frame-ancestors` on either response, iframe render proof pass at 1440×900 and 390×844 (TEST_RESULTS §13). Previous cycle 7 was an ASAP redeploy on the same commit.
+
 Cycle **6** (2026-10-21T09:15Z–10:3xZ) — **preview retry** on a brand-new Vercel Sandbox from the clean tree `712a552`
 (`sbx_C7YcHpK0v9hb018cNsHaEObsAyvi` → `https://sb-4asza5droe1u.vercel.run`, created 09:17:55Z, projected expiry
 ≈10:47:55Z; `npm ci` 7 s, `vite build` 8.4 s, `check-no-secrets --dist` ✓, 21 env keys by name, key only in the server

@@ -40,6 +40,7 @@ Branch `integration/ondemand-native` · updated 2026-10-21T10:35:00Z (UTC, cycle
 | N-30 | Serve `/brand/site.webmanifest` with `application/manifest+json` from `server/serverless/dev-server.mjs` (cosmetic; Vercel already does). | — | `curl -I` shows the manifest type on the sandbox. | TODO |
 | N-31 | `__odPlugins.getSelectedPluginIds()` should return plugin ids only (tool-route names leak in when tool toggles are checked). | — | unit test in `pluginPanel.test.mjs`; voice/mini-chat forward ≤ 10 `plugin-\d{10}` ids. | TODO |
 | N-25 | Set `ONDEMAND_INVESTIGATE_BUDGET_MS=50000` on the Vercel project (name only) so `/investigate` always finishes inside the 60 s function limit; re-run mobile `2c`. | Vercel admin | `2c` PASS (`planTurnSettled=true`). | TODO (operator action) |
+| N-32 | Embeddability of the served document: `build/vite.js::createBrowserViteConfig` no longer sets `X-Frame-Options: DENY` / `Content-Security-Policy: frame-ancestors 'none'` (nor the now-empty `headers` block); `src/tooling/viteBuild.test.mjs` asserts `config.server.headers === undefined`. | — | TEST_RESULTS §13: `/` and `/api/health` return **no** framing headers; iframe wrapper proof 7/7 assertions at 1440×900 + 390×844; `viteBuild.test.mjs` 4/4. | DONE (cycle 8) |
 
 ## Phase C exit criteria (what "done" means for the next cycle)
 1. 0 direct AI bypasses; 1 AI gateway (OnDemand) — INTEGRATION_MATRIX counts updated: ✅ (OpenAI Realtime completely removed; direct AI bypasses = 0).
@@ -48,4 +49,4 @@ Branch `integration/ondemand-native` · updated 2026-10-21T10:35:00Z (UTC, cycle
 4. Typecheck + lint + secrets + boundaries + full unit suite green in CI on Node 24: ⬜ (4,188 pass on Node 22; static gates green; Node 24 CI run for 2 allocation benches pending N-21).
 5. Preview deployment of the integration branch healthy (`/api/ondemand/v2/health` ok, B-1 fixed): ✅ (Preview `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` healthy, v2/health 200, B-1 resolved).
 
-GENERATED_UTC: 2026-10-21T10:35:00Z
+GENERATED_UTC: 2026-10-22T06:34:00Z

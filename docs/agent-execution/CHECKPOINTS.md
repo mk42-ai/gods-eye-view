@@ -10,4 +10,5 @@
 
 Rules: tags are never moved or deleted; a checkpoint tag is created BEFORE any chat-UI change of a cycle and its SHA is recorded in MASTER_STATE §1.
 
-GENERATED_UTC: 2026-10-21T10:35:00Z
+GENERATED_UTC: 2026-10-22T06:35:00Z
+| `checkpoint-2026-10-22-cycle8-preview` | cycle-8 docs commit (on top of `6b49fe9` + the embeddability unit) | 2026-10-22T06:35Z | emergency preview redeploy: fresh sandbox `sbx_EdkizkMGv6ASKOnpEmUWOAlaQrRc` → `sb-1ek30lyxzsd3.vercel.run`, health 200 `configured:true` `keySource:server`, embeddings proven by iframe render at both viewports (TEST_RESULTS §13) |

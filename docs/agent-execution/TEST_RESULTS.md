@@ -647,3 +647,26 @@ Old preview `https://sb-4asza5droe1u.vercel.run` checked 12:28:02Z: HTTP 410 SAN
 | media persistence note | artifacts persist `mediaId` + unsigned `sourceUrl` via OnDemand media API (`entityChat.js` attachment{mediaId}, `entityContext.js` frame.mediaId); deliverable URLs in answers are rendered directly (no signed URL is stored) — re-sign-on-open is N/A in this build, honestly recorded |
 
 GENERATED_UTC: 2026-10-21T12:37:00Z
+
+## 13. Cycle 8 (2026-10-22T06:27Z–06:34Z) — emergency preview redeploy (sb-2s5by0bbr2ix dead)
+
+Trigger: the previously reported preview `sb-2s5by0bbr2ix.vercel.run` no longer serves the app (its sandbox
+stopped). A fresh Vercel Sandbox was created from the current working tree and fully re-gated.
+
+| item | value |
+|---|---|
+| source | `integration/ondemand-native` @ `6b49fe9` (fetched: `origin/integration/ondemand-native` = `6b49fe9`, no newer commit) + the uncommitted cycle-7 in-place edit to `build/vite.js` (removal of `X-Frame-Options: DENY`, `Content-Security-Policy: frame-ancestors 'none'` and the now-empty `headers` block in `createBrowserViteConfig`) and the matching assertion update in `src/tooling/viteBuild.test.mjs` |
+| sandbox | `sbx_EdkizkMGv6ASKOnpEmUWOAlaQrRc` → **https://sb-1ek30lyxzsd3.vercel.run** (node22 v22.23.4, `--timeout 90m`, `--publish-port 5173`, created 2026-10-22T06:29:0xZ, expiry ≈07:59Z) |
+| install | `PUPPETEER_SKIP_DOWNLOAD=1 npm ci` — 129 packages, **7 s**, 06:29:25Z |
+| build | `npm run build` (prebuild refresh + `vite build`) rc=0, **8.27 s** vite, 14 s wall, 06:29:43Z; `dist/` 39 MB / **521 files** |
+| secrets gate | `node scripts/check-no-secrets.mjs` rc=0 (1,431 files) · `--dist` rc=0 (1,699 files). Explicit value grep with the real key: **0 occurrences in `dist/`** and **0 in `.env` / `.env.example`**. Literal substring `ONDEMAND_API_KEY`: 2 occurrences in `dist/assets/index-*.js` (UI status copy "ONDEMAND_API_KEY is not set on the server") + 1 comment line in `.env` — no value, no secret |
+| env | 21 keys by name from repo `.env`; `ONDEMAND_API_KEY` injected from `/tmp/od-secret.env`, sourced into the server process, temp file **deleted before the server start** (`SECRET_FILE_GONE`), never written into `.env` (`KEY_NOT_IN_ENV_FILE`) |
+| server | `node server/serverless/dev-server.mjs` PID 231, `0.0.0.0:5173`, log `[dev-server] listening on http://0.0.0.0:5173` 06:30:22Z |
+| `GET /api/health` | **200** 06:30:24Z and re-checked 06:33:17Z — `{"ok":true,"configured":true,"contracts":33,"activePlugins":10,"keySource":"server","defaultEndpointId":"predefined-gpt-6-luna","workflowId":{"configured":true,"valid":true}}`; response header `x-ondemand-key-source: server` |
+| `GET /` | **200** 06:30:24Z / 06:33:17Z, `<title>OnDemand Intelligence Workstation</title>`, 77,632 bytes |
+| framing headers | absent on **both** responses: `x-frame-options` 0 hits, `frame-ancestors` 0 hits, no CSP header emitted at all |
+| iframe proof | `/iframe-proof.html` wrapper (no `sandbox` attribute) served from `dist/`, iframe loads `/` same-origin; `ui_validate.py` (CDP socket-timeout patch for WebGL pages) **PASS 7/7 assertions** at **1440x900** and **390x844**: `IFRAME_TITLE=OnDemand…`, `contentDocument` non-null, `innerText` length > 0, `document.title` contains `OnDemand`; screenshots `.ui-proof/iframe-after-1440x900.png`, `.ui-proof/iframe-after-390x844.png` |
+| unit | `node --test src/tooling/viteBuild.test.mjs` **4/4 pass** after updating the framing assertion to `config.server.headers === undefined` |
+| known (pre-existing) console noise | `GET /api/setup/status` 404 — the loopback-only key-setup surface is intentionally not registered in prod builds (`apply: 'serve'`), client removes the panel; not a regression |
+
+GENERATED_UTC: 2026-10-22T06:34:00Z
