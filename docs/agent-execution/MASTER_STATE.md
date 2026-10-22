@@ -14,7 +14,7 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 | **ORIGINAL_SHA** | `1c9558cde07fdddb8d7d01b64f7143f0bbc9d116` (HEAD of `origin/ondemand-serverless`) |
 | Recovery tag + branch | `recovery/pre-ondemand-rebuild-20261020` → `1c9558c` (tag object `74a2609`), pushed 2026-10-20T21:26:36Z |
 | Working branch | `integration/ondemand-native` (created from `1c9558c`, pushed 21:27:07Z) |
-| Current commit (this checkpoint) | **cycle-9 checkpoint commit on top of `b698032`** (tag `checkpoint-2026-10-22-uae-aoi-live-incidents`; see §9) ← `b698032` ← `166101d` (cycle-8 checkpoint docs; parent `039fa2e` = embeddability fix on `6b49fe9`) — tag `checkpoint-2026-10-22-cycle8-preview`; cycle-6 checkpoint commit that carries this file (see §9; tag `checkpoint-2026-10-21-preview-retry`) on top of `712a552` (cycle-5 docs, tag `checkpoint-2026-10-21-post-sandbox-verification`) ← `aa3eb8d` (cycle-4 docs) ← `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
+| Current commit (this checkpoint) | **`abe8418`** (cycle-9 feature commit, tag `checkpoint-2026-10-22-uae-aoi-live-incidents`) + the docs follow-up commit that carries this row (see §9) ← `b698032` ← `166101d` (cycle-8 checkpoint docs; parent `039fa2e` = embeddability fix on `6b49fe9`) — tag `checkpoint-2026-10-22-cycle8-preview`; cycle-6 checkpoint commit that carries this file (see §9; tag `checkpoint-2026-10-21-preview-retry`) on top of `712a552` (cycle-5 docs, tag `checkpoint-2026-10-21-post-sandbox-verification`) ← `aa3eb8d` (cycle-4 docs) ← `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
 | Uncommitted changes / stashes at discovery | none (`git status` clean, `git stash list` empty) |
 | Resume path taken | **Fresh discovery** — `docs/agent-execution/RESUME.md` and `MASTER_STATE.md` did not exist at `1c9558c` (the repo has a different checkpoint lineage: `docs/CLOSEOUT.md`, `docs/handover/*`, `docs/audit/*`, read as prior art) |
 
@@ -171,7 +171,7 @@ Browser-level UI validation not run this cycle — no UI consumes `/api/ondemand
 ## 9. Commits on `integration/ondemand-native` (this cycle)
 | sha | message | timestamp |
 |---|---|---|
-| (cycle 9) | feat(incidents): UAE AOI scene library + live incident ingestion (/api/incidents, SCENES composer) — tag `checkpoint-2026-10-22-uae-aoi-live-incidents` | 2026-10-22T10:2xZ |
+| abe8418 | feat(incidents): UAE AOI scene library, live /api/incidents ingestion and SCENES incident composer — tag `checkpoint-2026-10-22-uae-aoi-live-incidents` (pushed 10:23:32Z; PR #2 against `ondemand-serverless` stays open and now carries it) | 2026-10-22T10:23Z |
 | 17a7b24 | docs(agent-execution): Phase A discovery inventories — architecture, external-API (54 providers/82 call sites/4 bypasses), branding, infrastructure, frontend recon | 2026-10-20T22:07:47Z |
 | c97a365 | feat(ondemand): Phase B foundation — typed server-side client, PluginContract registry, object-context conversation store and /api/ondemand/v2 proxy (server key only) | 2026-10-20T22:07:47Z |
 | 9067843 | docs(agent-execution): cycle-1 checkpoint | 2026-10-20T22:12Z |
