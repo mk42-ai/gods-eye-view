@@ -253,3 +253,33 @@ Deny-listed by code (never read, present only as a Vercel env var): `ELEVENLABS_
 | Brand assets `/assets/brand/*` (12 required + favicon-16/32/48 + og-image) | 16 files | 16/16 HTTP 200, sha256 = catalogue = `public/assets/brand`, OCR ≤ 3 chars, 0 concentric pairs | 09:33Z–09:38Z | `retry-0917/agent5/asset-results.json` |
 
 GENERATED_UTC: 2026-10-21T10:35:00Z
+
+## Cycle-9 integration evidence (2026-10-22T08:00Z–10:20Z) — UAE AOI live incidents, sandbox `https://sb-17suihbulexj.vercel.run`
+
+Registry: **37 contracts** (11 ondemand-plugin · 25 ondemand-tool · 1 ondemand-workflow); `activePluginIds()` unchanged at 10.
+Four new `ondemand-tool` contracts describe the incident pipeline steps and are listed/verified by the PLUGINS panel
+through the existing lifecycle (`toolInvoker` answers them from the incident store with the honest LIVE/SEED/NO KEY state):
+
+| contract | kind | route | OnDemand surface actually invoked | live evidence (UTC) | status |
+|---|---|---|---|---|---|
+| `incident_news_search` | ondemand-tool | `POST /api/incidents/refresh` | chat session + sync query on `predefined-gpt-6-luna` with `pluginIds:[plugin-1713924030]` (Internet web search) per AOI, structured JSON answer | 09:55Z local: YEMEN/2 AOIs → 1 citable incident ingested (Al Jazeera, Mayun); 10:16:50Z sandbox: SOMALIA/4 AOIs → 3 ok (`{"incidents":[]}`), 1 timeout, `lastRefreshUtc` 10:17:29Z | **LIVE · verified** |
+| `incident_classify_extract` | ondemand-tool | `POST /api/incidents/resolve` | sync query (fulfilmentOnly, low effort) on `predefined-gpt-6-luna`, JSON schema prompt, user text fenced as UNTRUSTED | 10:13:43Z: `Houthi drone strike on tanker near Bab el-Mandeb` → 12.58N 43.33E, drone_strike, HIGH, entities [Houthi, tanker], provider `ondemand`, 4.3 s | **LIVE · verified** |
+| `incident_source_verification` | ondemand-tool | `POST /api/incidents` (x-ingest-secret) | gateway-side: candidates without their own source URL dropped, AOI polygon filter, dedupe key normalised(headline)+0.1°+24 h | 10:17:29Z: 401 on wrong secret, 200 `added 1` on the right one; unit `incidents.test.mjs` | **verified** |
+| `incident_scheduled_refresh` | ondemand-tool | `POST /api/incidents/refresh` (cron-capable) | same sweep as above behind an in-flight lock + 4/min limiter; reports `state:"NO KEY"` with zero activity when `ONDEMAND_API_KEY` is absent | local 09:54Z (no key): `{"ok":false,"state":"NO KEY",...}`; unit: 2 concurrent POSTs → 1 sweep | **verified** (no platform cron yet — see BLOCKERS B-25) |
+
+Data/UX surfaces integrated this cycle:
+
+| surface | file(s) | evidence |
+|---|---|---|
+| AOI library (44 Polygon AOIs across IRAN 7 / YEMEN 14 / SOMALIA 10 / UAE HOME BORDER 13, 17 protected-asset features tagged with the 8 UAE Penal-Code-derived zone categories, aliases, `source_url`) | `src/data/local_data/uae-aoi/uae-aoi.json`, `src/data/uaeAoi.js` | `uaeAoi.test.mjs` 11/11 |
+| 31 seeded incidents (IRAN 10 · YEMEN 10 · SOMALIA 8 · UAE HOME BORDER 3) with camera presets (ONA 35–65°, 8–120 km, dwell 3.5–5 s + 9–14 s) | `src/data/local_data/uae-aoi/uae-aoi-seed-incidents.json`, `src/data/uaeIncidents.js` | `GET /api/incidents` counts 10/10/8/3 |
+| Scene library replaces Nepal defaults (`createDefaultProject()` → one scene per group, one shot per incident; `shot.incident` card metadata validated by `src/director/document.js`) | `src/scenes/project.js`, `src/scenes/recipes.js` (`LEGACY_EVENT_RECIPES`), `src/scenes/director.js` (`addIncidentScene`, `syncIncidentLibrary`, `findIncidentShot`) | director tests 60/60, browser before/after passes |
+| SCENES panel additions (group dropdown, artwork, LIVE/SEED/NO KEY badge with LAST REFRESH, REFRESH, chips, source link, sticky composer with safe-area inset, OUTSIDE UAE AOI banner) | `src/ui/incidentPanel.js`, `src/ui/styles/scenes.css`, `src/app/tools.js` | `incidentPanel.test.mjs` 9/9, TEST_RESULTS §14.4 |
+| Server routes + store (file under `os.tmpdir()` + optional KV + memory; seeds on first read) | `server/incidents/{route,store,resolver}.js`, mounted in `server/serverless/app.js` (same catch-all function) | `incidents.test.mjs` 13/13, §14.3 |
+| Embeddability | `vercel.json` framing headers removed (build/vite.js already clean) | `GET /` raw headers 0 hits; iframe proof both viewports |
+
+Direct-provider bypasses introduced: **0** (geocoding/classification/news all go through the foundation client; the offline gazetteer is a
+fallback, not a third-party call). Browser-held secrets: **0** (the composer persists through the same-origin `/api/incidents/composer`
+proxy; `INCIDENT_INGEST_SECRET` and `ONDEMAND_API_KEY` are process-env only, compared constant-time, never echoed).
+
+GENERATED_UTC: 2026-10-22T10:20:00Z

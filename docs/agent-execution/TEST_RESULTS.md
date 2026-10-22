@@ -670,3 +670,75 @@ stopped). A fresh Vercel Sandbox was created from the current working tree and f
 | known (pre-existing) console noise | `GET /api/setup/status` 404 — the loopback-only key-setup surface is intentionally not registered in prod builds (`apply: 'serve'`), client removes the panel; not a regression |
 
 GENERATED_UTC: 2026-10-22T06:34:00Z
+
+## 14. Cycle 9 (2026-10-22T08:00Z–10:20Z) — UAE AOI scene library + live incident ingestion
+
+Scope: Nepal Flood default scene set replaced by the **UAE AOI scene library** (44 AOI polygons / 17 protected-asset
+features / 31 seeded incidents), new `/api/incidents` routes on the existing catch-all function, SCENES-panel
+group filter + LIVE badge + REFRESH + scene-card chips + bottom incident composer, iframe embeddability kept.
+
+### 14.1 Unit / gate results (local, Node 22.23.3)
+
+| suite | before | after |
+|---|---|---|
+| `node scripts/run-unit-tests.mjs` (src/**/*.test.mjs) | 4,203 tests · 4,202 pass · 0 fail · 1 skip (win32-only) | **4,223 tests · 4,222 pass · 0 fail · 1 skip** (+20: `src/data/uaeAoi.test.mjs` 11, `src/ui/incidentPanel.test.mjs` 9) |
+| `npm run test:serverless` | 57 / 57 | 57 / 57 |
+| `npm run test:ondemand` | 250 / 250 | 250 / 250 |
+| `npm run test:foundation` | 77 / 77 | 77 / 77 (registry assertions updated 33 → **37** contracts, 21 → **25** tool-kind) |
+| `node --test server/incidents/*.test.mjs` (new) | — | **13 / 13** |
+| `src/tooling/viteBuild.test.mjs` | 4 / 4 (framing headers asserted ABSENT) | 4 / 4 |
+| `npm run format:check` · `check:boundaries` · `check:secrets` · `check-no-secrets --dist` | green | green |
+| user-facing legacy branding grep (`GEV`, `God's Eye`, `gods-eye` in rendered strings/assets) | 0 | **0** (remaining hits are internal ids: `godsEyeView.*` storage keys, `__godsEyeView` debug handle, `X-GEV-Cache` header, package/repo names — allowed) |
+| `Nepal Flood` / `Devighat` / `Charaudi` in defaults | present | **0** in `createDefaultProject()` (legacy Nepal recipe kept only as `LEGACY_EVENT_RECIPES` for saved-project upgrades + import/export) |
+
+New unit coverage (names): `pointInRing` inside/outside/on-edge/vertex, antimeridian ring (170°E…-170°E), polygon holes,
+`findAoiForPoint` smallest-ring preference (Perim beats Bab el-Mandeb), `filterByAoi` inside/outside split, 35-case fuzzy
+gazetteer (aliases Bab al-Mandab, Mayun/Perim, Hudaydah/Hodeidah, Al Mukalla, Bosasso, Garacad, Khorfakkan, Zirku, Tunb,
+Bandar-e Abbas, Mokha, Taizz, Ma'rib, Zuqar, Emirati waters…) + prefix fallback, dedupe (same headline + 0.1° within 24 h
+collapses; >24 h kept; other location kept), `normaliseIncident` validation + polygon-derived group/country/aoi + stable id,
+31 seeds all inside their AOI with sources and presets in range, `incidentsToScenes` preset line `NORMAL · OFF · 4.0s + 12.0s`,
+`timeSince` labels; store seed/persist/reload, ingest secret 503/401/200, composer proxy (no secret in the browser, cross-origin
+403), `resolveOffline` (Bab el-Mandeb → YEMEN insideAoi true; Lima → false), `parseResolveAnswer` (JSON / fenced / malformed /
+null coords), `resolveIncidentText` fallbacks (malformed_json, ondemand+gazetteer, upstream_error, not_configured), refresh
+NO KEY + plugin JSON parsing (citation-less dropped, out-of-AOI dropped) + in-flight lock (2 concurrent POSTs → 1 sweep);
+panel: badge states, chips + source link `target=_blank rel=noopener`, group options, composer submit → resolve → add →
+fly → persist, OUTSIDE UAE AOI banner ADD ANYWAY / CANCEL, resolve failure keeps text, REFRESH outcome incl. NO KEY.
+
+### 14.2 Sandbox deploy (UTC)
+
+| step | result |
+|---|---|
+| sandbox | `sbx_YEh0S5RHmOHtqTNsBgqN6G0eUhFK` → **https://sb-17suihbulexj.vercel.run** (node22 v22.23.4, `--timeout 90m`, `--publish-port 5173`), created 10:12:17Z |
+| install | `PUPPETEER_SKIP_DOWNLOAD=1 npm ci` 129 packages, 6 s (10:12:46Z–10:12:52Z) |
+| build | `npm run build` rc 0, vite 7.72 s (10:12:59Z–10:13:12Z), `dist/` 43 MB / 531 files incl. `dist/assets/aoi/` |
+| secrets gate | `check-no-secrets.mjs` rc 0 and `--dist` rc 0; `KEY_LINES_IN_ENV_FILE=0`, `KEY_VALUE_IN_ENV_FILES=0` |
+| env | 21 non-secret keys from repo `.env`; `ONDEMAND_API_KEY` + a fresh `INCIDENT_INGEST_SECRET` (`openssl rand -hex 32`) sourced from `/tmp/od-secret.env`, which is deleted before the server starts (`SECRET_FILE_GONE`) |
+| server | `node server/serverless/dev-server.mjs` `0.0.0.0:5173`, listening 10:13:30Z (restarted once at 10:18:0xZ after removing the ingest smoke record) |
+
+### 14.3 API verification (UTC, status codes)
+
+| check | time | status | evidence |
+|---|---|---|---|
+| `GET /api/health` | 10:13:37Z | **200** | `ok:true configured:true contracts:37 activePlugins:10 keySource:"server" defaultEndpointId:"predefined-gpt-6-luna"` |
+| `GET /` | 10:13:37Z | **200** | `<title>OnDemand Intelligence Workstation</title>`; raw headers: `HTTP/2 200 · date · content-type: text/html; charset=utf-8 · server: Vercel · x-vercel-id · strict-transport-security: max-age=63072000 · cache-control: public, max-age=0, must-revalidate · x-vercel-internal-*` — **0 `x-frame-options`, 0 `frame-ancestors`** (also removed from `vercel.json` `headers[]` for the Git-linked deploy) |
+| `GET /api/incidents` | 10:13:43Z | **200** | `state:"SEED" source:"seed" counts {IRAN:10, YEMEN:10, SOMALIA:8, UAE_HOME_BORDER:3}` · 31 incidents · `backend:"file+memory"` |
+| `POST /api/incidents/resolve` `{"text":"Houthi drone strike on tanker near Bab el-Mandeb"}` | 10:13:43Z→10:13:48Z | **200** | `lat 12.58 lon 43.33 placeName "Bab el-Mandeb" insideAoi true matchedAoi {bab-el-mandeb, YEMEN} incident_type drone_strike severity HIGH entities [Houthi, tanker] provenance.provider "ondemand" (sessionId 6ad9e1d8…, 4,293 ms, endpoint predefined-gpt-6-luna)` |
+| `POST /api/incidents/refresh` `{"group":"SOMALIA","limitAois":4}` | 10:16:50Z→10:17:29Z | **200** | `state:"LIVE" plugin internet_web_search (plugin-1713924030) aoisQueried 4 aoisOk 3 candidates 0 added 0` — Berbera / Bosaso / Gulf of Aden corridor answered `{"incidents":[]}` (parsed), Puntland coast timed out at the 30 s per-AOI budget; `lastRefreshUtc 2026-10-22T10:17:29.132Z`; 38.3 s wall. Honest outcome: the research plugin returned no citable incident JSON for those four AOIs in this window. (Local pre-check 09:55Z on YEMEN/2 AOIs added 1 real record: "Houthis seize strategic Mayun (Perim) Island", Al Jazeera 2026-09-12, geocoded by the model inside `perim-mayun`.) |
+| `POST /api/incidents` wrong `x-ingest-secret` | 10:17:29Z | **401** | `invalid_ingest_secret` |
+| `POST /api/incidents` correct secret (smoke record, removed afterwards) | 10:17:29Z | **200** | `added 1 · persisted {file:true, kv:false}` |
+| `GET /api/incidents` after refresh | 10:18:10Z | **200** | `state:"LIVE" lastRefreshUtc 2026-10-22T10:17:29Z counts {IRAN:10, YEMEN:11, SOMALIA:8, UAE_HOME_BORDER:3}` (YEMEN 11 = 10 seeds + the composer record from 14.4) |
+
+### 14.4 Headless browser (ui_validate.py, Chromium, 1440×900 and 390×844) — artefacts `artifacts/uae-aoi-2026-10-22/`
+
+| pass | 1440×900 | 390×844 | assertions |
+|---|---|---|---|
+| **before** (fresh sandbox, seed state) 10:14:0xZ–10:14:28Z | PASS | PASS | "UAE AOI" rendered; `Nepal Flood`/`Devighat` absent; `#scene-live-badge` (state SEED, "SEED DATA · NOT YET REFRESHED"), `#scene-refresh-btn`, `#scene-incident-input` (placeholder exactly `Type an incident...`, hit-testable at its centre), country / severity / time-since chips + `a.scene-chip-source[target=_blank]` on the cards, preset line matches `NORMAL · OFF · d.ds + dd.ds`; group dropdown = `UAE AOI (all), IRAN, YEMEN, SOMALIA, UAE HOME BORDER`; first card `IRAN · HIGH · 2d · Gulf News` |
+| **after-composer** 10:14:37Z–10:15:4xZ | PASS | PASS | typed `Houthi drone strike on tanker near Bab el-Mandeb`, submitted via Enter/submit: camera moved from `[-97.743, 30.267, 600 m]` (Austin boot view) to `[43.33, 12.58, 81,000 m]`, HUD `ONA: 48.0°`; status `ADDED · YEMEN · HIGH · inc-466465c5`; scene select → `uae-aoi-yemen`; rows 10 → 11; new card title "A Houthi drone strike targeted a tanker near Bab el-Mandeb." with chips `YEMEN · HIGH · now`; `localStorage` project carries `incident.id inc-466465c5`; LOAD on the card re-flies to the same pose. Mobile pass hit the dedupe path honestly (`ALREADY IN LIBRARY · duplicate of inc-466465c5`) and selected/flew to the existing card |
+| **after-reload** 10:15:54Z–10:16:3xZ | PASS | PASS | fresh page load → group YEMEN → the composer card is present (chips `YEMEN · HIGH · 1m`), LOAD flies `[-97.74, 30.27] → [43.33, 12.58, 81,000 m]`, status `Loaded: YEMEN / A Houthi drone strike…` — persistence through `/api/incidents` + localStorage confirmed |
+| **after-iframe** 10:18:3xZ–10:18:58Z | PASS | PASS | `/iframe-proof.html` wrapper: `IFRAME_TITLE=OnDemand Intelligence Workstation`, `contentDocument.title` contains "OnDemand", no `IFRAME_BLOCKED` |
+| **after** (final, LIVE state) 10:19:0xZ–10:19:42Z | PASS | PASS | same assertions as *before* plus badge `LIVE · LAST REFRESH 2026-10-22 10:17Z` |
+
+Console: only the pre-existing `GET /api/setup/status 404` (loopback-only key-setup surface, panel removed by the client) —
+no page errors on any pass.
+
+GENERATED_UTC: 2026-10-22T10:20:00Z

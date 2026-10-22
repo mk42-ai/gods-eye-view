@@ -682,7 +682,11 @@
       "src/director/sharing/lifetime.js",
       "src/director/authoring.js",
       "src/scenes/sharing.js",
-      "src/ui/sceneSharing.js"
+      "src/ui/sceneSharing.js",
+      "src/data/uaeAoi.js",
+      "src/data/uaeIncidents.js",
+      "src/data/local_data/uae-aoi/uae-aoi.json",
+      "src/data/local_data/uae-aoi/uae-aoi-seed-incidents.json"
     ],
     "external": ["cesium"]
   },
@@ -1565,6 +1569,11 @@
       "src/director/playback.js",
       "src/scenes/recipes.js",
       "src/scenes/scenePolicy.js",
+      "src/ui/incidentPanel.js",
+      "src/data/uaeAoi.js",
+      "src/data/uaeIncidents.js",
+      "src/data/local_data/uae-aoi/uae-aoi.json",
+      "src/data/local_data/uae-aoi/uae-aoi-seed-incidents.json",
       "src/scopeMask.js",
       "src/search/defaults.js",
       "src/search/geospatial.js",

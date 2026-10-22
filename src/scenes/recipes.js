@@ -588,7 +588,14 @@ const BHOTE_KOSHI_NEPAL_BOOTSTRAP_RECIPE = BHOTE_KOSHI_NEPAL_APPEND_RECIPE
     })
   : null;
 
-const EVENT_RECIPES = [BHOTE_KOSHI_NEPAL_BOOTSTRAP_RECIPE].filter(Boolean);
+// 2026-10-22: the Nepal Flood bootstrap recipe is no longer a default
+// (the UAE AOI scene library is — src/scenes/project.js createDefaultProject).
+// It stays exported as LEGACY_EVENT_RECIPES so browser-saved Nepal projects,
+// their append pack and import/export keep working unchanged.
+export const LEGACY_EVENT_RECIPES = [BHOTE_KOSHI_NEPAL_BOOTSTRAP_RECIPE].filter(
+  Boolean,
+);
+const EVENT_RECIPES = [];
 
 const PUBLIC_SCENE_RECIPES = [
   {

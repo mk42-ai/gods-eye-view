@@ -56,6 +56,47 @@ function visual(value, path, legacy) {
     });
 }
 
+/** UAE AOI incident card metadata carried by a shot (document v6, 2026-10-22). */
+const INCIDENT_FIELDS = [
+  'id',
+  'country',
+  'group',
+  'aoi_id',
+  'incident_type',
+  'severity',
+  'event_time_utc',
+  'source_url',
+  'source_name',
+  'summary',
+  'lat',
+  'lon',
+  'insideAoi',
+];
+function incidentCard(value, path) {
+  fields(value, path, INCIDENT_FIELDS);
+  for (const key of [
+    'id',
+    'country',
+    'group',
+    'aoi_id',
+    'incident_type',
+    'severity',
+    'event_time_utc',
+    'source_url',
+    'source_name',
+    'summary',
+  ])
+    optional(value, key, path, (v, p) => {
+      if (v === null) return;
+      string(v, p, 4096);
+    });
+  optional(value, 'lat', path, (v, p) => number(v, p, -90, 90));
+  optional(value, 'lon', path, (v, p) => number(v, p, -180, 180));
+  optional(value, 'insideAoi', path, (v, p) => {
+    if (typeof v !== 'boolean') fail(p, 'expected a boolean');
+  });
+}
+
 /** Validate a parsed scene project without mutating it or applying any state. */
 export function validateSceneDocument(project) {
   jsonTree(project, '$', { nodes: 0 });
@@ -127,9 +168,10 @@ export function validateSceneDocument(project) {
         'sourcePackVersion',
         ...(version >= 4 ? ['move'] : []),
         ...(version >= 5 ? ['dataPackIds'] : []),
-        ...(version >= 6 ? ['interactions'] : []),
+        ...(version >= 6 ? ['interactions', 'incident'] : []),
       ]);
       uniqueId(shot, at, shotIds);
+      optional(shot, 'incident', at, incidentCard);
       optional(shot, 'title', at, (v, p) => string(v, p, 4096));
       optional(shot, 'sourcePackId', at, string);
       optional(shot, 'sourcePackVersion', at, (v, p) =>

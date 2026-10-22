@@ -2,6 +2,7 @@
 import { SCENE_DOCUMENT_VERSION } from '../director/document.js';
 import { SCENE_RECIPES } from './recipes.js';
 import { MAP_STACKS } from '../maps/catalog.js';
+import { incidentsToScenes, seedIncidents } from '../data/uaeIncidents.js';
 import {
   BLOOM_INTENSITY_DEFAULT,
   BLOOM_SCALE_VERSION,
@@ -185,11 +186,20 @@ export function recipeToScene(recipe) {
   };
 }
 
+/** Scene ids of the UAE AOI library (one scene per group, see src/data/uaeIncidents.js). */
+export function isIncidentLibrarySceneId(id) {
+  return typeof id === 'string' && id.startsWith('uae-aoi-');
+}
+
 /**
- * Create a fresh default project by converting all built-in SCENE_RECIPES.
+ * Create a fresh default project: the UAE AOI scene library (one scene per
+ * AOI group, one shot per seed incident — 2026-10-22, replaces the Nepal
+ * Flood default set). The generic demo recipes stay exported from
+ * recipes.js for import/export and tests but are no longer installed by
+ * default (`includeDemoRecipes: true` restores them).
  * @returns {Object} A new project object with version, timestamps, and scenes
  */
-export function createDefaultProject() {
+export function createDefaultProject({ includeDemoRecipes = false } = {}) {
   return {
     version: PROJECT_VERSION,
     createdAt: new Date().toISOString(),
@@ -197,7 +207,23 @@ export function createDefaultProject() {
     installedBuiltInSceneIds: SCENE_RECIPES.filter(
       (recipe) => typeof recipe.installAlongsideSceneId === 'string',
     ).map((recipe) => recipe.id),
-    scenes: SCENE_RECIPES.map(recipeToScene),
+    scenes: [
+      ...incidentsToScenes(seedIncidents()).map((scene) =>
+        normalizeIncidentScene(scene),
+      ),
+      ...(includeDemoRecipes ? SCENE_RECIPES.map(recipeToScene) : []),
+    ],
+  };
+}
+
+/** Normalise an incident-library scene through the same shot pipeline as storage. */
+export function normalizeIncidentScene(scene) {
+  return {
+    id: scene.id,
+    title: scene.title,
+    releaseLayerIds: [],
+    appliedShotPacks: [],
+    shots: scene.shots.map((shot, index) => normalizeShot(shot, index)),
   };
 }
 
@@ -255,6 +281,9 @@ export function normalizeShot(
         },
     ...(rawShot?.interactions
       ? { interactions: deepClone(rawShot.interactions) }
+      : {}),
+    ...(rawShot?.incident && typeof rawShot.incident === 'object'
+      ? { incident: deepClone(rawShot.incident) }
       : {}),
     ...(rawShot?.dataPackIds ? { dataPackIds: [...rawShot.dataPackIds] } : {}),
     ...(rawShot?.move ? { move: deepClone(rawShot.move) } : {}),

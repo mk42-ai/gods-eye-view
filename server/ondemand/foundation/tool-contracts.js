@@ -137,6 +137,32 @@ export function createToolInvoker({
 } = {}) {
   return async function toolInvoker(contract, args = {}, { signal } = {}) {
     const name = contract?.name || String(contract);
+    // UAE AOI incident contracts (server/incidents/*) are verified against
+    // the incident store rather than a registry tool: a read of the store
+    // proves the route is wired and reports the honest LIVE/SEED/NO KEY state.
+    if (/^incident_/.test(name) && !index.has(name)) {
+      const { getIncidentStore } = await import('../../incidents/store.js');
+      const { incidentState } = await import('../../incidents/route.js');
+      const { isConfigured } = await import('../config.js');
+      const doc = await getIncidentStore().read();
+      return {
+        ok: true,
+        tool: name,
+        params: {},
+        data: {
+          counts: doc.counts,
+          total: doc.incidents.length,
+          lastRefreshUtc: doc.lastRefreshUtc,
+          state: incidentState({
+            configured: isConfigured(),
+            source: doc.source,
+            lastRefreshUtc: doc.lastRefreshUtc,
+          }),
+        },
+        provenance: { provider: 'incident store', keySource: 'server' },
+        generatedAtUtc: now().toISOString(),
+      };
+    }
     const tool = index.get(name);
     if (!tool) {
       const err = new Error(`unknown tool "${name}"`);

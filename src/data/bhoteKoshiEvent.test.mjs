@@ -28,7 +28,7 @@ import {
   usesProviderEmbeddedEvidence,
   visibleSegmentCount,
 } from './bhoteKoshiEvent.js';
-import { SCENE_RECIPES } from '../scenes/recipes.js';
+import { SCENE_RECIPES, LEGACY_EVENT_RECIPES } from '../scenes/recipes.js';
 import { LayerLifecycle } from './lifecycle.js';
 import { createBhoteKoshiEmbeddedMedia } from './bhoteKoshiEmbeddedMedia.js';
 import { SceneDirector } from '../scenes/director.js';
@@ -1549,7 +1549,9 @@ test('Bhote Koshi event pack keeps observations separate from reconstruction', a
   assert.match(event.reconstruction.caveat, /not modeled arrival time/i);
   assert.match(event.reconstruction.caveat, /2025 Rasuwagadhi flood/i);
   assert.equal(SCENE_RECIPES.some((recipe) => recipe.id === 'bhote-koshi-flood'), false);
-  assert.ok(SCENE_RECIPES.some((recipe) => recipe.id === 'bhote-koshi-nepal-scene'));
+  // 2026-10-22: the Nepal scene is no longer a default recipe (UAE AOI library is); it stays a legacy recipe.
+  assert.equal(SCENE_RECIPES.some((recipe) => recipe.id === 'bhote-koshi-nepal-scene'), false);
+  assert.ok(LEGACY_EVENT_RECIPES.some((recipe) => recipe.id === 'bhote-koshi-nepal-scene'));
 });
 
 test('Bhote Koshi publishes the evidence spine once and scrubs through cards and breadcrumbs', async () => {

@@ -1,4 +1,5 @@
 import { SceneDirector } from '../scenes/director.js';
+import { installIncidentPanel } from '../ui/incidentPanel.js';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
 import { createGevActionRunner } from '../voice/gevActions.js';
@@ -40,6 +41,10 @@ export function createApplicationTools({
     .get('bhote-koshi-2026')
     ?.module.attachSceneController(sceneDirector);
   defer(() => sceneDirector.destroy());
+  // UAE AOI live incidents (2026-10-22): group filter, LIVE badge, REFRESH,
+  // scene-card chips and the bottom incident composer on the SCENES panel.
+  const incidentPanel = installIncidentPanel({ director: sceneDirector });
+  defer(() => incidentPanel?.destroy());
   onSceneDirector?.(sceneDirector);
   const annotations = initAnnotations({
     viewer,

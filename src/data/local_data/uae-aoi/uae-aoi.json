@@ -1,0 +1,6032 @@
+{
+ "type": "FeatureCollection",
+ "name": "uae-aoi",
+ "generated_utc": "2026-10-22T08:10:00Z",
+ "groups": [
+  {
+   "id": "IRAN",
+   "label": "IRAN",
+   "artwork": "/assets/aoi/iran-hormuz-384.webp"
+  },
+  {
+   "id": "YEMEN",
+   "label": "YEMEN",
+   "artwork": "/assets/aoi/yemen-bab-el-mandeb-384.webp"
+  },
+  {
+   "id": "SOMALIA",
+   "label": "SOMALIA",
+   "artwork": "/assets/aoi/somalia-horn-384.webp"
+  },
+  {
+   "id": "UAE_HOME_BORDER",
+   "label": "UAE HOME BORDER",
+   "artwork": "/assets/aoi/uae-home-border-384.webp"
+  }
+ ],
+ "legal_categories": {
+  "MILITARY_RESTRICTED": "UAE Federal Penal Code Art. 168 \u2014 prohibited overflight, photography or mapping of restricted military sites; armed-forces secrecy.",
+  "GOVERNMENT_FACILITY": "UAE Federal Penal Code Art. 5 \u2014 government bodies and departments.",
+  "SECURITY_FORCES": "Ministry of Interior / security forces installations.",
+  "PORT_AIRPORT_TRANSPORT": "Stations, harbours, airports and means of transport.",
+  "TERRITORIAL_WATERS_EEZ": "UAE Federal Penal Code Art. 18 \u2014 ports and territorial waters; EEZ interests.",
+  "CRITICAL_INFRASTRUCTURE_ENERGY": "Oil, gas, power and pipeline infrastructure.",
+  "COMMUNICATIONS": "Wire and wireless communications infrastructure.",
+  "FOREIGN_FOOTPRINT": "UAE overseas port and base interests."
+ },
+ "features": [
+  {
+   "type": "Feature",
+   "id": "hormuz-tss",
+   "properties": {
+    "kind": "aoi",
+    "id": "hormuz-tss",
+    "group": "IRAN",
+    "country": "IRAN",
+    "name": "Strait of Hormuz TSS",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Strait of Hormuz",
+     "Hormuz",
+     "Hormuz Strait",
+     "Hormoz"
+    ],
+    "zone_tags": [
+     "TERRITORIAL_WATERS_EEZ",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Traffic separation scheme; IRGC declared the strait closed after the October 2026 attacks.",
+    "source_url": "https://gulfnews.com/world/mena/us-launches-fresh-strikes-on-iran-as-irgc-closes-strait-of-hormuz-1.500605011",
+    "center": {
+     "lat": 26.55,
+     "lon": 56.45
+    },
+    "radius_km": 46.5
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       56.0391,
+       27.0643
+      ],
+      [
+       56.6276,
+       26.7681
+      ],
+      [
+       57.0871,
+       26.3874
+      ],
+      [
+       56.678,
+       25.9919
+      ],
+      [
+       56.273,
+       26.3316
+      ],
+      [
+       55.7447,
+       26.593
+      ],
+      [
+       56.0391,
+       27.0643
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "abu-musa",
+   "properties": {
+    "kind": "aoi",
+    "id": "abu-musa",
+    "group": "IRAN",
+    "country": "IRAN",
+    "name": "Abu Musa",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Abu Musa",
+     "Abu Moussa"
+    ],
+    "zone_tags": [
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "Disputed island, Iranian-garrisoned.",
+    "source_url": "",
+    "center": {
+     "lat": 25.87,
+     "lon": 55.03
+    },
+    "radius_km": 25
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       55.03,
+       26.0948
+      ],
+      [
+       55.0948,
+       26.0872
+      ],
+      [
+       55.1551,
+       26.0647
+      ],
+      [
+       55.2069,
+       26.0289
+      ],
+      [
+       55.2466,
+       25.9823
+      ],
+      [
+       55.2715,
+       25.928
+      ],
+      [
+       55.2799,
+       25.8698
+      ],
+      [
+       55.2712,
+       25.8116
+      ],
+      [
+       55.2462,
+       25.7574
+      ],
+      [
+       55.2064,
+       25.7109
+      ],
+      [
+       55.1547,
+       25.6752
+      ],
+      [
+       55.0946,
+       25.6528
+      ],
+      [
+       55.03,
+       25.6452
+      ],
+      [
+       54.9654,
+       25.6528
+      ],
+      [
+       54.9053,
+       25.6752
+      ],
+      [
+       54.8536,
+       25.7109
+      ],
+      [
+       54.8138,
+       25.7574
+      ],
+      [
+       54.7888,
+       25.8116
+      ],
+      [
+       54.7801,
+       25.8698
+      ],
+      [
+       54.7885,
+       25.928
+      ],
+      [
+       54.8134,
+       25.9823
+      ],
+      [
+       54.8531,
+       26.0289
+      ],
+      [
+       54.9049,
+       26.0647
+      ],
+      [
+       54.9652,
+       26.0872
+      ],
+      [
+       55.03,
+       26.0948
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "greater-tunb",
+   "properties": {
+    "kind": "aoi",
+    "id": "greater-tunb",
+    "group": "IRAN",
+    "country": "IRAN",
+    "name": "Greater Tunb",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Greater Tunb",
+     "Tunb al-Kubra",
+     "Tunb"
+    ],
+    "zone_tags": [
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "Disputed island.",
+    "source_url": "",
+    "center": {
+     "lat": 26.26,
+     "lon": 55.3
+    },
+    "radius_km": 20
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       55.3,
+       26.4399
+      ],
+      [
+       55.352,
+       26.4337
+      ],
+      [
+       55.4004,
+       26.4157
+      ],
+      [
+       55.442,
+       26.3871
+      ],
+      [
+       55.4738,
+       26.3498
+      ],
+      [
+       55.4938,
+       26.3064
+      ],
+      [
+       55.5006,
+       26.2599
+      ],
+      [
+       55.4937,
+       26.2133
+      ],
+      [
+       55.4736,
+       26.17
+      ],
+      [
+       55.4417,
+       26.1327
+      ],
+      [
+       55.4001,
+       26.1042
+      ],
+      [
+       55.3518,
+       26.0863
+      ],
+      [
+       55.3,
+       26.0801
+      ],
+      [
+       55.2482,
+       26.0863
+      ],
+      [
+       55.1999,
+       26.1042
+      ],
+      [
+       55.1583,
+       26.1327
+      ],
+      [
+       55.1264,
+       26.17
+      ],
+      [
+       55.1063,
+       26.2133
+      ],
+      [
+       55.0994,
+       26.2599
+      ],
+      [
+       55.1062,
+       26.3064
+      ],
+      [
+       55.1262,
+       26.3498
+      ],
+      [
+       55.158,
+       26.3871
+      ],
+      [
+       55.1996,
+       26.4157
+      ],
+      [
+       55.248,
+       26.4337
+      ],
+      [
+       55.3,
+       26.4399
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "lesser-tunb",
+   "properties": {
+    "kind": "aoi",
+    "id": "lesser-tunb",
+    "group": "IRAN",
+    "country": "IRAN",
+    "name": "Lesser Tunb",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Lesser Tunb",
+     "Tunb al-Sughra"
+    ],
+    "zone_tags": [
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "Disputed island.",
+    "source_url": "",
+    "center": {
+     "lat": 26.24,
+     "lon": 55.14
+    },
+    "radius_km": 15
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       55.14,
+       26.3749
+      ],
+      [
+       55.179,
+       26.3703
+      ],
+      [
+       55.2153,
+       26.3568
+      ],
+      [
+       55.2464,
+       26.3353
+      ],
+      [
+       55.2703,
+       26.3074
+      ],
+      [
+       55.2853,
+       26.2748
+      ],
+      [
+       55.2904,
+       26.2399
+      ],
+      [
+       55.2852,
+       26.205
+      ],
+      [
+       55.2702,
+       26.1725
+      ],
+      [
+       55.2463,
+       26.1446
+      ],
+      [
+       55.2151,
+       26.1232
+      ],
+      [
+       55.1789,
+       26.1097
+      ],
+      [
+       55.14,
+       26.1051
+      ],
+      [
+       55.1011,
+       26.1097
+      ],
+      [
+       55.0649,
+       26.1232
+      ],
+      [
+       55.0337,
+       26.1446
+      ],
+      [
+       55.0098,
+       26.1725
+      ],
+      [
+       54.9948,
+       26.205
+      ],
+      [
+       54.9896,
+       26.2399
+      ],
+      [
+       54.9947,
+       26.2748
+      ],
+      [
+       55.0097,
+       26.3074
+      ],
+      [
+       55.0336,
+       26.3353
+      ],
+      [
+       55.0647,
+       26.3568
+      ],
+      [
+       55.101,
+       26.3703
+      ],
+      [
+       55.14,
+       26.3749
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "bandar-abbas",
+   "properties": {
+    "kind": "aoi",
+    "id": "bandar-abbas",
+    "group": "IRAN",
+    "country": "IRAN",
+    "name": "Bandar Abbas",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Bandar Abbas",
+     "Bandar-e Abbas"
+    ],
+    "zone_tags": [
+     "MILITARY_RESTRICTED",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "IRGC Navy / IRIN main base and launch area.",
+    "source_url": "",
+    "center": {
+     "lat": 27.18,
+     "lon": 56.28
+    },
+    "radius_km": 35
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       56.28,
+       27.4948
+      ],
+      [
+       56.3718,
+       27.484
+      ],
+      [
+       56.4574,
+       27.4525
+      ],
+      [
+       56.5307,
+       27.4023
+      ],
+      [
+       56.5869,
+       27.337
+      ],
+      [
+       56.622,
+       27.2611
+      ],
+      [
+       56.6338,
+       27.1796
+      ],
+      [
+       56.6215,
+       27.0981
+      ],
+      [
+       56.586,
+       27.0223
+      ],
+      [
+       56.5297,
+       26.9572
+      ],
+      [
+       56.4565,
+       26.9073
+      ],
+      [
+       56.3713,
+       26.8759
+      ],
+      [
+       56.28,
+       26.8652
+      ],
+      [
+       56.1887,
+       26.8759
+      ],
+      [
+       56.1035,
+       26.9073
+      ],
+      [
+       56.0303,
+       26.9572
+      ],
+      [
+       55.974,
+       27.0223
+      ],
+      [
+       55.9385,
+       27.0981
+      ],
+      [
+       55.9262,
+       27.1796
+      ],
+      [
+       55.938,
+       27.2611
+      ],
+      [
+       55.9731,
+       27.337
+      ],
+      [
+       56.0293,
+       27.4023
+      ],
+      [
+       56.1026,
+       27.4525
+      ],
+      [
+       56.1882,
+       27.484
+      ],
+      [
+       56.28,
+       27.4948
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "qeshm-larak",
+   "properties": {
+    "kind": "aoi",
+    "id": "qeshm-larak",
+    "group": "IRAN",
+    "country": "IRAN",
+    "name": "Qeshm / Larak",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Qeshm",
+     "Larak",
+     "Qeshm Island",
+     "Larak Island"
+    ],
+    "zone_tags": [
+     "MILITARY_RESTRICTED",
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "Qeshm and Larak islands; Larak hosts the crude export terminal.",
+    "source_url": "",
+    "center": {
+     "lat": 26.85,
+     "lon": 56.2
+    },
+    "radius_km": 45
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       56.2,
+       27.2547
+      ],
+      [
+       56.3178,
+       27.2409
+      ],
+      [
+       56.4275,
+       27.2003
+      ],
+      [
+       56.5216,
+       27.1358
+      ],
+      [
+       56.5935,
+       27.0518
+      ],
+      [
+       56.6385,
+       26.9541
+      ],
+      [
+       56.6536,
+       26.8493
+      ],
+      [
+       56.6377,
+       26.7446
+      ],
+      [
+       56.5921,
+       26.6471
+      ],
+      [
+       56.5199,
+       26.5635
+      ],
+      [
+       56.4261,
+       26.4993
+      ],
+      [
+       56.317,
+       26.459
+      ],
+      [
+       56.2,
+       26.4453
+      ],
+      [
+       56.083,
+       26.459
+      ],
+      [
+       55.9739,
+       26.4993
+      ],
+      [
+       55.8801,
+       26.5635
+      ],
+      [
+       55.8079,
+       26.6471
+      ],
+      [
+       55.7623,
+       26.7446
+      ],
+      [
+       55.7464,
+       26.8493
+      ],
+      [
+       55.7615,
+       26.9541
+      ],
+      [
+       55.8065,
+       27.0518
+      ],
+      [
+       55.8784,
+       27.1358
+      ],
+      [
+       55.9725,
+       27.2003
+      ],
+      [
+       56.0822,
+       27.2409
+      ],
+      [
+       56.2,
+       27.2547
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "jask",
+   "properties": {
+    "kind": "aoi",
+    "id": "jask",
+    "group": "IRAN",
+    "country": "IRAN",
+    "name": "Jask",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Jask",
+     "Bandar-e Jask"
+    ],
+    "zone_tags": [
+     "MILITARY_RESTRICTED",
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "Jask port and the Goreh-Jask export terminal outside the strait.",
+    "source_url": "",
+    "center": {
+     "lat": 25.64,
+     "lon": 57.77
+    },
+    "radius_km": 35
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       57.77,
+       25.9548
+      ],
+      [
+       57.8606,
+       25.944
+      ],
+      [
+       57.945,
+       25.9125
+      ],
+      [
+       58.0173,
+       25.8624
+      ],
+      [
+       58.0728,
+       25.7971
+      ],
+      [
+       58.1075,
+       25.7211
+      ],
+      [
+       58.1191,
+       25.6396
+      ],
+      [
+       58.107,
+       25.5581
+      ],
+      [
+       58.072,
+       25.4823
+      ],
+      [
+       58.0164,
+       25.4172
+      ],
+      [
+       57.9442,
+       25.3673
+      ],
+      [
+       57.8601,
+       25.3359
+      ],
+      [
+       57.77,
+       25.3252
+      ],
+      [
+       57.6799,
+       25.3359
+      ],
+      [
+       57.5958,
+       25.3673
+      ],
+      [
+       57.5236,
+       25.4172
+      ],
+      [
+       57.468,
+       25.4823
+      ],
+      [
+       57.433,
+       25.5581
+      ],
+      [
+       57.4209,
+       25.6396
+      ],
+      [
+       57.4325,
+       25.7211
+      ],
+      [
+       57.4672,
+       25.7971
+      ],
+      [
+       57.5227,
+       25.8624
+      ],
+      [
+       57.595,
+       25.9125
+      ],
+      [
+       57.6794,
+       25.944
+      ],
+      [
+       57.77,
+       25.9548
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "bab-el-mandeb",
+   "properties": {
+    "kind": "aoi",
+    "id": "bab-el-mandeb",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Bab el-Mandeb",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Bab el-Mandeb",
+     "Bab al-Mandab",
+     "Bab-el-Mandeb",
+     "Bab al Mandab",
+     "Bab el Mandeb",
+     "Mandeb",
+     "Mandab"
+    ],
+    "zone_tags": [
+     "TERRITORIAL_WATERS_EEZ",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Chokepoint between the Red Sea and the Gulf of Aden.",
+    "source_url": "https://www.reuters.com/world/middle-east/red-sea-shipping-slows-after-houthi-attack-saudi-arabia-data-shows-2026-07-27/",
+    "center": {
+     "lat": 12.6,
+     "lon": 43.3
+    },
+    "radius_km": 45
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       43.3,
+       13.0047
+      ],
+      [
+       43.4075,
+       12.9909
+      ],
+      [
+       43.5076,
+       12.9504
+      ],
+      [
+       43.5936,
+       12.886
+      ],
+      [
+       43.6594,
+       12.8021
+      ],
+      [
+       43.7007,
+       12.7044
+      ],
+      [
+       43.7147,
+       12.5997
+      ],
+      [
+       43.7004,
+       12.495
+      ],
+      [
+       43.6588,
+       12.3974
+      ],
+      [
+       43.5929,
+       12.3137
+      ],
+      [
+       43.5071,
+       12.2494
+      ],
+      [
+       43.4072,
+       12.2091
+      ],
+      [
+       43.3,
+       12.1953
+      ],
+      [
+       43.1928,
+       12.2091
+      ],
+      [
+       43.0929,
+       12.2494
+      ],
+      [
+       43.0071,
+       12.3137
+      ],
+      [
+       42.9412,
+       12.3974
+      ],
+      [
+       42.8996,
+       12.495
+      ],
+      [
+       42.8853,
+       12.5997
+      ],
+      [
+       42.8993,
+       12.7044
+      ],
+      [
+       42.9406,
+       12.8021
+      ],
+      [
+       43.0064,
+       12.886
+      ],
+      [
+       43.0924,
+       12.9504
+      ],
+      [
+       43.1925,
+       12.9909
+      ],
+      [
+       43.3,
+       13.0047
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "perim-mayun",
+   "properties": {
+    "kind": "aoi",
+    "id": "perim-mayun",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Perim / Mayun",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Perim",
+     "Mayun",
+     "Mayyun",
+     "Perim Island"
+    ],
+    "zone_tags": [
+     "FOREIGN_FOOTPRINT",
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "Island in the strait; UAE-established installations.",
+    "source_url": "https://en.kaabtv.com/uae-expands-military-footprint-in-the-horn-of-africa",
+    "center": {
+     "lat": 12.65,
+     "lon": 43.42
+    },
+    "radius_km": 8
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       43.42,
+       12.7219
+      ],
+      [
+       43.4391,
+       12.7195
+      ],
+      [
+       43.4569,
+       12.7123
+      ],
+      [
+       43.4721,
+       12.7009
+      ],
+      [
+       43.4839,
+       12.686
+      ],
+      [
+       43.4912,
+       12.6686
+      ],
+      [
+       43.4937,
+       12.65
+      ],
+      [
+       43.4912,
+       12.6314
+      ],
+      [
+       43.4838,
+       12.614
+      ],
+      [
+       43.4721,
+       12.5991
+      ],
+      [
+       43.4569,
+       12.5877
+      ],
+      [
+       43.4391,
+       12.5805
+      ],
+      [
+       43.42,
+       12.5781
+      ],
+      [
+       43.4009,
+       12.5805
+      ],
+      [
+       43.3831,
+       12.5877
+      ],
+      [
+       43.3679,
+       12.5991
+      ],
+      [
+       43.3562,
+       12.614
+      ],
+      [
+       43.3488,
+       12.6314
+      ],
+      [
+       43.3463,
+       12.65
+      ],
+      [
+       43.3488,
+       12.6686
+      ],
+      [
+       43.3561,
+       12.686
+      ],
+      [
+       43.3679,
+       12.7009
+      ],
+      [
+       43.3831,
+       12.7123
+      ],
+      [
+       43.4009,
+       12.7195
+      ],
+      [
+       43.42,
+       12.7219
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mocha",
+   "properties": {
+    "kind": "aoi",
+    "id": "mocha",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Mocha",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Mocha",
+     "Mokha",
+     "Al Mokha",
+     "Al Mukha",
+     "Mukha"
+    ],
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Red Sea port seized by the Houthis in September 2026.",
+    "source_url": "https://www.france24.com/en/middle-east/20260910-yemen-houthis-city-red-sea-iran",
+    "center": {
+     "lat": 13.32,
+     "lon": 43.25
+    },
+    "radius_km": 30
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       43.25,
+       13.5898
+      ],
+      [
+       43.3218,
+       13.5806
+      ],
+      [
+       43.3888,
+       13.5536
+      ],
+      [
+       43.4462,
+       13.5107
+      ],
+      [
+       43.4902,
+       13.4548
+      ],
+      [
+       43.5179,
+       13.3897
+      ],
+      [
+       43.5273,
+       13.3198
+      ],
+      [
+       43.5177,
+       13.25
+      ],
+      [
+       43.49,
+       13.185
+      ],
+      [
+       43.4459,
+       13.1292
+      ],
+      [
+       43.3885,
+       13.0863
+      ],
+      [
+       43.3217,
+       13.0594
+      ],
+      [
+       43.25,
+       13.0502
+      ],
+      [
+       43.1783,
+       13.0594
+      ],
+      [
+       43.1115,
+       13.0863
+      ],
+      [
+       43.0541,
+       13.1292
+      ],
+      [
+       43.01,
+       13.185
+      ],
+      [
+       42.9823,
+       13.25
+      ],
+      [
+       42.9727,
+       13.3198
+      ],
+      [
+       42.9821,
+       13.3897
+      ],
+      [
+       43.0098,
+       13.4548
+      ],
+      [
+       43.0538,
+       13.5107
+      ],
+      [
+       43.1112,
+       13.5536
+      ],
+      [
+       43.1782,
+       13.5806
+      ],
+      [
+       43.25,
+       13.5898
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "hodeidah",
+   "properties": {
+    "kind": "aoi",
+    "id": "hodeidah",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Hodeidah",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Hodeidah",
+     "Hudaydah",
+     "Al Hudaydah",
+     "Hodeida",
+     "Al Hodeidah"
+    ],
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Main Red Sea port under Houthi control.",
+    "source_url": "",
+    "center": {
+     "lat": 14.8,
+     "lon": 42.95
+    },
+    "radius_km": 45
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       42.95,
+       15.2047
+      ],
+      [
+       43.0585,
+       15.1909
+      ],
+      [
+       43.1596,
+       15.1504
+      ],
+      [
+       43.2464,
+       15.086
+      ],
+      [
+       43.3128,
+       15.0021
+      ],
+      [
+       43.3545,
+       14.9044
+      ],
+      [
+       43.3686,
+       14.7996
+      ],
+      [
+       43.3541,
+       14.6949
+      ],
+      [
+       43.3122,
+       14.5974
+      ],
+      [
+       43.2456,
+       14.5137
+      ],
+      [
+       43.159,
+       14.4494
+      ],
+      [
+       43.0581,
+       14.4091
+      ],
+      [
+       42.95,
+       14.3953
+      ],
+      [
+       42.8419,
+       14.4091
+      ],
+      [
+       42.741,
+       14.4494
+      ],
+      [
+       42.6544,
+       14.5137
+      ],
+      [
+       42.5878,
+       14.5974
+      ],
+      [
+       42.5459,
+       14.6949
+      ],
+      [
+       42.5314,
+       14.7996
+      ],
+      [
+       42.5455,
+       14.9044
+      ],
+      [
+       42.5872,
+       15.0021
+      ],
+      [
+       42.6536,
+       15.086
+      ],
+      [
+       42.7404,
+       15.1504
+      ],
+      [
+       42.8415,
+       15.1909
+      ],
+      [
+       42.95,
+       15.2047
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "aden",
+   "properties": {
+    "kind": "aoi",
+    "id": "aden",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Aden",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Aden"
+    ],
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT",
+     "GOVERNMENT_FACILITY"
+    ],
+    "notes": "Port and interim-government seat.",
+    "source_url": "",
+    "center": {
+     "lat": 12.79,
+     "lon": 45.03
+    },
+    "radius_km": 40
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       45.03,
+       13.1497
+      ],
+      [
+       45.1256,
+       13.1375
+      ],
+      [
+       45.2147,
+       13.1015
+      ],
+      [
+       45.2911,
+       13.0442
+      ],
+      [
+       45.3497,
+       12.9697
+      ],
+      [
+       45.3864,
+       12.8829
+      ],
+      [
+       45.3989,
+       12.7897
+      ],
+      [
+       45.3862,
+       12.6967
+      ],
+      [
+       45.3492,
+       12.6099
+      ],
+      [
+       45.2906,
+       12.5355
+      ],
+      [
+       45.2142,
+       12.4784
+      ],
+      [
+       45.1253,
+       12.4425
+      ],
+      [
+       45.03,
+       12.4303
+      ],
+      [
+       44.9347,
+       12.4425
+      ],
+      [
+       44.8458,
+       12.4784
+      ],
+      [
+       44.7694,
+       12.5355
+      ],
+      [
+       44.7108,
+       12.6099
+      ],
+      [
+       44.6738,
+       12.6967
+      ],
+      [
+       44.6611,
+       12.7897
+      ],
+      [
+       44.6736,
+       12.8829
+      ],
+      [
+       44.7103,
+       12.9697
+      ],
+      [
+       44.7689,
+       13.0442
+      ],
+      [
+       44.8453,
+       13.1015
+      ],
+      [
+       44.9344,
+       13.1375
+      ],
+      [
+       45.03,
+       13.1497
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mukalla",
+   "properties": {
+    "kind": "aoi",
+    "id": "mukalla",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Mukalla",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Mukalla",
+     "Al Mukalla",
+     "al-Rayyan",
+     "Riyan"
+    ],
+    "zone_tags": [
+     "FOREIGN_FOOTPRINT",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Hadramawt coast port; al-Rayyan airport; Saudi strike on a UAE-linked shipment 30 Dec 2025.",
+    "source_url": "https://www.aljazeera.com/news/2025/12/31/uae-to-pull-forces-out-of-yemen-as-tensions-rise-with-saudi-arabia",
+    "center": {
+     "lat": 14.54,
+     "lon": 49.12
+    },
+    "radius_km": 40
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       49.12,
+       14.8997
+      ],
+      [
+       49.2163,
+       14.8875
+      ],
+      [
+       49.3061,
+       14.8515
+      ],
+      [
+       49.3831,
+       14.7942
+      ],
+      [
+       49.4421,
+       14.7196
+      ],
+      [
+       49.4791,
+       14.6328
+      ],
+      [
+       49.4916,
+       14.5397
+      ],
+      [
+       49.4788,
+       14.4466
+      ],
+      [
+       49.4416,
+       14.3599
+      ],
+      [
+       49.3825,
+       14.2855
+      ],
+      [
+       49.3056,
+       14.2284
+      ],
+      [
+       49.216,
+       14.1925
+      ],
+      [
+       49.12,
+       14.1803
+      ],
+      [
+       49.024,
+       14.1925
+      ],
+      [
+       48.9344,
+       14.2284
+      ],
+      [
+       48.8575,
+       14.2855
+      ],
+      [
+       48.7984,
+       14.3599
+      ],
+      [
+       48.7612,
+       14.4466
+      ],
+      [
+       48.7484,
+       14.5397
+      ],
+      [
+       48.7609,
+       14.6328
+      ],
+      [
+       48.7979,
+       14.7196
+      ],
+      [
+       48.8569,
+       14.7942
+      ],
+      [
+       48.9339,
+       14.8515
+      ],
+      [
+       49.0237,
+       14.8875
+      ],
+      [
+       49.12,
+       14.8997
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "balhaf-lng",
+   "properties": {
+    "kind": "aoi",
+    "id": "balhaf-lng",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Balhaf LNG",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Balhaf",
+     "Balhaf LNG"
+    ],
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "Yemen LNG terminal.",
+    "source_url": "",
+    "center": {
+     "lat": 13.98,
+     "lon": 48.17
+    },
+    "radius_km": 25
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       48.17,
+       14.2048
+      ],
+      [
+       48.23,
+       14.1972
+      ],
+      [
+       48.2859,
+       14.1747
+      ],
+      [
+       48.3339,
+       14.1389
+      ],
+      [
+       48.3708,
+       14.0923
+      ],
+      [
+       48.3939,
+       14.0381
+      ],
+      [
+       48.4017,
+       13.9799
+      ],
+      [
+       48.3937,
+       13.9217
+      ],
+      [
+       48.3706,
+       13.8675
+      ],
+      [
+       48.3337,
+       13.821
+      ],
+      [
+       48.2857,
+       13.7853
+      ],
+      [
+       48.2299,
+       13.7628
+      ],
+      [
+       48.17,
+       13.7552
+      ],
+      [
+       48.1101,
+       13.7628
+      ],
+      [
+       48.0543,
+       13.7853
+      ],
+      [
+       48.0063,
+       13.821
+      ],
+      [
+       47.9694,
+       13.8675
+      ],
+      [
+       47.9463,
+       13.9217
+      ],
+      [
+       47.9383,
+       13.9799
+      ],
+      [
+       47.9461,
+       14.0381
+      ],
+      [
+       47.9692,
+       14.0923
+      ],
+      [
+       48.0061,
+       14.1389
+      ],
+      [
+       48.0541,
+       14.1747
+      ],
+      [
+       48.11,
+       14.1972
+      ],
+      [
+       48.17,
+       14.2048
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "shabwa",
+   "properties": {
+    "kind": "aoi",
+    "id": "shabwa",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Shabwa",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Shabwa",
+     "Shabwah",
+     "Ataq"
+    ],
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "Shabwa governorate oil and gas fields.",
+    "source_url": "",
+    "center": {
+     "lat": 14.5,
+     "lon": 46.8
+    },
+    "radius_km": 60
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       46.8,
+       15.0396
+      ],
+      [
+       46.9446,
+       15.0212
+      ],
+      [
+       47.0793,
+       14.9671
+      ],
+      [
+       47.1948,
+       14.8812
+      ],
+      [
+       47.2833,
+       14.7693
+      ],
+      [
+       47.3387,
+       14.639
+      ],
+      [
+       47.3573,
+       14.4993
+      ],
+      [
+       47.338,
+       14.3597
+      ],
+      [
+       47.2821,
+       14.2297
+      ],
+      [
+       47.1934,
+       14.1181
+      ],
+      [
+       47.0781,
+       14.0325
+      ],
+      [
+       46.9439,
+       13.9788
+      ],
+      [
+       46.8,
+       13.9604
+      ],
+      [
+       46.6561,
+       13.9788
+      ],
+      [
+       46.5219,
+       14.0325
+      ],
+      [
+       46.4066,
+       14.1181
+      ],
+      [
+       46.3179,
+       14.2297
+      ],
+      [
+       46.262,
+       14.3597
+      ],
+      [
+       46.2427,
+       14.4993
+      ],
+      [
+       46.2613,
+       14.639
+      ],
+      [
+       46.3167,
+       14.7693
+      ],
+      [
+       46.4052,
+       14.8812
+      ],
+      [
+       46.5207,
+       14.9671
+      ],
+      [
+       46.6554,
+       15.0212
+      ],
+      [
+       46.8,
+       15.0396
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "hadramawt",
+   "properties": {
+    "kind": "aoi",
+    "id": "hadramawt",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Hadramawt",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Hadramawt",
+     "Hadhramaut",
+     "Hadramout",
+     "Seiyun"
+    ],
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "Hadramawt governorate interior (Seiyun).",
+    "source_url": "",
+    "center": {
+     "lat": 15.5,
+     "lon": 48.8
+    },
+    "radius_km": 60
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       48.8,
+       16.0396
+      ],
+      [
+       48.9453,
+       16.0212
+      ],
+      [
+       49.0806,
+       15.9671
+      ],
+      [
+       49.1967,
+       15.8812
+      ],
+      [
+       49.2856,
+       15.7693
+      ],
+      [
+       49.3412,
+       15.639
+      ],
+      [
+       49.36,
+       15.4993
+      ],
+      [
+       49.3405,
+       15.3597
+      ],
+      [
+       49.2843,
+       15.2297
+      ],
+      [
+       49.1952,
+       15.1181
+      ],
+      [
+       49.0794,
+       15.0325
+      ],
+      [
+       48.9446,
+       14.9787
+      ],
+      [
+       48.8,
+       14.9604
+      ],
+      [
+       48.6554,
+       14.9787
+      ],
+      [
+       48.5206,
+       15.0325
+      ],
+      [
+       48.4048,
+       15.1181
+      ],
+      [
+       48.3157,
+       15.2297
+      ],
+      [
+       48.2595,
+       15.3597
+      ],
+      [
+       48.24,
+       15.4993
+      ],
+      [
+       48.2588,
+       15.639
+      ],
+      [
+       48.3144,
+       15.7693
+      ],
+      [
+       48.4033,
+       15.8812
+      ],
+      [
+       48.5194,
+       15.9671
+      ],
+      [
+       48.6547,
+       16.0212
+      ],
+      [
+       48.8,
+       16.0396
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "socotra",
+   "properties": {
+    "kind": "aoi",
+    "id": "socotra",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Socotra",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Socotra",
+     "Suqutra"
+    ],
+    "zone_tags": [
+     "FOREIGN_FOOTPRINT",
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "Socotra archipelago; UAE-established installations.",
+    "source_url": "https://en.kaabtv.com/uae-expands-military-footprint-in-the-horn-of-africa",
+    "center": {
+     "lat": 12.5,
+     "lon": 53.9
+    },
+    "radius_km": 70
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       53.9,
+       13.1295
+      ],
+      [
+       54.0673,
+       13.108
+      ],
+      [
+       54.2231,
+       13.045
+      ],
+      [
+       54.3567,
+       12.9448
+      ],
+      [
+       54.4591,
+       12.8142
+      ],
+      [
+       54.5232,
+       12.6622
+      ],
+      [
+       54.5448,
+       12.4992
+      ],
+      [
+       54.5224,
+       12.3364
+      ],
+      [
+       54.4577,
+       12.1847
+      ],
+      [
+       54.3552,
+       12.0545
+      ],
+      [
+       54.2217,
+       11.9546
+      ],
+      [
+       54.0665,
+       11.8919
+      ],
+      [
+       53.9,
+       11.8705
+      ],
+      [
+       53.7335,
+       11.8919
+      ],
+      [
+       53.5783,
+       11.9546
+      ],
+      [
+       53.4448,
+       12.0545
+      ],
+      [
+       53.3423,
+       12.1847
+      ],
+      [
+       53.2776,
+       12.3364
+      ],
+      [
+       53.2552,
+       12.4992
+      ],
+      [
+       53.2768,
+       12.6622
+      ],
+      [
+       53.3409,
+       12.8142
+      ],
+      [
+       53.4433,
+       12.9448
+      ],
+      [
+       53.5769,
+       13.045
+      ],
+      [
+       53.7327,
+       13.108
+      ],
+      [
+       53.9,
+       13.1295
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "taiz",
+   "properties": {
+    "kind": "aoi",
+    "id": "taiz",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Taiz",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Taiz",
+     "Taizz",
+     "Ta'izz",
+     "Jabal Han"
+    ],
+    "zone_tags": [
+     "GOVERNMENT_FACILITY"
+    ],
+    "notes": "Contested city (Jabal Han front). Added to cover the seeded Taiz incidents.",
+    "source_url": "https://www.criticalthreats.org/analysis/iran-update-october-20-2026",
+    "center": {
+     "lat": 13.58,
+     "lon": 44.02
+    },
+    "radius_km": 35
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       44.02,
+       13.8948
+      ],
+      [
+       44.1039,
+       13.884
+      ],
+      [
+       44.1821,
+       13.8525
+      ],
+      [
+       44.2492,
+       13.8025
+      ],
+      [
+       44.3006,
+       13.7372
+      ],
+      [
+       44.3329,
+       13.6613
+      ],
+      [
+       44.3438,
+       13.5798
+      ],
+      [
+       44.3327,
+       13.4983
+      ],
+      [
+       44.3002,
+       13.4225
+      ],
+      [
+       44.2488,
+       13.3573
+      ],
+      [
+       44.1817,
+       13.3074
+      ],
+      [
+       44.1037,
+       13.2759
+      ],
+      [
+       44.02,
+       13.2652
+      ],
+      [
+       43.9363,
+       13.2759
+      ],
+      [
+       43.8583,
+       13.3074
+      ],
+      [
+       43.7912,
+       13.3573
+      ],
+      [
+       43.7398,
+       13.4225
+      ],
+      [
+       43.7073,
+       13.4983
+      ],
+      [
+       43.6962,
+       13.5798
+      ],
+      [
+       43.7071,
+       13.6613
+      ],
+      [
+       43.7394,
+       13.7372
+      ],
+      [
+       43.7908,
+       13.8025
+      ],
+      [
+       43.8579,
+       13.8525
+      ],
+      [
+       43.9361,
+       13.884
+      ],
+      [
+       44.02,
+       13.8948
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "marib",
+   "properties": {
+    "kind": "aoi",
+    "id": "marib",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Marib",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Marib",
+     "Ma'rib",
+     "Harib",
+     "Medghal"
+    ],
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "Government-held energy hub; Houthi missile target. Added to cover the seeded Marib incidents.",
+    "source_url": "https://www.criticalthreats.org/analysis/iran-update-october-20-2026",
+    "center": {
+     "lat": 15.46,
+     "lon": 45.33
+    },
+    "radius_km": 45
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       45.33,
+       15.8647
+      ],
+      [
+       45.4389,
+       15.8509
+      ],
+      [
+       45.5403,
+       15.8104
+      ],
+      [
+       45.6273,
+       15.746
+      ],
+      [
+       45.694,
+       15.662
+      ],
+      [
+       45.7358,
+       15.5644
+      ],
+      [
+       45.7499,
+       15.4596
+      ],
+      [
+       45.7354,
+       15.3549
+      ],
+      [
+       45.6933,
+       15.2574
+      ],
+      [
+       45.6265,
+       15.1736
+      ],
+      [
+       45.5396,
+       15.1094
+      ],
+      [
+       45.4385,
+       15.0691
+      ],
+      [
+       45.33,
+       15.0553
+      ],
+      [
+       45.2215,
+       15.0691
+      ],
+      [
+       45.1204,
+       15.1094
+      ],
+      [
+       45.0335,
+       15.1736
+      ],
+      [
+       44.9667,
+       15.2574
+      ],
+      [
+       44.9246,
+       15.3549
+      ],
+      [
+       44.9101,
+       15.4596
+      ],
+      [
+       44.9242,
+       15.5644
+      ],
+      [
+       44.966,
+       15.662
+      ],
+      [
+       45.0327,
+       15.746
+      ],
+      [
+       45.1197,
+       15.8104
+      ],
+      [
+       45.2211,
+       15.8509
+      ],
+      [
+       45.33,
+       15.8647
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "sanaa",
+   "properties": {
+    "kind": "aoi",
+    "id": "sanaa",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Sanaa",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Sanaa",
+     "Sana'a",
+     "Sana",
+     "Sanaa City"
+    ],
+    "zone_tags": [
+     "GOVERNMENT_FACILITY",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Houthi-held capital. Added to cover the seeded Sanaa incident.",
+    "source_url": "https://english.aawsat.com/arab-world/5325595",
+    "center": {
+     "lat": 15.37,
+     "lon": 44.19
+    },
+    "radius_km": 35
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       44.19,
+       15.6848
+      ],
+      [
+       44.2746,
+       15.674
+      ],
+      [
+       44.3534,
+       15.6425
+      ],
+      [
+       44.4211,
+       15.5925
+      ],
+      [
+       44.4729,
+       15.5272
+      ],
+      [
+       44.5054,
+       15.4512
+      ],
+      [
+       44.5164,
+       15.3698
+      ],
+      [
+       44.5052,
+       15.2883
+      ],
+      [
+       44.4725,
+       15.2124
+      ],
+      [
+       44.4206,
+       15.1473
+      ],
+      [
+       44.353,
+       15.0973
+      ],
+      [
+       44.2744,
+       15.0659
+      ],
+      [
+       44.19,
+       15.0552
+      ],
+      [
+       44.1056,
+       15.0659
+      ],
+      [
+       44.027,
+       15.0973
+      ],
+      [
+       43.9594,
+       15.1473
+      ],
+      [
+       43.9075,
+       15.2124
+      ],
+      [
+       43.8748,
+       15.2883
+      ],
+      [
+       43.8636,
+       15.3698
+      ],
+      [
+       43.8746,
+       15.4512
+      ],
+      [
+       43.9071,
+       15.5272
+      ],
+      [
+       43.9589,
+       15.5925
+      ],
+      [
+       44.0266,
+       15.6425
+      ],
+      [
+       44.1054,
+       15.674
+      ],
+      [
+       44.19,
+       15.6848
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "dhubab",
+   "properties": {
+    "kind": "aoi",
+    "id": "dhubab",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Dhubab",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Dhubab",
+     "Dhubab Airport",
+     "Zuqar",
+     "Zuqar Island"
+    ],
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Red Sea coast / Dhubab airport.",
+    "source_url": "https://www.criticalthreats.org/analysis/iran-update-october-11-2026",
+    "center": {
+     "lat": 12.95,
+     "lon": 43.4
+    },
+    "radius_km": 20
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       43.4,
+       13.1299
+      ],
+      [
+       43.4478,
+       13.1237
+      ],
+      [
+       43.4923,
+       13.1058
+      ],
+      [
+       43.5306,
+       13.0772
+      ],
+      [
+       43.5599,
+       13.0399
+      ],
+      [
+       43.5783,
+       12.9965
+      ],
+      [
+       43.5846,
+       12.9499
+      ],
+      [
+       43.5782,
+       12.9034
+      ],
+      [
+       43.5598,
+       12.86
+      ],
+      [
+       43.5304,
+       12.8228
+      ],
+      [
+       43.4922,
+       12.7942
+      ],
+      [
+       43.4477,
+       12.7763
+      ],
+      [
+       43.4,
+       12.7701
+      ],
+      [
+       43.3523,
+       12.7763
+      ],
+      [
+       43.3078,
+       12.7942
+      ],
+      [
+       43.2696,
+       12.8228
+      ],
+      [
+       43.2402,
+       12.86
+      ],
+      [
+       43.2218,
+       12.9034
+      ],
+      [
+       43.2154,
+       12.9499
+      ],
+      [
+       43.2217,
+       12.9965
+      ],
+      [
+       43.2401,
+       13.0399
+      ],
+      [
+       43.2694,
+       13.0772
+      ],
+      [
+       43.3077,
+       13.1058
+      ],
+      [
+       43.3522,
+       13.1237
+      ],
+      [
+       43.4,
+       13.1299
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "berbera",
+   "properties": {
+    "kind": "aoi",
+    "id": "berbera",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Berbera",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Berbera",
+     "Somaliland"
+    ],
+    "zone_tags": [
+     "FOREIGN_FOOTPRINT",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Somaliland port (DP World $442m concession); UAE base adjacent to the Soviet-era airstrip.",
+    "source_url": "https://www.reuters.com/world/middle-east/dubais-dp-world-says-operations-somalilands-berbera-port-unaffected-by-uae-2026-01-13/",
+    "center": {
+     "lat": 10.44,
+     "lon": 45.01
+    },
+    "radius_km": 35
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       45.01,
+       10.7548
+      ],
+      [
+       45.0929,
+       10.744
+      ],
+      [
+       45.1702,
+       10.7126
+      ],
+      [
+       45.2365,
+       10.6625
+      ],
+      [
+       45.2873,
+       10.5973
+      ],
+      [
+       45.3192,
+       10.5213
+      ],
+      [
+       45.3301,
+       10.4398
+      ],
+      [
+       45.3191,
+       10.3584
+      ],
+      [
+       45.287,
+       10.2825
+      ],
+      [
+       45.2362,
+       10.2174
+      ],
+      [
+       45.1699,
+       10.1674
+      ],
+      [
+       45.0928,
+       10.136
+      ],
+      [
+       45.01,
+       10.1252
+      ],
+      [
+       44.9272,
+       10.136
+      ],
+      [
+       44.8501,
+       10.1674
+      ],
+      [
+       44.7838,
+       10.2174
+      ],
+      [
+       44.733,
+       10.2825
+      ],
+      [
+       44.7009,
+       10.3584
+      ],
+      [
+       44.6899,
+       10.4398
+      ],
+      [
+       44.7008,
+       10.5213
+      ],
+      [
+       44.7327,
+       10.5973
+      ],
+      [
+       44.7835,
+       10.6625
+      ],
+      [
+       44.8498,
+       10.7126
+      ],
+      [
+       44.9271,
+       10.744
+      ],
+      [
+       45.01,
+       10.7548
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "bosaso",
+   "properties": {
+    "kind": "aoi",
+    "id": "bosaso",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Bosaso",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Bosaso",
+     "Bosasso",
+     "Boosaaso",
+     "Puntland"
+    ],
+    "zone_tags": [
+     "FOREIGN_FOOTPRINT",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Puntland port; UAE facility.",
+    "source_url": "https://www.criticalthreats.org/analysis/somalia-cancels-uae-agreements-sudan-pakistan-arms-deal-potential-inter-congolese-dialogue-africa-file-january-15-2026",
+    "center": {
+     "lat": 11.28,
+     "lon": 49.18
+    },
+    "radius_km": 40
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       49.18,
+       11.6397
+      ],
+      [
+       49.2751,
+       11.6275
+      ],
+      [
+       49.3636,
+       11.5915
+      ],
+      [
+       49.4396,
+       11.5343
+      ],
+      [
+       49.4979,
+       11.4597
+      ],
+      [
+       49.5344,
+       11.3729
+      ],
+      [
+       49.5468,
+       11.2798
+      ],
+      [
+       49.5342,
+       11.1867
+      ],
+      [
+       49.4975,
+       11.1
+      ],
+      [
+       49.4391,
+       11.0255
+      ],
+      [
+       49.3632,
+       10.9684
+      ],
+      [
+       49.2748,
+       10.9325
+      ],
+      [
+       49.18,
+       10.9203
+      ],
+      [
+       49.0852,
+       10.9325
+      ],
+      [
+       48.9968,
+       10.9684
+      ],
+      [
+       48.9209,
+       11.0255
+      ],
+      [
+       48.8625,
+       11.1
+      ],
+      [
+       48.8258,
+       11.1867
+      ],
+      [
+       48.8132,
+       11.2798
+      ],
+      [
+       48.8256,
+       11.3729
+      ],
+      [
+       48.8621,
+       11.4597
+      ],
+      [
+       48.9204,
+       11.5343
+      ],
+      [
+       48.9964,
+       11.5915
+      ],
+      [
+       49.0849,
+       11.6275
+      ],
+      [
+       49.18,
+       11.6397
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "puntland-coast",
+   "properties": {
+    "kind": "aoi",
+    "id": "puntland-coast",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Puntland coast Eyl-Garacad",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Eyl",
+     "Garacad",
+     "Garaad",
+     "Puntland coast"
+    ],
+    "zone_tags": [
+     "TERRITORIAL_WATERS_EEZ"
+    ],
+    "notes": "Piracy launch coast.",
+    "source_url": "https://www.euronews.com/2026/08/27/incidents-of-piracy-off-somalia-surged-in-2026-new-analysis-of-imo-data-shows",
+    "center": {
+     "lat": 6.95,
+     "lon": 49.33
+    },
+    "radius_km": 63.3
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       50.2416,
+       8.0214
+      ],
+      [
+       49.5646,
+       6.6011
+      ],
+      [
+       48.9095,
+       6.9084
+      ],
+      [
+       49.5844,
+       8.3287
+      ],
+      [
+       50.2416,
+       8.0214
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "gulf-of-aden-corridor",
+   "properties": {
+    "kind": "aoi",
+    "id": "gulf-of-aden-corridor",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Gulf of Aden corridor",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Gulf of Aden",
+     "Aden corridor",
+     "IRTC"
+    ],
+    "zone_tags": [
+     "TERRITORIAL_WATERS_EEZ",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Internationally recommended transit corridor.",
+    "source_url": "https://www.euronews.com/2026/08/27/incidents-of-piracy-off-somalia-surged-in-2026-new-analysis-of-imo-data-shows",
+    "center": {
+     "lat": 12.5,
+     "lon": 50.0
+    },
+    "radius_km": 278.9
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       44.6098,
+       12.5001
+      ],
+      [
+       50.2682,
+       13.072
+      ],
+      [
+       50.3908,
+       11.9995
+      ],
+      [
+       44.7322,
+       11.4276
+      ],
+      [
+       44.6098,
+       12.5001
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "mogadishu",
+   "properties": {
+    "kind": "aoi",
+    "id": "mogadishu",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Mogadishu",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Mogadishu",
+     "Muqdisho"
+    ],
+    "zone_tags": [
+     "GOVERNMENT_FACILITY",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Federal capital.",
+    "source_url": "https://www.cfr.org/global-conflict-tracker/conflict/al-shabab-somalia",
+    "center": {
+     "lat": 2.05,
+     "lon": 45.32
+    },
+    "radius_km": 35
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       45.32,
+       2.3648
+      ],
+      [
+       45.4015,
+       2.354
+      ],
+      [
+       45.4775,
+       2.3226
+      ],
+      [
+       45.5427,
+       2.2726
+      ],
+      [
+       45.5928,
+       2.2074
+      ],
+      [
+       45.6242,
+       2.1314
+      ],
+      [
+       45.635,
+       2.05
+      ],
+      [
+       45.6242,
+       1.9685
+      ],
+      [
+       45.5927,
+       1.8926
+      ],
+      [
+       45.5427,
+       1.8274
+      ],
+      [
+       45.4775,
+       1.7774
+      ],
+      [
+       45.4015,
+       1.746
+      ],
+      [
+       45.32,
+       1.7352
+      ],
+      [
+       45.2385,
+       1.746
+      ],
+      [
+       45.1625,
+       1.7774
+      ],
+      [
+       45.0973,
+       1.8274
+      ],
+      [
+       45.0473,
+       1.8926
+      ],
+      [
+       45.0158,
+       1.9685
+      ],
+      [
+       45.005,
+       2.05
+      ],
+      [
+       45.0158,
+       2.1314
+      ],
+      [
+       45.0472,
+       2.2074
+      ],
+      [
+       45.0973,
+       2.2726
+      ],
+      [
+       45.1625,
+       2.3226
+      ],
+      [
+       45.2385,
+       2.354
+      ],
+      [
+       45.32,
+       2.3648
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "kismayo",
+   "properties": {
+    "kind": "aoi",
+    "id": "kismayo",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Kismayo",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Kismayo",
+     "Kismaayo",
+     "Kismayu"
+    ],
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Jubaland port.",
+    "source_url": "",
+    "center": {
+     "lat": -0.36,
+     "lon": 42.55
+    },
+    "radius_km": 35
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       42.55,
+       -0.0452
+      ],
+      [
+       42.6315,
+       -0.056
+      ],
+      [
+       42.7074,
+       -0.0874
+      ],
+      [
+       42.7726,
+       -0.1374
+      ],
+      [
+       42.8226,
+       -0.2026
+      ],
+      [
+       42.854,
+       -0.2785
+      ],
+      [
+       42.8648,
+       -0.36
+      ],
+      [
+       42.854,
+       -0.4415
+      ],
+      [
+       42.8226,
+       -0.5174
+      ],
+      [
+       42.7726,
+       -0.5826
+      ],
+      [
+       42.7074,
+       -0.6326
+      ],
+      [
+       42.6315,
+       -0.664
+      ],
+      [
+       42.55,
+       -0.6748
+      ],
+      [
+       42.4685,
+       -0.664
+      ],
+      [
+       42.3926,
+       -0.6326
+      ],
+      [
+       42.3274,
+       -0.5826
+      ],
+      [
+       42.2774,
+       -0.5174
+      ],
+      [
+       42.246,
+       -0.4415
+      ],
+      [
+       42.2352,
+       -0.36
+      ],
+      [
+       42.246,
+       -0.2785
+      ],
+      [
+       42.2774,
+       -0.2026
+      ],
+      [
+       42.3274,
+       -0.1374
+      ],
+      [
+       42.3926,
+       -0.0874
+      ],
+      [
+       42.4685,
+       -0.056
+      ],
+      [
+       42.55,
+       -0.0452
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "jilib-juba",
+   "properties": {
+    "kind": "aoi",
+    "id": "jilib-juba",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Jilib / Lower Juba",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Jilib",
+     "Lower Juba"
+    ],
+    "zone_tags": [],
+    "notes": "al-Shabaab stronghold. Added to cover the seeded NISA raid.",
+    "source_url": "https://www.cfr.org/global-conflict-tracker/conflict/al-shabab-somalia",
+    "center": {
+     "lat": 0.49,
+     "lon": 42.78
+    },
+    "radius_km": 40
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       42.78,
+       0.8497
+      ],
+      [
+       42.8731,
+       0.8375
+      ],
+      [
+       42.9599,
+       0.8015
+      ],
+      [
+       43.0344,
+       0.7444
+      ],
+      [
+       43.0916,
+       0.6699
+      ],
+      [
+       43.1275,
+       0.5831
+      ],
+      [
+       43.1397,
+       0.49
+      ],
+      [
+       43.1275,
+       0.3969
+      ],
+      [
+       43.0915,
+       0.3101
+      ],
+      [
+       43.0344,
+       0.2356
+      ],
+      [
+       42.9599,
+       0.1785
+      ],
+      [
+       42.8731,
+       0.1425
+      ],
+      [
+       42.78,
+       0.1303
+      ],
+      [
+       42.6869,
+       0.1425
+      ],
+      [
+       42.6001,
+       0.1785
+      ],
+      [
+       42.5256,
+       0.2356
+      ],
+      [
+       42.4685,
+       0.3101
+      ],
+      [
+       42.4325,
+       0.3969
+      ],
+      [
+       42.4203,
+       0.49
+      ],
+      [
+       42.4325,
+       0.5831
+      ],
+      [
+       42.4684,
+       0.6699
+      ],
+      [
+       42.5256,
+       0.7444
+      ],
+      [
+       42.6001,
+       0.8015
+      ],
+      [
+       42.6869,
+       0.8375
+      ],
+      [
+       42.78,
+       0.8497
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "baidoa-buurhakaba",
+   "properties": {
+    "kind": "aoi",
+    "id": "baidoa-buurhakaba",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Baidoa / Buurhakaba",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Baidoa",
+     "Buurhakaba",
+     "Buur Hakaba",
+     "Buur Heybo"
+    ],
+    "zone_tags": [
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "South West State; AUSSOM handoff. Added to cover the seeded force-posture incidents.",
+    "source_url": "https://www.cfr.org/global-conflict-tracker/conflict/al-shabab-somalia",
+    "center": {
+     "lat": 2.78,
+     "lon": 44.08
+    },
+    "radius_km": 50
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       44.08,
+       3.2297
+      ],
+      [
+       44.1966,
+       3.2143
+      ],
+      [
+       44.3052,
+       3.1694
+      ],
+      [
+       44.3984,
+       3.0979
+      ],
+      [
+       44.47,
+       3.0048
+      ],
+      [
+       44.5149,
+       2.8963
+      ],
+      [
+       44.5302,
+       2.7799
+      ],
+      [
+       44.5148,
+       2.6635
+      ],
+      [
+       44.4698,
+       2.5551
+      ],
+      [
+       44.3982,
+       2.462
+      ],
+      [
+       44.305,
+       2.3906
+      ],
+      [
+       44.1965,
+       2.3457
+      ],
+      [
+       44.08,
+       2.3303
+      ],
+      [
+       43.9635,
+       2.3457
+      ],
+      [
+       43.855,
+       2.3906
+      ],
+      [
+       43.7618,
+       2.462
+      ],
+      [
+       43.6902,
+       2.5551
+      ],
+      [
+       43.6452,
+       2.6635
+      ],
+      [
+       43.6298,
+       2.7799
+      ],
+      [
+       43.6451,
+       2.8963
+      ],
+      [
+       43.69,
+       3.0048
+      ],
+      [
+       43.7616,
+       3.0979
+      ],
+      [
+       43.8548,
+       3.1694
+      ],
+      [
+       43.9634,
+       3.2143
+      ],
+      [
+       44.08,
+       3.2297
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "garowe",
+   "properties": {
+    "kind": "aoi",
+    "id": "garowe",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Garowe",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Garowe",
+     "Garoowe",
+     "Galkayo"
+    ],
+    "zone_tags": [
+     "GOVERNMENT_FACILITY"
+    ],
+    "notes": "Puntland capital. Added to cover the seeded Puntland incidents.",
+    "source_url": "https://www.criticalthreats.org/analysis/aussom-shabaab-somalia-puntland-fgs-somalia-iswap-boko-nigeria-africa-file-august-13-2026",
+    "center": {
+     "lat": 8.4,
+     "lon": 48.48
+    },
+    "radius_km": 40
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       48.48,
+       8.7597
+      ],
+      [
+       48.5742,
+       8.7475
+      ],
+      [
+       48.662,
+       8.7115
+      ],
+      [
+       48.7373,
+       8.6543
+      ],
+      [
+       48.7951,
+       8.5797
+      ],
+      [
+       48.8313,
+       8.4929
+      ],
+      [
+       48.8436,
+       8.3998
+      ],
+      [
+       48.8312,
+       8.3067
+      ],
+      [
+       48.7948,
+       8.22
+      ],
+      [
+       48.737,
+       8.1456
+      ],
+      [
+       48.6617,
+       8.0884
+      ],
+      [
+       48.574,
+       8.0525
+      ],
+      [
+       48.48,
+       8.0403
+      ],
+      [
+       48.386,
+       8.0525
+      ],
+      [
+       48.2983,
+       8.0884
+      ],
+      [
+       48.223,
+       8.1456
+      ],
+      [
+       48.1652,
+       8.22
+      ],
+      [
+       48.1288,
+       8.3067
+      ],
+      [
+       48.1164,
+       8.3998
+      ],
+      [
+       48.1287,
+       8.4929
+      ],
+      [
+       48.1649,
+       8.5797
+      ],
+      [
+       48.2227,
+       8.6543
+      ],
+      [
+       48.298,
+       8.7115
+      ],
+      [
+       48.3858,
+       8.7475
+      ],
+      [
+       48.48,
+       8.7597
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "golis-mountains",
+   "properties": {
+    "kind": "aoi",
+    "id": "golis-mountains",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Golis Mountains",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Golis",
+     "Golis Mountains",
+     "Cal Miskaad"
+    ],
+    "zone_tags": [],
+    "notes": "ISIS-Somalia redoubt south-east of Bosaso. Added to cover the seeded US airstrikes.",
+    "source_url": "https://www.foxnews.com/world/us-launches-wave-strikes-somalia-targeting-isis-al-shabab-terror-threats",
+    "center": {
+     "lat": 11.0,
+     "lon": 49.5
+    },
+    "radius_km": 50
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       49.5,
+       11.4497
+      ],
+      [
+       49.6187,
+       11.4343
+      ],
+      [
+       49.7293,
+       11.3893
+      ],
+      [
+       49.8243,
+       11.3178
+      ],
+      [
+       49.897,
+       11.2246
+      ],
+      [
+       49.9426,
+       11.1161
+      ],
+      [
+       49.9581,
+       10.9997
+      ],
+      [
+       49.9423,
+       10.8833
+      ],
+      [
+       49.8964,
+       10.7749
+      ],
+      [
+       49.8236,
+       10.6819
+      ],
+      [
+       49.7287,
+       10.6105
+      ],
+      [
+       49.6184,
+       10.5656
+      ],
+      [
+       49.5,
+       10.5503
+      ],
+      [
+       49.3816,
+       10.5656
+      ],
+      [
+       49.2713,
+       10.6105
+      ],
+      [
+       49.1764,
+       10.6819
+      ],
+      [
+       49.1036,
+       10.7749
+      ],
+      [
+       49.0577,
+       10.8833
+      ],
+      [
+       49.0419,
+       10.9997
+      ],
+      [
+       49.0574,
+       11.1161
+      ],
+      [
+       49.103,
+       11.2246
+      ],
+      [
+       49.1757,
+       11.3178
+      ],
+      [
+       49.2707,
+       11.3893
+      ],
+      [
+       49.3813,
+       11.4343
+      ],
+      [
+       49.5,
+       11.4497
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "fujairah",
+   "properties": {
+    "kind": "aoi",
+    "id": "fujairah",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Fujairah",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Fujairah",
+     "Al Fujairah",
+     "FOIZ",
+     "Fujairah Oil Industry Zone"
+    ],
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY",
+     "PORT_AIRPORT_TRANSPORT",
+     "COMMUNICATIONS"
+    ],
+    "notes": "Fujairah Oil Industry Zone, crude terminal and port; Hormuz-bypass export hub (crude exports via Fujairah up 38%).",
+    "source_url": "https://www.reuters.com/world/middle-east/gulfs-fragile-trade-lifeline-hangs-two-eastern-uae-ports-2026-05-06/",
+    "center": {
+     "lat": 25.12,
+     "lon": 56.34
+    },
+    "radius_km": 30
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       56.34,
+       25.3898
+      ],
+      [
+       56.4173,
+       25.3806
+      ],
+      [
+       56.4893,
+       25.3536
+      ],
+      [
+       56.551,
+       25.3106
+      ],
+      [
+       56.5983,
+       25.2547
+      ],
+      [
+       56.628,
+       25.1896
+      ],
+      [
+       56.638,
+       25.1197
+      ],
+      [
+       56.6277,
+       25.0499
+      ],
+      [
+       56.5978,
+       24.9849
+      ],
+      [
+       56.5504,
+       24.9291
+      ],
+      [
+       56.4887,
+       24.8863
+      ],
+      [
+       56.417,
+       24.8594
+      ],
+      [
+       56.34,
+       24.8502
+      ],
+      [
+       56.263,
+       24.8594
+      ],
+      [
+       56.1913,
+       24.8863
+      ],
+      [
+       56.1296,
+       24.9291
+      ],
+      [
+       56.0822,
+       24.9849
+      ],
+      [
+       56.0523,
+       25.0499
+      ],
+      [
+       56.042,
+       25.1197
+      ],
+      [
+       56.052,
+       25.1896
+      ],
+      [
+       56.0817,
+       25.2547
+      ],
+      [
+       56.129,
+       25.3106
+      ],
+      [
+       56.1907,
+       25.3536
+      ],
+      [
+       56.2627,
+       25.3806
+      ],
+      [
+       56.34,
+       25.3898
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "khor-fakkan",
+   "properties": {
+    "kind": "aoi",
+    "id": "khor-fakkan",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Khor Fakkan",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Khor Fakkan",
+     "Khorfakkan",
+     "Khawr Fakkan"
+    ],
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Gulftainer container terminal (volumes up ~25x, 900 workers hired, $2bn expansion).",
+    "source_url": "https://www.reuters.com/world/middle-east/gulfs-fragile-trade-lifeline-hangs-two-eastern-uae-ports-2026-05-06/",
+    "center": {
+     "lat": 25.34,
+     "lon": 56.35
+    },
+    "radius_km": 12
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       56.35,
+       25.4479
+      ],
+      [
+       56.3809,
+       25.4442
+      ],
+      [
+       56.4097,
+       25.4334
+      ],
+      [
+       56.4345,
+       25.4163
+      ],
+      [
+       56.4535,
+       25.3939
+      ],
+      [
+       56.4654,
+       25.3679
+      ],
+      [
+       56.4694,
+       25.34
+      ],
+      [
+       56.4653,
+       25.312
+      ],
+      [
+       56.4534,
+       25.286
+      ],
+      [
+       56.4344,
+       25.2637
+      ],
+      [
+       56.4097,
+       25.2465
+      ],
+      [
+       56.3809,
+       25.2358
+      ],
+      [
+       56.35,
+       25.2321
+      ],
+      [
+       56.3191,
+       25.2358
+      ],
+      [
+       56.2903,
+       25.2465
+      ],
+      [
+       56.2656,
+       25.2637
+      ],
+      [
+       56.2466,
+       25.286
+      ],
+      [
+       56.2347,
+       25.312
+      ],
+      [
+       56.2306,
+       25.34
+      ],
+      [
+       56.2346,
+       25.3679
+      ],
+      [
+       56.2465,
+       25.3939
+      ],
+      [
+       56.2655,
+       25.4163
+      ],
+      [
+       56.2903,
+       25.4334
+      ],
+      [
+       56.3191,
+       25.4442
+      ],
+      [
+       56.35,
+       25.4479
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "habshan-fujairah-pipeline",
+   "properties": {
+    "kind": "aoi",
+    "id": "habshan-fujairah-pipeline",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Habshan-Fujairah pipeline corridor",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Habshan",
+     "ADCOP",
+     "Habshan-Fujairah",
+     "West-East Pipeline",
+     "pipeline corridor"
+    ],
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "ADCOP (~400 km, 1.5 Mbpd) plus the West-East Pipeline under construction (fast-tracked 15 May 2026, target 2027).",
+    "source_url": "https://www.reuters.com/business/energy/uae-accelerate-oil-pipeline-project-help-bypass-hormuz-2026-05-15/",
+    "center": {
+     "lat": 24.8,
+     "lon": 55.5
+    },
+    "radius_km": 170.4
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       53.3465,
+       23.8721
+      ],
+      [
+       54.4712,
+       24.4918
+      ],
+      [
+       55.3863,
+       24.9998
+      ],
+      [
+       56.3801,
+       25.3796
+      ],
+      [
+       56.574,
+       24.9655
+      ],
+      [
+       55.6134,
+       24.6001
+      ],
+      [
+       54.7284,
+       24.1081
+      ],
+      [
+       53.6013,
+       23.4877
+      ],
+      [
+       53.3465,
+       23.8721
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "das-island",
+   "properties": {
+    "kind": "aoi",
+    "id": "das-island",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Das Island",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Das Island",
+     "Das",
+     "Zirku",
+     "Zirku Island",
+     "Upper Zakum"
+    ],
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY",
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "ADNOC offshore export terminal; alternative loading offered off Fujairah/Sohar via STS.",
+    "source_url": "https://www.bairdmaritime.com/shipping/tankers/adnoc-offers-new-crude-loading-options-to-circumvent-strait-of-hormuz",
+    "center": {
+     "lat": 25.15,
+     "lon": 52.87
+    },
+    "radius_km": 30
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       52.87,
+       25.4198
+      ],
+      [
+       52.9473,
+       25.4106
+      ],
+      [
+       53.0193,
+       25.3836
+      ],
+      [
+       53.0811,
+       25.3406
+      ],
+      [
+       53.1284,
+       25.2847
+      ],
+      [
+       53.1581,
+       25.2195
+      ],
+      [
+       53.1681,
+       25.1497
+      ],
+      [
+       53.1577,
+       25.0799
+      ],
+      [
+       53.1278,
+       25.0149
+      ],
+      [
+       53.0804,
+       24.9591
+      ],
+      [
+       53.0187,
+       24.9163
+      ],
+      [
+       52.947,
+       24.8894
+      ],
+      [
+       52.87,
+       24.8802
+      ],
+      [
+       52.793,
+       24.8894
+      ],
+      [
+       52.7213,
+       24.9163
+      ],
+      [
+       52.6596,
+       24.9591
+      ],
+      [
+       52.6122,
+       25.0149
+      ],
+      [
+       52.5823,
+       25.0799
+      ],
+      [
+       52.5719,
+       25.1497
+      ],
+      [
+       52.5819,
+       25.2195
+      ],
+      [
+       52.6116,
+       25.2847
+      ],
+      [
+       52.6589,
+       25.3406
+      ],
+      [
+       52.7207,
+       25.3836
+      ],
+      [
+       52.7927,
+       25.4106
+      ],
+      [
+       52.87,
+       25.4198
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "ruwais",
+   "properties": {
+    "kind": "aoi",
+    "id": "ruwais",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Ruwais",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Ruwais",
+     "Al Ruwais"
+    ],
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "Ruwais refinery and industrial complex.",
+    "source_url": "",
+    "center": {
+     "lat": 24.11,
+     "lon": 52.73
+    },
+    "radius_km": 30
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       52.73,
+       24.3798
+      ],
+      [
+       52.8067,
+       24.3706
+      ],
+      [
+       52.8781,
+       24.3436
+      ],
+      [
+       52.9393,
+       24.3006
+      ],
+      [
+       52.9863,
+       24.2447
+      ],
+      [
+       53.0157,
+       24.1796
+      ],
+      [
+       53.0256,
+       24.1097
+      ],
+      [
+       53.0154,
+       24.0399
+      ],
+      [
+       52.9857,
+       23.9749
+      ],
+      [
+       52.9387,
+       23.9191
+      ],
+      [
+       52.8775,
+       23.8763
+      ],
+      [
+       52.8063,
+       23.8494
+      ],
+      [
+       52.73,
+       23.8402
+      ],
+      [
+       52.6537,
+       23.8494
+      ],
+      [
+       52.5825,
+       23.8763
+      ],
+      [
+       52.5213,
+       23.9191
+      ],
+      [
+       52.4743,
+       23.9749
+      ],
+      [
+       52.4446,
+       24.0399
+      ],
+      [
+       52.4344,
+       24.1097
+      ],
+      [
+       52.4443,
+       24.1796
+      ],
+      [
+       52.4737,
+       24.2447
+      ],
+      [
+       52.5207,
+       24.3006
+      ],
+      [
+       52.5819,
+       24.3436
+      ],
+      [
+       52.6533,
+       24.3706
+      ],
+      [
+       52.73,
+       24.3798
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "barakah",
+   "properties": {
+    "kind": "aoi",
+    "id": "barakah",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Barakah",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Barakah",
+     "Baraka",
+     "Barakah NPP"
+    ],
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY",
+     "MILITARY_RESTRICTED",
+     "GOVERNMENT_FACILITY"
+    ],
+    "notes": "Barakah nuclear power plant.",
+    "source_url": "",
+    "center": {
+     "lat": 23.97,
+     "lon": 52.24
+    },
+    "radius_km": 25
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       52.24,
+       24.1948
+      ],
+      [
+       52.3038,
+       24.1872
+      ],
+      [
+       52.3632,
+       24.1647
+      ],
+      [
+       52.4142,
+       24.1289
+      ],
+      [
+       52.4533,
+       24.0823
+      ],
+      [
+       52.4778,
+       24.028
+      ],
+      [
+       52.486,
+       23.9698
+      ],
+      [
+       52.4776,
+       23.9116
+      ],
+      [
+       52.4529,
+       23.8574
+      ],
+      [
+       52.4138,
+       23.8109
+      ],
+      [
+       52.3628,
+       23.7752
+      ],
+      [
+       52.3036,
+       23.7528
+      ],
+      [
+       52.24,
+       23.7452
+      ],
+      [
+       52.1764,
+       23.7528
+      ],
+      [
+       52.1172,
+       23.7752
+      ],
+      [
+       52.0662,
+       23.8109
+      ],
+      [
+       52.0271,
+       23.8574
+      ],
+      [
+       52.0024,
+       23.9116
+      ],
+      [
+       51.994,
+       23.9698
+      ],
+      [
+       52.0022,
+       24.028
+      ],
+      [
+       52.0267,
+       24.0823
+      ],
+      [
+       52.0658,
+       24.1289
+      ],
+      [
+       52.1168,
+       24.1647
+      ],
+      [
+       52.1762,
+       24.1872
+      ],
+      [
+       52.24,
+       24.1948
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "al-dhafra",
+   "properties": {
+    "kind": "aoi",
+    "id": "al-dhafra",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Al Dhafra",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Al Dhafra",
+     "Dhafra",
+     "Al Dhafra Air Base"
+    ],
+    "zone_tags": [
+     "MILITARY_RESTRICTED",
+     "SECURITY_FORCES"
+    ],
+    "notes": "Al Dhafra Air Base.",
+    "source_url": "",
+    "center": {
+     "lat": 24.25,
+     "lon": 54.55
+    },
+    "radius_km": 25
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       54.55,
+       24.4748
+      ],
+      [
+       54.6139,
+       24.4672
+      ],
+      [
+       54.6735,
+       24.4447
+      ],
+      [
+       54.7246,
+       24.4089
+      ],
+      [
+       54.7637,
+       24.3623
+      ],
+      [
+       54.7883,
+       24.308
+      ],
+      [
+       54.7966,
+       24.2498
+      ],
+      [
+       54.7881,
+       24.1916
+      ],
+      [
+       54.7634,
+       24.1374
+      ],
+      [
+       54.7241,
+       24.0909
+      ],
+      [
+       54.6731,
+       24.0552
+      ],
+      [
+       54.6137,
+       24.0328
+      ],
+      [
+       54.55,
+       24.0252
+      ],
+      [
+       54.4863,
+       24.0328
+      ],
+      [
+       54.4269,
+       24.0552
+      ],
+      [
+       54.3759,
+       24.0909
+      ],
+      [
+       54.3366,
+       24.1374
+      ],
+      [
+       54.3119,
+       24.1916
+      ],
+      [
+       54.3034,
+       24.2498
+      ],
+      [
+       54.3117,
+       24.308
+      ],
+      [
+       54.3363,
+       24.3623
+      ],
+      [
+       54.3754,
+       24.4089
+      ],
+      [
+       54.4265,
+       24.4447
+      ],
+      [
+       54.4861,
+       24.4672
+      ],
+      [
+       54.55,
+       24.4748
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "jebel-ali",
+   "properties": {
+    "kind": "aoi",
+    "id": "jebel-ali",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Jebel Ali",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Jebel Ali",
+     "Jabal Ali"
+    ],
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Jebel Ali port (activity down up to 95% during the Hormuz closure).",
+    "source_url": "https://www.reuters.com/world/middle-east/gulfs-fragile-trade-lifeline-hangs-two-eastern-uae-ports-2026-05-06/",
+    "center": {
+     "lat": 25.01,
+     "lon": 55.06
+    },
+    "radius_km": 20
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       55.06,
+       25.1899
+      ],
+      [
+       55.1114,
+       25.1837
+      ],
+      [
+       55.1594,
+       25.1657
+      ],
+      [
+       55.2005,
+       25.1371
+      ],
+      [
+       55.232,
+       25.0998
+      ],
+      [
+       55.2518,
+       25.0564
+      ],
+      [
+       55.2585,
+       25.0099
+      ],
+      [
+       55.2516,
+       24.9633
+      ],
+      [
+       55.2318,
+       24.92
+      ],
+      [
+       55.2002,
+       24.8828
+      ],
+      [
+       55.1591,
+       24.8542
+      ],
+      [
+       55.1113,
+       24.8363
+      ],
+      [
+       55.06,
+       24.8301
+      ],
+      [
+       55.0087,
+       24.8363
+      ],
+      [
+       54.9609,
+       24.8542
+      ],
+      [
+       54.9198,
+       24.8828
+      ],
+      [
+       54.8882,
+       24.92
+      ],
+      [
+       54.8684,
+       24.9633
+      ],
+      [
+       54.8615,
+       25.0099
+      ],
+      [
+       54.8682,
+       25.0564
+      ],
+      [
+       54.888,
+       25.0998
+      ],
+      [
+       54.9195,
+       25.1371
+      ],
+      [
+       54.9606,
+       25.1657
+      ],
+      [
+       55.0086,
+       25.1837
+      ],
+      [
+       55.06,
+       25.1899
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "khalifa-port",
+   "properties": {
+    "kind": "aoi",
+    "id": "khalifa-port",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Khalifa Port",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Khalifa Port",
+     "Khalifa"
+    ],
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Khalifa Port (AD Ports).",
+    "source_url": "",
+    "center": {
+     "lat": 24.8,
+     "lon": 54.65
+    },
+    "radius_km": 20
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       54.65,
+       24.9799
+      ],
+      [
+       54.7014,
+       24.9737
+      ],
+      [
+       54.7492,
+       24.9557
+      ],
+      [
+       54.7902,
+       24.9271
+      ],
+      [
+       54.8217,
+       24.8898
+      ],
+      [
+       54.8415,
+       24.8464
+      ],
+      [
+       54.8481,
+       24.7999
+      ],
+      [
+       54.8413,
+       24.7533
+      ],
+      [
+       54.8215,
+       24.71
+      ],
+      [
+       54.79,
+       24.6728
+      ],
+      [
+       54.7489,
+       24.6442
+      ],
+      [
+       54.7012,
+       24.6263
+      ],
+      [
+       54.65,
+       24.6201
+      ],
+      [
+       54.5988,
+       24.6263
+      ],
+      [
+       54.5511,
+       24.6442
+      ],
+      [
+       54.51,
+       24.6728
+      ],
+      [
+       54.4785,
+       24.71
+      ],
+      [
+       54.4587,
+       24.7533
+      ],
+      [
+       54.4519,
+       24.7999
+      ],
+      [
+       54.4585,
+       24.8464
+      ],
+      [
+       54.4783,
+       24.8898
+      ],
+      [
+       54.5098,
+       24.9271
+      ],
+      [
+       54.5508,
+       24.9557
+      ],
+      [
+       54.5986,
+       24.9737
+      ],
+      [
+       54.65,
+       24.9799
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "abu-dhabi",
+   "properties": {
+    "kind": "aoi",
+    "id": "abu-dhabi",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Abu Dhabi",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Abu Dhabi",
+     "Abudhabi"
+    ],
+    "zone_tags": [
+     "GOVERNMENT_FACILITY",
+     "SECURITY_FORCES",
+     "COMMUNICATIONS"
+    ],
+    "notes": "Federal government seat. Added to cover the seeded cyber incidents.",
+    "source_url": "https://www.techtimes.com/articles/323799/20260810/",
+    "center": {
+     "lat": 24.45,
+     "lon": 54.65
+    },
+    "radius_km": 35
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       54.65,
+       24.7648
+      ],
+      [
+       54.7397,
+       24.754
+      ],
+      [
+       54.8233,
+       24.7225
+      ],
+      [
+       54.8949,
+       24.6724
+      ],
+      [
+       54.9498,
+       24.6071
+      ],
+      [
+       54.9842,
+       24.5311
+      ],
+      [
+       54.9958,
+       24.4496
+      ],
+      [
+       54.9838,
+       24.3682
+      ],
+      [
+       54.9491,
+       24.2923
+      ],
+      [
+       54.8941,
+       24.2272
+      ],
+      [
+       54.8225,
+       24.1773
+      ],
+      [
+       54.7393,
+       24.1459
+      ],
+      [
+       54.65,
+       24.1352
+      ],
+      [
+       54.5607,
+       24.1459
+      ],
+      [
+       54.4775,
+       24.1773
+      ],
+      [
+       54.4059,
+       24.2272
+      ],
+      [
+       54.3509,
+       24.2923
+      ],
+      [
+       54.3162,
+       24.3682
+      ],
+      [
+       54.3042,
+       24.4496
+      ],
+      [
+       54.3158,
+       24.5311
+      ],
+      [
+       54.3502,
+       24.6071
+      ],
+      [
+       54.4051,
+       24.6724
+      ],
+      [
+       54.4767,
+       24.7225
+      ],
+      [
+       54.5603,
+       24.754
+      ],
+      [
+       54.65,
+       24.7648
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "oman-land-border",
+   "properties": {
+    "kind": "aoi",
+    "id": "oman-land-border",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Oman land border",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Oman border",
+     "Al Ain",
+     "Hatta"
+    ],
+    "zone_tags": [
+     "SECURITY_FORCES"
+    ],
+    "notes": "UAE-Oman land boundary corridor (approximate).",
+    "source_url": "",
+    "center": {
+     "lat": 23.9,
+     "lon": 55.5
+    },
+    "radius_km": 158.4
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       56.5768,
+       24.9086
+      ],
+      [
+       56.165,
+       24.5009
+      ],
+      [
+       55.9643,
+       24.1007
+      ],
+      [
+       55.6871,
+       23.8444
+      ],
+      [
+       55.7443,
+       23.4757
+      ],
+      [
+       55.3362,
+       22.5714
+      ],
+      [
+       54.9596,
+       22.4235
+      ],
+      [
+       54.8216,
+       22.76
+      ],
+      [
+       55.0635,
+       22.8285
+      ],
+      [
+       55.3556,
+       23.5241
+      ],
+      [
+       55.3128,
+       23.9554
+      ],
+      [
+       55.6354,
+       24.2992
+      ],
+      [
+       55.8348,
+       24.699
+      ],
+      [
+       56.2832,
+       25.1508
+      ],
+      [
+       56.5768,
+       24.9086
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "saudi-land-border",
+   "properties": {
+    "kind": "aoi",
+    "id": "saudi-land-border",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Saudi land border",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "Saudi border",
+     "Ghuwaifat",
+     "Sila"
+    ],
+    "zone_tags": [
+     "SECURITY_FORCES"
+    ],
+    "notes": "UAE-Saudi land boundary corridor (approximate).",
+    "source_url": "",
+    "center": {
+     "lat": 23.3,
+     "lon": 52.3
+    },
+    "radius_km": 236.7
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       51.6338,
+       24.4574
+      ],
+      [
+       51.9505,
+       24.2161
+      ],
+      [
+       52.4741,
+       23.3825
+      ],
+      [
+       52.7071,
+       22.8503
+      ],
+      [
+       55.1215,
+       22.8072
+      ],
+      [
+       55.1123,
+       22.4476
+      ],
+      [
+       52.4931,
+       22.5496
+      ],
+      [
+       52.1261,
+       23.2173
+      ],
+      [
+       51.6497,
+       23.9837
+      ],
+      [
+       51.3834,
+       24.1794
+      ],
+      [
+       51.6338,
+       24.4574
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "uae-eez",
+   "properties": {
+    "kind": "aoi",
+    "id": "uae-eez",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "UAE EEZ limit",
+    "asset_type": "aoi",
+    "operator": null,
+    "aliases": [
+     "UAE waters",
+     "Emirati waters",
+     "Ras Al Khaimah",
+     "RAK",
+     "UAE EEZ"
+    ],
+    "zone_tags": [
+     "TERRITORIAL_WATERS_EEZ"
+    ],
+    "notes": "Approximate ring of UAE Gulf waters (territorial sea + EEZ).",
+    "source_url": "",
+    "center": {
+     "lat": 25.11,
+     "lon": 54.1807
+    },
+    "radius_km": 180
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       51.55,
+       24.1
+      ],
+      [
+       52.0,
+       25.1
+      ],
+      [
+       52.6,
+       25.6
+      ],
+      [
+       53.5,
+       26.1
+      ],
+      [
+       54.5,
+       26.3
+      ],
+      [
+       55.6,
+       26.25
+      ],
+      [
+       56.1,
+       26.0
+      ],
+      [
+       56.3,
+       25.7
+      ],
+      [
+       56.36,
+       25.3
+      ],
+      [
+       56.0,
+       25.0
+      ],
+      [
+       55.4,
+       24.8
+      ],
+      [
+       54.6,
+       24.4
+      ],
+      [
+       53.8,
+       24.1
+      ],
+      [
+       52.5,
+       24.0
+      ],
+      [
+       51.9,
+       23.9
+      ],
+      [
+       51.55,
+       24.1
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:fujairah-oil-industry-zone",
+   "properties": {
+    "kind": "asset",
+    "id": "fujairah-oil-industry-zone",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Fujairah Oil Industry Zone & crude terminal",
+    "asset_type": "oil_terminal",
+    "operator": "Port of Fujairah / FOIZ",
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Struck by Iranian drones 14 & 16 Mar 2026 (two storage tanks damaged); struck again 4 May 2026 (fire, 3 injured); crude exports via Fujairah up 38%.",
+    "source_url": "https://www.reuters.com/world/middle-east/gulfs-fragile-trade-lifeline-hangs-two-eastern-uae-ports-2026-05-06/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     56.36,
+     25.17
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:khor-fakkan-gulftainer",
+   "properties": {
+    "kind": "asset",
+    "id": "khor-fakkan-gulftainer",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Khor Fakkan Gulftainer terminal",
+    "asset_type": "container_terminal",
+    "operator": "Gulftainer",
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Container volumes up ~25x, 900 workers hired, $2bn expansion.",
+    "source_url": "https://www.reuters.com/world/middle-east/gulfs-fragile-trade-lifeline-hangs-two-eastern-uae-ports-2026-05-06/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     56.37,
+     25.35
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:jebel-ali-port",
+   "properties": {
+    "kind": "asset",
+    "id": "jebel-ali-port",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Jebel Ali Port",
+    "asset_type": "port",
+    "operator": "DP World",
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Activity down up to 95% during the Hormuz closure.",
+    "source_url": "https://www.reuters.com/world/middle-east/gulfs-fragile-trade-lifeline-hangs-two-eastern-uae-ports-2026-05-06/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.06,
+     25.01
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:khalifa-port",
+   "properties": {
+    "kind": "asset",
+    "id": "khalifa-port",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Khalifa Port",
+    "asset_type": "port",
+    "operator": "AD Ports Group",
+    "zone_tags": [
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "",
+    "source_url": "https://www.reuters.com/world/middle-east/gulfs-fragile-trade-lifeline-hangs-two-eastern-uae-ports-2026-05-06/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.65,
+     24.8
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:das-island-terminal",
+   "properties": {
+    "kind": "asset",
+    "id": "das-island-terminal",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Das Island export terminal",
+    "asset_type": "oil_terminal",
+    "operator": "ADNOC",
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY",
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "ADNOC offering alternative loading off Fujairah/Sohar via STS.",
+    "source_url": "https://www.bairdmaritime.com/shipping/tankers/adnoc-offers-new-crude-loading-options-to-circumvent-strait-of-hormuz"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     52.87,
+     25.15
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:zirku-island-terminal",
+   "properties": {
+    "kind": "asset",
+    "id": "zirku-island-terminal",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Zirku Island export terminal",
+    "asset_type": "oil_terminal",
+    "operator": "ADNOC",
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY",
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "Upper Zakum crude export terminal.",
+    "source_url": "https://www.bairdmaritime.com/shipping/tankers/adnoc-offers-new-crude-loading-options-to-circumvent-strait-of-hormuz"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     53.07,
+     24.88
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:ruwais-refinery",
+   "properties": {
+    "kind": "asset",
+    "id": "ruwais-refinery",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Ruwais refinery",
+    "asset_type": "refinery",
+    "operator": "ADNOC",
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "",
+    "source_url": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     52.73,
+     24.11
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:barakah-npp",
+   "properties": {
+    "kind": "asset",
+    "id": "barakah-npp",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Barakah nuclear power plant",
+    "asset_type": "nuclear_plant",
+    "operator": "ENEC / Nawah",
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY",
+     "MILITARY_RESTRICTED",
+     "GOVERNMENT_FACILITY"
+    ],
+    "notes": "",
+    "source_url": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     52.24,
+     23.97
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:al-dhafra-air-base",
+   "properties": {
+    "kind": "asset",
+    "id": "al-dhafra-air-base",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Al Dhafra Air Base",
+    "asset_type": "air_base",
+    "operator": "UAE Air Force (US 380th AEW tenant)",
+    "zone_tags": [
+     "MILITARY_RESTRICTED",
+     "SECURITY_FORCES"
+    ],
+    "notes": "",
+    "source_url": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.55,
+     24.25
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:habshan-gas-plant",
+   "properties": {
+    "kind": "asset",
+    "id": "habshan-gas-plant",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Habshan (ADCOP origin)",
+    "asset_type": "pipeline_origin",
+    "operator": "ADNOC",
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "Origin of the Habshan-Fujairah pipeline (ADCOP, ~400 km, 1.5 Mbpd).",
+    "source_url": "https://www.reuters.com/business/energy/uae-accelerate-oil-pipeline-project-help-bypass-hormuz-2026-05-15/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     53.6,
+     23.75
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:fujairah-cable-landing",
+   "properties": {
+    "kind": "asset",
+    "id": "fujairah-cable-landing",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "Fujairah submarine cable landing",
+    "asset_type": "cable_landing",
+    "operator": "Etisalat (e&)",
+    "zone_tags": [
+     "COMMUNICATIONS"
+    ],
+    "notes": "East-coast international submarine cable landing hub.",
+    "source_url": ""
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     56.35,
+     25.13
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:berbera-port-base",
+   "properties": {
+    "kind": "asset",
+    "id": "berbera-port-base",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Berbera port and UAE base",
+    "asset_type": "port_base",
+    "operator": "DP World ($442m concession) / UAE",
+    "zone_tags": [
+     "FOREIGN_FOOTPRINT",
+     "PORT_AIRPORT_TRANSPORT",
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "UAE base adjacent to the Soviet-era airstrip; Somalia annulled all UAE agreements 12 Jan 2026 (Somaliland/Puntland governments rejected); DP World says operations continue.",
+    "source_url": "https://www.reuters.com/world/middle-east/dubais-dp-world-says-operations-somalilands-berbera-port-unaffected-by-uae-2026-01-13/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     45.01,
+     10.44
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:bosaso-facility",
+   "properties": {
+    "kind": "asset",
+    "id": "bosaso-facility",
+    "group": "SOMALIA",
+    "country": "SOMALIA",
+    "name": "Bosaso (Puntland) UAE facility",
+    "asset_type": "facility",
+    "operator": "UAE",
+    "zone_tags": [
+     "FOREIGN_FOOTPRINT",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Somalia annulled the Bosaso port/defence deal 12 Jan 2026; Puntland rejected the annulment.",
+    "source_url": "https://www.criticalthreats.org/analysis/somalia-cancels-uae-agreements-sudan-pakistan-arms-deal-potential-inter-congolese-dialogue-africa-file-january-15-2026"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     49.18,
+     11.28
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:socotra-installations",
+   "properties": {
+    "kind": "asset",
+    "id": "socotra-installations",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Socotra UAE-established installations",
+    "asset_type": "facility",
+    "operator": "UAE",
+    "zone_tags": [
+     "FOREIGN_FOOTPRINT",
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "",
+    "source_url": "https://en.kaabtv.com/uae-expands-military-footprint-in-the-horn-of-africa"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     53.9,
+     12.5
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:perim-mayun-installations",
+   "properties": {
+    "kind": "asset",
+    "id": "perim-mayun-installations",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Perim/Mayun UAE-established installations",
+    "asset_type": "facility",
+    "operator": "UAE",
+    "zone_tags": [
+     "FOREIGN_FOOTPRINT",
+     "MILITARY_RESTRICTED"
+    ],
+    "notes": "",
+    "source_url": "https://en.kaabtv.com/uae-expands-military-footprint-in-the-horn-of-africa"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     43.42,
+     12.65
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:mukalla-al-rayyan",
+   "properties": {
+    "kind": "asset",
+    "id": "mukalla-al-rayyan",
+    "group": "YEMEN",
+    "country": "YEMEN",
+    "name": "Mukalla / al-Rayyan",
+    "asset_type": "port_airport",
+    "operator": "Hadramawt authorities (UAE-linked)",
+    "zone_tags": [
+     "FOREIGN_FOOTPRINT",
+     "PORT_AIRPORT_TRANSPORT"
+    ],
+    "notes": "Saudi strike on a UAE-linked shipment 30 Dec 2025; UAE withdrawal from Yemen announced.",
+    "source_url": "https://www.aljazeera.com/news/2025/12/31/uae-to-pull-forces-out-of-yemen-as-tensions-rise-with-saudi-arabia"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     49.37,
+     14.66
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "asset:adcop-wep-corridor",
+   "properties": {
+    "kind": "asset",
+    "id": "adcop-wep-corridor",
+    "group": "UAE_HOME_BORDER",
+    "country": "UAE",
+    "name": "ADCOP + West-East Pipeline route",
+    "asset_type": "pipeline",
+    "operator": "ADNOC",
+    "zone_tags": [
+     "CRITICAL_INFRASTRUCTURE_ENERGY"
+    ],
+    "notes": "Habshan-Fujairah crude pipeline (ADCOP, ~400 km, 1.5 Mbpd) and the parallel West-East Pipeline under construction (fast-tracked 15 May 2026, target 2027).",
+    "source_url": "https://www.reuters.com/business/energy/uae-accelerate-oil-pipeline-project-help-bypass-hormuz-2026-05-15/"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      53.6,
+      23.75
+     ],
+     [
+      54.6,
+      24.3
+     ],
+     [
+      55.5,
+      24.8
+     ],
+     [
+      56.34,
+      25.12
+     ]
+    ]
+   }
+  }
+ ]
+}

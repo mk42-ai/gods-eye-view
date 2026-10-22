@@ -53,7 +53,14 @@ import {
   createDefaultProject,
   normalizeShot,
   normalizeProject,
+  normalizeIncidentScene,
+  isIncidentLibrarySceneId,
 } from './project.js';
+import {
+  incidentsToScenes,
+  incidentToShot,
+  groupSceneFor,
+} from '../data/uaeIncidents.js';
 import {
   parseSceneDocument,
   stringifySceneDocument,
@@ -1597,6 +1604,104 @@ export class SceneDirector {
    */
   _buildPlaybackQueue(startSceneId, { single = false } = {}) {
     return buildPlaybackQueue(this._project.scenes, startSceneId, { single });
+  }
+
+  /** Scene object by id (null when absent) — used by the incident panel decorations. */
+  getSceneById(sceneId) {
+    return this._project.scenes.find((scene) => scene.id === sceneId) || null;
+  }
+
+  /**
+   * Append one incident shot to its group scene (creating the scene when the
+   * group has none yet), persist, select it and return the ids. Used by the
+   * bottom incident composer after /api/incidents/resolve.
+   * @param {object} incident normalised incident (src/data/uaeIncidents.js)
+   * @param {object} [shot] pre-built shot (defaults to incidentToShot(incident))
+   * @returns {{sceneId: string, shotId: string, created: boolean}|null}
+   */
+  addIncidentScene(incident, shot = incidentToShot(incident)) {
+    if (this._destroyed || !incident) return null;
+    const meta = groupSceneFor(incident.group);
+    let scene = this._project.scenes.find((item) => item.id === meta.id);
+    let created = false;
+    if (!scene) {
+      scene = normalizeIncidentScene({
+        id: meta.id,
+        title: meta.title,
+        shots: [],
+      });
+      this._project.scenes.push(scene);
+      created = true;
+    }
+    const normalized = normalizeShot(shot, scene.shots.length);
+    if (scene.shots.some((item) => item.id === normalized.id))
+      normalized.id = uid('shot');
+    scene.shots.unshift(normalized);
+    this._selectedSceneId = scene.id;
+    this._selectedShotId = normalized.id;
+    this._saveProject();
+    this._publish({ type: created ? 'scene-created' : 'shot-captured', scene });
+    this._renderSceneSelect();
+    this._renderShotList();
+    return { sceneId: scene.id, shotId: normalized.id, created };
+  }
+
+  /**
+   * Merge the server's incident library (GET /api/incidents) into the
+   * project: incidents not yet present as shots are added to their group
+   * scene; user-authored shots and scenes are never removed.
+   * @param {Array<object>} incidents
+   * @returns {number} shots added
+   */
+  syncIncidentLibrary(incidents) {
+    if (this._destroyed || !Array.isArray(incidents)) return 0;
+    const present = new Set(
+      this._project.scenes.flatMap((scene) =>
+        scene.shots.map((shot) => shot.incident?.id).filter(Boolean),
+      ),
+    );
+    let added = 0;
+    for (const scene of incidentsToScenes(incidents)) {
+      const fresh = scene.shots.filter(
+        (shot) => !present.has(shot.incident?.id),
+      );
+      if (!fresh.length) continue;
+      let target = this._project.scenes.find((item) => item.id === scene.id);
+      if (!target) {
+        target = normalizeIncidentScene({ ...scene, shots: [] });
+        this._project.scenes.push(target);
+      }
+      for (const shot of fresh) {
+        target.shots.push(normalizeShot(shot, target.shots.length));
+        added += 1;
+      }
+      target.shots.sort((a, b) =>
+        String(b.incident?.event_time_utc || '').localeCompare(
+          String(a.incident?.event_time_utc || ''),
+        ),
+      );
+    }
+    if (added) {
+      this._saveProject();
+      this._publish({ type: 'scene-options-changed' });
+      this._renderShotList();
+    }
+    return added;
+  }
+
+  /** Locate the shot carrying an incident id: `{sceneId, shotId}` or null. */
+  findIncidentShot(incidentId) {
+    if (!incidentId) return null;
+    for (const scene of this._project.scenes) {
+      const shot = scene.shots.find((item) => item.incident?.id === incidentId);
+      if (shot) return { sceneId: scene.id, shotId: shot.id };
+    }
+    return null;
+  }
+
+  /** Whether a scene belongs to the UAE AOI incident library. */
+  isIncidentLibraryScene(sceneId) {
+    return isIncidentLibrarySceneId(sceneId);
   }
 
   /**

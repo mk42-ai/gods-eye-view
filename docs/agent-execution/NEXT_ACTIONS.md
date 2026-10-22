@@ -50,3 +50,10 @@ Branch `integration/ondemand-native` · updated 2026-10-21T10:35:00Z (UTC, cycle
 5. Preview deployment of the integration branch healthy (`/api/ondemand/v2/health` ok, B-1 fixed): ✅ (Preview `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` healthy, v2/health 200, B-1 resolved).
 
 GENERATED_UTC: 2026-10-22T06:34:00Z
+
+## Added in cycle 9 (2026-10-22)
+- N-32 — Wire a scheduler for `POST /api/incidents/refresh` (Vercel Cron on the Git-linked project, or an external cron with a per-group page); close B-25.
+- N-33 — Persist the incident store in Vercel KV when `KV_REST_API_URL`/`TOKEN` are present on the deployment (code path exists: `server/incidents/store.js` `kv+file+memory`); verify across two instances.
+- N-34 — Second pass on the research prompt to raise citable-incident yield (currently `{"incidents":[]}` for calm AOIs is the honest answer; consider adding `perplexity_research` as a second contract per AOI with a budget).
+- N-35 — Surface `matchedAoi` / zone tags of the protected-asset features as map markers (the data is in `uae-aoi.json`; only the SCENES panel consumes it today).
+
