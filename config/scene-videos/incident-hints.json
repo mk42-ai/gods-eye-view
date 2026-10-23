@@ -1,0 +1,53 @@
+[
+  {
+    "id": "dxb-umm-suqeim-fainted-driver-2026-09-26",
+    "title": "Crash on Umm Suqeim Street towards Jumeirah Street — driver lost consciousness, veered off and hit other vehicles (Dubai Police)",
+    "reported_at": "2026-09-26T00:00:00Z",
+    "place": "Umm Suqeim",
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "match": ["umm suqeim", "jumeirah street", "أم سقيم", "شارع جميرا"],
+    "sources": [
+      "https://www.gulftoday.ae/news/2026/09/26/dubai-police-warn-of-dangers-of-driving-while-fatigued-after-a-driver-faints-causing-an-accident-in-umm-suqeim",
+      "https://www.khaleejtimes.com/uae/dubai-police-warning-tired-driver-faints-causes-collision",
+      "https://www.facebook.com/khaleejtimes/posts/the-driver-fell-unconscious-and-lost-control-of-the-vehicle-causing-it-to-veer-o/1634956428291176"
+    ],
+    "videoHints": [
+      {
+        "url": "https://www.instagram.com/p/DdyBfSdl-zh",
+        "note": "Gulf Today post (2026-09-27)"
+      },
+      {
+        "url": "https://www.instagram.com/p/Ddv2o82MKZU",
+        "note": "Dubai Police Arabic post — حادث على شارع أم سقيم باتجاه شارع جميرا"
+      },
+      {
+        "url": "https://www.instagram.com/reel/Ddyb6fvQ-Yn",
+        "note": "Dubai multi-car collision reel (regional match)"
+      },
+      {
+        "url": "https://www.instagram.com/reel/DWqgnQzDZ_R",
+        "note": "Dubai Police reckless-driving warning reel (archival)"
+      },
+      {
+        "url": "https://www.tiktok.com/@emirates_news/video/7627044985581374741",
+        "note": "Dubai Police lane-change crash footage (archival)"
+      }
+    ],
+    "provenance": "operator-supplied incident context (task brief 2026-10-23) — every URL is still resolved live through OnDemand plugins"
+  },
+  {
+    "id": "dxb-umm-suqeim-wrong-way-motorcyclist-2025-10-10",
+    "title": "Wrong-way motorcyclist crash on Umm Suqeim Street near Al Barsha South",
+    "reported_at": "2025-10-10T00:00:00Z",
+    "place": "Umm Suqeim",
+    "lat": 25.115,
+    "lon": 55.215,
+    "match": ["umm suqeim", "al barsha south", "motorcycl"],
+    "sources": [
+      "https://www.khaleejtimes.com/uae/transport/dubai-motorcyclist-seriously-injured-in-vehicle-crash-on-umm-suqeim-street"
+    ],
+    "videoHints": [],
+    "provenance": "operator-supplied incident context (task brief 2026-10-23)"
+  }
+]

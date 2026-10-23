@@ -77,6 +77,7 @@ import { fromChatAnswer } from './intelligence-object.js';
 import { createPluginLifecycle } from './plugin-lifecycle.js';
 import { createVoiceTurnHandler } from './voice-route.js';
 import { createIncidentRoutes } from '../../incidents/routes.js';
+import { createSceneVideoRoutes } from '../../scene-videos/routes.js';
 
 export const FOUNDATION_MOUNT = '/api/ondemand/v2';
 const KEY_SOURCE_HEADER = 'X-OnDemand-Key-Source';
@@ -538,6 +539,19 @@ export function createFoundationHandler(deps = {}) {
       });
     return incidentRoutes;
   };
+  // Scene video evidence (2026-10-23): /scene/videos SSE fan-out to the
+  // YouTube / TikTok / Instagram plugins + /scene/media proxy (server/scene-videos/*).
+  let sceneVideoRoutes = null;
+  const getSceneVideoRoutes = (client) => {
+    if (!sceneVideoRoutes)
+      sceneVideoRoutes = createSceneVideoRoutes({
+        client,
+        audit,
+        invoke: deps.sceneVideoInvoke,
+        fetch: deps.mediaFetch,
+      });
+    return sceneVideoRoutes;
+  };
   return async function foundationHandler(req, res) {
     if (rejectCrossOrigin(req, res)) return;
     res.setHeader(KEY_SOURCE_HEADER, 'server'); // the client key is never used here
@@ -547,7 +561,7 @@ export function createFoundationHandler(deps = {}) {
     const path = url.pathname.replace(/\/+$/, '') || '/';
     const method = req.method || 'GET';
     // Phase G — rate limit every non-health call per (peer, bound user).
-    if (path !== '/health' && path !== '/contracts') {
+    if (path !== '/health' && path !== '/contracts' && path !== '/scene/media') {
       const principalHint = String(
         req.headers?.['x-workstation-user'] || '',
       ).slice(0, 128);
@@ -715,6 +729,17 @@ export function createFoundationHandler(deps = {}) {
       if (path.startsWith('/incidents')) {
         if (
           await getIncidentRoutes(client, store)(req, res, {
+            path,
+            method,
+            url,
+            authorize,
+          })
+        )
+          return;
+      }
+      if (path.startsWith('/scene/')) {
+        if (
+          await getSceneVideoRoutes(client)(req, res, {
             path,
             method,
             url,
