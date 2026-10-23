@@ -27,6 +27,13 @@ test('explicit build inputs preserve browser-only defines, plugin order and loop
   // The dev/preview server must be embeddable (cycle 8): no X-Frame-Options and no
   // frame-ancestors 'none' on the document the browser loads.
   assert.equal(config.server.headers, undefined);
+  // …and the same holds for `vite preview` and for any header block a later
+  // edit might add (2026-10-23: the stale X-Frame-Options assertion this test
+  // used to carry is gone; this guards against it coming back).
+  assert.equal(config.preview?.headers, undefined);
+  const headerValues = JSON.stringify([config.server, config.preview ?? {}]);
+  assert.doesNotMatch(headerValues, /X-Frame-Options/i);
+  assert.doesNotMatch(headerValues, /frame-ancestors/i);
   assert.deepEqual(config.define, {
     'import.meta.env.GOOGLE_MAPS_API_KEY': '"browser-fixture"',
     'import.meta.env.CESIUM_ION_TOKEN': '"ion-fixture"',
