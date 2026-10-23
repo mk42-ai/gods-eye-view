@@ -1,5 +1,9 @@
 import { SceneDirector } from '../scenes/director.js';
-import { installIncidentPanel } from '../ui/incidentPanel.js';
+import { createAoiScenePolicy } from '../scenes/aoiScenePolicy.js';
+import { getUaeAoiIndex } from '../aoi/uaeInterest.js';
+import { installIncidentScenes } from '../incidents/ui/index.js';
+import { installFootageDock } from '../footage/ui/dock.js';
+import * as Cesium from 'cesium';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
 import { createGevActionRunner } from '../voice/gevActions.js';
@@ -36,15 +40,15 @@ export function createApplicationTools({
     dataPacks: sceneDataPacks,
     isMapStackAvailable: (id) =>
       mapStackController?.isStackAvailable(id) === true,
+    // UAE AOI restriction (2026-10-22): only scenes inside Iran / Yemen /
+    // Somalia / Hormuz / Bab el-Mandeb / UAE borders+waters / presence nodes
+    // reach the panel and playback; the rest stay in storage with a reason.
+    aoiPolicy: createAoiScenePolicy(getUaeAoiIndex()),
   });
   dataManager.layers
     .get('bhote-koshi-2026')
     ?.module.attachSceneController(sceneDirector);
   defer(() => sceneDirector.destroy());
-  // UAE AOI live incidents (2026-10-22): group filter, LIVE badge, REFRESH,
-  // scene-card chips and the bottom incident composer on the SCENES panel.
-  const incidentPanel = installIncidentPanel({ director: sceneDirector });
-  defer(() => incidentPanel?.destroy());
   onSceneDirector?.(sceneDirector);
   const annotations = initAnnotations({
     viewer,
@@ -141,6 +145,50 @@ export function createApplicationTools({
   // mini chat (`getPluginIds`) and the voice pipeline. Mounted after the mini
   // chat so it can dock into the panel's header slot.
   debug.pluginPanel = installPluginPanel({ signal });
+  // AOI incident scenes (2026-10-22): live incident ledger → scenes, map
+  // markers + popovers with ASK ONDEMAND, AOI layer toggles + legend, and the
+  // bottom "Type an incident…" composer (src/incidents/ui/*).
+  debug.incidentScenes = installIncidentScenes({
+    viewer,
+    sceneDirector,
+    signal,
+  });
+  // LIVE FOOTAGE dock (2026-10-23): streams clips from /footage/stream for
+  // the current scene, auto-plays them beside the globe and understands
+  // "rebuild the <incident> reported in <place>" (src/footage/ui/dock.js).
+  debug.footage = installFootageDock({
+    signal,
+    readCamera: () => {
+      const carto = viewer.camera?.positionCartographic;
+      if (!carto) return null;
+      return {
+        lat: Cesium.Math.toDegrees(carto.latitude),
+        lon: Cesium.Math.toDegrees(carto.longitude),
+        alt: carto.height,
+      };
+    },
+    flyTo: (
+      lat,
+      lon,
+      { altitude = 2600, heading = 0, pitch = -55, duration = 2.4 } = {},
+    ) =>
+      viewer.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(lon, lat, altitude),
+        orientation: {
+          heading: Cesium.Math.toRadians(heading),
+          pitch: Cesium.Math.toRadians(pitch),
+          roll: 0,
+        },
+        duration,
+      }),
+    readHud: () => {
+      const hud = styleManager?.hud || null;
+      return hud
+        ? { variant: hud._variant, visible: hud._visible, incidentType: null }
+        : null;
+    },
+    readShareLinks: () => styleManager?.shareLinkManager || null,
+  });
   const runner = createGevActionRunner({
     ...voice,
     floorServices: operations.surface.groundFloor,

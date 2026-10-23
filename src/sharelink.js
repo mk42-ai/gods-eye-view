@@ -9,6 +9,7 @@ import {
   decodeLayerStateParams,
   encodeLayerStateParams,
 } from './data/layerState.js';
+import { decodeFootageParams, encodeFootageParams } from './footage/model.js';
 
 /**
  * Share Links — URL Hash State Management
@@ -128,6 +129,8 @@ export class ShareLinkManager {
     this._layerStateProvider = null;
     this._panelStateProvider = null;
     this._styleParamStateProvider = null;
+    // LIVE FOOTAGE dock (fv/fk/fm/fs + the `f.c` token inside `ui=`), 2026-10-23.
+    this._footageStateProvider = null;
     this._initialRestorePending = false;
     this._restoreAuthority = {
       visual: 0,
@@ -248,6 +251,7 @@ export class ShareLinkManager {
         params.has('l') &&
         decodedLayerState === null,
       panelState: decodePanelStateParams(params),
+      footageState: decodeFootageParams(params),
       sharedAtMs: decodeShareCreatedAtMs(params),
     };
     state.restoreAuthority = {
@@ -410,6 +414,18 @@ export class ShareLinkManager {
   /** Install the finalized panel-state source used by URL generation. */
   setPanelStateProvider(provider) {
     this._panelStateProvider = typeof provider === 'function' ? provider : null;
+  }
+
+  /** Install the LIVE FOOTAGE dock state source (fv/fk/fm/fs + ui f.c). */
+  setFootageStateProvider(provider) {
+    this._footageStateProvider =
+      typeof provider === 'function' ? provider : null;
+    this._scheduleUpdate();
+  }
+
+  /** Called by the footage dock when its shareable state changes. */
+  onFootageStateChange() {
+    this._scheduleUpdate();
   }
 
   /** Install the active visual preset parameter source used by URL generation. */
@@ -588,6 +604,9 @@ export class ShareLinkManager {
     const layerState = this._layerStateProvider?.();
     if (layerState) encodeLayerStateParams(params, layerState);
     this._encodePanelStateParam(params, this._panelStateProvider?.());
+    // Footage params ride after the panel tokens so the `f.c` token merges
+    // into the `ui=` value the panel encoder just wrote.
+    encodeFootageParams(params, this._footageStateProvider?.());
     encodeStyleParamState(
       params,
       this._currentStyle,
@@ -621,6 +640,7 @@ export class ShareLinkManager {
     this._layerStateProvider = null;
     this._panelStateProvider = null;
     this._styleParamStateProvider = null;
+    this._footageStateProvider = null;
     this._onRestore = null;
   }
 }

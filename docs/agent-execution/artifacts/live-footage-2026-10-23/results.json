@@ -1,0 +1,159 @@
+{
+  "preview_url": "https://sb-2u4blbzyl0rp.vercel.run",
+  "sandbox_id": "sbx_LeeG8gsP9EADWd6lBa7JwSe219UA",
+  "checks": [
+    {
+      "check": "dock auto-fetch on scene load (hud=tactical, Gulf of Aden scene)",
+      "result": "PASS",
+      "screenshot": "a-scene-load-1440x900.png",
+      "ts": "2026-10-23T05:42:37Z",
+      "detail": {
+        "items": 30,
+        "playing": true,
+        "kind": "youtube",
+        "cur": "https://www.youtube.com/shorts/NAefTqNCzKE",
+        "place": "Gulf of Aden",
+        "firstMediaMs": 5884,
+        "pageMs": 12715,
+        "src": {
+          "youtube": "ok:35",
+          "tiktok": "unavailable:0",
+          "reddit": "pending",
+          "x": "unavailable:0",
+          "web": "pending",
+          "instagram": "ok:0"
+        }
+      }
+    },
+    {
+      "check": "first clip playing < 10 s (first media request startTime)",
+      "result": "PASS",
+      "screenshot": "a-scene-load-1440x900.png",
+      "ts": "2026-10-23T05:42:37Z",
+      "detail": {
+        "firstMediaMs": 5884
+      }
+    },
+    {
+      "check": "composer \"rebuild the car crash reported in Umm Suqeim\" \u2192 fly-to lat\u224825.15 lon\u224855.20",
+      "result": "PASS",
+      "screenshot": "b-rebuild-umm-suqeim-1440x900.png",
+      "ts": "2026-10-23T05:41:24Z",
+      "detail": {
+        "camLat": 25.147,
+        "camLon": 55.199,
+        "hashLat": "25.1470",
+        "hashLon": "55.1990",
+        "mode": "rebuild",
+        "kw": "car crash",
+        "place": {
+          "name": "Umm Suqeim",
+          "lat": 25.147,
+          "lon": 55.199
+        },
+        "composer": "Scene \"rebuild the car crash reported in Umm Suqeim\" built at Umm Suqeim, Dubai, United Arab Emirates \u2014 playing."
+      }
+    },
+    {
+      "check": "archive banner \"REBUILT FROM ARCHIVAL FOOTAGE \u2014 originally reported 2026-09-26\"",
+      "result": "PASS",
+      "screenshot": "b-rebuild-umm-suqeim-1440x900.png",
+      "ts": "2026-10-23T05:41:24Z",
+      "detail": {
+        "banner": "REBUILT FROM ARCHIVAL FOOTAGE \u2014 originally reported 2026-09-26"
+      }
+    },
+    {
+      "check": "per-clip ARCHIVE tags + absolute ISO timestamps",
+      "result": "PASS",
+      "screenshot": "b-rebuild-umm-suqeim-1440x900.png",
+      "ts": "2026-10-23T05:41:24Z",
+      "detail": {
+        "times": [
+          "2026-09-27 07:00Z",
+          "2026-09-26 11:46Z",
+          "2026-04-24 07:00Z",
+          "2026-04-10 09:38Z",
+          "2026-04-03 11:09Z"
+        ],
+        "fresh": [
+          "ARCHIVE",
+          "ARCHIVE",
+          "ARCHIVE",
+          "ARCHIVE",
+          "ARCHIVE"
+        ],
+        "metaTime": "2026-09-26 11:46Z (~derived)",
+        "badges": [
+          "INSTAGRAM",
+          "ARCHIVE",
+          "VERIFIED SEED"
+        ]
+      }
+    },
+    {
+      "check": "URL params fv/fk/fm/fs + ui f.c round-trip (load from link, write back, collapse \u2192 f.c.1)",
+      "result": "PASS",
+      "screenshot": "c-url-roundtrip-1440x900.png",
+      "ts": "2026-10-23T05:46:38Z",
+      "detail": {
+        "mode": "rebuild",
+        "kw": "car crash",
+        "since": "2y",
+        "visible": true,
+        "collapsed": false,
+        "items": 5,
+        "banner": "REBUILT FROM ARCHIVAL FOOTAGE \u2014 originally reported 2026-09-26",
+        "fv": "1",
+        "fk": "car crash",
+        "fm": "rebuild",
+        "fs": "2y",
+        "ui": "c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0_f.c.0",
+        "modeBadge": "REBUILD",
+        "kind": "instagram"
+      }
+    },
+    {
+      "check": "mobile layout 390x844 (dock sheet above composer, no console errors)",
+      "result": "PASS",
+      "screenshot": "b-rebuild-umm-suqeim-390x844.png",
+      "ts": "2026-10-23T05:41:24Z"
+    },
+    {
+      "check": "no secret in bundle (grep of dist/ for the key + scripts/check-no-secrets.mjs --dist)",
+      "result": "PASS",
+      "ts": "2026-10-23T05:42:37Z"
+    },
+    {
+      "check": "per-source status (rebuild query)",
+      "result": "PASS (graceful)",
+      "detail": {
+        "youtube": "ok",
+        "tiktok": "unavailable",
+        "reddit": "ok",
+        "x": "unavailable",
+        "web": "error",
+        "instagram": "ok",
+        "instagram-plugin": "ok"
+      },
+      "ts": "2026-10-23T05:41:24Z"
+    }
+  ],
+  "console_errors": {
+    "a": [],
+    "b": [],
+    "c": []
+  },
+  "page_errors": {
+    "a": [],
+    "b": [],
+    "c": []
+  },
+  "failed_requests": {
+    "a": [],
+    "b": [
+      "Fetch: net::ERR_ABORTED https://sb-2u4blbzyl0rp.vercel.run/footage/stream?lat=13.9425&lon=48.9231&radius_km=28&mode=live&limit=16"
+    ],
+    "c": []
+  }
+}

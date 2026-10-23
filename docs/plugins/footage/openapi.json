@@ -1,0 +1,92 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "gods-eye-footage-service",
+    "version": "1.0.0",
+    "description": "LIVE FOOTAGE service for Gods Eye: fans out concurrently to YouTube Shorts (Data API v3 / public results page / Invidious), TikTok, Instagram, Reddit, X and web discovery (OnDemand plugins through the public Chat API), normalises every clip to one schema, dedupes by canonical video id, ranks by keyword relevance x recency decay and classifies freshness LIVE (<15 min) / RECENT (<24 h) / ARCHIVE (>24 h). FastAPI on the Vercel Python runtime (api/footage/index.py). Credentials (ONDEMAND_API_KEY, YOUTUBE_API_KEY) stay server-side; /footage/health reports only booleans.",
+    "x-ondemand-spatial": {
+      "pluginId": "footage",
+      "category": "Research",
+      "conversationStarters": [
+        "Show live footage near 25.147, 55.199 for a car crash",
+        "Rebuild the car crash reported in Umm Suqeim from archival footage",
+        "Which footage sources are available right now?"
+      ],
+      "auth": "none — same-origin; upstream credentials stay server-side"
+    }
+  },
+  "servers": [{ "url": "https://ondemand-agent.vercel.app", "description": "Gods Eye deployment (preview or production)" }],
+  "paths": {
+    "/footage/health": {
+      "get": {
+        "operationId": "footage_health",
+        "summary": "Source availability + which server-side keys are configured (booleans only)",
+        "responses": { "200": { "description": "Health", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Health" } } } } }
+      }
+    },
+    "/footage/search": {
+      "get": {
+        "operationId": "footage_search",
+        "summary": "Aggregate footage for a scene (JSON, 60 s cache)",
+        "parameters": [
+          { "name": "lat", "in": "query", "schema": { "type": "number", "minimum": -90, "maximum": 90 } },
+          { "name": "lon", "in": "query", "schema": { "type": "number", "minimum": -180, "maximum": 180 } },
+          { "name": "radius_km", "in": "query", "schema": { "type": "number", "default": 5 } },
+          { "name": "keywords", "in": "query", "schema": { "type": "string", "maxLength": 200 }, "description": "Incident words from the HUD / command, e.g. 'car crash'" },
+          { "name": "since", "in": "query", "schema": { "type": "string" }, "description": "ISO-8601 UTC or relative (15m, 24h, 7d, 2y). Defaults: live=24h, rebuild=2y" },
+          { "name": "mode", "in": "query", "schema": { "type": "string", "enum": ["live", "rebuild"], "default": "live" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "minimum": 1, "maximum": 40, "default": 12 } },
+          { "name": "place", "in": "query", "schema": { "type": "string" }, "description": "Optional place hint (neighbourhood / city) overriding reverse geocoding" }
+        ],
+        "responses": { "200": { "description": "Aggregate", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SearchResponse" } } } }, "400": { "description": "invalid_param" } }
+      }
+    },
+    "/footage/stream": {
+      "get": {
+        "operationId": "footage_stream",
+        "summary": "Same query as /footage/search as Server-Sent Events: open, query, source_start, item (one per clip as each source returns), source_done {status: ok|error|quota|unavailable}, done",
+        "parameters": [{ "$ref": "#/paths/~1footage~1search/get/parameters/0" }, { "$ref": "#/paths/~1footage~1search/get/parameters/1" }, { "$ref": "#/paths/~1footage~1search/get/parameters/3" }, { "$ref": "#/paths/~1footage~1search/get/parameters/4" }, { "$ref": "#/paths/~1footage~1search/get/parameters/5" }, { "$ref": "#/paths/~1footage~1search/get/parameters/6" }],
+        "responses": { "200": { "description": "text/event-stream", "content": { "text/event-stream": { "schema": { "type": "string" } } } } }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Item": {
+        "type": "object",
+        "properties": {
+          "source": { "type": "string", "enum": ["youtube", "tiktok", "instagram", "reddit", "x", "web", "facebook"] },
+          "title": { "type": "string", "nullable": true },
+          "url": { "type": "string" },
+          "embed_url": { "type": "string", "nullable": true },
+          "play_url": { "type": "string", "nullable": true, "description": "Direct MP4 when resolved (Instagram shortUrl/finalUrl)" },
+          "thumb": { "type": "string", "nullable": true },
+          "published_at": { "type": "string", "nullable": true, "description": "ISO-8601 UTC" },
+          "published_precision": { "type": "string", "enum": ["exact", "approx", "derived", "unknown"] },
+          "freshness": { "type": "string", "enum": ["LIVE", "RECENT", "ARCHIVE"] },
+          "relevance": { "type": "number" },
+          "score": { "type": "number" },
+          "author": { "type": "string", "nullable": true },
+          "seeded": { "type": "boolean" },
+          "canonical": { "type": "string" }
+        }
+      },
+      "SourceStatus": { "type": "object", "properties": { "source": { "type": "string" }, "status": { "type": "string", "enum": ["ok", "error", "quota", "unavailable"] }, "count": { "type": "integer" }, "emitted": { "type": "integer" }, "ms": { "type": "integer" }, "error": { "type": "string" } } },
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "object" },
+          "generated_at": { "type": "string" },
+          "mode": { "type": "string" },
+          "freshness_summary": { "type": "object", "properties": { "live": { "type": "integer" }, "recent": { "type": "integer" }, "archive": { "type": "integer" } } },
+          "earliest_published_at": { "type": "string", "nullable": true },
+          "sources": { "type": "array", "items": { "$ref": "#/components/schemas/SourceStatus" } },
+          "all_sources_failed": { "type": "boolean" },
+          "cached": { "type": "boolean" },
+          "items": { "type": "array", "items": { "$ref": "#/components/schemas/Item" } }
+        }
+      },
+      "Health": { "type": "object", "properties": { "ok": { "type": "boolean" }, "configured": { "type": "object", "additionalProperties": { "type": "boolean" } }, "sources": { "type": "object" } } }
+    }
+  }
+}

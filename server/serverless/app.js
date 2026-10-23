@@ -4,7 +4,6 @@ import { mountSourceRoutes } from './sources-mounts.js';
 import { mountToolsRoute } from './tools-route.js';
 import { mountOndemandWorkflowSubpaths } from './ondemand-workflow-mount.js';
 import { mountFoundationRoutes } from '../ondemand/foundation/proxy-route.js';
-import { mountIncidentRoutes } from '../incidents/route.js';
 import { createToolInvoker } from '../ondemand/foundation/tool-contracts.js';
 
 /** VITE_SERVERLESS_MODE / SERVERLESS_MODE mirror the client-side build-time flag; VERCEL is set by the platform itself. */
@@ -238,10 +237,6 @@ async function createServerlessApi({ serverlessMode: explicitMode } = {}) {
   // B-13 (2026-10-21): `/investigate` now runs repo tools in-process through
   // the registry-derived invoker (same whitelist validation as /api/tools).
   mountFoundationRoutes(router, { toolInvoker: createToolInvoker() });
-  // UAE AOI live incidents (2026-10-22): /api/incidents{,/refresh,/resolve,/composer}
-  // — same catch-all function, server-only ONDEMAND_API_KEY + INCIDENT_INGEST_SECRET
-  // (server/incidents/route.js).
-  mountIncidentRoutes(router);
 
   for (const plugin of localProviderPlugins()) {
     if (SKIP_ALWAYS.has(plugin.name)) continue;

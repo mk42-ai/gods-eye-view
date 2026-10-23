@@ -17,9 +17,7 @@ import test from 'node:test';
 
 import { SceneDirector } from './director.js';
 import { SCENE_TRACKING_PARAM_KEYS } from './scenePolicy.js';
-import { SCENE_RECIPES, LEGACY_EVENT_RECIPES, getSceneAppendRecipeById } from './recipes.js';
-import { createDefaultProject, normalizeProject } from './project.js';
-import { parseSceneDocument } from '../director/document.js';
+import { SCENE_RECIPES, getSceneAppendRecipeById } from './recipes.js';
 
 const NEPAL_ORIGINAL_SHOT_TITLES = [
   'Global Incident Context',
@@ -457,19 +455,19 @@ test('the Nepal pack upgrades the upper-valley shots without duplicating evidenc
 });
 
 
-test('an older default project no longer gains the Nepal scene (UAE AOI library is the default set)', () => {
+test('an older default project gains the complete selectable Nepal scene once', () => {
   const project = legacyDefaultProjectWithoutNepalFixture();
   const { director, restore } = makeDirector({
     project,
     data: { registered: [...REGISTERED, 'bhote-koshi-2026', 'bhote-koshi-locator'] },
   });
   try {
-    assert.equal(
-      director._project.scenes.some(({ title }) => title === 'Nepal Flood Incident'),
-      false,
-    );
-    assert.deepEqual(director._project.installedBuiltInSceneIds, []);
-    assert.equal(director._project.scenes[0].id, 'bhote-koshi-flood', 'saved scenes are untouched');
+    const nepal = director._project.scenes.find(({ title }) => title === 'Nepal Flood Incident');
+    assert.ok(nepal);
+    assert.equal(nepal.shots.length, 25);
+    assert.equal(nepal.shots[0].title, 'Global Incident Context');
+    assert.equal(nepal.shots.at(-1).title, 'Final view');
+    assert.deepEqual(director._project.installedBuiltInSceneIds, ['bhote-koshi-nepal-scene']);
   } finally {
     restore();
   }
@@ -489,30 +487,13 @@ test('a previously installed Nepal scene stays deleted when its marker remains',
   }
 });
 
-test('public defaults are the UAE AOI scene library; Nepal recipes stay available only as legacy', () => {
+test('public defaults include Nepal without an extra standalone flood recipe', () => {
   assert.equal(SCENE_RECIPES.some((item) => item.id === 'bhote-koshi-flood'), false);
-  assert.equal(SCENE_RECIPES.some((item) => item.id === 'bhote-koshi-nepal-scene'), false);
-  assert.equal(LEGACY_EVENT_RECIPES.filter((item) => item.id === 'bhote-koshi-nepal-scene').length, 1);
-  const defaults = createDefaultProject();
-  assert.deepEqual(defaults.scenes.map(({ id }) => id), [
-    'uae-aoi-iran',
-    'uae-aoi-yemen',
-    'uae-aoi-somalia',
-    'uae-aoi-uae-home-border',
-  ]);
-  assert.equal(defaults.scenes.reduce((n, scene) => n + scene.shots.length, 0), 31);
-  assert.equal(
-    JSON.stringify(defaults).match(/Nepal|Devighat|Charaudi/i),
-    null,
-    'no Nepal Flood / Devighat / Charaudi data in the defaults',
-  );
-  assert.deepEqual(defaults.installedBuiltInSceneIds, []);
-  // the document validator accepts the library (incident card metadata on shots)
-  const parsed = normalizeProject(parseSceneDocument(JSON.stringify(defaults)));
-  assert.equal(parsed.scenes[0].shots[0].incident.country, 'IRAN');
+  assert.equal(SCENE_RECIPES.filter((item) => item.id === 'bhote-koshi-nepal-scene').length, 1);
 });
 
-test('an existing public default project is left exactly as saved (no Nepal auto-install)', () => {
+
+test('an existing public default project gains Nepal without replacing authored shots', () => {
   const project = structuredClone(PROJECT_FIXTURE);
   project.scenes[0].id = 'flights-radar';
   const original = structuredClone(project.scenes[0].shots);
@@ -520,8 +501,9 @@ test('an existing public default project is left exactly as saved (no Nepal auto
   try {
     assert.deepEqual(director._project.scenes[0].shots.map(({ id, camera }) => ({ id, camera })),
       original.map(({ id, camera }) => ({ id, camera })));
-    assert.equal(director._project.scenes.length, 1);
-    assert.deepEqual(director._project.installedBuiltInSceneIds, []);
+    assert.equal(director._project.scenes[1].title, 'Nepal Flood Incident');
+    assert.equal(director._project.scenes[1].shots.length, 25);
+    assert.deepEqual(director._project.installedBuiltInSceneIds, ['bhote-koshi-nepal-scene']);
   } finally { restore(); }
 });
 

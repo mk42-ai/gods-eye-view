@@ -608,7 +608,10 @@
       "src/ui/styles/voice-cost.css",
       "src/ui/styles/first-run.css",
       "src/ui/styles/provider-settings.css",
-      "src/ui/styles/ondemand-chat.css"
+      "src/ui/styles/ondemand-chat.css",
+      "src/ui/styles/plugin-panel.css",
+      "src/ui/styles/incidents.css",
+      "src/ui/styles/footage.css"
     ],
     "external": []
   },
@@ -683,10 +686,9 @@
       "src/director/authoring.js",
       "src/scenes/sharing.js",
       "src/ui/sceneSharing.js",
-      "src/data/uaeAoi.js",
-      "src/data/uaeIncidents.js",
-      "src/data/local_data/uae-aoi/uae-aoi.json",
-      "src/data/local_data/uae-aoi/uae-aoi-seed-incidents.json"
+      "src/scenes/aoiScenePolicy.js",
+      "src/scenes/incidentScenes.js",
+      "src/incidents/model.js"
     ],
     "external": ["cesium"]
   },
@@ -1569,11 +1571,6 @@
       "src/director/playback.js",
       "src/scenes/recipes.js",
       "src/scenes/scenePolicy.js",
-      "src/ui/incidentPanel.js",
-      "src/data/uaeAoi.js",
-      "src/data/uaeIncidents.js",
-      "src/data/local_data/uae-aoi/uae-aoi.json",
-      "src/data/local_data/uae-aoi/uae-aoi-seed-incidents.json",
       "src/scopeMask.js",
       "src/search/defaults.js",
       "src/search/geospatial.js",
@@ -1777,7 +1774,20 @@
       "src/ui/icons/lucideIcons.generated.js",
       "src/brand/productName.js",
       "src/ondemand/miniChat.js",
-      "src/ondemand/pluginPanel.js"
+      "src/ondemand/pluginPanel.js",
+      "src/scenes/aoiScenePolicy.js",
+      "src/scenes/incidentScenes.js",
+      "src/incidents/model.js",
+      "src/aoi/membership.js",
+      "src/aoi/uaeInterest.js",
+      "config/aoi/uae-interest.json",
+      "src/incidents/client.js",
+      "src/incidents/ui/overlay.js",
+      "src/incidents/ui/composer.js",
+      "src/incidents/ui/index.js",
+      "src/footage/model.js",
+      "src/footage/client.js",
+      "src/footage/ui/dock.js"
     ],
     "external": [
       "@mapbox/vector-tile",

@@ -40,6 +40,20 @@ _“pretty cool”_ — [Brendan Eich](https://x.com/BrendanEich/status/20945920
 
 ---
 
+
+## LIVE FOOTAGE dock (2026-10-23)
+
+The tactical HUD carries a **LIVE FOOTAGE** dock (`#footage-dock`) that streams short-form clips
+(YouTube Shorts, TikTok, Instagram, Reddit, X, web discovery) for the current scene from the
+`gods-eye-footage-service` (`api/footage/`, FastAPI on the Vercel Python runtime) and auto-plays
+them beside the globe. Type `rebuild the car crash reported in Umm Suqeim` into the incident
+composer or the dock's command box to fly to the place and replay archival footage
+(`REBUILT FROM ARCHIVAL FOOTAGE — originally reported <date>`). Endpoints: `/footage/search`,
+`/footage/stream` (SSE), `/footage/health`. Local dev: `npm run footage:dev` in one terminal and
+`FOOTAGE_UPSTREAM=http://127.0.0.1:8787 npm run dev` in another (or `npm run start:preview`).
+Server-side env: `ONDEMAND_API_KEY` (required for the plugin sources), optional `YOUTUBE_API_KEY`,
+`NOMINATIM_USER_AGENT`. Share links carry `fv` / `fk` / `fm` / `fs` and the `f.c` token in `ui=`.
+
 ## 🌍 Why This Exists
 
 OnDemand Spatial brings public signals into one explorable globe. Track the world live. Talk to it. Break it. Extend it.

@@ -38,16 +38,3 @@ Vercel project's `ONDEMAND_API_KEY` is `sensitive` (unreadable through the API) 
 environment key targets the same OnDemand company (workflow `6aace534859f7b0abb53d99a` is visible to it).
 
 GENERATED_UTC: 2026-10-22T06:34:00Z
-
-## B-25 — No platform-side scheduler for `incident_scheduled_refresh` (cycle 9, 2026-10-22)
-The cron-capable contract is executed by `POST /api/incidents/refresh` (in-flight lock, 4/min limiter, honest `NO KEY`),
-but no scheduler calls it yet: Vercel Cron requires the Git-linked production project (still bound to the sibling repo, B-6)
-and the OnDemand Agents Flow Builder cron workflow cannot issue an authenticated HTTP call to the preview (B-12). Until one of
-those is wired, the LIVE badge advances only when an operator presses REFRESH. Evidence: TEST_RESULTS §14.3.
-
-## B-26 — Research plugin per-AOI latency vs the 60 s function budget (cycle 9)
-`internet_web_search` answers take 16–27 s per AOI and sometimes exceed 30 s (Bab el-Mandeb 09:55Z, Puntland coast 10:17Z
-timed out). The sweep therefore pages: default `limitAois` 6, 3 parallel calls, 30 s per AOI, 50 s whole-sweep budget, and
-reports `skipped_budget`/`timeout` rows per AOI instead of pretending completeness. Full 44-AOI coverage needs several
-REFRESH calls (or the scheduler of B-25). Evidence: TEST_RESULTS §14.3 `perAoi`.
-

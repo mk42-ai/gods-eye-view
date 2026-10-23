@@ -113,13 +113,9 @@ export function defineContract(c) {
     );
   if (
     c.kind === 'ondemand-tool' &&
-    !/^\/api\/(?:tools\/[a-z0-9_.-]+|incidents(?:\/[a-z]+)?)$/.test(
-      c.toolRoute || '',
-    )
+    !/^\/api\/tools\/[a-z0-9_.-]+$/.test(c.toolRoute || '')
   )
-    throw new ContractError(
-      `${c.name}: toolRoute must be /api/tools/<name> or /api/incidents[/<step>]`,
-    );
+    throw new ContractError(`${c.name}: toolRoute must be /api/tools/<name>`);
   if (c.kind === 'ondemand-workflow' && !OBJECT_ID.test(c.workflowId || ''))
     throw new ContractError(`${c.name}: workflowId must be a 24-hex id`);
   for (const [k, v] of Object.entries(c.inputs || {}))
