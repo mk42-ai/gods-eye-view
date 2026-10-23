@@ -251,3 +251,20 @@ GENERATED_UTC: 2026-10-22T13:05:00Z
   relies on discovered/seeded post URLs; YouTube Data API unset → public results page (approximate
   `published_at`, labelled `~approx`); Reddit / web plugins frequently exceed the 12 s search budget (the
   28 s stream budget usually lands them).
+
+## 3g. Completed in cycle 11 — GODS-EYE scene engine (2026-10-23, branch `feature/live-footage-dock`, PR #3)
+
+- HARD RULE §0 enforced: the always-on LIVE FOOTAGE dock is deleted; the AOI prompt bar (`#incident-composer`)
+  is the ONLY trigger. App load / share-URL load / panning → 0 media requests, 0 `<video>` (spec 01, 07, 13).
+- `src/gods-eye/` — scene store + reducer/state machine, AOI register ("UAE Interest Watch", Iran/Yemen/Somalia
+  sites, "Add site to register?" modal), route client (`/footage/route/plan`, 4 s → great-circle fallback +
+  `ROUTE: FALLBACK`), S0–S4 camera ladder (8 000 km → 1 200 km → 18 km → 2 km → 300 m, dwells 4.2 s + 11 s,
+  reduced-motion cuts), SSE footage pipeline → normalisers → geo-resolver → Web-Worker ranker, in-scene showcase
+  (header, pins/rings/leader lines/route layer, virtualised rail, timeline, player, evidence strip), Scenes panel
+  (Open / Recreate+diff / Rename / Duplicate / Delete / Share, START/NEXT/STOP), Sources sidebar (replaces the HUD
+  CAPABILITIES list), IndexedDB + `/footage/scenes` CRUD, `sc=` share with full-state fallback.
+- Designed state posters in `public/assets/states/` (9, incl. the two rendered locally) mapped only through
+  `ui/scene/posters.js` tokens (`--ge-poster-*`).
+- Evidence: `artifacts/gods-eye-2026-10-23/` (README = acceptance matrix 17/18 pass, 16 BLOCKED on SwiftShader,
+  results tables, route table, formula, ladder, blockers; screenshots, network logs, perf trace, visual baselines).
+  Verified facts for the Umm Suqeim crash: `tests/fixtures/step1-fixtures.json`.

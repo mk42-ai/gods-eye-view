@@ -1,0 +1,277 @@
+{
+  "_fixture": true,
+  "_note": "FIXTURE — Umm Suqeim car crash rebuild (reported 2026-09-26; Gulf Today + Khaleej Times verified in tests/fixtures/step1-fixtures.json; social timestamps are fixture values). Not live data.",
+  "prompt": "rebuild the car crash reported in Umm Suqeim",
+  "target": {
+    "name": "Umm Suqeim",
+    "lat": 25.147,
+    "lon": 55.199,
+    "geocodeSource": "dictionary",
+    "confidence": 0.95
+  },
+  "tRef": "2026-09-26T07:00:00Z",
+  "tRefLabel": "reported 2026-09-26",
+  "query": {
+    "place": {
+      "name": "Umm Suqeim",
+      "lat": 25.147,
+      "lon": 55.199
+    },
+    "reported_at": "2026-09-26"
+  },
+  "sources": [
+    {
+      "source": "youtube",
+      "status": "ok",
+      "count": 1,
+      "ms": 420
+    },
+    {
+      "source": "instagram",
+      "status": "ok",
+      "count": 3,
+      "ms": 610
+    },
+    {
+      "source": "web",
+      "status": "ok",
+      "count": 2,
+      "ms": 980
+    },
+    {
+      "source": "reddit",
+      "status": "ok",
+      "count": 1,
+      "ms": 700
+    },
+    {
+      "source": "tiktok",
+      "status": "quota",
+      "count": 0,
+      "ms": 90,
+      "error": "You have exceeded the MONTHLY quota for Scraping API on your current plan, BASIC"
+    },
+    {
+      "source": "x",
+      "status": "inactive",
+      "count": 0,
+      "ms": 60,
+      "error": "One or more agents are inactive or missing configuration: X Search Agent"
+    }
+  ],
+  "items": [
+    {
+      "source": "instagram",
+      "title": "Dubai Police release footage of the Umm Suqeim Street crash (credit @abdul_)",
+      "url": "https://www.instagram.com/p/DXgVj3djDAR",
+      "embed_url": "https://www.instagram.com/p/DXgVj3djDAR/embed/",
+      "play_url": null,
+      "thumb": "/assets/states/state-archive-rebuild.png",
+      "published_at": "2026-09-26T09:12:00Z",
+      "freshness": "ARCHIVE",
+      "relevance": 0.95,
+      "author": "dubaipolicehq",
+      "lat": 25.1478,
+      "lon": 55.2004,
+      "canonical": "ig:dxgvj3djdar"
+    },
+    {
+      "source": "instagram",
+      "title": "Driver faints on Umm Suqeim Street heading to Jumeirah Street",
+      "url": "https://www.instagram.com/reel/DW8khmCg4CY",
+      "embed_url": "https://www.instagram.com/reel/DW8khmCg4CY/embed/",
+      "play_url": null,
+      "thumb": "/assets/states/state-archive-rebuild.png",
+      "published_at": "2026-09-26T11:40:00Z",
+      "freshness": "ARCHIVE",
+      "relevance": 0.9,
+      "author": "gulfnews",
+      "canonical": "ig:dw8khmcg4cy"
+    },
+    {
+      "source": "instagram",
+      "title": "Gulf Today: Dubai Police warn of fatigue after Umm Suqeim accident",
+      "url": "https://www.instagram.com/p/DdyBfSdl-zh/",
+      "embed_url": "https://www.instagram.com/p/DdyBfSdl-zh/embed/",
+      "play_url": null,
+      "thumb": "/assets/states/state-archive-rebuild.png",
+      "published_at": "2026-09-27T07:00:10Z",
+      "freshness": "ARCHIVE",
+      "relevance": 0.8,
+      "author": "gulftoday",
+      "canonical": "ig:ddybfsdl-zh"
+    },
+    {
+      "source": "youtube",
+      "title": "FIXTURE placeholder clip — Umm Suqeim crash (no verified YouTube Short found; see step1-fixtures.json)",
+      "url": "https://www.youtube.com/shorts/pu6shIJmb5s",
+      "embed_url": "https://www.youtube.com/embed/pu6shIJmb5s",
+      "play_url": null,
+      "thumb": "/assets/states/state-archive-rebuild.png",
+      "published_at": "2026-09-26T14:05:00Z",
+      "freshness": "ARCHIVE",
+      "relevance": 0.4,
+      "author": "Gulf News",
+      "canonical": "yt:pu6shIJmb5s"
+    },
+    {
+      "source": "web",
+      "title": "Dubai Police warn of dangers of driving while fatigued after a driver faints causing an accident in Umm Suqeim",
+      "url": "https://www.gulftoday.ae/news/2026/09/26/dubai-police-warn-of-dangers-of-driving-while-fatigued-after-a-driver-faints-causing-an-accident-in-umm-suqeim",
+      "embed_url": null,
+      "play_url": null,
+      "thumb": "/assets/states/state-archive-rebuild.png",
+      "published_at": "2026-09-26T08:30:00Z",
+      "freshness": "ARCHIVE",
+      "relevance": 0.9,
+      "author": "Gulf Today",
+      "canonical": "web:gulftoday-umm-suqeim"
+    },
+    {
+      "source": "web",
+      "title": "Khaleej Times (Facebook): driver fell unconscious on Umm Suqeim Street and collided with another vehicle",
+      "url": "https://www.facebook.com/khaleejtimes/posts/1634956428291176",
+      "embed_url": null,
+      "play_url": null,
+      "thumb": "/assets/states/state-archive-rebuild.png",
+      "published_at": "2026-09-26T14:55:00Z",
+      "freshness": "ARCHIVE",
+      "relevance": 0.7,
+      "author": "Khaleej Times",
+      "canonical": "fb:1634956428291176"
+    },
+    {
+      "source": "reddit",
+      "title": "r/dubai — crash on Umm Suqeim St this morning, anyone know what happened?",
+      "url": "https://www.reddit.com/r/dubai/comments/1ph9l65/",
+      "embed_url": null,
+      "play_url": null,
+      "thumb": "/assets/states/state-archive-rebuild.png",
+      "published_at": "2026-09-26T07:48:00Z",
+      "freshness": "ARCHIVE",
+      "relevance": 0.65,
+      "author": "u/dxb_driver",
+      "canonical": "rd:1ph9l65"
+    },
+    {
+      "source": "web",
+      "title": "'Don't risk it': Dubai Police issue warning after driver faints, causes collision",
+      "url": "https://www.khaleejtimes.com/uae/dubai-police-warning-tired-driver-faints-causes-collision",
+      "embed_url": null,
+      "play_url": null,
+      "thumb": "/assets/states/state-archive-rebuild.png",
+      "published_at": "2026-09-26T14:51:26Z",
+      "freshness": "ARCHIVE",
+      "relevance": 0.9,
+      "author": "Khaleej Times",
+      "canonical": "web:khaleejtimes-umm-suqeim"
+    }
+  ],
+  "groundRoutes": [
+    {
+      "id": "szr",
+      "name": "Sheikh Zayed Road (E11)",
+      "kind": "motorway",
+      "status": "open",
+      "lastChecked": "2026-10-23T08:00:00Z",
+      "source": "FIXTURE route table (RTA status mocked)",
+      "geometry": [
+        [
+          25.2048,
+          55.2708
+        ],
+        [
+          25.1859,
+          55.2534
+        ],
+        [
+          25.1663,
+          55.2318
+        ],
+        [
+          25.1415,
+          55.2076
+        ],
+        [
+          25.1165,
+          55.1832
+        ],
+        [
+          25.0901,
+          55.1569
+        ]
+      ]
+    },
+    {
+      "id": "alwasl",
+      "name": "Al Wasl Road (D92)",
+      "kind": "arterial",
+      "status": "restricted",
+      "lastChecked": "2026-10-23T08:00:00Z",
+      "source": "FIXTURE route table (lane closure mocked)",
+      "geometry": [
+        [
+          25.2176,
+          55.2581
+        ],
+        [
+          25.1955,
+          55.2374
+        ],
+        [
+          25.1727,
+          55.2178
+        ],
+        [
+          25.1521,
+          55.2003
+        ],
+        [
+          25.1317,
+          55.1838
+        ]
+      ]
+    },
+    {
+      "id": "jumeirah",
+      "name": "Jumeirah Street (D94)",
+      "kind": "arterial",
+      "status": "unknown",
+      "lastChecked": "2026-10-23T08:00:00Z",
+      "source": "FIXTURE route table",
+      "geometry": [
+        [
+          25.2261,
+          55.2612
+        ],
+        [
+          25.204,
+          55.242
+        ],
+        [
+          25.1795,
+          55.2217
+        ],
+        [
+          25.1567,
+          55.2005
+        ],
+        [
+          25.1388,
+          55.185
+        ]
+      ]
+    }
+  ],
+  "alerts": [
+    {
+      "id": "alert-fixture-1",
+      "at": "2026-09-26T07:20:00Z",
+      "severity": "warn",
+      "text": "FIXTURE: lane closure on Al Wasl Road near Umm Suqeim Street",
+      "routeId": "alwasl",
+      "lat": 25.1521,
+      "lon": 55.2003
+    }
+  ]
+}

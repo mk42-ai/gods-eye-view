@@ -1,0 +1,3181 @@
+{
+ "config": {
+  "configFile": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/playwright.config.mjs",
+  "rootDir": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e",
+  "forbidOnly": false,
+  "fullyParallel": false,
+  "globalSetup": null,
+  "globalTeardown": null,
+  "globalTimeout": 0,
+  "grep": {},
+  "grepInvert": null,
+  "maxFailures": 0,
+  "metadata": {
+   "actualWorkers": 1
+  },
+  "preserveOutput": "always",
+  "reporter": [
+   [
+    "list",
+    null
+   ],
+   [
+    "html",
+    {
+     "outputFolder": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/html",
+     "open": "never"
+    }
+   ],
+   [
+    "json",
+    {
+     "outputFile": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/results.json"
+    }
+   ]
+  ],
+  "reportSlowTests": {
+   "max": 5,
+   "threshold": 300000
+  },
+  "quiet": false,
+  "projects": [
+   {
+    "outputDir": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts",
+    "repeatEach": 1,
+    "retries": 0,
+    "metadata": {
+     "actualWorkers": 1
+    },
+    "id": "desktop",
+    "name": "desktop",
+    "testDir": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e",
+    "testIgnore": [],
+    "testMatch": [
+     "/.*\\.spec\\.mjs$/"
+    ],
+    "timeout": 120000
+   },
+   {
+    "outputDir": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts",
+    "repeatEach": 1,
+    "retries": 0,
+    "metadata": {
+     "actualWorkers": 1
+    },
+    "id": "tablet",
+    "name": "tablet",
+    "testDir": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e",
+    "testIgnore": [],
+    "testMatch": [
+     "/.*\\.spec\\.mjs$/"
+    ],
+    "timeout": 120000
+   },
+   {
+    "outputDir": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts",
+    "repeatEach": 1,
+    "retries": 0,
+    "metadata": {
+     "actualWorkers": 1
+    },
+    "id": "mobile",
+    "name": "mobile",
+    "testDir": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e",
+    "testIgnore": [],
+    "testMatch": [
+     "/.*\\.spec\\.mjs$/"
+    ],
+    "timeout": 120000
+   }
+  ],
+  "shard": null,
+  "updateSnapshots": "missing",
+  "updateSourceMethod": "patch",
+  "version": "1.56.1",
+  "workers": 1,
+  "webServer": null
+ },
+ "suites": [
+  {
+   "title": "01-load-no-prompt.spec.mjs",
+   "file": "01-load-no-prompt.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "01 load-no-prompt",
+     "file": "01-load-no-prompt.spec.mjs",
+     "line": 11,
+     "column": 6,
+     "specs": [
+      {
+       "title": "loads share hash without prompt and stays zero-network with no media or cards",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 28483,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T14:50:18.377Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "01-load-no-prompt-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/01-load-no-prompt-01-load--cab19-work-with-no-media-or-cards-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "ba5864d2cc3bb5319429-ab126c38acb1776324ea",
+       "file": "01-load-no-prompt.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "loads share hash without prompt and stays zero-network with no media or cards",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/01-load-no-prompt.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 3,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.444Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/01-load-no-prompt.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "ba5864d2cc3bb5319429-c4a5af17c82876c89db0",
+       "file": "01-load-no-prompt.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "loads share hash without prompt and stays zero-network with no media or cards",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/01-load-no-prompt.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 4,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:23.834Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/01-load-no-prompt.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "ba5864d2cc3bb5319429-88ef706d8fc3c1b9eda9",
+       "file": "01-load-no-prompt.spec.mjs",
+       "line": 14,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "02-burj-khalifa-build.spec.mjs",
+   "file": "02-burj-khalifa-build.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "02 burj-khalifa-build",
+     "file": "02-burj-khalifa-build.spec.mjs",
+     "line": 10,
+     "column": 6,
+     "specs": [
+      {
+       "title": "builds Burj Khalifa live scene through S0..S4 camera ladder with VIIRS and cards",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 52469,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T14:50:48.142Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "02-burj-khalifa-build-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/02-burj-khalifa-build-02-b-ff500-ladder-with-VIIRS-and-cards-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "d10a9baa9ed5242bcf1b-24a05b0589f057d6c69f",
+       "file": "02-burj-khalifa-build.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "builds Burj Khalifa live scene through S0..S4 camera ladder with VIIRS and cards",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/02-burj-khalifa-build.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 1,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.483Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/02-burj-khalifa-build.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "d10a9baa9ed5242bcf1b-45e867d10823227ad8b5",
+       "file": "02-burj-khalifa-build.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "builds Burj Khalifa live scene through S0..S4 camera ladder with VIIRS and cards",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/02-burj-khalifa-build.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 1,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:23.876Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/02-burj-khalifa-build.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "d10a9baa9ed5242bcf1b-1f78654b4a7dcba83870",
+       "file": "02-burj-khalifa-build.spec.mjs",
+       "line": 13,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "03-umm-suqeim-rebuild.spec.mjs",
+   "file": "03-umm-suqeim-rebuild.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "03 umm-suqeim-rebuild",
+     "file": "03-umm-suqeim-rebuild.spec.mjs",
+     "line": 11,
+     "column": 6,
+     "specs": [
+      {
+       "title": "rebuilds Umm Suqeim archival crash with banner, archive cards, handles, and 3 ground routes",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 106591,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T14:51:40.636Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "03-umm-suqeim-rebuild-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/03-umm-suqeim-rebuild-03-u-013db-handles-and-3-ground-routes-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "a7eb56d8803cc33d41b6-0514f722fe4bc747630c",
+       "file": "03-umm-suqeim-rebuild.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "rebuilds Umm Suqeim archival crash with banner, archive cards, handles, and 3 ground routes",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/03-umm-suqeim-rebuild.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 1,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.504Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/03-umm-suqeim-rebuild.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "a7eb56d8803cc33d41b6-fd145644449ab1b4bf21",
+       "file": "03-umm-suqeim-rebuild.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "rebuilds Umm Suqeim archival crash with banner, archive cards, handles, and 3 ground routes",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/03-umm-suqeim-rebuild.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 1,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:23.897Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/03-umm-suqeim-rebuild.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "a7eb56d8803cc33d41b6-709adcee89c639595d43",
+       "file": "03-umm-suqeim-rebuild.spec.mjs",
+       "line": 14,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "04-outside-register.spec.mjs",
+   "file": "04-outside-register.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "04 outside-register",
+     "file": "04-outside-register.spec.mjs",
+     "line": 11,
+     "column": 6,
+     "specs": [
+      {
+       "title": "prompts registration modal for places outside register, handles decline and accept",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 41105,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T14:53:27.315Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "04-outside-register-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/04-outside-register-04-out-769d5--handles-decline-and-accept-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "46860d8ec3593dcb5846-ff0ce1e8e78820fbc762",
+       "file": "04-outside-register.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "prompts registration modal for places outside register, handles decline and accept",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/04-outside-register.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 1,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.529Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/04-outside-register.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "46860d8ec3593dcb5846-c0a0f78e09c21a55c679",
+       "file": "04-outside-register.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "prompts registration modal for places outside register, handles decline and accept",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/04-outside-register.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 1,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:23.919Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/04-outside-register.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "46860d8ec3593dcb5846-adf14901a15d43c02c34",
+       "file": "04-outside-register.spec.mjs",
+       "line": 14,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "05-route-agent-500.spec.mjs",
+   "file": "05-route-agent-500.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "05 route-agent-500",
+     "file": "05-route-agent-500.spec.mjs",
+     "line": 10,
+     "column": 6,
+     "specs": [
+      {
+       "title": "falls back gracefully to great-circle ladder when route agent returns HTTP 500",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 44180,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T14:54:08.463Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "05-route-agent-500-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/05-route-agent-500-05-rout-8824f-oute-agent-returns-HTTP-500-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "48e0f406a7dd613ecd66-e81fb3b47dd33a83c0f0",
+       "file": "05-route-agent-500.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "falls back gracefully to great-circle ladder when route agent returns HTTP 500",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/05-route-agent-500.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.555Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/05-route-agent-500.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "48e0f406a7dd613ecd66-1648bf833c7e57784ec8",
+       "file": "05-route-agent-500.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "falls back gracefully to great-circle ladder when route agent returns HTTP 500",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/05-route-agent-500.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:23.941Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/05-route-agent-500.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "48e0f406a7dd613ecd66-75027d29a6785838de28",
+       "file": "05-route-agent-500.spec.mjs",
+       "line": 13,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "06-instagram-toggle.spec.mjs",
+   "file": "06-instagram-toggle.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "06 instagram-toggle",
+     "file": "06-instagram-toggle.spec.mjs",
+     "line": 10,
+     "column": 6,
+     "specs": [
+      {
+       "title": "toggles instagram source in sidebar, removing and restoring cards and pins",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 50247,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T14:54:52.698Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "06-instagram-toggle-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/06-instagram-toggle-06-ins-e7181-nd-restoring-cards-and-pins-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "40ea264261b4d85c63b2-aff3025b3fbea41cfba6",
+       "file": "06-instagram-toggle.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "toggles instagram source in sidebar, removing and restoring cards and pins",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/06-instagram-toggle.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.570Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/06-instagram-toggle.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "40ea264261b4d85c63b2-34fdb9590c0d6ca063ad",
+       "file": "06-instagram-toggle.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "toggles instagram source in sidebar, removing and restoring cards and pins",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/06-instagram-toggle.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:23.956Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/06-instagram-toggle.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "40ea264261b4d85c63b2-cd65061893b5409beeb9",
+       "file": "06-instagram-toggle.spec.mjs",
+       "line": 13,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "07-save-reload-open.spec.mjs",
+   "file": "07-save-reload-open.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "07 save-reload-open",
+     "file": "07-save-reload-open.spec.mjs",
+     "line": 12,
+     "column": 6,
+     "specs": [
+      {
+       "title": "restores saved scene on reload via openScene with identical state and zero network calls",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 46317,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T14:55:42.982Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "07-save-reload-open-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/07-save-reload-open-07-sav-c99ae-tate-and-zero-network-calls-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "1644893084ba77a63414-042b52099059e51b8197",
+       "file": "07-save-reload-open.spec.mjs",
+       "line": 15,
+       "column": 3
+      },
+      {
+       "title": "restores saved scene on reload via openScene with identical state and zero network calls",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/07-save-reload-open.spec.mjs",
+            "line": 13,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.588Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/07-save-reload-open.spec.mjs",
+              "line": 13,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "1644893084ba77a63414-9d8ca8fe9e7973b7a3ba",
+       "file": "07-save-reload-open.spec.mjs",
+       "line": 15,
+       "column": 3
+      },
+      {
+       "title": "restores saved scene on reload via openScene with identical state and zero network calls",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/07-save-reload-open.spec.mjs",
+            "line": 13,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:23.974Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/07-save-reload-open.spec.mjs",
+              "line": 13,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "1644893084ba77a63414-b8d5b5e373312580a082",
+       "file": "07-save-reload-open.spec.mjs",
+       "line": 15,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "08-recreate-diff.spec.mjs",
+   "file": "08-recreate-diff.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "08 recreate-diff",
+     "file": "08-recreate-diff.spec.mjs",
+     "line": 10,
+     "column": 6,
+     "specs": [
+      {
+       "title": "recreates existing scene with new stage traversal, route planning, and diff summary badge",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 107345,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T14:56:29.350Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "08-recreate-diff-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/08-recreate-diff-08-recrea-71c81-ning-and-diff-summary-badge-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "0c61dab2e52de4c514b9-c3c0963b55a0ddc6595b",
+       "file": "08-recreate-diff.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "recreates existing scene with new stage traversal, route planning, and diff summary badge",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/08-recreate-diff.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.602Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/08-recreate-diff.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "0c61dab2e52de4c514b9-f93faed49f0b8bbb98dd",
+       "file": "08-recreate-diff.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "recreates existing scene with new stage traversal, route planning, and diff summary badge",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/08-recreate-diff.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:23.988Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/08-recreate-diff.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "0c61dab2e52de4c514b9-20d285bccb5cc5d490db",
+       "file": "08-recreate-diff.spec.mjs",
+       "line": 13,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "09-scene-switch-abort.spec.mjs",
+   "file": "09-scene-switch-abort.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "09 scene-switch-abort",
+     "file": "09-scene-switch-abort.spec.mjs",
+     "line": 11,
+     "column": 6,
+     "specs": [
+      {
+       "title": "aborts in-flight scene A stream when user switches to scene B at S2 and cleans up entities",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 77180,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T14:58:16.795Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "09-scene-switch-abort-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/09-scene-switch-abort-09-s-20f58-t-S2-and-cleans-up-entities-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "9796483bdeae5dda0acc-2bcc475875b4c33f475a",
+       "file": "09-scene-switch-abort.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "aborts in-flight scene A stream when user switches to scene B at S2 and cleans up entities",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/09-scene-switch-abort.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.615Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/09-scene-switch-abort.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "9796483bdeae5dda0acc-15a01337eaae20dadcf2",
+       "file": "09-scene-switch-abort.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "aborts in-flight scene A stream when user switches to scene B at S2 and cleans up entities",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/09-scene-switch-abort.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:24.000Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/09-scene-switch-abort.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "9796483bdeae5dda0acc-95c9efdb6cd55a7975b0",
+       "file": "09-scene-switch-abort.spec.mjs",
+       "line": 14,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "10-timeline-scrub.spec.mjs",
+   "file": "10-timeline-scrub.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "10 timeline-scrub",
+     "file": "10-timeline-scrub.spec.mjs",
+     "line": 10,
+     "column": 6,
+     "specs": [
+      {
+       "title": "scrubs timeline to filter cards by window, plays items in chronological order, displays alerts",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 83229,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T14:59:34.096Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "10-timeline-scrub-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/10-timeline-scrub-10-timel-de235-gical-order-displays-alerts-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "55d3eb4afa2c3c9bf6c1-c851d74d68833f96d07e",
+       "file": "10-timeline-scrub.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "scrubs timeline to filter cards by window, plays items in chronological order, displays alerts",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/10-timeline-scrub.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.628Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/10-timeline-scrub.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "55d3eb4afa2c3c9bf6c1-343aeda41727882672c0",
+       "file": "10-timeline-scrub.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "scrubs timeline to filter cards by window, plays items in chronological order, displays alerts",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/10-timeline-scrub.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:24.012Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/10-timeline-scrub.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "55d3eb4afa2c3c9bf6c1-d1d96c960542d825380b",
+       "file": "10-timeline-scrub.spec.mjs",
+       "line": 13,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "11-start-next-three.spec.mjs",
+   "file": "11-start-next-three.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "11 start-next-three",
+     "file": "11-start-next-three.spec.mjs",
+     "line": 10,
+     "column": 6,
+     "specs": [
+      {
+       "title": "queues three scenes and controls sequential playback with dwell times, NEXT, and STOP",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 108972,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:00:57.369Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "11-start-next-three-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/11-start-next-three-11-sta-aa948-h-dwell-times-NEXT-and-STOP-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "5fbeee8868d8b0bf1ffa-a9cad9f42c811995a18d",
+       "file": "11-start-next-three.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "queues three scenes and controls sequential playback with dwell times, NEXT, and STOP",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/11-start-next-three.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.639Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/11-start-next-three.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "5fbeee8868d8b0bf1ffa-04b04620ce4c0ab3bac4",
+       "file": "11-start-next-three.spec.mjs",
+       "line": 13,
+       "column": 3
+      },
+      {
+       "title": "queues three scenes and controls sequential playback with dwell times, NEXT, and STOP",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/11-start-next-three.spec.mjs",
+            "line": 11,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:24.024Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/11-start-next-three.spec.mjs",
+              "line": 11,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "5fbeee8868d8b0bf1ffa-cafcdb3f71d795e75ded",
+       "file": "11-start-next-three.spec.mjs",
+       "line": 13,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "12-lifecycle-clock.spec.mjs",
+   "file": "12-lifecycle-clock.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "12 lifecycle-clock",
+     "file": "12-lifecycle-clock.spec.mjs",
+     "line": 9,
+     "column": 6,
+     "specs": [
+      {
+       "title": "updates scene card new/archived lifecycle status at +1h, +25h, and +73h",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 53185,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:02:46.366Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "12-lifecycle-clock-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/12-lifecycle-clock-12-life-0029a-le-status-at-1h-25h-and-73h-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "01e70a47a28091115efc-29a77e961ae6e709ba0d",
+       "file": "12-lifecycle-clock.spec.mjs",
+       "line": 12,
+       "column": 3
+      },
+      {
+       "title": "updates scene card new/archived lifecycle status at +1h, +25h, and +73h",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/12-lifecycle-clock.spec.mjs",
+            "line": 10,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.652Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/12-lifecycle-clock.spec.mjs",
+              "line": 10,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "01e70a47a28091115efc-11c4a8008e3b0517e965",
+       "file": "12-lifecycle-clock.spec.mjs",
+       "line": 12,
+       "column": 3
+      },
+      {
+       "title": "updates scene card new/archived lifecycle status at +1h, +25h, and +73h",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/12-lifecycle-clock.spec.mjs",
+            "line": 10,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:24.037Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/12-lifecycle-clock.spec.mjs",
+              "line": 10,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "01e70a47a28091115efc-4bb8cef78b0229f03e7a",
+       "file": "12-lifecycle-clock.spec.mjs",
+       "line": 12,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "13-share-url.spec.mjs",
+   "file": "13-share-url.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "13 share-url",
+     "file": "13-share-url.spec.mjs",
+     "line": 11,
+     "column": 6,
+     "specs": [
+      {
+       "title": "restores scene in fresh context from sc= share hash and from stripped fallback hash with zero media requests",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 92935,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:03:39.590Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "13-share-url-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/13-share-url-13-share-url--0323a-sh-with-zero-media-requests-desktop/test-finished-1.png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/13-share-url-13-share-url--0323a-sh-with-zero-media-requests-desktop/test-finished-2.png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/13-share-url-13-share-url--0323a-sh-with-zero-media-requests-desktop/test-finished-3.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "7613dbe99fd2ce3cf622-ce045cd1f39984721ca2",
+       "file": "13-share-url.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "restores scene in fresh context from sc= share hash and from stripped fallback hash with zero media requests",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/13-share-url.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.664Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/13-share-url.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "7613dbe99fd2ce3cf622-72344b843342b7c35a4b",
+       "file": "13-share-url.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "restores scene in fresh context from sc= share hash and from stripped fallback hash with zero media requests",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/13-share-url.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:24.048Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/13-share-url.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "7613dbe99fd2ce3cf622-e5638a8d2757ee1a2cdf",
+       "file": "13-share-url.spec.mjs",
+       "line": 14,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "14-mobile-390.spec.mjs",
+   "file": "14-mobile-390.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "14 mobile-390",
+     "file": "14-mobile-390.spec.mjs",
+     "line": 10,
+     "column": 6,
+     "specs": [
+      {
+       "title": "renders responsive UI on 390x844 viewport with bounded root, no horizontal overflow, and working composer",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Mobile only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/14-mobile-390.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 5,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:05:12.581Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Mobile only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/14-mobile-390.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "ee1e2bb1b704373559be-c153b0fb012e4ad01b60",
+       "file": "14-mobile-390.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "renders responsive UI on 390x844 viewport with bounded root, no horizontal overflow, and working composer",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Mobile only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/14-mobile-390.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.675Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Mobile only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/14-mobile-390.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "ee1e2bb1b704373559be-973d5dffd488848244cf",
+       "file": "14-mobile-390.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "renders responsive UI on 390x844 viewport with bounded root, no horizontal overflow, and working composer",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 45203,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:24.058Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "14-mobile-390-mobile.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/14-mobile-390-14-mobile-39-02b11-erflow-and-working-composer-mobile/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "ee1e2bb1b704373559be-fb2edbd716c6e8f4baac",
+       "file": "14-mobile-390.spec.mjs",
+       "line": 14,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "15-reduced-motion.spec.mjs",
+   "file": "15-reduced-motion.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "15 reduced-motion",
+     "file": "15-reduced-motion.spec.mjs",
+     "line": 11,
+     "column": 6,
+     "specs": [
+      {
+       "title": "executes instant cuts via setView instead of flyTo under prefers-reduced-motion in under 4 seconds",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 32926,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:05:12.654Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "15-reduced-motion-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/15-reduced-motion-15-reduc-1a813-d-motion-in-under-4-seconds-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "091773821a1636026f18-30827aff7ab4878ba77a",
+       "file": "15-reduced-motion.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "executes instant cuts via setView instead of flyTo under prefers-reduced-motion in under 4 seconds",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/15-reduced-motion.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.686Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/15-reduced-motion.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "091773821a1636026f18-684bbe81d927f29100e3",
+       "file": "15-reduced-motion.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "executes instant cuts via setView instead of flyTo under prefers-reduced-motion in under 4 seconds",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/15-reduced-motion.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 1,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:11:09.485Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/15-reduced-motion.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "091773821a1636026f18-aa3e38c7a36fc938f540",
+       "file": "15-reduced-motion.spec.mjs",
+       "line": 14,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "16-perf-55fps.spec.mjs",
+   "file": "16-perf-55fps.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "16 perf-55fps",
+     "file": "16-perf-55fps.spec.mjs",
+     "line": 11,
+     "column": 6,
+     "specs": [
+      {
+       "title": "measures frame rate from S2 to S4 under 30-item stream asserting target 55 fps (min 30 fps under swiftshader)",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "perf",
+           "description": "Measured 1.7 fps S2\u2192S4 with 30 streamed items; renderer: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+          },
+          {
+           "type": "skip",
+           "description": "BLOCKED: software WebGL (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)) \u2014 1.7 fps measured; \u226555 fps needs a GPU-backed browser",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/16-perf-55fps.spec.mjs",
+            "line": 108,
+            "column": 12
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 50654,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:05:45.643Z",
+           "annotations": [
+            {
+             "type": "perf",
+             "description": "Measured 1.7 fps S2\u2192S4 with 30 streamed items; renderer: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)"
+            },
+            {
+             "type": "skip",
+             "description": "BLOCKED: software WebGL (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)) \u2014 1.7 fps measured; \u226555 fps needs a GPU-backed browser",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/16-perf-55fps.spec.mjs",
+              "line": 108,
+              "column": 12
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "caad3bbd6ddabed06df1-107f52ef146c67898963",
+       "file": "16-perf-55fps.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "measures frame rate from S2 to S4 under 30-item stream asserting target 55 fps (min 30 fps under swiftshader)",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/16-perf-55fps.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 0,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.698Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/16-perf-55fps.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "caad3bbd6ddabed06df1-9f5caa91785759d850cd",
+       "file": "16-perf-55fps.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "measures frame rate from S2 to S4 under 30-item stream asserting target 55 fps (min 30 fps under swiftshader)",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/16-perf-55fps.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 1,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:11:09.505Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/16-perf-55fps.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "caad3bbd6ddabed06df1-42de249a732f06a1d5e1",
+       "file": "16-perf-55fps.spec.mjs",
+       "line": 14,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "17-visual-regression.spec.mjs",
+   "file": "17-visual-regression.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "17 visual-regression",
+     "file": "17-visual-regression.spec.mjs",
+     "line": 9,
+     "column": 6,
+     "specs": [
+      {
+       "title": "validates pixel-perfect visual snapshots of header, rail, timeline, player, scenes, sources, and full page",
+       "ok": false,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 420000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 0,
+           "parallelIndex": 0,
+           "status": "failed",
+           "duration": 102973,
+           "error": {
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#ge-rail')\nTimeout: 30000ms\n  Timeout 30000ms exceeded.\n\n  Snapshot: ge-rail.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(ge-rail.png)\" with timeout 30000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - Expected an image 350px by 390px, received 350px by 404px. 11533 pixels (ratio 0.09 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - Timeout 30000ms exceeded.\u001b[22m\n",
+            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#ge-rail')\nTimeout: 30000ms\n  Timeout 30000ms exceeded.\n\n  Snapshot: ge-rail.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(ge-rail.png)\" with timeout 30000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - Expected an image 350px by 390px, received 350px by 404px. 11533 pixels (ratio 0.09 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - Timeout 30000ms exceeded.\u001b[22m\n\n    at /home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs:55:24",
+            "location": {
+             "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs",
+             "column": 24,
+             "line": 55
+            },
+            "snippet": "  53 |     const rail = page.locator('#ge-rail');\n  54 |     await expect(rail).toBeVisible();\n> 55 |     await expect(rail).toHaveScreenshot('ge-rail.png', shotOpts);\n     |                        ^\n  56 |\n  57 |     // 3. #ge-timeline\n  58 |     const timeline = page.locator('#ge-timeline');"
+           },
+           "errors": [
+            {
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs",
+              "column": 24,
+              "line": 55
+             },
+             "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#ge-rail')\nTimeout: 30000ms\n  Timeout 30000ms exceeded.\n\n  Snapshot: ge-rail.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(ge-rail.png)\" with timeout 30000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - Expected an image 350px by 390px, received 350px by 404px. 11533 pixels (ratio 0.09 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - Timeout 30000ms exceeded.\u001b[22m\n\n\n  53 |     const rail = page.locator('#ge-rail');\n  54 |     await expect(rail).toBeVisible();\n> 55 |     await expect(rail).toHaveScreenshot('ge-rail.png', shotOpts);\n     |                        ^\n  56 |\n  57 |     // 3. #ge-timeline\n  58 |     const timeline = page.locator('#ge-timeline');\n    at /home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs:55:24"
+            }
+           ],
+           "retry": 0,
+           "startTime": "2026-10-23T15:06:36.389Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "ge-rail-expected.png",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/__screenshots__/17-visual-regression.spec.mjs/desktop/ge-rail.png"
+            },
+            {
+             "name": "ge-rail-actual.png",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-desktop/ge-rail-actual.png"
+            },
+            {
+             "name": "ge-rail-diff.png",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-desktop/ge-rail-diff.png"
+            },
+            {
+             "name": "error-context",
+             "contentType": "text/markdown",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-desktop/error-context.md"
+            },
+            {
+             "name": "trace",
+             "contentType": "application/zip",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-desktop/trace.zip"
+            }
+           ],
+           "errorLocation": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs",
+            "column": 24,
+            "line": 55
+           }
+          }
+         ],
+         "status": "unexpected"
+        }
+       ],
+       "id": "044e25c43b27792d8f1c-272d8c0fa2caec8eefba",
+       "file": "17-visual-regression.spec.mjs",
+       "line": 12,
+       "column": 3
+      },
+      {
+       "title": "validates pixel-perfect visual snapshots of header, rail, timeline, player, scenes, sources, and full page",
+       "ok": false,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 420000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 2,
+           "parallelIndex": 0,
+           "status": "failed",
+           "duration": 68086,
+           "error": {
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#ge-scene-header')\n  Expected an image 286px by 58px, received 286px by 56px. 572 pixels (ratio 0.04 of all image pixels) are different.\n\n  Snapshot: ge-scene-header.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(ge-scene-header.png)\" with timeout 30000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('#ge-scene-header')\u001b[22m\n\u001b[2m    - locator resolved to <header data-stage=\"S4\" data-kind=\"rebuild\" id=\"ge-scene-header\" class=\"ge-scene-header\" data-route-fallback=\"0\" data-live-status=\"idle\">\u2026</header>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - Expected an image 286px by 58px, received 286px by 56px. 572 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('#ge-scene-header')\u001b[22m\n\u001b[2m    - locator resolved to <header data-stage=\"S4\" data-kind=\"rebuild\" id=\"ge-scene-header\" class=\"ge-scene-header\" data-route-fallback=\"0\" data-live-status=\"idle\">\u2026</header>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - Expected an image 286px by 58px, received 286px by 56px. 572 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n",
+            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#ge-scene-header')\n  Expected an image 286px by 58px, received 286px by 56px. 572 pixels (ratio 0.04 of all image pixels) are different.\n\n  Snapshot: ge-scene-header.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(ge-scene-header.png)\" with timeout 30000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('#ge-scene-header')\u001b[22m\n\u001b[2m    - locator resolved to <header data-stage=\"S4\" data-kind=\"rebuild\" id=\"ge-scene-header\" class=\"ge-scene-header\" data-route-fallback=\"0\" data-live-status=\"idle\">\u2026</header>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - Expected an image 286px by 58px, received 286px by 56px. 572 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('#ge-scene-header')\u001b[22m\n\u001b[2m    - locator resolved to <header data-stage=\"S4\" data-kind=\"rebuild\" id=\"ge-scene-header\" class=\"ge-scene-header\" data-route-fallback=\"0\" data-live-status=\"idle\">\u2026</header>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - Expected an image 286px by 58px, received 286px by 56px. 572 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n\n    at /home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs:50:26",
+            "location": {
+             "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs",
+             "column": 26,
+             "line": 50
+            },
+            "snippet": "  48 |     const header = page.locator('#ge-scene-header');\n  49 |     await expect(header).toBeVisible();\n> 50 |     await expect(header).toHaveScreenshot('ge-scene-header.png', shotOpts);\n     |                          ^\n  51 |\n  52 |     // 2. #ge-rail\n  53 |     const rail = page.locator('#ge-rail');"
+           },
+           "errors": [
+            {
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs",
+              "column": 26,
+              "line": 50
+             },
+             "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#ge-scene-header')\n  Expected an image 286px by 58px, received 286px by 56px. 572 pixels (ratio 0.04 of all image pixels) are different.\n\n  Snapshot: ge-scene-header.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(ge-scene-header.png)\" with timeout 30000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('#ge-scene-header')\u001b[22m\n\u001b[2m    - locator resolved to <header data-stage=\"S4\" data-kind=\"rebuild\" id=\"ge-scene-header\" class=\"ge-scene-header\" data-route-fallback=\"0\" data-live-status=\"idle\">\u2026</header>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - Expected an image 286px by 58px, received 286px by 56px. 572 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('#ge-scene-header')\u001b[22m\n\u001b[2m    - locator resolved to <header data-stage=\"S4\" data-kind=\"rebuild\" id=\"ge-scene-header\" class=\"ge-scene-header\" data-route-fallback=\"0\" data-live-status=\"idle\">\u2026</header>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - Expected an image 286px by 58px, received 286px by 56px. 572 pixels (ratio 0.04 of all image pixels) are different.\u001b[22m\n\n\n  48 |     const header = page.locator('#ge-scene-header');\n  49 |     await expect(header).toBeVisible();\n> 50 |     await expect(header).toHaveScreenshot('ge-scene-header.png', shotOpts);\n     |                          ^\n  51 |\n  52 |     // 2. #ge-rail\n  53 |     const rail = page.locator('#ge-rail');\n    at /home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs:50:26"
+            }
+           ],
+           "retry": 0,
+           "startTime": "2026-10-23T15:09:11.709Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "ge-scene-header-expected.png",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/__screenshots__/17-visual-regression.spec.mjs/tablet/ge-scene-header.png"
+            },
+            {
+             "name": "ge-scene-header-actual.png",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-tablet/ge-scene-header-actual.png"
+            },
+            {
+             "name": "ge-scene-header-diff.png",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-tablet/ge-scene-header-diff.png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-tablet/test-failed-1.png"
+            },
+            {
+             "name": "error-context",
+             "contentType": "text/markdown",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-tablet/error-context.md"
+            },
+            {
+             "name": "trace",
+             "contentType": "application/zip",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-tablet/trace.zip"
+            }
+           ],
+           "errorLocation": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs",
+            "column": 26,
+            "line": 50
+           }
+          }
+         ],
+         "status": "unexpected"
+        }
+       ],
+       "id": "044e25c43b27792d8f1c-a500c56082eb26b6eea9",
+       "file": "17-visual-regression.spec.mjs",
+       "line": 12,
+       "column": 3
+      },
+      {
+       "title": "validates pixel-perfect visual snapshots of header, rail, timeline, player, scenes, sources, and full page",
+       "ok": false,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 420000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 4,
+           "parallelIndex": 0,
+           "status": "failed",
+           "duration": 47562,
+           "error": {
+            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#ge-rail')\n  14735 pixels (ratio 0.37 of all image pixels) are different.\n\n  Snapshot: ge-rail.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(ge-rail.png)\" with timeout 30000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 14735 pixels (ratio 0.37 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 14735 pixels (ratio 0.37 of all image pixels) are different.\u001b[22m\n",
+            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#ge-rail')\n  14735 pixels (ratio 0.37 of all image pixels) are different.\n\n  Snapshot: ge-rail.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(ge-rail.png)\" with timeout 30000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 14735 pixels (ratio 0.37 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 14735 pixels (ratio 0.37 of all image pixels) are different.\u001b[22m\n\n    at /home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs:55:24",
+            "location": {
+             "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs",
+             "column": 24,
+             "line": 55
+            },
+            "snippet": "  53 |     const rail = page.locator('#ge-rail');\n  54 |     await expect(rail).toBeVisible();\n> 55 |     await expect(rail).toHaveScreenshot('ge-rail.png', shotOpts);\n     |                        ^\n  56 |\n  57 |     // 3. #ge-timeline\n  58 |     const timeline = page.locator('#ge-timeline');"
+           },
+           "errors": [
+            {
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs",
+              "column": 24,
+              "line": 55
+             },
+             "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveScreenshot\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('#ge-rail')\n  14735 pixels (ratio 0.37 of all image pixels) are different.\n\n  Snapshot: ge-rail.png\n\nCall log:\n\u001b[2m  - Expect \"toHaveScreenshot(ge-rail.png)\" with timeout 30000ms\u001b[22m\n\u001b[2m    - verifying given screenshot expectation\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - 14735 pixels (ratio 0.37 of all image pixels) are different.\u001b[22m\n\u001b[2m  - waiting 100ms before taking screenshot\u001b[22m\n\u001b[2m  - waiting for locator('#ge-rail')\u001b[22m\n\u001b[2m    - locator resolved to <ol id=\"ge-rail\" tabindex=\"-1\" class=\"ge-rail\">\u2026</ol>\u001b[22m\n\u001b[2m  - taking element screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n\u001b[2m  - attempting scroll into view action\u001b[22m\n\u001b[2m    - waiting for element to be stable\u001b[22m\n\u001b[2m  - captured a stable screenshot\u001b[22m\n\u001b[2m  - 14735 pixels (ratio 0.37 of all image pixels) are different.\u001b[22m\n\n\n  53 |     const rail = page.locator('#ge-rail');\n  54 |     await expect(rail).toBeVisible();\n> 55 |     await expect(rail).toHaveScreenshot('ge-rail.png', shotOpts);\n     |                        ^\n  56 |\n  57 |     // 3. #ge-timeline\n  58 |     const timeline = page.locator('#ge-timeline');\n    at /home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs:55:24"
+            }
+           ],
+           "retry": 0,
+           "startTime": "2026-10-23T15:11:09.522Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "ge-rail-expected.png",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/__screenshots__/17-visual-regression.spec.mjs/mobile/ge-rail.png"
+            },
+            {
+             "name": "ge-rail-actual.png",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-mobile/ge-rail-actual.png"
+            },
+            {
+             "name": "ge-rail-diff.png",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-mobile/ge-rail-diff.png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-mobile/test-failed-1.png"
+            },
+            {
+             "name": "error-context",
+             "contentType": "text/markdown",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-mobile/error-context.md"
+            },
+            {
+             "name": "trace",
+             "contentType": "application/zip",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/17-visual-regression-17-vi-3df2e-cenes-sources-and-full-page-mobile/trace.zip"
+            }
+           ],
+           "errorLocation": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/17-visual-regression.spec.mjs",
+            "column": 24,
+            "line": 55
+           }
+          }
+         ],
+         "status": "unexpected"
+        }
+       ],
+       "id": "044e25c43b27792d8f1c-2fa0123d34306bd7597f",
+       "file": "17-visual-regression.spec.mjs",
+       "line": 12,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "18-bundle-secret-scan.spec.mjs",
+   "file": "18-bundle-secret-scan.spec.mjs",
+   "column": 0,
+   "line": 0,
+   "specs": [],
+   "suites": [
+    {
+     "title": "18 bundle-secret-scan",
+     "file": "18-bundle-secret-scan.spec.mjs",
+     "line": 11,
+     "column": 6,
+     "specs": [
+      {
+       "title": "scans frontend scripts for exposed secrets and ensures zero unexpected console/page errors",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [],
+         "expectedStatus": "passed",
+         "projectId": "desktop",
+         "projectName": "desktop",
+         "results": [
+          {
+           "workerIndex": 1,
+           "parallelIndex": 0,
+           "status": "passed",
+           "duration": 47750,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:08:22.598Z",
+           "annotations": [],
+           "attachments": [
+            {
+             "name": "18-bundle-secret-scan-desktop.png",
+             "contentType": "image/png"
+            },
+            {
+             "name": "screenshot",
+             "contentType": "image/png",
+             "path": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/report/artifacts/18-bundle-secret-scan-18-b-82de9-xpected-console-page-errors-desktop/test-finished-1.png"
+            }
+           ]
+          }
+         ],
+         "status": "expected"
+        }
+       ],
+       "id": "e4270bc5abe8c02e494f-010ef6d7ec43343a3b40",
+       "file": "18-bundle-secret-scan.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "scans frontend scripts for exposed secrets and ensures zero unexpected console/page errors",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/18-bundle-secret-scan.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "tablet",
+         "projectName": "tablet",
+         "results": [
+          {
+           "workerIndex": 3,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 3,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:10:23.132Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/18-bundle-secret-scan.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "e4270bc5abe8c02e494f-9bde1b8d860b8d79149d",
+       "file": "18-bundle-secret-scan.spec.mjs",
+       "line": 14,
+       "column": 3
+      },
+      {
+       "title": "scans frontend scripts for exposed secrets and ensures zero unexpected console/page errors",
+       "ok": true,
+       "tags": [],
+       "tests": [
+        {
+         "timeout": 120000,
+         "annotations": [
+          {
+           "type": "skip",
+           "description": "Desktop only",
+           "location": {
+            "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/18-bundle-secret-scan.spec.mjs",
+            "line": 12,
+            "column": 44
+           }
+          }
+         ],
+         "expectedStatus": "skipped",
+         "projectId": "mobile",
+         "projectName": "mobile",
+         "results": [
+          {
+           "workerIndex": 5,
+           "parallelIndex": 0,
+           "status": "skipped",
+           "duration": 3,
+           "errors": [],
+           "retry": 0,
+           "startTime": "2026-10-23T15:11:59.200Z",
+           "annotations": [
+            {
+             "type": "skip",
+             "description": "Desktop only",
+             "location": {
+              "file": "/home/appuser/work/6692b763e851d28a036ab30e/6adad173ae23b93acf56c499/gods-eye-view/tests/e2e/18-bundle-secret-scan.spec.mjs",
+              "line": 12,
+              "column": 44
+             }
+            }
+           ],
+           "attachments": []
+          }
+         ],
+         "status": "skipped"
+        }
+       ],
+       "id": "e4270bc5abe8c02e494f-19d0d75edb31ac3d89b7",
+       "file": "18-bundle-secret-scan.spec.mjs",
+       "line": 14,
+       "column": 3
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "errors": [],
+ "stats": {
+  "startTime": "2026-10-23T14:50:17.622Z",
+  "duration": 1301627.3869999999,
+  "expected": 16,
+  "skipped": 35,
+  "unexpected": 3,
+  "flaky": 0
+ }
+}

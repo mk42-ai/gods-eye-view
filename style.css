@@ -27,4 +27,7 @@
 @import './src/ui/styles/ondemand-chat.css';
 @import './src/ui/styles/plugin-panel.css';
 @import './src/ui/styles/incidents.css';
-@import './src/ui/styles/footage.css';
+@import './src/gods-eye/ui/tokens.css';
+@import './src/gods-eye/ui/scene/scene.css';
+@import './src/gods-eye/ui/scenes-panel/scenes-panel.css';
+@import './src/gods-eye/ui/sidebar/sidebar.css';

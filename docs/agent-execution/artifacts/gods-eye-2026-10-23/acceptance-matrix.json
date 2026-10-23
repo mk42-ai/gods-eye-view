@@ -1,0 +1,334 @@
+{
+ "generatedAt": "2026-10-23T15:30:57Z",
+ "previewUrl": "https://sb-6qy737x1zlks.vercel.run",
+ "run1": {
+  "startTime": "2026-10-23T14:50:17.622Z",
+  "duration": 1301627.3869999999,
+  "expected": 16,
+  "skipped": 35,
+  "unexpected": 3,
+  "flaky": 0
+ },
+ "run2_spec17": {
+  "startTime": "2026-10-23T15:20:07.940Z",
+  "duration": 353471.282,
+  "expected": 3,
+  "skipped": 0,
+  "unexpected": 0,
+  "flaky": 0
+ },
+ "passed": 17,
+ "blocked": [
+  16
+ ],
+ "failed": [],
+ "tests": [
+  {
+   "id": 1,
+   "name": "load with no prompt \u2192 0 media requests, 0 <video>, rail hidden, camera idle",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 28483
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/01-load-no-prompt-desktop.jpg",
+    "network-01.json"
+   ]
+  },
+  {
+   "id": 2,
+   "name": "Burj Khalifa \u2192 in-AOI, scenePath, S0\u2013S4 within \u00b115 %, VIIRS S0/S1, pins S2, player only at S4, \u22655 items w/ distance + \u0394t",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 52469
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/02-burj-khalifa-build-desktop.jpg"
+   ]
+  },
+  {
+   "id": 3,
+   "name": "rebuild the car crash reported in Umm Suqeim \u2192 25.147/55.199, ARCHIVE banner 2026-09-26, \u0394t vs incident, handles, 3 routes",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 106591
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/03-umm-suqeim-rebuild-desktop.jpg",
+    "endpoint-samples/footage-stream-umm-suqeim-live.sse",
+    "endpoint-samples/route-plan-umm-suqeim-live.json",
+    "../../../../tests/fixtures/step1-fixtures.json"
+   ]
+  },
+  {
+   "id": 4,
+   "name": "prompt outside register \u2192 modal; decline 0 requests; accept registers + builds",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 41105
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/04-outside-register-desktop.jpg"
+   ]
+  },
+  {
+   "id": 5,
+   "name": "route agent mocked 500 \u2192 great-circle fallback, ROUTE: FALLBACK chip, scene completes",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 44180
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/05-route-agent-500-desktop.jpg"
+   ]
+  },
+  {
+   "id": 6,
+   "name": "Instagram toggle off removes pins/cards, on restores",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 50247
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/06-instagram-toggle-desktop.jpg"
+   ]
+  },
+  {
+   "id": 7,
+   "name": "save, reload, Open from Scenes panel \u2192 identical S4 camera, pins, routes, cards, 0 media requests",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 46317
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/07-save-reload-open-desktop.jpg",
+    "network-07.json"
+   ]
+  },
+  {
+   "id": 8,
+   "name": "Recreate \u2192 S0 replay, route re-called, diff +N new \u00b7 M removed \u00b7 K unchanged",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 107345
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/08-recreate-diff-desktop.jpg"
+   ]
+  },
+  {
+   "id": 9,
+   "name": "build A then B \u2192 no A artefacts in B, A stream aborted",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 77180
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/09-scene-switch-abort-desktop.jpg",
+    "network-09.json"
+   ]
+  },
+  {
+   "id": 10,
+   "name": "timeline scrub 15-min window, Play chronological, mocked alert marker",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 83229
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/10-timeline-scrub-desktop.jpg"
+   ]
+  },
+  {
+   "id": 11,
+   "name": "START/NEXT three saved scenes \u2192 time order, dwells 4.2 s + 11 s \u00b1200 ms, STOP",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 108972
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/11-start-next-three-desktop.jpg"
+   ]
+  },
+  {
+   "id": 12,
+   "name": "clock-mocked lifecycle NEW +1 h, gone +25 h, Archive +73 h",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 53185
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/12-lifecycle-clock-desktop.jpg"
+   ]
+  },
+  {
+   "id": 13,
+   "name": "sc= share URL fresh profile + stripped fallback, 0 refetch",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 92935
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/13-share-url-desktop.jpg"
+   ]
+  },
+  {
+   "id": 14,
+   "name": "390\u00d7844: sidebar collapses, rail/timeline stack, no overflow, fly-in runs",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "mobile": "passed"
+   },
+   "durationMs": {
+    "mobile": 45203
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/14-mobile-390-mobile.jpg"
+   ]
+  },
+  {
+   "id": 15,
+   "name": "prefers-reduced-motion \u2192 cuts/fades, same stage order, no continuous flight",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 32926
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/15-reduced-motion-desktop.jpg"
+   ]
+  },
+  {
+   "id": 16,
+   "name": "\u226555 fps while 30 items stream S2\u2013S4 (performance trace)",
+   "pass": false,
+   "status": "BLOCKED (software WebGL \u2014 1.7 fps SwiftShader; needs GPU-backed browser)",
+   "projects": {
+    "desktop": "skipped"
+   },
+   "durationMs": {
+    "desktop": 50654
+   },
+   "note": [
+    "Measured 1.7 fps S2\u2192S4 with 30 streamed items; renderer: ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "BLOCKED: software WebGL (ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)) \u2014 1.7 fps measured; \u226555 fps needs a GPU-backed browser"
+   ],
+   "evidence": [
+    "perf-16.json"
+   ]
+  },
+  {
+   "id": 17,
+   "name": "visual-regression header/rail/timeline/player/Scenes/sidebar/route at 1440/1024/390",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed",
+    "tablet": "passed",
+    "mobile": "passed"
+   },
+   "durationMs": {
+    "desktop": 169556,
+    "tablet": 125433,
+    "mobile": 55342
+   },
+   "note": "run 1 failed on stale baselines (new posters + Sources sidebar changed 3 crops: rail 286\u00d758\u219256, scenes 350\u00d7390\u2192404, player 37 % px); re-baselined and re-run green on desktop/tablet/mobile (run 2, 3 passed)",
+   "evidence": [
+    "screenshots/17-visual-regression-desktop.jpg",
+    "screenshots/17-visual-regression-mobile.jpg",
+    "screenshots/17-visual-regression-tablet.jpg",
+    "visual-baselines/",
+    "visual-diff-run1/"
+   ]
+  },
+  {
+   "id": 18,
+   "name": "no API key strings in bundle, 0 console errors",
+   "pass": true,
+   "status": "pass",
+   "projects": {
+    "desktop": "passed"
+   },
+   "durationMs": {
+    "desktop": 47750
+   },
+   "note": null,
+   "evidence": [
+    "screenshots/18-bundle-secret-scan-desktop.jpg",
+    "console-18.json",
+    "bundle-scan-18.json"
+   ]
+  }
+ ]
+}

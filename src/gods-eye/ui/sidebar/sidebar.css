@@ -1,0 +1,258 @@
+/* Gods-Eye sources sidebar & AOI register modal styling. Tokens from tokens.css */
+
+#ge-sources {
+  position: fixed;
+  top: var(--ge-space-4);
+  right: var(--ge-space-4);
+  z-index: var(--ge-z-sidebar);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--ge-space-1);
+}
+.ge-sources-toggle {
+  background: var(--ge-glass);
+  border: var(--ge-border);
+  border-radius: var(--ge-radius-pill);
+  color: var(--ge-teal);
+  font: 600 var(--ge-fs-xs) var(--ge-font-mono);
+  letter-spacing: var(--ge-tracking);
+  padding: 6px var(--ge-space-3);
+  cursor: pointer;
+  box-shadow: var(--ge-shadow);
+  transition: all var(--ge-motion) var(--ge-ease);
+}
+.ge-sources-toggle:hover,
+.ge-sources-toggle.is-open {
+  background: var(--ge-teal-dim);
+  color: var(--ge-ink);
+}
+.ge-sources-panel {
+  width: 290px;
+  background: var(--ge-glass);
+  border: var(--ge-border);
+  border-radius: var(--ge-radius);
+  box-shadow: var(--ge-shadow);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.ge-sources-header {
+  padding: var(--ge-space-2) var(--ge-space-3);
+  border-bottom: var(--ge-border-soft);
+  background: rgba(0, 0, 0, 0.3);
+}
+.ge-sources-title {
+  margin: 0;
+  font: 600 var(--ge-fs-xs) var(--ge-font-mono);
+  letter-spacing: var(--ge-tracking);
+  color: var(--ge-teal);
+}
+.ge-sources-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.ge-source {
+  display: flex;
+  align-items: center;
+  gap: var(--ge-space-1);
+  padding: 6px var(--ge-space-2);
+  border-bottom: 1px solid rgba(243, 243, 243, 0.05);
+  font: var(--ge-fs-xs) var(--ge-font-mono);
+  transition: background var(--ge-motion) var(--ge-ease);
+}
+.ge-source:last-child {
+  border-bottom: none;
+}
+.ge-source:hover {
+  background: rgba(243, 243, 243, 0.03);
+}
+.ge-source-enabled {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--ge-teal);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: 0;
+}
+.ge-source-enabled:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.ge-source-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.ge-source-name {
+  color: var(--ge-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+}
+.ge-source-status {
+  padding: 1px var(--ge-space-1);
+  border-radius: var(--ge-radius-pill);
+  font: 700 8px/1 var(--ge-font-mono);
+  letter-spacing: var(--ge-tracking);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  border: 1px solid;
+}
+.ge-source[data-status='ok'] .ge-source-status {
+  color: var(--ge-live);
+  background: rgba(53, 208, 127, 0.15);
+  border-color: var(--ge-live);
+}
+.ge-source[data-status='quota'] .ge-source-status {
+  color: var(--ge-amber);
+  background: var(--ge-amber-dim);
+  border-color: var(--ge-amber);
+}
+.ge-source[data-status='inactive'] .ge-source-status {
+  color: var(--ge-grey);
+  background: var(--ge-grey-dim);
+  border-color: var(--ge-grey);
+}
+.ge-source[data-status='error'] .ge-source-status {
+  color: var(--ge-red);
+  background: var(--ge-red-dim);
+  border-color: var(--ge-red);
+}
+.ge-source[data-status='idle'] .ge-source-status {
+  color: var(--ge-ink-muted);
+  background: rgba(243, 243, 243, 0.08);
+  border-color: var(--ge-ink-dim);
+}
+.ge-source[data-status='pending'] .ge-source-status {
+  color: var(--ge-teal);
+  background: var(--ge-teal-dim);
+  border-color: var(--ge-teal);
+}
+.ge-source-count,
+.ge-source-latency {
+  font-size: 9px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.ge-source-count {
+  color: var(--ge-ink-dim);
+  min-width: 16px;
+}
+.ge-source-latency {
+  color: var(--ge-teal);
+  min-width: 48px;
+}
+
+/* ── Register Modal ────────────────────────────── */
+.ge-reg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--ge-z-modal);
+  background: rgba(0, 8, 14, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ge-space-3);
+}
+.ge-register-modal {
+  width: min(440px, 100%);
+  background: var(--ge-bg-raised);
+  border: var(--ge-border);
+  border-radius: var(--ge-radius);
+  box-shadow: var(--ge-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.ge-reg-poster {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  background: var(--ge-bg);
+}
+.ge-reg-content {
+  padding: var(--ge-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ge-space-2);
+}
+.ge-reg-title {
+  margin: 0;
+  font: 600 var(--ge-fs-md) var(--ge-font-mono);
+  letter-spacing: var(--ge-tracking);
+  color: var(--ge-ink);
+}
+.ge-reg-copy {
+  margin: 0;
+  font: var(--ge-fs-sm)/var(--ge-lh) var(--ge-font-sans);
+  color: var(--ge-ink-muted);
+}
+.ge-reg-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ge-space-1);
+}
+.ge-reg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ge-reg-label {
+  font: var(--ge-fs-xs) var(--ge-font-mono);
+  letter-spacing: var(--ge-tracking);
+  color: var(--ge-teal);
+}
+.ge-reg-input,
+.ge-reg-select {
+  background: var(--ge-bg);
+  border: var(--ge-border-soft);
+  border-radius: 4px;
+  color: var(--ge-ink);
+  font: var(--ge-fs-sm) var(--ge-font-mono);
+  padding: var(--ge-space-1) var(--ge-space-2);
+  outline: none;
+}
+.ge-reg-input:focus,
+.ge-reg-select:focus {
+  border-color: var(--ge-teal);
+}
+.ge-reg-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--ge-space-2);
+  margin-top: var(--ge-space-1);
+}
+.ge-reg-btn-decline {
+  background: transparent;
+  color: var(--ge-ink-muted);
+}
+.ge-reg-btn-accept {
+  background: var(--ge-teal-dim);
+  color: var(--ge-teal);
+  border-color: var(--ge-teal);
+  font-weight: 600;
+}
+.ge-reg-btn-accept:hover {
+  background: var(--ge-teal);
+  color: var(--ge-bg);
+}
+
+/* Spec §9 (2026-10-23): the Sources sidebar REPLACES the floating HUD
+   "CAPABILITIES" plugin list. The plugin panel module stays installed for the
+   ASK ONDEMAND mini-chat's per-turn plugin selection (it docks inside the chat
+   header when the chat is open), but its stand-alone floating dock is never
+   shown once the Gods-Eye sidebar is mounted. */
+body:has(#ge-sources) #ondemand-plugin-dock {
+  display: none !important;
+}

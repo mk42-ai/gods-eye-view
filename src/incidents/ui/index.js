@@ -492,10 +492,14 @@ export function installIncidentScenes({
     // <place>" command drives the footage dock (fly-to + archive playlist)
     // and still builds the incident scene below.
     onFootageCommand: (command) => {
-      const dock = win.__gevFootage;
-      if (!dock) return null;
-      void dock.runCommand(command.raw);
-      return { handled: true, alsoBuildScene: true, skipPlayback: true };
+      const godsEye = win.__godsEye;
+      if (!godsEye) return null;
+      void godsEye.buildFromPrompt(command.raw);
+      return {
+        handled: true,
+        alsoBuildScene: false,
+        message: `SCENE · building "${command.raw}" — parsing → register → route → fly-in → footage`,
+      };
     },
     onScene: async ({ scene, incident, override, footage }) => {
       const sceneWithFlags = override ? { ...scene, override: true } : scene;

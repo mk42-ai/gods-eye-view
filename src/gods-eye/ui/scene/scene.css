@@ -1,0 +1,191 @@
+/* Gods-Eye Scene UI styles — uses ONLY --ge-* tokens from tokens.css */
+@import './sceneCards.css';
+@import './scenePlayer.css';
+@import './sceneTimeline.css';
+
+#ge-scene-root {
+  position: fixed;
+  right: calc(max(18px, env(safe-area-inset-right)) + 12px);
+  top: 72px;
+  width: min(22rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 72px - 11rem);
+  z-index: var(--ge-z-scene);
+  display: flex;
+  flex-direction: column;
+  background: var(--ge-glass);
+  border: var(--ge-border);
+  border-radius: var(--ge-radius);
+  box-shadow: var(--ge-shadow);
+  color: var(--ge-ink);
+  font-family: var(--ge-font-sans);
+  font-size: var(--ge-fs-md);
+  line-height: var(--ge-lh);
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition:
+    top var(--ge-motion) var(--ge-ease),
+    transform var(--ge-motion) var(--ge-ease);
+}
+#ge-scene-root[hidden] {
+  display: none !important;
+}
+:root[data-ge-sidebar-open] #ge-scene-root,
+[data-ge-sidebar-open] #ge-scene-root {
+  top: calc(72px + 40px);
+}
+
+/* Header (#ge-scene-header, skeleton 56px) */
+#ge-scene-header {
+  min-height: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ge-space-1);
+  padding: var(--ge-space-2);
+  border-bottom: var(--ge-border-soft);
+  background: var(--ge-bg-raised);
+  font-family: var(--ge-font-mono);
+}
+.ge-h-row-top,
+.ge-h-row-middle,
+.ge-h-row-bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--ge-space-2);
+}
+.ge-h-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--ge-radius-pill);
+  background: var(--ge-live);
+  box-shadow: 0 0 6px var(--ge-live);
+}
+#ge-scene-header[data-live-status='offline'] .ge-h-dot {
+  background: var(--ge-grey);
+  box-shadow: none;
+}
+.ge-h-kind {
+  font-size: var(--ge-fs-xs);
+  font-weight: 600;
+  letter-spacing: var(--ge-tracking);
+  color: var(--ge-teal);
+  text-transform: uppercase;
+}
+.ge-h-label {
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-ink-muted);
+  letter-spacing: var(--ge-tracking);
+  text-transform: uppercase;
+}
+.ge-h-route {
+  margin-left: auto;
+  padding: 1px var(--ge-space-1);
+  border-radius: var(--ge-radius-pill);
+  font-size: var(--ge-fs-xs);
+  letter-spacing: var(--ge-tracking);
+  color: var(--ge-teal);
+  background: var(--ge-teal-dim);
+}
+.ge-h-route.is-fallback,
+#ge-scene-header[data-route-fallback='1'] .ge-h-route {
+  color: var(--ge-amber);
+  background: var(--ge-amber-dim);
+}
+.ge-h-name {
+  margin: 0;
+  font-family: var(--ge-font-sans);
+  font-size: var(--ge-fs-lg);
+  font-weight: 600;
+  color: var(--ge-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+}
+.ge-h-coords {
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-ink-dim);
+  white-space: nowrap;
+}
+.ge-h-row-bottom {
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-ink-muted);
+}
+.ge-h-aoi {
+  color: var(--ge-teal);
+}
+.ge-h-sources {
+  margin-left: auto;
+}
+.ge-h-nearest {
+  color: var(--ge-ink-muted);
+}
+
+/* Evidence (#ge-evidence, skeleton 24px) */
+#ge-evidence {
+  min-height: 24px;
+  padding: var(--ge-space-1) var(--ge-space-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ge-space-1);
+  background: var(--ge-bg-raised);
+  border-bottom: var(--ge-border-soft);
+}
+.ge-ev {
+  padding: 1px var(--ge-space-1);
+  border-radius: var(--ge-radius-pill);
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  letter-spacing: var(--ge-tracking);
+  color: var(--ge-ink-dim);
+  background: var(--ge-grey-dim);
+  text-transform: uppercase;
+}
+.ge-ev[data-status='ok'] {
+  color: var(--ge-live);
+  background: var(--ge-teal-dim);
+}
+.ge-ev[data-status='quota'] {
+  color: var(--ge-amber);
+  background: var(--ge-amber-dim);
+}
+.ge-ev[data-status='inactive'],
+.ge-ev[data-status='error'] {
+  color: var(--ge-red);
+  background: var(--ge-red-dim);
+}
+
+/* Focus rings & Responsive */
+.ge-card:focus-visible,
+#ge-scene-root button:focus-visible,
+#ge-scene-root input:focus-visible {
+  outline: 2px solid var(--ge-teal);
+  outline-offset: 2px;
+}
+@media (max-width: 1024px) {
+  #ge-scene-root {
+    width: 18rem;
+  }
+}
+@media (max-width: 480px) {
+  #ge-scene-root {
+    right: 0;
+    left: 0;
+    top: auto;
+    bottom: 0;
+    width: 100vw;
+    height: 46vh;
+    max-height: 46vh;
+    border-radius: var(--ge-radius) var(--ge-radius) 0 0;
+  }
+  #ge-rail {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .ge-card {
+    min-width: 200px;
+    height: 100%;
+  }
+}

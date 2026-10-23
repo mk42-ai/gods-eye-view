@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-10-23 — GODS-EYE scene engine replaces the LIVE FOOTAGE dock (feature/live-footage-dock, PR #3)
+
+- **Removed** the always-on LIVE FOOTAGE dock (`src/footage/ui/dock.js`, `src/ui/styles/footage.css`). Nothing
+  fetches, plays or flies until a scene is built from the AOI prompt bar (`#incident-composer`).
+- **Added** `src/gods-eye/` — scenes (store, reducer, AOI register, prompt parser, persistence, share codec),
+  route (client, 5-min cache, great-circle fallback, dwell monitor), camera (S0–S4 ladder, controller, VIIRS),
+  footage (SSE pipeline, normalisers, geo-resolver, Web-Worker ranker, TTL cache), ui/scene (header, rail,
+  timeline, player, evidence, map layers, posters), ui/scenes-panel, ui/sidebar (Sources + register modal),
+  orchestrator / build / playback / diff. Design tokens in `src/gods-eye/ui/tokens.css`.
+- **Backend** `api/footage/route.py` (`POST /footage/route/plan`, `GET /footage/route/alerts`),
+  `scenes_store.py` (`/footage/scenes` CRUD), `fixtures_replay.py` (`?fixtures=1` test mode).
+- **Posters** `public/assets/states/state-*.png` (9 designed states; `route-fallback` and `outside-aoi` rendered
+  locally after upstream generation failed) — referenced only through `ui/scene/posters.js` tokens.
+- **Sources sidebar** replaces the HUD CAPABILITIES plugin list (the plugin panel still docks inside ASK ONDEMAND).
+- **Tests** `tests/e2e/` 18 Playwright acceptance specs + `tests/fixtures/` (incl. verified
+  `step1-fixtures.json`); 94 new node:test units; 20 pytest. Evidence in
+  `docs/agent-execution/artifacts/gods-eye-2026-10-23/`.
+
 ## 2026-10-23 — LIVE FOOTAGE dock + `gods-eye-footage-service` (feature/live-footage-dock)
 
 - **Backend** `api/footage/` (FastAPI on the Vercel Python runtime, `vercel.json` rewrites `/footage/*` and

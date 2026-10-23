@@ -2,7 +2,7 @@ import { SceneDirector } from '../scenes/director.js';
 import { createAoiScenePolicy } from '../scenes/aoiScenePolicy.js';
 import { getUaeAoiIndex } from '../aoi/uaeInterest.js';
 import { installIncidentScenes } from '../incidents/ui/index.js';
-import { installFootageDock } from '../footage/ui/dock.js';
+import { installGodsEye } from '../gods-eye/orchestrator.js';
 import * as Cesium from 'cesium';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
@@ -153,40 +153,15 @@ export function createApplicationTools({
     sceneDirector,
     signal,
   });
-  // LIVE FOOTAGE dock (2026-10-23): streams clips from /footage/stream for
-  // the current scene, auto-plays them beside the globe and understands
-  // "rebuild the <incident> reported in <place>" (src/footage/ui/dock.js).
-  debug.footage = installFootageDock({
+  // GODS-EYE scene engine (2026-10-23): prompt → AOI register → route agent →
+  // S0..S4 fly-in → footage pipeline → ranked rail/timeline/player. Nothing
+  // fetches, plays or flies until a prompt is built (HARD RULE §0); the
+  // always-on LIVE FOOTAGE dock was removed. See docs/gods-eye/CONTRACTS.md.
+  debug.godsEye = installGodsEye({
+    viewer,
+    Cesium,
     signal,
-    readCamera: () => {
-      const carto = viewer.camera?.positionCartographic;
-      if (!carto) return null;
-      return {
-        lat: Cesium.Math.toDegrees(carto.latitude),
-        lon: Cesium.Math.toDegrees(carto.longitude),
-        alt: carto.height,
-      };
-    },
-    flyTo: (
-      lat,
-      lon,
-      { altitude = 2600, heading = 0, pitch = -55, duration = 2.4 } = {},
-    ) =>
-      viewer.camera.flyTo({
-        destination: Cesium.Cartesian3.fromDegrees(lon, lat, altitude),
-        orientation: {
-          heading: Cesium.Math.toRadians(heading),
-          pitch: Cesium.Math.toRadians(pitch),
-          roll: 0,
-        },
-        duration,
-      }),
-    readHud: () => {
-      const hud = styleManager?.hud || null;
-      return hud
-        ? { variant: hud._variant, visible: hud._visible, incidentType: null }
-        : null;
-    },
+    sceneDirector,
     readShareLinks: () => styleManager?.shareLinkManager || null,
   });
   const runner = createGevActionRunner({

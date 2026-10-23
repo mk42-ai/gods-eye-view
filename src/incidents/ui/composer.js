@@ -257,16 +257,19 @@ export function createIncidentComposer({
     // "rebuild / replay / show … reported in <place>" is a LIVE FOOTAGE
     // command: route it to the dock (fly-to + footage fetch) and still build
     // the incident scene from the incident words + resolved place.
-    const command = parseCommand(trimmed);
-    const footage =
-      onFootageCommand && command && (command.verb || command.place)
-        ? onFootageCommand(command)
-        : null;
+    // Gods-Eye (2026-10-23): EVERY prompt — a bare place ("Burj Khalifa"),
+    // "<incident> in <place>" or "rebuild the <incident> reported in <place>"
+    // — is offered to the scene engine first; it parses, checks the AOI
+    // register, calls the route agent, flies S0→S4 and fetches footage. The
+    // legacy /locate ledger path only runs when the engine is not installed.
+    const command = parseCommand(trimmed) || { raw: trimmed };
+    command.raw = command.raw || trimmed;
+    const footage = onFootageCommand ? onFootageCommand(command) : null;
     if (footage?.handled && !footage.alsoBuildScene) {
       showResult(
         message(
           footage.message ||
-            `LIVE FOOTAGE · ${command.incident || 'footage'} · ${command.place?.name || command.placeText}`,
+            `SCENE · ${command.incident || command.placeText || trimmed}`,
           'ok',
         ),
       );

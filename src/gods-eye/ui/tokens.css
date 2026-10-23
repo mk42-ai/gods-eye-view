@@ -1,0 +1,69 @@
+/* Gods-Eye design tokens — tactical teal-on-black. 8-pt grid, one type scale.
+   Documented in docs/gods-eye/DESIGN_TOKENS.md. Every ui/* sheet reads these. */
+:root {
+  /* spacing (8-pt grid; 1 = half step) */
+  --ge-space-1: 4px;
+  --ge-space-2: 8px;
+  --ge-space-3: 16px;
+  --ge-space-4: 24px;
+  --ge-space-5: 32px;
+  --ge-space-6: 48px;
+  /* type scale */
+  --ge-font-mono: var(--font-mono, 'JetBrains Mono', ui-monospace, Menlo, monospace);
+  --ge-font-sans: var(--font-sans, 'Inter', system-ui, sans-serif);
+  --ge-fs-xs: 10px;
+  --ge-fs-sm: 11px;
+  --ge-fs-md: 12px;
+  --ge-fs-lg: 14px;
+  --ge-fs-xl: 18px;
+  --ge-lh: 1.35;
+  --ge-tracking: 0.08em;
+  /* colour */
+  --ge-bg: #070f16;
+  --ge-bg-raised: #0b1820;
+  --ge-glass: rgba(7, 15, 22, 0.92);
+  --ge-ink: #f3f3f3;
+  --ge-ink-muted: rgba(243, 243, 243, 0.68);
+  --ge-ink-dim: rgba(243, 243, 243, 0.42);
+  --ge-teal: #3bb795;
+  --ge-teal-dim: rgba(59, 183, 149, 0.22);
+  --ge-teal-glow: rgba(59, 183, 149, 0.45);
+  --ge-amber: #f5a623;
+  --ge-amber-dim: rgba(245, 166, 35, 0.2);
+  --ge-red: #ff5a4e;
+  --ge-red-dim: rgba(255, 90, 78, 0.2);
+  --ge-grey: #8a9a99;
+  --ge-grey-dim: rgba(138, 154, 153, 0.22);
+  --ge-live: #35d07f;
+  --ge-recent: #f5a623;
+  --ge-archive: #8a9a99;
+  --ge-status-open: #35d07f;
+  --ge-status-restricted: #f5a623;
+  --ge-status-closed: #ff5a4e;
+  --ge-status-unknown: #8a9a99;
+  --ge-conf-exact: #3bb795;
+  --ge-conf-inferred: #f5a623;
+  --ge-conf-unknown: #8a9a99;
+  /* shape + motion */
+  --ge-radius: 8px;
+  --ge-radius-pill: 999px;
+  --ge-border: 1px solid rgba(59, 183, 149, 0.42);
+  --ge-border-soft: 1px solid rgba(59, 183, 149, 0.18);
+  --ge-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.55), 0 0 1.2rem rgba(59, 183, 149, 0.12);
+  --ge-motion: 180ms;
+  --ge-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* z-order (shared contract: command dock 145 · composer 150 · scene ui 160 · banner 180 · sidebar 184 · modal 192) */
+  --ge-z-scene: 160;
+  --ge-z-sidebar: 184;
+  --ge-z-modal: 192;
+}
+.ge-focusable:focus-visible,
+[id^='ge-'] :focus-visible {
+  outline: 2px solid var(--ge-teal);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ge-motion: 0ms;
+  }
+}

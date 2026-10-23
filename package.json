@@ -2,7 +2,7 @@
   "name": "ondemand-spatial",
   "private": true,
   "version": "0.1.1",
-  "description": "OnDemand Spatial \u2014 a real-time spatial intelligence console for planet Earth: photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/fires/CCTV and OnDemand-powered analysis. Runs in a browser and on Vercel serverless functions.",
+  "description": "OnDemand Spatial — a real-time spatial intelligence console for planet Earth: photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/fires/CCTV and OnDemand-powered analysis. Runs in a browser and on Vercel serverless functions.",
   "type": "module",
   "license": "MIT",
   "author": "Bilawal Sidhu",
@@ -56,7 +56,9 @@
     "qa:chat": "node scripts/qa-chat-harness.mjs",
     "footage:dev": "python3 -m uvicorn api.footage.index:app --host 127.0.0.1 --port 8787",
     "footage:test": "python3 -m pytest -q api/footage/tests",
-    "start:preview": "bash scripts/start-preview.sh"
+    "start:preview": "bash scripts/start-preview.sh",
+    "test:e2e": "playwright test -c tests/playwright.config.mjs",
+    "test:gods-eye": "node --test src/gods-eye/**/*.test.mjs"
   },
   "dependencies": {
     "@mapbox/vector-tile": "^3.0.0",
@@ -67,6 +69,7 @@
     "satellite.js": "^6.0.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "lucide-static": "1.47.0",
     "prettier": "3.9.6",
     "puppeteer": "^25.10.0",

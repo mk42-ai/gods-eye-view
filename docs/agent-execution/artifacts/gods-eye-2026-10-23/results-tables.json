@@ -1,0 +1,245 @@
+{
+  "generatedAt": "2026-10-23T15:27:18.960Z",
+  "note": "FIXTURE replay (tests/fixtures/*.json via ?fixtures=1) — the payloads the acceptance tests ran against; live endpoint samples are in endpoint-samples/.",
+  "scenes": {
+    "Burj Khalifa": {
+      "kind": "live",
+      "target": {
+        "name": "Burj Khalifa",
+        "lat": 25.1972,
+        "lon": 55.2744,
+        "geocodeSource": "register",
+        "confidence": 0.98
+      },
+      "perPlatform": {
+        "youtube": {
+          "count": 3,
+          "nearestKm": 0.157,
+          "closestDeltaSec": null,
+          "status": "ok"
+        },
+        "instagram": {
+          "count": 2,
+          "nearestKm": null,
+          "closestDeltaSec": null,
+          "status": "ok"
+        },
+        "reddit": {
+          "count": 1,
+          "nearestKm": null,
+          "closestDeltaSec": null,
+          "status": "ok"
+        },
+        "web": {
+          "count": 1,
+          "nearestKm": null,
+          "closestDeltaSec": null,
+          "status": "ok"
+        },
+        "tiktok": {
+          "count": 0,
+          "nearestKm": null,
+          "closestDeltaSec": null,
+          "status": "quota",
+          "error": null
+        },
+        "x": {
+          "count": 0,
+          "nearestKm": null,
+          "closestDeltaSec": null,
+          "status": "inactive",
+          "error": null
+        }
+      },
+      "cacheOnRecreate": "miss (route + footage re-fetched; diff computed vs cached footage — spec 08)",
+      "topRanked": [
+        {
+          "platform": "youtube",
+          "title": "Burj Khalifa fountain show tonight",
+          "distanceKm": 0.157,
+          "timeDelta": null,
+          "rankScore": 0.6572
+        },
+        {
+          "platform": "youtube",
+          "title": "Dubai Mall entrance crowd",
+          "distanceKm": 0.543,
+          "timeDelta": null,
+          "rankScore": 0.5421
+        },
+        {
+          "platform": "instagram",
+          "title": "View from the top #burjkhalifa",
+          "distanceKm": null,
+          "timeDelta": null,
+          "rankScore": 0.22
+        }
+      ]
+    },
+    "rebuild the car crash reported in Umm Suqeim": {
+      "kind": "rebuild",
+      "tRef": "2026-09-26T07:00:00Z",
+      "tRefLabel": "reported 2026-09-26",
+      "target": {
+        "name": "Umm Suqeim",
+        "lat": 25.147,
+        "lon": 55.199,
+        "geocodeSource": "dictionary",
+        "confidence": 0.95
+      },
+      "perPlatform": {
+        "instagram": {
+          "count": 3,
+          "nearestKm": 0.167,
+          "closestDeltaSec": 7920,
+          "status": "ok"
+        },
+        "web": {
+          "count": 3,
+          "nearestKm": null,
+          "closestDeltaSec": 5400,
+          "status": "ok"
+        },
+        "reddit": {
+          "count": 1,
+          "nearestKm": null,
+          "closestDeltaSec": 2880,
+          "status": "ok"
+        },
+        "youtube": {
+          "count": 1,
+          "nearestKm": null,
+          "closestDeltaSec": 25500,
+          "status": "ok"
+        },
+        "tiktok": {
+          "count": 0,
+          "nearestKm": null,
+          "closestDeltaSec": null,
+          "status": "quota",
+          "error": "You have exceeded the MONTHLY quota for Scraping API on your current plan, BASIC"
+        },
+        "x": {
+          "count": 0,
+          "nearestKm": null,
+          "closestDeltaSec": null,
+          "status": "inactive",
+          "error": "One or more agents are inactive or missing configuration: X Search Agent"
+        }
+      },
+      "cacheOnRecreate": "miss (route + footage re-fetched; diff computed vs cached footage — spec 08)",
+      "topRanked": [
+        {
+          "platform": "instagram",
+          "title": "Dubai Police release footage of the Umm Suqeim Street crash (credit @abdul_)",
+          "distanceKm": 0.167,
+          "timeDelta": 7920,
+          "rankScore": 0.9676
+        },
+        {
+          "platform": "web",
+          "title": "Dubai Police warn of dangers of driving while fatigued after a driver faints cau",
+          "distanceKm": null,
+          "timeDelta": 5400,
+          "rankScore": 0.5444
+        },
+        {
+          "platform": "instagram",
+          "title": "Driver faints on Umm Suqeim Street heading to Jumeirah Street",
+          "distanceKm": null,
+          "timeDelta": 16800,
+          "rankScore": 0.5431
+        }
+      ]
+    }
+  },
+  "routes": [
+    {
+      "scene": "Burj Khalifa",
+      "route": "Sheikh Zayed Road (E11)",
+      "kind": "motorway",
+      "status": "open",
+      "source": "FIXTURE route table",
+      "alerts": []
+    },
+    {
+      "scene": "Burj Khalifa",
+      "route": "Financial Centre Road (D71)",
+      "kind": "arterial",
+      "status": "open",
+      "source": "FIXTURE route table",
+      "alerts": []
+    },
+    {
+      "scene": "rebuild the car crash reported in Umm Suqeim",
+      "route": "Sheikh Zayed Road (E11)",
+      "kind": "motorway",
+      "status": "open",
+      "source": "FIXTURE route table (RTA status mocked)",
+      "alerts": []
+    },
+    {
+      "scene": "rebuild the car crash reported in Umm Suqeim",
+      "route": "Al Wasl Road (D92)",
+      "kind": "arterial",
+      "status": "restricted",
+      "source": "FIXTURE route table (lane closure mocked)",
+      "alerts": [
+        "FIXTURE: lane closure on Al Wasl Road near Umm Suqeim Street"
+      ]
+    },
+    {
+      "scene": "rebuild the car crash reported in Umm Suqeim",
+      "route": "Jumeirah Street (D94)",
+      "kind": "arterial",
+      "status": "unknown",
+      "source": "FIXTURE route table",
+      "alerts": []
+    },
+    {
+      "scene": "Umm Suqeim (LIVE /footage/route/plan)",
+      "route": "Sheikh Zayed Road (E11)",
+      "kind": "motorway",
+      "status": "unknown",
+      "source": "curated-table (no live status)",
+      "alerts": [],
+      "agent": {
+        "plugin": "plugin-1750847932",
+        "status": "inactive",
+        "error": "One or more agents are not subscribed: Route Monitoring Agent"
+      },
+      "fallback": true,
+      "confidence": 0.3
+    },
+    {
+      "scene": "Umm Suqeim (LIVE /footage/route/plan)",
+      "route": "Al Wasl Road (D92)",
+      "kind": "arterial",
+      "status": "unknown",
+      "source": "curated-table (no live status)",
+      "alerts": [],
+      "agent": {
+        "plugin": "plugin-1750847932",
+        "status": "inactive",
+        "error": "One or more agents are not subscribed: Route Monitoring Agent"
+      },
+      "fallback": true,
+      "confidence": 0.3
+    },
+    {
+      "scene": "Umm Suqeim (LIVE /footage/route/plan)",
+      "route": "Jumeirah Street (D94)",
+      "kind": "arterial",
+      "status": "unknown",
+      "source": "curated-table (no live status)",
+      "alerts": [],
+      "agent": {
+        "plugin": "plugin-1750847932",
+        "status": "inactive",
+        "error": "One or more agents are not subscribed: Route Monitoring Agent"
+      },
+      "fallback": true,
+      "confidence": 0.3
+    }
+  ]
+}

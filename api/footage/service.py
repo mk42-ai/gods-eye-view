@@ -184,6 +184,7 @@ class Query:
         self.since_raw = since
         self.limit = max(1, min(40, int(limit or 12)))
         self.place_hint = (place_hint or "").strip()[:120] or None
+        self.fixtures = False
 
     def cache_key(self) -> str:
         parts = [
@@ -249,6 +250,15 @@ async def _run_source(name: str, coro, timeout: float):
 
 async def stream_events(q: Query) -> AsyncIterator[dict]:
     """Yield {event, data} dicts. Also populates the 60 s cache with the final aggregate."""
+    if getattr(q, "fixtures", False):
+        # Test mode (?fixtures=1): deterministic FIXTURE replay, never the live plugins.
+        from fixtures_replay import fixture_events, pick_fixture  # type: ignore
+
+        fx = pick_fixture(q.place_hint, q.keywords, q.lat, q.lon)
+        if fx:
+            async for ev in fixture_events(fx, q.mode):
+                yield ev
+            return
     ref = now_utc()
     key = q.cache_key()
     cached = _cache.get(key)

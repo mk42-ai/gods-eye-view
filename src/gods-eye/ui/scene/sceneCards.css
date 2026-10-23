@@ -1,0 +1,104 @@
+/* Rail (#ge-rail) and Footage Card styles — tactical layout */
+
+#ge-rail {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#ge-rail[hidden] {
+  display: none !important;
+}
+.ge-rail-spacer {
+  list-style: none;
+  pointer-events: none;
+}
+.ge-card {
+  height: 88px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) auto;
+  gap: var(--ge-space-2);
+  padding: var(--ge-space-2);
+  border-bottom: var(--ge-border-soft);
+  cursor: pointer;
+  background: transparent;
+  transition: background var(--ge-motion) var(--ge-ease);
+}
+.ge-card:hover {
+  background: var(--ge-teal-dim);
+}
+.ge-card.is-selected {
+  background: var(--ge-teal-glow);
+  outline: 1px solid var(--ge-teal);
+}
+.ge-card.is-pulse {
+  animation: ge-card-pulse 600ms var(--ge-ease);
+}
+@keyframes ge-card-pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--ge-teal-glow);
+  }
+  50% {
+    box-shadow: 0 0 16px 4px var(--ge-teal-glow);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+.ge-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--ge-radius);
+  background: var(--ge-bg);
+}
+.ge-card-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--ge-radius-pill);
+  overflow: hidden;
+  background: var(--ge-bg-raised);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-teal);
+}
+.ge-card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ge-card-handle {
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-ink-muted);
+}
+.ge-card-distance,
+.ge-card-delta {
+  display: block;
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-ink-dim);
+}
+.ge-card-confidence {
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-conf-inferred);
+  text-transform: uppercase;
+}
+.ge-card-recency {
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-live);
+  text-transform: uppercase;
+}
+.ge-card-source {
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-teal);
+  text-decoration: none;
+}
