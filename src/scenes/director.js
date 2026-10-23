@@ -34,6 +34,7 @@ import {
   readSceneShare,
 } from '../director/sharing/bundle.js';
 import { createDefaultScenePacks } from './packs/defaults.js';
+import { incidentSceneToProjectScene } from './incidentScenes.js';
 import {
   layerStatesForShot,
   visualStateForShot,
@@ -85,9 +86,21 @@ export class SceneDirector {
       isMapStackAvailable = () => false,
       scenePacks = createDefaultScenePacks(),
       dataPacks = {},
+      aoiPolicy = null,
     } = {},
   ) {
     this._destroyed = false;
+    /**
+     * AOI scene policy (2026-10-22): scenes whose cameras never land inside a
+     * UAE area of interest (Iran, Yemen, Somalia, Hormuz, Bab el-Mandeb, UAE
+     * borders/waters, presence nodes) are hidden from the panel and from
+     * playback with a reason. The saved project keeps them — nothing is
+     * deleted — see `hiddenScenes()`. Injected by the application composition
+     * (src/app/tools.js) so authoring/unit harnesses keep the full project.
+     */
+    this._aoiPolicy = aoiPolicy;
+    this._hiddenScenes = [];
+    this._paused = null;
     this._pendingWork = new Set();
     this.viewer = viewer;
     this.styleManager = styleManager;
@@ -163,6 +176,7 @@ export class SceneDirector {
     this._lastRunJson = '';
 
     this._project = this._loadProject();
+    this._applyAoiPolicy();
     this._selectedSceneId = this._project.scenes[0]?.id || null;
     this._selectedShotId = this._project.scenes[0]?.shots[0]?.id || null;
     /** @type {string|null} Scene whose layer state most recently landed. */
@@ -309,6 +323,148 @@ export class SceneDirector {
     }
   }
 
+  /**
+   * Split the loaded project into AOI-visible scenes (kept in `_project`)
+   * and hidden ones (kept in `_hiddenScenes` with their OUT_OF_AOI reason so
+   * exports and the saved document still carry them).
+   */
+  _applyAoiPolicy() {
+    if (!this._aoiPolicy) return;
+    const { visible, hidden } = this._aoiPolicy.partition(this._project.scenes);
+    const hiddenIds = new Set(hidden.map((h) => h.id));
+    this._hiddenScenes = [
+      ...this._hiddenScenes.filter((h) => !hiddenIds.has(h.id)),
+      ...hidden.map((h) => ({
+        ...h,
+        scene: this._project.scenes.find((scene) => scene.id === h.id),
+      })),
+    ];
+    this._project.scenes = visible;
+  }
+
+  /** Scenes filtered out by the AOI policy: [{id, title, reason}]. */
+  hiddenScenes() {
+    return this._hiddenScenes.map(({ id, title, reason }) => ({
+      id,
+      title,
+      reason,
+    }));
+  }
+
+  /** The full project including AOI-hidden scenes (for export + persistence). */
+  _fullProject() {
+    const hidden = this._hiddenScenes
+      .map((h) => h.scene)
+      .filter(Boolean)
+      .filter(
+        (scene) => !this._project.scenes.some((item) => item.id === scene.id),
+      );
+    return { ...this._project, scenes: [...this._project.scenes, ...hidden] };
+  }
+
+  /**
+   * Add (or replace) a scene built from the incident model
+   * (src/incidents/model.js → src/scenes/incidentScenes.js). The scene is
+   * AOI-checked like every other scene; an out-of-AOI incident scene is only
+   * accepted when the caller passes `{override:true}` (explicit user action).
+   * @returns {{added:boolean, sceneId?:string, reason?:string}}
+   */
+  addIncidentScene(incidentScene, { override = false, select = true } = {}) {
+    const scene = incidentSceneToProjectScene(incidentScene);
+    const verdict = this._aoiPolicy?.classify(scene) || { visible: true };
+    if (!verdict.visible && !override)
+      return { added: false, reason: verdict.reason };
+    const existing = this._project.scenes.findIndex(
+      (item) => item.id === scene.id,
+    );
+    if (existing >= 0) this._project.scenes.splice(existing, 1, scene);
+    else this._project.scenes.unshift(scene);
+    if (select) {
+      this._selectedSceneId = scene.id;
+      this._selectedShotId = scene.shots[0]?.id || null;
+    }
+    this._saveProject();
+    this._publish({ type: 'scene-created', scene });
+    return { added: true, sceneId: scene.id, replaced: existing >= 0 };
+  }
+
+  /** Replace every incident-derived scene with the given list (list refresh). */
+  syncIncidentScenes(incidentScenes, { keepSelection = true } = {}) {
+    const selected = this._selectedSceneId;
+    const keep = this._project.scenes.filter((scene) => !scene.incident);
+    const next = [];
+    for (const incidentScene of incidentScenes) {
+      const scene = incidentSceneToProjectScene(incidentScene);
+      const verdict = this._aoiPolicy?.classify(scene) || { visible: true };
+      if (verdict.visible || incidentScene.override) next.push(scene);
+    }
+    this._project.scenes = [...next, ...keep];
+    if (
+      !keepSelection ||
+      !this._project.scenes.some((scene) => scene.id === selected)
+    ) {
+      this._selectedSceneId = this._project.scenes[0]?.id || null;
+      this._selectedShotId = this._project.scenes[0]?.shots[0]?.id || null;
+    }
+    this._saveProject();
+    this._publish({ type: 'scene-options-changed' });
+    this._publish({ type: 'shots-changed' });
+    return { count: next.length };
+  }
+
+  /** Incident-derived scenes currently visible. */
+  listIncidentScenes() {
+    return this._project.scenes
+      .filter((scene) => scene.incident)
+      .map((scene) => ({
+        id: scene.id,
+        title: scene.title,
+        shots: scene.shots.length,
+        incident: scene.incident,
+      }));
+  }
+
+  /**
+   * Pause the running scene at its current clock position; resume continues
+   * from that position via the seek path. Returns the paused snapshot.
+   */
+  pauseScene() {
+    if (!this._running) return this._paused;
+    const snapshot = this._clock.snapshot;
+    if (!snapshot) return null;
+    this._paused = {
+      sceneId: snapshot.sceneId,
+      progress: snapshot.sceneProgress,
+      shotId: snapshot.shotId,
+    };
+    this.stopScene('Paused');
+    this._publish({ type: 'playback-paused', paused: this._paused });
+    return this._paused;
+  }
+
+  /** Resume a paused scene from where it stopped. */
+  async resumeScene() {
+    const paused = this._paused;
+    if (!paused) return { started: false, reason: 'not-paused' };
+    this._paused = null;
+    const scene = this._project.scenes.find(({ id }) => id === paused.sceneId);
+    if (!scene) return { started: false, reason: 'scene-not-found' };
+    const seekState = this._sceneSeekState(scene, paused.progress);
+    const shotId = seekState?.shot?.id || paused.shotId;
+    const index = scene.shots.findIndex(({ id }) => id === shotId);
+    if (index <= 0)
+      return this.startScene(scene.id, { single: true, preview: false });
+    return this.startScene(scene.id, {
+      single: true,
+      afterShotId: scene.shots[index - 1].id,
+      preview: false,
+    });
+  }
+
+  get paused() {
+    return this._paused;
+  }
+
   /** Persist the current project state to localStorage with an updated timestamp. */
   _saveProject() {
     if (this._storageReadError) {
@@ -319,7 +475,7 @@ export class SceneDirector {
     }
     this._project.updatedAt = new Date().toISOString();
     try {
-      const payload = JSON.stringify(this._project);
+      const payload = JSON.stringify(this._fullProject());
       parseSceneDocument(payload);
       localStorage.setItem(STORAGE_KEY, payload);
     } catch (e) {
@@ -1674,6 +1830,7 @@ export class SceneDirector {
   startScene(sceneId, options) {
     if (this._destroyed)
       return Promise.resolve({ started: false, reason: 'destroyed' });
+    this._paused = null;
     this._sceneSeekGeneration++;
     return this._trackWork(this._startScene(sceneId, options));
   }
@@ -1994,6 +2151,7 @@ export class SceneDirector {
       )
         return false;
       this._project = project;
+      this._applyAoiPolicy();
       const retainedPaths = new Set(
         project.scenes.flatMap((scene) =>
           (scene.dataPacks || [])

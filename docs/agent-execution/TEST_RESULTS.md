@@ -669,4 +669,76 @@ stopped). A fresh Vercel Sandbox was created from the current working tree and f
 | unit | `node --test src/tooling/viteBuild.test.mjs` **4/4 pass** after updating the framing assertion to `config.server.headers === undefined` |
 | known (pre-existing) console noise | `GET /api/setup/status` 404 — the loopback-only key-setup surface is intentionally not registered in prod builds (`apply: 'serve'`), client removes the panel; not a regression |
 
-GENERATED_UTC: 2026-10-22T06:34:00Z
+## 14. Cycle 9 (2026-10-22T10:03Z–13:05Z) — UAE AOI incident scenes (restriction, live ingest, composer)
+
+Source: `integration/ondemand-native` from `b698032` (cycle 8 head; the uncommitted `build/vite.js`
+embeddability edit was already committed there as `039fa2e` together with the updated viteBuild
+assertion) → `0dcf469` … `97f5b05` (9 conventional commits, this section's checkpoint commit follows).
+
+### 14.1 Unit / gate results
+
+| gate | command | result | when (UTC) |
+|---|---|---|---|
+| full unit suite (Node 22) | `npm test` | **4,264 tests · 4,263 pass · 0 fail · 1 skipped** (win32-only DACL test); 2 allocation micro-benchmarks still Node-24 calibrated (B-8) | 12:58Z (re-run after the last fix) |
+| foundation | `npm run test:foundation` | **77 / 77** | 11:33Z |
+| ondemand | `npm run test:ondemand` | **250 / 250** | 11:34Z |
+| serverless | `npm run test:serverless` | **57 / 57** | 11:35Z |
+| incidents routes (new) | `node --test server/incidents/*.test.mjs` | **15 / 15** | 12:38Z |
+| new browser-side units | `src/aoi/membership.test.mjs` 22 · `src/incidents/model.test.mjs` 15 · `src/scenes/aoiScenes.test.mjs` 11 · `src/incidents/composer.test.mjs` 13 · `src/tooling/embeddability.test.mjs` 1 (all inside the 4,264 above) | **62 / 62** | 12:58Z |
+| secrets | `node scripts/check-no-secrets.mjs` (1,702 files) · `--dist` | ✓ / ✓ (0 key material; `grep -c ^ONDEMAND_API_KEY= .env` = 0 in the sandbox) | 11:35Z / 12:51Z |
+| format / boundaries | `npm run format:check` (977 files) · `check-import-directions` (776 modules, 53 portable entries) · `check-package-boundaries` · `check-brand-marks` | all exit 0 | 11:20Z–11:30Z |
+| build | `npm run build` (prebuild + vite) | rc=0, 5.4–11.4 s | 11:36Z, 12:51Z |
+
+### 14.2 Deploy (new Vercel Sandbox)
+
+| item | value |
+|---|---|
+| sandbox | `sbx_cR56IE7EkAJY2OH7OWTAIdlWiDNC` → **https://sb-69k15adlaiog.vercel.run** (node22 v22.23.4, `--timeout 90m`, `--publish-port 5173`, created **2026-10-22T11:57:06Z**, projected expiry ≈ **13:27Z**) |
+| install / build | `PUPPETEER_SKIP_DOWNLOAD=1 npm ci` 129 packages **4 s**; `set -a; . ./.env; npm run build` vite **5.60 s**; build complete **11:57:38Z**; `check-no-secrets --dist` ✓ |
+| env | 21 keys by name from the gitignored `.env`; `ONDEMAND_API_KEY` + `INCIDENT_INGEST_SECRET` sourced from `/tmp/od-secret.env` into the server process and the file deleted before the server started (`SECRET_FILE_GONE`, `KEY_ASSIGNMENTS_IN_ENV_FILE=0`) |
+| `GET /api/health` | first **200** at **2026-10-22T11:57:59Z** — `configured:true, contracts:33, activePlugins:10, keySource:server` |
+| `GET /` | 200 at 11:57:59Z, `<title>OnDemand Intelligence Workstation</title>`; **no** `x-frame-options`, **no** `content-security-policy` |
+| redeploys on the same sandbox (patches) | 12:10:12Z, 12:15:29Z, 12:17:36Z, 12:21:31Z, 12:27:24Z, 12:38:56Z, 12:51:26Z (each: tgz copy → restart → health 200) |
+| **delivered preview (fresh sandbox from the final tree `afaaf21`)** | `sbx_RmqjwffD7WcOsGCWQLqomRdBSUqT` → **https://sb-2gpu373q6qzj.vercel.run** — created **13:02:12Z**, `npm ci` 6 s, vite build 7.28 s (complete **13:02:42Z**), secrets `--dist` ✓, first `GET /api/health` **200 at 13:02:58Z**, `GET /` 200 with the neutral title and no framing headers, `/list` 47 / 35 / 18; a–g re-run **14 / 14** 13:03:15Z–13:08:00Z (`/tmp/qa-final`, same PNG set); projected expiry ≈ **14:32Z**. The patch sandbox `sbx_cR56IE7EkAJY2OH7OWTAIdlWiDNC` was stopped afterwards. |
+
+### 14.3 Incident / scene counts (GET /api/ondemand/v2/incidents/list at first load, before any refresh)
+
+| AOI | incidents | scenes |
+|---|---|---|
+| yemen | 16 | 13 |
+| iran | 9 | 5 |
+| gulf-of-oman | 7 | 3 |
+| somalia | 5 | 5 |
+| uae-gulf-waters | 4 | 4 |
+| strait-of-hormuz | 3 | 2 |
+| socotra | 1 | 1 |
+| al-ain-buraimi | 1 | 1 |
+| musandam-approaches | 1 | 1 |
+| **total in AOI** | **47** | **35** (25 km / 6 h clustering) |
+
+Per category: thermal_hotspot 33 · protected_asset_presence_node 8 · ied_terror (cyber) 3 · protest_unrest (political) 2 · missile_drone_strike 1.
+**Rejected at seed: 18** — 16× `OUT_OF_AOI: nearest AOI Southern Red Sea at 67–105 km` (Ethiopia/Djibouti VIIRS cluster near 11.26 N 41.52 E + Yanbu/Riyadh Houthi item at 809 km), 1× `OUT_OF_AOI: nearest AOI Iran at 1641.9 km` (Falcon Shield 2026, Hotan), 1× `OUT_OF_AOI: nearest AOI Hatta border at 4.2 km` (hotspot 24.990 N 55.627 E, just outside the 50 km land-border buffer). Scenes hidden by the AOI policy: `Nepal Flood Incident` (`OUT_OF_AOI: nearest AOI Iran at 1754.3 km`), `Global Flights Radar`, `Orbital Watch`, `Thermal Threat Board`, `City Overload`, `Omniscience Pullback` — kept in storage and export.
+
+Live refresh (`POST /refresh`, OnDemand plugins through the PluginContract registry): 12:27:24Z–12:29:40Z pulled **4**, inserted **3** (`Tanker struck by rocket-propelled grenade from small boat` → strait-of-hormuz/confirmed; `Ballistic missile attack reported near Aden International Airport` → yemen; `Missile attacks reported at al-Rayyan Airport` → yemen), sources `perplexity_research:ok(2)`, `internet_web_search:ok(2)`, `fire_detection_search:*:error(not_configured)` (NASA_FIRMS_MAP_KEY absent — N-19). Earlier pulls at 11:58Z inserted `Al Dasma damaged in second attack in the Strait of Hormuz` and `Iran claims supertanker struck a naval mine south of the Strait`, and rejected `Chloe reported damaged off Oman — OUT_OF_AOI: nearest AOI Gulf of Oman at 457.7 km`.
+
+### 14.4 Headless browser proof (`scripts/qa-aoi-incident-scenes.mjs`, puppeteer + /usr/bin/chromium, PNG per check) — **14 / 14**
+
+Artefacts: `artifacts/aoi-incidents-2026-10-22/{<check>-<viewport>.png, results.json}` (run 12:51:27Z–12:56:45Z, final tree).
+
+| check | 1440×900 | 390×844 | evidence |
+|---|---|---|---|
+| (a) only AOI scenes in list/map, Nepal Flood absent | PASS 12:51:37Z — 35 scenes listed, 47 markers, hidden reason `OUT_OF_AOI: nearest AOI Iran at 1754.3 km` | PASS 12:54:39Z — 36 scenes, 48 markers | `a-aoi-only-*.png` |
+| (b) playback plays and scrubs | PASS 12:51:48Z — running, clock 0.046→0.284; scrub→0.950 lands on shot 2, camera moved | PASS 12:54:48Z — 0.037→0.243; scrub ok | `b-playback-*.png` |
+| (c) type “drone strike reported near Hodeidah port” → new scene auto-plays, camera near 14.80, 42.95 | PASS 12:52:01Z — chips locating/verifying/building = done, camera **14.23, 42.73** (approach keyframe), running, scenes 35→36 | PASS 12:54:58Z — camera 14.23, 42.73, dedupe reuse of the same 6 h cell | `c-compose-hodeidah-*.png` |
+| (d) Paris incident rejected with OUT_OF_AOI + override offered | PASS 12:52:07Z — state=error, `OUT_OF_AOI: nearest AOI Iran at 3236.6 km`, button “Add anyway (override)” | PASS 12:55:01Z | `d-compose-paris-*.png` |
+| (e) POST /refresh adds live incidents, list count never shrinks | PASS 12:54:18Z — sources ok 2/5 (perplexity + internet search), 48→48 (all pulled items already known from the 12:27Z pull → duplicates) ; the 12:41Z run of the same check inserted +2 (48→50) and the 12:37Z run +3 (51→54) | PASS 12:56:34Z | `e-refresh-*.png` |
+| (f) mini chat opens from a scene marker with incident context pre-filled | PASS 12:54:20Z — popover (title, UNVERIFIED badge, sources/provenance, AOI reason), ASK ONDEMAND → `#ondemand-mini-chat[data-open=true]` `data-object-type=alert`, kind `ALERT · inc-2cc579e061a1` | PASS 12:56:36Z | `f-mini-chat-*.png` |
+| (g) app loads inside an iframe on a harness page | PASS 12:54:32Z — `/embed-harness.html` iframe title “OnDemand Intelligence Workstation”, innerText 4,836 chars, canvas present, no framing headers | PASS 12:56:45Z — innerText 4,682 | `g-iframe-*.png` |
+
+Layout contract (elementFromPoint on the composer input + submit at 1440×900, 1024×768, 390×844): composer never overlaps the command dock, the serverless notice or the PLUGINS dock; on ≤720 px the PLUGINS dock is lifted above the composer.
+
+Defects found and fixed during the cycle: OnDemand `409 session_busy` on reused refresh sessions (now one fresh session + principal per call with bounded backoff); model answers naming a place without coordinates were dropped as invalid (gazetteer geocode added); same place from gazetteer + model produced a spurious picker (≤15 km merge); second identical composer submission inside the 6 h dedupe window errored (server returns `existing` + scene, composer reuses it); geometric glyphs in the new UI failed the icon-glyph boundary gate (text labels).
+
+Not done in this cycle: push / PR / tag (no `GITHUB_TOKEN` in the execution environment — see RESUME.md hand-over), scheduled OnDemand workflow → `/refresh` (N-33), FIRMS live pulls (N-19 operator key).
+
+GENERATED_UTC: 2026-10-22T13:05:00Z

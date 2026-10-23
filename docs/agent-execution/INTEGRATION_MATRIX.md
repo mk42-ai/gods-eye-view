@@ -252,4 +252,17 @@ Deny-listed by code (never read, present only as a Vercel env var): `ELEVENLABS_
 | After-fix checks (composer hit-test + real tap, thumbnails/lightbox, poster/side pane, PDF preview, dock reachability, banner restore) | 16 | **16 / 16 PASS** | 10:23Z–10:25Z | `retry-0917/fixes-after/results.json` |
 | Brand assets `/assets/brand/*` (12 required + favicon-16/32/48 + og-image) | 16 files | 16/16 HTTP 200, sha256 = catalogue = `public/assets/brand`, OCR ≤ 3 chars, 0 concentric pairs | 09:33Z–09:38Z | `retry-0917/agent5/asset-results.json` |
 
-GENERATED_UTC: 2026-10-21T10:35:00Z
+## Cycle-9 additions (2026-10-22) — UAE AOI incident ledger (`server/incidents/*`, mounted by `server/ondemand/foundation/proxy-route.js`)
+
+| repo file | local route | upstream / data path | guards | notes |
+|---|---|---|---|---|
+| `server/incidents/routes.js` | `POST /api/ondemand/v2/incidents/ingest` | none (store write) | `X-Ingest-Secret` (env `INCIDENT_INGEST_SECRET`, timing-safe) → shared ledger; else session-scoped `externalUserId` (+ principal binding); JSON-schema validation; AOI filter with reason; sha1 dedupe (category·0.01°·6 h) incl. against the shared ledger; `override:true` honoured | returns inserted / existing / duplicates / rejected(reason) / invalid + scenes |
+| `server/incidents/routes.js` | `GET /api/ondemand/v2/incidents/list?aoi=<id\|all>&externalUserId=` | none | rate limit | incidents + clustered scenes + per-AOI / per-category counts + rejected seeds with reasons + legend |
+| `server/incidents/routes.js` | `GET /api/ondemand/v2/incidents/aoi` | `config/aoi/uae-interest.json` | — | editable config + renderable outlines (27 AOIs, 5 groups) |
+| `server/incidents/routes.js` | `POST /api/ondemand/v2/incidents/refresh` | OnDemand `POST /chat/v1/sessions` + `/sessions/{id}/query` with `pluginIds` `plugin-1722260873` (perplexity_research) and `plugin-1713924030` (internet_web_search) via `contractRegistry`; `fire_detection_search` via the in-process tool invoker (NASA FIRMS, needs `NASA_FIRMS_MAP_KEY`) | server key only; per-source isolation; 409 backoff | **live-verified 12:27Z**: 2/2 research sources ok, +3 incidents in AOI; FIRMS `not_configured` (N-19). TODO hook: scheduled OnDemand workflow → `/ingest` with the secret (N-33) |
+| `server/incidents/routes.js` | `POST /api/ondemand/v2/incidents/locate` | gazetteer (offline) → OnDemand fulfilment endpoint `predefined-gpt-6-luna` entity extraction (fenced UNTRUSTED prompt) → `geocode_place` tool (Nominatim) | server key only | candidates carry `aoi_membership` + `reason` + `confidence`; same-place merge ≤15 km; live-verified (“Sohar refinery” → 24.503, 56.625 IN_AOI Gulf of Oman) |
+| `src/incidents/client.js` + `src/incidents/ui/*` | browser → the five routes above | — | `X-Workstation-User` / workspace headers; no provider calls from the frontend | composer, overlay, popover, ASK ONDEMAND → existing `/api/ondemand/v2/chat` mini chat with `objectType:'alert'` context (incident_id, aoi, sources, timestamps) |
+
+Counts after cycle 9: OnDemand-native call sites **39** (+5: refresh ×2 plugins, locate entity extraction, locate geocode tool, FIRMS tool invoker); external providers unchanged (54); direct AI bypasses **0**.
+
+GENERATED_UTC: 2026-10-22T13:05:00Z

@@ -1,4 +1,7 @@
 import { SceneDirector } from '../scenes/director.js';
+import { createAoiScenePolicy } from '../scenes/aoiScenePolicy.js';
+import { getUaeAoiIndex } from '../aoi/uaeInterest.js';
+import { installIncidentScenes } from '../incidents/ui/index.js';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
 import { createGevActionRunner } from '../voice/gevActions.js';
@@ -35,6 +38,10 @@ export function createApplicationTools({
     dataPacks: sceneDataPacks,
     isMapStackAvailable: (id) =>
       mapStackController?.isStackAvailable(id) === true,
+    // UAE AOI restriction (2026-10-22): only scenes inside Iran / Yemen /
+    // Somalia / Hormuz / Bab el-Mandeb / UAE borders+waters / presence nodes
+    // reach the panel and playback; the rest stay in storage with a reason.
+    aoiPolicy: createAoiScenePolicy(getUaeAoiIndex()),
   });
   dataManager.layers
     .get('bhote-koshi-2026')
@@ -136,6 +143,14 @@ export function createApplicationTools({
   // mini chat (`getPluginIds`) and the voice pipeline. Mounted after the mini
   // chat so it can dock into the panel's header slot.
   debug.pluginPanel = installPluginPanel({ signal });
+  // AOI incident scenes (2026-10-22): live incident ledger → scenes, map
+  // markers + popovers with ASK ONDEMAND, AOI layer toggles + legend, and the
+  // bottom "Type an incident…" composer (src/incidents/ui/*).
+  debug.incidentScenes = installIncidentScenes({
+    viewer,
+    sceneDirector,
+    signal,
+  });
   const runner = createGevActionRunner({
     ...voice,
     floorServices: operations.surface.groundFloor,

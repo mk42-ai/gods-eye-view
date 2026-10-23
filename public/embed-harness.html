@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Embed harness — OnDemand Intelligence Workstation</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #1b1f26;
+        color: #e8ecf1;
+        font:
+          12px/1.4 ui-monospace,
+          monospace;
+      }
+      #status {
+        height: 28px;
+        padding: 6px 10px;
+        box-sizing: border-box;
+        border-bottom: 1px solid #333;
+      }
+      iframe {
+        display: block;
+        width: 100%;
+        height: calc(100% - 28px);
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="status">
+      embed harness: loading the workstation inside an iframe…
+    </div>
+    <!-- No sandbox attribute on purpose: this proves the document itself carries no framing restriction. -->
+    <iframe
+      id="app"
+      src="/"
+      title="OnDemand Intelligence Workstation (embedded)"
+    ></iframe>
+    <script>
+      const frame = document.getElementById('app');
+      const status = document.getElementById('status');
+      function report() {
+        try {
+          const doc = frame.contentDocument;
+          const title = doc && doc.title;
+          const text = doc && doc.body ? doc.body.innerText.length : 0;
+          const canvas = !!(doc && doc.querySelector('canvas'));
+          status.textContent = `embed harness: IFRAME_TITLE="${title}" TEXT_LEN=${text} CANVAS=${canvas} at ${new Date().toISOString()}`;
+          document.body.dataset.iframeTitle = title || '';
+          document.body.dataset.iframeTextLen = String(text);
+          document.body.dataset.iframeCanvas = String(canvas);
+        } catch (error) {
+          status.textContent = `embed harness: cannot read iframe document (${error.message})`;
+        }
+      }
+      frame.addEventListener('load', () => {
+        report();
+        setInterval(report, 2000);
+      });
+    </script>
+  </body>
+</html>

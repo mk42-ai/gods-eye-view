@@ -14,7 +14,7 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 | **ORIGINAL_SHA** | `1c9558cde07fdddb8d7d01b64f7143f0bbc9d116` (HEAD of `origin/ondemand-serverless`) |
 | Recovery tag + branch | `recovery/pre-ondemand-rebuild-20261020` → `1c9558c` (tag object `74a2609`), pushed 2026-10-20T21:26:36Z |
 | Working branch | `integration/ondemand-native` (created from `1c9558c`, pushed 21:27:07Z) |
-| Current commit (this checkpoint) | `166101d` (cycle-8 checkpoint docs; parent `039fa2e` = embeddability fix on `6b49fe9`) — tag `checkpoint-2026-10-22-cycle8-preview`; cycle-6 checkpoint commit that carries this file (see §9; tag `checkpoint-2026-10-21-preview-retry`) on top of `712a552` (cycle-5 docs, tag `checkpoint-2026-10-21-post-sandbox-verification`) ← `aa3eb8d` (cycle-4 docs) ← `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
+| Current commit (this checkpoint) | **cycle-9 checkpoint commit** (docs) on top of `97f5b05` ← `1a82c71` ← `1fbb83e` ← `325b5cc` ← `b95a513` ← `124b5bb` ← `3be45e8` ← `7660136` ← `0dcf469` ← `b698032` (cycle 8 head) — local annotated tag `checkpoint/aoi-incident-scenes-v1` (push pending, N-34). Previous: `166101d` (cycle-8 checkpoint docs; parent `039fa2e` = embeddability fix on `6b49fe9`) — tag `checkpoint-2026-10-22-cycle8-preview`; cycle-6 checkpoint commit that carries this file (see §9; tag `checkpoint-2026-10-21-preview-retry`) on top of `712a552` (cycle-5 docs, tag `checkpoint-2026-10-21-post-sandbox-verification`) ← `aa3eb8d` (cycle-4 docs) ← `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
 | Uncommitted changes / stashes at discovery | none (`git status` clean, `git stash list` empty) |
 | Resume path taken | **Fresh discovery** — `docs/agent-execution/RESUME.md` and `MASTER_STATE.md` did not exist at `1c9558c` (the repo has a different checkpoint lineage: `docs/CLOSEOUT.md`, `docs/handover/*`, `docs/audit/*`, read as prior art) |
 
@@ -36,6 +36,24 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 Cross-check of `ondemand-eand-spatial` (12 refs, newest `feat/exec-brief-v1.4-b7c0d3d` 2026-09-12): valuable, non-overlapping work = build gates `check-no-secrets.mjs` (**ported this cycle**), `check-forbidden-terms.mjs`, `check-remote-assets.mjs`, `check-contrast.mjs` (N-14), and a React "Ask the deal" SSE drawer (`api/_lib/deal.ts`) that the new foundation supersedes. The two repos share no code and must not be merged.
 
 ## 2. Engineering cycle
+Cycle **9** (2026-10-22T10:03Z–13:05Z) — **UAE AOI incident scenes**: scene playback restricted to UAE areas of interest
+(editable `config/aoi/uae-interest.json`: Iran / Yemen / Somalia, Hormuz / Gulf of Oman / southern Red Sea / Bab el-Mandeb /
+Gulf of Aden / Socotra, UAE land borders, UAE waters, 8 presence nodes; ray-casting + bbox + circle membership with
+`OUT_OF_AOI: nearest AOI <name> at <km> km`); bundled out-of-AOI scenes (Nepal Flood, global demos) hidden with a reason but kept
+in storage/export; normalized Incident/Scene model (sha1 dedupe on category·0.01°·6 h, 25 km/6 h clustering, approach→overhead→context
+keyframes, 10 generated category icons in `public/icons/incidents/`); `/api/ondemand/v2/incidents/{ingest,list,aoi,refresh,locate}` on
+the foundation proxy (shared-secret or session-scoped ingest, PluginContract-mediated live refresh + entity extraction/geocoding,
+gazetteer fallback); seeded with 52 VIIRS N21 hotspots, 8 web incidents from the OnDemand research plugins and 8 presence nodes with
+PlanetScope evidence (47 in AOI → 35 scenes, 18 rejected with reasons); map overlay + popover (sources, confidence badge, evidence,
+PLAY SCENE, ASK ONDEMAND with incident context), AOI layer toggles + legend, PAUSE/RESUME/PREV/NEXT + scrub bar, REFRESH LIVE; fixed
+bottom composer “Type an incident…” (locate → verify AOI → build scene, candidate picker, OUT_OF_AOI reason + “Add anyway (override)”,
+session-scoped persistence, auto-play). `vercel.json` framing headers removed (embeddability now also enforced by
+`src/tooling/embeddability.test.mjs`). Unit **4,264 (4,263 pass · 1 win32 skip)**, foundation 77, ondemand 250, serverless 57, secrets ✓
+src+dist; new sandbox `sbx_cR56IE7EkAJY2OH7OWTAIdlWiDNC` → https://sb-69k15adlaiog.vercel.run (health 200 11:57:59Z); headless proof
+**14 / 14** (checks a–g × 1440×900 + 390×844, TEST_RESULTS §14, `artifacts/aoi-incidents-2026-10-22/`). Live refresh verified against
+OnDemand (perplexity_research + internet_web_search ok, +3 incidents in Hormuz/Yemen). Push/PR/tag blocked by the missing GitHub token
+(N-34, git bundle hand-over in RESUME.md).
+
 Cycle **8** (2026-10-22T06:27Z–06:34Z) — **emergency preview redeploy**: the previously reported preview sandbox stopped serving, so a brand-new Vercel Sandbox `sbx_EdkizkMGv6ASKOnpEmUWOAlaQrRc` → `https://sb-1ek30lyxzsd3.vercel.run` was built from `6b49fe9` + the embeddability unit (`build/vite.js` framing headers removed, test updated); npm ci 7 s, vite build 8.27 s, secrets gate green with 0 key-value hits in `dist`/`.env`, health **200** `configured:true` `keySource:server`, `/` **200** with the neutral title, no `X-Frame-Options` / `frame-ancestors` on either response, iframe render proof pass at 1440×900 and 390×844 (TEST_RESULTS §13). Previous cycle 7 was an ASAP redeploy on the same commit.
 
 Cycle **6** (2026-10-21T09:15Z–10:3xZ) — **preview retry** on a brand-new Vercel Sandbox from the clean tree `712a552`
@@ -106,7 +124,8 @@ from `0f5341e` (MASTER_STATE matched HEAD; gates green; first non-DONE NEXT_ACTI
 - Platform: voice workflow created 01:31:54Z, activated, execution `6ad81615c2cfee207e8f3e12` success 7.4 s; plugin API creation proven dashboard-only (B-15); content-policy drift (B-14) recorded and the live script re-phrased.
 
 ## 4. In progress
-- None at checkpoint time. Post-change preview `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` (https://ondemand-eand-spatial-qrli9v1uy-schoolhack-web-team.vercel.app, commit `d44264f`) READY with 14/14 browser scenarios + 4 ui-validator passes (TEST_RESULTS §8.5). Next cycle starts at NEXT_ACTIONS N-18 (dashboard plugin registration) / N-5b / N-16 / N-21.
+- Cycle 9 hand-over: push + tag + PR update (N-34, needs `GITHUB_TOKEN`); scheduled OnDemand workflow → `/refresh` (N-33).
+- (previous) None at checkpoint time. Post-change preview `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` (https://ondemand-eand-spatial-qrli9v1uy-schoolhack-web-team.vercel.app, commit `d44264f`) READY with 14/14 browser scenarios + 4 ui-validator passes (TEST_RESULTS §8.5). Next cycle starts at NEXT_ACTIONS N-18 (dashboard plugin registration) / N-5b / N-16 / N-21.
 
 ## 5. Remaining (summary — full queue in NEXT_ACTIONS.md)
 N-18 register the 17 OpenAPI plugins in the dashboard (API create is 500/524) · N-19 operator keys (`TOMTOM_API_KEY`, `NASA_FIRMS_MAP_KEY`) · N-20 webhook trigger URL → `ONDEMAND_VOICE_WEBHOOK_URL` · N-21 Node-24 CI · B-6 production re-link. Older: N-5b port entity/camera chat onto miniChat · N-6 typecheck+lint · N-7 KV conversations · N-9b remove OpenAI Realtime (last 2 bypass call sites) · N-9c fold capability loop into the orchestrator · N-11 register 38 geodata tools + wire `toolInvoker` live · N-12 media verification · N-13 Node-24 full suite + real-project preview + production re-link (B-6) · N-14 sibling gates · N-15 remaining browser checklist rows via the Puppeteer harnesses · N-16 workflow v2 definition · N-17 enforce user header + KV.
@@ -158,6 +177,16 @@ Browser-level UI validation not run this cycle — no UI consumes `/api/ondemand
 ## 9. Commits on `integration/ondemand-native` (this cycle)
 | sha | message | timestamp |
 |---|---|---|
+| 0dcf469 | fix(deploy): drop X-Frame-Options/frame-ancestors from vercel.json so the document stays iframe-embeddable | 2026-10-22T11:1xZ |
+| 7660136 | feat(aoi): editable UAE areas-of-interest config + point-in-polygon membership with OUT_OF_AOI reasons | 2026-10-22 |
+| 3be45e8 | feat(incidents): normalized Incident/Scene model — sha1 dedupe, 25 km/6 h clustering, keyframes, 10 category icons | 2026-10-22 |
+| 124b5bb | feat(server): /api/ondemand/v2/incidents ingest/list/refresh/locate/aoi on the foundation proxy | 2026-10-22 |
+| b95a513 | feat(scenes): restrict the Scene panel + playback to UAE AOIs, incident-scene adapter, pause/resume | 2026-10-22 |
+| 325b5cc | feat(composer): bottom 'Type an incident…' composer, incident overlay, popover with ASK ONDEMAND, AOI toggles + legend | 2026-10-22 |
+| 1fbb83e | fix(composer): replace geometric glyphs with text labels (icon-glyph boundary gate) | 2026-10-22 |
+| 1a82c71 | test(qa): headless proof for AOI incident scenes (checks a–g, two viewports) + same-origin embed harness | 2026-10-22 |
+| 97f5b05 | fix(incidents): robust live refresh + composer dedupe reuse (verified on the sandbox) | 2026-10-22T12:58Z |
+| (this commit) | docs(agent-execution): cycle-9 checkpoint — TEST_RESULTS §14, INTEGRATION_MATRIX incident rows, NEXT_ACTIONS N-33…N-37, RESUME, artefacts | 2026-10-22T13:05Z |
 | 17a7b24 | docs(agent-execution): Phase A discovery inventories — architecture, external-API (54 providers/82 call sites/4 bypasses), branding, infrastructure, frontend recon | 2026-10-20T22:07:47Z |
 | c97a365 | feat(ondemand): Phase B foundation — typed server-side client, PluginContract registry, object-context conversation store and /api/ondemand/v2 proxy (server key only) | 2026-10-20T22:07:47Z |
 | 9067843 | docs(agent-execution): cycle-1 checkpoint | 2026-10-20T22:12Z |
@@ -205,4 +234,4 @@ otherwise always use the server key, and the new `/api/ondemand/v2/*` never read
 | Infrastructure consolidation | OpenAI Realtime provider removed (component 7/38 DONE); voice, plugin lifecycle and tool invoker run in-process — Vercel function count unchanged; redundant AI orchestrators remaining: **0** | INFRASTRUCTURE_DECISIONS.md |
 | Deployment | real-project previews via the Vercel REST API: checkpoint `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` (02:08Z) and post-change `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` READY 04:05Z (`/api/ondemand/v2/health` ok, voice/health ok, 14/14 scenarios, `/api/realtime/token` 404); production still Git-linked to the sibling repo (B-6) | TEST_RESULTS §8.4/§8.5 |
 
-GENERATED_UTC: 2026-10-21T12:37:00Z
+GENERATED_UTC: 2026-10-22T13:05:00Z

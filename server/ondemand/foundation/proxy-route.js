@@ -76,6 +76,7 @@ import { investigate } from './orchestrator.js';
 import { fromChatAnswer } from './intelligence-object.js';
 import { createPluginLifecycle } from './plugin-lifecycle.js';
 import { createVoiceTurnHandler } from './voice-route.js';
+import { createIncidentRoutes } from '../../incidents/routes.js';
 
 export const FOUNDATION_MOUNT = '/api/ondemand/v2';
 const KEY_SOURCE_HEADER = 'X-OnDemand-Key-Source';
@@ -520,6 +521,23 @@ export function createFoundationHandler(deps = {}) {
       });
     return lifecycle;
   };
+  // AOI incident ledger (2026-10-22): /incidents/{list,aoi,ingest,refresh,locate}
+  // — PluginContract-mediated refresh/locate, session-scoped ingest, shared
+  // ledger seeded from server/incidents/seed.js (server/incidents/routes.js).
+  let incidentRoutes = null;
+  const getIncidentRoutes = (client, store) => {
+    if (!incidentRoutes)
+      incidentRoutes = createIncidentRoutes({
+        client,
+        store,
+        toolInvoker: deps.toolInvoker,
+        incidentStore: deps.incidentStore,
+        aoiIndex: deps.aoiIndex,
+        env: deps.env,
+        audit,
+      });
+    return incidentRoutes;
+  };
   return async function foundationHandler(req, res) {
     if (rejectCrossOrigin(req, res)) return;
     res.setHeader(KEY_SOURCE_HEADER, 'server'); // the client key is never used here
@@ -693,6 +711,17 @@ export function createFoundationHandler(deps = {}) {
           audit,
         });
         if (await voice(req, res, { path, method })) return;
+      }
+      if (path.startsWith('/incidents')) {
+        if (
+          await getIncidentRoutes(client, store)(req, res, {
+            path,
+            method,
+            url,
+            authorize,
+          })
+        )
+          return;
       }
       if (path === '/plugins' || path === '/plugins/verify') {
         if (

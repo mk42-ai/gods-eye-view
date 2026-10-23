@@ -608,7 +608,9 @@
       "src/ui/styles/voice-cost.css",
       "src/ui/styles/first-run.css",
       "src/ui/styles/provider-settings.css",
-      "src/ui/styles/ondemand-chat.css"
+      "src/ui/styles/ondemand-chat.css",
+      "src/ui/styles/plugin-panel.css",
+      "src/ui/styles/incidents.css"
     ],
     "external": []
   },
@@ -682,7 +684,10 @@
       "src/director/sharing/lifetime.js",
       "src/director/authoring.js",
       "src/scenes/sharing.js",
-      "src/ui/sceneSharing.js"
+      "src/ui/sceneSharing.js",
+      "src/scenes/aoiScenePolicy.js",
+      "src/scenes/incidentScenes.js",
+      "src/incidents/model.js"
     ],
     "external": ["cesium"]
   },
@@ -1768,7 +1773,17 @@
       "src/ui/icons/lucideIcons.generated.js",
       "src/brand/productName.js",
       "src/ondemand/miniChat.js",
-      "src/ondemand/pluginPanel.js"
+      "src/ondemand/pluginPanel.js",
+      "src/scenes/aoiScenePolicy.js",
+      "src/scenes/incidentScenes.js",
+      "src/incidents/model.js",
+      "src/aoi/membership.js",
+      "src/aoi/uaeInterest.js",
+      "config/aoi/uae-interest.json",
+      "src/incidents/client.js",
+      "src/incidents/ui/overlay.js",
+      "src/incidents/ui/composer.js",
+      "src/incidents/ui/index.js"
     ],
     "external": [
       "@mapbox/vector-tile",

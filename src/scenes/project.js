@@ -352,6 +352,7 @@ export function normalizeProject(rawProject) {
         title: scene?.title || `Scene ${sceneIdx + 1}`,
         ...(scene?.dataPacks ? { dataPacks: deepClone(scene.dataPacks) } : {}),
         ...(scene?.anchors ? { anchors: deepClone(scene.anchors) } : {}),
+        ...(scene?.incident ? { incident: deepClone(scene.incident) } : {}),
         releaseLayerIds: [
           ...new Set(
             (Array.isArray(scene?.releaseLayerIds)
