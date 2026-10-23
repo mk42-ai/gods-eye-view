@@ -63,6 +63,7 @@ export async function runFootagePipeline({
   onSource,
   onRanked,
   onDone,
+  streamCapMs = 15000,
 } = {}) {
   const nowMs = typeof now === 'function' ? now() : Number(now) || Date.now();
   const place = scene?.target?.name || null;
@@ -176,7 +177,14 @@ export async function runFootagePipeline({
       if (enabled[p] !== false) onSource?.(p, sources[p]);
     }
   } else if (client) {
-    // 3. Network streaming path
+    // 3. Network streaming path — bounded and non-blocking: a slow or failed
+    // source (Reddit 403, TikTok quota, X inactive, a 30 s web search) only
+    // marks its sidebar state; the scene ranks whatever arrived.
+    const streamAbort = new AbortController();
+    const onOuterAbort = () => streamAbort.abort();
+    signal?.addEventListener?.('abort', onOuterAbort, { once: true });
+    const capTimer = setTimeout(() => streamAbort.abort(), streamCapMs);
+    try {
     await client.stream(
       query,
       {
@@ -206,8 +214,24 @@ export async function runFootagePipeline({
           if (enabled[p] !== false) onSource?.(p, sources[p]);
         },
       },
-      { signal },
+      { signal: streamAbort.signal },
     );
+    } catch (err) {
+      for (const p of SOURCE_PLATFORMS)
+        if (sources[p].status === 'pending' || sources[p].status === 'idle') {
+          sources[p] = { ...sources[p], status: 'error', error: String(err?.message || err) };
+          if (enabled[p] !== false) onSource?.(p, sources[p]);
+        }
+    } finally {
+      clearTimeout(capTimer);
+      signal?.removeEventListener?.('abort', onOuterAbort);
+    }
+    if (streamAbort.signal.aborted && !signal?.aborted)
+      for (const p of SOURCE_PLATFORMS)
+        if (sources[p].status === 'pending') {
+          sources[p] = { ...sources[p], status: 'error', error: 'timeout' };
+          if (enabled[p] !== false) onSource?.(p, sources[p]);
+        }
   }
 
   if (signal?.aborted) return abortPayload();

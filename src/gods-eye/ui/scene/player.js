@@ -40,7 +40,7 @@ export function createScenePlayer({ document, window: win, onEnded, onPip }) {
 
   const posterImg = document.createElement('img');
   posterImg.className = 'ge-player-poster';
-  posterImg.src = POSTERS.idle;
+  posterImg.hidden = true;
   posterImg.alt = '';
 
   const posterLabel = document.createElement('span');
@@ -164,7 +164,7 @@ export function createScenePlayer({ document, window: win, onEnded, onPip }) {
     root.dataset.kind = 'armed';
     root.dataset.itemId = item?.id || '';
     if (item?.thumbUrl || item?.thumb)
-      posterImg.src = item.thumbUrl || item.thumb;
+      { posterImg.hidden = false; posterImg.src = item.thumbUrl || item.thumb; }
     posterLabel.textContent = 'PRESS PLAY · ENTER';
   }
 
@@ -178,12 +178,14 @@ export function createScenePlayer({ document, window: win, onEnded, onPip }) {
     if (kind === 'youtube') {
       const iframe = document.createElement('iframe');
       iframe.src = src;
+      iframe.title = `${item?.source || 'External'} source player — playback depends on the provider`;
       iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
       iframe.allowFullscreen = true;
       mediaContainer.appendChild(iframe);
     } else if (kind === 'tiktok') {
       const iframe = document.createElement('iframe');
       iframe.src = src;
+      iframe.title = `${item?.source || 'External'} source player — playback depends on the provider`;
       mediaContainer.appendChild(iframe);
       activeTimer = setTimeout(() => onEnded?.(), 20000);
     } else if (kind === 'video') {
@@ -193,15 +195,17 @@ export function createScenePlayer({ document, window: win, onEnded, onPip }) {
       video.playsInline = true;
       video.src = src;
       video.addEventListener('ended', () => onEnded?.());
+      video.addEventListener('error', () => { root.dataset.playing = '0'; posterLabel.textContent = 'Video unavailable from this source. Select another item.'; root.dataset.kind = 'poster'; });
       mediaContainer.appendChild(video);
     } else if (kind === 'embed') {
       const iframe = document.createElement('iframe');
       iframe.src = src;
+      iframe.title = `${item?.source || 'External'} source player — playback depends on the provider`;
       mediaContainer.appendChild(iframe);
       activeTimer = setTimeout(() => onEnded?.(), 18000);
     } else {
       if (item?.thumbUrl || item?.thumb) {
-        posterImg.src = item.thumbUrl || item.thumb;
+        { posterImg.hidden = false; posterImg.src = item.thumbUrl || item.thumb; }
       }
       activeTimer = setTimeout(() => onEnded?.(), 6000);
     }
@@ -212,8 +216,11 @@ export function createScenePlayer({ document, window: win, onEnded, onPip }) {
   return {
     element: root,
     setPoster(keyOrUrl, label = '') {
-      posterImg.src = POSTERS[keyOrUrl] || keyOrUrl || POSTERS.idle;
-      posterLabel.textContent = label || POSTER_LABELS[keyOrUrl] || '';
+      // State artwork is not evidence. Only actual source thumbnails may be
+      // displayed; loading/empty/error states use truthful, readable text.
+      posterImg.hidden = true;
+      posterImg.removeAttribute('src');
+      posterLabel.textContent = label || POSTER_LABELS[keyOrUrl] || 'No source media available';
     },
     showBanner(text) {
       if (text) {

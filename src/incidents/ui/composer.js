@@ -265,6 +265,10 @@ export function createIncidentComposer({
     const command = parseCommand(trimmed) || { raw: trimmed };
     command.raw = command.raw || trimmed;
     const footage = onFootageCommand ? onFootageCommand(command) : null;
+    if (footage?.handled && footage.managed) {
+      // The workstation owns status chips + result for engine builds.
+      return { plan: { kind: 'engine' }, scene: null, command };
+    }
     if (footage?.handled && !footage.alsoBuildScene) {
       showResult(
         message(

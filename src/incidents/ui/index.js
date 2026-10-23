@@ -484,7 +484,7 @@ export function installIncidentScenes({
   });
 
   // ---------------------------------------------------------------- composer
-  const composer = createIncidentComposer({
+  const composer = win.__workstation?.composer || createIncidentComposer({
     document: doc,
     client,
     buildScene: (incidents) => buildScenes(incidents)[0],
@@ -543,7 +543,7 @@ export function installIncidentScenes({
       await playScene(scene.id);
     },
   });
-  (doc.body || doc.documentElement).appendChild(composer.element);
+  if (!composer.element.parentElement) (doc.body || doc.documentElement).appendChild(composer.element);
 
   // Close the popover on Escape.
   const onKey = (event) => {

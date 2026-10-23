@@ -108,6 +108,12 @@ export function installScenesPanel({
       if (child === root) continue;
       if (child.classList?.contains?.('panel-header')) continue;
       if (child.classList?.contains?.('panel-glow')) continue;
+      // START / NEXT / STOP are shared transports: handlers below route them
+      // to the active scene engine. Do not hide them with legacy-only tools.
+      if (child.querySelector?.('#scene-start-btn')) {
+        child.hidden = false;
+        continue;
+      }
       child.hidden = !isLegacy;
     }
   }
@@ -156,6 +162,17 @@ export function installScenesPanel({
     }
 
     const scenes = getSortedScenes(currentTab === 'active');
+    if (!scenes.length) {
+      // Designed empty state (never a blank panel).
+      const empty = doc.createElement('p');
+      empty.className = 'ge-scenes-empty';
+      empty.dataset.state = 'empty';
+      empty.textContent =
+        currentTab === 'active'
+          ? 'No scenes yet. Type a place or incident in the composer and press BUILD SCENE — built scenes are saved here and reopen with zero refetch.'
+          : 'No archived scenes. Scenes move here automatically when they age out.';
+      listEl.appendChild(empty);
+    }
     for (const sc of scenes) {
       listEl.appendChild(
         renderSceneCard({

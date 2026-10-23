@@ -1,0 +1,52 @@
+  <div id="workstation-shell" aria-label="OnDemand Intelligence Workstation">
+    <header id="workstation-header">
+      <div id="workstation-brand"></div>
+      <span id="workstation-render-status" role="status" data-state="loading">STARTING MAP</span>
+      <a id="workstation-retry" href="" title="Reload the workstation">Reload</a>
+    </header>
+    <nav id="workstation-nav" aria-label="Workstation panels">
+      <button type="button" data-workstation-panel="sources" aria-expanded="false" aria-controls="workstation-drawer">Sources</button>
+      <button type="button" data-workstation-panel="hud" aria-expanded="false" aria-controls="workstation-drawer" title="Display, CCTV and Context controls">HUD controls</button>
+      <button type="button" data-workstation-panel="layers" aria-expanded="false" aria-controls="workstation-drawer">Layers</button>
+      <button type="button" data-workstation-panel="scenes" aria-expanded="false" aria-controls="workstation-drawer">Scenes</button>
+      <button type="button" data-workstation-panel="location" aria-expanded="false" aria-controls="workstation-drawer">Location & voice</button>
+      <button type="button" data-workstation-panel="chat" aria-expanded="false" aria-controls="workstation-drawer">Chat</button>
+      <button type="button" data-workstation-panel="help" aria-expanded="false" aria-controls="workstation-drawer">Quick start</button>
+    </nav>
+    <main id="workstation-main">
+      <section id="workstation-view" aria-label="Map viewing area">
+        <div id="workstation-map-status" role="status" aria-live="polite">
+          <strong>Spatial view</strong>
+          <p id="workstation-map-message">Loading the map. Navigation and standard chat are available independently.</p>
+          <div class="workstation-recovery-actions">
+            <button id="workstation-use-2d" type="button">Use 2D map</button>
+            <button id="workstation-retry-map" type="button">Retry 3D</button>
+          </div>
+        </div>
+        <div id="workstation-2d" hidden aria-label="2D map fallback">
+          <div id="workstation-raster-tiles" aria-hidden="true"></div>
+          <span class="workstation-crosshair" aria-hidden="true">+</span>
+          <div class="workstation-2d-controls">
+            <button type="button" id="workstation-zoom-in" aria-label="Zoom in 2D map">+</button>
+            <button type="button" id="workstation-zoom-out" aria-label="Zoom out 2D map">−</button>
+            <button type="button" id="workstation-retry-tiles">Retry tiles</button>
+          </div>
+          <p id="workstation-raster-status" role="status"></p>
+          <a class="workstation-map-credit" href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>
+        </div>
+        <div id="workstation-map-actions"></div>
+        <div id="workstation-evidence"></div>
+      </section>
+      <aside id="workstation-drawer" hidden aria-labelledby="workstation-panel-title">
+        <header class="workstation-drawer-heading">
+          <h2 id="workstation-panel-title">Workstation panels</h2>
+          <button id="workstation-close-panel" type="button" aria-label="Close panel">Close ×</button>
+        </header>
+        <div id="workstation-drawer-body"></div>
+      </aside>
+    </main>
+    <footer id="workstation-build-host">
+      <p id="workstation-build-placeholder">Location & scene tools are starting… <a href="">Reload if this message persists.</a></p>
+    </footer>
+  </div>
+  <noscript><p class="workstation-noscript">JavaScript is required for interactive controls. The workstation has not started. Enable JavaScript, then reload.</p></noscript>

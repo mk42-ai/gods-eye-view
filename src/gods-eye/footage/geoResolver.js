@@ -50,9 +50,9 @@ export const LANDMARKS = Object.freeze([
  */
 function buildSearchHaystack(item) {
   const parts = [
-    item?.caption || '',
+    String(item?.caption ?? ''),
     Array.isArray(item?.hashtags) ? item.hashtags.join(' ') : '',
-    item?.title || '',
+    String(item?.title ?? ''),
   ];
   const raw = parts.filter(Boolean).join(' ').toLowerCase();
   const collapsed = raw.replace(/[#_]/g, ' ');
@@ -68,10 +68,10 @@ function matchPlace(place, { raw, collapsed, stripped }) {
   const terms = new Set();
 
   if (place.name) {
-    terms.add(place.name.toLowerCase());
+    terms.add(String(place.name ?? '').toLowerCase());
   }
   if (place.arabic) {
-    terms.add(place.arabic.toLowerCase());
+    terms.add(String(place.arabic ?? '').toLowerCase());
   }
   if (Array.isArray(place.aliases)) {
     for (const a of place.aliases) {

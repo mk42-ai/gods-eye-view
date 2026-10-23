@@ -14,6 +14,69 @@ import { runFootagePipeline } from './footage/pipeline.js';
 import { rankItems } from './footage/ranker.js';
 import { buildScenePath } from './camera/ladder.js';
 import { diffFootage } from './diff.js';
+import { normaliseItem } from './footage/normalisers.js';
+
+/**
+ * Last-resort evidence when every live source returned 0 items: the verified
+ * Umm Suqeim research fixture (tests/fixtures/step1-fixtures.json). Items are
+ * flagged `fixture:true`, captioned "FIXTURE ·" and keep their `verified`
+ * flag, so the showcase renders without passing fixtures off as live data.
+ */
+export function fixtureFootage(fixture, scene) {
+  if (!fixture) return [];
+  const t = fixture.incident?.target || {};
+  const rows = [
+    ...(fixture.articles || [])
+      .filter((a) => a?.url)
+      .map((a) => ({
+        source: 'web',
+        title: `FIXTURE · ${a.publisher}: ${String(a.title ?? '')}`,
+        url: a.url,
+        published_at: a.publishedAtUTC,
+        author: a.publisher,
+        verified: a.verified === true,
+      })),
+    ...(fixture.socialPosts || [])
+      .filter((p) => p?.url && p.reachable)
+      .map((p) => ({
+        source: p.platform === 'facebook' ? 'web' : p.platform,
+        title: `FIXTURE · ${String(p.title ?? `${p.platform} post (unverified)`)}`,
+        url: p.url,
+        published_at: fixture.incident?.reportedAtUTC,
+        author: String(p.author ?? p.platform),
+        verified: p.verified === true,
+      })),
+  ];
+  return rows.map((raw, i) => {
+    const item = normaliseItem(
+      {
+        ...raw,
+        freshness: 'ARCHIVE',
+        relevance: raw.verified ? 0.9 : 0.4,
+        lat: t.lat,
+        lon: t.lon,
+      },
+      { sceneId: scene.id },
+    );
+    return {
+      ...item,
+      fixture: true,
+      verified: raw.verified,
+      recency: 'ARCHIVE',
+      rankScore: (raw.verified ? 1 : 0.5) - i * 0.01,
+      location: { lat: t.lat, lon: t.lon, confidence: 'approx', basis: 'fixture' },
+    };
+  });
+}
+
+async function loadStep1Fixture() {
+  try {
+    const mod = await import('../../tests/fixtures/step1-fixtures.json');
+    return mod.default || mod;
+  } catch {
+    return null;
+  }
+}
 
 const DEFAULT_PRESET = Object.freeze({
   alt: 18000,
@@ -269,6 +332,14 @@ export function createSceneBuilder({
       },
     });
     if (signal.aborted) return summary;
+    if (!(store.getState().scenes[id]?.footage?.length > 0)) {
+      const fx = fixtureFootage(await loadStep1Fixture(), store.getState().scenes[id]);
+      if (fx.length) {
+        store.mergeFootage(id, fx, { force: true, replace: true });
+        store.patchScene(id, { fixtureFallback: true });
+        if (summary) summary.earliestUploadedAt = summary.earliestUploadedAt || fx.map((f) => f.uploadedAt).filter(Boolean).sort()[0] || null;
+      }
+    }
     const statuses = Object.values(summary?.sources || {}).map((x) => x.status);
     summary.quotaOnly =
       statuses.length > 0 &&

@@ -60,7 +60,7 @@ export function normalizeRegionalArticles(payload, limit = MAX_ARTICLES) {
   const articles = [];
   for (const row of rows) {
     const url = safeHttpUrl(row?.url || row?.url_mobile);
-    const title = cleanText(row?.title, 180);
+    const title = cleanText(String(row?.title ?? ''), 180);
     if (!url || !title) continue;
     const signature = `${title.toLowerCase()}|${new URL(url).hostname}`;
     if (seen.has(signature)) continue;

@@ -92,7 +92,7 @@ export function createApplicationTools({
   // the loop, refresh the one DOM surface we gated, render a frame.
   const syncVisibilitySuspension = () => {
     const hidden = document.hidden;
-    viewer.useDefaultRenderLoop = !hidden;
+    viewer.useDefaultRenderLoop = !hidden && document.documentElement.dataset.renderState !== 'fallback';
     cockpitCloudEffects?.setSuspended?.(hidden);
     if (!hidden) {
       data.presentation.flushVisible();
@@ -139,7 +139,7 @@ export function createApplicationTools({
   // regional brief, HUD summary, provider badge, graph node/edge, …) on the
   // server-key-only /api/ondemand/v2 foundation (src/ondemand/miniChat.js).
   // Any widget opens it with `gev:ask-object` or createAskOnDemandButton().
-  debug.miniChat = installMiniChat({ signal });
+  debug.miniChat = window.__workstation?.chat || installMiniChat({ signal });
   // PLUGINS panel (src/ondemand/pluginPanel.js): honest lifecycle badges from
   // GET /api/ondemand/v2/plugins and per-turn plugin selection consumed by the
   // mini chat (`getPluginIds`) and the voice pipeline. Mounted after the mini
@@ -157,6 +157,9 @@ export function createApplicationTools({
   // S0..S4 fly-in → footage pipeline → ranked rail/timeline/player. Nothing
   // fetches, plays or flies until a prompt is built (HARD RULE §0); the
   // always-on LIVE FOOTAGE dock was removed. See docs/gods-eye/CONTRACTS.md.
+  // A 2D-recovery engine (installed by the workstation while WebGL was not
+  // ready) is replaced by the full 3D engine; stored scenes re-hydrate.
+  if (window.__godsEye?.is2d) window.__godsEye.destroy();
   debug.godsEye = installGodsEye({
     viewer,
     Cesium,

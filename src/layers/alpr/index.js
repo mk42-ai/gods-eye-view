@@ -93,6 +93,16 @@ export function createAlprCamerasLayer({ source, services } = {}) {
   function scheduleUnavailableRetry() {
     if (!state.enabled) return;
     clearTimeout(state.retryTimer);
+    // Bounded, non-blocking: at most 3 automatic Overpass retries, then the
+    // layer stays 'unavailable' (no endless RETRYING banner) until the user
+    // moves the view or re-enables the layer.
+    state.retryAttempts = (state.retryAttempts || 0) + 1;
+    if (state.retryAttempts > 3) {
+      state.retryTimer = null;
+      state.retryAt = 0;
+      state.retrying = false;
+      return;
+    }
     state.retryDelayMs = alprRetryDelayMs(state.retryDelayMs);
     state.retryAt = Date.now() + state.retryDelayMs;
     state.retryTimer = setTimeout(() => {
@@ -106,7 +116,10 @@ export function createAlprCamerasLayer({ source, services } = {}) {
     clearTimeout(state.retryTimer);
     state.retryTimer = null;
     state.retryAt = 0;
-    if (resetBackoff) state.retryDelayMs = 0;
+    if (resetBackoff) {
+      state.retryDelayMs = 0;
+      state.retryAttempts = 0;
+    }
   }
 
   function scheduleLoad() {

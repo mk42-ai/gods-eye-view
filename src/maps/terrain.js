@@ -1,4 +1,5 @@
 import * as Cesium from 'cesium';
+import { providerDeadline } from './providerDeadline.js';
 
 /** These factories are lazy: a hidden globe must not trigger terrain loading. */
 export async function createWorldTerrain(accessToken, { signal } = {}) {
@@ -21,9 +22,9 @@ export async function createKeylessTerrain() {
   try {
     // Re:Earth / Mapterhorn ellipsoidal quantized mesh, CC BY 4.0.
     return {
-      provider: await Cesium.CesiumTerrainProvider.fromUrl(
+      provider: await providerDeadline(Cesium.CesiumTerrainProvider.fromUrl(
         'https://terrain.reearth.land/cesium-mesh/ellipsoid',
-      ),
+      ), 3500, 'Optional terrain'),
     };
   } catch (error) {
     console.warn(

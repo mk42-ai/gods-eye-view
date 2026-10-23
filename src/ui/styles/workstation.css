@@ -1,0 +1,198 @@
+/* A single layout owner for the EXISTING controls. No canvas-sized popovers. */
+:root { --ws-bg: #071719; --ws-surface: #0d2528; --ws-border: #2a5153; --ws-ink: #e1f2ef; --ws-muted: #b4cdca; }
+#workstation-shell { position: fixed; inset: 0; display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; min-width: 0; min-height: 0; background: var(--ws-bg); color: var(--ws-ink); z-index: 1; }
+#workstation-header { display: flex; gap: 12px; align-items: center; min-width: 0; padding: 10px 16px; border-bottom: 1px solid var(--ws-border); }
+#workstation-brand { flex: 1; min-width: 0; }
+#workstation-header #title-bar { position: static; width: auto; padding: 0; margin: 0; transform: none; }
+#workstation-header #title-bar h1 { font-size: clamp(13px, 1.6vw, 21px); letter-spacing: .02em; gap: 9px; }
+#workstation-header #title-bar h1 > span:last-child { display: inline; }
+#workstation-header #title-bar .title-logo { width: 29px; min-width: 29px; }
+#workstation-header #title-bar .subtitle { font-size: 9px; letter-spacing: .12em; display: block; margin: 4px 0 0 38px; }
+#workstation-header .title-glow, #workstation-header .frame-rate-readout { display: none; }
+#workstation-shell button { color: var(--ws-ink); cursor: pointer; }
+#workstation-header > button, #workstation-nav > button, .workstation-drawer-heading > button, .workstation-recovery-actions button, .workstation-2d-controls button { border: 1px solid var(--ws-border); background: #123034; border-radius: 7px; padding: 7px 10px; font: 600 11px/1.25 var(--font-sans, system-ui); min-height: 34px; white-space: nowrap; box-shadow: none; }
+#workstation-nav { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 16px; border-bottom: 1px solid var(--ws-border); background: #0b2022; }
+#workstation-nav > button[aria-expanded='true'] { color: #071719; background: #62ddbb; border-color: #62ddbb; }
+#workstation-render-status { font: 700 10px var(--font-mono, monospace); white-space: nowrap; color: #edca81; }
+#workstation-render-status[data-state='ready'] { color: #73eac7; }
+#workstation-main { display: flex; min-height: 0; min-width: 0; position: relative; overflow: hidden; }
+#workstation-view { flex: 1; min-width: 0; min-height: 0; position: relative; isolation: isolate; background: #081b22; overflow: hidden; }
+#workstation-view #cesiumContainer, #workstation-view #world-overlay-root, #workstation-view #intel-hud, #workstation-view #safe-frame-overlay { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; }
+#workstation-view #cesiumContainer .cesium-viewer, #workstation-view #cesiumContainer .cesium-widget, #workstation-view #cesiumContainer canvas { width: 100% !important; height: 100% !important; }
+#workstation-map-actions { position: absolute; top: 10px; right: 10px; z-index: 15; }
+#workstation-map-actions #top-center-actions { position: static; transform: none; gap: 6px; }
+#workstation-map-actions #top-center-actions button { width: 32px; height: 32px; background: #0a242bd9; border-color: #4b706e; }
+#workstation-map-status { position: absolute; top: 62px; left: 16px; width: min(440px, calc(100% - 32px)); background: #0d2528f5; color: #e1f2ef; padding: 15px; border: 1px solid #4b706e; border-radius: 10px; z-index: 14; font: 12px/1.5 var(--font-sans, system-ui); }
+#workstation-map-status strong { font-size: 15px; }
+#workstation-map-message { margin: 6px 0 10px; }
+.workstation-recovery-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+#workstation-drawer { flex: 0 0 355px; width: 355px; min-width: 0; display: flex; flex-direction: column; min-height: 0; background: var(--ws-surface); border-left: 1px solid var(--ws-border); z-index: 20; overflow: hidden; }
+.workstation-drawer-heading { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--ws-border); }
+.workstation-drawer-heading h2 { font-size: 13px; letter-spacing: .04em; }
+#workstation-drawer-body { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; padding: 12px; }
+.workstation-group { min-width: 0; }
+#workstation-shell [hidden] { display: none !important; }
+#workstation-shell .workstation-group > :is(#pp-toggles, #cctv-panel, #global-context-panel, #data-panel, #scene-panel, #command-dock, #style-indicator, #ge-sources) { position: static !important; inset: auto !important; width: 100% !important; max-width: none !important; min-width: 0 !important; max-height: none !important; height: auto !important; margin: 0 0 12px !important; transform: none !important; overflow: visible !important; }
+#workstation-shell .panel-collapsible { --pp-expanded-width: 100%; --display-panel-expanded-width: 100%; --left-collapsed-width: 100%; border-color: var(--ws-border); box-shadow: none; border-radius: 8px; }
+#workstation-shell .workstation-group .panel-inner, #workstation-shell .workstation-group .cctv-panel-inner, #workstation-shell .workstation-group .global-context-panel-inner, #workstation-shell .workstation-group .data-panel-inner, #workstation-shell .workstation-group .scene-panel-inner { max-height: none !important; overflow: visible !important; padding: 10px; }
+#workstation-shell .panel-header, #workstation-shell .pp-header-row { width: 100% !important; }
+#workstation-shell .workstation-group .panel-glow { display: none; }
+#workstation-shell #command-dock { display: flex; flex-direction: column; gap: 12px; }
+#workstation-shell #command-dock > :is(#control-panel, #location-bar, #od-voice-control) { position: static !important; inset: auto !important; width: 100% !important; min-width: 0 !important; max-width: none !important; transform: none !important; }
+#workstation-shell #command-dock .dock-popover-content { position: static !important; inset: auto !important; width: 100% !important; transform: none !important; max-height: none !important; overflow: visible !important; margin-top: 8px; }
+#workstation-shell #command-dock .dock-popover-content:not([hidden]) { opacity: 1; visibility: visible; pointer-events: auto; }
+#workstation-shell #command-dock .collapsed .dock-popover-content { display: none !important; }
+#workstation-shell .pp-toggle-group, #workstation-shell #clean-view-toggle { width: 100%; }
+#workstation-shell .button-grid, #workstation-shell .pp-row, #workstation-shell .pp-toggle-controls { flex-wrap: wrap; }
+#workstation-shell .workstation-group :is(input, select, textarea) { max-width: 100%; }
+#workstation-shell .workstation-group :is(.pp-control-label, .toggle-label, .panel-mini-label) { color: var(--ws-muted); }
+#workstation-shell .ge-sources-panel { width: 100%; max-height: none; overflow: visible; background: transparent; border: 0; box-shadow: none; }
+#workstation-shell .ge-sources-header { display: none; }
+#workstation-shell .ge-source { display: grid; grid-template-columns: 18px 20px minmax(55px, 1fr) auto; gap: 8px; min-height: 46px; padding: 7px 0; }
+#workstation-shell .ge-source-icon { filter: brightness(0) invert(.87) sepia(.15); width: 19px; height: 19px; }
+#workstation-shell .ge-source-enabled { width: 17px; height: 17px; }
+#workstation-shell .ge-source-name { font-size: 12px; }
+#workstation-shell .ge-source-status { font-size: 9px; padding: 4px 7px; max-width: 120px; overflow-wrap: anywhere; }
+#workstation-shell .ge-source-count:empty, #workstation-shell .ge-source-latency:empty { display: none; }
+#workstation-shell .ge-source-latency { grid-column: 4; }
+#workstation-shell #ge-sources-toggle { flex: initial; }
+#workstation-shell #ge-sources > #ge-sources-toggle { display: none; }
+#workstation-build-host { min-height: 64px; max-height: 36dvh; overflow: auto; padding: 10px 16px; border-top: 1px solid var(--ws-border); background: #0b2022; z-index: 21; }
+#workstation-build-host #incident-composer { position: static !important; width: 100% !important; max-width: none !important; min-width: 0; margin: 0; transform: none !important; border-color: #3c6d66; background: #102c2f; box-shadow: none; }
+#workstation-build-host .incident-composer__row { gap: 8px; padding: 8px 10px; }
+#workstation-build-host .incident-composer__input { min-width: 0; font-size: 13px; color: #f0f8f6; }
+#workstation-build-host .incident-composer__submit { color: #06201a; background: #61dabb; min-height: 34px; font-size: 11px; }
+#workstation-build-host .incident-composer__chips:empty { display: none; }
+#workstation-shell #ondemand-mini-chat { position: static !important; inset: auto !important; width: 100% !important; min-height: 280px; height: calc(100dvh - 290px); max-height: none !important; transform: none !important; border: 0; box-shadow: none; background: #0b2022; }
+#workstation-shell #ondemand-mini-chat .od-chat__header { display: flex; flex-wrap: wrap; padding: 8px; }
+#workstation-shell #ondemand-mini-chat .od-chat__titles { flex: 1 1 120px; }
+#workstation-shell #ondemand-mini-chat .od-chat__transcript { flex: 1; min-height: 100px; }
+#workstation-shell #ondemand-mini-chat .od-chat__composer { flex-shrink: 0; }
+#workstation-shell #ondemand-mini-chat textarea { min-width: 0; }
+#workstation-shell #ge-scene-root { position: absolute !important; inset: 52px 8px 24px auto !important; width: min(360px, calc(100% - 16px)) !important; max-height: calc(100% - 76px) !important; height: auto !important; box-shadow: 0 4px 20px #0005; }
+#workstation-shell #ge-rail { overflow: auto; min-height: 70px; }
+#workstation-shell #ge-player-wrap { max-height: 180px; flex-shrink: 1; min-height: 70px; }
+#workstation-shell #cesium-credits { position: absolute !important; inset: auto 6px 2px 6px !important; max-width: none; width: auto; text-align: left; font-size: 9px; }
+:root[data-workstation='1'] #first-run-launcher { display: none !important; }
+:root[data-workstation='1'] #left-panel-stack, :root[data-workstation='1'] #right-context-rail { display: none !important; }
+:root[data-workstation='1'] #global-loading-status { position: fixed; top: auto; bottom: 75px; left: 16px; max-width: calc(100vw - 32px); transform: none; z-index: 25; font-size: 11px; pointer-events: none; }
+:root[data-workstation='1'] #traffic-sync-chip, :root[data-workstation='1'] #cctv-sync-chip { position: fixed; bottom: 78px; top: auto; left: 16px; transform: none; z-index: 24; }
+:root[data-workstation='1'] .serverless-notice { max-width: min(550px, calc(100% - 24px)); }
+:root[data-workstation='1'] #intel-hud { pointer-events: none; }
+:root[data-workstation='1'] #intel-hud .hud-top-left, :root[data-workstation='1'] #intel-hud .hud-top-right, :root[data-workstation='1'] #intel-hud .hud-bottom-left, :root[data-workstation='1'] #intel-hud .hud-bottom-right, :root[data-workstation='1'] #intel-hud .hud-top-bar, :root[data-workstation='1'] #intel-hud .hud-bottom-bar { position: absolute; font-size: 9px; }
+:root[data-workstation='1'] #intel-hud .hud-top-bar { left: 12px; top: 52px; width: calc(100% - 24px); transform: none; }
+:root[data-workstation='1'] #intel-hud .hud-bottom-bar { bottom: 28px; left: 12px; width: calc(100% - 24px); transform: none; }
+:root[data-workstation='1'] #intel-hud .hud-bottom-left, :root[data-workstation='1'] #intel-hud .hud-bottom-right { bottom: 28px; }
+:root[data-workstation='1'] #intel-hud .hud-left-edge, :root[data-workstation='1'] #intel-hud .hud-right-edge { display: none; }
+:root[data-render-state='fallback'] #cesiumContainer, :root[data-render-state='fallback'] #intel-hud, :root[data-render-state='fallback'] #workstation-map-actions, :root[data-render-state='fallback'] #world-overlay-root { visibility: hidden; }
+:root[data-render-state='ready'] .workstation-requires-map { display: none; }
+.workstation-requires-map { font: 12px/1.5 var(--font-sans); color: #eed39b; padding: 8px 0 12px; }
+#workstation-2d { position: absolute; inset: 0; overflow: hidden; background: #183130; z-index: 3; }
+#workstation-raster-tiles { position: absolute; left: 50%; top: 50%; width: 768px; height: 768px; display: grid; grid-template-columns: repeat(3, 256px); }
+#workstation-raster-tiles img { display: block; border: 0; filter: saturate(.7) brightness(.72); }
+.workstation-crosshair { position: absolute; left: 50%; top: 50%; color: #54ffce; font-size: 32px; transform: translate(-50%, -50%); }
+.workstation-2d-controls { position: absolute; right: 8px; top: 8px; display: flex; gap: 5px; }
+#workstation-raster-status { position: absolute; bottom: 26px; left: 8px; right: 8px; padding: 6px; background: #0b2022e8; color: #e5f7f0; font-size: 11px; }
+.workstation-map-credit { position: absolute; bottom: 3px; left: 8px; padding: 3px; background: #0b2022e8; color: #d7f7e8; font-size: 10px; }
+.workstation-noscript { position: fixed; inset: 35% 10% auto; z-index: 9999; background: #102d30; padding: 20px; }
+@media (max-width: 999px) {
+  #workstation-drawer { position: absolute; inset: 0 0 0 auto; width: min(390px, 100%); max-width: 100%; box-shadow: -15px 0 40px #0008; }
+  #workstation-shell #ondemand-mini-chat { height: calc(100dvh - 300px); }
+}
+@media (max-width: 550px) {
+  #workstation-header { gap: 6px; padding: 8px; }
+  #workstation-header #title-bar h1 { font-size: 13px; letter-spacing: 0; }
+  #workstation-header #title-bar .title-logo { width: 24px; min-width: 24px; }
+  #workstation-header #title-bar .subtitle { display: none; }
+  #workstation-render-status { max-width: 64px; font-size: 8px; white-space: normal; }
+  #workstation-header > button { padding: 6px; font-size: 10px; }
+  #workstation-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 6px 8px; gap: 5px; }
+  #workstation-nav > button { min-width: 0; padding: 5px 3px; font-size: 10px; min-height: 32px; white-space: normal; letter-spacing: 0; }
+  #workstation-build-host { padding: 8px; min-height: 64px; }
+  #workstation-build-host .incident-composer__icon { display: none; }
+  #workstation-build-host .incident-composer__input { font-size: 12px; }
+  #workstation-build-host .incident-composer__submit { padding: 6px; font-size: 10px; }
+  #workstation-shell #ge-scene-root { top: 48px !important; max-height: calc(100% - 60px) !important; }
+  #workstation-map-status { top: 48px; left: 8px; width: calc(100% - 16px); padding: 10px; font-size: 11px; }
+}
+@media (max-height: 570px) {
+  #workstation-header { padding-top: 6px; padding-bottom: 6px; }
+  #workstation-header #title-bar .subtitle { display: none; }
+  #workstation-nav { padding-top: 5px; padding-bottom: 5px; }
+  #workstation-shell #ondemand-mini-chat { min-height: 230px; height: calc(100dvh - 250px); }
+  #workstation-shell #ondemand-mini-chat .od-chat__starters { max-height: 55px; overflow: auto; }
+  #workstation-view #intel-hud .hud-bottom-bar, #workstation-view #intel-hud .hud-top-left, #workstation-view #intel-hud .hud-top-right { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { #workstation-shell *, #workstation-shell *::before, #workstation-shell *::after { transition-duration: 0s !important; animation-duration: 0s !important; } }
+#workstation-shell #ge-player[data-kind='poster'] { min-height: 90px; background: #102a2c; }
+#workstation-shell .ge-player-poster-label { color: #d9efe9; background: #0b2022e6; padding: 8px; }
+#workstation-shell .ge-player-poster[hidden] { display: none !important; }
+#workstation-shell .workstation-group > #workstation-retry-roads { padding: 8px 10px; background: #123034; border: 1px solid #3c6d66; border-radius: 6px; margin-bottom: 10px; }
+/* The old floating chat hid the composer on mobile. These are now separate
+   grid rows, so the location action remains visible while chatting. */
+#workstation-shell #workstation-build-host #incident-composer { display: block; }
+#workstation-shell [data-workstation-content='help'] #first-run-launcher { display: block !important; position: static !important; width: 100% !important; min-width: 0; max-height: none; opacity: 1 !important; visibility: visible !important; transform: none !important; padding: 0; box-shadow: none; }
+#workstation-shell .workstation-fixture-label { color: #f7d387; font-size: 9px; }
+@media (max-width: 550px) { #workstation-nav > [data-workstation-panel='help'] { grid-column: span 4; min-height: 24px; } }
+/* Short embeds scroll the real evidence rather than clipping away its controls. */
+#workstation-shell #ge-scene-root { display: block; overflow: auto; overscroll-behavior: contain; }
+#workstation-shell #ge-scene-header { position: sticky; top: 0; z-index: 3; }
+#workstation-shell #ge-player { min-height: 110px; }
+#workstation-shell #ge-rail { max-height: 240px; overflow: auto; }
+#workstation-header > a { color: #e1f2ef; text-decoration: none; border: 1px solid var(--ws-border); border-radius: 7px; padding: 7px 10px; background: #123034; font: 600 11px/1.25 var(--font-sans); min-height: 34px; display: flex; align-items: center; }
+
+/* ---------------------------------------------------------------------------
+ * 2026-10-23 layout cleanup — one consistent 8-pt layout:
+ *   composer docked bottom-centre · Sources drawer top-right (collapsible) ·
+ *   Scenes drawer on the LEFT · in-scene header top-left · footage player +
+ *   rail on the right · timeline + evidence strip bottom, above the composer.
+ *   DISPLAY / CCTV / CONTEXT + BITS/LVL readout live in ONE "HUD controls"
+ *   stack. All spacing uses 8 px steps.
+ * ------------------------------------------------------------------------ */
+#workstation-build-host { display: flex; justify-content: center; padding: 8px 16px; }
+#workstation-build-host > #incident-composer { width: min(880px, 100%) !important; }
+:root[data-workstation-panel='scenes'] #workstation-drawer { order: -1; border-left: 0; border-right: 1px solid var(--ws-border); }
+@media (max-width: 999px) { :root[data-workstation-panel='scenes'] #workstation-drawer { inset: 0 auto 0 0; box-shadow: 15px 0 40px #0008; } }
+.ws-hud-readout { margin: 0 0 8px; padding: 8px; border: 1px solid var(--ws-border); border-radius: 8px; font: 600 10px/1.5 var(--font-mono, monospace); letter-spacing: .08em; color: #8fd8c6; }
+body > .ws-hud-readout { display: none; }
+:root[data-workstation='1'] #intel-hud .hud-right-edge { display: none !important; }
+.ge-scenes-empty { margin: 8px 0; padding: 16px; border: 1px dashed var(--ws-border); border-radius: 8px; color: var(--ws-muted); font: 12px/1.5 var(--font-sans, system-ui); }
+/* Build status: designed error state with Retry. */
+.ws-build-error { display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.ws-build-retry { border: 1px solid #e06c75; background: #3a1d22; color: #ffd7d7; border-radius: 8px; padding: 4px 16px; min-height: 32px; font: 600 11px var(--font-sans, system-ui); cursor: pointer; }
+#workstation-build-host .incident-composer__chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 8px 8px; }
+/* While a scene is active the decorative HUD corner text yields to the scene. */
+:root[data-ge-scene]:not([data-ge-scene='']) #intel-hud :is(.hud-top-left, .hud-top-right, .hud-top-bar, .hud-bottom-bar, .hud-bottom-left, .hud-bottom-right) { display: none !important; }
+
+/* Desktop / tablet landscape: scene regions overlay the map without overlap. */
+@media (min-width: 768px) and (min-height: 600px) {
+  #workstation-shell #ge-scene-root:not([hidden]) {
+    position: absolute !important; inset: 8px !important; width: auto !important; height: auto !important; max-height: none !important;
+    display: grid !important; overflow: hidden !important; pointer-events: none;
+    grid-template-columns: minmax(0, 1fr) min(360px, 40%);
+    grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+    grid-template-areas: 'header player' '. player' '. rail' 'timeline timeline' 'evidence evidence';
+    gap: 8px; background: transparent; border: 0; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  #workstation-shell #ge-scene-root > * { pointer-events: auto; background: #0b2022eb; border: 1px solid var(--ws-border); border-radius: 8px; }
+  #workstation-shell #ge-scene-header { grid-area: header; position: static; justify-self: start; align-self: start; max-width: min(440px, 100%); }
+  #workstation-shell #ge-player { grid-area: player; align-self: start; max-height: none; min-height: 0; }
+  #workstation-shell #ge-rail { grid-area: rail; max-height: none; min-height: 0; overflow: auto; }
+  #workstation-shell #ge-rail[hidden] { display: block !important; visibility: hidden; }
+  #workstation-shell #ge-timeline { grid-area: timeline; }
+  #workstation-shell #ge-evidence { grid-area: evidence; }
+  :root[data-ge-scene]:not([data-ge-scene='']) #workstation-map-actions { right: calc(min(360px, 40%) + 24px); top: 16px; }
+}
+/* Narrow / short viewports: one scrollable stacked scene panel under the map actions. */
+@media (max-width: 767px), (max-height: 599px) {
+  #workstation-shell #ge-scene-root { inset: 48px 8px 8px 8px !important; width: auto !important; max-height: none !important; }
+  #workstation-shell #ge-player { max-height: 160px; }
+  #workstation-shell #ge-rail { max-height: 176px; }
+}
+/* Short viewports: keep the docked composer compact so the map + scene card keep the space. */
+@media (max-height: 599px) {
+  #workstation-build-host { padding: 8px; max-height: 30dvh; }
+  #workstation-build-host .incident-composer__chips { gap: 4px; padding: 0 8px 4px; }
+  #workstation-build-host .incident-composer__chip { padding: 0 6px; font-size: 8px; }
+  #workstation-build-host .incident-composer__result { max-height: 40px; overflow: auto; }
+}

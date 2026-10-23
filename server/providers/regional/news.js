@@ -29,7 +29,7 @@ function normalizeRssArticles(xml, limit = 5) {
     /<item>([\s\S]*?)<\/item>/gi,
   )) {
     const item = match[1];
-    const title = rssTag(item, 'title').slice(0, 180);
+    const title = String(rssTag(item, 'title') ?? '').slice(0, 180);
     const url = rssTag(item, 'link');
     let parsedUrl;
     try {

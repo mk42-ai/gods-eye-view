@@ -111,7 +111,7 @@ export function parsePrompt(text) {
  *   confidence: number
  * }|null>}
  */
-export async function geocodePlace(name, { fetch, register } = {}) {
+export async function geocodePlace(name, { fetch, register, signal } = {}) {
   const q = String(name || '').trim();
   if (!q) return null;
 
@@ -155,6 +155,7 @@ export async function geocodePlace(name, { fetch, register } = {}) {
       const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(q)}`;
       const res = await fetchFn(url, {
         headers: { Accept: 'application/json' },
+        signal: signal || AbortSignal.timeout(6000),
       });
       if (res && res.ok) {
         const data = await res.json();

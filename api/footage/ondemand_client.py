@@ -26,8 +26,8 @@ from dataclasses import dataclass
 
 import httpx
 
-BASE_URL = os.environ.get("ONDEMAND_BASE_URL", "https://api.on-demand.io").rstrip("/")
-DEFAULT_ENDPOINT = os.environ.get("ONDEMAND_FOOTAGE_ENDPOINT_ID", "predefined-gpt-6-luna")
+BASE_URL = (os.environ.get("ONDEMAND_BASE_URL") or "https://api.on-demand.io").rstrip("/")
+DEFAULT_ENDPOINT = os.environ.get("ONDEMAND_FOOTAGE_ENDPOINT_ID") or "predefined-gpt-6-luna"
 USER_AGENT = "gods-eye-footage-service/1.0 (+https://github.com/mk42-ai/gods-eye-view)"
 
 

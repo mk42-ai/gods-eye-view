@@ -65,6 +65,7 @@ export class PanelPositionControls {
   }
 
   _initPanelDrag() {
+    if (document.documentElement?.dataset.workstation === '1') return;
     if (this.destroyed) return;
     const dragSpecs = [
       {

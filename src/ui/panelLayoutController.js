@@ -114,6 +114,7 @@ export class PanelLayoutController {
   }
 
   _initCommandDockTrayMetrics() {
+    if (document.documentElement?.dataset.workstation === '1') return;
     if (this.destroyed) return;
     const dock = document.getElementById('command-dock');
     if (!dock) return;
@@ -130,6 +131,7 @@ export class PanelLayoutController {
   }
 
   _updateCommandDockTrayStack() {
+    if (document.documentElement?.dataset.workstation === '1') return;
     if (this.destroyed) return;
     const dock = document.getElementById('command-dock');
     if (!dock) return;
@@ -181,6 +183,7 @@ export class PanelLayoutController {
   }
 
   _initRightPanelAdaptiveLayout() {
+    if (document.documentElement?.dataset.workstation === '1') return;
     if (this.destroyed) return;
     const stack = this._rightPanelStack;
     if (!stack || !this._ppToggles) return;
@@ -274,6 +277,7 @@ export class PanelLayoutController {
   }
 
   _scheduleRightPanelLayout({ reconsiderAutoCollapse = false } = {}) {
+    if (document.documentElement?.dataset.workstation === '1') return;
     if (this.destroyed) return;
     if (reconsiderAutoCollapse) this._rightStackReconsiderAutoCollapse = true;
     if (!this._rightPanelStack || this._rightStackLayoutFrame !== null) return;
@@ -310,6 +314,7 @@ export class PanelLayoutController {
   }
 
   _initLeftPanelAdaptiveLayout() {
+    if (document.documentElement?.dataset.workstation === '1') return;
     if (this.destroyed) return;
     const stack = this._leftPanelStack;
     if (!stack) return;
@@ -408,6 +413,7 @@ export class PanelLayoutController {
   }
 
   _scheduleLeftPanelLayout({ reconsiderAutoCollapse = false } = {}) {
+    if (document.documentElement?.dataset.workstation === '1') return;
     if (this.destroyed) return;
     if (reconsiderAutoCollapse) this._leftStackReconsiderAutoCollapse = true;
     if (!this._leftPanelStack || this._leftStackLayoutFrame !== null) return;

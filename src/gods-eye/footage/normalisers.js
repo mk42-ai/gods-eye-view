@@ -88,7 +88,7 @@ export function extractHashtags(text) {
  * Creates a plain FootageItem object conforming to §1.
  */
 export function createFootageItem(partial = {}) {
-  const caption = partial.caption ?? partial.title ?? '';
+  const caption = String(partial.caption ?? partial.title ?? '');
   return {
     id: partial.id || '',
     sceneId: partial.sceneId || '',
@@ -99,7 +99,7 @@ export function createFootageItem(partial = {}) {
     authorHandle: partial.authorHandle ?? '',
     authorAvatar: partial.authorAvatar ?? null,
     caption,
-    title: partial.title ?? caption,
+    title: String(partial.title ?? caption),
     hashtags: Array.isArray(partial.hashtags) ? [...partial.hashtags] : [],
     uploadedAt: partial.uploadedAt || '',
     capturedAt: partial.capturedAt ?? null,
@@ -186,7 +186,12 @@ export function normaliseItem(raw, { sceneId = '' } = {}) {
     ? { lat: rawLat, lon: rawLon, confidence: 'exact', basis: 'geotag' }
     : { lat: null, lon: null, confidence: 'unknown', basis: 'none' };
 
-  const caption = raw.caption || raw.title || '';
+  // News/web payloads sometimes carry a non-string title (null, number,
+  // {text}); coerce before any string method runs.
+  const textOf = (v) =>
+    v && typeof v === 'object' ? String(v.text ?? v.title ?? '') : String(v ?? '');
+  const caption = textOf(raw.caption) || textOf(raw.title) || '';
+  raw = { ...raw, title: textOf(raw.title) || caption, caption };
   const extractedHashes = extractHashtags(caption);
   const rawHashtags = Array.isArray(raw.hashtags)
     ? raw.hashtags.map((h) =>

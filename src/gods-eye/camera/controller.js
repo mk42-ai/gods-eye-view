@@ -14,7 +14,11 @@ export function createCameraController({
   setTimeoutImpl = setTimeout,
   clearTimeoutImpl = clearTimeout,
   minAglM = 60,
+  // 2D recovery (no WebGL): each waypoint is handed to this callback (the
+  // workstation's raster map zooms to it) and the S0→S4 ladder still runs.
+  fallbackFly = null,
 } = {}) {
+  const has3d = () => Boolean(viewer?.camera && Cesium?.Cartesian3);
   let currentStageName = null;
   let activeTimer = null;
   let activeCancelFlight = null;
@@ -78,6 +82,13 @@ export function createCameraController({
     const wp = cam ? { ...(found || {}), ...cam, stage } : found;
     if (!wp || !Number.isFinite(wp.lat) || !Number.isFinite(wp.lon)) return;
     cancel();
+    if (!has3d()) {
+      try {
+        fallbackFly?.(wp);
+      } catch {}
+      doDispatch(wp.stage, wp);
+      return;
+    }
     const destination = Cesium.Cartesian3.fromDegrees(
       wp.lon,
       wp.lat,
@@ -145,6 +156,16 @@ export function createCameraController({
     try {
       for (const wp of path) {
         if (isAborted()) return 'aborted';
+        if (!has3d()) {
+          try {
+            fallbackFly?.(wp);
+          } catch {}
+          doDispatch(wp.stage, wp, sceneId);
+          if (wp.stage === 'S4') return 'arrived';
+          if (!(await waitMs(reducedMotion ? 150 : 900)) || isAborted())
+            return 'aborted';
+          continue;
+        }
         const targetAlt =
           wp.stage === 'S4' ? await guardS4(wp, wp.alt) : wp.alt;
         const destination = Cesium.Cartesian3.fromDegrees(
@@ -175,20 +196,39 @@ export function createCameraController({
         } else {
           try {
             await new Promise((res, rej) => {
-              activeCancelFlight = () => rej(new Error('aborted'));
+              // Watchdog: Cesium only fires `complete` from a rendered frame.
+              // A paused render loop (hidden tab, 2D recovery, software GL)
+              // must not leave the build stuck in `flying` — snap the camera
+              // to the waypoint and continue the ladder instead.
+              const durationMs = wp.durationMs || 1000;
+              const watchdog = setTimeoutImpl(() => {
+                activeCancelFlight = null;
+                try {
+                  viewer.camera.cancelFlight?.();
+                  viewer.camera.setView({ destination, orientation });
+                  viewer.scene?.requestRender?.();
+                } catch {}
+                res(true);
+              }, durationMs + 2500);
+              const done = (fn) => (v) => {
+                clearTimeoutImpl(watchdog);
+                activeCancelFlight = null;
+                fn(v);
+              };
+              activeCancelFlight = () => {
+                clearTimeoutImpl(watchdog);
+                rej(new Error('aborted'));
+              };
+              try {
+                viewer.scene?.requestRender?.();
+              } catch {}
               viewer.camera.flyTo({
                 destination,
                 orientation,
                 duration: (wp.durationMs || 1000) / 1000,
                 easingFunction: Cesium.EasingFunction?.QUADRATIC_IN_OUT,
-                complete: () => {
-                  activeCancelFlight = null;
-                  res(true);
-                },
-                cancel: () => {
-                  activeCancelFlight = null;
-                  rej(new Error('cancelled'));
-                },
+                complete: done(() => res(true)),
+                cancel: done(() => rej(new Error('cancelled'))),
               });
             });
           } catch {

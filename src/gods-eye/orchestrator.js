@@ -64,6 +64,7 @@ export function installGodsEye({
   fetch: fetchImpl = globalThis.fetch?.bind(globalThis),
   storage = globalThis.localStorage,
   now: initialNow = () => Date.now(),
+  fallbackFly = null,
 } = {}) {
   if (!doc || !win) return null;
   let nowFn = initialNow;
@@ -90,6 +91,7 @@ export function installGodsEye({
     Cesium,
     reducedMotion,
     now,
+    fallbackFly,
     dispatch: (stage, waypoint) => {
       doc.documentElement.dataset.geStage = stage;
       const sceneId = store.getState().activeId;
@@ -121,7 +123,8 @@ export function installGodsEye({
       }),
     onScrub: (window_) => playback.applyScrub(window_),
   });
-  const sidebar = installSourcesSidebar({
+  const sharedSidebar = win.__workstation?.sources || null;
+  const sidebar = sharedSidebar || installSourcesSidebar({
     document: doc,
     window: win,
     store,
@@ -129,6 +132,7 @@ export function installGodsEye({
     routeAgent: { status: 'unknown', latencyMs: null },
     onToggle: (platform, enabled) => api.setSourceEnabled(platform, enabled),
   });
+  sidebar.bindStore?.(store);
   Object.assign(enabledSources, sidebar.getEnabled?.() || {});
   const share = readShareLinks?.() || null;
   const syncShare = () => {
@@ -222,6 +226,7 @@ export function installGodsEye({
   });
 
   const api = {
+    is2d: !viewer,
     store,
     events: GODS_EYE_EVENTS,
     buildFromPrompt: (text) => builder.buildFromPrompt(text),
@@ -264,7 +269,8 @@ export function installGodsEye({
       playback.stop();
       builder.destroy();
       panel.destroy();
-      sidebar.destroy();
+      // The workstation owns a shared Sources sidebar; never tear it down.
+      if (!sharedSidebar) sidebar.destroy();
       sceneUi.destroy();
       viirs.destroy?.();
       ranker.destroy?.();

@@ -228,7 +228,11 @@ export function createIngestion({
     if (cacheKey !== layerState._retryBoundsKey) {
       layerState._retryBoundsKey = cacheKey;
       layerState._retryDelayMs = 1500;
+      layerState._retryAttempts = 0;
     }
+    // A failed provider is not an endless loading state. Camera movement to a
+    // new area or an explicit disable/re-enable starts a fresh three-attempt budget.
+    if (layerState._retryAttempts >= 3) return;
     layerState._roadError = null;
     layerState._roadProvider = null;
 
@@ -381,7 +385,8 @@ export function createIngestion({
         if (!renderedSomething) {
           layerState._lastBounds = prevBounds;
           layerState._lastViewCenter = prevViewCenter;
-          if (layerState._enabled) {
+          layerState._retryAttempts = (layerState._retryAttempts || 0) + 1;
+          if (layerState._enabled && layerState._retryAttempts < 3) {
             layerState._retryTimer = setTimeout(() => {
               layerState._retryTimer = null;
               parts.viewport.onCameraChanged();
@@ -391,7 +396,9 @@ export function createIngestion({
               30000,
             );
           }
+          if (layerState._retryAttempts >= 3) layerState._roadError = `${layerState._roadError || 'Overpass unavailable'}. Automatic retries stopped after 3 attempts; use Retry roads.`;
         } else {
+          layerState._retryAttempts = 0;
           layerState._retryDelayMs = 1500;
         }
       }

@@ -1,0 +1,128 @@
+[
+  {
+    "ts": "2026-10-23T18:12:18.277Z",
+    "label": "flow",
+    "type": "warning",
+    "text": "[.WebGL-0xab4001bec00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/"
+  },
+  {
+    "ts": "2026-10-23T18:12:18.297Z",
+    "label": "flow",
+    "type": "warning",
+    "text": "[.WebGL-0xab4001bec00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/"
+  },
+  {
+    "ts": "2026-10-23T18:12:18.322Z",
+    "label": "flow",
+    "type": "warning",
+    "text": "[.WebGL-0xab4001bec00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/"
+  },
+  {
+    "ts": "2026-10-23T18:12:18.348Z",
+    "label": "flow",
+    "type": "warning",
+    "text": "[.WebGL-0xab4001bec00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/"
+  },
+  {
+    "ts": "2026-10-23T18:12:19.033Z",
+    "label": "flow",
+    "type": "log",
+    "text": "[Detection] Initialized",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/assets/application-DWhUxVgJ.js"
+  },
+  {
+    "ts": "2026-10-23T18:12:19.033Z",
+    "label": "flow",
+    "type": "log",
+    "text": "[TrackedReadout] Initialized",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/assets/application-DWhUxVgJ.js"
+  },
+  {
+    "ts": "2026-10-23T18:12:19.066Z",
+    "label": "flow",
+    "type": "log",
+    "text": "[Detection] Mode: DENSE",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/assets/application-DWhUxVgJ.js"
+  },
+  {
+    "ts": "2026-10-23T18:12:30.109Z",
+    "label": "flow",
+    "type": "warning",
+    "text": "Entity geometry outlines are unsupported on terrain. Outlines will be disabled. To enable outlines, disable geometry terrain clamping by explicitly setting height to 0.",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/cesium/Cesium.js"
+  },
+  {
+    "ts": "2026-10-23T18:12:54.572Z",
+    "label": "flow",
+    "type": "warning",
+    "text": "No available adapters.",
+    "url": "https://www.youtube.com/embed/QH7pi2sULQQ?autoplay=1&mute=1&playsinline=1&enablejsapi=1"
+  },
+  {
+    "ts": "2026-10-23T18:13:21.836Z",
+    "label": "flow",
+    "type": "warning",
+    "text": "Error with Permissions-Policy header: Unrecognized feature: 'attribution-reporting'.",
+    "url": ""
+  },
+  {
+    "ts": "2026-10-23T18:13:21.837Z",
+    "label": "flow",
+    "type": "warning",
+    "text": "Error with Permissions-Policy header: Unrecognized feature: 'bluetooth'.",
+    "url": ""
+  },
+  {
+    "ts": "2026-10-23T18:13:21.837Z",
+    "label": "flow",
+    "type": "warning",
+    "text": "Error with Permissions-Policy header: Unrecognized feature: 'shared-storage'.",
+    "url": ""
+  },
+  {
+    "ts": "2026-10-23T18:13:21.837Z",
+    "label": "flow",
+    "type": "warning",
+    "text": "Error with Permissions-Policy header: Unrecognized feature: 'shared-storage-select-url'.",
+    "url": ""
+  },
+  {
+    "ts": "2026-10-23T18:13:39.761Z",
+    "label": "layout",
+    "type": "log",
+    "text": "[Detection] Initialized",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/assets/application-DWhUxVgJ.js"
+  },
+  {
+    "ts": "2026-10-23T18:13:39.762Z",
+    "label": "layout",
+    "type": "log",
+    "text": "[TrackedReadout] Initialized",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/assets/application-DWhUxVgJ.js"
+  },
+  {
+    "ts": "2026-10-23T18:13:39.789Z",
+    "label": "layout",
+    "type": "log",
+    "text": "[Detection] Mode: DENSE",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/assets/application-DWhUxVgJ.js"
+  },
+  {
+    "ts": "2026-10-23T18:13:42.219Z",
+    "label": "layout",
+    "type": "warning",
+    "text": "Entity geometry outlines are unsupported on terrain. Outlines will be disabled. To enable outlines, disable geometry terrain clamping by explicitly setting height to 0.",
+    "url": "https://sb-7n5i0h35o7m1.vercel.run/cesium/Cesium.js"
+  },
+  {
+    "ts": "2026-10-23T18:14:06.620Z",
+    "label": "layout",
+    "type": "warning",
+    "text": "No available adapters.",
+    "url": "https://www.youtube.com/embed/QH7pi2sULQQ?autoplay=1&mute=1&playsinline=1&enablejsapi=1"
+  }
+]

@@ -335,6 +335,9 @@ export function initFirstRunExperience({
   sessionStorageRef,
   location = globalThis.location,
 } = {}) {
+  // The responsive workstation exposes these same missions in its Quick start
+  // drawer; it binds them without an auto-opening modal or suppression state.
+  if (documentRef?.documentElement?.dataset?.workstation === '1') return null;
   const root = documentRef?.getElementById?.('first-run-launcher');
   if (!root || root.dataset.initialized === 'true') return null;
   root.dataset.initialized = 'true';

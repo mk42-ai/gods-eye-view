@@ -131,6 +131,7 @@ export function installSourcesSidebar({
 
     const cb = doc.createElement('input');
     cb.type = 'checkbox';
+    cb.setAttribute('aria-label', `Enable ${PLATFORM_NAMES[platform]} source`);
     cb.className = 'ge-source-enabled';
     if (platform === 'route-agent') {
       cb.disabled = true;
@@ -181,7 +182,7 @@ export function installSourcesSidebar({
       if (!row) continue;
 
       if (p === 'route-agent') {
-        const raw = (currentRouteAgent?.status || 'idle').toLowerCase();
+        const raw = String(currentRouteAgent?.status || 'idle').toLowerCase();
         row.li.setAttribute('data-status', raw);
         row.pill.textContent = STATUS_TEXT[raw] || raw.toUpperCase();
         row.count.textContent = '';
@@ -191,7 +192,7 @@ export function installSourcesSidebar({
             : '';
       } else {
         const src = sources[p];
-        const raw = (src?.status || 'idle').toLowerCase();
+        const raw = String(src?.status || 'idle').toLowerCase();
         row.li.setAttribute('data-status', raw);
         row.pill.textContent = STATUS_TEXT[raw] || raw.toUpperCase();
         row.count.textContent = src?.count != null ? String(src.count) : '';
@@ -224,6 +225,7 @@ export function installSourcesSidebar({
 
   return {
     element: root,
+    bindStore(nextStore) { unsub?.(); store = nextStore; unsub = store?.subscribe?.(update); update(); },
     destroy,
     setRouteAgent: (ra) => {
       currentRouteAgent = { ...currentRouteAgent, ...ra };

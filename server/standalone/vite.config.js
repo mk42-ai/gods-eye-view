@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => {
     host: process.env.HOST,
     port: process.env.PORT,
   });
+  config.server.allowedHosts = true;
   // LIVE FOOTAGE service (api/footage/index.py, Python) — in local dev it runs
   // as a separate uvicorn; FOOTAGE_UPSTREAM points Vite's proxy at it.
   const footageUpstream = (process.env.FOOTAGE_UPSTREAM || '').replace(
