@@ -14,7 +14,8 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 | **ORIGINAL_SHA** | `1c9558cde07fdddb8d7d01b64f7143f0bbc9d116` (HEAD of `origin/ondemand-serverless`) |
 | Recovery tag + branch | `recovery/pre-ondemand-rebuild-20261020` → `1c9558c` (tag object `74a2609`), pushed 2026-10-20T21:26:36Z |
 | Working branch | `integration/ondemand-native` (created from `1c9558c`, pushed 21:27:07Z) |
-| Current commit (this checkpoint) | **cycle-9 checkpoint commit** (docs) on top of `97f5b05` ← `1a82c71` ← `1fbb83e` ← `325b5cc` ← `b95a513` ← `124b5bb` ← `3be45e8` ← `7660136` ← `0dcf469` ← `b698032` (cycle 8 head) — local annotated tag `checkpoint/aoi-incident-scenes-v1` (push pending, N-34). Previous: `166101d` (cycle-8 checkpoint docs; parent `039fa2e` = embeddability fix on `6b49fe9`) — tag `checkpoint-2026-10-22-cycle8-preview`; cycle-6 checkpoint commit that carries this file (see §9; tag `checkpoint-2026-10-21-preview-retry`) on top of `712a552` (cycle-5 docs, tag `checkpoint-2026-10-21-post-sandbox-verification`) ← `aa3eb8d` (cycle-4 docs) ← `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
+| Current commit (cycle 10, 2026-10-23) | **branch `feat/scene-video-evidence`** = `6f00211` ← `1aeba2d` ← `1769971` ← `1bd8f4d` ← `609b4fc` ← **`f20fab6` (baseline checkpoint = byte-exact source of the user-approved deployment `ondemand-agent-k8v6snzk7` / `dpl_H9yVA3kDuV8ekgs7xzj7AjDPgaSH`, built on `b698032`)** + the cycle-10 docs commit; local tag `checkpoint-2026-10-23-scene-video` (push blocked, B-25). Branch `baseline/approved-k8v6snzk7` points at `f20fab6`. |
+| Previous commit (cycle 9) | **cycle-9 checkpoint commit** (docs) on top of `97f5b05` ← `1a82c71` ← `1fbb83e` ← `325b5cc` ← `b95a513` ← `124b5bb` ← `3be45e8` ← `7660136` ← `0dcf469` ← `b698032` (cycle 8 head) — local annotated tag `checkpoint/aoi-incident-scenes-v1` (push pending, N-34). Previous: `166101d` (cycle-8 checkpoint docs; parent `039fa2e` = embeddability fix on `6b49fe9`) — tag `checkpoint-2026-10-22-cycle8-preview`; cycle-6 checkpoint commit that carries this file (see §9; tag `checkpoint-2026-10-21-preview-retry`) on top of `712a552` (cycle-5 docs, tag `checkpoint-2026-10-21-post-sandbox-verification`) ← `aa3eb8d` (cycle-4 docs) ← `226217f` (cycle-3 docs, tag `checkpoint-2026-10-21-verify-cycle4`) — cycle 2 ended at `f89d3ca`, cycle 3 baseline tag `checkpoint-2026-10-21-pre-integration-audit` = `75a0792` (2026-10-21T01:22:13Z) |
 | Uncommitted changes / stashes at discovery | none (`git status` clean, `git stash list` empty) |
 | Resume path taken | **Fresh discovery** — `docs/agent-execution/RESUME.md` and `MASTER_STATE.md` did not exist at `1c9558c` (the repo has a different checkpoint lineage: `docs/CLOSEOUT.md`, `docs/handover/*`, `docs/audit/*`, read as prior art) |
 
@@ -36,6 +37,22 @@ truth for the mission state; `RESUME.md` tells an agent how to restart from it. 
 Cross-check of `ondemand-eand-spatial` (12 refs, newest `feat/exec-brief-v1.4-b7c0d3d` 2026-09-12): valuable, non-overlapping work = build gates `check-no-secrets.mjs` (**ported this cycle**), `check-forbidden-terms.mjs`, `check-remote-assets.mjs`, `check-contrast.mjs` (N-14), and a React "Ask the deal" SSE drawer (`api/_lib/deal.ts`) that the new foundation supersedes. The two repos share no code and must not be merged.
 
 ## 2. Engineering cycle
+Cycle **10** (2026-10-23T03:15Z–04:3xZ) — **scene video evidence**. Baseline: the approved deployment
+`https://ondemand-agent-k8v6snzk7-schoolhack-web-team.vercel.app` is a goose-share CLI deploy with **no `githubCommitSha`**
+(meta `source: ondemand-goose-execution-share`, created 2026-10-22T15:51:22Z); its `/src` tree (2,698 files) was sha1-diffed
+against history → closest commit `b698032` + 13 changed / 49 added files (the unpushed cycle-9 AOI work). Branch
+`baseline/approved-k8v6snzk7` + checkpoint commit `f20fab6` reproduce it byte-for-byte (2,165/2,165 source files, `.env` excluded);
+the approved URL hash round-trips (27/27 keys, both viewports). New: `POST /api/ondemand/v2/scene/videos` (SSE) fans out in parallel to
+YouTube / TikTok / Instagram **through OnDemand plugin sessions only**, EN+AR keyword/place/bbox/time-window planner, dedupe, recency+geo+keyword
+ranking, VideoEvidence normalisation, LIVE/RECENT/ARCHIVAL tiering (undated ⇒ ARCHIVAL); `/scene/media` allow-listed Range proxy
+(is.gd + Instagram CDN, 410 on expired URL); player rail with SEARCHING SOURCES chips, autoplay-muted queue, caption-offset seek, per-clip badge +
+recording date + source link + provenance, persistent banner `REBUILT FROM ARCHIVAL FOOTAGE: recorded <date>, not live`, Cesium pins per clip,
+ASK per clip (mini chat object context). Created plugins **plugin-1792727178** (YouTube oEmbed API) and **plugin-1792727179** (TikTok oEmbed API),
+no credentials. Live run for "rebuild the car crash reported in Umm Suqeim": 13–14 clips (YouTube 6 · TikTok 6 · Instagram 1–2), all ARCHIVAL,
+~40 s. Unit **4,286 (4,285 pass · 1 skip)** + scene-videos 16 + rail/evidence 24, foundation 77, ondemand 250, serverless 57; secrets ✓ src + dist.
+Sandbox `sbx_FsiXEcFVjxA7tRJMiCIAGMstvv62` → https://sb-5c67af3inbu0.vercel.run (health 200 `configured:true` 04:19:13Z); headless proof
+**10 / 10** (TEST_RESULTS §15). Push / tag push / PR / persistent `ondemand-agent` preview blocked (B-25, B-26).
+
 Cycle **9** (2026-10-22T10:03Z–13:05Z) — **UAE AOI incident scenes**: scene playback restricted to UAE areas of interest
 (editable `config/aoi/uae-interest.json`: Iran / Yemen / Somalia, Hormuz / Gulf of Oman / southern Red Sea / Bab el-Mandeb /
 Gulf of Aden / Socotra, UAE land borders, UAE waters, 8 presence nodes; ray-casting + bbox + circle membership with
@@ -177,6 +194,13 @@ Browser-level UI validation not run this cycle — no UI consumes `/api/ondemand
 ## 9. Commits on `integration/ondemand-native` (this cycle)
 | sha | message | timestamp |
 |---|---|---|
+| f20fab6 | chore(checkpoint): restore approved deployment dpl_H9yVA3kDuV8ekgs7xzj7AjDPgaSH source tree (branch `baseline/approved-k8v6snzk7`) | 2026-10-23T03:19:15Z |
+| 609b4fc | feat(scene-videos): VideoEvidence model with LIVE/RECENT/ARCHIVAL tiering, dedupe and recency+geo+keyword ranking | 2026-10-23T04:23:13Z |
+| 1bd8f4d | feat(server): /api/ondemand/v2/scene/videos SSE orchestrator + /scene/media proxy | 2026-10-23T04:23:13Z |
+| 1769971 | feat(ui): scene video evidence rail — autoplay-muted queue, archival banner, per-clip badges, map pins, ASK per clip | 2026-10-23T04:23:13Z |
+| 1aeba2d | test(build): replace the stale viteBuild X-Frame-Options expectation with an embeddability guard | 2026-10-23T04:23:13Z |
+| 6f00211 | test(qa): headless scene-video proof (Umm Suqeim, 1440x900 + 390x844) — 10/10 on sb-5c67af3inbu0 | 2026-10-23T04:23:13Z |
+| (cycle-10 docs) | docs(agent-execution): cycle-10 checkpoint — MASTER_STATE, INTEGRATION_MATRIX, TEST_RESULTS §15, BLOCKERS B-25…B-28, NEXT_ACTIONS N-38…N-42 | 2026-10-23T04:3xZ |
 | 0dcf469 | fix(deploy): drop X-Frame-Options/frame-ancestors from vercel.json so the document stays iframe-embeddable | 2026-10-22T11:1xZ |
 | 7660136 | feat(aoi): editable UAE areas-of-interest config + point-in-polygon membership with OUT_OF_AOI reasons | 2026-10-22 |
 | 3be45e8 | feat(incidents): normalized Incident/Scene model — sha1 dedupe, 25 km/6 h clustering, keyframes, 10 category icons | 2026-10-22 |

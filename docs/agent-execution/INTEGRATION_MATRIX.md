@@ -266,3 +266,26 @@ Deny-listed by code (never read, present only as a Vercel env var): `ELEVENLABS_
 Counts after cycle 9: OnDemand-native call sites **39** (+5: refresh ×2 plugins, locate entity extraction, locate geocode tool, FIRMS tool invoker); external providers unchanged (54); direct AI bypasses **0**.
 
 GENERATED_UTC: 2026-10-22T13:05:00Z
+
+## Cycle-10 additions (2026-10-23) — scene video evidence (`server/scene-videos/*`, mounted at `/api/ondemand/v2/scene/*`)
+
+Every provider call is an OnDemand chat session bound to ONE plugin (`pluginIds:[id]`, fresh session + principal per call, endpoint
+`ONDEMAND_FULFILLMENT_ENDPOINT_ID`); custom code only parses / normalises. Live invocation proof (UTC):
+
+| capability | plugin | status 2026-10-23 | live proof |
+|---|---|---|---|
+| YouTube search | `plugin-1740745780` AI Search (Tavily) `getSearchResults` with `site:youtube.com` (EN + AR) | **active** | 03:49:00Z → 10 youtube.com URLs in 18 s; in the orchestrator 04:04Z / 04:19Z 20 hits → 6 relevant |
+| YouTube verify / title (Shorts path) | **`plugin-1792727178` YouTube oEmbed API — created 2026-10-23T03:46:18Z** (`/plugin/v1/ai_generated_tool`, isAutoSave, no credentials) | **active** | 03:49:00Z oEmbed of `youtube.com/shorts/pu6shIJmb5s` → title/author/thumbnail in 9 s |
+| YouTube captions (offsets) | `plugin-1784356219` / `plugin-1784356092` captionsList / captions.list | **misconfigured** — `field key is missing in agent plugin config`; `plugin-1784356865` → Google 403 "unregistered callers" | 03:21:31Z; not used — caption offsets come from `[m:ss]` transcript snippets in search results (`captionOffsetSource:'search-transcript-snippet'`) |
+| TikTok search (primary) | `plugin-1716372717` tiktok-scraper7 `searchTikTokFeed` | **quota exhausted** (RapidAPI BASIC monthly) → 1 h circuit breaker | 03:21:33Z 429-message; orchestrator `primary:"quota_exhausted"` |
+| TikTok fallback | `plugin-1740745780` `site:tiktok.com` search (EN + AR) + **`plugin-1792727179` TikTok oEmbed API — created 2026-10-23T03:46:19Z** | **active** | 03:49:00Z oEmbed of video 7627044985581374741 in 8 s; orchestrator 6 verified TikTok clips; upload time from the id snowflake |
+| Instagram reels | `plugin-1762980461` Instagram Content Downloader `downloadInstagramMedia` → `shortUrl` (is.gd → cdninstagram mp4) | **active** | 03:21:36Z Ddyb6fvQ-Yn → video shortUrl; orchestrator 1–2 playable reels per run; date from CDN `efg.asset_age_days` |
+| Instagram account posts | `plugin-1762980461` `getTopPostsByUsername` | returns 0 posts for dubaipolicehq / khaleejtimes / gulfnews (input file) | not used |
+
+Prior-build search (rilian-spatial-implementation-report.md, rilian-spatial-deployment-resume.md/json,
+falkoneye-ondemand-integration-architecture.md, OnDemand_Agent_Videos_Supporting_Document.pdf, git history of all refs): **no YouTube Shorts
+plugin, OnDemand MCP server or FastAPI path for shorts playback is recorded anywhere** — hence the two oEmbed plugins above (no custom server
+needed; oEmbed endpoints are public). Media playback: `/api/ondemand/v2/scene/media?u=` (is.gd + `*.cdninstagram.com`/`*.fbcdn.net` only, Range
+pass-through, 403/410 upstream → 410).
+
+Env vars read by the new code: none new (uses `ONDEMAND_API_KEY` server-side via the foundation client, `ONDEMAND_FULFILLMENT_ENDPOINT_ID`).

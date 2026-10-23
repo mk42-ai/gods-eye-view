@@ -47,6 +47,11 @@ Branch `integration/ondemand-native` · updated 2026-10-22T13:05:00Z (UTC, cycle
 | N-35 | Durable incident ledger: provision KV (N-7) so `incident store` reports `kv+memory`; today the seed + session incidents live per instance (14-day TTL when KV is present). | N-7 | `/list.store_backend === "kv+memory"`. | TODO |
 | N-36 | Finer AOI polygons (Natural Earth admin-0 for Iran/Yemen/Somalia; official 12 nmi baselines) replacing the coarse operational rings in `config/aoi/uae-interest.json`; keep `verified:false` flags on Ghuwaifat / Greater & Lesser Tunb until geocoded. | — | membership tests still green; Hatta hotspot (24.990, 55.627) classified per the chosen buffer. | TODO |
 | N-37 | Composer: voice entry (reuse `/api/ondemand/v2/voice/turn` STT) and category chips so an operator can override the inferred category before ingest. | — | composer test for category override; A–G + a–g green. | TODO |
+| N-38 | Push `baseline/approved-k8v6snzk7` + `feat/scene-video-evidence` + tag `checkpoint-2026-10-23-scene-video`, open the PR into `integration/ondemand-native` (B-25). | token | `git ls-remote` shows both refs + tag; PR lists 609b4fc…docs. | TODO (credential) |
+| N-39 | Persistent preview on `ondemand-agent` (B-26) via platform Share or an operator deploy; re-run `scripts/qa-scene-videos.mjs --url <preview>`. | N-38 | 10/10 on the persistent URL. | TODO |
+| N-40 | Configure the YouTube captions plugin key (B-27) and use `captionsList`/`captionsDownload` for exact caption offsets; keep the snippet fallback. | credential | orchestrator `captionOffsetSource:'captions-plugin'` on ≥1 clip. | TODO |
+| N-41 | Clip geo precision: today pins use the incident anchor (`geo.precision:'incident-anchor'`) unless a plugin reports coordinates; add place extraction from captions (EN+AR) through the locate route. | — | ≥1 clip with `precision:'reported'` or `'caption-place'`. | TODO |
+| N-42 | Cache SSE results per (prompt, anchor, 10 min) server-side (KV, N-7) so a replay does not re-hit four plugins; Instagram CDN URLs expire (efg `oe`), so cache shortUrls, not CDN URLs. | N-7 | second identical request < 2 s. | TODO |
 
 ## Phase C exit criteria (what "done" means for the next cycle)
 1. 0 direct AI bypasses; 1 AI gateway (OnDemand) — INTEGRATION_MATRIX counts updated: ✅ (OpenAI Realtime completely removed; direct AI bypasses = 0).

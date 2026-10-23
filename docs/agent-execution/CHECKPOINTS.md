@@ -12,3 +12,4 @@ Rules: tags are never moved or deleted; a checkpoint tag is created BEFORE any c
 
 GENERATED_UTC: 2026-10-22T06:35:00Z
 | `checkpoint-2026-10-22-cycle8-preview` | cycle-8 docs commit (on top of `6b49fe9` + the embeddability unit) | 2026-10-22T06:35Z | emergency preview redeploy: fresh sandbox `sbx_EdkizkMGv6ASKOnpEmUWOAlaQrRc` → `sb-1ek30lyxzsd3.vercel.run`, health 200 `configured:true` `keySource:server`, embeddings proven by iframe render at both viewports (TEST_RESULTS §13) |
+| `checkpoint-2026-10-23-scene-video` (local; push blocked B-25) | cycle-10 docs commit on `feat/scene-video-evidence` (baseline `f20fab6` = approved deployment source) | 2026-10-23T04:3xZ | scene video evidence: SSE orchestrator + rail, 10/10 headless proof on `sb-5c67af3inbu0.vercel.run` |

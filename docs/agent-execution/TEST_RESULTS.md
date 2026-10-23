@@ -742,3 +742,46 @@ Defects found and fixed during the cycle: OnDemand `409 session_busy` on reused 
 Not done in this cycle: push / PR / tag (no `GITHUB_TOKEN` in the execution environment — see RESUME.md hand-over), scheduled OnDemand workflow → `/refresh` (N-33), FIRMS live pulls (N-19 operator key).
 
 GENERATED_UTC: 2026-10-22T13:05:00Z
+
+## 15. Cycle 10 (2026-10-23T03:15Z–04:3xZ) — scene video evidence (Umm Suqeim test prompt)
+
+### 15.1 Unit / gate results (Node 22.23.3 local; 2 allocation microbenchmarks skipped off Node 24 as before)
+| suite | result | timestamp |
+|---|---|---|
+| `npm test` (all src/**/*.test.mjs) | **4,286 tests · 4,285 pass · 1 skip · 0 fail** (baseline before the change 4,264 / 4,263) | 2026-10-23T04:02:05Z |
+| `node --test server/scene-videos/*.test.mjs` (planner, parsing, orchestrator fan-out/concurrency/breaker/lane failure, SSE route, media allow-list/proxy) | 16 / 16 | 04:02Z |
+| `src/sceneVideos/{evidence,rail}.test.mjs` (tiering, URL parsing, TikTok snowflake, IG efg, normalise, dedupe, ranking, labels, banner, rail queue, SSE parser regression) | 24 / 24 | 04:15Z |
+| `src/tooling/viteBuild.test.mjs` — stale X-Frame-Options expectation replaced by an embeddability guard (server + preview headers) | pass | 04:00Z |
+| foundation / ondemand / serverless / incidents | 77 / 250 / 57 / 15 — all pass | 04:02Z |
+| `npm run build` | ok (5.6 s local, 8.9 s sandbox) | 04:03:30Z / 04:18:59Z |
+| `check-no-secrets` src + `--dist` | ✓ / ✓ ; literal key value in `dist/` or `.env`: **0 files** | 04:03:41Z |
+| `check:boundaries` (package-boundaries.json updated for src/sceneVideos/* + scene-videos.css) | ✓ | 04:02Z |
+
+### 15.2 Live orchestration (prompt `rebuild the car crash reported in Umm Suqeim`, scene hash anchor 25.14 / 55.20)
+| run | clips | YouTube | TikTok | Instagram | tiers | duration |
+|---|---|---|---|---|---|---|
+| local node 03:54:50Z | 14 | 6 | 6 | 2 | ARCHIVAL 14 | 43.7 s |
+| local server SSE 04:04:04Z | 13 | 6 | 6 | 1 | ARCHIVAL 13 | 41.3 s |
+| sandbox QA 1440×900 04:19:36Z | 14 | 6 | 6 | 2 | ARCHIVAL 14 | ≈40 s |
+| sandbox QA 390×844 04:20:41Z | 13 | 6 | 6 | 1 | ARCHIVAL 13 | ≈35 s |
+First Instagram reel streams at ≈9 s; ≥2 platforms visible while the stream is still running (rail `data-state=searching`). TikTok primary =
+`quota_exhausted` (breaker) → search + oEmbed fallback. No clip is LIVE: the incident is 2026-09-26 and the freshest footage is ≈25 days old.
+Media proxy: `GET /scene/media?u=https://is.gd/…` + `Range: bytes=0-200000` → **206 video/mp4** (ISO BMFF).
+
+### 15.3 Deploy (new Vercel Sandbox)
+`sbx_FsiXEcFVjxA7tRJMiCIAGMstvv62` → **https://sb-5c67af3inbu0.vercel.run** (created 04:18:29Z, node22, 90 m). npm ci 9 s, build 8.86 s, server key
+injected via a temp file that `start-server.sh` sources and deletes (verified absent). `GET /api/health` **200** `configured:true`; `GET /` **200**
+title "OnDemand Intelligence Workstation"; neither response carries `X-Frame-Options` or `Content-Security-Policy` (04:19:13Z).
+
+### 15.4 Headless browser proof (`scripts/qa-scene-videos.mjs`, puppeteer + /usr/bin/chromium) — **10 / 10** on the sandbox
+| check | 1440×900 | 390×844 |
+|---|---|---|
+| 1 boot with the approved URL hash; all 27 keys round-trip | PASS 04:19:36Z | PASS 04:20:41Z |
+| 2 clips from ≥2 platforms appear while the scene builds | PASS — youtube+instagram, 8 clips, stream still running | PASS — 7 clips, stream running |
+| 3 a `<video>` plays (readyState ≥ 3, currentTime advancing, muted) | PASS — instagram:Ddyb6fvQ-Yn rs=4, 29.34→30.84 s | PASS — rs=4, 23.30→24.80 s |
+| 4 every clip badged; banner `REBUILT FROM ARCHIVAL FOOTAGE: recorded 26 Sep 2026, not live`; source link per clip | PASS 14/14 | PASS 13/13 |
+| 5 app loads inside an iframe (`/embed-harness.html`), composer + rail present | PASS | PASS |
+Screenshots: `artifacts/scene-video-2026-10-23/{1-boot,2a-searching,2b-clips-arriving,3-playback,4-archival-labels,5-iframe}-{1440x900,390x844}.png`,
+`results.json`. First local run (04:05Z) failed 6/10 because the rail reused the mini-chat SSE parser (wrong event shape) → fixed with
+`createSceneSseParser` + regression test; second local run 10/10 (04:17Z). `ui-validator/ui_validate.py` exits 2 on this WebGL page
+(Page.captureScreenshot timeout — known), so the repo puppeteer harness is the proof.

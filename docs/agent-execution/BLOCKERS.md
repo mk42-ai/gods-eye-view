@@ -32,8 +32,12 @@ Branch `integration/ondemand-native` · updated 2026-10-21T10:35:00Z (UTC, cycle
 | B-23 | S3 | The open mini chat (z 186) fully covered the floating PLUGINS dock (z 184) in the same corner, so VERIFY/REFRESH/toggles were unreachable by a real pointer while the chat was open. | TEST_RESULTS §11.3 agent 4 B5, `retry-0917/agent4/browser/check-plugins-overlay-*.png` | — | **RESOLVED 2026-10-21T10:19Z** — `plugin-panel.css` relocates the dock beside the open chat (stacks above the sheet on mobile); hit-test PASS both viewports |
 | B-24 | S3 | `POST /api/ondemand/v2/plugins/verify` with a name outside the registry answered **500 internal_error** (`verify()` threw uncaught). Honest (no fake ready) but the wrong status. | TEST_RESULTS §11.3 agent 4 A9 | — | **RESOLVED 2026-10-21T10:19Z** — 404 `{error:"unknown_plugin", unknown:[…]}` before any verify runs; unit test added; live probe 404 at 10:26:15Z |
 
-## Credential requests
-None outstanding. `GITHUB_TOKEN`, `ON_DEMAND_API_KEY` and `VERCEL_TOKEN` were present in the execution environment; the
+## Credential requests| B-25 | S2 | No `GITHUB_TOKEN` in the cycle-10 executor: `git push --dry-run` → "Invalid username or token". Branches `baseline/approved-k8v6snzk7`, `feat/scene-video-evidence`, tag `checkpoint-2026-10-23-scene-video` and the PR could not be pushed/opened. | 2026-10-23T04:23:13Z push dry-run | Operator: `git fetch gods-eye-view-scene-video.bundle` (hand-over bundle) then push both branches + tag and open the PR into `integration/ondemand-native`. | OPEN |
+| B-26 | S2 | Persistent Vercel preview on project `ondemand-agent` not created: the `vercel` CLI is a policy shim in the executor and direct deployment-API calls are out of policy; the approved deployment itself is a goose-share CLI deploy (no Git link, no commit SHA). | MASTER_STATE §2 cycle 10 | Use the platform Share action on this turn's sandbox, or deploy from a machine with Vercel access after B-25. | OPEN |
+| B-27 | S3 | YouTube captions plugins misconfigured: `plugin-1784356219` / `plugin-1784356092` → "field key is missing in agent plugin config"; `plugin-1784356865` → Google 403 unregistered caller. | INTEGRATION_MATRIX cycle 10 | Add a YouTube Data API key to the plugin config (credential owner). Workaround live: offsets from transcript snippets. | MITIGATED |
+| B-28 | S3 | TikTok scraper `plugin-1716372717` monthly quota exhausted (RapidAPI tiktok-scraper7 BASIC). | 03:21:33Z probe | Upgrade the RapidAPI plan; breaker + search/oEmbed fallback (`plugin-1792727179`) keeps TikTok clips flowing. | MITIGATED |
+
+None outstanding beyond B-25…B-28. `GITHUB_TOKEN`, `ON_DEMAND_API_KEY` and `VERCEL_TOKEN` were present in the execution environment; the
 Vercel project's `ONDEMAND_API_KEY` is `sensitive` (unreadable through the API) and was **not** needed because the
 environment key targets the same OnDemand company (workflow `6aace534859f7b0abb53d99a` is visible to it).
 
