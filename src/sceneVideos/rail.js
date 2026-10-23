@@ -204,6 +204,11 @@ export function createSceneVideoRail({
         'data-platform': clip.platform,
         'data-tier': label.tier,
         'data-playable': clip.playableKind,
+        'data-age-tier': clip.ageTier || '',
+        'data-verified': clip.verification?.matched
+          ? clip.verification.by
+          : 'none',
+        'data-published-at': clip.published_at || '',
       },
     });
     const top = el(doc, 'div', { className: 'svr__clip-top' });

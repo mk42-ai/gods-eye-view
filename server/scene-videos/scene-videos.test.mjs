@@ -94,6 +94,12 @@ function fakeInvoker({ tiktokQuota = true, delays = {} } = {}) {
         );
       return reply('{"items":[{"type":"image","shortUrl":null}]}');
     }
+    if (pluginId === SCENE_VIDEO_PLUGINS.youtubeCaptions.pluginId)
+      return reply('{"error":"field key is missing in agent plugin config"}');
+    if (pluginId === SCENE_VIDEO_PLUGINS.perplexity.pluginId)
+      return reply('{"sourcesWithContent":[]}');
+    if (pluginId === SCENE_VIDEO_PLUGINS.instagramUserInfo.pluginId)
+      return reply('{"user":{"username":"dubaipolicehq","isVerified":true,"followerCount":1117818}}');
     throw new Error(`unexpected plugin ${pluginId}`);
   };
   return { invoke, calls };
@@ -109,6 +115,14 @@ const HINTS = [
     lon: 55.2055,
     match: ['umm suqeim'],
     sources: ['https://www.gulftoday.ae/x'],
+    outletRecords: [
+      {
+        outlet: 'Dubai Police',
+        url: 'https://www.instagram.com/p/DdvxagPqlbL',
+        handles: ['dubaipolicehq'],
+        published_at: '2026-09-26T00:00:00Z',
+      },
+    ],
     videoHints: [
       {
         url: 'https://www.instagram.com/reel/Ddyb6fvQ-Yn',
@@ -265,6 +279,22 @@ describe('orchestrateSceneVideos', () => {
     // sorted by score desc
     for (let i = 1; i < r.clips.length; i += 1)
       assert.ok(r.clips[i - 1].score >= r.clips[i].score);
+    // per-plugin call log: TikTok quota error carried verbatim, captions config error recorded
+    assert.ok(r.pluginCalls.length === calls.length);
+    assert.ok(
+      r.pluginCalls.some(
+        (c) =>
+          c.pluginId === SCENE_VIDEO_PLUGINS.tiktokSearch.pluginId &&
+          !c.ok &&
+          /MONTHLY quota/.test(c.error),
+      ),
+    );
+    assert.match(r.sources.youtube.captions, /^config_error: field key is missing/);
+    assert.equal(events.at(-1)[1].pluginCalls.length, r.pluginCalls.length);
+    // verification lane: Perplexity empty + verified IG handle of the dated record
+    assert.equal(r.verification.perplexity.empty, true);
+    assert.equal(r.verification.handles.dubaipolicehq.verified, true);
+    assert.ok(events.some(([e]) => e === 'verification'));
     // every provider call went through a plugin id (no direct provider calls)
     assert.ok(calls.every((c) => /^plugin-\d{10}$/.test(c.pluginId)));
   });

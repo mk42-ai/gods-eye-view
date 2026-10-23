@@ -26,6 +26,7 @@ import {
   countByPlatform,
   parseVideoUrl,
   instagramCdnMeta,
+  TIER_THRESHOLDS_HOURS,
 } from '../../src/sceneVideos/evidence.js';
 
 export const SCENE_VIDEO_PLUGINS = Object.freeze({
@@ -44,7 +45,90 @@ export const SCENE_VIDEO_PLUGINS = Object.freeze({
     pluginId: 'plugin-1784356219',
     name: 'YouTube Data API v3 - Captions',
   },
+  instagramUserInfo: {
+    pluginId: 'plugin-1716164040',
+    name: 'Instagram user info',
+  },
+  perplexity: { pluginId: 'plugin-1722260873', name: 'Perplexity' },
 });
+
+/**
+ * Verification lane (cycle 11): runs beside the clip lanes, produces no clips.
+ *  - Perplexity: is there a NEWER dated outlet record for the incident place?
+ *  - Instagram user info: is each Instagram source handle of a dated outlet
+ *    record a real, verified account? (evidence for the per-clip table)
+ */
+export async function verificationLane({ invoke, plan, hint, ctx }) {
+  const out = { perplexity: null, handles: {}, errors: [] };
+  const place = hint?.place || plan.places?.[0] || plan.prompt;
+  const handles = [
+    ...new Set(
+      (hint?.outletRecords || [])
+        .filter((r) => r.published_at && /instagram\.com/.test(r.url || ''))
+        .flatMap((r) => r.handles || []),
+    ),
+  ].slice(0, 3);
+  // OnDemand answers 409 when a plugin is still busy with an overlapping
+  // query: retry Perplexity with a fresh session after a short backoff.
+  const withRetry = async (fn, tries = 3, backoffMs = 4000) => {
+    for (let i = 0; ; i += 1) {
+      try {
+        return await fn();
+      } catch (err) {
+        if (i + 1 >= tries || !/409/.test(String(err?.message || err)))
+          throw err;
+        await new Promise((r) => setTimeout(r, backoffMs * (i + 1)));
+      }
+    }
+  };
+  const jobs = [
+    withRetry(() =>
+      invoke(
+        SCENE_VIDEO_PLUGINS.perplexity.pluginId,
+        `Latest dated news reports of a road or traffic incident in ${place}, Dubai after ${hint?.reported_at?.slice(0, 10) || 'the last 72 hours'}. Return ONLY JSON [{"title":"…","url":"…","published":"YYYY-MM-DD"}] or [] if none.`,
+        { signal: ctx.signal },
+      ),
+    )
+      .then((r) => {
+        const rows = extractJson(r.answer);
+        out.perplexity = {
+          rows: Array.isArray(rows) ? rows.slice(0, 5) : [],
+          empty: /sourcesWithContent"\s*:\s*\[\s*\]/.test(r.answer),
+          at: r.finishedAt,
+        };
+      })
+      .catch((err) =>
+        out.errors.push(
+          `perplexity: ${String(err?.message || err).slice(0, 160)}`,
+        ),
+      ),
+    ...handles.map((h) =>
+      invoke(
+        SCENE_VIDEO_PLUGINS.instagramUserInfo.pluginId,
+        `Get Instagram user info for username ${h}. Return ONLY JSON {"username":"…","isVerified":true|false,"followerCount":0} from the tool result, or the raw error.`,
+        { signal: ctx.signal },
+      )
+        .then((r) => {
+          const j = extractJson(r.answer);
+          const u = j?.user || j || {};
+          out.handles[h] = {
+            found: Boolean(u.username || u.followerCount),
+            error: classifyPluginAnswer(r.answer).error,
+            verified: u.isVerified === true,
+            followers: Number(u.followerCount) || null,
+            at: r.finishedAt,
+          };
+        })
+        .catch((err) =>
+          out.errors.push(
+            `userinfo ${h}: ${String(err?.message || err).slice(0, 160)}`,
+          ),
+        ),
+    ),
+  ];
+  await Promise.all(jobs);
+  return out;
+}
 
 const MAX_PER_LANE = 6;
 const RELEVANCE_MIN_KEYWORD = 0.01;
@@ -316,6 +400,51 @@ function toRaw(hit, extra = {}) {
   };
 }
 
+const CONFIG_ERR_RE =
+  /field key is missing|missing in agent plugin config|not configured/i;
+
+/**
+ * One captions.list probe per run for the top YouTube clip (plugin-1784356219).
+ * A plugin-config failure trips the breaker so later runs skip it; offsets
+ * still come from transcript snippets.
+ */
+export async function probeCaptions(invoke, videoId, ctx) {
+  const plugin = SCENE_VIDEO_PLUGINS.youtubeCaptions;
+  if (!videoId) return 'skipped (no YouTube clip)';
+  const open = breakerOpen(plugin.pluginId);
+  if (open) return `skipped (circuit open: ${open.reason})`;
+  try {
+    const r = await invoke(
+      plugin.pluginId,
+      `captionsList part snippet videoId ${videoId}. Return ONLY the raw JSON tool result (including any error message).`,
+      { signal: ctx.signal },
+    );
+    if (CONFIG_ERR_RE.test(r.answer)) {
+      const m = r.answer.match(/field key is missing in agent plugin config/i);
+      tripBreaker(plugin.pluginId, m ? m[0] : 'plugin config error');
+      return `config_error: ${m ? m[0] : r.answer.slice(0, 120)}`;
+    }
+    const json = extractJson(r.answer);
+    const items = Array.isArray(json?.items) ? json.items : [];
+    return `ok (${items.length} tracks for ${videoId})`;
+  } catch (err) {
+    return `error: ${String(err?.message || err).slice(0, 120)}`;
+  }
+}
+
+/** Classify one plugin answer for the per-plugin status log. */
+export function classifyPluginAnswer(answer) {
+  const s = String(answer || '');
+  const m =
+    s.match(/You have exceeded the MONTHLY quota[^"}\n]*/) ||
+    s.match(/field key is missing in agent plugin config/) ||
+    s.match(/Failed to (?:download media|fetch user info)[^"}\n]*/) ||
+    s.match(/"error"\s*:\s*"([^"]{1,200})"/);
+  return m
+    ? { ok: false, error: (m[1] || m[0]).trim() }
+    : { ok: true, error: null };
+}
+
 /** YouTube lane: search (EN+AR) → relevance filter → oEmbed verify (one batch). */
 export async function youtubeLane({ invoke, plan, hint, ctx }) {
   const [en, ar] = await Promise.allSettled([
@@ -337,6 +466,11 @@ export async function youtubeLane({ invoke, plan, hint, ctx }) {
     ctx,
   ).catch(() => new Map());
   const kws = [...plan.keywordsEn, ...plan.keywordsAr];
+  const captions = await probeCaptions(
+    invoke,
+    relevant.map((h) => parseVideoUrl(h.url).id)[0],
+    ctx,
+  );
   const raws = [];
   for (const h of relevant) {
     const id = parseVideoUrl(h.url).id;
@@ -358,6 +492,7 @@ export async function youtubeLane({ invoke, plan, hint, ctx }) {
       searched: hits.length,
       relevant: relevant.length,
       verified: verified.size,
+      captions,
       errors: [en, ar]
         .filter((x) => x.status === 'rejected')
         .map((x) => String(x.reason?.message || x.reason).slice(0, 160)),
@@ -587,6 +722,35 @@ export async function orchestrateSceneVideos(input, deps) {
   const now = deps.now || new Date();
   const emit = deps.emit || (() => {});
   const t0 = Date.now();
+  const pluginCalls = [];
+  const rawInvoke = deps.invoke;
+  deps = {
+    ...deps,
+    invoke: async (pluginId, query, opts) => {
+      const startedAt = new Date().toISOString();
+      try {
+        const r = await rawInvoke(pluginId, query, opts);
+        const c = classifyPluginAnswer(r?.answer);
+        pluginCalls.push({
+          pluginId,
+          startedAt,
+          finishedAt: r?.finishedAt || new Date().toISOString(),
+          ok: c.ok,
+          error: c.error,
+        });
+        return r;
+      } catch (err) {
+        pluginCalls.push({
+          pluginId,
+          startedAt,
+          finishedAt: new Date().toISOString(),
+          ok: false,
+          error: String(err?.message || err).slice(0, 200),
+        });
+        throw err;
+      }
+    },
+  };
   const plan = buildVideoQueryPlan(input.prompt, {
     hash: input.hash,
     anchor: input.anchor,
@@ -604,7 +768,8 @@ export async function orchestrateSceneVideos(input, deps) {
       lat: hint.lat,
       lon: hint.lon,
       sources: hint.sources,
-      rebuild: ageH > 24,
+      rebuild: ageH >= TIER_THRESHOLDS_HOURS.LIVE,
+      outletRecords: (hint.outletRecords || []).length,
       provenance: hint.provenance,
     });
   }
@@ -614,6 +779,11 @@ export async function orchestrateSceneVideos(input, deps) {
   const sources = {};
   const ctx = { signal: deps.signal };
   const laneNames = deps.lanes || Object.keys(LANES);
+  const verificationJob = deps.lanes
+    ? Promise.resolve(null)
+    : verificationLane({ invoke: deps.invoke, plan, hint, ctx }).catch(
+        (err) => ({ errors: [String(err?.message || err).slice(0, 160)] }),
+      );
   await Promise.all(
     laneNames.map(async (name) => {
       emit('source', {
@@ -625,7 +795,7 @@ export async function orchestrateSceneVideos(input, deps) {
       const accept = (raw) => {
         const ev = normalizeEvidence(
           { ...raw, fetched_at: new Date().toISOString() },
-          { now, anchor },
+          { now, anchor, outletRecords: hint?.outletRecords || [] },
         );
         if (!ev || all.some((e) => e.id === ev.id)) return;
         const [ranked] = rankEvidence([ev], plan, { now });
@@ -669,6 +839,8 @@ export async function orchestrateSceneVideos(input, deps) {
       });
     }),
   );
+  const verification = await verificationJob;
+  if (verification) emit('verification', verification);
   const clips = rankEvidence(dedupeEvidence(all), plan, { now });
   const counts = countByPlatform(clips);
   const result = {
@@ -678,6 +850,8 @@ export async function orchestrateSceneVideos(input, deps) {
     counts,
     sources,
     durationMs: Date.now() - t0,
+    pluginCalls,
+    verification,
     tiers: {
       LIVE: clips.filter((c) => c.tier === 'LIVE').length,
       RECENT: clips.filter((c) => c.tier === 'RECENT').length,
@@ -690,6 +864,7 @@ export async function orchestrateSceneVideos(input, deps) {
     sources,
     durationMs: result.durationMs,
     total: clips.length,
+    pluginCalls,
   });
   return result;
 }

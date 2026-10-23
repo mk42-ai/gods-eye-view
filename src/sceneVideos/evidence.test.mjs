@@ -12,6 +12,10 @@ import {
   rankEvidence,
   countByPlatform,
   TIER_THRESHOLDS_HOURS,
+  labelEvidence,
+  matchOutletRecord,
+  urlKey,
+  sourceHandleOf,
 } from './evidence.js';
 import {
   clipLabel,
@@ -36,14 +40,16 @@ const plan = {
   keywordsAr: ['حادث', 'أم سقيم'],
 };
 
-describe('tierFor (labeling thresholds)', () => {
-  test('≤24 h is LIVE, ≤7 d RECENT, older ARCHIVAL', () => {
-    assert.equal(tierFor('2026-10-23T01:00:00Z', NOW).tier, 'LIVE');
-    assert.equal(tierFor('2026-10-22T04:00:00Z', NOW).tier, 'LIVE'); // exactly 24 h
-    assert.equal(tierFor('2026-10-22T03:59:00Z', NOW).tier, 'RECENT');
-    assert.equal(tierFor('2026-10-16T05:00:00Z', NOW).tier, 'RECENT');
+describe('tierFor (age-only thresholds: <6 h LIVE, <72 h RECENT)', () => {
+  test('threshold boundaries are exclusive', () => {
+    assert.equal(TIER_THRESHOLDS_HOURS.LIVE, 6);
+    assert.equal(TIER_THRESHOLDS_HOURS.RECENT, 72);
+    assert.equal(tierFor('2026-10-23T03:59:59Z', NOW).tier, 'LIVE'); // 1 s
+    assert.equal(tierFor('2026-10-22T22:00:01Z', NOW).tier, 'LIVE'); // 5 h 59 m 59 s
+    assert.equal(tierFor('2026-10-22T22:00:00Z', NOW).tier, 'RECENT'); // exactly 6 h
+    assert.equal(tierFor('2026-10-20T04:00:01Z', NOW).tier, 'RECENT'); // 71 h 59 m 59 s
+    assert.equal(tierFor('2026-10-20T04:00:00Z', NOW).tier, 'ARCHIVAL'); // exactly 72 h
     assert.equal(tierFor('2026-09-26T00:00:00Z', NOW).tier, 'ARCHIVAL');
-    assert.equal(TIER_THRESHOLDS_HOURS.LIVE, 24);
   });
   test('undated and future-dated footage is ARCHIVAL, never LIVE', () => {
     assert.deepEqual(tierFor(null, NOW), {
@@ -53,6 +59,99 @@ describe('tierFor (labeling thresholds)', () => {
     });
     assert.equal(tierFor('not a date', NOW).tier, 'ARCHIVAL');
     assert.equal(tierFor('2026-11-30T00:00:00Z', NOW).tier, 'ARCHIVAL');
+  });
+});
+
+describe('labelEvidence (age AND dated-outlet cross-match)', () => {
+  const RECORDS = [
+    {
+      outlet: 'Khaleej Times',
+      url: 'https://www.khaleejtimes.com/uae/dubai-police-warning-tired-driver-faints-causes-collision',
+      handles: ['khaleejtimes'],
+      published_at: '2026-09-26T14:51:00Z',
+    },
+    {
+      outlet: 'Dubai Police',
+      url: 'https://www.instagram.com/p/DdvxagPqlbL',
+      handles: ['dubaipolicehq'],
+      published_at: '2026-09-26T00:00:00Z',
+    },
+    { outlet: 'nasnews', url: null, handles: ['nasnews_ar'], published_at: null },
+  ];
+  const opts = { now: NOW, outletRecords: RECORDS };
+  const tt = (handle, published_at) => ({
+    sourceUrl: `https://www.tiktok.com/@${handle}/video/7689822370613169415`,
+    published_at,
+  });
+  test('matched + under 6 h → LIVE; exactly 6 h → RECENT', () => {
+    const live = labelEvidence(tt('khaleejtimes', '2026-10-22T22:00:01Z'), opts);
+    assert.equal(live.tier, 'LIVE');
+    assert.equal(live.verification.by, 'handle');
+    assert.equal(
+      labelEvidence(tt('khaleejtimes', '2026-10-22T22:00:00Z'), opts).tier,
+      'RECENT',
+    );
+  });
+  test('matched + under 72 h → RECENT; exactly 72 h → ARCHIVAL', () => {
+    assert.equal(
+      labelEvidence(tt('khaleejtimes', '2026-10-20T04:00:01Z'), opts).tier,
+      'RECENT',
+    );
+    const r = labelEvidence(tt('khaleejtimes', '2026-10-20T04:00:00Z'), opts);
+    assert.equal(r.tier, 'ARCHIVAL');
+    assert.match(r.reason, /older than 72 h/);
+  });
+  test('missing timestamp → ARCHIVAL even when the source matches', () => {
+    const r = labelEvidence(
+      { sourceUrl: 'https://www.instagram.com/p/DdvxagPqlbL/', published_at: null },
+      opts,
+    );
+    assert.equal(r.tier, 'ARCHIVAL');
+    assert.equal(r.undated, true);
+    assert.equal(r.verification.matched, true);
+    assert.match(r.reason, /missing/);
+  });
+  test('fresh but unmatched source → ARCHIVAL (age tier kept for audit)', () => {
+    const r = labelEvidence(tt('randomuser', '2026-10-23T03:00:00Z'), opts);
+    assert.equal(r.ageTier, 'LIVE');
+    assert.equal(r.tier, 'ARCHIVAL');
+    assert.equal(r.verification.matched, false);
+    assert.match(r.reason, /does not cross-match/);
+    // no records at all → never LIVE
+    assert.equal(
+      labelEvidence(tt('khaleejtimes', '2026-10-23T03:00:00Z'), { now: NOW }).tier,
+      'ARCHIVAL',
+    );
+  });
+  test('matched-but-old source → ARCHIVAL (the 26 Sep 2026 Dubai Police post)', () => {
+    const r = labelEvidence(
+      {
+        sourceUrl: 'https://www.instagram.com/p/DdvxagPqlbL/',
+        published_at: '2026-09-26T08:00:00Z',
+      },
+      opts,
+    );
+    assert.equal(r.verification.matched, true);
+    assert.equal(r.verification.by, 'url');
+    assert.equal(r.tier, 'ARCHIVAL');
+  });
+  test('an undated outlet record never matches', () => {
+    assert.equal(
+      matchOutletRecord(tt('nasnews_ar', '2026-10-23T03:00:00Z'), RECORDS).matched,
+      false,
+    );
+    assert.equal(
+      labelEvidence(tt('nasnews_ar', '2026-10-23T03:00:00Z'), opts).tier,
+      'ARCHIVAL',
+    );
+  });
+  test('helpers: urlKey + sourceHandleOf', () => {
+    assert.equal(urlKey('https://www.instagram.com/reel/DdvxagPqlbL'), 'instagram:DdvxagPqlbL');
+    assert.equal(urlKey('https://www.khaleejtimes.com/uae/x/'), 'khaleejtimes.com/uae/x');
+    assert.equal(urlKey('not a url'), null);
+    assert.equal(sourceHandleOf(tt('emirates_news', null)), 'emirates_news');
+    assert.equal(sourceHandleOf({ sourceUrl: 'https://youtu.be/AAAAAAAAAAA', author: 'Gulf News' }), 'Gulf News');
+    assert.equal(sourceHandleOf({}), null);
   });
 });
 
@@ -167,17 +266,26 @@ describe('normalizeEvidence', () => {
       null,
     );
   });
-  test('a fresh clip is LIVE, caption offset carried', () => {
-    const e = normalizeEvidence(
-      {
-        sourceUrl: 'https://www.youtube.com/watch?v=AAAAAAAAAAA',
-        published_at: '2026-10-23T02:00:00Z',
-        captionStartOffset: 52,
-      },
-      { now: NOW },
-    );
+  test('a fresh clip is LIVE only with a dated outlet match; caption offset carried', () => {
+    const raw = {
+      sourceUrl: 'https://www.youtube.com/watch?v=AAAAAAAAAAA',
+      published_at: '2026-10-23T02:00:00Z',
+      author: 'Gulf News',
+      captionStartOffset: 52,
+    };
+    const e = normalizeEvidence(raw, {
+      now: NOW,
+      outletRecords: [
+        { outlet: 'Gulf News', url: null, handles: ['gulfnews'], published_at: '2026-10-23T01:00:00Z' },
+      ],
+    });
     assert.equal(e.tier, 'LIVE');
+    assert.equal(e.verification.by, 'handle');
+    assert.equal(e.sourceHandle, 'Gulf News');
     assert.equal(e.captionStartOffset, 52);
+    const unmatched = normalizeEvidence(raw, { now: NOW });
+    assert.equal(unmatched.ageTier, 'LIVE');
+    assert.equal(unmatched.tier, 'ARCHIVAL');
   });
 });
 
@@ -313,12 +421,12 @@ describe('labels', () => {
     );
     assert.equal(
       b.text,
-      'REBUILT FROM ARCHIVAL FOOTAGE: recorded 26 Sep 2026, not live',
+      'REBUILT FROM ARCHIVAL FOOTAGE \u2013 recorded 26 Sep 2026, not live',
     );
     assert.equal(archivalBanner(null, [{ ...archival, tier: 'LIVE' }]), null);
     assert.match(
       archivalBanner(null, [archival]).text,
-      /^REBUILT FROM ARCHIVAL FOOTAGE: recorded 28 Sep 2026, not live$/,
+      /^REBUILT FROM ARCHIVAL FOOTAGE \u2013 recorded 28 Sep 2026, not live$/,
     );
   });
   test('media proxy path + YouTube caption offset', () => {

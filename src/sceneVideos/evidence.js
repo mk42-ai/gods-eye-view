@@ -21,12 +21,16 @@
 export const PLATFORMS = Object.freeze(['youtube', 'tiktok', 'instagram']);
 
 /**
- * Tier thresholds. Footage is only ever LIVE when it is provably fresh;
- * anything undated is ARCHIVAL ("never present old footage as live").
+ * Tier thresholds (cycle 11, 2026-10-23). Footage is only LIVE when it is
+ * provably fresh AND its source cross-matches a dated outlet record:
+ *   LIVE     — platform create/upload time strictly under 6 h before the run
+ *   RECENT   — strictly under 72 h
+ *   ARCHIVAL — everything else: older, undated, future-dated, or unmatched.
+ * The age tier alone never grants LIVE/RECENT (see labelEvidence()).
  */
 export const TIER_THRESHOLDS_HOURS = Object.freeze({
-  LIVE: 24,
-  RECENT: 7 * 24,
+  LIVE: 6,
+  RECENT: 72,
 });
 export const TIERS = Object.freeze(['LIVE', 'RECENT', 'ARCHIVAL']);
 
@@ -38,7 +42,10 @@ function toIso(value) {
   return Number.isFinite(d.getTime()) ? d.toISOString() : null;
 }
 
-/** Classify footage by its recording/publication time relative to `now`. */
+/**
+ * Age tier only: classify footage by its create/upload time relative to `now`.
+ * Boundaries are exclusive ("under 6 h", "under 72 h").
+ */
 export function tierFor(publishedAt, now = new Date()) {
   const iso = toIso(publishedAt);
   if (!iso) return { tier: 'ARCHIVAL', ageHours: null, undated: true };
@@ -46,11 +53,109 @@ export function tierFor(publishedAt, now = new Date()) {
   // A timestamp in the future is a bad clock or bad metadata: do not trust it.
   if (ageHours < -1) return { tier: 'ARCHIVAL', ageHours: null, undated: true };
   const age = Math.max(0, ageHours);
-  if (age <= TIER_THRESHOLDS_HOURS.LIVE)
+  if (age < TIER_THRESHOLDS_HOURS.LIVE)
     return { tier: 'LIVE', ageHours: age, undated: false };
-  if (age <= TIER_THRESHOLDS_HOURS.RECENT)
+  if (age < TIER_THRESHOLDS_HOURS.RECENT)
     return { tier: 'RECENT', ageHours: age, undated: false };
   return { tier: 'ARCHIVAL', ageHours: age, undated: false };
+}
+
+function normHandle(h) {
+  return String(h || '')
+    .trim()
+    .toLowerCase()
+    .replace(/^@/, '')
+    .replace(/[\s_.-]+/g, '');
+}
+
+/** Stable key for URL cross-matching (platform id for video URLs, else host+path). */
+export function urlKey(url) {
+  const parsed = parseVideoUrl(url);
+  if (parsed) return `${parsed.platform}:${parsed.id}`;
+  try {
+    const u = new URL(String(url));
+    return `${u.hostname.replace(/^www\./, '')}${u.pathname.replace(/\/+$/, '')}`.toLowerCase();
+  } catch {
+    return null;
+  }
+}
+
+/** Source handle of a clip: TikTok @author from the URL, else the plugin author. */
+export function sourceHandleOf(clip) {
+  const tt = String(clip?.sourceUrl || '').match(/tiktok\.com\/@([\w.-]+)\//);
+  if (tt) return tt[1];
+  return clip?.author ? String(clip.author) : null;
+}
+
+/**
+ * Cross-match a clip against DATED outlet records
+ * [{outlet, url, handles:[...], published_at}] (step-1 incident records).
+ * Undated records never match.
+ */
+export function matchOutletRecord(clip, records = []) {
+  const key = urlKey(clip?.sourceUrl);
+  const handle = normHandle(sourceHandleOf(clip));
+  for (const r of Array.isArray(records) ? records : []) {
+    if (!r || !toIso(r.published_at)) continue;
+    if (key && r.url && urlKey(r.url) === key)
+      return {
+        matched: true,
+        by: 'url',
+        record: r.url,
+        outlet: r.outlet || null,
+        recordPublishedAt: toIso(r.published_at),
+      };
+    const handles = (r.handles || []).map(normHandle).filter(Boolean);
+    if (handle && handles.includes(handle))
+      return {
+        matched: true,
+        by: 'handle',
+        record: r.url || null,
+        outlet: r.outlet || null,
+        handle: sourceHandleOf(clip),
+        recordPublishedAt: toIso(r.published_at),
+      };
+  }
+  return {
+    matched: false,
+    by: null,
+    record: null,
+    outlet: null,
+    recordPublishedAt: null,
+  };
+}
+
+/**
+ * Final label = age tier AND outlet cross-match. LIVE/RECENT require both;
+ * anything else is ARCHIVAL with an explicit reason.
+ */
+export function labelEvidence(
+  clip,
+  { now = new Date(), outletRecords = [] } = {},
+) {
+  const age = tierFor(clip?.published_at, now);
+  const verification = matchOutletRecord(clip, outletRecords);
+  let tier = age.tier;
+  let reason;
+  if (age.undated) {
+    tier = 'ARCHIVAL';
+    reason = 'missing or untrusted create/upload timestamp';
+  } else if (age.tier === 'ARCHIVAL') {
+    reason = `older than ${TIER_THRESHOLDS_HOURS.RECENT} h`;
+  } else if (!verification.matched) {
+    tier = 'ARCHIVAL';
+    reason = `fresh (${age.tier} by age) but source does not cross-match a dated outlet record`;
+  } else {
+    reason = `${age.tier}: under ${TIER_THRESHOLDS_HOURS[age.tier]} h and matched by ${verification.by}`;
+  }
+  return {
+    tier,
+    ageTier: age.tier,
+    ageHours: age.ageHours,
+    undated: age.undated,
+    verification,
+    reason,
+  };
 }
 
 // ---------------------------------------------------------------- URL parsing
@@ -173,7 +278,7 @@ function clip(value, max = 500) {
  */
 export function normalizeEvidence(
   raw,
-  { now = new Date(), anchor = null } = {},
+  { now = new Date(), anchor = null, outletRecords = [] } = {},
 ) {
   if (!raw || typeof raw !== 'object') return null;
   const parsed = parseVideoUrl(raw.sourceUrl || raw.url);
@@ -199,8 +304,12 @@ export function normalizeEvidence(
     ).toISOString();
     published_at_source = 'instagram-asset-age-days';
   }
-  const { tier, ageHours, undated } = tierFor(published_at, now);
   const { playableUrl, playableKind } = playableFor(parsed, raw);
+  const labelled = labelEvidence(
+    { published_at, sourceUrl: parsed.canonical, author: raw.author },
+    { now, outletRecords },
+  );
+  const { tier, ageHours, undated } = labelled;
   const lat = Number(raw.lat);
   const lon = Number(raw.lon);
   const geo =
@@ -228,6 +337,13 @@ export function normalizeEvidence(
     undated,
     fetched_at,
     tier,
+    ageTier: labelled.ageTier,
+    tierReason: labelled.reason,
+    verification: labelled.verification,
+    sourceHandle: sourceHandleOf({
+      sourceUrl: parsed.canonical,
+      author: raw.author,
+    }),
     ageHours: ageHours === null ? null : Math.round(ageHours * 10) / 10,
     captionStartOffset: Number.isFinite(offset) && offset > 0 ? offset : 0,
     captionOffsetSource:

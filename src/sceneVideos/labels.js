@@ -9,17 +9,19 @@ export const TIER_BADGE = Object.freeze({
   LIVE: {
     text: 'LIVE',
     className: 'svr-badge--live',
-    title: 'Published within the last 24 h',
+    title: 'Uploaded under 6 h ago and cross-matched to a dated outlet record',
   },
   RECENT: {
     text: 'RECENT',
     className: 'svr-badge--recent',
-    title: 'Published within the last 7 days — not live',
+    title:
+      'Uploaded under 72 h ago and cross-matched to a dated outlet record — not live',
   },
   ARCHIVAL: {
     text: 'ARCHIVAL',
     className: 'svr-badge--archival',
-    title: 'Older than 7 days or undated — not live',
+    title:
+      'Older than 72 h, undated, or not matched to a dated outlet record — not live',
   },
 });
 
@@ -91,7 +93,7 @@ export function archivalBanner(incident, clips = []) {
     null;
   const day = formatDay(recordedIso);
   return {
-    text: `REBUILT FROM ARCHIVAL FOOTAGE: recorded ${day || 'date unknown'}, not live`,
+    text: `REBUILT FROM ARCHIVAL FOOTAGE \u2013 recorded ${day || 'date unknown'}, not live`,
     recorded: recordedIso,
   };
 }

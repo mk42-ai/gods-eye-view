@@ -1,0 +1,18 @@
+HTTP/2 200 
+date: Fri, 23 Oct 2026 04:45:54 GMT
+content-type: text/html; charset=utf-8
+server: Vercel
+x-vercel-id: iad1::wq5vk-1792730754035-6cc2f31ccf82
+strict-transport-security: max-age=63072000
+cache-control: public, max-age=0, must-revalidate
+x-vercel-internal-path-type: sandbox
+x-vercel-internal-metadata-state: origin_fresh
+x-vercel-internal-cache-level: unknown
+x-vercel-internal-project-id: u
+x-vercel-internal-owner-id: u
+x-vercel-internal-deployment-id: u
+x-vercel-internal-proxy-pool: green
+x-vercel-internal-request-cpu-ms: 1
+x-vercel-internal-proxy-cpu-load: 41
+x-vercel-internal-timing: vcoe_from_proxy=19
+

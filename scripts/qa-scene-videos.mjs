@@ -8,9 +8,10 @@
  *   1 boot with the approved URL-hash scene state; the hash round-trips
  *   2 type "rebuild the car crash reported in Umm Suqeim" in the bottom composer
  *     and submit → clips from ≥2 platforms appear WHILE the scene builds
- *   3 at least one <video> plays (readyState ≥ 3 and currentTime advancing)
+ *   1b reload: all 27 approved hash keys survive a full page reload
+ *   3 at least one muted <video> plays (readyState 4 and currentTime advancing)
  *   4 every clip carries a LIVE/RECENT/ARCHIVAL badge; the archival banner
- *     reads "REBUILT FROM ARCHIVAL FOOTAGE: recorded <date>, not live"
+ *     reads "REBUILT FROM ARCHIVAL FOOTAGE – recorded <date>, not live"
  *   5 the app still loads inside an iframe (public/embed-harness.html)
  *
  * Same browser hygiene as scripts/qa-aoi-incident-scenes.mjs: repo puppeteer +
@@ -172,13 +173,38 @@ try {
         .catch(() => false);
       await sleep(2500);
       const after = await page.evaluate(() => location.hash);
+      // Reload: the approved camera hash must survive a full page reload.
+      await page.reload({ waitUntil: 'domcontentloaded', timeout: 90000 });
+      const reloadedOk = await page
+        .waitForFunction(
+          () => {
+            const loading = document.querySelector('#loading-screen');
+            return (
+              (!loading || loading.classList.contains('hidden')) &&
+              window.__gevSceneVideos &&
+              document.getElementById('incident-composer')
+            );
+          },
+          { timeout: 150000 },
+        )
+        .then(() => true)
+        .catch(() => false);
+      await sleep(2500);
+      const afterReload = await page.evaluate(() => location.hash);
       const a = hashParams(APPROVED_HASH);
       const b = hashParams(after);
+      const c = hashParams(afterReload);
       const mismatched = Object.keys(a).filter((k) => a[k] !== b[k]);
+      const mismatchedReload = Object.keys(a).filter((k) => a[k] !== c[k]);
+      const total = Object.keys(a).length;
       return {
-        pass: ok && mismatched.length === 0,
-        detail: `booted=${ok}; hash keys ${Object.keys(a).length}, mismatched=${JSON.stringify(mismatched.map((k) => [k, a[k], b[k]]))}`,
-        data: { after },
+        pass:
+          ok &&
+          reloadedOk &&
+          mismatched.length === 0 &&
+          mismatchedReload.length === 0,
+        detail: `booted=${ok}; boot hash ${total - mismatched.length}/${total} keys; after reload ${total - mismatchedReload.length}/${total} keys (reloaded=${reloadedOk}); mismatched=${JSON.stringify(mismatchedReload.map((k) => [k, a[k], c[k]]))}`,
+        data: { after, afterReload, keys: total, matchedAfterReload: total - mismatchedReload.length },
         screenshot: await shot(page, `1-boot-${tag}`),
       };
     });
@@ -274,7 +300,8 @@ try {
             window.__svrT = window.__svrT || [];
             window.__svrT.push(v.currentTime);
             const t = window.__svrT;
-            return v.readyState >= 3 &&
+            return v.readyState === 4 &&
+              v.muted &&
               t.length > 3 &&
               t[t.length - 1] > t[0] + 0.5
               ? {
@@ -311,6 +338,28 @@ try {
         const badges = clips.map(
           (c) => c.querySelector('[data-tier-badge]')?.textContent,
         );
+        // Correctness: badge text == data-tier; LIVE/RECENT only when the
+        // source is cross-matched AND the upload is under 6 h / 72 h.
+        const now = Date.now();
+        const wrong = clips
+          .map((c) => {
+            const b = c.querySelector('[data-tier-badge]')?.textContent;
+            const pub = Date.parse(c.dataset.publishedAt || '');
+            const ageH = Number.isFinite(pub) ? (now - pub) / 3.6e6 : null;
+            const verified = c.dataset.verified && c.dataset.verified !== 'none';
+            const expected =
+              ageH !== null && ageH >= -1 && verified
+                ? ageH < 6
+                  ? 'LIVE'
+                  : ageH < 72
+                    ? 'RECENT'
+                    : 'ARCHIVAL'
+                : 'ARCHIVAL';
+            return b !== c.dataset.tier || b !== expected
+              ? { id: c.dataset.clipId, badge: b, expected, ageH }
+              : null;
+          })
+          .filter(Boolean);
         const banner = document.getElementById('scene-video-rail-banner');
         const counts = {};
         for (const c of clips)
@@ -322,6 +371,18 @@ try {
             clips.length > 0 &&
             badges.every((b) => ['LIVE', 'RECENT', 'ARCHIVAL'].includes(b)),
           liveCount: badges.filter((b) => b === 'LIVE').length,
+          recentCount: badges.filter((b) => b === 'RECENT').length,
+          wrongBadges: wrong,
+          clipRows: clips.map((c) => ({
+            id: c.dataset.clipId,
+            platform: c.dataset.platform,
+            tier: c.dataset.tier,
+            ageTier: c.dataset.ageTier,
+            verified: c.dataset.verified,
+            publishedAt: c.dataset.publishedAt,
+            title: c.querySelector('.svr__clip-title')?.textContent?.slice(0, 120),
+            src: c.querySelector('a.svr__src')?.href,
+          })),
           bannerVisible:
             banner &&
             !banner.hidden &&
@@ -338,16 +399,17 @@ try {
         };
       });
       const bannerOk =
-        /^REBUILT FROM ARCHIVAL FOOTAGE: recorded \d{2} [A-Z][a-z]{2} \d{4}, not live$/.test(
+        /^REBUILT FROM ARCHIVAL FOOTAGE \u2013 recorded \d{2} [A-Z][a-z]{2} \d{4}, not live$/.test(
           r.bannerText || '',
         );
       return {
         pass:
           r.everyClipBadged &&
+          r.wrongBadges.length === 0 &&
           r.bannerVisible &&
           bannerOk &&
           r.sourceLinks === r.clips,
-        detail: `${r.clips} clips ${JSON.stringify(r.counts)}; badges=${[...new Set(r.badges)].join('/')}; LIVE=${r.liveCount}; banner="${r.bannerText}"; source links ${r.sourceLinks}/${r.clips}`,
+        detail: `${r.clips} clips ${JSON.stringify(r.counts)}; badges=${[...new Set(r.badges)].join('/')}; LIVE=${r.liveCount} RECENT=${r.recentCount} wrong=${r.wrongBadges.length}; banner="${r.bannerText}"; source links ${r.sourceLinks}/${r.clips}`,
         data: r,
         screenshot: await shot(page, `4-archival-labels-${tag}`),
       };

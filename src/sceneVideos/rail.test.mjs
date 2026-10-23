@@ -127,7 +127,7 @@ test('rail: clips render with tier badges, banner, autoplay-muted mp4 through th
   assert.equal(banner.hidden, false);
   assert.equal(
     banner.textContent,
-    'REBUILT FROM ARCHIVAL FOOTAGE: recorded 26 Sep 2026, not live',
+    'REBUILT FROM ARCHIVAL FOOTAGE \u2013 recorded 26 Sep 2026, not live',
   );
   const badges = rail.element.find((n) => n.attrs?.has('data-tier-badge'));
   assert.deepEqual(

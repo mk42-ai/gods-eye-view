@@ -561,7 +561,11 @@ export function createFoundationHandler(deps = {}) {
     const path = url.pathname.replace(/\/+$/, '') || '/';
     const method = req.method || 'GET';
     // Phase G — rate limit every non-health call per (peer, bound user).
-    if (path !== '/health' && path !== '/contracts' && path !== '/scene/media') {
+    if (
+      path !== '/health' &&
+      path !== '/contracts' &&
+      path !== '/scene/media'
+    ) {
       const principalHint = String(
         req.headers?.['x-workstation-user'] || '',
       ).slice(0, 128);

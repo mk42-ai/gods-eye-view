@@ -6,7 +6,12 @@
     "place": "Umm Suqeim",
     "lat": 25.1425,
     "lon": 55.2055,
-    "match": ["umm suqeim", "jumeirah street", "أم سقيم", "شارع جميرا"],
+    "match": [
+      "umm suqeim",
+      "jumeirah street",
+      "أم سقيم",
+      "شارع جميرا"
+    ],
     "sources": [
       "https://www.gulftoday.ae/news/2026/09/26/dubai-police-warn-of-dangers-of-driving-while-fatigued-after-a-driver-faints-causing-an-accident-in-umm-suqeim",
       "https://www.khaleejtimes.com/uae/dubai-police-warning-tired-driver-faints-causes-collision",
@@ -34,7 +39,58 @@
         "note": "Dubai Police lane-change crash footage (archival)"
       }
     ],
-    "provenance": "operator-supplied incident context (task brief 2026-10-23) — every URL is still resolved live through OnDemand plugins"
+    "provenance": "operator-supplied incident context (task brief 2026-10-23) — every URL is still resolved live through OnDemand plugins",
+    "outletRecords": [
+      {
+        "outlet": "Gulf Today",
+        "url": "https://www.gulftoday.ae/news/2026/09/26/dubai-police-warn-of-dangers-of-driving-while-fatigued-after-a-driver-faints-causing-an-accident-in-umm-suqeim",
+        "handles": [
+          "gulftoday",
+          "gulftodayuae"
+        ],
+        "published_at": "2026-09-26T00:00:00Z",
+        "published_at_precision": "day"
+      },
+      {
+        "outlet": "Khaleej Times",
+        "url": "https://www.khaleejtimes.com/uae/dubai-police-warning-tired-driver-faints-causes-collision",
+        "handles": [
+          "khaleejtimes"
+        ],
+        "published_at": "2026-09-26T14:51:00Z",
+        "published_at_precision": "minute (Sat 26 Sept 2026 18:51 GST)"
+      },
+      {
+        "outlet": "Dubai Police (Instagram)",
+        "url": "https://www.instagram.com/p/DdvxagPqlbL",
+        "handles": [
+          "dubaipolicehq",
+          "dubaipolice"
+        ],
+        "published_at": "2026-09-26T00:00:00Z",
+        "published_at_precision": "day"
+      },
+      {
+        "outlet": "Dubai Police / net_ad (Instagram)",
+        "url": "https://www.instagram.com/p/Ddv2o82MKZU",
+        "handles": [
+          "net_ad"
+        ],
+        "published_at": "2026-09-26T00:00:00Z",
+        "published_at_precision": "day"
+      },
+      {
+        "outlet": "nasnews.ae (Arabic)",
+        "url": null,
+        "handles": [
+          "nasnews",
+          "nasnews_ar"
+        ],
+        "published_at": null,
+        "published_at_precision": "undated in the step-1 record — never matches"
+      }
+    ],
+    "outletRecordsProvenance": "step-1 web-search incident records, scheduled cycle 2026-10-23T04:31Z (AI Search plugin-1740745780); only DATED records can cross-match a clip"
   },
   {
     "id": "dxb-umm-suqeim-wrong-way-motorcyclist-2025-10-10",
@@ -43,7 +99,11 @@
     "place": "Umm Suqeim",
     "lat": 25.115,
     "lon": 55.215,
-    "match": ["umm suqeim", "al barsha south", "motorcycl"],
+    "match": [
+      "umm suqeim",
+      "al barsha south",
+      "motorcycl"
+    ],
     "sources": [
       "https://www.khaleejtimes.com/uae/transport/dubai-motorcyclist-seriously-injured-in-vehicle-crash-on-umm-suqeim-street"
     ],

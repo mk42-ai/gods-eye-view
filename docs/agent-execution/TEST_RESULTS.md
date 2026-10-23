@@ -785,3 +785,83 @@ Screenshots: `artifacts/scene-video-2026-10-23/{1-boot,2a-searching,2b-clips-arr
 `results.json`. First local run (04:05Z) failed 6/10 because the rail reused the mini-chat SSE parser (wrong event shape) → fixed with
 `createSceneSseParser` + regression test; second local run 10/10 (04:17Z). `ui-validator/ui_validate.py` exits 2 on this WebGL page
 (Page.captureScreenshot timeout — known), so the repo puppeteer harness is the proof.
+
+## 16. Cycle 11 (scheduled, 2026-10-23T04:31:39Z–04:5xZ) — labelling rule v2 + live re-check (Umm Suqeim, 26 Sep 2026 incident)
+
+### 16.1 Labelling rule (changed this cycle)
+`src/sceneVideos/evidence.js` → `labelEvidence(clip, {now, outletRecords})`. **LIVE** only if the platform create/upload time is
+**< 6 h** before the run, **RECENT** only if **< 72 h** (both exclusive) — AND the clip's source handle or URL cross-matches a **dated**
+outlet record (`config/scene-videos/incident-hints.json` → `outletRecords`, step-1 records: Gulf Today 2026-09-26, Khaleej Times
+2026-09-26T14:51Z, Dubai Police IG `DdvxagPqlbL`, net_ad IG `Ddv2o82MKZU`; nasnews.ae is undated → never matches). Everything else is
+**ARCHIVAL** with a `tierReason`. Banner text: `REBUILT FROM ARCHIVAL FOOTAGE – recorded <date>, not live` (en dash). Each clip now
+carries `ageTier`, `tierReason`, `verification{matched,by,record}`, `sourceHandle`; rail rows expose `data-age-tier`,
+`data-verified`, `data-published-at` so the browser check can recompute the expected badge.
+New unit tests: every boundary (5 h 59 m 59 s LIVE / 6 h RECENT / 71 h 59 m 59 s RECENT / 72 h ARCHIVAL), missing timestamp,
+unmatched-but-fresh source, matched-but-old source (the 26 Sep Dubai Police post), undated outlet record, helper parsing.
+
+### 16.2 Gates (Node 22.23.3 local)
+| gate | result | timestamp |
+|---|---|---|
+| `npm test` (src) | **4,295 tests · 4,294 pass · 0 fail · 1 skip** (baseline 4,286 / 4,285 pass / 1 skip → +9 tests) | 2026-10-23T04:55:39Z–04:56:32Z |
+| foundation / ondemand / serverless / scene-videos / incidents | 77/77 · 250/250 · 57/57 · 16/16 · 15/15 | 04:56:59Z |
+| `format:check` · `check:boundaries` | ✓ (984 files) · ✓ | 04:56:59Z |
+| `vite build` (local / sandbox) | ✓ 5.5 s / ✓ 11.9 s, then 10.0 s rebuild | 04:44:34Z / 04:45:39Z / 04:47:5xZ |
+| `check-no-secrets` src + `--dist` (local + sandbox) | ✓ / ✓ ; literal key value in `dist/`: 0 files | 04:44:21Z / 04:45:39Z |
+
+### 16.3 Deploy
+`sbx_IyGvAqmHmnbgZnpfe3HcM5GtBeyy` → **https://sb-3f7jy4mbzqe7.vercel.run** (created 2026-10-23T04:45:09Z, node22, `--timeout 90m` → expires ≈06:15Z).
+`npm ci` 6.5 s; 21 env keys by name from the gitignored `.env` (0 `ONDEMAND_API_KEY` lines); key copied to `/tmp/od-secret.env`,
+sourced by `/tmp/start-server.sh` and deleted before `node server/serverless/dev-server.mjs` starts (`SECRET_FILE_GONE`, `ls` →
+No such file). `GET /api/health` 200 `{"ok":true,"configured":true,…,"keySource":"server"}` (04:45:53Z, again 04:48:07Z after the
+orchestrator update). Raw headers for `/` (200, title "OnDemand Intelligence Workstation") and `/api/health`: no `X-Frame-Options`,
+no `Content-Security-Policy` (`grep -ic` → 0) — `artifacts/scene-video-cycle11-2026-10-23/*.headers`.
+
+### 16.4 Live `/api/ondemand/v2/scene/videos` (sandbox, prompt "rebuild the car crash reported in Umm Suqeim (Umm Suqeim Street towards
+Jumeirah Street, driver fainted) حادث أم سقيم", 04:49:49Z → 04:51:17Z, 87.1 s; first run 04:48:16Z → 04:49:02Z kept as run1)
+| plugin | calls | ok | first → last (UTC) | exact error |
+|---|---|---|---|---|
+| plugin-1740745780 AI Search (site: search) | 5 | 5 | 04:49:49.991Z → 04:50:17.599Z | — |
+| plugin-1792727178 YouTube oEmbed | 1 | 1 | 04:50:10.482Z → 04:50:29.307Z | — |
+| plugin-1792727179 TikTok oEmbed | 1 | 1 | 04:50:17.599Z → 04:50:32.036Z | — |
+| plugin-1716372717 TikTok scraper | 1 | 0 | 04:49:49.987Z → 04:49:59.318Z | `You have exceeded the MONTHLY quota for Scraping API on your current plan, BASIC. Upgrade your plan at https://rapidapi.com/tikwm-tikwm-default/api/tiktok-scraper7` |
+| plugin-1784356219 YouTube captions | 1 | 0 | 04:50:29.307Z → 04:50:36.527Z | `field key is missing in agent plugin config` |
+| plugin-1716164040 Instagram user info | 3 | 3 | 04:49:49.983Z → 04:50:03.498Z | — (dubaipolicehq verified 1,117,822; `net_ad`, `dubaipolice` returned no profile) |
+| plugin-1762980461 Instagram download | 6 | 6 | 04:49:49.991Z → 04:50:16.210Z | — (2 videos, 4 image posts skipped) |
+| plugin-1722260873 Perplexity | 2 | 1 | 04:49:49.975Z → 04:51:17.030Z | 1st `ondemand_http_409` (session busy) → retry ok, **0 dated rows** (no newer incident) |
+Result: 14 clips (YouTube 6 · TikTok 6 · Instagram 2) — **LIVE 0 · RECENT 0 · ARCHIVAL 14**; no clip cross-matches a dated outlet
+record, and the freshest dated clip (TikTok @nasnews_ar, 2026-09-26T12:38Z, ≈640 h) is > 72 h. Raw SSE: `live-scene-videos-sse.json`.
+
+| platform | URL (shortUrl for videos) | handle | create_time_utc | age_h | label | evidence | played |
+|---|---|---|---|---|---|---|---|
+| instagram | https://is.gd/M5lK6b | — | 2026-09-28T04:50:02.501Z | 599.7 | ARCHIVAL | instagram-asset-age-days; outlet match=no; via plugin-1762980461 | yes |
+| instagram | https://is.gd/6KEhmp | — | 2026-04-04T04:50:03.741Z | 4847.7 | ARCHIVAL | instagram-asset-age-days; outlet match=no; via plugin-1762980461 | no |
+| tiktok | https://www.tiktok.com/@emirates_news/video/7627044985581374741 | emirates_news | 2026-04-10T08:29:53.000Z | 4700.0 | ARCHIVAL | tiktok-id-snowflake; outlet match=no; via plugin-1792727179 | no |
+| tiktok | https://www.tiktok.com/@60v_benji/video/7621530117717658902 | 60v_benji | 2026-03-26T11:49:22.000Z | 5056.7 | ARCHIVAL | tiktok-id-snowflake; outlet match=no; via plugin-1792727179 | no |
+| tiktok | https://www.tiktok.com/@kumar_tharesh/video/7458690515530157330 | kumar_tharesh | 2025-01-11T16:08:33.000Z | 15588.4 | ARCHIVAL | tiktok-id-snowflake; outlet match=no; via plugin-1792727179 | no |
+| tiktok | https://www.tiktok.com/@affordablegroupofficial/video/7351875077924801808 | affordablegroupofficial | 2024-03-29T19:50:06.000Z | 22496.7 | ARCHIVAL | tiktok-id-snowflake; outlet match=no; via plugin-1792727179 | no |
+| tiktok | https://www.tiktok.com/@71c4ddg/video/7657080194712341790 | 71c4ddg | 2026-06-30T07:01:50.000Z | 2757.5 | ARCHIVAL | tiktok-id-snowflake; outlet match=no; via plugin-1792727179 | no |
+| tiktok | https://www.tiktok.com/@nasnews_ar/video/7689822370613169415 | nasnews_ar | 2026-09-26T12:38:12.000Z | 639.9 | ARCHIVAL | tiktok-id-snowflake; outlet match=no; via plugin-1792727179 | no |
+| youtube | https://www.youtube.com/watch?v=tyZCXRV9Cgw | Times Of India | unknown | n/a | ARCHIVAL | no timestamp; outlet match=no; via plugin-1792727178 | no |
+| youtube | https://www.youtube.com/watch?v=RHjCaPIWJVc | Suhaib Sells Dubai | unknown | n/a | ARCHIVAL | no timestamp; outlet match=no; via plugin-1792727178 | no |
+| youtube | https://www.youtube.com/watch?v=8CEx-SDkw_A | DailyDrivenExotics | unknown | n/a | ARCHIVAL | no timestamp; outlet match=no; via plugin-1792727178 | no |
+| youtube | https://www.youtube.com/watch?v=dV4uVkinbEI | Dr. Sharik Ali - Spinal Health Centre, Dubai | unknown | n/a | ARCHIVAL | no timestamp; outlet match=no; via plugin-1792727178 | no |
+| youtube | https://www.youtube.com/watch?v=NRJg0AMv8dE | Times Now | 2026-03-18T00:00:00.000Z | 5260.5 | ARCHIVAL | plugin; outlet match=no; via plugin-1792727178 | no |
+| youtube | https://www.youtube.com/watch?v=NP_D_tApFks | المنشد محمد العباسي تسجيلات العباسي | unknown | n/a | ARCHIVAL | no timestamp; outlet match=no; via plugin-1792727178 | no |
+
+### 16.5 Headless browser (`scripts/qa-scene-videos.mjs`, puppeteer + /usr/bin/chromium) — **10 / 10** on the sandbox (04:51:56Z–04:54:57Z)
+`ui_validate.py` exited 2 (`TimeoutError: timed out` on Page.captureScreenshot, WebGL page, 04:51:44Z) → repo harness used.
+| check | 1440×900 | 390×844 |
+|---|---|---|
+| 1 approved camera hash: 27/27 keys at boot AND after a full reload | PASS 04:52:20Z | PASS 04:53:25Z |
+| 2 clips from ≥2 platforms while the build streams | PASS tiktok+instagram, 7 clips, rail searching | PASS youtube+instagram, 4 clips, searching |
+| 3 muted clip playing (readyState **4**, currentTime advancing) | PASS instagram:Ddyb6fvQ-Yn 21.20→22.70 s | PASS 0.00→1.43 s |
+| 4 badges correct (recomputed from data-published-at + data-verified; wrong=0), banner `REBUILT FROM ARCHIVAL FOOTAGE – recorded 26 Sep 2026, not live` | PASS 13/13 ARCHIVAL | PASS 10/10 ARCHIVAL |
+| 5 iframe embed (`/embed-harness.html`), composer + rail inside | PASS | PASS |
+PNGs: `artifacts/scene-video-cycle11-2026-10-23/{1-boot,2a-searching,2b-clips-arriving,3-playback,4-archival-labels,5-iframe}-{1440x900,390x844}.png`, `results.json`.
+
+### 16.6 Change vs the cycle-10 baseline
+No material change: no LIVE/RECENT clip; TikTok scraper still quota-blocked; YouTube captions still `field key is missing in agent plugin
+config`; Instagram top posts not exercised by the orchestrator (step-3 evidence: 0 posts for 5 accounts). Confirmed deltas are limited to
+the rule change (24 h/7 d → 6 h/72 h + outlet cross-match), the per-plugin call log + verification lane, and the reload check.
+
+GENERATED_UTC: 2026-10-23T04:57:00Z
