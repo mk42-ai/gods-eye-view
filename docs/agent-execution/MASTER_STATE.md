@@ -260,4 +260,11 @@ otherwise always use the server key, and the new `/api/ondemand/v2/*` never read
 | Infrastructure consolidation | OpenAI Realtime provider removed (component 7/38 DONE); voice, plugin lifecycle and tool invoker run in-process — Vercel function count unchanged; redundant AI orchestrators remaining: **0** | INFRASTRUCTURE_DECISIONS.md |
 | Deployment | real-project previews via the Vercel REST API: checkpoint `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` (02:08Z) and post-change `dpl_7K9b62NbSgmdF4Rd5FfAu3cAHVP8` READY 04:05Z (`/api/ondemand/v2/health` ok, voice/health ok, 14/14 scenarios, `/api/realtime/token` 404); production still Git-linked to the sibling repo (B-6) | TEST_RESULTS §8.4/§8.5 |
 
-GENERATED_UTC: 2026-10-23T04:57:00Z (cycle 11; previous 2026-10-22T13:05:00Z)
+
+### Cycle 12 — 2026-10-23T05:09:41Z (scene-video delta verify)
+- Sandbox sbx_IyGvAqmHmnbgZnpfe3HcM5GtBeyy https://sb-3f7jy4mbzqe7.vercel.run still alive: /api/health 200 configured:true keySource:server at 05:13:55Z; no XFO/CSP → no successor needed.
+- Live scene/videos: 11 clips (YT 4 · TikTok 6 · IG 1), LIVE 0 · RECENT 0 · ARCHIVAL 11, 0 new vs cycle 11. TikTok scraper quota-blocked, YouTube captions `field key is missing in agent plugin config` (both unchanged).
+- Step-3 Instagram MP4 is.gd/AJUOzUE: proxy 206 video/mp4, muted playback readyState 4 at 1440×900 + 390×844, asset 225 d → ARCHIVAL; repost of cycle-11 is.gd/e8p3nB (229 d). Download ratio 3/12 (cycle 11: 6/7).
+- No code change; docs only (TEST_RESULTS §17). Verdict: no material change.
+
+GENERATED_UTC: 2026-10-23T05:24:00Z (cycle 12; previous 2026-10-23T04:57:00Z)

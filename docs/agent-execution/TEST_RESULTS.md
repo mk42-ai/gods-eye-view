@@ -865,3 +865,48 @@ config`; Instagram top posts not exercised by the orchestrator (step-3 evidence:
 the rule change (24 h/7 d → 6 h/72 h + outlet cross-match), the per-plugin call log + verification lane, and the reload check.
 
 GENERATED_UTC: 2026-10-23T04:57:00Z
+
+## 17. Cycle 12 (scheduled, 2026-10-23T05:09:41Z–05:2xZ) — scene-video delta verify (no code change)
+
+### 17.1 Sandbox
+`GET https://sb-3f7jy4mbzqe7.vercel.run/api/health` (sbx_IyGvAqmHmnbgZnpfe3HcM5GtBeyy, cycle-11 sandbox) → **200**
+`{"ok":true,"configured":true,…,"keySource":"server"}` at 2026-10-23T05:13:55Z (server `date` header); again 200 at 05:19:31Z.
+Raw headers for `/` and `/api/health` (05:13:55Z): no `X-Frame-Options`, no `Content-Security-Policy`. Sandbox alive → **no successor
+provisioned** (the step-0 rule only triggers on a non-200). Expires ≈06:15Z (90 min from 04:45:09Z).
+
+### 17.2 Live `/api/ondemand/v2/scene/videos` (same Umm Suqeim prompt + "Dubai crash", 05:14:19Z → 05:16:50Z, 150.5 s)
+| plugin | calls | ok | first → last (UTC) | exact error |
+|---|---|---|---|---|
+| plugin-1740745780 AI Search | 5 | 5 | 05:14:19.645Z → 05:14:36.744Z | — |
+| plugin-1792727178 YouTube oEmbed | 1 | 1 | 05:14:36.430Z → 05:14:48.751Z | — |
+| plugin-1792727179 TikTok oEmbed | 1 | 1 | 05:14:35.492Z → 05:14:50.325Z | — |
+| plugin-1716372717 TikTok scraper | 0 | — | — | circuit open: `monthly quota exhausted (RapidAPI tiktok-scraper7 BASIC)` (step-2 input: 7/7 calls `You have exceeded the MONTHLY quota…`) |
+| plugin-1784356219 YouTube captions | 0 | — | — | circuit open: `field key is missing in agent plugin config` (step-4 input unchanged) |
+| plugin-1716164040 Instagram user info | 3 | 2 | 05:14:19.645Z → 05:14:30.548Z | `dubaipolice`: 404 (tool resolved another username); dubaipolicehq verified 1,117,823 |
+| plugin-1762980461 Instagram download | 6 | 6 | 05:14:19.646Z → 05:14:47.512Z | — (1 video, 5 image posts skipped) |
+| plugin-1722260873 Perplexity | 3 | 0 | 05:14:19.644Z → 05:16:50.125Z | `ondemand_http_409` (session busy) ×3 — step-1 input: Perplexity 0 sources |
+Result: **11 clips (YouTube 4 · TikTok 6 · Instagram 1) — LIVE 0 · RECENT 0 · ARCHIVAL 11.** Every clip id was already present in the
+cycle-11 artefacts (`live-scene-videos-sse-run1.json` / `results.json`; YouTube kiQKnGOr9-k and 5l9Ia1Bw8C8 appeared in cycle-11 run1)
+→ **0 new oEmbed clips**. Instagram is.gd/LL8CFS = same CDN asset (xpv_asset_id 3160474284157627, 25 d) as cycle-11 is.gd/M5lK6b.
+
+### 17.3 Step-3 Instagram candidate https://is.gd/AJUOzUE
+Media proxy `GET /api/ondemand/v2/scene/media?u=https://is.gd/AJUOzUE` (Range) → **206 video/mp4, 163,468 B** (VP9 720×1280 + AAC, 4.02 s).
+CDN `efg`: xpv_asset_id 17947486254109777, asset_age_days **225**. The cycle-11 step-3 clip https://is.gd/e8p3nB resolves to asset
+17946633786109777 (229 d, 4.04 s), different bytes (md5 55dfd26b… vs c183a903…) but near-identical frames (mean abs diff 9.5/255 at
+0.2/2/3.5 s) → a re-encode/repost of the same 4 s footage. Label via `labelEvidence` (225 d, no matched dated outlet record):
+**ARCHIVAL** ("older than 72 h"). Step-3 download ratio this cycle **3/12** (cycle 11: 6/7); orchestrator's own downloads 6/6.
+
+### 17.4 Headless browser (ui_validate.py with the CDP recv-timeout patch from memory; repo puppeteer harness not needed)
+| check | 1440×900 | 390×844 |
+|---|---|---|
+| raw muted `<video>` on the proxy URL: readyState 4, currentTime advancing | PASS 0.059→0.559 s (05:19:21Z) | PASS 0.001→0.501 s (05:19:24Z) |
+| clip injected into the live rail (`__gevSceneVideos.rail.handle`), proxied mp4 plays muted | PASS rs 4, 0.001→0.453 s (05:22:01Z) | PASS rs 4, 0.019→0.419 s (05:22:14Z) |
+| badge + banner | ARCHIVAL · `REBUILT FROM ARCHIVAL FOOTAGE – recorded 26 Sep 2026, not live` | same |
+No new clip and no label change → **no PNG proof captured** (per cycle brief).
+
+### 17.5 Change vs cycle 11 (04:31Z)
+No material change: no new incident (step-1 web EN/AR searches; only the 26 Sep 2026 Umm Suqeim fainting-driver crash), no new
+playable clip, no LIVE/RECENT label, TikTok scraper still quota-blocked, YouTube captions still misconfigured. Only the step-3 Instagram
+download ratio moved (6/7 → 3/12) and its one MP4 is a 225-day ARCHIVAL repost of the cycle-11 4 s clip.
+
+GENERATED_UTC: 2026-10-23T05:24:00Z
