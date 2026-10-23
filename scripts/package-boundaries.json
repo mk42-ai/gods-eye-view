@@ -610,7 +610,8 @@
       "src/ui/styles/provider-settings.css",
       "src/ui/styles/ondemand-chat.css",
       "src/ui/styles/plugin-panel.css",
-      "src/ui/styles/incidents.css"
+      "src/ui/styles/incidents.css",
+      "src/ui/styles/scene-videos.css"
     ],
     "external": []
   },
@@ -1783,7 +1784,11 @@
       "src/incidents/client.js",
       "src/incidents/ui/overlay.js",
       "src/incidents/ui/composer.js",
-      "src/incidents/ui/index.js"
+      "src/incidents/ui/index.js",
+      "src/sceneVideos/evidence.js",
+      "src/sceneVideos/labels.js",
+      "src/sceneVideos/rail.js",
+      "src/sceneVideos/index.js"
     ],
     "external": [
       "@mapbox/vector-tile",

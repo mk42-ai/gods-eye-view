@@ -2,6 +2,7 @@ import { SceneDirector } from '../scenes/director.js';
 import { createAoiScenePolicy } from '../scenes/aoiScenePolicy.js';
 import { getUaeAoiIndex } from '../aoi/uaeInterest.js';
 import { installIncidentScenes } from '../incidents/ui/index.js';
+import { installSceneVideos } from '../sceneVideos/index.js';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
 import { createGevActionRunner } from '../voice/gevActions.js';
@@ -151,6 +152,10 @@ export function createApplicationTools({
     sceneDirector,
     signal,
   });
+  // Scene video evidence (2026-10-23): the composer submit also fans out to
+  // YouTube / TikTok / Instagram through OnDemand plugins and streams clips
+  // into the side rail with LIVE / RECENT / ARCHIVAL labels (src/sceneVideos/*).
+  debug.sceneVideos = installSceneVideos({ viewer, signal });
   const runner = createGevActionRunner({
     ...voice,
     floorServices: operations.surface.groundFloor,
