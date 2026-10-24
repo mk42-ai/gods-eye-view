@@ -351,3 +351,19 @@ Cycle 15 target-framing refinement: the real browser exposed that the original g
 - Root cause (measured in a cross-origin sandboxed iframe harness): the AOI box did receive focus, typing, Enter and clicks — nothing intercepted pointer events — but (1) a submission rendered **no visible feedback** until the server's `/locate` round-trip returned (chips only; result area empty), (2) non-place text such as 'hi' was sent to the geocoder/LLM, which returned an arbitrary non-UAE place, so the bar showed "Outside UAE AOI" and the camera jumped elsewhere (Mexico at 375 px) or stayed on Austin, (3) 'Burj Khalifa' had no offline gazetteer entry, so it depended entirely on the live geocoder, (4) platform error bodies `{error:{code,message}}` became "[object Object]". The user's screenshots also came from older builds (serverless banner text removed in b55c938); the stopped sandbox (HTTP 410) explains "nothing happens" for any request made against an expired preview.
 - Fixes: local conversational hint (`CONVERSATIONAL_HINT`), trailing-noise stripping ('Dubai Marina r' → 'Dubai Marina'), synchronous pending spinner on every submission, discreet retry notice that resubmits the original text, `onUnresolved` flies to the UAE overview, server skips providers for conversational text, verified Burj Khalifa gazetteer entry (OSM way 446646206), voice/mic failures isolated (no unhandled rejection), decorative overlays forced `pointer-events:none`, desktop gap under the AOI bar, nested error message extraction.
 - Preview: https://sb-7gcltu6u15nc.vercel.run (sbx_eTHvnHNQ6FtMjfZDghk8ugPERDjm, port 5173). Stock ui-validator ok at both viewports; frame harness 110/0. The real OnDemand host was NOT available — only the mirrored harness was tested.
+
+## Cycle 17 — Scene evidence pipeline — 2026-10-24T08:05Z
+- New: `server/scene-evidence/{sources,pipeline,inference,routes}.js` (mounted at `/api/ondemand/v2/scene/evidence[/sources|/cache]`),
+  `src/sceneEvidence/{model,store,panel,index}.js`, `src/ui/styles/scene-evidence.css`, `docs/SOURCES.md`, `scripts/qa-scene-evidence.mjs`.
+  Wiring: `src/incidents/ui/index.js` dispatches `gev:scene-evidence` on BUILD SCENE / scoped search / saved-scene reopen (reopen = cache only).
+  The legacy `/api/ondemand/v2/scene/videos` endpoint, media proxy and ARCHIVAL rail are unchanged and still reachable via `gev:scene-videos`.
+- Sources live today: OnDemand Tavily site-search (YouTube/TikTok/Instagram/X), Google News RSS, official-channel news index, oEmbed
+  (YouTube/TikTok/X; Instagram oEmbed answers without a token today but is not relied on). Credentials required: YOUTUBE_API_KEY,
+  X_BEARER_TOKEN, IG_GRAPH_ACCESS_TOKEN+IG_BUSINESS_USER_ID, TIKTOK_RESEARCH_CLIENT_KEY+SECRET, RELIEFWEB_APPNAME, optional CEREBRAS_API_KEY.
+  Unavailable: OnDemand X Search Agent (credits exhausted), GDELT (rate-limited, usually times out at 10 s).
+- Cerebras: inference only. Engine `cerebras-ondemand` (OnDemand endpoint `predefined-cerebras-qwen-3.8-27b`) halves time-to-first-video-card
+  (median 7.9 s vs 15.8 s Marina; 4.3 s vs 17.6 s Burj) and full results (16.4 vs 24.5 s; 11.5 vs 20.9 s). `SCENE_EVIDENCE_CEREBRAS=off` → deterministic.
+- Gates: unit 4,484 pass / 0 fail / 1 skipped; server scene-evidence 24/0; build ✓; secrets src+dist ✓; boundaries ✓; health 200; no framing headers.
+- Browser: cross-origin mirror harness 57/0 (both viewports); stock ui-validator exit 0 at both viewports via the harness page.
+- Preview: https://sb-2n7tqzp6l1g2.vercel.run (`sbx_JMh0ppiU1zIEdEo7AgH9EzHuCvwZ`). Sandbox recipe unchanged (temp secret file deleted before start).
+- Open: YouTube embed playback blocked by YouTube bot-check on datacenter IPs (unverified on residential); no EXACT geotags until API keys exist.

@@ -1013,3 +1013,84 @@ Stock ui-validator (`ui_validate.py`, run against the harness URL, 5 evals: comp
 
 Gates: `npm run build` ✓ (local + sandbox); `npm test` **4,465 pass / 0 fail / 1 skipped (4,466)**; `check-no-secrets` ✓ src, ✓ `--dist`; `check:boundaries` ✓.
 Deploy: sandbox `sbx_eTHvnHNQ6FtMjfZDghk8ugPERDjm`, https://sb-7gcltu6u15nc.vercel.run — `/api/health` 200 `configured:true, keySource:server` (05:25:16Z), `/` 200 title "OnDemand Intelligence Workstation", no X-Frame-Options / CSP / Permissions-Policy headers. OnDemand key restored by name from the previous live sandbox process into a 0600 temp file, sourced into the server process only and deleted before start (`SECRET_FILE_GONE`, `KEY_NOT_IN_ENV_FILE`).
+
+## Cycle 17 — Scene evidence pipeline (real-time public video + signals) — 2026-10-24T08:05Z
+
+Branch `feat/scene-video-evidence` (PR #4). Preview https://sb-2n7tqzp6l1g2.vercel.run (`sbx_JMh0ppiU1zIEdEo7AgH9EzHuCvwZ`, port 5173).
+Research and source matrix: `docs/SOURCES.md`. Artifacts: `docs/agent-execution/artifacts/scene-evidence-2026-10-24/`.
+
+**What changed.** BUILD SCENE (and saved-scene reopen, scoped search, shared `?evidence=` links) now opens a scene evidence
+panel fed by `POST /api/ondemand/v2/scene/evidence` (SSE). 13 sources fan out in parallel with per-source budgets
+(4 OnDemand Tavily site searches, OnDemand X agent, YouTube Data API, X API v2, Instagram Graph, TikTok Research,
+Google News RSS, official-channel news index, GDELT, ReliefWeb). Items are labelled for geo precision (exact / place /
+text-inferred / none) and freshness (LIVE <1 h, RECENT <72 h, STALE <30 d, ARCHIVAL), ranked geo-first then freshness,
+enriched through official oEmbed (public profile fields), and cached per scene (server 15 min, browser localStorage with
+Instagram metadata stripped). Unconfigured sources report `credentials required`; no data is substituted.
+Cerebras is used for inference only (intent, summary, and as the endpoint driving the search-plugin sessions).
+
+### Gates
+| gate | result |
+|---|---|
+| `npm test` (full unit suite) | **4,485 tests: 4,484 pass / 0 fail / 1 skipped** (adds 19 tests in `src/sceneEvidence/*.test.mjs`) |
+| `npm run test:scene-evidence` (server, new script) | **24 pass / 0 fail** (8 scene-evidence + 16 scene-videos) |
+| `test:foundation` / `test:serverless` / `test:ondemand` | 77/0 · 57/0 · 250/0 |
+| `npm run build` | ✓ (local and in the sandbox) |
+| `check-no-secrets` src / `--dist` | ✓ / ✓; OnDemand key value absent from `dist/`; no `CEREBRAS_API_KEY`/`X_BEARER_TOKEN`/`api.cerebras.ai` in bundles |
+| `check:boundaries` | ✓ (sceneEvidence modules registered in `scripts/package-boundaries.json`) |
+| `/api/health` | 200 `configured:true`; `/` 200 title "OnDemand Intelligence Workstation"; **no** X-Frame-Options / CSP frame-ancestors on either |
+
+### Browser verification — cross-origin chat-canvas mirror (`scripts/qa-scene-evidence.mjs`), 07:5xZ
+Host page on `http://127.0.0.1:<port>` frames the preview with `sandbox="allow-scripts allow-same-origin allow-forms allow-popups"`,
+microphone 'none'. Native keyboard/mouse (1440×900) and touch (375×739); Dubai Marina + Burj Khalifa each via Enter on one
+viewport and the BUILD SCENE button on the other. **57 pass / 0 fail.** Checks: composer hit-tests, evidence request fired,
+scene built with Play, camera at AOI (<0.08°), evidence completed, partials streamed before completion, ≥4
+credentials-required sources listed, every card has freshness + geo label + original link and approximate geo is
+prefixed `~`, ARCHIVAL filter narrows, EXACT filter → 0 cards (truthful), card → lazy official embed + selected pin
+(15 px) + timeline tick, TikTok embed playback (readyState 4, currentTime 7.45 → 10.5 s at 1440; 8.09 → 11.1 s at 375),
+profile popup (public fields + provenance), saved Burj scene reopened from cache with **0** evidence requests, forced
+HTTP 503 → error state with REBUILD guidance, REBUILD → diff vs cache, mobile panel above the composer, no page errors.
+
+Time to first card / full results (BUILD SCENE → UI, Cerebras endpoint, server cache bypassed):
+| viewport | place | submit | first card | full | items | signals |
+|---|---|---|---|---|---|---|
+| 1440×900 | Dubai Marina | Enter | 6.6 s | 14.0 s | 11 | 14 |
+| 1440×900 | Burj Khalifa | button | 4.5 s | 12.4 s | 30 | 18 |
+| 375×739 | Dubai Marina | button | 4.4 s | 18.4 s | 19 | 14 |
+| 375×739 | Burj Khalifa | Enter | 5.5 s | 12.3 s | 27 | 19 |
+First news/incident signal arrives at 0.2–0.5 s in every run. Cached reopen renders in < 0.1 s with no provider call.
+
+### Cerebras vs no Cerebras (server SSE, same sandbox, `fresh=1`, 6 s spacing)
+| place | engine | runs | first signal | first video card (median) | full (median) | summary |
+|---|---|---|---|---|---|---|
+| Dubai Marina | Cerebras via OnDemand (`predefined-cerebras-qwen-3.8-27b`) | 3 | 0.2–0.5 s | **7.9 s** (4.9–9.7) | **16.4 s** (14.3–17.0) | LLM, 2.3–2.9 s |
+| Dubai Marina | deterministic (plugins on `predefined-gpt-6-luna`) | 3 | 0.2 s | 15.8 s (14.8–16.0) | 24.5 s (24.1–25.2) | template, 0 s |
+| Burj Khalifa | Cerebras | 2 | 0.2–0.4 s | **4.3 s** | **11.5 s** | LLM, 1.8 s |
+| Burj Khalifa | deterministic | 2 | 0.1–0.4 s | 17.6 s | 20.9 s | template, 0 s |
+Intent parse with Cerebras ("burj khalifa check if there is any incidents" → `Burj Khalifa` + aliases `برج خليفة`, `Burj Al Khalifa`, `Khalifa Tower`): 1.3–1.6 s
+(the deterministic regex parse takes ~0 ms but yields no aliases). Direct Cerebras API (`CEREBRAS_API_KEY`) is **not measured**:
+no key is available (api.cerebras.ai → 403 "Not authenticated").
+
+### Embed playback, honestly
+- TikTok Embed Player: playback proven (above).
+- YouTube (`youtube-nocookie` embed): the iframe loads, but from this datacenter IP YouTube answers "Sign in to confirm you're
+  not a bot" inside the player, so currentTime cannot advance here. The same embed outside the app returned "Error 153" in
+  a bare headless page. Not reproducible as a code defect; expected to play on a normal residential browser — **unverified**.
+- Instagram `/embed/`: loads with author + "View profile"; the inline video does not autoplay (readyState 0) — click-to-play on Instagram's side.
+- X embeds: implemented via `platform.twitter.com/embed/Tweet.html`; not exercised by the harness this cycle.
+
+### Stock ui-validator
+`ui_validate.py` against the app URL directly: exit 2 `TimeoutError` (Cesium render loop starving CDP screenshots — known since
+cycle 13). Against the chat-canvas harness served from the preview (`/embed-canvas-harness.html?src=/?welcome=0&evidence=<Burj>`):
+**exit 0, ok:true at 1440×900 and 375×739**, 6 evals true (composer present, evidence cards rendered, SOURCE STATUS lists
+"credentials required", every card has a freshness badge and approximate geo is `~`-prefixed, EVIDENCE SUMMARY present).
+
+### Not verified / limits
+- The real OnDemand chat host (only the mirror). Real devices / on-screen keyboards.
+- Geotagged (EXACT/PLACE) items: none — every geo-capable source needs credentials we do not hold; all current items are TEXT-INFERRED.
+- LIVE items: none observed; RECENT 1–2 per run (Instagram shortcode-derived dates). Search discovery is not real-time.
+- GDELT usually exceeds its 10 s budget (`timed out`); OnDemand X agent is out of credits (`unavailable`).
+
+Post-format re-verification (after `prettier --write` of the new modules, rebuilt + redeployed in the same sandbox, ~08:20Z):
+`qa-scene-evidence.mjs` **56 pass / 0 fail** (the 1440×900 run returned no TikTok card that time, so its TikTok playback check
+was skipped — the playback proof above stands). First card / full: Marina 10.1 / 19.2 s and Burj 4.7 / 13.6 s (1440);
+Marina 5.3 / 17.2 s and Burj 6.4 / 12.9 s (375). Unit suite re-run: 4,484 / 0 / 1 skipped; build ✓; secrets src + dist ✓.

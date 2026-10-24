@@ -2,7 +2,8 @@
  * desktop, top sheet on mobile; never covers the bottom AOI composer. */
 .sev {
   position: fixed;
-  z-index: 162;
+  /* Above the PLUGINS dock (z 184) that shares the right column; the dock stays reachable via HIDE. */
+  z-index: 186;
   top: 4.2rem;
   right: 12px;
   width: 380px;
@@ -44,7 +45,7 @@
 .sev__filters { display: flex; flex-wrap: wrap; gap: 4px; }
 .sev__chip { min-height: 26px; padding: 3px 7px; border-radius: 13px; border: 1px solid rgba(255, 255, 255, 0.18); background: transparent; color: #cfe0ea; font: 700 9.5px/1 var(--font-mono, ui-monospace, monospace); cursor: pointer; }
 .sev__chip[aria-pressed='true'] { background: #7ef0c6; color: #06221a; border-color: #7ef0c6; }
-.sev__player { position: relative; aspect-ratio: 16 / 9; max-height: 34dvh; background: #000; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.sev__player { position: sticky; top: -8px; z-index: 1; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); aspect-ratio: 16 / 9; max-height: 34dvh; background: #000; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .sev__player[data-platform='tiktok'], .sev__player[data-platform='instagram'] { aspect-ratio: 9 / 13; }
 .sev__player-empty { margin: 0; padding: 12px; color: #8fa1ae; font-size: 11px; text-align: center; }
 .sev__iframe { width: 100%; height: 100%; border: 0; background: #000; }

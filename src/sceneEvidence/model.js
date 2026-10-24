@@ -19,7 +19,11 @@
 
 export const FRESHNESS = Object.freeze(['LIVE', 'RECENT', 'STALE', 'ARCHIVAL']);
 /** LIVE < 1 h · RECENT < 72 h · STALE < 30 d · ARCHIVAL ≥ 30 d or undated. */
-export const FRESHNESS_HOURS = Object.freeze({ LIVE: 1, RECENT: 72, STALE: 720 });
+export const FRESHNESS_HOURS = Object.freeze({
+  LIVE: 1,
+  RECENT: 72,
+  STALE: 720,
+});
 export const GEO_PRECISION = Object.freeze(['exact', 'place', 'text', 'none']);
 export const GEO_LABEL = Object.freeze({
   exact: 'EXACT GEOTAG',
@@ -28,7 +32,12 @@ export const GEO_LABEL = Object.freeze({
   none: 'NO LOCATION',
 });
 /** Confidence that the item was recorded at the shown location. */
-export const GEO_CONFIDENCE = Object.freeze({ exact: 0.95, place: 0.7, text: 0.4, none: 0.1 });
+export const GEO_CONFIDENCE = Object.freeze({
+  exact: 0.95,
+  place: 0.7,
+  text: 0.4,
+  none: 0.1,
+});
 export const DATE_CONFIDENCE = Object.freeze({
   api: 0.95,
   'id-derived': 0.9,
@@ -64,9 +73,12 @@ export function classifyFreshness(publishedAt, now = new Date()) {
 }
 
 // ------------------------------------------------------------ id-derived dates
-const IG_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+const IG_ALPHABET =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 function sane(ms) {
-  return Number.isFinite(ms) && ms > Date.UTC(2010, 0, 1) && ms < Date.UTC(2100, 0, 1)
+  return Number.isFinite(ms) &&
+    ms > Date.UTC(2010, 0, 1) &&
+    ms < Date.UTC(2100, 0, 1)
     ? new Date(ms).toISOString()
     : null;
 }
@@ -102,9 +114,12 @@ export function instagramShortcodeDate(code) {
 // ------------------------------------------------------------ URL parsing
 const YT_RE =
   /(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|shorts\/|live\/|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/;
-const TT_RE = /tiktok\.com\/(?:@([\w.-]+)\/video\/|player\/v1\/|embed\/v2\/)(\d{15,21})/;
-const IG_RE = /instagram\.com\/(?:[\w.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]{5,40})/;
-const X_RE = /(?:x|twitter)\.com\/([A-Za-z0-9_]{1,15})\/status(?:es)?\/(\d{6,25})/;
+const TT_RE =
+  /tiktok\.com\/(?:@([\w.-]+)\/video\/|player\/v1\/|embed\/v2\/)(\d{15,21})/;
+const IG_RE =
+  /instagram\.com\/(?:[\w.]+\/)?(p|reel|reels|tv)\/([A-Za-z0-9_-]{5,40})/;
+const X_RE =
+  /(?:x|twitter)\.com\/([A-Za-z0-9_]{1,15})\/status(?:es)?\/(\d{6,25})/;
 
 /** Identify the platform post behind a public URL; null when not a post. */
 export function parsePostUrl(url) {
@@ -125,7 +140,9 @@ export function parsePostUrl(url) {
       platform: 'tiktok',
       id: m[2],
       handle: m[1] || null,
-      url: m[1] ? `https://www.tiktok.com/@${m[1]}/video/${m[2]}` : `https://www.tiktok.com/video/${m[2]}`,
+      url: m[1]
+        ? `https://www.tiktok.com/@${m[1]}/video/${m[2]}`
+        : `https://www.tiktok.com/video/${m[2]}`,
       embedUrl: `https://www.tiktok.com/player/v1/${m[2]}?autoplay=1&muted=1&description=1`,
       kind: 'video',
       idDate: tiktokIdDate(m[2]),
@@ -182,7 +199,14 @@ export function mentionsPlace(text, place, aliases = []) {
  *  none   — nothing ties the post to the AOI
  * Coordinates shown for place/text are the AOI anchor, flagged approximate.
  */
-export function scoreGeo({ coords, placeTag, text, place, aliases, anchor } = {}) {
+export function scoreGeo({
+  coords,
+  placeTag,
+  text,
+  place,
+  aliases,
+  anchor,
+} = {}) {
   if (coords && Number.isFinite(coords.lat) && Number.isFinite(coords.lon))
     return {
       precision: 'exact',
@@ -197,8 +221,8 @@ export function scoreGeo({ coords, placeTag, text, place, aliases, anchor } = {}
   if (placeTag)
     return {
       precision: 'place',
-      lat: Number.isFinite(placeTag.lat) ? placeTag.lat : at?.lat ?? null,
-      lon: Number.isFinite(placeTag.lon) ? placeTag.lon : at?.lon ?? null,
+      lat: Number.isFinite(placeTag.lat) ? placeTag.lat : (at?.lat ?? null),
+      lon: Number.isFinite(placeTag.lon) ? placeTag.lon : (at?.lon ?? null),
       approximate: true,
       label: GEO_LABEL.place,
       confidence: GEO_CONFIDENCE.place,
@@ -236,7 +260,9 @@ function clip(v, max = 300) {
 function safeHttpUrl(v) {
   try {
     const u = new URL(String(v));
-    return u.protocol === 'https:' || u.protocol === 'http:' ? u.toString() : null;
+    return u.protocol === 'https:' || u.protocol === 'http:'
+      ? u.toString()
+      : null;
   } catch {
     return null;
   }
@@ -251,11 +277,21 @@ export function publicProfile(raw = {}, source = '') {
     out.fields.push(k);
   };
   put('name', raw.name ? clip(raw.name, 80) : null);
-  put('handle', raw.handle ? clip(String(raw.handle).replace(/^@/, ''), 40) : null);
+  put(
+    'handle',
+    raw.handle ? clip(String(raw.handle).replace(/^@/, ''), 40) : null,
+  );
   put('url', safeHttpUrl(raw.url));
   put('avatar', safeHttpUrl(raw.avatar));
   put('bio', raw.bio ? clip(raw.bio, 280) : null);
-  put('followers', Number.isFinite(Number(raw.followers)) && raw.followers !== null && raw.followers !== '' ? Number(raw.followers) : null);
+  put(
+    'followers',
+    Number.isFinite(Number(raw.followers)) &&
+      raw.followers !== null &&
+      raw.followers !== ''
+      ? Number(raw.followers)
+      : null,
+  );
   put('verified', typeof raw.verified === 'boolean' ? raw.verified : null);
   return out;
 }
@@ -321,16 +357,23 @@ export function compareEvidence(a, b) {
   return (
     P_RANK[b.geo?.precision || 'none'] - P_RANK[a.geo?.precision || 'none'] ||
     F_RANK[b.freshness] - F_RANK[a.freshness] ||
-    (Date.parse(b.publishedAt || 0) || 0) - (Date.parse(a.publishedAt || 0) || 0) ||
+    (Date.parse(b.publishedAt || 0) || 0) -
+      (Date.parse(a.publishedAt || 0) || 0) ||
     String(a.id).localeCompare(String(b.id))
   );
 }
 export function rankEvidence(items) {
-  return [...items].sort(compareEvidence).map((it, i) => ({ ...it, rank: i + 1 }));
+  return [...items]
+    .sort(compareEvidence)
+    .map((it, i) => ({ ...it, rank: i + 1 }));
 }
 
 function titleTokens(t) {
-  return new Set(normalizeText(t).split(' ').filter((w) => w.length > 2));
+  return new Set(
+    normalizeText(t)
+      .split(' ')
+      .filter((w) => w.length > 2),
+  );
 }
 /** Jaccard similarity of two titles' token sets. */
 export function titleSimilarity(a, b) {
@@ -349,11 +392,25 @@ export function titleSimilarity(a, b) {
  */
 export function dedupeEvidence(items) {
   const byId = new Map();
-  const score = (x) => P_RANK[x.geo?.precision || 'none'] * 10 + (x.publishedAt ? 2 : 0) + (x.author?.fields?.length || 0) / 10;
+  const score = (x) =>
+    P_RANK[x.geo?.precision || 'none'] * 10 +
+    (x.publishedAt ? 2 : 0) +
+    (x.author?.fields?.length || 0) / 10;
   for (const it of items) {
     if (!it) continue;
     const prev = byId.get(it.id);
-    if (!prev || score(it) > score(prev)) byId.set(it.id, prev ? { ...it, mergedFrom: [...(prev.mergedFrom || []), prev.source?.id].filter(Boolean) } : it);
+    if (!prev || score(it) > score(prev))
+      byId.set(
+        it.id,
+        prev
+          ? {
+              ...it,
+              mergedFrom: [...(prev.mergedFrom || []), prev.source?.id].filter(
+                Boolean,
+              ),
+            }
+          : it,
+      );
   }
   const out = [];
   for (const it of byId.values()) {
@@ -371,11 +428,15 @@ export function dedupeEvidence(items) {
 }
 
 /** Filter by geo precisions and freshness classes (empty set = all). */
-export function filterEvidence(items, { precisions = [], freshness = [] } = {}) {
+export function filterEvidence(
+  items,
+  { precisions = [], freshness = [] } = {},
+) {
   const P = new Set(precisions);
   const F = new Set(freshness);
   return items.filter(
-    (it) => (!P.size || P.has(it.geo?.precision)) && (!F.size || F.has(it.freshness)),
+    (it) =>
+      (!P.size || P.has(it.geo?.precision)) && (!F.size || F.has(it.freshness)),
   );
 }
 
@@ -383,7 +444,12 @@ export function filterEvidence(items, { precisions = [], freshness = [] } = {}) 
 export function refreshFreshness(items, now = new Date()) {
   return items.map((it) => {
     const f = classifyFreshness(it.publishedAt, now);
-    return { ...it, freshness: f.freshness, ageHours: f.ageHours, undated: f.undated };
+    return {
+      ...it,
+      freshness: f.freshness,
+      ageHours: f.ageHours,
+      undated: f.undated,
+    };
   });
 }
 
@@ -396,7 +462,8 @@ export function sanitizeForCache(item) {
   if (item.cachePolicy !== 'ids-only') return item;
   return {
     ...item,
-    title: 'Instagram post (metadata not cached per Meta oEmbed terms — open the embed to view)',
+    title:
+      'Instagram post (metadata not cached per Meta oEmbed terms — open the embed to view)',
     snippet: '',
     thumbnail: null,
     author: { source: item.author?.source || '', fields: [] },
@@ -417,13 +484,30 @@ export function diffEvidence(prev = [], next = []) {
     if (p.geo?.precision !== n.geo?.precision) fields.push('geo');
     if (fields.length) changed.push({ id, fields });
   }
-  return { added, removed, changed, unchanged: next.length - added.length - changed.length };
+  return {
+    added,
+    removed,
+    changed,
+    unchanged: next.length - added.length - changed.length,
+  };
 }
 
 /** Stable cache key for a scene evidence request. */
-export function evidenceKey({ sceneId, place, lat, lon, radiusKm = 5, windowHours = 72 } = {}) {
-  const loc = Number.isFinite(lat) && Number.isFinite(lon) ? `${lat.toFixed(3)},${lon.toFixed(3)}` : 'nolatlon';
-  const base = sceneId ? `scene:${sceneId}` : `place:${normalizeText(place).replace(/ /g, '-').slice(0, 60)}`;
+export function evidenceKey({
+  sceneId,
+  place,
+  lat,
+  lon,
+  radiusKm = 5,
+  windowHours = 72,
+} = {}) {
+  const loc =
+    Number.isFinite(lat) && Number.isFinite(lon)
+      ? `${lat.toFixed(3)},${lon.toFixed(3)}`
+      : 'nolatlon';
+  const base = sceneId
+    ? `scene:${sceneId}`
+    : `place:${normalizeText(place).replace(/ /g, '-').slice(0, 60)}`;
   return `${base}|${loc}|r${radiusKm}|w${windowHours}`;
 }
 
@@ -434,7 +518,12 @@ export function buildSignal(raw, ctx = {}) {
   if (!url || !title) return null;
   const publishedAt = toIso(raw.publishedAt);
   const f = classifyFreshness(publishedAt, ctx.now || new Date());
-  const geo = scoreGeo({ text: `${title} ${raw.snippet || ''}`, place: ctx.place, aliases: ctx.aliases, anchor: ctx.anchor });
+  const geo = scoreGeo({
+    text: `${title} ${raw.snippet || ''}`,
+    place: ctx.place,
+    aliases: ctx.aliases,
+    anchor: ctx.anchor,
+  });
   return {
     id: `sig:${normalizeText(url).slice(-80)}`,
     kind: raw.kind || 'news',
@@ -444,27 +533,51 @@ export function buildSignal(raw, ctx = {}) {
     publishedAt,
     freshness: f.freshness,
     ageHours: f.ageHours,
-    geo: { precision: geo.precision, label: geo.label, confidence: geo.confidence },
-    source: { id: clip(raw.sourceId, 40), name: clip(raw.sourceName, 80), at: toIso(ctx.now) || null },
+    geo: {
+      precision: geo.precision,
+      label: geo.label,
+      confidence: geo.confidence,
+    },
+    source: {
+      id: clip(raw.sourceId, 40),
+      name: clip(raw.sourceName, 80),
+      at: toIso(ctx.now) || null,
+    },
   };
 }
 
 /** Deterministic evidence summary (the no-LLM fallback). */
-export function deterministicSummary({ place, items = [], signals = [], sources = [] } = {}) {
-  const by = (k, arr) => arr.reduce((m, x) => ((m[x[k]] = (m[x[k]] || 0) + 1), m), {});
+export function deterministicSummary({
+  place,
+  items = [],
+  signals = [],
+  sources = [],
+} = {}) {
+  const by = (k, arr) =>
+    arr.reduce((m, x) => ((m[x[k]] = (m[x[k]] || 0) + 1), m), {});
   const fr = by('freshness', items);
-  const geo = items.reduce((m, x) => ((m[x.geo.precision] = (m[x.geo.precision] || 0) + 1), m), {});
+  const geo = items.reduce(
+    (m, x) => ((m[x.geo.precision] = (m[x.geo.precision] || 0) + 1), m),
+    {},
+  );
   const ok = sources.filter((s) => s.state === 'ok').length;
-  const creds = sources.filter((s) => s.state === 'credentials_required').length;
+  const creds = sources.filter(
+    (s) => s.state === 'credentials_required',
+  ).length;
   const lines = [
     `${items.length} public video/post item(s) and ${signals.length} news/incident signal(s) for ${place || 'the AOI'}.`,
     `Freshness: ${FRESHNESS.map((k) => `${k} ${fr[k] || 0}`).join(' · ')}.`,
     `Geo precision: exact ${geo.exact || 0} · place ${geo.place || 0} · text-inferred ${geo.text || 0} · none ${geo.none || 0}.`,
     `${ok} source(s) answered; ${creds} need credentials.`,
   ];
-  const fresh = signals.filter((s) => s.freshness === 'LIVE' || s.freshness === 'RECENT');
+  const fresh = signals.filter(
+    (s) => s.freshness === 'LIVE' || s.freshness === 'RECENT',
+  );
   if (fresh.length)
-    lines.push(`Most recent signal: "${fresh[0].title}" (${fresh[0].outlet || fresh[0].source?.name || 'source'}, ${fresh[0].publishedAt || 'undated'}).`);
-  else lines.push('No LIVE/RECENT public signal names this place in the window.');
+    lines.push(
+      `Most recent signal: "${fresh[0].title}" (${fresh[0].outlet || fresh[0].source?.name || 'source'}, ${fresh[0].publishedAt || 'undated'}).`,
+    );
+  else
+    lines.push('No LIVE/RECENT public signal names this place in the window.');
   return { text: lines.join(' '), engine: 'deterministic', lines };
 }

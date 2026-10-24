@@ -18,7 +18,14 @@ export const CACHE_MAX = 24;
 export function initialState(request = {}) {
   return {
     request,
-    key: evidenceKey({ sceneId: request.sceneId, place: request.place || request.text, lat: request.lat, lon: request.lon, radiusKm: request.radiusKm, windowHours: request.windowHours }),
+    key: evidenceKey({
+      sceneId: request.sceneId,
+      place: request.place || request.text,
+      lat: request.lat,
+      lon: request.lon,
+      radiusKm: request.radiusKm,
+      windowHours: request.windowHours,
+    }),
     phase: 'idle', // idle | streaming | done | cached | error | timeout
     place: request.place || '',
     aliases: [],
@@ -28,7 +35,12 @@ export function initialState(request = {}) {
     signals: [],
     summary: null,
     timings: {},
-    client: { startedAt: null, firstCardMs: null, firstSignalMs: null, doneMs: null },
+    client: {
+      startedAt: null,
+      firstCardMs: null,
+      firstSignalMs: null,
+      doneMs: null,
+    },
     selectedId: null,
     filters: { precisions: [], freshness: [] },
     diff: null,
@@ -60,16 +72,26 @@ export function applyEvent(state, event, data, nowMs = Date.now()) {
       break;
     case 'source': {
       const i = s.sources.findIndex((x) => x.id === data.id);
-      s.sources = i === -1 ? [...s.sources, data] : s.sources.map((x, k) => (k === i ? { ...x, ...data } : x));
+      s.sources =
+        i === -1
+          ? [...s.sources, data]
+          : s.sources.map((x, k) => (k === i ? { ...x, ...data } : x));
       break;
     }
     case 'item':
       s.items = rankEvidence(upsert(s.items, data));
-      if (s.client.firstCardMs === null) s.client = { ...s.client, firstCardMs: since() };
+      if (s.client.firstCardMs === null)
+        s.client = { ...s.client, firstCardMs: since() };
       break;
     case 'signal':
-      if (!s.signals.some((x) => x.id === data.id)) s.signals = [...s.signals, data].sort((a, b) => (Date.parse(b.publishedAt || 0) || 0) - (Date.parse(a.publishedAt || 0) || 0));
-      if (s.client.firstSignalMs === null) s.client = { ...s.client, firstSignalMs: since() };
+      if (!s.signals.some((x) => x.id === data.id))
+        s.signals = [...s.signals, data].sort(
+          (a, b) =>
+            (Date.parse(b.publishedAt || 0) || 0) -
+            (Date.parse(a.publishedAt || 0) || 0),
+        );
+      if (s.client.firstSignalMs === null)
+        s.client = { ...s.client, firstSignalMs: since() };
       break;
     case 'summary':
       s.summary = data;
@@ -154,13 +176,22 @@ export function saveSceneEvidence(storage, state, nowMs = Date.now()) {
 export function loadSceneEvidence(storage, key, now = new Date()) {
   const e = readAll(storage)[key];
   if (!e) return null;
-  return { ...e, items: rankEvidence(refreshFreshness(e.items || [], now)), cachedAt: new Date(e.at).toISOString() };
+  return {
+    ...e,
+    items: rankEvidence(refreshFreshness(e.items || [], now)),
+    cachedAt: new Date(e.at).toISOString(),
+  };
 }
 
 export function listCachedScenes(storage) {
   const all = readAll(storage);
   return Object.entries(all)
-    .map(([key, v]) => ({ key, place: v.place, at: v.at, items: v.items?.length || 0 }))
+    .map(([key, v]) => ({
+      key,
+      place: v.place,
+      at: v.at,
+      items: v.items?.length || 0,
+    }))
     .sort((a, b) => b.at - a.at);
 }
 
@@ -168,7 +199,10 @@ export function listCachedScenes(storage) {
 export function diffAgainstCache(storage, state) {
   const prev = readAll(storage)[state.key];
   if (!prev) return null;
-  return { ...diffEvidence(prev.items || [], state.items), cachedAt: new Date(prev.at).toISOString() };
+  return {
+    ...diffEvidence(prev.items || [], state.items),
+    cachedAt: new Date(prev.at).toISOString(),
+  };
 }
 
 // ---------------------------------------------------------------- share links
@@ -188,12 +222,18 @@ export function decodeShare(param) {
     if (!r || typeof r.p !== 'string' || !r.p.trim()) return null;
     const lat = Number(r.a);
     const lon = Number(r.o);
-    const ok = Number.isFinite(lat) && Number.isFinite(lon) && Math.abs(lat) <= 90 && Math.abs(lon) <= 180;
+    const ok =
+      Number.isFinite(lat) &&
+      Number.isFinite(lon) &&
+      Math.abs(lat) <= 90 &&
+      Math.abs(lon) <= 180;
     return {
       place: r.p.slice(0, 80),
       lat: ok ? lat : undefined,
       lon: ok ? lon : undefined,
-      windowHours: Number.isFinite(Number(r.w)) ? Math.max(1, Math.min(168, Number(r.w))) : 72,
+      windowHours: Number.isFinite(Number(r.w))
+        ? Math.max(1, Math.min(168, Number(r.w)))
+        : 72,
       sceneId: typeof r.s === 'string' ? r.s.slice(0, 160) : undefined,
     };
   } catch {

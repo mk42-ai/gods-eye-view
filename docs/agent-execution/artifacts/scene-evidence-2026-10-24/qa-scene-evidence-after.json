@@ -1,0 +1,518 @@
+{
+ "startedUtc": "2026-10-24T07:57:42.201Z",
+ "endedUtc": "2026-10-24T08:01:45.509Z",
+ "url": "https://sb-2n7tqzp6l1g2.vercel.run",
+ "host": "MIRRORED chat-canvas harness (not the real OnDemand host)",
+ "passed": 57,
+ "failed": 0,
+ "runs": [
+  {
+   "id": "1440x900",
+   "timings": {
+    "marina": {
+     "submit": "enter",
+     "firstCardMs": 5899,
+     "fullMs": 13279,
+     "clientFirstCardMs": 4346,
+     "clientDoneMs": 11419,
+     "serverTimings": {
+      "firstItemMs": 4005,
+      "firstSignalMs": 309,
+      "intentMs": 0,
+      "summaryMs": 1592,
+      "sourcesMs": 9508,
+      "totalMs": 11154
+     },
+     "engine": "cerebras-ondemand",
+     "items": 19,
+     "signals": 14,
+     "byFreshness": {
+      "STALE": 8,
+      "ARCHIVAL": 11
+     },
+     "byGeo": {
+      "text": 18,
+      "none": 1
+     }
+    },
+    "burj": {
+     "submit": "button",
+     "firstCardMs": 5658,
+     "fullMs": 14437,
+     "clientFirstCardMs": 5357,
+     "clientDoneMs": 14162,
+     "serverTimings": {
+      "firstItemMs": 4968,
+      "firstSignalMs": 257,
+      "intentMs": 0,
+      "summaryMs": 3030,
+      "sourcesMs": 10459,
+      "totalMs": 13715
+     },
+     "engine": "cerebras-ondemand",
+     "items": 30,
+     "signals": 19,
+     "byFreshness": {
+      "STALE": 4,
+      "ARCHIVAL": 25,
+      "RECENT": 1
+     },
+     "byGeo": {
+      "text": 27,
+      "none": 3
+     }
+    }
+   },
+   "youtubeEmbed": {
+    "t1": 0,
+    "t2": 0,
+    "playerState": "-1",
+    "frame": {
+     "found": true,
+     "text": "Sign in to confirm you\u2019re not a bot Sign in to confirm you\u2019re not a bot This helps protect our community Sign in Learn m",
+     "video": {
+      "readyState": 0,
+      "t": 0,
+      "paused": true,
+      "muted": true
+     }
+    }
+   },
+   "tiktokPlayback": {
+    "id": "tiktok:7697891603704270100",
+    "a": {
+     "found": true,
+     "text": "Amanat Ali |Dubai \ud83c\udde6\ud83c\uddea\ud83d\udcab amanat_dxb2 Burj Khalifa \ud83d\ude0d #creatorsearchinsights #burjkhalifa #dubai 00:07/00:12",
+     "video": {
+      "readyState": 4,
+      "t": 7.45,
+      "paused": false,
+      "muted": true
+     }
+    },
+    "b": {
+     "found": true,
+     "text": "Amanat Ali |Dubai \ud83c\udde6\ud83c\uddea\ud83d\udcab amanat_dxb2 Burj Khalifa \ud83d\ude0d #creatorsearchinsights #burjkhalifa #dubai 00:10/00:12",
+     "video": {
+      "readyState": 4,
+      "t": 10.45,
+      "paused": false,
+      "muted": true
+     }
+    }
+   },
+   "checks": [
+    {
+     "name": "app+evidence panel mounted in cross-origin iframe",
+     "ok": true,
+     "utc": "2026-10-24T07:57:45.866Z"
+    },
+    {
+     "name": "idle: AOI input hit-testable",
+     "ok": true,
+     "utc": "2026-10-24T07:57:51.732Z"
+    },
+    {
+     "name": "idle: BUILD SCENE hit-testable",
+     "ok": true,
+     "utc": "2026-10-24T07:57:52.794Z"
+    },
+    {
+     "name": "marina: native enter submit triggered an evidence request",
+     "ok": true,
+     "utc": "2026-10-24T07:58:30.652Z"
+    },
+    {
+     "name": "marina: scene built (Play available)",
+     "ok": true,
+     "utc": "2026-10-24T07:58:30.652Z"
+    },
+    {
+     "name": "marina: camera at AOI (<0.08 deg)",
+     "ok": true,
+     "utc": "2026-10-24T07:58:30.662Z"
+    },
+    {
+     "name": "marina: evidence completed end-to-end",
+     "ok": true,
+     "utc": "2026-10-24T07:58:30.662Z"
+    },
+    {
+     "name": "marina: partial results streamed before completion",
+     "ok": true,
+     "utc": "2026-10-24T07:58:30.662Z"
+    },
+    {
+     "name": "marina: credentials-required sources listed (no fake data)",
+     "ok": true,
+     "utc": "2026-10-24T07:58:30.663Z"
+    },
+    {
+     "name": "marina: every card has freshness + geo label + original link; approximate never shown as exact",
+     "ok": true,
+     "utc": "2026-10-24T07:58:30.664Z"
+    },
+    {
+     "name": "burj: native button submit triggered an evidence request",
+     "ok": true,
+     "utc": "2026-10-24T07:58:48.878Z"
+    },
+    {
+     "name": "burj: scene built (Play available)",
+     "ok": true,
+     "utc": "2026-10-24T07:58:48.878Z"
+    },
+    {
+     "name": "burj: camera at AOI (<0.08 deg)",
+     "ok": true,
+     "utc": "2026-10-24T07:58:48.879Z"
+    },
+    {
+     "name": "burj: evidence completed end-to-end",
+     "ok": true,
+     "utc": "2026-10-24T07:58:48.879Z"
+    },
+    {
+     "name": "burj: partial results streamed before completion",
+     "ok": true,
+     "utc": "2026-10-24T07:58:48.879Z"
+    },
+    {
+     "name": "burj: credentials-required sources listed (no fake data)",
+     "ok": true,
+     "utc": "2026-10-24T07:58:48.879Z"
+    },
+    {
+     "name": "burj: every card has freshness + geo label + original link; approximate never shown as exact",
+     "ok": true,
+     "utc": "2026-10-24T07:58:48.880Z"
+    },
+    {
+     "name": "freshness filter (ARCHIVAL) narrows the rail",
+     "ok": true,
+     "utc": "2026-10-24T07:58:49.766Z"
+    },
+    {
+     "name": "geo filter (EXACT) applies \u2014 0 exact geotags with current sources, shown honestly",
+     "ok": true,
+     "utc": "2026-10-24T07:58:50.638Z"
+    },
+    {
+     "name": "card click \u2192 selected card + lazy official embed loaded in player",
+     "ok": true,
+     "utc": "2026-10-24T07:59:19.995Z"
+    },
+    {
+     "name": "YouTube embed: player frame loaded (currentTime via IFrame API reported separately)",
+     "ok": true,
+     "utc": "2026-10-24T07:59:19.996Z"
+    },
+    {
+     "name": "TikTok embed playback: video readyState>=2 and currentTime advancing",
+     "ok": true,
+     "utc": "2026-10-24T07:59:32.077Z"
+    },
+    {
+     "name": "map pin + timeline synced to the selected card",
+     "ok": true,
+     "utc": "2026-10-24T07:59:33.298Z"
+    },
+    {
+     "name": "profile popup opens with public fields + profile link + field provenance",
+     "ok": true,
+     "utc": "2026-10-24T07:59:34.275Z"
+    },
+    {
+     "name": "saved scene reopens evidence from cache with no provider request",
+     "ok": true,
+     "utc": "2026-10-24T07:59:39.605Z"
+    },
+    {
+     "name": "error state rendered (forced HTTP 503) with retry guidance, no fabricated items",
+     "ok": true,
+     "utc": "2026-10-24T07:59:43.580Z"
+    },
+    {
+     "name": "REBUILD fetches fresh and shows a diff against the cached scene",
+     "ok": true,
+     "utc": "2026-10-24T07:59:55.826Z"
+    },
+    {
+     "name": "no uncaught page errors",
+     "ok": true,
+     "utc": "2026-10-24T07:59:56.700Z"
+    }
+   ],
+   "screenshots": [
+    "after-evidence-idle-1440x900.png",
+    "after-evidence-marina-streaming-1440x900.png",
+    "after-evidence-marina-built-1440x900.png",
+    "after-evidence-burj-streaming-1440x900.png",
+    "after-evidence-burj-built-1440x900.png",
+    "after-evidence-filter-exact-1440x900.png",
+    "after-evidence-playing-tiktok-1440x900.png",
+    "after-evidence-playing-1440x900.png",
+    "after-evidence-profile-1440x900.png",
+    "after-evidence-reopened-cache-1440x900.png",
+    "after-evidence-error-1440x900.png",
+    "after-evidence-rebuild-diff-1440x900.png"
+   ]
+  },
+  {
+   "id": "375x739",
+   "timings": {
+    "marina": {
+     "submit": "button",
+     "firstCardMs": 4771,
+     "fullMs": 12738,
+     "clientFirstCardMs": 4077,
+     "clientDoneMs": 12173,
+     "serverTimings": {
+      "firstItemMs": 3853,
+      "firstSignalMs": 50,
+      "intentMs": 0,
+      "summaryMs": 2461,
+      "sourcesMs": 9503,
+      "totalMs": 12069
+     },
+     "engine": "cerebras-ondemand",
+     "items": 18,
+     "signals": 14,
+     "byFreshness": {
+      "STALE": 7,
+      "ARCHIVAL": 11
+     },
+     "byGeo": {
+      "text": 18
+     }
+    },
+    "burj": {
+     "submit": "enter",
+     "firstCardMs": 3967,
+     "fullMs": 11965,
+     "clientFirstCardMs": 3347,
+     "clientDoneMs": 11610,
+     "serverTimings": {
+      "firstItemMs": 3152,
+      "firstSignalMs": 46,
+      "intentMs": 0,
+      "summaryMs": 1737,
+      "sourcesMs": 9504,
+      "totalMs": 11510
+     },
+     "engine": "cerebras-ondemand",
+     "items": 36,
+     "signals": 19,
+     "byFreshness": {
+      "RECENT": 1,
+      "STALE": 6,
+      "ARCHIVAL": 29
+     },
+     "byGeo": {
+      "text": 34,
+      "none": 2
+     }
+    }
+   },
+   "youtubeEmbed": {
+    "t1": 0,
+    "t2": 0,
+    "playerState": "-1",
+    "frame": {
+     "found": true,
+     "text": "Sign in to confirm you\u2019re not a bot Sign in to confirm you\u2019re not a bot This helps protect our community Sign in Learn m",
+     "video": {
+      "readyState": 0,
+      "t": 0,
+      "paused": true,
+      "muted": true
+     }
+    }
+   },
+   "tiktokPlayback": {
+    "id": "tiktok:7697891603704270100",
+    "a": {
+     "found": true,
+     "text": "Amanat Ali |Dubai \ud83c\udde6\ud83c\uddea\ud83d\udcab amanat_dxb2 Burj Khalifa \ud83d\ude0d #creatorsearchinsights #burjkhalifa #dubai 00:07/00:12",
+     "video": {
+      "readyState": 4,
+      "t": 8.09,
+      "paused": false,
+      "muted": true
+     }
+    },
+    "b": {
+     "found": true,
+     "text": "Amanat Ali |Dubai \ud83c\udde6\ud83c\uddea\ud83d\udcab amanat_dxb2 Burj Khalifa \ud83d\ude0d #creatorsearchinsights #burjkhalifa #dubai 00:10/00:12",
+     "video": {
+      "readyState": 4,
+      "t": 11.09,
+      "paused": false,
+      "muted": true
+     }
+    }
+   },
+   "checks": [
+    {
+     "name": "app+evidence panel mounted in cross-origin iframe",
+     "ok": true,
+     "utc": "2026-10-24T08:00:02.051Z"
+    },
+    {
+     "name": "idle: AOI input hit-testable",
+     "ok": true,
+     "utc": "2026-10-24T08:00:07.422Z"
+    },
+    {
+     "name": "idle: BUILD SCENE hit-testable",
+     "ok": true,
+     "utc": "2026-10-24T08:00:07.968Z"
+    },
+    {
+     "name": "marina: native button submit triggered an evidence request",
+     "ok": true,
+     "utc": "2026-10-24T08:00:26.224Z"
+    },
+    {
+     "name": "marina: scene built (Play available)",
+     "ok": true,
+     "utc": "2026-10-24T08:00:26.224Z"
+    },
+    {
+     "name": "marina: camera at AOI (<0.08 deg)",
+     "ok": true,
+     "utc": "2026-10-24T08:00:26.225Z"
+    },
+    {
+     "name": "marina: evidence completed end-to-end",
+     "ok": true,
+     "utc": "2026-10-24T08:00:26.225Z"
+    },
+    {
+     "name": "marina: partial results streamed before completion",
+     "ok": true,
+     "utc": "2026-10-24T08:00:26.225Z"
+    },
+    {
+     "name": "marina: credentials-required sources listed (no fake data)",
+     "ok": true,
+     "utc": "2026-10-24T08:00:26.225Z"
+    },
+    {
+     "name": "marina: every card has freshness + geo label + original link; approximate never shown as exact",
+     "ok": true,
+     "utc": "2026-10-24T08:00:26.226Z"
+    },
+    {
+     "name": "burj: native enter submit triggered an evidence request",
+     "ok": true,
+     "utc": "2026-10-24T08:00:41.129Z"
+    },
+    {
+     "name": "burj: scene built (Play available)",
+     "ok": true,
+     "utc": "2026-10-24T08:00:41.129Z"
+    },
+    {
+     "name": "burj: camera at AOI (<0.08 deg)",
+     "ok": true,
+     "utc": "2026-10-24T08:00:41.130Z"
+    },
+    {
+     "name": "burj: evidence completed end-to-end",
+     "ok": true,
+     "utc": "2026-10-24T08:00:41.130Z"
+    },
+    {
+     "name": "burj: partial results streamed before completion",
+     "ok": true,
+     "utc": "2026-10-24T08:00:41.130Z"
+    },
+    {
+     "name": "burj: credentials-required sources listed (no fake data)",
+     "ok": true,
+     "utc": "2026-10-24T08:00:41.130Z"
+    },
+    {
+     "name": "burj: every card has freshness + geo label + original link; approximate never shown as exact",
+     "ok": true,
+     "utc": "2026-10-24T08:00:41.131Z"
+    },
+    {
+     "name": "freshness filter (ARCHIVAL) narrows the rail",
+     "ok": true,
+     "utc": "2026-10-24T08:00:41.742Z"
+    },
+    {
+     "name": "geo filter (EXACT) applies \u2014 0 exact geotags with current sources, shown honestly",
+     "ok": true,
+     "utc": "2026-10-24T08:00:42.400Z"
+    },
+    {
+     "name": "card click \u2192 selected card + lazy official embed loaded in player",
+     "ok": true,
+     "utc": "2026-10-24T08:01:11.317Z"
+    },
+    {
+     "name": "YouTube embed: player frame loaded (currentTime via IFrame API reported separately)",
+     "ok": true,
+     "utc": "2026-10-24T08:01:11.318Z"
+    },
+    {
+     "name": "TikTok embed playback: video readyState>=2 and currentTime advancing",
+     "ok": true,
+     "utc": "2026-10-24T08:01:23.407Z"
+    },
+    {
+     "name": "map pin + timeline synced to the selected card",
+     "ok": true,
+     "utc": "2026-10-24T08:01:24.367Z"
+    },
+    {
+     "name": "profile popup opens with public fields + profile link + field provenance",
+     "ok": true,
+     "utc": "2026-10-24T08:01:25.033Z"
+    },
+    {
+     "name": "saved scene reopens evidence from cache with no provider request",
+     "ok": true,
+     "utc": "2026-10-24T08:01:29.613Z"
+    },
+    {
+     "name": "error state rendered (forced HTTP 503) with retry guidance, no fabricated items",
+     "ok": true,
+     "utc": "2026-10-24T08:01:32.264Z"
+    },
+    {
+     "name": "REBUILD fetches fresh and shows a diff against the cached scene",
+     "ok": true,
+     "utc": "2026-10-24T08:01:45.359Z"
+    },
+    {
+     "name": "mobile: evidence panel does not overlap the AOI composer; AOI input + BUILD SCENE still hit-testable",
+     "ok": true,
+     "utc": "2026-10-24T08:01:45.493Z"
+    },
+    {
+     "name": "no uncaught page errors",
+     "ok": true,
+     "utc": "2026-10-24T08:01:45.494Z"
+    }
+   ],
+   "screenshots": [
+    "after-evidence-idle-375x739.png",
+    "after-evidence-marina-streaming-375x739.png",
+    "after-evidence-marina-built-375x739.png",
+    "after-evidence-burj-streaming-375x739.png",
+    "after-evidence-burj-built-375x739.png",
+    "after-evidence-filter-exact-375x739.png",
+    "after-evidence-playing-tiktok-375x739.png",
+    "after-evidence-playing-375x739.png",
+    "after-evidence-profile-375x739.png",
+    "after-evidence-reopened-cache-375x739.png",
+    "after-evidence-error-375x739.png",
+    "after-evidence-rebuild-diff-375x739.png"
+   ]
+  }
+ ]
+}
