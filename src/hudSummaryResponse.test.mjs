@@ -5,7 +5,6 @@ import {
   isHudSummaryUnconfigured,
   keylessHudSummaryResponse,
 } from './hudSummaryResponse.js';
-import { openAiRealtimeProxy } from '../vite.config.js';
 
 const UNCONFIGURED_PAYLOAD = {
   configured: false,
@@ -14,17 +13,6 @@ const UNCONFIGURED_PAYLOAD = {
   summary: null,
 };
 
-function installOpenAiRoutes() {
-  const routes = new Map();
-  openAiRealtimeProxy().configureServer({
-    middlewares: {
-      use(path, handler) {
-        routes.set(path, handler);
-      },
-    },
-  });
-  return routes;
-}
 
 function invokeRoute(handler, { method = 'GET', url = '/', remoteAddress = '127.0.0.1' } = {}) {
   return new Promise((resolve, reject) => {
@@ -96,35 +84,32 @@ test('does not hide real provider and HTTP failures', () => {
   assert.equal(isHudSummaryUnconfigured(200, { error: 'provider failed' }), false);
 });
 
-test('the installed keyless HUD route stays successful after the voice quota is exhausted', async () => {
-  const previousKey = process.env.OPENAI_API_KEY;
-  const previousLimit = process.env.GEV_RATELIMIT_OPENAI_PER_MIN;
-  process.env.OPENAI_API_KEY = '';
-  process.env.GEV_RATELIMIT_OPENAI_PER_MIN = '1';
+test('the v2 HUD summary route answers the graceful unconfigured shape when no OnDemand key is set', async () => {
+  const previous = process.env.ONDEMAND_API_KEY;
+  process.env.ONDEMAND_API_KEY = '';
   try {
-    const routes = installOpenAiRoutes();
-    const token = routes.get('/api/realtime/token');
-    const hud = routes.get('/api/openai/hud-summary');
-    assert.equal(typeof token, 'function');
-    assert.equal(typeof hud, 'function');
-
-    const firstToken = await invokeRoute(token);
-    const secondToken = await invokeRoute(token);
-    assert.equal(firstToken.statusCode, 503);
-    assert.deepEqual(firstToken.body, { error: 'OPENAI_API_KEY is not set' });
-    assert.equal(secondToken.statusCode, 429);
-
-    for (let attempt = 0; attempt < 2; attempt += 1) {
-      const response = await invokeRoute(hud, { method: 'POST' });
-      assert.equal(response.statusCode, 200);
-      assert.equal(response.headers['content-type'], 'application/json; charset=utf-8');
-      assert.equal(response.headers['cache-control'], 'no-store');
-      assert.deepEqual(response.body, UNCONFIGURED_PAYLOAD);
-    }
+    const { __reloadConfigForTests } = await import('../server/ondemand/config.js');
+    __reloadConfigForTests();
+    const { createFoundationHandler } = await import(['..', 'server', 'ondemand', 'foundation', 'proxy-route.js'].join('/'));
+    const handler = createFoundationHandler({ store: { backend: 'memory', get: async () => undefined, put: async (u, c, p) => ({ ...p, objectContextKey: 'hudSummary:global' }), touch: async () => {}, listByUser: async () => [], close: async () => true } });
+    const response = await new Promise((resolve, reject) => {
+      const headers = new Map();
+      const req = { method: 'POST', url: '/summaries/hud', headers: { host: 'localhost' }, socket: { remoteAddress: '127.0.0.1' }, on() {}, off() {}, async *[Symbol.asyncIterator]() { yield Buffer.from('{"placeLabels":["Abu Dhabi"]}'); } };
+      const res = { statusCode: 200, setHeader(n, v) { headers.set(String(n).toLowerCase(), String(v)); }, end(body = '') { resolve({ statusCode: this.statusCode, headers: Object.fromEntries(headers), body: body ? JSON.parse(String(body)) : null }); } };
+      Promise.resolve(handler(req, res)).catch(reject);
+    });
+    assert.equal(response.statusCode, 200);
+    assert.deepEqual(response.body, UNCONFIGURED_PAYLOAD);
+    assert.equal(isHudSummaryUnconfigured(response.statusCode, response.body), true);
+    assert.equal(response.headers['x-ondemand-key-source'], 'server');
   } finally {
-    if (previousKey === undefined) delete process.env.OPENAI_API_KEY;
-    else process.env.OPENAI_API_KEY = previousKey;
-    if (previousLimit === undefined) delete process.env.GEV_RATELIMIT_OPENAI_PER_MIN;
-    else process.env.GEV_RATELIMIT_OPENAI_PER_MIN = previousLimit;
+    if (previous === undefined) delete process.env.ONDEMAND_API_KEY;
+    else process.env.ONDEMAND_API_KEY = previous;
+    const { __reloadConfigForTests } = await import('../server/ondemand/config.js');
+    __reloadConfigForTests();
   }
 });
+
+// The OpenAI provider module (and its 410 tombstone for /api/openai/hud-summary)
+// was deleted 2026-10-21 together with the OpenAI Realtime stack; the HUD summary
+// lives only on /api/ondemand/v2/summaries/hud (covered above).

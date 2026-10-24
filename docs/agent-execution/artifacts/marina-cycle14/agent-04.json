@@ -1,0 +1,109 @@
+{
+  "agent": "Agent 4 / 20261024_5",
+  "task": "composer submission/state/cancellation implementation",
+  "started_at_utc": "2026-10-24T01:48:27Z",
+  "finished_at_utc": "2026-10-24T01:49:27.403313Z",
+  "root": "/home/appuser/work/6692b763e851d28a036ab30e/6ad9daa8a32a07124b4a9356/gods-eye-view",
+  "modified_repository_files": [
+    "src/incidents/ui/composer.js"
+  ],
+  "summary": [
+    "Added visible Cancel while a request runs; Retry after cancellation, errors, partial/unavailable searches.",
+    "Generation and AbortSignal checks prevent stale locate/search/ingest/geographic/buildScene resolutions from publishing UI results or reaching later onScene calls; cancellation and destroy invalidate old pickers/play actions.",
+    "Preserved native form submission (including Enter); blocks duplicate busy submissions, preserves query text, and releases busy controls only for the current request.",
+    "Geography-only build_scene requests call the injected geographic builder, never incident ingestion or incident search.",
+    "Out-of-AOI candidates render Outside UAE AOI \u2014 external context only; removed override and Play for refusals, with optional external-context callback.",
+    "Successful scenes show concise generated/ready copy and incident-composer-play; incident scene ingestion, dedupe reuse, source-search details, and mobile stack measurements remain supported.",
+    "Partial search chip is partial, unavailable is error; errors/cancellation mark the active stage rather than claiming completion."
+  ],
+  "api_changes": {
+    "createIncidentComposer_options": [
+      "createGeographicScene: async ({candidate, extraction, text, signal}) => scene; required for geography-only build_scene; no fallback to fabricated incidents.",
+      "onExternal?: async ({candidate, extraction, text, signal}) => void; called for AOI refusals, not a playable scene.",
+      "onScene existing payload preserved, with extraction, text, signal, generation, source added; source is geographic or incident, override is always false; geographic incident and ingest are null.",
+      "onLocated existing payload preserved with text and signal added.",
+      "buildScene receives existing incidents argument and optional second {signal}; awaits sync or async return."
+    ],
+    "returned_api": [
+      "cancel(): boolean added",
+      "state.generation: monotonically increasing request identity added"
+    ],
+    "dom_ids": [
+      "incident-composer-cancel",
+      "incident-composer-retry",
+      "incident-composer-play"
+    ],
+    "state_additions": [
+      "cancelled",
+      "external",
+      "partial search chip status",
+      "cancelled/skipped stage statuses"
+    ],
+    "parser_compatibility": "Uses intent=build_scene with hasEventDescription/describesEvent metadata when present; falls back to existing incident event vocabulary. Merges local parser metadata with locate extraction. Agent 3 owns query.js; no edits made there."
+  },
+  "verification": [
+    {
+      "command": "node --check src/incidents/ui/composer.js",
+      "result": "passed"
+    },
+    {
+      "command": "node node_modules/prettier/bin/prettier.cjs --write src/incidents/ui/composer.js",
+      "result": "passed"
+    },
+    {
+      "command": "node --test src/incidents/composer.test.mjs",
+      "tests": 19,
+      "passed": 18,
+      "failed": 1,
+      "log": "/tmp/gev-agent-04-existing-tests.log"
+    },
+    {
+      "command": "node --test /tmp/gev-agent-04-composer.test.mjs",
+      "tests": 13,
+      "passed": 13,
+      "failed": 0,
+      "log": "/tmp/gev-agent-04-targeted-tests.log",
+      "coverage": [
+        "geographic no-ingest path and Play",
+        "missing-builder error",
+        "Cancel locate",
+        "cancelled search vs newer busy generation",
+        "Cancel geographic build",
+        "Cancel ingest",
+        "destroy race",
+        "Retry with new signal",
+        "AOI refusal no Play/override",
+        "partial search honesty",
+        "native Enter default/form event/duplicate guard",
+        "incident ingestion retained",
+        "onScene rejection"
+      ]
+    }
+  ],
+  "failures": [
+    {
+      "kind": "expected legacy-test incompatibility",
+      "tests": [
+        "out-of-AOI: explicit reason shown, \"Add anyway (override)\" offered, override ingests with override:true",
+        "composer state machine"
+      ],
+      "reason": "Existing test explicitly requires Add anyway (override), which this task explicitly removes. Tests were not edited."
+    },
+    {
+      "kind": "tool availability, recovered",
+      "detail": "rg was not installed; used grep/find. node_modules/.bin/prettier symlink absent; invoked installed prettier through node successfully."
+    }
+  ],
+  "limitations": [
+    "No live browser was provisioned; native Enter behavior is covered by preserving the form submit/default event path and unit assertions, not a browser-driven keypress.",
+    "Callbacks must honour their supplied AbortSignal before their own external side effects. Composer guards its own state and does not invoke downstream callbacks after a cancelled await; it cannot undo a server ingest or external callback side effect already performed before cancellation.",
+    "Coordinator still needs to supply createGeographicScene and handle geographic onScene integration; no other repository files were edited."
+  ],
+  "credentials_accessed": false,
+  "artifacts": [
+    "/tmp/gev-agent-04.json",
+    "/tmp/gev-agent-04-composer.test.mjs",
+    "/tmp/gev-agent-04-existing-tests.log",
+    "/tmp/gev-agent-04-targeted-tests.log"
+  ]
+}

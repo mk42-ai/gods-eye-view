@@ -1,0 +1,48 @@
+{
+  "agent": 7,
+  "status": "complete",
+  "startedUtc": "2026-10-24T01:49:06Z",
+  "testsCompletedUtc": "2026-10-24T01:50:10Z",
+  "completedUtc": "2026-10-24T01:50:20.472Z",
+  "root": "/home/appuser/work/6692b763e851d28a036ab30e/6ad9daa8a32a07124b4a9356/gods-eye-view",
+  "files": [
+    {
+      "path": "src/scenes/geographicScene.js",
+      "lines": 287
+    },
+    {
+      "path": "src/scenes/geographicScene.test.mjs",
+      "lines": 291
+    }
+  ],
+  "apis": {
+    "buildGeographicScene": {
+      "signature": "buildGeographicScene({ candidate, extraction?, text?, now? }) -> GeographicScene",
+      "input": "Candidate uses lat, lon, name, source, numeric confidence, aoi_membership.aoi_ids. verified:true or validated:true is required; explicit false and ondemand-entity-extraction are rejected. No provider calls.",
+      "output": "Incident-compatible raw scene with geographic:true, anchor, string aoi, 4 keyframes and 4 typed steps. Unverified incident confidence and explicit geocoder provenance. Empty incident_ids, markers, evidence and timeline_events.",
+      "identity": "geo-scene-v1- prefix plus encoded canonical tuple [plan kind, safe provider source, resolved name, exact lat, exact lon]; no random IDs or truncated hashes.",
+      "camera": "Bearings 30/120/210/300; ellipsoid heights 2400/1200/900/1800 m; relative target distances 0/350/650/0 m within a 1200 m plan radius; time offsets 0/8/18/28 seconds."
+    },
+    "createGeographicSceneStore": {
+      "signature": "createGeographicSceneStore(storage) -> { load(id), save(scene), list(), rename(id,title,{now}?) }",
+      "key": "gev.geographic-scenes.v1",
+      "returns": "load returns detached scene or null; list returns detached scenes or []; save/rename return {saved:true,id,scene} or {saved:false,reason}.",
+      "safety": "Versioned schema validation reconstructs allowlisted snapshots. Unknown root fields discarded. Corrupt stores never silently overwritten. Maximum 100 scenes / 1,000,000 serialized characters. Quota and security errors return failure, with read-after-write validation; no optimistic cache."
+    }
+  },
+  "tests": {
+    "command": "node --test src/scenes/geographicScene.test.mjs",
+    "total": 23,
+    "passed": 23,
+    "failed": 0,
+    "skipped": 0
+  },
+  "caveats": [
+    "Coordinator must integrate conversion, director persistence and UI: current incidentSceneToProjectScene copies neither geographic nor anchor/provenance metadata, and existing director project validator does not accept new geographic fields.",
+    "Existing incident adapter derives the requested heights from zoom correctly, but uses its own 18-second timing. Honor explicit timeOffsetSec/28-second duration in geographic playback integration. Last step is an endpoint with durationSec:0, not a zero-duration flight.",
+    "Marina Walk and inlet/JBR are storyboard labels for relative camera targets, NOT separately verified landmark coordinates. Their waypoint metadata states landmarkVerified:false. No hardcoded Dubai coordinates, synthesized imagery, or incident assertions.",
+    "Pass now explicitly in production. Pure builder defaults to Unix epoch if omitted; time_utc denotes scene creation, not event occurrence.",
+    "Storage has no cross-tab compare-and-swap; simultaneous writes are last-writer-wins. Map-label preservation is declarative until coordinator playback consumes preserveMapLabels.",
+    "Only this agent's two source/test files and /tmp/gev-agent-07.json were written. No browser, deployment, full-suite run, or edits to project.js/incidentScenes.js/director APIs."
+  ]
+}

@@ -1,0 +1,1525 @@
+{
+  "title": "Dubai Marina — Waterfront Orbit: execution evidence",
+  "generatedUtc": "2026-10-24T02:31:51.839509+00:00",
+  "preview": {
+    "url": "https://sb-2nei6kyp3xva.vercel.run",
+    "sandboxId": "sbx_gvBKmP4qburZYYp7g3EAD8wBWtxw",
+    "port": 5173,
+    "reused": true,
+    "buildReference": "marina-20261024-d6b3cceb0593",
+    "baselineHead": "ffe6d3505f734335df4d6bfca77094df0b65d4d7",
+    "branch": "feat/scene-video-evidence",
+    "sourceZip": "Platform-generated source ZIP attached when this turn completes; no manually invented ZIP URL."
+  },
+  "sourceContinuity": {
+    "utc": "2026-10-24T01:48:08.491488+00:00",
+    "branch": "feat/scene-video-evidence",
+    "head": "ffe6d3505f734335df4d6bfca77094df0b65d4d7",
+    "preservedFiles": [
+      "data/celestrak-active-snapshot.json",
+      "docs/agent-execution/CHECKPOINTS.md",
+      "docs/agent-execution/MASTER_STATE.md",
+      "docs/agent-execution/TEST_RESULTS.md",
+      "server/incidents/routes.js",
+      "server/incidents/routes.test.mjs",
+      "src/incidents/client.js",
+      "src/incidents/composer.test.mjs",
+      "src/incidents/ui/composer.js",
+      "src/incidents/ui/index.js",
+      "src/sceneVideos/index.js",
+      "src/ui/styles/incidents.css",
+      "scripts/qa-aoi-query.mjs",
+      "server/incidents/search.js",
+      "server/incidents/search.test.mjs",
+      "src/incidents/query.js",
+      "src/incidents/query.test.mjs"
+    ],
+    "backupSha256": "763d7d2595a5ad684270e49d042f5d30032711c49b81c82e35d1721311f7de10",
+    "backup": "/tmp/gev-cycle14-preedit.tgz"
+  },
+  "agents": {
+    "actualRuns": 20,
+    "concurrencyCap": 5,
+    "records": [
+      {
+        "agent": 1,
+        "runtimeTaskId": "20261024_2",
+        "role": "workspace/runtime reproduction",
+        "ownedFiles": [],
+        "startedUtc": "2026-10-24T01:48:19Z",
+        "endedUtc": "2026-10-24T01:48:39Z",
+        "outcome": "complete_static_audit; live behavior not reproduced",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-01.json",
+        "limitations": []
+      },
+      {
+        "agent": 2,
+        "runtimeTaskId": "20261024_3",
+        "role": "embedded prompt focus/hit-testing",
+        "ownedFiles": [],
+        "startedUtc": null,
+        "endedUtc": null,
+        "outcome": "action cap reached; no written audit report",
+        "evidence": null,
+        "limitations": [
+          "Exact start/end UTC not captured; actual 20s task duration returned by delegate tool."
+        ]
+      },
+      {
+        "agent": 3,
+        "runtimeTaskId": "20261024_4",
+        "role": "place/intent parser",
+        "ownedFiles": [
+          "src/incidents/query.js",
+          "src/incidents/query.test.mjs"
+        ],
+        "startedUtc": "2026-10-24T01:48:26Z",
+        "endedUtc": "2026-10-24T01:48:59Z",
+        "outcome": "complete",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-03.json",
+        "limitations": []
+      },
+      {
+        "agent": 4,
+        "runtimeTaskId": "20261024_5",
+        "role": "submission/state/cancellation",
+        "ownedFiles": [
+          "src/incidents/ui/composer.js"
+        ],
+        "startedUtc": "2026-10-24T01:48:27Z",
+        "endedUtc": "2026-10-24T01:49:27.403313Z",
+        "outcome": "report received; integrated and coordinator tested",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-04.json",
+        "limitations": []
+      },
+      {
+        "agent": 5,
+        "runtimeTaskId": "20261024_6",
+        "role": "server/API integration",
+        "ownedFiles": [],
+        "startedUtc": "2026-10-24T01:48:29Z",
+        "endedUtc": "2026-10-24T01:48:56Z",
+        "outcome": "report received; integrated and coordinator tested",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-05.json",
+        "limitations": []
+      },
+      {
+        "agent": 6,
+        "runtimeTaskId": "20261024_7",
+        "role": "Dubai Marina geocoding/AOI",
+        "ownedFiles": [
+          "config/aoi/scene-aois.json",
+          "src/aoi/sceneGate.js",
+          "src/aoi/sceneGate.test.mjs"
+        ],
+        "startedUtc": "2026-10-24T01:48:54Z",
+        "endedUtc": "2026-10-24T01:49:58.255754Z",
+        "outcome": "complete",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-06.json",
+        "limitations": []
+      },
+      {
+        "agent": 7,
+        "runtimeTaskId": "20261024_8",
+        "role": "scene/keyframes/persistence",
+        "ownedFiles": [
+          "src/scenes/geographicScene.js",
+          "src/scenes/geographicScene.test.mjs"
+        ],
+        "startedUtc": "2026-10-24T01:49:06Z",
+        "endedUtc": "2026-10-24T01:50:20.472Z",
+        "outcome": "complete",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-07.json",
+        "limitations": []
+      },
+      {
+        "agent": 8,
+        "runtimeTaskId": "20261024_9",
+        "role": "playback/timeline audit",
+        "ownedFiles": [],
+        "startedUtc": null,
+        "endedUtc": null,
+        "outcome": "action cap reached; no written audit report",
+        "evidence": null,
+        "limitations": [
+          "Exact start/end UTC not captured; actual 20s task duration returned by delegate tool."
+        ]
+      },
+      {
+        "agent": 9,
+        "runtimeTaskId": "20261024_10",
+        "role": "sidebar/library structure",
+        "ownedFiles": [
+          "src/incidents/ui/sceneLibrary.js"
+        ],
+        "startedUtc": null,
+        "endedUtc": "2026-10-24T01:50:08.164Z",
+        "outcome": "implemented",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-09.json",
+        "limitations": [
+          "Start timestamp not recorded by specialist."
+        ]
+      },
+      {
+        "agent": 10,
+        "runtimeTaskId": "20261024_11",
+        "role": "layers/legend/diagnostics/AIS",
+        "ownedFiles": [
+          "src/serverlessMode.js",
+          "src/hudSummaryResponse.js",
+          "src/incidents/ui/diagnostics.js"
+        ],
+        "startedUtc": null,
+        "endedUtc": "2026-10-24T01:50:47.214564Z",
+        "outcome": "report received; integrated and coordinator tested",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-10.json",
+        "limitations": [
+          "Start timestamp not recorded by specialist."
+        ]
+      },
+      {
+        "agent": 11,
+        "runtimeTaskId": "20261024_12",
+        "role": "desktop map/HUD layout",
+        "ownedFiles": [
+          "src/ui/styles/marina-workstation.css"
+        ],
+        "startedUtc": "2026-10-24T01:49:50Z",
+        "endedUtc": "2026-10-24T01:50:42Z",
+        "outcome": "report received; integrated and coordinator tested",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-11.json",
+        "limitations": []
+      },
+      {
+        "agent": 12,
+        "runtimeTaskId": "20261024_13",
+        "role": "mobile drawer/overflow/safe areas",
+        "ownedFiles": [
+          "src/ui/styles/marina-mobile.css"
+        ],
+        "startedUtc": null,
+        "endedUtc": "2026-10-24T01:51:18.749Z",
+        "outcome": "implemented-static-checks-passed",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-12.json",
+        "limitations": [
+          "Start timestamp not recorded by specialist."
+        ]
+      },
+      {
+        "agent": 13,
+        "runtimeTaskId": "20261024_14",
+        "role": "keyboard/touch accessibility",
+        "ownedFiles": [
+          "src/incidents/marinaAccessibility.test.mjs"
+        ],
+        "startedUtc": "2026-10-24T01:50:40Z",
+        "endedUtc": "2026-10-24T01:51:37.160Z",
+        "outcome": "PARTIAL: nine accessibility regression tests pass; one candidate-fixture test remains failing. No all-green claim; stopped after three executions with the same assertion error.",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-13.json",
+        "limitations": []
+      },
+      {
+        "agent": 14,
+        "runtimeTaskId": "20261024_15",
+        "role": "freshness/error-state integrity",
+        "ownedFiles": [
+          "server/incidents/search.js",
+          "server/incidents/search.test.mjs"
+        ],
+        "startedUtc": null,
+        "endedUtc": "2026-10-24T01:52:11.934048Z",
+        "outcome": "implemented; all scoped tests passed; broader run has two out-of-scope UI test failures",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-14.json",
+        "limitations": [
+          "Start timestamp not recorded by specialist."
+        ]
+      },
+      {
+        "agent": 15,
+        "runtimeTaskId": "20261024_16",
+        "role": "existing video-evidence regression",
+        "ownedFiles": [],
+        "startedUtc": "2026-10-24T01:51:48Z",
+        "endedUtc": "2026-10-24T01:54:49.856Z",
+        "outcome": "report received; integrated and coordinator tested",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-15.json",
+        "limitations": []
+      },
+      {
+        "agent": 16,
+        "runtimeTaskId": "20261024_17",
+        "role": "unit/component integration tests",
+        "ownedFiles": [
+          "src/incidents/composer.test.mjs",
+          "src/incidents/marinaIntegration.test.mjs"
+        ],
+        "startedUtc": null,
+        "endedUtc": "2026-10-24T01:53:14.804Z",
+        "outcome": "report received; integrated and coordinator tested",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-16.json",
+        "limitations": [
+          "Start timestamp not recorded by specialist."
+        ]
+      },
+      {
+        "agent": 17,
+        "runtimeTaskId": "20261024_18",
+        "role": "desktop end-to-end tests",
+        "ownedFiles": [
+          "scripts/qa-marina-desktop.mjs"
+        ],
+        "startedUtc": null,
+        "endedUtc": "2026-10-24T01:53:16.642Z",
+        "outcome": "implemented-not-browser-run",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-17.json",
+        "limitations": [
+          "Start timestamp not recorded by specialist."
+        ]
+      },
+      {
+        "agent": 18,
+        "runtimeTaskId": "20261024_19",
+        "role": "mobile/iframe end-to-end tests",
+        "ownedFiles": [
+          "scripts/qa-marina-mobile.mjs"
+        ],
+        "startedUtc": null,
+        "endedUtc": "2026-10-24T01:53:47.494Z",
+        "outcome": "report received; integrated and coordinator tested",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-18.json",
+        "limitations": [
+          "Start timestamp not recorded by specialist."
+        ]
+      },
+      {
+        "agent": 19,
+        "runtimeTaskId": "20261024_20",
+        "role": "deployment/security verification",
+        "ownedFiles": [],
+        "startedUtc": "2026-10-24T01:54:07.070537+00:00",
+        "endedUtc": "2026-10-24T01:54:49.999350+00:00",
+        "outcome": "completed_with_config_and_security_caveats",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-19.json",
+        "limitations": []
+      },
+      {
+        "agent": 20,
+        "runtimeTaskId": "20261024_21",
+        "role": "real browser recording/artifact harness",
+        "ownedFiles": [
+          "scripts/qa-marina-recording.mjs"
+        ],
+        "startedUtc": null,
+        "endedUtc": "2026-10-24T01:57:04.816427+00:00",
+        "outcome": "implemented_syntax_checked_not_executed",
+        "evidence": "docs/agent-execution/artifacts/marina-cycle14/agent-20.json",
+        "limitations": [
+          "Start timestamp not recorded by specialist."
+        ]
+      }
+    ],
+    "auditLimitation": "Two action-capped read-only specialists wrote no report; several specialists did not log start time. Missing timestamps are null, never inferred. Coordinator integrated and tested their assigned areas."
+  },
+  "geography": {
+    "submittedPrompt": "Create a waterfront orbit scene around Dubai Marina",
+    "savedName": "Dubai Marina — Waterfront Orbit",
+    "resolvedPlace": "Dubai Marina",
+    "lat": 25.0786415,
+    "lon": 55.1352524,
+    "aoi": "dubai-marina",
+    "validationSource": "https://www.openstreetmap.org/relation/11912728",
+    "liveGeocoderObservedAt": "2026-10-24T02:02:48.864Z",
+    "provider": "Registered geocode_place via existing server-side OnDemand tool layer; OpenStreetMap/Nominatim",
+    "confidence": 0.95,
+    "classification": "Location confidence only; geographic camera plan, not a report of an incident.",
+    "boundary": "5 km authored planning AOI, not legal/administrative boundary",
+    "views": [
+      "Basin overview",
+      "Marina Walk waterfront",
+      "Inlet / JBR waterfront",
+      "Orbit closure"
+    ],
+    "viewQualification": "Relative camera waypoints, not individually verified landmark points."
+  },
+  "tests": {
+    "source": {
+      "total": 4435,
+      "passed": 4434,
+      "failed": 0,
+      "skipped": 1,
+      "node": "22.23.3",
+      "extraNotRun": "Two Node24-calibrated allocation microbenchmark files intentionally excluded by existing runner."
+    },
+    "server": {
+      "total": 451,
+      "passed": 451,
+      "failed": 0
+    },
+    "combined": {
+      "total": 4886,
+      "passed": 4885,
+      "failed": 0,
+      "skipped": 1
+    },
+    "build": "PASSED locally and in sandbox; existing chunk-size/dynamic-import warnings, no build errors.",
+    "secrets": "PASSED source and --dist; no app key copied into client/source/export.",
+    "boundaries": "PASSED import directions and package boundaries.",
+    "browser": {
+      "passed": 50,
+      "failed": 0,
+      "checks": [
+        {
+          "id": "desktop.baseline",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:15:56.574Z",
+          "finishedUtc": "2026-10-24T02:16:00.209Z"
+        },
+        {
+          "id": "desktop.compose",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:16:00.209Z",
+          "finishedUtc": "2026-10-24T02:16:36.227Z"
+        },
+        {
+          "id": "desktop.anchor",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:16:36.227Z",
+          "finishedUtc": "2026-10-24T02:16:36.228Z"
+        },
+        {
+          "id": "desktop.save",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:16:36.228Z",
+          "finishedUtc": "2026-10-24T02:17:03.409Z"
+        },
+        {
+          "id": "desktop.playing",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:17:03.409Z",
+          "finishedUtc": "2026-10-24T02:17:08.013Z"
+        },
+        {
+          "id": "desktop.pause",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:17:08.013Z",
+          "finishedUtc": "2026-10-24T02:17:12.553Z"
+        },
+        {
+          "id": "desktop.next",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:17:12.847Z",
+          "finishedUtc": "2026-10-24T02:17:16.284Z"
+        },
+        {
+          "id": "desktop.previous",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:17:16.284Z",
+          "finishedUtc": "2026-10-24T02:17:24.333Z"
+        },
+        {
+          "id": "video.actual-plugin-stream-and-archival-labels",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:22:08.038Z",
+          "finishedUtc": "2026-10-24T02:22:48.244Z"
+        },
+        {
+          "id": "video.muted-actual-playback-time-advances",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:22:48.246Z",
+          "finishedUtc": "2026-10-24T02:22:48.786Z"
+        },
+        {
+          "id": "mobile.exact-touch-viewport",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:24:17.281Z",
+          "finishedUtc": "2026-10-24T02:24:17.321Z"
+        },
+        {
+          "id": "mobile.load-live-workstation",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:24:17.321Z",
+          "finishedUtc": "2026-10-24T02:24:19.527Z"
+        },
+        {
+          "id": "mobile.touch-input-and-type-prompt",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:24:19.527Z",
+          "finishedUtc": "2026-10-24T02:24:51.495Z"
+        },
+        {
+          "id": "mobile.touch-build-resolves-marina-anchor",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:24:51.495Z",
+          "finishedUtc": "2026-10-24T02:24:56.074Z"
+        },
+        {
+          "id": "mobile.composer-play-center-hit-and-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:24:56.075Z",
+          "finishedUtc": "2026-10-24T02:24:58.982Z"
+        },
+        {
+          "id": "mobile.scenes-tab-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:24:58.983Z",
+          "finishedUtc": "2026-10-24T02:25:01.043Z"
+        },
+        {
+          "id": "mobile.drawer-collapse-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:01.044Z",
+          "finishedUtc": "2026-10-24T02:25:03.424Z"
+        },
+        {
+          "id": "mobile.drawer-expand-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:03.425Z",
+          "finishedUtc": "2026-10-24T02:25:05.753Z"
+        },
+        {
+          "id": "mobile.layers-tab-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:05.754Z",
+          "finishedUtc": "2026-10-24T02:25:06.691Z"
+        },
+        {
+          "id": "mobile.scenes-tab-return-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:06.691Z",
+          "finishedUtc": "2026-10-24T02:25:08.231Z"
+        },
+        {
+          "id": "mobile.all-playback-controls-contained",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:08.231Z",
+          "finishedUtc": "2026-10-24T02:25:23.411Z"
+        },
+        {
+          "id": "mobile.playback-pause-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:23.412Z",
+          "finishedUtc": "2026-10-24T02:25:24.671Z"
+        },
+        {
+          "id": "mobile.playback-resume-touch-and-real-clock",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:24.672Z",
+          "finishedUtc": "2026-10-24T02:25:25.144Z"
+        },
+        {
+          "id": "mobile.type-real-scene-library-name",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:25.144Z",
+          "finishedUtc": "2026-10-24T02:25:30.353Z"
+        },
+        {
+          "id": "mobile.touch-save-and-visible-saved-status",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:30.353Z",
+          "finishedUtc": "2026-10-24T02:25:30.502Z"
+        },
+        {
+          "id": "mobile.full-reload-and-find-saved-option",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:30.503Z",
+          "finishedUtc": "2026-10-24T02:25:35.602Z"
+        },
+        {
+          "id": "mobile.select-persisted-scene-and-visible-saved-status",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:35.606Z",
+          "finishedUtc": "2026-10-24T02:25:38.147Z"
+        },
+        {
+          "id": "mobile.final-no-horizontal-overflow",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:38.148Z",
+          "finishedUtc": "2026-10-24T02:25:38.245Z"
+        },
+        {
+          "id": "iframe.exact-touch-viewport",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:38.369Z",
+          "finishedUtc": "2026-10-24T02:25:38.434Z"
+        },
+        {
+          "id": "iframe.load-live-workstation",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:38.435Z",
+          "finishedUtc": "2026-10-24T02:25:40.636Z"
+        },
+        {
+          "id": "iframe.touch-input-and-type-prompt",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:25:40.639Z",
+          "finishedUtc": "2026-10-24T02:26:00.713Z"
+        },
+        {
+          "id": "iframe.touch-build-resolves-marina-anchor",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:00.714Z",
+          "finishedUtc": "2026-10-24T02:26:07.153Z"
+        },
+        {
+          "id": "iframe.composer-play-center-hit-and-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:07.154Z",
+          "finishedUtc": "2026-10-24T02:26:09.589Z"
+        },
+        {
+          "id": "iframe.scenes-tab-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:09.589Z",
+          "finishedUtc": "2026-10-24T02:26:09.891Z"
+        },
+        {
+          "id": "iframe.drawer-collapse-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:09.892Z",
+          "finishedUtc": "2026-10-24T02:26:12.441Z"
+        },
+        {
+          "id": "iframe.drawer-expand-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:12.442Z",
+          "finishedUtc": "2026-10-24T02:26:14.662Z"
+        },
+        {
+          "id": "iframe.layers-tab-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:14.663Z",
+          "finishedUtc": "2026-10-24T02:26:16.575Z"
+        },
+        {
+          "id": "iframe.scenes-tab-return-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:16.576Z",
+          "finishedUtc": "2026-10-24T02:26:17.564Z"
+        },
+        {
+          "id": "iframe.all-playback-controls-contained",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:17.565Z",
+          "finishedUtc": "2026-10-24T02:26:36.567Z"
+        },
+        {
+          "id": "iframe.playback-pause-touch",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:36.568Z",
+          "finishedUtc": "2026-10-24T02:26:36.701Z"
+        },
+        {
+          "id": "iframe.playback-resume-touch-and-real-clock",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:36.702Z",
+          "finishedUtc": "2026-10-24T02:26:37.052Z"
+        },
+        {
+          "id": "iframe.type-real-scene-library-name",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:37.053Z",
+          "finishedUtc": "2026-10-24T02:26:42.970Z"
+        },
+        {
+          "id": "iframe.touch-save-and-visible-saved-status",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:42.971Z",
+          "finishedUtc": "2026-10-24T02:26:43.155Z"
+        },
+        {
+          "id": "iframe.full-reload-and-find-saved-option",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:43.156Z",
+          "finishedUtc": "2026-10-24T02:26:52.773Z"
+        },
+        {
+          "id": "iframe.select-persisted-scene-and-visible-saved-status",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:52.774Z",
+          "finishedUtc": "2026-10-24T02:26:55.734Z"
+        },
+        {
+          "id": "iframe.final-no-horizontal-overflow",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:55.735Z",
+          "finishedUtc": "2026-10-24T02:26:55.830Z"
+        },
+        {
+          "id": "extras.input-hit-targets",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:58.768Z",
+          "finishedUtc": "2026-10-24T02:26:59.104Z"
+        },
+        {
+          "id": "extras.loading-cancel-retry",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:26:59.108Z",
+          "finishedUtc": "2026-10-24T02:27:52.413Z"
+        },
+        {
+          "id": "extras.external-refusal-375",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:27:54.613Z",
+          "finishedUtc": "2026-10-24T02:28:17.494Z"
+        },
+        {
+          "id": "extras.external-refusal-1440",
+          "pass": true,
+          "startedUtc": "2026-10-24T02:28:21.142Z",
+          "finishedUtc": "2026-10-24T02:28:42.423Z"
+        }
+      ],
+      "scope": "Latest successful desktop+video lanes from suite2 and mobile+iframe+extras lanes from suite3. Earlier failed assertions retained as diagnostics, not counted as final passes."
+    },
+    "recording": {
+      "passed": 16,
+      "failed": 0
+    }
+  },
+  "recording": {
+    "method": "Puppeteer page.screencast (continuous live compositor stream), then ffmpeg transcode",
+    "sourcePath": "raw WebM retained only in temporary execution directory",
+    "mp4Path": "dubai-marina-waterfront-orbit.mp4",
+    "startedUtc": "2026-10-24T02:29:30.862Z",
+    "endedUtc": "2026-10-24T02:30:33.190Z",
+    "sourceReady": true,
+    "mp4Verified": true,
+    "pixels": "375x739 browser viewport and PNG/WebM; 376x740 MP4 with 1px right/bottom black padding for H.264 yuv420p",
+    "checkpointImagesUsedAsVideo": false,
+    "syntheticFrames": false,
+    "firstTypingUtc": "2026-10-24T02:29:32.467Z",
+    "stoppingUtc": "2026-10-24T02:30:32.564Z",
+    "sourceBytes": 11689664,
+    "metadata": {
+      "source": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp9",
+            "width": 375,
+            "height": 739,
+            "pix_fmt": "gbrp",
+            "r_frame_rate": "20/1"
+          }
+        ],
+        "format": {
+          "format_name": "matroska,webm",
+          "size": "11689664"
+        }
+      },
+      "mp4": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 376,
+            "height": 740,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "20/1",
+            "nb_frames": "1224"
+          }
+        ],
+        "format": {
+          "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+          "duration": "61.200000",
+          "size": "9716594"
+        }
+      },
+      "atoms": [
+        "ftyp",
+        "moov",
+        "free",
+        "mdat"
+      ],
+      "wallDurationSeconds": 61.702
+    },
+    "completeUserFlow": true,
+    "viewport": {
+      "width": 375,
+      "height": 739,
+      "deviceScaleFactor": 1,
+      "isMobile": true,
+      "hasTouch": true
+    },
+    "hostChatTested": false,
+    "hostChatLimit": "Actual host chat was not accessible; continuous recording is the standalone deployed app at exact375x739; separate same-origin iframe interaction test passed."
+  },
+  "providerAvailability": {
+    "freshQuery": {
+      "state": "partial",
+      "busy": false,
+      "text": "Dubai Marina · 25.07864, 55.13525 · within 5 km2026-10-21T02:27:20.905Z → 2026-10-24T02:27:20.905Z · geocode_placePartial coverage — one or more sources failed or returned unverifiable/out-of-scope reports. No absence claim is possible.perplexity_research: error — ondemand_http_409 · Source returned HTTP 409; the status alone does not establish its cause.internet_web_search: partial · Search results were unrelated to Dubai Marina and did not establish coverage of the requested 5 km area or time window, so incidents could not be verified.Public-source reports only; not an emergency feed or proof of absence.",
+      "scene": null,
+      "active": null,
+      "marker": false,
+      "play": false,
+      "generation": 3,
+      "scrollWidth": 375,
+      "width": 375
+    },
+    "videoClips": {
+      "clips": 9,
+      "platforms": [
+        "instagram",
+        "tiktok",
+        "youtube"
+      ],
+      "tiers": [
+        "ARCHIVAL",
+        "ARCHIVAL",
+        "ARCHIVAL",
+        "ARCHIVAL",
+        "ARCHIVAL",
+        "ARCHIVAL",
+        "ARCHIVAL",
+        "ARCHIVAL",
+        "ARCHIVAL"
+      ],
+      "playing": "instagram:Ddyb6fvQ-Yn",
+      "done": true,
+      "banner": "REBUILT FROM ARCHIVAL FOOTAGE – recorded 26 Sep 2026, not live"
+    },
+    "videoPlayback": {
+      "first": {
+        "readyState": 4,
+        "time": 22.357901,
+        "muted": true,
+        "paused": false,
+        "source": "/api/ondemand/v2/scene/media"
+      },
+      "advanced": {
+        "readyState": 4,
+        "time": 22.759926,
+        "muted": true,
+        "paused": false
+      }
+    },
+    "notes": [
+      "AIS live stream unavailable in serverless mode; not represented as live.",
+      "TikTok primary monthly quota and YouTube captions configuration errors remain upstream.",
+      "Actual 409s occurred in some research calls; 409 alone does not establish their cause.",
+      "All tested clips remain ARCHIVAL; none is claimed as newly recorded incident footage."
+    ]
+  },
+  "deployment": {
+    "utc": "2026-10-24T02:28:55.053218+00:00",
+    "healthStatus": 200,
+    "health": {
+      "ok": true,
+      "configured": true,
+      "buildReference": "marina-20261024-d6b3cceb0593",
+      "conversationBackend": "memory",
+      "contracts": 33,
+      "activePlugins": 10,
+      "defaultEndpointId": "predefined-gpt-6-luna",
+      "workflowId": {
+        "configured": true,
+        "source": "ONDEMAND_SPATIAL_WORKFLOW_ID",
+        "valid": true
+      },
+      "guards": {
+        "rateLimitPerMinute": 60,
+        "userHeaderRequired": false,
+        "promptInjectionFencing": true
+      },
+      "keySource": "server"
+    },
+    "rootStatus": 200,
+    "titlePresent": true,
+    "headers": {
+      "X-Frame-Options": null,
+      "Content-Security-Policy": null,
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "strict-origin-when-cross-origin"
+    }
+  },
+  "changes": [
+    {
+      "path": "data/celestrak-active-snapshot.json",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "docs/agent-execution/CHECKPOINTS.md",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "docs/agent-execution/MASTER_STATE.md",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "docs/agent-execution/TEST_RESULTS.md",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "public/embed-harness.html",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Equivalent same-origin iframe test using supported welcome=0 option."
+    },
+    {
+      "path": "scripts/package-boundaries.json",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Registers newly owned modules."
+    },
+    {
+      "path": "server/incidents/routes.js",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Specific place resolution through registered geocoder, strict scene gate, scoped identities and disconnect fix."
+    },
+    {
+      "path": "server/incidents/routes.test.mjs",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "server/ondemand/foundation/proxy-route.js",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Reports nonsecret deployed build reference."
+    },
+    {
+      "path": "server/serverless/dev-server.mjs",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "MP4 MIME and non-framing safety headers."
+    },
+    {
+      "path": "src/app/tools.js",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/creditAttribution.test.mjs",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Extended conservative attribution clearance model for measured mobile command height."
+    },
+    {
+      "path": "src/hud.js",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Conservative AIS wording; does not infer live coverage from toggles."
+    },
+    {
+      "path": "src/hudSummaryResponse.js",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/incidents/client.js",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/incidents/composer.test.mjs",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/incidents/ui/composer.js",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Native Enter/submit, cancellation generations, retry, explicit external refusal and geographic-only creation."
+    },
+    {
+      "path": "src/incidents/ui/index.js",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Coordinates strict gated scenes, visible save, persistent library, overlays and existing playback APIs."
+    },
+    {
+      "path": "src/sceneVideos/index.js",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Starts video evidence only after a validated command location; cancels alongside command."
+    },
+    {
+      "path": "src/sceneVideos/rail.js",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Truthful incomplete-stream error, explicit cancellation; existing archival player retained."
+    },
+    {
+      "path": "src/sceneVideos/rail.test.mjs",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/scenes/director.js",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Keeps saved geographic scenes when incident feeds refresh."
+    },
+    {
+      "path": "src/scenes/incidentScenes.js",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Uses explicit authored camera heights and scene duration."
+    },
+    {
+      "path": "src/serverlessMode.js",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/ui/styles/incidents.css",
+      "status": "M",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "style.css",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Loads targeted sidebar and mobile styles after existing theme."
+    },
+    {
+      "path": "vercel.json",
+      "status": "M",
+      "inheritedUncommitted": false,
+      "description": "Preserves deploy rewrites, adds nosniff/referrer headers."
+    },
+    {
+      "path": "config/aoi/scene-aois.json",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Editable strict UAE planning AOIs and observed OSM country masks/source attribution."
+    },
+    {
+      "path": "docs/agent-execution/artifacts/marina-cycle14/",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "scripts/qa-aoi-query.mjs",
+      "status": "??",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "scripts/qa-marina-desktop.mjs",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "scripts/qa-marina-mobile.mjs",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "scripts/qa-marina-recording.mjs",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "scripts/qa-marina-suite.mjs",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "server/incidents/search.js",
+      "status": "??",
+      "inheritedUncommitted": true,
+      "description": "Honest upstream status vs local timeout and partial coverage."
+    },
+    {
+      "path": "server/incidents/search.test.mjs",
+      "status": "??",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/aoi/sceneGate.js",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Pure fail-closed geometry authorization for playable scenes."
+    },
+    {
+      "path": "src/aoi/sceneGate.test.mjs",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/incidents/marinaAccessibility.test.mjs",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/incidents/marinaIntegration.test.mjs",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/incidents/query.js",
+      "status": "??",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/incidents/query.test.mjs",
+      "status": "??",
+      "inheritedUncommitted": true,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/incidents/ui/diagnostics.js",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/incidents/ui/geographicOverlay.js",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/incidents/ui/sceneLibrary.js",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/scenes/geographicScene.js",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Validated four-view camera model, stable cache ID and read-back-verified local persistence."
+    },
+    {
+      "path": "src/scenes/geographicScene.test.mjs",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Tests, evidence/checkpoint documentation or isolated implementation described in specialist ownership records."
+    },
+    {
+      "path": "src/ui/styles/marina-mobile.css",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Exact mobile drawer, safe-area input, bounded plugin rows, non-obstructing panel header."
+    },
+    {
+      "path": "src/ui/styles/marina-workstation.css",
+      "status": "??",
+      "inheritedUncommitted": false,
+      "description": "Compact desktop sidebar, controls and provenance/marker presentation."
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "dubai-marina-waterfront-orbit.mp4",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/dubai-marina-waterfront-orbit.mp4",
+      "bytes": 9716594,
+      "sha256": "aad73182555822fbddd7c2de25bc46d915a79a15807c83c4456fa61d425d59b3",
+      "type": "video/mp4"
+    },
+    {
+      "name": "dubai-marina-waterfront-orbit-preview.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/dubai-marina-waterfront-orbit-preview.png",
+      "bytes": 390648,
+      "sha256": "75c1c3c54bc49279bcbf95d9acfb45b93e618316a2d133165dc18338dae756cd",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-after-controls-1440x900.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-controls-1440x900.png",
+      "bytes": 1009126,
+      "sha256": "4d8ef7e8ca45feee71a28f223c9886dfafb7f80859bf899504d71576bb456aef",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-after-created-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-created-375x739.png",
+      "bytes": 258490,
+      "sha256": "67988d5b66f8783123d0ceaef17b82d9aa3ffab38cf156b70c7f12dd315d3c35",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-after-layers-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-layers-375x739.png",
+      "bytes": 275511,
+      "sha256": "96ff3a9196896ac4931fc9a8a0e001510268241195744ebbdf8a01ad9bcab23a",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-after-playing-1440x900.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-playing-1440x900.png",
+      "bytes": 1265967,
+      "sha256": "7129ef54480f60724109fc050ed2c1c9a37e193b11c4b82114c63e28fc13084a",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-after-playing-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-playing-375x739.png",
+      "bytes": 277484,
+      "sha256": "2fda695b0d159703be2e9bda52422b061e7be81541b8ab73096d097f0bb81f51",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-after-reloaded-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-reloaded-375x739.png",
+      "bytes": 299346,
+      "sha256": "d2c6f68557a2667bee6e87022adbd1d0d32665d52a170aa0ee8bc8bc98795ef8",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-after-saved-1440x900.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-saved-1440x900.png",
+      "bytes": 1190432,
+      "sha256": "50fa88d0834518ae81e7bbd535be9e93cf3c40d85aafdce3b106268954b74c24",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-after-saved-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-saved-375x739.png",
+      "bytes": 286463,
+      "sha256": "8e7e9bc5e370fbf2e96119065610c1c78cf98fd148668ef826676f771f21fa4a",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-archival-video-playing-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-archival-video-playing-375x739.png",
+      "bytes": 195102,
+      "sha256": "9404c7d0bd2a90b6ce15a98003714405c05b41fd93c8f042e0c9e5a0ae994302",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-external-refusal-1440x900.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-external-refusal-1440x900.png",
+      "bytes": 296805,
+      "sha256": "6f90d71d8986f9e8de262c43c9a84ed044bd80d01a8530d7ea286f3bc9cd83ff",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-external-refusal-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-external-refusal-375x739.png",
+      "bytes": 105095,
+      "sha256": "ce86aa36c9549ce849e868f3eaf378febbc924435f630d6553d823d2326e55a5",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-iframe-saved-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-iframe-saved-375x739.png",
+      "bytes": 317486,
+      "sha256": "620d7878eb79d738a15280453f7994a86be1dd532aca93c4104c798215da1b6c",
+      "type": "image/png"
+    },
+    {
+      "name": "marina-live-research-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-live-research-375x739.png",
+      "bytes": 181072,
+      "sha256": "8454cc51903012c722e38a41536002db14504b68023ac3379d8387f16a8c0b20",
+      "type": "image/png"
+    },
+    {
+      "name": "after-final-1440x900.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/after-final-1440x900.png",
+      "bytes": 1664684,
+      "sha256": "ea46bec642ef9bbf4b94bd7df9b29b938c99888f81e71829fb20ad01892d1ef6",
+      "type": "image/png",
+      "local": ".ui-proof/after-final-1440x900.png"
+    },
+    {
+      "name": "after-final-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/after-final-375x739.png",
+      "bytes": 338896,
+      "sha256": "75e13472bb4c7b6a56986bb7e937b4151fabe6b711b20571b72a63fcc07f31d4",
+      "type": "image/png",
+      "local": ".ui-proof/after-final-375x739.png"
+    },
+    {
+      "name": "before-1440x900.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/before-1440x900.png",
+      "bytes": 1327251,
+      "sha256": "5646ad179c42885b35cdba5e5f78f58b78b12973476604a7e49bdf4349bf4227",
+      "type": "image/png",
+      "local": ".ui-proof/before-1440x900.png"
+    },
+    {
+      "name": "before-375x739.png",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/proof/before-375x739.png",
+      "bytes": 220396,
+      "sha256": "923ab9739aa84aee7f5f77ffcdc2bb4835f3abc85da5b3c8eea6d8ee2c64ada2",
+      "type": "image/png",
+      "local": ".ui-proof/before-375x739.png"
+    }
+  ],
+  "knownLimits": [
+    "Scene saves are per-browser localStorage, not an authenticated cross-device cloud library.",
+    "Actual host-chat UI not tested; equivalent same-origin iframe was tested.",
+    "Node24 allocation performance gates not run on the existing Node22 runtime.",
+    "Optional provider availability and relevance vary; no negative incident finding inferred from partial coverage.",
+    "/api/setup/status still returns404 during initialization, recorded as nonfatal existing noise.",
+    "20 real specialist runs completed, but per-agent audit timestamps are incomplete as explicitly recorded."
+  ],
+  "iterationEvidence": [
+    {
+      "stage": "baseline",
+      "finding": "Scene save UI absent; existing prompt/overlays reproduced; original user reference kept distinct."
+    },
+    {
+      "stage": "recording1",
+      "finding": "Real create+play succeeded; Save status was erased by re-entrant library render, then fixed."
+    },
+    {
+      "stage": "suite1",
+      "finding": "Two harness defects (Puppeteer Control+A and textContent word-boundary) and ended-video reselect corrected."
+    },
+    {
+      "stage": "suite2",
+      "finding": "Real mobile sticky panel-header obstruction after touch-scroll found and fixed; viewport-reset harness wait corrected."
+    },
+    {
+      "stage": "final",
+      "finding": "50/50 selected live lane assertions and16/16 continuous-recording checks passed."
+    }
+  ],
+  "artifactVerification": {
+    "allHttp200": true,
+    "allHashesMatch": true,
+    "publishedMp4FullDecode": "PASSED",
+    "publishedMp4Probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 376,
+          "height": 740,
+          "pix_fmt": "yuv420p"
+        }
+      ],
+      "format": {
+        "duration": "61.200000",
+        "size": "9716594"
+      }
+    },
+    "checks": [
+      {
+        "name": "dubai-marina-waterfront-orbit.mp4",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/dubai-marina-waterfront-orbit.mp4",
+        "checkedUtc": "2026-10-24T02:31:50.908312+00:00",
+        "status": 200,
+        "contentType": "video/mp4",
+        "bytes": 9716594,
+        "sha256Matches": true
+      },
+      {
+        "name": "dubai-marina-waterfront-orbit-preview.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/dubai-marina-waterfront-orbit-preview.png",
+        "checkedUtc": "2026-10-24T02:31:50.790358+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 390648,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-after-controls-1440x900.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-controls-1440x900.png",
+        "checkedUtc": "2026-10-24T02:31:50.798268+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 1009126,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-after-created-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-created-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:50.816785+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 258490,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-after-layers-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-layers-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:50.911596+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 275511,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-after-playing-1440x900.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-playing-1440x900.png",
+        "checkedUtc": "2026-10-24T02:31:50.969452+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 1265967,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-after-playing-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-playing-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:50.950526+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 277484,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-after-reloaded-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-reloaded-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:50.983961+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 299346,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-after-saved-1440x900.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-saved-1440x900.png",
+        "checkedUtc": "2026-10-24T02:31:51.007264+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 1190432,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-after-saved-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-after-saved-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:51.034373+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 286463,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-archival-video-playing-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-archival-video-playing-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:51.074784+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 195102,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-external-refusal-1440x900.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-external-refusal-1440x900.png",
+        "checkedUtc": "2026-10-24T02:31:51.130268+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 296805,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-external-refusal-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-external-refusal-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:51.121428+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 105095,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-iframe-saved-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-iframe-saved-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:51.100681+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 317486,
+        "sha256Matches": true
+      },
+      {
+        "name": "marina-live-research-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/marina-live-research-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:51.139541+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 181072,
+        "sha256Matches": true
+      },
+      {
+        "name": "after-final-1440x900.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/after-final-1440x900.png",
+        "checkedUtc": "2026-10-24T02:31:51.246265+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 1664684,
+        "sha256Matches": true
+      },
+      {
+        "name": "after-final-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/after-final-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:51.257532+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 338896,
+        "sha256Matches": true
+      },
+      {
+        "name": "before-1440x900.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/before-1440x900.png",
+        "checkedUtc": "2026-10-24T02:31:51.219318+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 1327251,
+        "sha256Matches": true
+      },
+      {
+        "name": "before-375x739.png",
+        "url": "https://sb-2nei6kyp3xva.vercel.run/proof/before-375x739.png",
+        "checkedUtc": "2026-10-24T02:31:51.213263+00:00",
+        "status": 200,
+        "contentType": "image/png",
+        "bytes": 220396,
+        "sha256Matches": true
+      }
+    ]
+  },
+  "finalStatus": {
+    "PASSED": [
+      "live scene creation/save/reload, native Enter/button/touch controls",
+      "strict UAE gate and external context marker with no active Play",
+      "50/50 selected live browser assertions",
+      "16/16 continuous recording assertions and published video full decode",
+      "production builds, 4885 passing unit/server tests, source/dist secret checks",
+      "HTTP200/hash verification for every published proof file"
+    ],
+    "FAILED": [],
+    "BLOCKED": [
+      "Live AIS and some optional upstream research/caption/scraper capabilities unavailable."
+    ],
+    "UNTESTED": [
+      "Actual host-chat embedding (equivalent same-origin iframe passed)",
+      "Two Node24 allocation microbenchmark files",
+      "Cross-device cloud scene persistence (feature is localStorage)"
+    ],
+    "AUDIT_LIMITATIONS": [
+      "Two action-capped read-only agent tasks did not write audit reports; several agent start timestamps missing.",
+      "Known nonfatal /api/setup/status404 remains."
+    ]
+  },
+  "finalSourceSecretScan": {
+    "sourceTextFiles": 1768,
+    "sourceAndDistTextFiles": 2037,
+    "result": "PASS"
+  }
+}

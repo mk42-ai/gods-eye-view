@@ -1,0 +1,209 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "OnDemand Spatial Place Search & Geocoding (Nominatim)",
+    "version": "1.0.0",
+    "description": "Forward geocoding of place names, addresses, cities, and landmarks to geographic coordinates using OpenStreetMap Nominatim. Paced by a server-side queue to observe the Nominatim usage policy (1 request per second max, application User-Agent, 5-minute caching). Returns normalized coordinate candidates with bounding box, display name, place type, and importance score. Keyless open data.",
+    "x-ondemand-spatial": {
+      "pluginId": "places",
+      "category": "Research",
+      "conversationStarters": [
+        "What are the coordinates of the Eiffel Tower in Paris?",
+        "Geocode \"Brandenburg Gate, Berlin\"",
+        "Find the location of \"Burj Khalifa, Dubai\"",
+        "Search coordinates for \"Mount Fuji, Japan\""
+      ],
+      "auth": "none — same-origin proxy; upstream credentials stay server-side",
+      "generatedBy": "scripts/generate-tool-openapi.mjs"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ondemand-eand-spatial-opal.vercel.app",
+      "description": "OnDemand Spatial deployment (preview or production)"
+    }
+  ],
+  "paths": {
+    "/api/tools/geocode_place": {
+      "get": {
+        "operationId": "geocode_place",
+        "summary": "Forward geocoding of place names and addresses to geographic coordinates (Nominatim)",
+        "description": "Resolves a text place query (city, street, landmark, country) to geographic coordinates (latitude, longitude, bounding box, place type, and display name) using OpenStreetMap Nominatim. Paced by an internal queue to comply with public Nominatim rate limits (1 req/sec). An optional `bounds` string (\"swLat,swLon|neLat,neLon\") biases the search to a rectangular geographic area.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "Place name, address, or landmark query (1–200 characters).",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "bounds",
+            "in": "query",
+            "required": false,
+            "description": "Optional geographic bounding box bias in \"minlat,minlon|maxlat,maxlon\" format.",
+            "schema": {
+              "type": "string",
+              "maxLength": 80
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tool result envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error (unknown/missing/invalid parameter)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream failure with a structured reason",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Provider unavailable (missing key / no data) with a structured reason",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Provider": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "live",
+              "stale",
+              "degraded",
+              "unavailable"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "fetchedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "ageSec": {
+            "type": "integer",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "ToolResult": {
+        "type": "object",
+        "required": [
+          "ok",
+          "tool",
+          "data"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "tool": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "provider": {
+            "$ref": "#/components/schemas/Provider"
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "generatedAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ToolError": {
+        "type": "object",
+        "required": [
+          "ok",
+          "error"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "tool": {
+            "type": "string"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "param": {
+                "type": "string"
+              }
+            }
+          },
+          "provider": {
+            "$ref": "#/components/schemas/Provider"
+          }
+        }
+      }
+    }
+  }
+}

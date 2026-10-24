@@ -12,7 +12,9 @@ test('explicit build inputs preserve browser-only defines, plugin order and loop
     googleApiKey: 'browser-fixture',
     cesiumToken: 'ion-fixture',
   });
-  assert.equal(config.plugins[2], plugin);
+  // cesium, application-html, product-name-tokens (cycle 2, 132fced), then providers
+  assert.equal(config.plugins[2].name, 'product-name-tokens');
+  assert.equal(config.plugins[3], plugin);
   assert.equal(config.server.host, 'localhost');
   assert.equal(config.server.port, 4173);
   assert.deepEqual(config.server.allowedHosts, [
@@ -22,11 +24,16 @@ test('explicit build inputs preserve browser-only defines, plugin order and loop
   ]);
   assert.ok(config.server.fs.deny.includes('**/ENVIRONMENT'));
   assert.ok(config.server.fs.deny.includes('.env.*'));
-  assert.equal(config.server.headers['X-Frame-Options'], 'DENY');
-  assert.equal(
-    config.server.headers['Content-Security-Policy'],
-    "frame-ancestors 'none'",
-  );
+  // The dev/preview server must be embeddable (cycle 8): no X-Frame-Options and no
+  // frame-ancestors 'none' on the document the browser loads.
+  assert.equal(config.server.headers, undefined);
+  // …and the same holds for `vite preview` and for any header block a later
+  // edit might add (2026-10-23: the stale X-Frame-Options assertion this test
+  // used to carry is gone; this guards against it coming back).
+  assert.equal(config.preview?.headers, undefined);
+  const headerValues = JSON.stringify([config.server, config.preview ?? {}]);
+  assert.doesNotMatch(headerValues, /X-Frame-Options/i);
+  assert.doesNotMatch(headerValues, /frame-ancestors/i);
   assert.deepEqual(config.define, {
     'import.meta.env.GOOGLE_MAPS_API_KEY': '"browser-fixture"',
     'import.meta.env.CESIUM_ION_TOKEN': '"ion-fixture"',
@@ -51,7 +58,7 @@ test('build helper does not discover environment values or construct local provi
       config.define['import.meta.env.GOOGLE_MAPS_API_KEY'],
       undefined,
     );
-    assert.equal(config.plugins.length, 2);
+    assert.equal(config.plugins.length, 3);
   } finally {
     if (before === undefined) delete process.env.GOOGLE_MAPS_API_KEY;
     else process.env.GOOGLE_MAPS_API_KEY = before;
@@ -63,7 +70,7 @@ test('root config retains existing named exports and standalone provider order',
     assert.equal(compatibility[name], value, name);
   const config = standaloneConfig({ mode: 'test' });
   assert.deepEqual(
-    config.plugins.slice(2, -1).map((plugin) => plugin.name),
+    config.plugins.slice(3, -1).map((plugin) => plugin.name),
     providers.localProviderPlugins().map((plugin) => plugin.name),
   );
   assert.equal(config.plugins.at(-2).name, 'gev-key-setup');
@@ -71,7 +78,7 @@ test('root config retains existing named exports and standalone provider order',
 });
 
 test('build export resolves in Node and has no browser fallback', async () => {
-  const exported = await import('gods-eye-view/build/vite');
+  const exported = await import('ondemand-spatial/build/vite');
   assert.equal(exported.createBrowserViteConfig, createBrowserViteConfig);
   const pkg = JSON.parse(
     readFileSync(new URL('../../package.json', import.meta.url)),

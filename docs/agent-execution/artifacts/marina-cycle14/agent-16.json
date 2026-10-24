@@ -1,0 +1,53 @@
+{
+  "agent": 16,
+  "root": "/home/appuser/work/6692b763e851d28a036ab30e/6ad9daa8a32a07124b4a9356/gods-eye-view",
+  "recorded_at_utc": "2026-10-24T01:53:14.804Z",
+  "owned_files": [
+    "src/incidents/composer.test.mjs",
+    "src/incidents/marinaIntegration.test.mjs"
+  ],
+  "test_runs": [
+    {
+      "file": "src/incidents/composer.test.mjs",
+      "started_at_utc": "2026-10-24T01:53:14.131Z",
+      "finished_at_utc": "2026-10-24T01:53:14.290Z",
+      "exit_code": 0,
+      "counts": {
+        "tests": 35,
+        "suites": 5,
+        "pass": 35,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": "/tmp/gev-agent-16-composer.test.tap"
+    },
+    {
+      "file": "src/incidents/marinaIntegration.test.mjs",
+      "started_at_utc": "2026-10-24T01:53:14.291Z",
+      "finished_at_utc": "2026-10-24T01:53:14.804Z",
+      "exit_code": 0,
+      "counts": {
+        "tests": 17,
+        "suites": 2,
+        "pass": 17,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "log": "/tmp/gev-agent-16-marinaIntegration.test.tap"
+    }
+  ],
+  "total": {
+    "tests": 52,
+    "suites": 7,
+    "pass": 52,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "uses_live_evidence": false
+}

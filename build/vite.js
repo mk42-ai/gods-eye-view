@@ -1,4 +1,5 @@
 import { applicationHtmlPlugin } from './application-html.js';
+import { productNamePlugin } from './product-name.js';
 import cesium from 'vite-plugin-cesium';
 
 /** Build browser assets with explicit inputs; never load environment or providers. */
@@ -11,7 +12,12 @@ export function createBrowserViteConfig({
   port = 4173,
 } = {}) {
   return {
-    plugins: [cesium(), applicationHtmlPlugin(), ...plugins],
+    plugins: [
+      cesium(),
+      applicationHtmlPlugin(),
+      productNamePlugin(),
+      ...plugins,
+    ],
     ...(publicDir === undefined ? {} : { publicDir }),
     server: {
       host: host || 'localhost',
@@ -22,11 +28,6 @@ export function createBrowserViteConfig({
           : ['localhost', '127.0.0.1', '.local'],
       fs: {
         deny: ['.env', '.env.*', '*.{crt,pem}', '**/.git/**', '**/ENVIRONMENT'],
-      },
-      // These headers protect the document containing Provider Settings.
-      headers: {
-        'X-Frame-Options': 'DENY',
-        'Content-Security-Policy': "frame-ancestors 'none'",
       },
     },
     define: {

@@ -18,6 +18,7 @@ import * as Cesium from 'cesium';
 import { forward as toMGRS } from 'mgrs';
 import { CITY_POIS } from './locations.js';
 import { composeLocalityTag } from './hudLocality.js';
+import { iconMarkup } from './ui/icons/layerIcon.js';
 import {
   ellipsoidalToMslDisplayM,
   ensureGeoidReady,
@@ -193,13 +194,14 @@ export class IntelHUD {
           <div class="hud-summary-wrap">
             <div class="hud-summary-label">SUMMARY</div>
             <div class="hud-summary" id="hud-summary">Awaiting telemetry...</div>
+            <button type="button" class="hud-ask-ondemand ask-ondemand-btn--inline" id="hud-ask-ondemand" data-ask-object="hudSummary:global" title="Ask OnDemand about this summary">ASK</button>
           </div>
         </div>
       </div>
 
       <div class="hud-corner hud-top-right">
         <div class="hud-content" style="text-align:right">
-          <div class="hud-rec"><span id="hud-rec-dot">●</span> REC  <span id="hud-timestamp">2026-01-01 00:00:00Z</span></div>
+          <div class="hud-rec"><span id="hud-rec-dot">${iconMarkup('circle', { className: 'od-icon--solid', label: 'Recording' })}</span> REC  <span id="hud-timestamp">2026-01-01 00:00:00Z</span></div>
           <div class="hud-orbital">ORB: ${this._orbitNum}  PASS: DESC-${this._passNum}</div>
         </div>
         <div class="hud-bracket">┐</div>
@@ -237,6 +239,39 @@ export class IntelHUD {
         <span id="hud-bottom-line">LAT: --  LON: --  MGRS: ---</span>
       </div>
     `;
+    // ASK ONDEMAND on the HUD summary line (Phase E, FRONTEND_RECON #25):
+    // opens the contextual mini chat with the current summary + locality.
+    this._el
+      .querySelector('#hud-ask-ondemand')
+      ?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const summaryText =
+          document.getElementById('hud-summary')?.textContent || '';
+        const enabledLayers =
+          this._dataManager
+            ?.getAll?.()
+            ?.filter((layer) => layer.enabled)
+            .map((layer) => layer.name) || [];
+        window.dispatchEvent(
+          new CustomEvent('gev:ask-object', {
+            detail: {
+              objectType: 'hudSummary',
+              objectId: 'global',
+              label: 'HUD summary',
+              fields: {
+                summaryText,
+                mode: document.getElementById('hud-mode')?.textContent || null,
+                layersActive: enabledLayers,
+                lastSummarySignature: this._lastSummarySignature || null,
+              },
+              provenance: {
+                provider: 'OnDemand · /api/ondemand/v2/summaries/hud',
+                fetchedAt: new Date().toISOString(),
+              },
+            },
+          }),
+        );
+      });
     this._el.dataset.variant = this._variant;
   }
 
@@ -252,9 +287,13 @@ export class IntelHUD {
       if (el) el.textContent = this._formatUTC();
     }, 1000);
 
-    // REC blink — every 800ms
+    // REC blink — every 800ms (SC 2.3.3: held steady under reduce-motion)
     this._recBlinkInterval = setInterval(() => {
-      this._recBlinkState = !this._recBlinkState;
+      const reduceMotion =
+        typeof window !== 'undefined' &&
+        typeof window.matchMedia === 'function' &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      this._recBlinkState = reduceMotion ? true : !this._recBlinkState;
       const dot = document.getElementById('hud-rec-dot');
       if (dot)
         dot.style.visibility = this._recBlinkState ? 'visible' : 'hidden';
@@ -751,6 +790,9 @@ export class IntelHUD {
   }
 
   _setSummaryText(text, animate) {
+    // An enabled toggle is not evidence of live/global AIS coverage. Keep the
+    // generic generated HUD summary conservative; the Layers badge owns health.
+    text = String(text || '').replace(/\blive\s+ais\s+vessels/gi, 'AIS availability unverified').replace(/\bglobal\s+context\b/gi, 'map context');
     if (animate) {
       this._typeSummary(text);
       return;
@@ -769,7 +811,7 @@ export class IntelHUD {
       this._dataManager
         ?.getAll?.()
         ?.filter((layer) => layer.enabled)
-        .map((layer) => layer.name) || [];
+        .map((layer) => layer.id === 'ais-live-vessels' ? 'AIS vessels (availability not established by toggle)' : layer.name) || [];
     return {
       placeLabels: labels.placeLabels,
       streetLabels: labels.streetLabels,

@@ -81,7 +81,7 @@ async function main() {
   await page.setRequestInterception(true);
   page.on('request', (request) => {
     const url = new URL(request.url());
-    if (url.origin === APP_ORIGIN && url.pathname === '/api/openai/hud-summary') {
+    if (url.origin === APP_ORIGIN && url.pathname === '/api/ondemand/v2/summaries/hud') {
       request.respond({
         status: 200,
         contentType: 'application/json',

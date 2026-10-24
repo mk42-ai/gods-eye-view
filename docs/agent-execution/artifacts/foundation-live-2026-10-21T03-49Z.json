@@ -1,0 +1,211 @@
+{
+ "generatedUtc": "2026-10-21T03:49:30Z",
+ "pass": 34,
+ "fail": 0,
+ "rows": [
+  {
+   "test": "client.sessions.create (externalUserId + 1 pluginId)",
+   "result": "PASS",
+   "evidence": "{\"ms\":233,\"pluginIds\":[\"plugin-1713924030\"]}",
+   "timestamp": "2026-10-21T03:46:44Z"
+  },
+  {
+   "test": "client.sessions.list pagination",
+   "result": "PASS",
+   "evidence": "{\"count\":2,\"pagination\":{\"next\":\"6ad81425f922b50dc667338a\",\"limit\":2}}",
+   "timestamp": "2026-10-21T03:46:45Z"
+  },
+  {
+   "test": "client.sessions.get",
+   "result": "PASS",
+   "evidence": "{\"keys\":[\"id\",\"companyId\",\"externalUserId\",\"agentIds\",\"pluginIds\",\"contextMetadata\",\"title\",\"status\",\"createdBy\",\"createdAt\",\"updatedAt\",\"liveSettings\",\"isProcessing\"]}",
+   "timestamp": "2026-10-21T03:46:45Z"
+  },
+  {
+   "test": "client.query.sync fulfillmentOnly (predefined-gpt-6-luna)",
+   "result": "PASS",
+   "evidence": "{\"ms\":1618,\"answer\":\"FOUNDATION-LIVE-OK\",\"status\":\"completed\"}",
+   "timestamp": "2026-10-21T03:46:47Z"
+  },
+  {
+   "test": "client.query.stream SSE parse (deltas, metricsLog, heartbeat, [DONE])",
+   "result": "PASS",
+   "evidence": "{\"ttfbMs\":1892,\"totalMs\":4756,\"events\":50,\"distinct\":[\"thinking\",\"message\",\"heartbeat\",\"done\"],\"text\":\"A spatial intelligence workstation is a computer system that uses tools such as \"}",
+   "timestamp": "2026-10-21T03:46:51Z"
+  },
+  {
+   "test": "client.query.stream abort propagation (caller abort stops upstream read)",
+   "result": "PASS",
+   "evidence": "{\"eventsBeforeAbort\":3,\"abortedError\":true}",
+   "timestamp": "2026-10-21T03:46:55Z"
+  },
+  {
+   "test": "client.query.sync with plugin-1713924030 (Internet web search)",
+   "result": "PASS",
+   "evidence": "{\"ms\":20728,\"answer\":\"“Make It in the Emirates kicks off in Abu Dhabi, with 120,000 visitors expected over four days” — https://www.facebook.com/EmiratesNews/videos/here-are-the-head\"}",
+   "timestamp": "2026-10-21T03:47:16Z"
+  },
+  {
+   "test": "client: inactive plugin-1785777296 → OnDemandHttpError 400 (not retried)",
+   "result": "PASS",
+   "evidence": "{\"status\":400,\"message\":\"One or more agents are inactive or missing configuration: X\"}",
+   "timestamp": "2026-10-21T03:47:16Z"
+  },
+  {
+   "test": "client.workflows.get (ONDEMAND_SPATIAL_WORKFLOW_ID real id)",
+   "result": "PASS",
+   "evidence": "{\"name\":\"OnDemand Spatial Advanced Workflow\",\"isActive\":true,\"nodes\":9,\"trigger\":\"webhook\"}",
+   "timestamp": "2026-10-21T03:47:16Z"
+  },
+  {
+   "test": "client.workflows.execute + follow (status + logs polling)",
+   "result": "PASS",
+   "evidence": "{\"status\":\"executing\",\"terminal\":false,\"logLines\":14}",
+   "timestamp": "2026-10-21T03:48:02Z"
+  },
+  {
+   "test": "route GET /api/ondemand/v2/health",
+   "result": "PASS",
+   "evidence": "{\"ok\":true,\"configured\":true,\"conversationBackend\":\"memory\",\"contracts\":33,\"activePlugins\":10,\"defaultEndpointId\":\"predefined-gpt-6-luna\",\"workflowId\":{\"configured\":true,\"source\":\"default\",\"valid\":true},\"guards\":{\"rateLimitPerMinute\":60,\"userHeaderRequired\":false,\"promptInjectionFencing\":true},\"keySource\":\"server\"}",
+   "timestamp": "2026-10-21T03:48:02Z"
+  },
+  {
+   "test": "route GET /api/ondemand/v2/contracts",
+   "result": "PASS",
+   "evidence": "{\"contracts\":33}",
+   "timestamp": "2026-10-21T03:48:02Z"
+  },
+  {
+   "test": "route POST /chat sync — object-context grounded, client key header ignored",
+   "result": "PASS",
+   "evidence": "{\"ms\":3372,\"status\":200,\"reused\":false,\"objectContextKey\":\"aircraft:live-A6-EVN\",\"answer\":\"You’re looking at **EK203 (test object)**, an aircraft. Its altitude is **10,668**; the context does not specify a unit.\"}",
+   "timestamp": "2026-10-21T03:48:05Z"
+  },
+  {
+   "test": "route POST /chat sync — second turn reuses the SAME session (isolation key user+object)",
+   "result": "PASS",
+   "evidence": "{\"reused\":true,\"sameSession\":true}",
+   "timestamp": "2026-10-21T03:48:07Z"
+  },
+  {
+   "test": "route POST /chat sync — different externalUserId gets a DIFFERENT session",
+   "result": "PASS",
+   "evidence": "{\"different\":true}",
+   "timestamp": "2026-10-21T03:48:09Z"
+  },
+  {
+   "test": "route POST /chat stream — SSE relay (session preamble, message events, done)",
+   "result": "PASS",
+   "evidence": "{\"ms\":3793,\"bytes\":1114,\"head\":\"event: session\\ndata: {\\\"sessionId\\\":\\\"6ad835f90bb93a15a0dd39e8\\\",\\\"objectContextKey\\\":\\\"camera:live-cam-1\\\",\\\"reused\\\":false,\\\"endpointId\\\":\\\"predefined-gpt-6-luna\\\",\\\"pluginI\"}",
+   "timestamp": "2026-10-21T03:48:13Z"
+  },
+  {
+   "test": "route GET /messages (history via conversation key)",
+   "result": "PASS",
+   "evidence": "{\"count\":2}",
+   "timestamp": "2026-10-21T03:48:13Z"
+  },
+  {
+   "test": "route GET /conversations (per-user listing)",
+   "result": "PASS",
+   "evidence": "{\"conversations\":2}",
+   "timestamp": "2026-10-21T03:48:13Z"
+  },
+  {
+   "test": "route DELETE /conversations (close mapping)",
+   "result": "PASS",
+   "evidence": "{\"closed\":true}",
+   "timestamp": "2026-10-21T03:48:13Z"
+  },
+  {
+   "test": "route POST /workflows/execute",
+   "result": "PASS",
+   "evidence": "{\"status\":202,\"streamPath\":\"/api/ondemand/v2/workflows/executions/<id>/stream\"}",
+   "timestamp": "2026-10-21T03:48:13Z"
+  },
+  {
+   "test": "route POST /chat sync with objectContext → provenance.keySource=server, confidenceBasis present",
+   "result": "PASS",
+   "evidence": "{\"ms\":1814,\"status\":200,\"basis\":\"inferred\",\"answerChars\":108,\"injectionFlags\":[]}",
+   "timestamp": "2026-10-21T03:48:15Z"
+  },
+  {
+   "test": "route POST /chat with mismatching X-Workstation-User → 403 user_mismatch",
+   "result": "PASS",
+   "evidence": "{\"error\":\"user_mismatch\"}",
+   "timestamp": "2026-10-21T03:48:15Z"
+  },
+  {
+   "test": "route POST /summaries/hud → five-word summary from the fulfilment endpoint",
+   "result": "PASS",
+   "evidence": "{\"ms\":4074,\"status\":200,\"summary\":\"Louvre Abu Dhabi Live Flights\",\"error\":null}",
+   "timestamp": "2026-10-21T03:48:19Z"
+  },
+  {
+   "test": "isolation: 3 concurrent users × same object → 3 distinct sessions, answers not crossed, same user reuses",
+   "result": "PASS",
+   "evidence": "{\"ms\":4491,\"distinctSessions\":3,\"answers\":[\"ISO-A\",\"ISO-B\",\"ISO-C\"]}",
+   "timestamp": "2026-10-21T03:48:23Z"
+  },
+  {
+   "test": "route POST /investigate → plan + sources + objects + synthesis (live plugin retrieval)",
+   "result": "PASS",
+   "evidence": "{\"ms\":27400,\"status\":200,\"plan\":[{\"name\":\"perplexity_research\",\"pluginId\":\"plugin-1722260873\"}],\"sources\":[\"perplexity_research:ok\"],\"counts\":{\"objects\":1,\"confirmed\":0,\"inferred\":1,\"unverified\":0},\"citations\":[],\"synthesisParsed\":true,\"synthesisError\":null,\"timings\":{\"retrievalMs\":22849,\"synthesisMs\":4550,\"totalMs\":27399}}",
+   "timestamp": "2026-10-21T03:48:51Z"
+  },
+  {
+   "test": "route POST /chat stream → session, deltas, provenance, done (in order)",
+   "result": "PASS",
+   "evidence": "{\"ms\":4372,\"bytes\":1470,\"events\":[\"session\",\"message\",\"heartbeat\",\"provenance\",\"done\"]}",
+   "timestamp": "2026-10-21T03:48:55Z"
+  },
+  {
+   "test": "route GET /voice/health → configured, STT+TTS services, turn-based transport",
+   "result": "PASS",
+   "evidence": "{\"ok\":true,\"configured\":true,\"voiceFlowId\":{\"resolvedVia\":\"default\"},\"services\":[\"speech_to_text\",\"text_to_speech\"],\"realtimeTransport\":\"turn-based (OnDemand exposes no realtime audio API)\"}",
+   "timestamp": "2026-10-21T03:48:55Z"
+  },
+  {
+   "test": "route POST /voice/turn (transcript) → turn, session, delta…, answer, tts(https), done — same-origin SSE, server key",
+   "result": "PASS",
+   "evidence": "{\"ms\":7860,\"status\":200,\"events\":[\"turn\",\"session\",\"delta\",\"answer\",\"tts\",\"done\"],\"deltas\":12,\"ttsHttps\":true}",
+   "timestamp": "2026-10-21T03:49:03Z"
+  },
+  {
+   "test": "route POST /voice/turn without transcript/audioUrl → 400 validation (no upstream call)",
+   "result": "PASS",
+   "evidence": "{\"status\":400,\"body\":\"{\\\"error\\\":\\\"validation_error\\\",\\\"field\\\":\\\"input\\\",\\\"message\\\":\\\"input: exactly one of audioUrl or transcript is required\\\"}\"}",
+   "timestamp": "2026-10-21T03:49:03Z"
+  },
+  {
+   "test": "route POST /voice/turn with mismatching X-Workstation-User → 403 user_mismatch",
+   "result": "PASS",
+   "evidence": "{\"status\":403,\"body\":\"{\\\"error\\\":\\\"user_mismatch\\\"}\"}",
+   "timestamp": "2026-10-21T03:49:03Z"
+  },
+  {
+   "test": "route GET /plugins → lifecycle snapshot (contracts listed, nothing READY before a real probe)",
+   "result": "PASS",
+   "evidence": "{\"count\":32,\"states\":{\"discovered\":32}}",
+   "timestamp": "2026-10-21T03:49:03Z"
+  },
+  {
+   "test": "route POST /plugins/verify → internet_web_search READY via live session+probe; x_mcp_connector FAILED inactive_on_account (honest)",
+   "result": "PASS",
+   "evidence": "{\"ms\":4706,\"web\":{\"state\":\"ready\",\"latencyMs\":4706,\"verifiedAt\":\"2026-10-21T03:49:08.067Z\"},\"xMcp\":{\"state\":\"failed\",\"code\":\"inactive_on_account\"}}",
+   "timestamp": "2026-10-21T03:49:08Z"
+  },
+  {
+   "test": "route GET /contracts → 33 contracts incl. 21 ondemand-tool contracts derived from server/tools/registry.js",
+   "result": "PASS",
+   "evidence": "{\"total\":33,\"tools\":21}",
+   "timestamp": "2026-10-21T03:49:08Z"
+  },
+  {
+   "test": "route POST /investigate (earthquake) → earthquake_search tool executed in-process (status ok, not skipped) + plugin",
+   "result": "PASS",
+   "evidence": "{\"ms\":22318,\"sources\":[\"internet_web_search:ok\",\"earthquake_search:ok\"],\"counts\":{\"objects\":2,\"confirmed\":1,\"inferred\":0,\"unverified\":1}}",
+   "timestamp": "2026-10-21T03:49:30Z"
+  }
+ ]
+}

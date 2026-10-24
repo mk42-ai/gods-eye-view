@@ -1,0 +1,776 @@
+/* ASK ONDEMAND — the per-entity mini chatbot (src/ondemand/entityChat.js,
+   docs/ENTITY_CHAT.md). Brand tokens from src/brand/tokens.css: the accent is
+   --od-green-500 (#3BB795) with dark ink (--od-ink #161616) on filled
+   controls; body text is --od-neutral-100 on the dark ground. */
+
+/* The CONTEXT > CONTACTS action that opens the overlay. Spans the action
+   grid so it never squeezes COCKPIT / SEARCH beside it. */
+.ask-ondemand-btn {
+  grid-column: 1 / -1;
+  min-height: 30px;
+  border-color: rgba(59, 183, 149, 0.55);
+  color: var(--od-green-200, #adedd6);
+  background: rgba(59, 183, 149, 0.14);
+  letter-spacing: 0.14em;
+}
+.ask-ondemand-btn:hover,
+.ask-ondemand-btn:focus-visible {
+  border-color: var(--od-green-500, #3bb795);
+  color: var(--od-ink, #161616);
+  background: var(--od-green-500, #3bb795);
+}
+.ask-ondemand-btn[hidden] {
+  display: none;
+}
+
+#ondemand-entity-chat {
+  position: fixed;
+  z-index: 185; /* above the first-run launcher (175), below key setup (190) */
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(88px, calc(env(safe-area-inset-bottom) + 72px));
+  width: min(26rem, calc(100vw - 2rem));
+  max-height: min(34rem, calc(100vh - 7rem));
+  max-height: min(34rem, calc(100dvh - 7rem));
+  display: flex;
+  flex-direction: column;
+  color: var(--od-neutral-100, #f3f3f3);
+  background: rgba(22, 22, 22, 0.94);
+  border: 1px solid rgba(59, 183, 149, 0.45);
+  border-radius: 12px;
+  box-shadow:
+    0 1.2rem 3.6rem rgba(0, 0, 0, 0.6),
+    0 0 1.6rem rgba(59, 183, 149, 0.12);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  font: 11px/1.4 var(--font-sans, 'Inter', system-ui, sans-serif);
+  overflow: hidden;
+}
+#ondemand-entity-chat[hidden] {
+  display: none;
+}
+
+.od-chat__header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px 8px 12px;
+  border-bottom: 1px solid rgba(59, 183, 149, 0.28);
+  background: rgba(59, 183, 149, 0.08);
+}
+.od-chat__brand {
+  padding: 3px 7px;
+  border-radius: 6px;
+  color: var(--od-ink, #161616);
+  background: var(--od-green-500, #3bb795);
+  font: 700 8px/1 var(--font-mono, monospace);
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+}
+.od-chat__titles {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+.od-chat__title {
+  overflow: hidden;
+  font: 600 11px/1.2 var(--font-mono, monospace);
+  letter-spacing: 0.06em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.od-chat__mgrs {
+  overflow: hidden;
+  color: var(--od-green-200, #adedd6);
+  font: 9px/1.2 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.od-chat__key-state {
+  padding: 2px 6px;
+  border: 1px solid rgba(243, 243, 243, 0.18);
+  border-radius: 999px;
+  color: var(--od-neutral-400, #999999);
+  font: 8px/1.2 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.od-chat__key-state[data-key-source='request'] {
+  border-color: rgba(59, 183, 149, 0.6);
+  color: var(--od-green-200, #adedd6);
+}
+.od-chat__icon-btn {
+  min-width: 28px;
+  min-height: 24px;
+  padding: 0 7px;
+  border: 1px solid rgba(243, 243, 243, 0.16);
+  border-radius: 6px;
+  color: var(--od-neutral-100, #f3f3f3);
+  background: transparent;
+  font: 700 9px/1 var(--font-mono, monospace);
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+.od-chat__icon-btn:hover,
+.od-chat__icon-btn:focus-visible {
+  border-color: var(--od-green-500, #3bb795);
+  color: var(--od-green-200, #adedd6);
+  outline: none;
+}
+.od-chat__close {
+  font-size: 15px;
+  line-height: 1;
+}
+/* Camera kind: attach the current frame to the next question. */
+.od-chat__attach {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+}
+.od-chat__attach[hidden] {
+  display: none;
+}
+.od-chat__attach .od-icon {
+  width: 16px;
+  height: 16px;
+}
+.od-chat__attach[data-attach='pending'] {
+  border-color: var(--od-green-500, #3bb795);
+  color: var(--od-green-200, #adedd6);
+  background: rgba(59, 183, 149, 0.18);
+}
+
+.od-chat__key-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(243, 243, 243, 0.08);
+  background: rgba(0, 0, 0, 0.25);
+}
+.od-chat__key-row[hidden] {
+  display: none;
+}
+.od-chat__key-label {
+  grid-column: 1 / -1;
+  color: var(--od-neutral-400, #999999);
+  font: 9px/1.3 var(--font-mono, monospace);
+  letter-spacing: 0.06em;
+}
+.od-chat__key-input {
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid rgba(243, 243, 243, 0.16);
+  border-radius: 6px;
+  color: var(--od-neutral-100, #f3f3f3);
+  background: rgba(0, 0, 0, 0.35);
+  font: 10px/1.2 var(--font-mono, monospace);
+}
+.od-chat__key-input:focus-visible {
+  border-color: var(--od-green-500, #3bb795);
+  outline: none;
+}
+
+.od-chat__status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 12px;
+  border-bottom: 1px solid rgba(243, 243, 243, 0.06);
+}
+.od-chat__status {
+  overflow: hidden;
+  color: var(--od-neutral-400, #999999);
+  font: 8px/1.3 var(--font-mono, monospace);
+  letter-spacing: 0.1em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.od-chat__badge {
+  flex: none;
+  padding: 2px 7px;
+  border-radius: 999px;
+  color: var(--od-ink, #161616);
+  background: var(--od-green-500, #3bb795);
+  font: 700 8px/1.3 var(--font-mono, monospace);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.od-chat__badge[hidden] {
+  display: none;
+}
+
+.od-chat__transcript {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 9rem;
+  padding: 10px 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+}
+.od-chat__msg {
+  max-width: 92%;
+  padding: 7px 9px;
+  border-radius: 9px;
+  font-size: 11px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.od-chat__msg--user {
+  align-self: flex-end;
+  color: var(--od-ink, #161616);
+  background: var(--od-green-500, #3bb795);
+}
+.od-chat__msg--assistant {
+  align-self: flex-start;
+  color: var(--od-neutral-100, #f3f3f3);
+  background: rgba(243, 243, 243, 0.08);
+  border: 1px solid rgba(243, 243, 243, 0.08);
+}
+.od-chat__msg--assistant[data-streaming='true']::after {
+  content: '▍';
+  margin-left: 2px;
+  color: var(--od-green-500, #3bb795);
+  animation: od-chat-caret 0.9s steps(2, end) infinite;
+}
+.od-chat__msg--system {
+  align-self: stretch;
+  max-width: none;
+  color: var(--od-green-200, #adedd6);
+  background: rgba(59, 183, 149, 0.1);
+  border: 1px dashed rgba(59, 183, 149, 0.4);
+  font: 9px/1.4 var(--font-mono, monospace);
+}
+.od-chat__msg--error {
+  align-self: stretch;
+  max-width: none;
+  color: #ffd3cc;
+  background: rgba(255, 92, 64, 0.12);
+  border: 1px solid rgba(255, 92, 64, 0.45);
+  font: 10px/1.4 var(--font-mono, monospace);
+}
+@keyframes od-chat-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.od-chat__composer {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 6px;
+  padding: 8px 12px 10px;
+  border-top: 1px solid rgba(59, 183, 149, 0.28);
+  background: rgba(0, 0, 0, 0.25);
+}
+.od-chat__input {
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(243, 243, 243, 0.16);
+  border-radius: 8px;
+  color: var(--od-neutral-100, #f3f3f3);
+  background: rgba(0, 0, 0, 0.35);
+  font: 11px/1.3 var(--font-sans, 'Inter', system-ui, sans-serif);
+}
+.od-chat__input::placeholder {
+  color: var(--od-neutral-400, #999999);
+}
+.od-chat__input:focus-visible {
+  border-color: var(--od-green-500, #3bb795);
+  outline: none;
+}
+.od-chat__btn {
+  min-height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--od-green-500, #3bb795);
+  border-radius: 8px;
+  color: var(--od-ink, #161616);
+  background: var(--od-green-500, #3bb795);
+  font: 700 9px/1 var(--font-mono, monospace);
+  letter-spacing: 0.14em;
+  cursor: pointer;
+}
+.od-chat__btn:hover,
+.od-chat__btn:focus-visible {
+  background: var(--od-green-200, #adedd6);
+  border-color: var(--od-green-200, #adedd6);
+  outline: none;
+}
+.od-chat__btn:disabled {
+  cursor: progress;
+  opacity: 0.55;
+}
+.od-chat__btn--ghost {
+  color: var(--od-neutral-100, #f3f3f3);
+  background: transparent;
+  border-color: rgba(243, 243, 243, 0.2);
+}
+.od-chat__btn--ghost:hover,
+.od-chat__btn--ghost:focus-visible {
+  color: var(--od-ink, #161616);
+}
+
+body.cockpit-mode #ondemand-entity-chat,
+body.scene-playback-mode #ondemand-entity-chat {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  #ondemand-entity-chat {
+    right: max(8px, env(safe-area-inset-right));
+    left: max(8px, env(safe-area-inset-left));
+    width: auto;
+    bottom: max(72px, calc(env(safe-area-inset-bottom) + 64px));
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   ASK ONDEMAND mini chat for every object type (src/ondemand/miniChat.js,
+   2026-10-20 Phase E). Shares the .od-chat skin above; sits beside the entity
+   overlay so an entity chat and an object chat can be open at once. */
+#ondemand-mini-chat {
+  position: fixed;
+  z-index: 186;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(88px, calc(env(safe-area-inset-bottom) + 72px));
+  width: min(27rem, calc(100vw - 2rem));
+  max-height: min(36rem, calc(100dvh - 7rem));
+  display: flex;
+  flex-direction: column;
+  color: var(--od-neutral-100, #f3f3f3);
+  background: rgba(22, 22, 22, 0.94);
+  border: 1px solid rgba(59, 183, 149, 0.45);
+  border-radius: 12px;
+  box-shadow:
+    0 1.2rem 3.6rem rgba(0, 0, 0, 0.6),
+    0 0 1.6rem rgba(59, 183, 149, 0.12);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  font: 11px/1.4 var(--font-sans, 'Inter', system-ui, sans-serif);
+  overflow: hidden;
+}
+#ondemand-mini-chat[hidden] {
+  display: none;
+}
+/* When both panels are open, stack the object chat to the left of the entity chat. */
+#ondemand-entity-chat:not([hidden]) ~ #ondemand-mini-chat {
+  right: calc(
+    max(18px, env(safe-area-inset-right)) + min(26rem, calc(100vw - 2rem)) +
+      12px
+  );
+}
+.od-chat__header--mini {
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+}
+.od-chat__starters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px 0;
+}
+.od-chat__starters[hidden] {
+  display: none;
+}
+.od-chat__starter {
+  border: 1px solid rgba(59, 183, 149, 0.4);
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: var(--od-green-200, #adedd6);
+  background: rgba(59, 183, 149, 0.1);
+  font: 10px/1.3 var(--font-sans, 'Inter', system-ui, sans-serif);
+  cursor: pointer;
+  text-align: left;
+}
+.od-chat__starter:hover,
+.od-chat__starter:focus-visible {
+  color: var(--od-ink, #161616);
+  background: var(--od-green-500, #3bb795);
+}
+.od-chat__activity {
+  margin: 0;
+  padding: 4px 12px;
+  list-style: none;
+  border-top: 1px dashed rgba(59, 183, 149, 0.3);
+  font: 9px/1.4 var(--font-mono, monospace);
+  color: var(--od-green-200, #adedd6);
+  max-height: 6.4em;
+  overflow: hidden;
+}
+.od-chat__activity[hidden] {
+  display: none;
+}
+.od-chat__activity[data-hidden-rows]::before {
+  content: '… ' attr(data-hidden-rows) ' earlier step(s)';
+  display: block;
+  opacity: 0.6;
+}
+.od-chat__activity-row {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.od-chat__sources {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-top: 1px solid rgba(243, 243, 243, 0.08);
+  font: 9px/1.4 var(--font-mono, monospace);
+}
+.od-chat__sources[hidden] {
+  display: none;
+}
+.od-chat__sources-label {
+  color: var(--od-neutral-400, #9a9a9a);
+  letter-spacing: 0.08em;
+}
+.od-chat__cite {
+  color: var(--od-green-200, #adedd6);
+  text-decoration: underline dotted;
+  overflow-wrap: anywhere;
+}
+.od-chat__cite:hover {
+  color: var(--od-green-500, #3bb795);
+}
+.od-chat__msg--assistant[data-confidence='confirmed'] {
+  border-left: 3px solid var(--od-green-500, #3bb795);
+}
+.od-chat__msg--assistant[data-confidence='unverified'] {
+  border-left: 3px solid #e3b341;
+}
+.od-chat__msg--assistant[data-confidence='inferred'] {
+  border-left: 3px solid rgba(243, 243, 243, 0.35);
+}
+
+/* Compact inline ASK affordance used on layer rows, the HUD summary and the
+   cockpit brief footer. */
+.ask-ondemand-btn--inline {
+  grid-column: auto;
+  min-height: 0;
+  padding: 2px 7px;
+  border: 1px solid rgba(59, 183, 149, 0.5);
+  border-radius: 999px;
+  color: var(--od-green-200, #adedd6);
+  background: rgba(59, 183, 149, 0.12);
+  font: 600 9px/1.4 var(--font-mono, monospace);
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ask-ondemand-btn--inline:hover,
+.ask-ondemand-btn--inline:focus-visible {
+  color: var(--od-ink, #161616);
+  background: var(--od-green-500, #3bb795);
+  border-color: var(--od-green-500, #3bb795);
+}
+.data-ask-btn {
+  margin-right: 6px;
+}
+.hud-ask-ondemand {
+  margin-left: 8px;
+  pointer-events: auto;
+}
+.cockpit-brief-ask {
+  margin-left: auto;
+}
+
+/* Developer details reveal */
+.od-chat__dev {
+  margin: 4px 12px 6px;
+  border: 1px solid rgba(59, 183, 149, 0.25);
+  border-radius: 6px;
+  background: rgba(14, 27, 36, 0.5);
+  font: 9px/1.4 var(--font-mono, monospace);
+  color: var(--od-green-200, #adedd6);
+}
+.od-chat__dev summary {
+  padding: 4px 8px;
+  cursor: pointer;
+  color: var(--od-neutral-400, #9a9a9a);
+  user-select: none;
+  font-family: var(--font-mono, monospace);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+}
+.od-chat__dev summary:hover,
+.od-chat__dev summary:focus-visible {
+  color: var(--od-green-200, #adedd6);
+}
+.od-chat__dev-body {
+  padding: 4px 8px 8px;
+  border-top: 1px dashed rgba(59, 183, 149, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.od-chat__dev-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.od-chat__dev-line {
+  color: rgba(173, 237, 214, 0.85);
+}
+
+/* Empty / unavailable states reuse the generated brand placeholders
+   (public/assets/brand, docs/agent-execution/BRAND_ASSETS.md). */
+.od-empty-state {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 18px 12px;
+  text-align: center;
+  color: var(--od-neutral-400, #9a9a9a);
+  font: 10px/1.5 var(--font-sans, 'Inter', system-ui, sans-serif);
+}
+.od-empty-state::before {
+  content: '';
+  width: 96px;
+  height: 96px;
+  border-radius: 12px;
+  background: center / cover no-repeat;
+  opacity: 0.9;
+}
+.od-empty-state--no-results::before {
+  background-image: url('/assets/brand/empty-no-results.png');
+}
+.od-empty-state--no-sessions::before {
+  background-image: url('/assets/brand/empty-no-sessions.png');
+}
+.od-empty-state--source-unavailable::before {
+  background-image: url('/assets/brand/empty-source-unavailable.png');
+}
+
+/* Deliverable media under an assistant answer (src/ondemand/miniChat.js
+   renderDeliverables): documents side by side, images as thumbnails that open
+   the lightbox, videos as a poster that opens the media side pane. Nothing in
+   the transcript ever autoplays. */
+.od-chat__deliverables {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(59, 183, 149, 0.3);
+  white-space: normal;
+}
+.od-chat__deliverable {
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.od-chat__thumb,
+.od-chat__poster,
+.od-chat__doc {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(243, 243, 243, 0.16);
+  border-radius: 8px;
+  background: rgba(243, 243, 243, 0.06);
+  color: var(--od-neutral-100, #f3f3f3);
+  cursor: pointer;
+}
+.od-chat__thumb:hover,
+.od-chat__thumb:focus-visible,
+.od-chat__poster:hover,
+.od-chat__poster:focus-visible,
+.od-chat__doc:hover,
+.od-chat__doc:focus-visible {
+  border-color: var(--od-green-500, #3bb795);
+  outline: none;
+}
+.od-chat__thumb-img,
+.od-chat__poster-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.od-chat__poster-play {
+  position: absolute;
+  inset: auto 6px 6px auto;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--od-green-500, #3bb795);
+  color: var(--od-ink, #161616);
+  font: 700 8px/1 var(--font-mono, monospace);
+  letter-spacing: 0.14em;
+}
+.od-chat__doc {
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+}
+.od-chat__doc-ext {
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgba(59, 183, 149, 0.18);
+  color: var(--od-green-200, #adedd6);
+  font: 700 9px/1 var(--font-mono, monospace);
+  letter-spacing: 0.12em;
+}
+.od-chat__doc-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 9px/1.3 var(--font-mono, monospace);
+  color: var(--od-neutral-100, #f3f3f3);
+}
+.od-chat__deliverable-caption {
+  font: 8px/1.3 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+.od-chat__deliverable-link {
+  color: var(--od-green-200, #adedd6);
+  text-decoration: underline dotted;
+}
+
+/* Image lightbox */
+.od-chat__lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 188; /* above both chat panels, below key setup (190) */
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 24px;
+  background: rgba(10, 12, 16, 0.86);
+  backdrop-filter: blur(6px);
+}
+.od-chat__lightbox[hidden] {
+  display: none;
+}
+.od-chat__lightbox-img {
+  max-width: min(92vw, 1200px);
+  max-height: 80vh;
+  border-radius: 10px;
+  box-shadow: 0 1.2rem 3.6rem rgba(0, 0, 0, 0.6);
+  object-fit: contain;
+}
+.od-chat__lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+.od-chat__lightbox-caption {
+  color: var(--od-green-200, #adedd6);
+  font: 10px/1.3 var(--font-mono, monospace);
+  letter-spacing: 0.08em;
+}
+
+/* Media side pane (video / PDF) — docks to the left of the mini chat on
+   desktop, becomes a bottom sheet above it on narrow screens. */
+.od-chat__media-pane {
+  position: fixed;
+  z-index: 187;
+  right: calc(
+    max(18px, env(safe-area-inset-right)) + min(27rem, calc(100vw - 2rem)) +
+      12px
+  );
+  bottom: max(88px, calc(env(safe-area-inset-bottom) + 72px));
+  width: min(30rem, calc(100vw - 32rem));
+  max-height: min(36rem, calc(100dvh - 7rem));
+  display: flex;
+  flex-direction: column;
+  color: var(--od-neutral-100, #f3f3f3);
+  background: rgba(22, 22, 22, 0.96);
+  border: 1px solid rgba(59, 183, 149, 0.45);
+  border-radius: 12px;
+  box-shadow: 0 1.2rem 3.6rem rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  font: 11px/1.4 var(--font-sans, 'Inter', system-ui, sans-serif);
+}
+.od-chat__media-pane[hidden] {
+  display: none;
+}
+.od-chat__media-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 10px 8px 12px;
+  border-bottom: 1px solid rgba(59, 183, 149, 0.28);
+  background: rgba(59, 183, 149, 0.08);
+}
+.od-chat__media-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 600 11px/1.2 var(--font-mono, monospace);
+  letter-spacing: 0.06em;
+}
+.od-chat__media-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 12rem;
+  padding: 10px 12px;
+  overflow: auto;
+}
+.od-chat__media-video,
+.od-chat__media-frame {
+  width: 100%;
+  min-height: 14rem;
+  border: 0;
+  border-radius: 8px;
+  background: #000;
+}
+.od-chat__media-frame {
+  flex: 1 1 auto;
+  min-height: 22rem;
+}
+.od-chat__media-note,
+.od-chat__media-link {
+  margin: 0;
+  color: var(--od-green-200, #adedd6);
+  font: 10px/1.4 var(--font-mono, monospace);
+}
+
+@media (max-width: 640px) {
+  #ondemand-mini-chat,
+  #ondemand-entity-chat:not([hidden]) ~ #ondemand-mini-chat {
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    max-height: 70dvh;
+    border-radius: 12px 12px 0 0;
+  }
+  .od-chat__media-pane {
+    right: 0;
+    left: 0;
+    bottom: 70dvh;
+    width: 100vw;
+    max-height: 28dvh;
+    border-radius: 12px 12px 0 0;
+  }
+  .od-chat__media-frame {
+    min-height: 14rem;
+  }
+}

@@ -1,0 +1,23 @@
+HTTP/2 200 
+date: Wed, 21 Oct 2026 08:08:19 GMT
+content-type: application/json; charset=utf-8
+content-length: 3014
+cache-control: no-store
+x-ondemand-key-source: server
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 59
+server: Vercel
+x-vercel-id: iad1::b5c62-1792570088560-302fb10dad98
+strict-transport-security: max-age=63072000
+x-vercel-internal-path-type: sandbox
+x-vercel-internal-metadata-state: origin_stale
+x-vercel-internal-cache-level: unknown
+x-vercel-internal-project-id: u
+x-vercel-internal-owner-id: u
+x-vercel-internal-deployment-id: u
+x-vercel-internal-proxy-pool: green
+x-vercel-internal-request-cpu-ms: 0
+x-vercel-internal-proxy-cpu-load: 34
+x-vercel-internal-timing: vcoe_from_proxy=11407
+
+{"plugins":[{"name":"perplexity_research","pluginId":"plugin-1722260873","provider":"OnDemand · Perplexity investigation research","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:08:13.523Z","latencyMs":4886,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"},{"name":"internet_web_search","pluginId":"plugin-1713924030","provider":"OnDemand · Internet web search","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:07:04.013Z","latencyMs":6075,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"},{"name":"gpt_search","pluginId":"plugin-1741871229","provider":"OnDemand · GPT Search","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:08:13.631Z","latencyMs":4994,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"},{"name":"x_search","pluginId":"plugin-1751872652","provider":"OnDemand · X Search Agent","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:08:13.518Z","latencyMs":4880,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"},{"name":"tiktok_scraper","pluginId":"plugin-1716372717","provider":"OnDemand · TikTok scraper","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:08:16.240Z","latencyMs":7601,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"},{"name":"instagram_user_info","pluginId":"plugin-1716164040","provider":"OnDemand · Instagram User Info Extracter","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:08:20.030Z","latencyMs":11391,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"},{"name":"instagram_professional","pluginId":"plugin-1785987361","provider":"OnDemand · Instagram professional","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:08:13.352Z","latencyMs":4712,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"},{"name":"youtube_captions","pluginId":"plugin-1784356219","provider":"OnDemand · YouTube Data API v3 Captions","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:08:14.463Z","latencyMs":5823,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"},{"name":"reddit_posts","pluginId":"plugin-1748003575","provider":"OnDemand · Reddit Posts","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:08:14.889Z","latencyMs":6249,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"},{"name":"linkedin_search","pluginId":"plugin-1718116202","provider":"OnDemand · LinkedIn Search","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:08:13.891Z","latencyMs":5251,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"}]}

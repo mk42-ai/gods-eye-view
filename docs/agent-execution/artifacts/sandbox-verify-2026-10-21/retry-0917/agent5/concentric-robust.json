@@ -1,0 +1,169 @@
+{
+ "mark-primary.png": {
+  "strong_circles": 2,
+  "strong_detail": [
+   [
+    152,
+    172,
+    23,
+    0.81
+   ],
+   [
+    358,
+    172,
+    24,
+    0.85
+   ]
+  ],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "mark-mono.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "empty-no-results.png": {
+  "strong_circles": 1,
+  "strong_detail": [
+   [
+    254,
+    204,
+    44,
+    1.0
+   ]
+  ],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "empty-no-sessions.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "empty-source-unavailable.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "backdrop-network.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "mark-variant-a.png": {
+  "strong_circles": 4,
+  "strong_detail": [
+   [
+    256,
+    368,
+    25,
+    0.74
+   ],
+   [
+    150,
+    304,
+    25,
+    0.72
+   ],
+   [
+    150,
+    170,
+    24,
+    0.72
+   ],
+   [
+    360,
+    168,
+    24,
+    0.64
+   ]
+  ],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "mark-variant-b.png": {
+  "strong_circles": 1,
+  "strong_detail": [
+   [
+    360,
+    172,
+    23,
+    0.81
+   ]
+  ],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "favicon-ico.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "apple-touch-icon.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "android-chrome-192.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "android-chrome-512.png": {
+  "strong_circles": 3,
+  "strong_detail": [
+   [
+    256,
+    266,
+    34,
+    0.56
+   ],
+   [
+    256,
+    374,
+    28,
+    0.74
+   ],
+   [
+    156,
+    322,
+    27,
+    0.67
+   ]
+  ],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "favicon-16.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "favicon-32.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "favicon-48.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ },
+ "og-image.png": {
+  "strong_circles": 0,
+  "strong_detail": [],
+  "concentric_pairs": 0,
+  "pairs": []
+ }
+}

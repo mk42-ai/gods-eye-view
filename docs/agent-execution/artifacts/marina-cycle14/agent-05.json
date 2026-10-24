@@ -1,0 +1,106 @@
+{
+  "agent": 5,
+  "scope": "Read-only server/API integration investigation; no live API calls, code changes, credential inspection, or runtime reproduction.",
+  "started_at_utc": "2026-10-24T01:48:29Z",
+  "completed_at_utc": "2026-10-24T01:48:56Z",
+  "files": [
+    {
+      "path": "server/ondemand/foundation/client.js",
+      "sha256": "4f74e80af2734412eb40f663012a610b17732cdcf6f595b24452ab91bfaf383c"
+    },
+    {
+      "path": "server/ondemand/foundation/orchestrator.js",
+      "sha256": "e78eadca88abfc860fb188c7395c89b62154ae67342888c330b7d73bd7af69b8"
+    },
+    {
+      "path": "server/incidents/routes.js",
+      "sha256": "ee8ac00ea1210b762da9a49997b450353bf5c5c68ea43c907f439f4de709ebb3"
+    },
+    {
+      "path": "server/incidents/search.js",
+      "sha256": "68b841ed548c632149c8c31f3cd413df983c0b1a11dac2902b9b8a16e499df87"
+    }
+  ],
+  "evidence_limit": "Observed below means observed in source, not an observed production response. Upstream 409 semantics, plugin readiness, principal-level locking, and geocoder implementation require coordinator documentation or redacted runtime evidence. Comments asserting those behaviors are not independent proof.",
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "observed-source",
+      "topic": "409 versus synthetic 499",
+      "refs": [
+        "server/ondemand/foundation/client.js:40-62,74-82,263-347",
+        "server/incidents/search.js:217-263"
+      ],
+      "detail": "Actual non-2xx HTTP responses become OnDemandHttpError with upstream status, capped/redacted body and x-trace-id. Neither 409 nor 499 is in default retryOn. Separately, caller-signal cancellation becomes OnDemandAbortError(reason=aborted,status=499); internal request timeout becomes status=504. Search renders ANY error.status as ondemand_http_<status>, so its ondemand_http_499 is not proof of an upstream HTTP 499. Search supplies a 35s AbortSignal.timeout (including session creation and query), which the client classifies as caller abortion rather than timeout.",
+      "impact": "Distinguish genuine upstream 409/499, local total-deadline cancellation, and disconnect before diagnosing provider failure."
+    },
+    {
+      "id": "F2",
+      "kind": "observed-source-with-conditional-risk",
+      "topic": "Session reuse and concurrency",
+      "refs": [
+        "server/ondemand/foundation/orchestrator.js:121-170,392-435,457-497",
+        "server/incidents/routes.js:591-612,817-831"
+      ],
+      "detail": "Investigate runs plugin branches concurrently but normally isolates them by (externalUserId,objectContext#contract); synthesis has its own reused object#synthesis key. Concurrent investigations for the SAME keys can issue concurrent queries to a reused session: no visible per-session queue or single-flight wrapper. Read/create/put is also not atomic at these call sites (store internals not inspected). Supplied duplicate plugin IDs are not deduplicated by planRetrieval. Locate reuses incidentLocate/global; its route validates body.externalUserId but DOES NOT forward it, so all fallback locate calls default to incident-locate. Existing conversation plugin IDs are not compared with current contract plugin IDs.",
+      "hypothesis": "If the provider rejects overlapping queries on one session, these are concrete 409 opportunities. Exact provider locking scope remains unverified; same-user/different-plugin parallelism alone does not prove conflict."
+    },
+    {
+      "id": "F3",
+      "kind": "observed-source-with-conditional-risk",
+      "topic": "Fresh sessions reduce, but do not establish elimination of, 409",
+      "refs": [
+        "server/incidents/routes.js:265-331,361-407",
+        "server/incidents/search.js:196-238",
+        "server/ondemand/foundation/client.js:263-334"
+      ],
+      "detail": "Scoped search uses a fresh randomUUID principal AND session per source; refresh creates fresh sessions and time-suffixed principals. Refresh sources run sequentially; search sources run in parallel. Thus routine reused-session conflict is not supported for search. Refresh timestamps are not guaranteed unique across same-millisecond concurrent calls/processes. Refresh retries ALL 409s up to three extra times with 5/10/15s sleeps; these sleeps are not abort-aware. It asks a second conversion question even for a valid empty JSON array. Client retries non-streaming POSTs on network errors/timeouts/retryable statuses, with no idempotency token visible.",
+      "hypothesis": "Ambiguous transport timeout followed by POST replay can overlap an upstream run that continues and cause 409. Fresh-session attachment delay or user/account/plugin-wide conflict is only a hypothesis: refresh comments assert these, but this code cannot verify them."
+    },
+    {
+      "id": "F4",
+      "kind": "observed-source",
+      "topic": "Incomplete abort/deadline propagation and masking",
+      "refs": [
+        "server/ondemand/foundation/client.js:144-164,174-202,269-347,424-437",
+        "server/ondemand/foundation/orchestrator.js:141-148,193-216,219-253,400-435,467-516",
+        "server/incidents/routes.js:284-304,550,598-612,755-813,825-831"
+      ],
+      "detail": "Client removes the linked timeout and caller-abort listener as soon as fetch returns headers, before JSON/error-body consumption; streaming also loses that listener. SSE only checks caller abortion before reader.read and releases the lock without cancelling, so an idle pending read may not wake. JSON parse failures collapse to HTTP 502. Session creation in investigate/synthesis/locate/refresh is not passed the operation signal or budget. Investigate toolInvoker receives no signal/deadline, and Promise.allSettled waits for every tool. Incident search and locate routes pass no request-lifecycle signal. Refresh alone uses unguarded req.close to abort after reading the body. Wrappers usually catch failures into source errors/steps and still return HTTP 200; investigate can continue synthesis after retrieval cancellation.",
+      "hypothesis": "Refresh req.close may represent normal IncomingMessage completion rather than a true disconnect, depending on server/runtime/event timing; verify before attributing 499 to users. Slow creation/tools/body consumption can exceed advertised budgets. Local abort does not demonstrate upstream execution cancellation."
+    },
+    {
+      "id": "F5",
+      "kind": "observed-source",
+      "topic": "Geographic lookup and fallback provenance",
+      "refs": [
+        "server/incidents/routes.js:447-462,467-650,817-831",
+        "server/ondemand/foundation/orchestrator.js:64-75,219-240,297-301",
+        "server/incidents/search.js:39-72,96-164,167-179"
+      ],
+      "detail": "Actual locate order is parsed place -> offline AOI gazetteer -> registered geocode_place via toolInvoker only if no candidate -> fulfillmentOnly model extraction only if still empty. The order comment is stale. A candidate of ANY confidence suppresses later lookup; strongGazetteer does not change this because the same condition also requires !candidates.length. The geocoder expects result.data.candidates[].geometry.location.{lat,lng}; it neither checks result.ok nor validates coordinate range before marking candidates verified. A tool error envelope without thrown error can be logged status=ok with zero candidates. Model fallback has no search plugin attached, is explicitly unverified, and is NOT evidence of a live geographic lookup. The assigned files do not reveal what plugin/provider backs the registered geocoder. Refresh only uses the gazetteer to fill missing coordinates. Scoped search requires provided coordinates and labels candidate verification but does not require verified=true; report filtering is source/date/radius/schema checking, not independent verification of model claims."
+    }
+  ],
+  "minimal_repairs_in_priority_order": [
+    "Preserve typed error origin/reason: upstream_http versus local_timeout versus caller_cancel. Map operation deadlines to timeout, not misleading ondemand_http_499; retain safe trace ID and attempt/phase metadata through wrappers.",
+    "Serialize/single-flight queries on a reused session, make session acquisition atomic, deduplicate contract selections, and forward the validated locate externalUserId. If fresh-session isolation is desired, use a genuinely unique per-operation nonce rather than timestamps; do not rotate identities to evade provider limits.",
+    "Carry one explicit operation deadline through session creation, query, tool calls and body consumption; make backoff abortable. Keep caller abort attached through JSON/SSE completion and cancel pending stream reads. Abort on actual incomplete request/response disconnect, not unconditional req.close; skip later work when cancelled.",
+    "Do not blindly replay ambiguous non-idempotent query POSTs. Reconcile execution/message state or use documented idempotency; retry only documented busy/readiness 409 codes within the same total budget. Avoid the extra conversion query when a valid [] answer was returned.",
+    "Keep geocoder fail-closed: validate tool success, documented response shape, non-null WGS84 bounds and provenance; mark model estimates unverified and preserve the original tool failure. Correct the lookup-order comment and explicitly choose whether low-confidence gazetteer hits merit a live lookup. Verify any plugin payload/schema changes against coordinator live docs first."
+  ],
+  "redacted_evidence_strategy": {
+    "collect_with_authorized_reproduction_only": [
+      "UTC timestamp, random operation ID, route/phase (create/query/body/tool), contract name, endpoint alias, attempt, elapsed time, configured remaining deadline, and actual HTTP status separately from returned API status.",
+      "Process-local salted/HMAC session/principal hashes for correlation, active-query count for that hash, and start/end events; never raw user/session IDs or credentials.",
+      "Error class, status, reason, callerSignal.aborted, callerSignal.reason.name, internal timedOut flag, request complete/aborted and response writableEnded/destroyed flags; safe allowlisted upstream code plus sanitized/capped trace ID.",
+      "Geocoder contract name, tool success/error code, schema keys/counts, candidate source/verified state and range-validation results; no location query text or exact coordinates."
+    ],
+    "never_collect": "API/ingest keys, Authorization/apikey headers, cookies, .env content, request prompts, raw upstream bodies, full user identities, or precise sensitive locations. Existing token-pattern redaction is insufficient for all PII/short secrets; use an allowlist.",
+    "decisive_tests_for_coordinator": [
+      "Injected local fetch only: upstream Response(409), Response(499), caller abort, internal timeout, delayed body and idle SSE. Verify error origin remains distinct.",
+      "Injected store/client barriers: overlap two investigations sharing a key versus distinct keys; verify no concurrent query after repair. Overlap locate calls to expose dropped principal. No live external calls needed.",
+      "Injected geocoder results: success shape, ok:false envelope, null/out-of-range coordinates, no gazetteer hit and low-confidence hit. Verify truthful fallback/provenance.",
+      "If separately authorized for live evidence, correlate provider trace/error code with same-session overlap and deadline events before concluding session_busy, attachment delay, or actual upstream 499."
+    ]
+  }
+}

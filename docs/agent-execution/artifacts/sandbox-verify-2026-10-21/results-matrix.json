@@ -1,0 +1,2833 @@
+{
+ "live_sandbox_url": "https://sb-72vtzc1c6cf8.vercel.run",
+ "sandbox_id": "sbx_pZgfovEYwxtQu48zPwIg0rVujhWO",
+ "successor_sandbox": {
+  "url": "https://sb-6p9xpg654ouc.vercel.run",
+  "sandbox_id": "sbx_5nzv1jxgsXOEfEknNB6MTQhA2Xgk",
+  "cells_passed": 14,
+  "cells_total": 14
+ },
+ "workspace_head_before": "aa3eb8d",
+ "results_matrix": [
+  {
+   "scenario": "A",
+   "viewport": "1440x900",
+   "status": "PASS",
+   "duration_ms": 235,
+   "checks_passed": "6/6",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:24:30.972Z",
+   "agent": 1,
+   "evidence": "app_boots: Loading screen hidden or globe canvas active; title_contains_product_name: document.title=\"OnDemand Intelligence Workstation\"; no_legacy_brand_terms: No forbidden terms visible; brand_mark_present: Found 2 [data-brand-mark] element(s); foundation_health_200: status 200, ok=true, keySource=server; foundation_contracts_min_13: status 200, 33 contracts"
+  },
+  {
+   "scenario": "B",
+   "viewport": "1440x900",
+   "status": "PASS",
+   "duration_ms": 5992,
+   "checks_passed": "5/5",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/ab/B-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/ab/B-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:01:03.173Z",
+   "agent": 1,
+   "evidence": "mini_chat_opens_earthquake: Mini chat opened with data-open=\"true\"; status_streaming_and_stop_visible: streamingStatusSeen=true, stopButtonSeen=true; assistant_message_and_settle: settled within 90s, assistant message chars: 83; key_source_server_header: x-ondemand-key-source header: \"server\"; no_client_api_key_in_localstorage: localStorage ondemand.apiKey is null"
+  },
+  {
+   "scenario": "C",
+   "viewport": "1440x900",
+   "status": "PASS",
+   "duration_ms": 8699,
+   "checks_passed": "2/2",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/C-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/C-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:02:15.521Z",
+   "agent": 2,
+   "evidence": "citations_query_completed: Turn completed within 90s; citations_or_honest_state: links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+  },
+  {
+   "scenario": "D",
+   "viewport": "1440x900",
+   "status": "PASS",
+   "duration_ms": 98,
+   "checks_passed": "4/4",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/D-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/D-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:02:27.088Z",
+   "agent": 2,
+   "evidence": "earthquake_history_available: transcript messages=2 (from earlier scenario); desktop_no_hud_brand_mark_overlap: overlap=false, checked against 2 brand mark(s); close_button_sets_closed: Mini chat closed (data-open=\"false\"); reopen_restores_transcript: Transcript replayed 2 messages upon reopen (expected >= 2)"
+  },
+  {
+   "scenario": "E",
+   "viewport": "1440x900",
+   "status": "PASS",
+   "duration_ms": 7314,
+   "checks_passed": "2/2",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/E-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/E-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:03:38.512Z",
+   "agent": 3,
+   "evidence": "history_messages_present_before_switch: Found 2 prior messages in transcript; session_isolated_for_different_object: Isolated transcript: containsEarthquake=false, msgs=0"
+  },
+  {
+   "scenario": "F",
+   "viewport": "1440x900",
+   "status": "PASS",
+   "duration_ms": 401,
+   "checks_passed": "3/3",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/F-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/F-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:03:47.291Z",
+   "agent": 3,
+   "evidence": "active_plugins_cap_and_id_regex: activePlugins=10/10, validPluginIds=33/33; plugin_panel_lifecycle_states: present, 32 badges, allValid=true; plugins_api_probe: probe result: 200 mounted (obj)"
+  },
+  {
+   "scenario": "G",
+   "viewport": "1440x900",
+   "status": "PASS",
+   "duration_ms": 7409,
+   "checks_passed": "3/3",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/g/G-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/g/G-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:03:03.425Z",
+   "agent": 4,
+   "evidence": "synthetic_502_error_ui: Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable; retry_recovery_turn_success: Recovered turn completed (status READY); globe_and_hud_interactive_stability: canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+  },
+  {
+   "scenario": "A",
+   "viewport": "390x844",
+   "status": "PASS",
+   "duration_ms": 211,
+   "checks_passed": "6/6",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-390x844.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-390x844.png",
+   "run_at_iso8601": "2026-10-21T08:24:40.765Z",
+   "agent": 1,
+   "evidence": "app_boots: Loading screen hidden or globe canvas active; title_contains_product_name: document.title=\"OnDemand Intelligence Workstation\"; no_legacy_brand_terms: No forbidden terms visible; brand_mark_present: Found 2 [data-brand-mark] element(s); foundation_health_200: status 200, ok=true, keySource=server; foundation_contracts_min_13: status 200, 33 contracts"
+  },
+  {
+   "scenario": "B",
+   "viewport": "390x844",
+   "status": "PASS",
+   "duration_ms": 6022,
+   "checks_passed": "5/5",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/ab/B-390x844.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/ab/B-390x844.png",
+   "run_at_iso8601": "2026-10-21T08:01:16.419Z",
+   "agent": 1,
+   "evidence": "mini_chat_opens_earthquake: Mini chat opened with data-open=\"true\"; status_streaming_and_stop_visible: streamingStatusSeen=true, stopButtonSeen=true; assistant_message_and_settle: settled within 90s, assistant message chars: 164; key_source_server_header: x-ondemand-key-source header: \"server\"; no_client_api_key_in_localstorage: localStorage ondemand.apiKey is null"
+  },
+  {
+   "scenario": "C",
+   "viewport": "390x844",
+   "status": "PASS",
+   "duration_ms": 7039,
+   "checks_passed": "2/2",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/C-390x844.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/C-390x844.png",
+   "run_at_iso8601": "2026-10-21T08:02:36.371Z",
+   "agent": 2,
+   "evidence": "citations_query_completed: Turn completed within 90s; citations_or_honest_state: links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+  },
+  {
+   "scenario": "D",
+   "viewport": "390x844",
+   "status": "PASS",
+   "duration_ms": 161,
+   "checks_passed": "4/4",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/D-390x844.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/cd/D-390x844.png",
+   "run_at_iso8601": "2026-10-21T08:02:46.022Z",
+   "agent": 2,
+   "evidence": "earthquake_history_available: transcript messages=4 (from earlier scenario); mobile_viewport_fit_and_input_visible: fitsViewport=true, inputVisible=true, noHScroll=true; close_button_sets_closed: Mini chat closed (data-open=\"false\"); reopen_restores_transcript: Transcript replayed 4 messages upon reopen (expected >= 2)"
+  },
+  {
+   "scenario": "E",
+   "viewport": "390x844",
+   "status": "PASS",
+   "duration_ms": 3978,
+   "checks_passed": "2/2",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/E-390x844.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/E-390x844.png",
+   "run_at_iso8601": "2026-10-21T08:03:52.517Z",
+   "agent": 3,
+   "evidence": "history_messages_present_before_switch: Found 4 prior messages in transcript; session_isolated_for_different_object: Isolated transcript: containsEarthquake=false, msgs=0"
+  },
+  {
+   "scenario": "F",
+   "viewport": "390x844",
+   "status": "PASS",
+   "duration_ms": 79,
+   "checks_passed": "3/3",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/F-390x844.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/ef/F-390x844.png",
+   "run_at_iso8601": "2026-10-21T08:03:57.204Z",
+   "agent": 3,
+   "evidence": "active_plugins_cap_and_id_regex: activePlugins=10/10, validPluginIds=33/33; plugin_panel_lifecycle_states: present, 32 badges, allValid=true; plugins_api_probe: probe result: 200 mounted (obj)"
+  },
+  {
+   "scenario": "G",
+   "viewport": "390x844",
+   "status": "PASS",
+   "duration_ms": 6315,
+   "checks_passed": "3/3",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/g/G-390x844.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/g/G-390x844.png",
+   "run_at_iso8601": "2026-10-21T08:03:16.821Z",
+   "agent": 4,
+   "evidence": "synthetic_502_error_ui: Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable; retry_recovery_turn_success: Recovered turn completed (status READY); globe_and_hud_interactive_stability: canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+  },
+  {
+   "scenario": "parity-streaming",
+   "viewport": "both",
+   "status": "PASS",
+   "duration_ms": 24960,
+   "checks_passed": "4/4",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/check-streaming-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/check-streaming-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:08:00.204Z",
+   "agent": 1,
+   "evidence": "sameKeySource=true (server); bothStreamed=true; stopButtonVisible=true; TTFT desktop=3332ms, mobile=4417ms, |diff|=1085ms; localStorageApiKeyIsNull=true; finalStatus=\"READY \u00b7 inferred\"; assistantChars: desktop=96, mobile=147"
+  },
+  {
+   "scenario": "parity-hud-summary",
+   "viewport": "both",
+   "status": "PASS",
+   "duration_ms": 1388,
+   "checks_passed": "3/3",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/check-hud-summary-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent1/check-hud-summary-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:08:12.606Z",
+   "agent": 1,
+   "evidence": "hudSummaryPopulated=true (active telemetry, isAwaitingTelemetry=false); bothHudOpenable=true (objectType=\"hudSummary\", kind=\"HUD SUMMARY \u00b7 global\"); mobile bounding box fits 390x844 with zero horizontal scroll (scrollWidth 390 <= innerWidth 390)"
+  },
+  {
+   "scenario": "parity-failure-retry",
+   "viewport": "both",
+   "status": "PASS",
+   "duration_ms": 26000,
+   "checks_passed": "4/4",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-recovery-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-recovery-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:28:53.874Z",
+   "agent": 4,
+   "evidence": "sameFailureUiElement=true (.od-chat__msg--error + status TURN FAILED + .od-empty-state--source-unavailable); sameRecoveryKeySource=true (server); assistant characters desktop=386, mobile=367; retryAffordanceExists=false on both (retry conducted via composer)"
+  },
+  {
+   "scenario": "parity-cancel",
+   "viewport": "both",
+   "status": "PASS",
+   "duration_ms": 5000,
+   "checks_passed": "2/2",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-cancel-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-cancel-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:28:58.182Z",
+   "agent": 4,
+   "evidence": "statusText=\"CANCELLED\" within 5s after clicking stop; noFurtherTextArrivedFor3s=true (0 tokens received over 3s window on both desktop and mobile)"
+  },
+  {
+   "scenario": "parity-session-isolation",
+   "viewport": "both",
+   "status": "PASS",
+   "duration_ms": 3000,
+   "checks_passed": "2/2",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-isolation-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-isolation-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:29:08.276Z",
+   "agent": 4,
+   "evidence": "bothIsolated=true; alertMessageCount=0, alertEmptyState=\"No prior investigation for this object\", alertContainsFire=false; fireReopenedMessageCount=4 restored without message bleed"
+  },
+  {
+   "scenario": "parity-reload-persistence",
+   "viewport": "both",
+   "status": "PASS",
+   "duration_ms": 10000,
+   "checks_passed": "2/2",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-reload-persist-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-reload-persist-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:29:18.317Z",
+   "agent": 4,
+   "evidence": "bothPersistedAfterReload=true; full page.reload() restored all 4 conversation turns from server conversation store (/api/ondemand/v2/messages) on both desktop and mobile"
+  },
+  {
+   "scenario": "plugin-lifecycle-api",
+   "viewport": "both",
+   "status": "PASS",
+   "duration_ms": 350000,
+   "checks_passed": "8/8",
+   "screenshot": null,
+   "screenshot_url": null,
+   "run_at_iso8601": "2026-10-21T08:06:05.434Z",
+   "agent": 3,
+   "evidence": "GET plugins before: 32 discovered; POST verify websearch: ready (6075ms); POST verify xmcp: failed inactive_on_account (400); POST verify all: 10 active ready (latencies 4712-11391ms, avg 6186.2ms); GET plugins after: 10 ready, 1 failed, 21 discovered; POST user mismatch probe: 403 user_mismatch; GET health: 200 (contracts=33, active=10, keySource=server); GET contracts: 200 (11/11 plugin IDs valid regex)"
+  },
+  {
+   "scenario": "plugin-lifecycle-badges",
+   "viewport": "1440x900",
+   "status": "PASS",
+   "duration_ms": 25000,
+   "checks_passed": "4/4",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:27:40.606Z",
+   "agent": 3,
+   "evidence": "initialBadgesCount=32; websearch click transitioned to VERIFYING\u2026 (disabled) then READY (latency 4526ms, 6m ago); xmcp transitioned to FAILED (\"This research source is currently inactive on the OnDemand account.\"); summaryCount=\"10 ready\""
+  },
+  {
+   "scenario": "plugin-lifecycle-badges",
+   "viewport": "390x844",
+   "status": "PASS",
+   "duration_ms": 25000,
+   "checks_passed": "4/4",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-390x844.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-390x844.png",
+   "run_at_iso8601": "2026-10-21T08:27:40.606Z",
+   "agent": 3,
+   "evidence": "initialBadgesCount=32; websearch click transitioned to VERIFYING\u2026 (disabled) then READY (latency 4526ms, just now); xmcp transitioned to FAILED (\"This research source is currently inactive on the OnDemand account.\"); summaryCount=\"10 ready\""
+  },
+  {
+   "scenario": "branding-title-wordmark",
+   "viewport": "1440x900",
+   "status": "PASS",
+   "duration_ms": 500,
+   "checks_passed": "3/3",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:02:08.763Z",
+   "agent": 2,
+   "evidence": "document.title=\"OnDemand Intelligence Workstation\"; #title-bar [data-product-wordmark] contains \"OnDemand Intelligence\"; brand mark SVG 52x34.88px rendered at (x:49, y:43)"
+  },
+  {
+   "scenario": "branding-title-wordmark",
+   "viewport": "390x844",
+   "status": "PASS",
+   "duration_ms": 500,
+   "checks_passed": "3/3",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-390x844.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-390x844.png",
+   "run_at_iso8601": "2026-10-21T08:02:08.763Z",
+   "agent": 2,
+   "evidence": "document.title=\"OnDemand Intelligence Workstation\"; #title-bar [data-product-wordmark] contains \"OnDemand Intelligence\"; brand mark SVG 36x24.14px rendered at (x:29, y:25)"
+  },
+  {
+   "scenario": "branding-no-legacy-terms",
+   "viewport": "1440x900",
+   "status": "PASS",
+   "duration_ms": 200,
+   "checks_passed": "2/2",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+   "run_at_iso8601": "2026-10-21T08:02:08.763Z",
+   "agent": 2,
+   "evidence": "0 forbidden terms in document.body.innerText (case-insensitive check for \"God's Eye\", \"GEV MIC\", \"Gods Eye\", \"OpenAI\"); no eye motif in DOM tags or attributes"
+  },
+  {
+   "scenario": "branding-no-legacy-terms",
+   "viewport": "390x844",
+   "status": "PASS",
+   "duration_ms": 200,
+   "checks_passed": "2/2",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-390x844.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-390x844.png",
+   "run_at_iso8601": "2026-10-21T08:02:08.763Z",
+   "agent": 2,
+   "evidence": "0 forbidden terms in document.body.innerText (case-insensitive check for \"God's Eye\", \"GEV MIC\", \"Gods Eye\", \"OpenAI\"); no eye motif in DOM tags or attributes"
+  },
+  {
+   "scenario": "legacy-openai-realtime-grep",
+   "viewport": "both",
+   "status": "PASS",
+   "duration_ms": 1250,
+   "checks_passed": "4/4",
+   "screenshot": null,
+   "screenshot_url": null,
+   "run_at_iso8601": "2026-10-21T08:24:30.000Z",
+   "agent": 4,
+   "evidence": "runtime OpenAI/Realtime references: 0; non-test grep hits: 45 across 19 files (GTFS-realtime=20, docs/comments/settings metadata=21, symbol identifiers=4); production bundle 0 runtime calls; provider directory removed in d44264f"
+  }
+ ],
+ "before_after_evidence": [
+  {
+   "cell": "A@1440x900",
+   "issue": "Harness boot-wait originally returned as soon as a canvas + dataManager existed, so Scenario A screenshot (~1s post-boot) captured #loading-screen overlay instead of settled UI; checks passed via DOM",
+   "before_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-before/A-1440x900-before.png",
+   "after_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-1440x900.png",
+   "before_run_at": "2026-10-21T08:01:01.357Z",
+   "after_run_at": "2026-10-21T08:24:30.972Z",
+   "fix": "scripts/qa-chat-intelligent-ui.mjs boot wait (loader hidden first) \u2014 harness-only, no app change"
+  },
+  {
+   "cell": "A@390x844",
+   "issue": "Harness boot-wait originally returned as soon as a canvas + dataManager existed, so Scenario A screenshot (~1s post-boot) captured #loading-screen overlay instead of settled UI; checks passed via DOM",
+   "before_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-before/A-390x844-before.png",
+   "after_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/A-after/A-390x844.png",
+   "before_run_at": "2026-10-21T08:01:13.963Z",
+   "after_run_at": "2026-10-21T08:24:40.765Z",
+   "fix": "scripts/qa-chat-intelligent-ui.mjs boot wait (loader hidden first) \u2014 harness-only, no app change"
+  },
+  {
+   "cell": "agent2/empty-states-backdrop",
+   "issue": "Focused script (/tmp/agent2-empty.mjs) boot wait captured loading screen backdrop rather than settled UI states; recaptured with #loading-screen.hidden wait",
+   "before_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/overlay-before/check-backdrop-1440x900.png",
+   "after_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-backdrop-1440x900.png",
+   "before_run_at": "2026-10-21T08:18:03.646Z",
+   "after_run_at": "2026-10-21T08:27:40.612Z",
+   "fix": "Applied loader hidden check to /tmp/agent2-empty.mjs \u2014 harness-only, no app change"
+  },
+  {
+   "cell": "agent3/plugin-badges",
+   "issue": "Focused script (/tmp/agent3-plugins.mjs) captured plugin panel while initial overlay was still fading; recaptured with loader hidden wait",
+   "before_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/overlay-before/check-plugins-ready-1440x900.png",
+   "after_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent3/check-plugins-ready-1440x900.png",
+   "before_run_at": "2026-10-21T08:21:34.810Z",
+   "after_run_at": "2026-10-21T08:27:40.606Z",
+   "fix": "Applied loader hidden check to /tmp/agent3-plugins.mjs \u2014 harness-only, no app change"
+  },
+  {
+   "cell": "agent4/regression-failure-reload",
+   "issue": "Focused script (/tmp/agent4-regression.mjs) captured failure and reload states before loading overlay had completely cleared; recaptured with loader hidden wait",
+   "before_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/fixes/overlay-before/check-failure-1440x900.png",
+   "after_screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent4/check-failure-1440x900.png",
+   "before_run_at": "2026-10-21T08:18:20.956Z",
+   "after_run_at": "2026-10-21T08:28:42.240Z",
+   "fix": "Applied loader hidden check to /tmp/agent4-regression.mjs \u2014 harness-only, no app change"
+  }
+ ],
+ "unit_test_summary": {
+  "passed": 4673,
+  "failed": 0,
+  "skipped": 1,
+  "total": 4674,
+  "node": "22.23.3",
+  "breakdown": {
+   "npm_test_src": {
+    "passed": 4189,
+    "failed": 0,
+    "skipped": 1,
+    "total": 4190,
+    "scope": "src/**/*.test.mjs"
+   },
+   "test_foundation": {
+    "passed": 76,
+    "failed": 0,
+    "skipped": 0,
+    "total": 76,
+    "scope": "server/ondemand/foundation/*.test.mjs"
+   },
+   "test_ondemand": {
+    "passed": 250,
+    "failed": 0,
+    "skipped": 0,
+    "total": 250,
+    "scope": "server/ondemand/*.test.mjs"
+   },
+   "test_serverless": {
+    "passed": 57,
+    "failed": 0,
+    "skipped": 0,
+    "total": 57,
+    "scope": "server/serverless/*.test.mjs"
+   },
+   "node_test_tools": {
+    "passed": 45,
+    "failed": 0,
+    "skipped": 0,
+    "total": 45,
+    "scope": "server/tools/*.test.mjs"
+   },
+   "node_test_providers_sources": {
+    "passed": 56,
+    "failed": 0,
+    "skipped": 0,
+    "total": 56,
+    "scope": "server/providers/*.test.mjs server/sources/*.test.mjs"
+   }
+  },
+  "skipped_detail": "Windows production hardener applies its exact DACL with native tools (platform-gated to win32)",
+  "allocation_benchmarks_skipped_files": 2
+ },
+ "asset_render_checks": [
+  {
+   "asset": "/assets/brand/backdrop-network.png",
+   "http_status": 200,
+   "content_type": "image/png",
+   "bytes": 1243829,
+   "sha256_match": "Catalog: MATCH (cba96745...); Original: N/A",
+   "rendered_desktop": "YES (#loading-screen background-image)",
+   "rendered_mobile": "YES (#loading-screen background-image)",
+   "no_text_or_eye_motif": "FAIL on strict automated OCR threshold (10 alnum chars noise from graph nodes/lines); PASS on visual inspection (abstract network constellation graph; no text; no eye motif)",
+   "ocr_evidence": "psm 11: 10 alnum ('Ta me ke < ax > eo'); psm 6: 0 alnum ('')",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-backdrop-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-backdrop-1440x900.png",
+   "notes": "Trips strict automated OCR noise threshold (10 noise chars from dense constellation graph line intersections), but passes visual and Hough inspection (0 concentric pairs); abstract network constellation topology"
+  },
+  {
+   "asset": "/assets/brand/empty-no-results.png",
+   "http_status": 200,
+   "content_type": "image/png",
+   "bytes": 854662,
+   "sha256_match": "Catalog: MATCH (91c63a81...); Original: N/A",
+   "rendered_desktop": "YES (.od-empty-state--no-results::before)",
+   "rendered_mobile": "YES (.od-empty-state--no-results::before)",
+   "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+   "ocr_evidence": "psm 11: 0 alnum (''); psm 6: 2 alnum ('ee =')",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-no-results-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-no-results-1440x900.png",
+   "notes": "Rendered in UI via .od-empty-state--no-results::before on empty research search"
+  },
+  {
+   "asset": "/assets/brand/empty-no-sessions.png",
+   "http_status": 200,
+   "content_type": "image/png",
+   "bytes": 833892,
+   "sha256_match": "Catalog: MATCH (99986406...); Original: MATCH (p2UMfLtxCv.png)",
+   "rendered_desktop": "YES (.od-empty-state--no-sessions::before)",
+   "rendered_mobile": "YES (.od-empty-state--no-sessions::before)",
+   "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles; palette verified)",
+   "ocr_evidence": "psm 11: 2 alnum ('an'); psm 6: 2 alnum ('(og')",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-no-sessions-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-no-sessions-1440x900.png",
+   "notes": "Rendered in UI via .od-empty-state--no-sessions::before on unqueried entity context; palette verified within tolerance"
+  },
+  {
+   "asset": "/assets/brand/empty-source-unavailable.png",
+   "http_status": 200,
+   "content_type": "image/png",
+   "bytes": 851438,
+   "sha256_match": "Catalog: MATCH (9722bbf3...); Original: N/A",
+   "rendered_desktop": "YES (.od-empty-state--source-unavailable::before)",
+   "rendered_mobile": "YES (.od-empty-state--source-unavailable::before)",
+   "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+   "ocr_evidence": "psm 11: 0 alnum ('-----'); psm 6: 3 alnum ('Sre')",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-source-unavailable-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/check-empty-source-unavailable-1440x900.png",
+   "notes": "Rendered in UI via .od-empty-state--source-unavailable::before on synthetic 502 / upstream failure"
+  },
+  {
+   "asset": "/assets/brand/mark-primary.png",
+   "http_status": 200,
+   "content_type": "image/png",
+   "bytes": 828607,
+   "sha256_match": "Catalog: MATCH (43abf5cc...); Original: N/A",
+   "rendered_desktop": "Not rendered directly in UI",
+   "rendered_mobile": "Not rendered directly in UI",
+   "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+   "ocr_evidence": "psm 11: 0 alnum ('<>'); psm 6: 0 alnum ('')",
+   "screenshot": null,
+   "screenshot_url": null,
+   "notes": "Served HTTP 200 but not rendered directly in UI (feeds og-image.png composite for social preview; UI uses /brand/mark-light.svg)"
+  },
+  {
+   "asset": "/assets/brand/mark-mono.png",
+   "http_status": 200,
+   "content_type": "image/png",
+   "bytes": 882285,
+   "sha256_match": "Catalog: MATCH (e38da23a...); Original: N/A",
+   "rendered_desktop": "Not rendered directly in UI",
+   "rendered_mobile": "Not rendered directly in UI",
+   "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+   "ocr_evidence": "psm 11: 0 alnum (''); psm 6: 2 alnum ('Bi')",
+   "screenshot": null,
+   "screenshot_url": null,
+   "notes": "Served HTTP 200 but not rendered directly in UI (source asset used to generate favicon.ico, favicon-32.png, apple-touch-icon.png)"
+  },
+  {
+   "asset": "/assets/brand/mark-variant-a.png",
+   "http_status": 200,
+   "content_type": "image/png",
+   "bytes": 770292,
+   "sha256_match": "Catalog: MATCH (0556ca19...); Original: MATCH (8dxSOsnbYr.png)",
+   "rendered_desktop": "Not rendered in UI",
+   "rendered_mobile": "Not rendered in UI",
+   "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+   "ocr_evidence": "psm 11: 0 alnum (''); psm 6: 2 alnum ('cs')",
+   "screenshot": null,
+   "screenshot_url": null,
+   "notes": "Served HTTP 200 but not rendered in UI (alternate candidate mark in static brand library)"
+  },
+  {
+   "asset": "/assets/brand/mark-variant-b.png",
+   "http_status": 200,
+   "content_type": "image/png",
+   "bytes": 848084,
+   "sha256_match": "Catalog: MATCH (f7ea09b7...); Original: MATCH (QUKWX8jhhC.png)",
+   "rendered_desktop": "Not rendered in UI",
+   "rendered_mobile": "Not rendered in UI",
+   "no_text_or_eye_motif": "PASS (noise <= 3 chars; 0 concentric circles)",
+   "ocr_evidence": "psm 11: 0 alnum (''); psm 6: 2 alnum ('cs')",
+   "screenshot": null,
+   "screenshot_url": null,
+   "notes": "Served HTTP 200 but not rendered in UI (alternate candidate mark in static brand library)"
+  },
+  {
+   "asset": "/assets/brand/favicon.ico",
+   "http_status": 200,
+   "content_type": "image/x-icon",
+   "bytes": 655,
+   "sha256_match": "Catalog: MATCH (fdd1dc86...); Original: N/A",
+   "rendered_desktop": "YES (browser tab / bookmark icon via <link rel=\"icon\">)",
+   "rendered_mobile": "YES (browser tab / bookmark icon via <link rel=\"icon\">)",
+   "no_text_or_eye_motif": "PASS",
+   "ocr_evidence": "N/A (derived icon)",
+   "screenshot": null,
+   "screenshot_url": null,
+   "notes": "Browser tab / bookmark icon via <link rel=\"icon\" href=\"/assets/brand/favicon.ico\" sizes=\"any\">"
+  },
+  {
+   "asset": "/assets/brand/favicon-32.png",
+   "http_status": 200,
+   "content_type": "image/png",
+   "bytes": 1714,
+   "sha256_match": "Catalog: MATCH (c6666d54...); Original: N/A",
+   "rendered_desktop": "YES (head link sizes=\"32x32\")",
+   "rendered_mobile": "YES (head link sizes=\"32x32\")",
+   "no_text_or_eye_motif": "PASS",
+   "ocr_evidence": "psm 11: 0, psm 6: 1 ('&')",
+   "screenshot": null,
+   "screenshot_url": null,
+   "notes": "Head link <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/assets/brand/favicon-32.png\">"
+  },
+  {
+   "asset": "/assets/brand/apple-touch-icon.png",
+   "http_status": 200,
+   "content_type": "image/png",
+   "bytes": 30314,
+   "sha256_match": "Catalog: MATCH (ca5a07dc...); Original: N/A",
+   "rendered_desktop": "YES (head link <link rel=\"apple-touch-icon\">)",
+   "rendered_mobile": "YES (iOS bookmark/home screen icon)",
+   "no_text_or_eye_motif": "PASS",
+   "ocr_evidence": "psm 11: 0, psm 6: 2 ('Ss')",
+   "screenshot": null,
+   "screenshot_url": null,
+   "notes": "Head link <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/assets/brand/apple-touch-icon.png\">"
+  },
+  {
+   "asset": "/brand/mark-light.svg",
+   "http_status": 200,
+   "content_type": "image/svg+xml",
+   "bytes": 653,
+   "sha256_match": "Source: MATCH (ee640260...); Catalog: N/A",
+   "rendered_desktop": "YES (renders inside #title-bar and #loading-screen)",
+   "rendered_mobile": "YES (renders inside #title-bar)",
+   "no_text_or_eye_motif": "PASS",
+   "ocr_evidence": "SVG vector markup (no text nodes)",
+   "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+   "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/agent2/ui/a2-brand-1440x900.png",
+   "notes": "Primary brand mark rendered in UI inside #title-bar and #loading-screen"
+  }
+ ],
+ "plugin_lifecycle": {
+  "api": {
+   "plugins_before_total": 32,
+   "plugins_before_states": {
+    "discovered": 32
+   },
+   "plugins_after_total": 32,
+   "plugins_after_states": {
+    "ready": 10,
+    "failed": 1,
+    "discovered": 21
+   },
+   "verify_active_websearch": {
+    "name": "internet_web_search",
+    "state": "ready",
+    "latency_ms": 6075,
+    "verified_at": "2026-10-21T08:07:04.013Z",
+    "error": null,
+    "answer_preview": "READY"
+   },
+   "verify_inactive_xmcp": {
+    "name": "x_mcp_connector",
+    "state": "failed",
+    "error_code": "inactive_on_account",
+    "http_status": 400,
+    "retryable": false,
+    "message": "This research source is currently inactive on the OnDemand account."
+   },
+   "verify_all_batch": {
+    "plugins_verified": 10,
+    "ready_count": 10,
+    "failed_count": 0,
+    "latency_range_ms": {
+     "min": 4712,
+     "max": 11391,
+     "avg": 6186.2
+    }
+   },
+   "auth_probe_principal_mismatch": {
+    "endpoint": "POST /api/ondemand/v2/plugins/verify",
+    "header_user": "someone-else",
+    "body_user": "agent3-probe",
+    "http_status": 403,
+    "error": "user_mismatch",
+    "timestamp": "2026-10-21T08:11:07.000Z"
+   },
+   "health_probe": {
+    "status": 200,
+    "ok": true,
+    "configured": true,
+    "conversation_backend": "memory",
+    "contracts": 33,
+    "active_plugins": 10,
+    "key_source": "server"
+   },
+   "contracts_probe": {
+    "status": 200,
+    "total_contracts": 33,
+    "active_plugins": 10,
+    "valid_plugin_ids_regex": "11/11 match /^plugin-\\d+$/ (0 invalid)",
+    "kinds": {
+     "ondemand-plugin": 11,
+     "ondemand-tool": 21,
+     "ondemand-workflow": 1
+    }
+   }
+  },
+  "badges": {
+   "1440x900": {
+    "initial_count": 32,
+    "websearch": {
+     "initial_click": "VERIFYING\u2026 (disabled)",
+     "final_state": "READY",
+     "timing": "6m ago",
+     "latency": "4526ms"
+    },
+    "x_mcp_connector": {
+     "final_state": "FAILED",
+     "error_message": "This research source is currently inactive on the OnDemand account."
+    },
+    "summary_count": "10 ready"
+   },
+   "390x844": {
+    "initial_count": 32,
+    "websearch": {
+     "initial_click": "VERIFYING\u2026 (disabled)",
+     "final_state": "READY",
+     "timing": "just now",
+     "latency": "4526ms"
+    },
+    "x_mcp_connector": {
+     "final_state": "FAILED",
+     "error_message": "This research source is currently inactive on the OnDemand account."
+    },
+    "summary_count": "10 ready"
+   }
+  },
+  "note": "installing/authenticating are server-side transitions inside one verify request (audited: plugin_state from\u2192to); the DOM shows discovered \u2192 VERIFYING\u2026 \u2192 READY|FAILED"
+ },
+ "legacy_audit": {
+  "runtime_openai_realtime_references": 0,
+  "non_test_grep_hits": 45,
+  "classification": {
+   "1_runtime_openai_realtime_transport": {
+    "count": 0,
+    "description": "Live network calls to api.openai.com, WebSocket realtime clients, realtime/token endpoints, or runtime reads of OPENAI_API_KEY for API requests"
+   },
+   "2_gtfs_realtime_transit_feeds": {
+    "count": 20,
+    "description": "Transit vehicle position feeds, protobuf decoders, and feed registries named after GTFS-Realtime industry standard (server/tools/transit.js, src/sources/transitService.js, src/data/transitFeeds.js, src/data/gtfsRealtime.js, src/data/transitProxy.js, src/data/dataCredits.js)"
+   },
+   "3_historical_comments_legacy_codes_settings_metadata": {
+    "count": 21,
+    "description": "Architectural comments documenting deprecation/replacement of OpenAI Realtime, legacy error-code constants (OPENAI_NOT_CONFIGURED), and provider metadata in settings dialog (server/ondemand/foundation/*, src/keySetupCore.mjs, src/hudSummaryResponse.js, src/voice/ondemand/*)"
+   },
+   "4_voice_toolset_symbol_identifiers": {
+    "count": 4,
+    "description": "Internal test hooks and symbol identifiers named GEV_REALTIME_TOOLS and realtimeInstructions (server/voice/tools.js, server/voice/instructions.js)"
+   }
+  },
+  "bundle": {
+   "dist_assets_api_openai_com_hits": 0,
+   "dist_assets_realtime_token_hits": 0,
+   "dist_assets_openai_api_key_hits": 1,
+   "dist_assets_openai_api_key_context": "Settings UI provider metadata modal definition in dist/assets/index-BLGPMGkc.js",
+   "forbidden_brand_names_hits": 0,
+   "forbidden_brand_names_checked": [
+    "god's eye",
+    "gods eye",
+    "gev mic"
+   ]
+  },
+  "live_title": "OnDemand Intelligence Workstation"
+ },
+ "console_and_network": {
+  "known_benign": [
+   "GET /api/setup/status 404 (serverless build has no key-setup wizard)",
+   "GET /api/ondemand/v2/messages 404 on a never-queried object (renders the no-sessions empty state)",
+   "POST /api/ondemand/v2/chat 502 \u2014 the synthetic injection of scenario G / failure checks"
+  ],
+  "unexpected": []
+ },
+ "generated_utc": "2026-10-21T10:28:15Z",
+ "runs": [
+  {
+   "run_id": "retry-0917",
+   "kind": "preview-retry (fresh sandbox, five-agent A\u2013G verification, defect fixes, re-verification)",
+   "live_sandbox_url": "https://sb-4asza5droe1u.vercel.run",
+   "sandbox_id": "sbx_C7YcHpK0v9hb018cNsHaEObsAyvi",
+   "sandbox_created_utc": "2026-10-21T09:17:55Z",
+   "sandbox_projected_expiry_utc": "2026-10-21T10:47:55Z",
+   "sandbox_runtime": "node22 (v22.22.2), --timeout 90m, --publish-port 5173",
+   "deploy_source": {
+    "commit": "712a552150784bbaddf46f3cc4ead10e56fcf5eb",
+    "branch": "integration/ondemand-native",
+    "tag": "checkpoint-2026-10-21-post-sandbox-verification",
+    "git_status": "clean at pre-flight 2026-10-21T09:15:18Z"
+   },
+   "build": {
+    "npm_ci": "PUPPETEER_SKIP_DOWNLOAD=1 npm ci 09:18:25Z\u201309:18:32Z",
+    "vite_build": "8.41 s (09:18:32Z\u201309:18:46Z), dist/index.html <title>OnDemand Intelligence Workstation</title>",
+    "check_no_secrets_dist": "\u2713 1697 files, no key material",
+    "env": "21 keys by name from the repo .env (gitignored); ONDEMAND_API_KEY only in the server process env; ONDEMAND_ALLOW_CLIENT_KEY=0",
+    "server": "node server/serverless/dev-server.mjs PID 176 on 0.0.0.0:5173 started 09:19:05Z; restarted PID 294 at 10:19:03Z after the fix rebuild (vite build 7.67 s, check-no-secrets --dist \u2713)"
+   },
+   "health_gate": {
+    "api_health": {
+     "status": 200,
+     "first_200_utc": "2026-10-21T09:19:13Z",
+     "re_polled_utc": "2026-10-21T09:33:33Z",
+     "body": {
+      "ok": true,
+      "configured": true,
+      "conversationBackend": "memory",
+      "contracts": 33,
+      "activePlugins": 10,
+      "defaultEndpointId": "predefined-gpt-6-luna",
+      "workflowId": {
+       "configured": true,
+       "source": "ONDEMAND_SPATIAL_WORKFLOW_ID",
+       "valid": true
+      },
+      "guards": {
+       "rateLimitPerMinute": 60,
+       "userHeaderRequired": false,
+       "promptInjectionFencing": true
+      },
+      "keySource": "server"
+     },
+     "header_x_ondemand_key_source": "server"
+    },
+    "root": {
+     "status": 200,
+     "utc": "2026-10-21T09:19:13Z",
+     "title": "OnDemand Intelligence Workstation"
+    },
+    "post_fix_api_health": {
+     "status": 200,
+     "utc": "2026-10-21T10:19:03Z"
+    }
+   },
+   "results_matrix_pre_fix": [
+    {
+     "scenario": "A",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 320,
+     "checks_passed": "6/6",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/A-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/A-1440x900.png",
+     "run_at_iso8601": "2026-10-21T09:26:20.320Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "app_boots: Loading screen hidden or globe canvas active; title_contains_product_name: document.title=\"OnDemand Intelligence Workstation\"; no_legacy_brand_terms: No forbidden terms visible; brand_mark_present: Found 2 [data-brand-mark] element(s); foundation_health_200: status 200, ok=true, keySource=server; foundation_contracts_min_13: status 200, 33 contracts"
+    },
+    {
+     "scenario": "B",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 5678,
+     "checks_passed": "5/5",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/B-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/B-1440x900.png",
+     "run_at_iso8601": "2026-10-21T09:26:27.154Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "mini_chat_opens_earthquake: Mini chat opened with data-open=\"true\"; status_streaming_and_stop_visible: streamingStatusSeen=true, stopButtonSeen=true; assistant_message_and_settle: settled within 90s, assistant message chars: 66; key_source_server_header: x-ondemand-key-source header: \"server\"; no_client_api_key_in_localstorage: localStorage ondemand.apiKey is null"
+    },
+    {
+     "scenario": "C",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 6948,
+     "checks_passed": "2/2",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/C-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/C-1440x900.png",
+     "run_at_iso8601": "2026-10-21T09:26:34.558Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "citations_query_completed: Turn completed within 90s; citations_or_honest_state: links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+    },
+    {
+     "scenario": "D",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 11,
+     "checks_passed": "4/4",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/D-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/D-1440x900.png",
+     "run_at_iso8601": "2026-10-21T09:26:34.916Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "earthquake_history_available: transcript messages=4 (from earlier scenario); desktop_no_hud_brand_mark_overlap: overlap=false, checked against 2 brand mark(s); close_button_sets_closed: Mini chat closed (data-open=\"false\"); reopen_restores_transcript: Transcript replayed 4 messages upon reopen (expected >= 2)"
+    },
+    {
+     "scenario": "E",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 9,
+     "checks_passed": "2/2",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/E-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/E-1440x900.png",
+     "run_at_iso8601": "2026-10-21T09:26:35.258Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "history_messages_present_before_switch: Found 4 prior messages in transcript; session_isolated_for_different_object: Isolated transcript: containsEarthquake=false, msgs=0"
+    },
+    {
+     "scenario": "F",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 82,
+     "checks_passed": "3/3",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/F-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/F-1440x900.png",
+     "run_at_iso8601": "2026-10-21T09:26:35.745Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "active_plugins_cap_and_id_regex: activePlugins=10/10, validPluginIds=33/33; plugin_panel_lifecycle_states: present, 32 badges, allValid=true; plugins_api_probe: probe result: 200 mounted (obj)"
+    },
+    {
+     "scenario": "G",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 10799,
+     "checks_passed": "3/3",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/G-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/G-1440x900.png",
+     "run_at_iso8601": "2026-10-21T09:26:46.886Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "synthetic_502_error_ui: Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable; retry_recovery_turn_success: Recovered turn completed (status READY); globe_and_hud_interactive_stability: canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+    },
+    {
+     "scenario": "A",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 134,
+     "checks_passed": "6/6",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/A-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/A-390x844.png",
+     "run_at_iso8601": "2026-10-21T09:26:55.626Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "app_boots: Loading screen hidden or globe canvas active; title_contains_product_name: document.title=\"OnDemand Intelligence Workstation\"; no_legacy_brand_terms: No forbidden terms visible; brand_mark_present: Found 2 [data-brand-mark] element(s); foundation_health_200: status 200, ok=true, keySource=server; foundation_contracts_min_13: status 200, 33 contracts"
+    },
+    {
+     "scenario": "B",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 6598,
+     "checks_passed": "5/5",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/B-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/B-390x844.png",
+     "run_at_iso8601": "2026-10-21T09:27:02.519Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "mini_chat_opens_earthquake: Mini chat opened with data-open=\"true\"; status_streaming_and_stop_visible: streamingStatusSeen=true, stopButtonSeen=true; assistant_message_and_settle: settled within 90s, assistant message chars: 618; key_source_server_header: x-ondemand-key-source header: \"server\"; no_client_api_key_in_localstorage: localStorage ondemand.apiKey is null"
+    },
+    {
+     "scenario": "C",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 5838,
+     "checks_passed": "2/2",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/C-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/C-390x844.png",
+     "run_at_iso8601": "2026-10-21T09:27:08.518Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "citations_query_completed: Turn completed within 90s; citations_or_honest_state: links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+    },
+    {
+     "scenario": "D",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 17,
+     "checks_passed": "4/4",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/D-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/D-390x844.png",
+     "run_at_iso8601": "2026-10-21T09:27:08.676Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "earthquake_history_available: transcript messages=10 (from earlier scenario); mobile_viewport_fit_and_input_visible: fitsViewport=true, inputVisible=true, noHScroll=true; close_button_sets_closed: Mini chat closed (data-open=\"false\"); reopen_restores_transcript: Transcript replayed 10 messages upon reopen (expected >= 2)"
+    },
+    {
+     "scenario": "E",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 7,
+     "checks_passed": "2/2",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/E-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/E-390x844.png",
+     "run_at_iso8601": "2026-10-21T09:27:08.947Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "history_messages_present_before_switch: Found 10 prior messages in transcript; session_isolated_for_different_object: Isolated transcript: containsEarthquake=false, msgs=0"
+    },
+    {
+     "scenario": "F",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 136,
+     "checks_passed": "3/3",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/F-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/F-390x844.png",
+     "run_at_iso8601": "2026-10-21T09:27:09.375Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "active_plugins_cap_and_id_regex: activePlugins=10/10, validPluginIds=33/33; plugin_panel_lifecycle_states: present, 32 badges, allValid=true; plugins_api_probe: probe result: 200 mounted (obj)"
+    },
+    {
+     "scenario": "G",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 7957,
+     "checks_passed": "3/3",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/G-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/orchestrator-ag/G-390x844.png",
+     "run_at_iso8601": "2026-10-21T09:27:17.492Z",
+     "tree": "712a552 (deploy source, pre-fix)",
+     "evidence": "synthetic_502_error_ui: Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable; retry_recovery_turn_success: Recovered turn completed (status READY); globe_and_hud_interactive_stability: canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+    }
+   ],
+   "results_matrix_post_fix": [
+    {
+     "scenario": "A",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 254,
+     "checks_passed": "6/6",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/A-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/A-1440x900.png",
+     "run_at_iso8601": "2026-10-21T10:22:15.832Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "app_boots: Loading screen hidden or globe canvas active; title_contains_product_name: document.title=\"OnDemand Intelligence Workstation\"; no_legacy_brand_terms: No forbidden terms visible; brand_mark_present: Found 2 [data-brand-mark] element(s); foundation_health_200: status 200, ok=true, keySource=server; foundation_contracts_min_13: status 200, 33 contracts"
+    },
+    {
+     "scenario": "B",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 11273,
+     "checks_passed": "5/5",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/B-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/B-1440x900.png",
+     "run_at_iso8601": "2026-10-21T10:22:28.320Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "mini_chat_opens_earthquake: Mini chat opened with data-open=\"true\"; status_streaming_and_stop_visible: streamingStatusSeen=true, stopButtonSeen=true; assistant_message_and_settle: settled within 90s, assistant message chars: 74; key_source_server_header: x-ondemand-key-source header: \"server\"; no_client_api_key_in_localstorage: localStorage ondemand.apiKey is null"
+    },
+    {
+     "scenario": "C",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 26205,
+     "checks_passed": "2/2",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/C-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/C-1440x900.png",
+     "run_at_iso8601": "2026-10-21T10:22:54.967Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "citations_query_completed: Turn completed within 90s; citations_or_honest_state: links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+    },
+    {
+     "scenario": "D",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 10,
+     "checks_passed": "4/4",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/D-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/D-1440x900.png",
+     "run_at_iso8601": "2026-10-21T10:22:55.342Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "earthquake_history_available: transcript messages=4 (from earlier scenario); desktop_no_hud_brand_mark_overlap: overlap=false, checked against 2 brand mark(s); close_button_sets_closed: Mini chat closed (data-open=\"false\"); reopen_restores_transcript: Transcript replayed 4 messages upon reopen (expected >= 2)"
+    },
+    {
+     "scenario": "E",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 22,
+     "checks_passed": "2/2",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/E-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/E-1440x900.png",
+     "run_at_iso8601": "2026-10-21T10:22:55.705Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "history_messages_present_before_switch: Found 4 prior messages in transcript; session_isolated_for_different_object: Isolated transcript: containsEarthquake=false, msgs=0"
+    },
+    {
+     "scenario": "F",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 80,
+     "checks_passed": "3/3",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/F-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/F-1440x900.png",
+     "run_at_iso8601": "2026-10-21T10:22:56.233Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "active_plugins_cap_and_id_regex: activePlugins=10/10, validPluginIds=33/33; plugin_panel_lifecycle_states: present, 32 badges, allValid=true; plugins_api_probe: probe result: 200 mounted (obj)"
+    },
+    {
+     "scenario": "G",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 7206,
+     "checks_passed": "3/3",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/G-1440x900.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/G-1440x900.png",
+     "run_at_iso8601": "2026-10-21T10:23:03.817Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "synthetic_502_error_ui: Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable; retry_recovery_turn_success: Recovered turn completed (status READY); globe_and_hud_interactive_stability: canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+    },
+    {
+     "scenario": "A",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 155,
+     "checks_passed": "6/6",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/A-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/A-390x844.png",
+     "run_at_iso8601": "2026-10-21T10:23:12.547Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "app_boots: Loading screen hidden or globe canvas active; title_contains_product_name: document.title=\"OnDemand Intelligence Workstation\"; no_legacy_brand_terms: No forbidden terms visible; brand_mark_present: Found 2 [data-brand-mark] element(s); foundation_health_200: status 200, ok=true, keySource=server; foundation_contracts_min_13: status 200, 33 contracts"
+    },
+    {
+     "scenario": "B",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 5604,
+     "checks_passed": "5/5",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/B-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/B-390x844.png",
+     "run_at_iso8601": "2026-10-21T10:23:18.651Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "mini_chat_opens_earthquake: Mini chat opened with data-open=\"true\"; status_streaming_and_stop_visible: streamingStatusSeen=true, stopButtonSeen=true; assistant_message_and_settle: settled within 90s, assistant message chars: 759; key_source_server_header: x-ondemand-key-source header: \"server\"; no_client_api_key_in_localstorage: localStorage ondemand.apiKey is null"
+    },
+    {
+     "scenario": "C",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 6499,
+     "checks_passed": "2/2",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/C-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/C-390x844.png",
+     "run_at_iso8601": "2026-10-21T10:23:25.299Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "citations_query_completed: Turn completed within 90s; citations_or_honest_state: links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+    },
+    {
+     "scenario": "D",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 11,
+     "checks_passed": "4/4",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/D-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/D-390x844.png",
+     "run_at_iso8601": "2026-10-21T10:23:25.478Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "earthquake_history_available: transcript messages=10 (from earlier scenario); mobile_viewport_fit_and_input_visible: fitsViewport=true, inputVisible=true, noHScroll=true; close_button_sets_closed: Mini chat closed (data-open=\"false\"); reopen_restores_transcript: Transcript replayed 10 messages upon reopen (expected >= 2)"
+    },
+    {
+     "scenario": "E",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 18,
+     "checks_passed": "2/2",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/E-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/E-390x844.png",
+     "run_at_iso8601": "2026-10-21T10:23:25.622Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "history_messages_present_before_switch: Found 10 prior messages in transcript; session_isolated_for_different_object: Isolated transcript: containsEarthquake=false, msgs=0"
+    },
+    {
+     "scenario": "F",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 69,
+     "checks_passed": "3/3",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/F-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/F-390x844.png",
+     "run_at_iso8601": "2026-10-21T10:23:26.013Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "active_plugins_cap_and_id_regex: activePlugins=10/10, validPluginIds=33/33; plugin_panel_lifecycle_states: present, 32 badges, allValid=true; plugins_api_probe: probe result: 200 mounted (obj)"
+    },
+    {
+     "scenario": "G",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 5893,
+     "checks_passed": "3/3",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/G-390x844.png",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/ag/G-390x844.png",
+     "run_at_iso8601": "2026-10-21T10:23:32.037Z",
+     "tree": "712a552 + retry-0917 fixes (post-fix)",
+     "evidence": "synthetic_502_error_ui: Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable; retry_recovery_turn_success: Recovered turn completed (status READY); globe_and_hud_interactive_stability: canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+    }
+   ],
+   "harness_summary": {
+    "pre_fix": {
+     "total": 14,
+     "passed": 14,
+     "failed": 0,
+     "byViewport": {
+      "1440x900": {
+       "total": 7,
+       "passed": 7,
+       "failed": 0,
+       "bootMs": 9033,
+       "loaderHidden": true
+      },
+      "390x844": {
+       "total": 7,
+       "passed": 7,
+       "failed": 0,
+       "bootMs": 5054,
+       "loaderHidden": true
+      }
+     }
+    },
+    "post_fix": {
+     "total": 14,
+     "passed": 14,
+     "failed": 0,
+     "byViewport": {
+      "1440x900": {
+       "total": 7,
+       "passed": 7,
+       "failed": 0,
+       "bootMs": 5932,
+       "loaderHidden": true
+      },
+      "390x844": {
+       "total": 7,
+       "passed": 7,
+       "failed": 0,
+       "bootMs": 4982,
+       "loaderHidden": true
+      }
+     }
+    }
+   },
+   "agent_results": {
+    "agent1": [
+     {
+      "check": "harness-scenario-A",
+      "scenario": "A",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 400,
+      "run_at_iso8601": "2026-10-21T09:32:18.301Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/ab/A-1440x900.png",
+      "evidence": "harness 6/6 checks: app_boots=ok (Loading screen hidden or globe canvas active); title_contains_product_name=ok (document.title=\"OnDemand Intelligence Workstation\"); no_legacy_brand_terms=ok (No forbidden terms visible); brand_mark_present=ok (Found 2 [data-brand-mark] element(s)); foundation_health_200=ok (status 200, ok=true, keySource=server); foundation_contracts_min_13=ok (status 200, 33 contracts). PNG 398517 bytes, mean grayscale 62.33 (>40 => not the loading overlay)",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     },
+     {
+      "check": "harness-scenario-B",
+      "scenario": "B",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 5308,
+      "run_at_iso8601": "2026-10-21T09:32:19.381Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/ab/B-1440x900.png",
+      "evidence": "harness 5/5 checks: mini_chat_opens_earthquake=ok (Mini chat opened with data-open=\"true\"); status_streaming_and_stop_visible=ok (streamingStatusSeen=true, stopButtonSeen=true); assistant_message_and_settle=ok (settled within 90s, assistant message chars: 73); key_source_server_header=ok (x-ondemand-key-source header: \"server\"); no_client_api_key_in_localstorage=ok (localStorage ondemand.apiKey is null). PNG 1708539 bytes, mean grayscale 68.62",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     },
+     {
+      "check": "harness-scenario-A",
+      "scenario": "A",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 195,
+      "run_at_iso8601": "2026-10-21T09:32:35.469Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/ab/A-390x844.png",
+      "evidence": "harness 6/6 checks: app_boots=ok (Loading screen hidden or globe canvas active); title_contains_product_name=ok (document.title=\"OnDemand Intelligence Workstation\"); no_legacy_brand_terms=ok (No forbidden terms visible); brand_mark_present=ok (Found 2 [data-brand-mark] element(s)); foundation_health_200=ok (status 200, ok=true, keySource=server); foundation_contracts_min_13=ok (status 200, 33 contracts). PNG 350192 bytes, mean grayscale 69.69 (>40 => not the loading overlay)",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     },
+     {
+      "check": "harness-scenario-B",
+      "scenario": "B",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 4927,
+      "run_at_iso8601": "2026-10-21T09:32:36.946Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/ab/B-390x844.png",
+      "evidence": "harness 5/5 checks: mini_chat_opens_earthquake=ok (Mini chat opened with data-open=\"true\"); status_streaming_and_stop_visible=ok (streamingStatusSeen=true, stopButtonSeen=true); assistant_message_and_settle=ok (settled within 90s, assistant message chars: 139); key_source_server_header=ok (x-ondemand-key-source header: \"server\"); no_client_api_key_in_localstorage=ok (localStorage ondemand.apiKey is null). PNG 371814 bytes, mean grayscale 74.01",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     },
+     {
+      "check": "streaming-parity",
+      "scenario": "parity",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 8232,
+      "run_at_iso8601": "2026-10-21T09:40:49.439Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-streaming-1440x900.png",
+      "evidence": "send-button hit-test={\"rect\":{\"x\":1195,\"y\":769,\"w\":208,\"h\":32},\"inViewport\":true,\"disabled\":false,\"topAtCenter\":\"ondemand-mini-chat-send\",\"hitsButton\":true,\"inputRect\":{\"x\":1003,\"y\":769,\"w\":186,\"h\":32},\"inputTop\":\"ondemand-mini-chat-input\",\"inputHit\":true}; baseline assistant msgs (history)=0; TTFT=3693 ms; STOP visible during stream=true (at first text: true); POST /api/ondemand/v2/chat status=200 x-ondemand-key-source=server; final status=\"READY \u00b7 inferred\"; localStorage ondemand.apiKey=null; assistant chars=102",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     },
+     {
+      "check": "hud-summary-parity",
+      "scenario": "parity",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 1495,
+      "run_at_iso8601": "2026-10-21T09:40:50.934Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-hud-summary-1440x900.png",
+      "evidence": "#hud-summary=\"NORMAL STREET NEAR UT TOWER (AUSTIN) 2KM | NORTH AMERICA | ALT 627M | WINDOW 2x1KM | SUN -42\u00b0 | ONA 50\u00b0 | UTC-7\" (ok=true); #hud-ask-ondemand present=true; chat opened=true; data-object-type=hudSummary; kind label=\"HUD SUMMARY \u00b7 global\"; scrollWidth=1440 innerWidth=1440",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     },
+     {
+      "check": "media-rendering-audit",
+      "scenario": "A",
+      "viewport": "1440x900",
+      "status": "DEFECT",
+      "duration_ms": 3829,
+      "run_at_iso8601": "2026-10-21T09:40:54.763Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-media-rendering-1440x900.png",
+      "evidence": "intercepted POST /api/ondemand/v2/chat=1; assistant node class=\"od-chat__msg od-chat__msg--assistant\"; <a>=3 (.od-chat__cite=3) <img>=0 <video>=0 <picture>=0 <iframe>=0; lightbox/dialog in node=0, lightbox-ish in document=4, [role=dialog] in document=1 ([\"ondemand-mini-chat\"]); [autoplay] in node=0, video[autoplay] in document=0, <video> in document=0; anchors=[{\"href\":\"https://example.com/brief.pdf\",\"text\":\"example.com/brief.pdf\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/figure.png\",\"text\":\"example.com/figure.png\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/clip.mp4\",\"text\":\"example.com/clip.mp4\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"}]; status=\"READY \u00b7 inferred\" \u2014 media deliverables render as plain .od-chat__cite anchors; no thumbnail/lightbox/poster/side-pane implementation exists (src/ondemand/miniChat.js renderAnswer(), ~L475-497; src/ui/styles/ondemand-chat.css .od-chat__cite L440). Positive safety property holds: 0 <video autoplay> in transcript.",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     },
+     {
+      "check": "streaming-parity",
+      "scenario": "parity",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 7956,
+      "run_at_iso8601": "2026-10-21T09:41:12.025Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-streaming-390x844.png",
+      "evidence": "send-button hit-test={\"rect\":{\"x\":205,\"y\":801,\"w\":166,\"h\":32},\"inViewport\":true,\"disabled\":false,\"topAtCenter\":\"SPAN\",\"hitsButton\":false,\"inputRect\":{\"x\":13,\"y\":801,\"w\":186,\"h\":32},\"inputTop\":\"SPAN\",\"inputHit\":false}; baseline assistant msgs (history)=0; TTFT=3350 ms; STOP visible during stream=true (at first text: true); POST /api/ondemand/v2/chat status=200 x-ondemand-key-source=server; final status=\"READY \u00b7 inferred\"; localStorage ondemand.apiKey=null; assistant chars=138",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     },
+     {
+      "check": "hud-summary-parity",
+      "scenario": "parity",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 1344,
+      "run_at_iso8601": "2026-10-21T09:41:13.369Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-hud-summary-390x844.png",
+      "evidence": "#hud-summary=\"NORMAL STREET NEAR UT TOWER (AUSTIN) 2KM | NORTH AMERICA | ALT 627M | WINDOW 2x3KM | SUN -42\u00b0 | ONA 50\u00b0 | UTC-7\" (ok=true); #hud-ask-ondemand present=true; chat opened=true; data-object-type=hudSummary; kind label=\"HUD SUMMARY \u00b7 global\"; scrollWidth=390 innerWidth=390 (no horizontal overflow=true)",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     },
+     {
+      "check": "media-rendering-audit",
+      "scenario": "A",
+      "viewport": "390x844",
+      "status": "DEFECT",
+      "duration_ms": 3861,
+      "run_at_iso8601": "2026-10-21T09:41:17.230Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-media-rendering-390x844.png",
+      "evidence": "intercepted POST /api/ondemand/v2/chat=1; assistant node class=\"od-chat__msg od-chat__msg--assistant\"; <a>=3 (.od-chat__cite=3) <img>=0 <video>=0 <picture>=0 <iframe>=0; lightbox/dialog in node=0, lightbox-ish in document=4, [role=dialog] in document=1 ([\"ondemand-mini-chat\"]); [autoplay] in node=0, video[autoplay] in document=0, <video> in document=0; anchors=[{\"href\":\"https://example.com/brief.pdf\",\"text\":\"example.com/brief.pdf\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/figure.png\",\"text\":\"example.com/figure.png\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/clip.mp4\",\"text\":\"example.com/clip.mp4\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"}]; status=\"READY \u00b7 inferred\" \u2014 media deliverables render as plain .od-chat__cite anchors; no thumbnail/lightbox/poster/side-pane implementation exists (src/ondemand/miniChat.js renderAnswer(), ~L475-497; src/ui/styles/ondemand-chat.css .od-chat__cite L440). Positive safety property holds: 0 <video autoplay> in transcript.",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     },
+     {
+      "check": "mobile-composer-occlusion",
+      "scenario": "parity",
+      "viewport": "390x844",
+      "status": "DEFECT",
+      "duration_ms": 17000,
+      "run_at_iso8601": "2026-10-21T09:41:56Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-mobile-send-occlusion-390x844.png",
+      "evidence": "At 390x844 with the mini chat open (panel rect 0,484,390,360), document.elementFromPoint at the centre of #ondemand-mini-chat-send (205,801,166x32) and #ondemand-mini-chat-input (13,801,186x32) returns the serverless notice banner's <span> inside div[data-gev-serverless-notice] (position:fixed; bottom:12px; z-index:2147483000; rect 26,749,315x73) - src/serverlessMode.js installServerlessNotice() L47-66. A real page.touchscreen.tap on the send button's centre delivered NO message (user msgs before=0 after=0). The streaming-parity check only passed because it dispatched a programmatic .click(); a real mobile user must dismiss the banner (x) first. Desktop 1440x900 hit-test is clean (banner max-width 640px centred, composer at x=1003+).",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 1
+     }
+    ],
+    "agent2": [
+     {
+      "check": "harness-scenario",
+      "scenario": "C",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 9035,
+      "run_at_iso8601": "2026-10-21T09:32:40.377Z",
+      "screenshot": "cd/C-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"checks\": [{\"name\": \"citations_query_completed\", \"pass\": true, \"detail\": \"Turn completed within 90s\"}, {\"name\": \"citations_or_honest_state\", \"pass\": true, \"detail\": \"links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null\"}], \"png_bytes\": 1719234, \"mean_gray\": 69.42, \"brightness_gt_40\": true}",
+      "agent": 2
+     },
+     {
+      "check": "harness-scenario",
+      "scenario": "D",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 11,
+      "run_at_iso8601": "2026-10-21T09:32:50.502Z",
+      "screenshot": "cd/D-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"checks\": [{\"name\": \"earthquake_history_available\", \"pass\": true, \"detail\": \"transcript messages=2 (from earlier scenario)\"}, {\"name\": \"desktop_no_hud_brand_mark_overlap\", \"pass\": true, \"detail\": \"overlap=false, checked against 2 brand mark(s)\"}, {\"name\": \"close_button_sets_closed\", \"pass\": true, \"detail\": \"Mini chat closed (data-open=\\\"false\\\")\"}, {\"name\": \"reopen_restores_transcript\", \"pass\": true, \"detail\": \"Transcript replayed 2 messages upon reopen (expected >= 2)\"}], \"png_bytes\": 1718661, \"mean_gray\": 69.4, \"brightness_gt_40\": true}",
+      "agent": 2
+     },
+     {
+      "check": "harness-scenario",
+      "scenario": "C",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 8843,
+      "run_at_iso8601": "2026-10-21T09:32:59.326Z",
+      "screenshot": "cd/C-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"checks\": [{\"name\": \"citations_query_completed\", \"pass\": true, \"detail\": \"Turn completed within 90s\"}, {\"name\": \"citations_or_honest_state\", \"pass\": true, \"detail\": \"links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null\"}], \"png_bytes\": 325585, \"mean_gray\": 73.52, \"brightness_gt_40\": true}",
+      "agent": 2
+     },
+     {
+      "check": "harness-scenario",
+      "scenario": "D",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 25,
+      "run_at_iso8601": "2026-10-21T09:33:08.509Z",
+      "screenshot": "cd/D-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"checks\": [{\"name\": \"earthquake_history_available\", \"pass\": true, \"detail\": \"transcript messages=4 (from earlier scenario)\"}, {\"name\": \"mobile_viewport_fit_and_input_visible\", \"pass\": true, \"detail\": \"fitsViewport=true, inputVisible=true, noHScroll=true\"}, {\"name\": \"close_button_sets_closed\", \"pass\": true, \"detail\": \"Mini chat closed (data-open=\\\"false\\\")\"}, {\"name\": \"reopen_restores_transcript\", \"pass\": true, \"detail\": \"Transcript replayed 4 messages upon reopen (expected >= 2)\"}], \"png_bytes\": 325088, \"mean_gray\": 73.5, \"brightness_gt_40\": true}",
+      "agent": 2
+     },
+     {
+      "check": "loading-screen-backdrop",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 2511,
+      "run_at_iso8601": "2026-10-21T09:35:57.261Z",
+      "screenshot": null,
+      "evidence": "{\"present\": true, \"hidden\": false, \"backgroundImage\": \"linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\\\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\\\")\"}",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 2
+     },
+     {
+      "check": "citations-deep-check",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 13910,
+      "run_at_iso8601": "2026-10-21T09:36:07.395Z",
+      "screenshot": "check-citations-1440x900.png",
+      "evidence": "{\"finalStatus\": \"READY \\u00b7 inferred\", \"waitMs\": 7363, \"citeCount\": 0, \"hrefs\": [], \"allHttp\": true, \"sourcesVisible\": false, \"sourcesText\": \"SOURCES \\u00b7 0\", \"sourcesCount\": 0, \"confidence\": \"inferred\", \"emptyState\": null, \"assistantPreview\": \"The object data identifies the subject as **\\u201cOnDemand platform,\\u201d** but it does not include any public sources or URLs. I can\\u2019t verify which public sources discuss it from the information provided. Ple\"}",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 2
+     },
+     {
+      "check": "empty-state-no-sessions",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 3748,
+      "run_at_iso8601": "2026-10-21T09:36:21.305Z",
+      "screenshot": "check-empty-no-sessions-1440x900.png",
+      "evidence": "{\"objectId\": \"fresh-1792575381305\", \"present\": true, \"text\": \"No prior investigation for this object\", \"before\": \"url(\\\"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-no-sessions.png\\\")\", \"rect\": {\"w\": 406, \"h\": 155}}",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 2
+     },
+     {
+      "check": "empty-state-source-unavailable",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 2489,
+      "run_at_iso8601": "2026-10-21T09:36:25.053Z",
+      "screenshot": "check-empty-source-unavailable-1440x900.png",
+      "evidence": "{\"waitMs\": 376, \"emptyPresent\": true, \"emptyText\": \"upstream_timeout (HTTP 504)\", \"before\": \"url(\\\"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-source-unavailable.png\\\")\", \"errorMsgPresent\": true, \"errorText\": \"upstream_timeout (HTTP 504)\", \"status\": \"TURN FAILED\", \"anyEmpty\": \"od-empty-state od-empty-state--source-unavailable\"}",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 2
+     },
+     {
+      "check": "root-first-responsive",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 2502,
+      "run_at_iso8601": "2026-10-21T09:36:27.542Z",
+      "screenshot": "check-rootfirst-1440x900.png",
+      "evidence": "{\"vw\": 1440, \"vh\": 900, \"scrollWidth\": 1440, \"mini\": {\"x\": 990, \"y\": 449.53125, \"w\": 432, \"h\": 362.46875, \"fits\": true}, \"input\": {\"x\": 1003, \"y\": 768.703125, \"w\": 186, \"h\": 32.296875, \"visible\": true}, \"marks\": [{\"id\": \"title-logo brand-logo\", \"rect\": {\"x\": 49, \"y\": 43, \"w\": 52, \"h\": 34.875}, \"visible\": true}, {\"id\": \"loader-logo brand-logo\", \"rect\": {\"x\": 654.704345703125, \"y\": 369.7037658691406, \"w\": 130.55999755859375, \"h\": 87.59249877929688}, \"visible\": false}], \"overlaps\": []}",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 2
+     },
+     {
+      "check": "loading-screen-backdrop",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 2762,
+      "run_at_iso8601": "2026-10-21T09:39:49.260Z",
+      "screenshot": null,
+      "evidence": "{\"present\": true, \"hidden\": false, \"backgroundImage\": \"linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\\\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\\\")\"}",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 2
+     },
+     {
+      "check": "citations-deep-check",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 10203,
+      "run_at_iso8601": "2026-10-21T09:39:59.724Z",
+      "screenshot": "check-citations-390x844.png",
+      "evidence": "{\"finalStatus\": \"READY \\u00b7 inferred\", \"waitMs\": 7039, \"newMsgs\": 2, \"citeCount\": 0, \"hrefs\": [], \"allHttp\": true, \"sourcesVisible\": false, \"sourcesText\": \"SOURCES \\u00b7 0\", \"sourcesCount\": 0, \"confidence\": \"inferred\", \"emptyState\": null, \"assistantPreview\": \"I can\\u2019t identify public sources from the supplied information: it names an \\u201cOnDemand platform\\u201d but includes no source references or URLs. The platform name alone is ambiguous, so I can\\u2019t reliably cite\"}",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 2
+     },
+     {
+      "check": "empty-state-no-sessions",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 1979,
+      "run_at_iso8601": "2026-10-21T09:40:09.927Z",
+      "screenshot": "check-empty-no-sessions-390x844.png",
+      "evidence": "{\"objectId\": \"fresh-1792575609927\", \"present\": true, \"text\": \"No prior investigation for this object\", \"before\": \"url(\\\"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-no-sessions.png\\\")\", \"rect\": {\"w\": 364, \"h\": 155}}",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 2
+     },
+     {
+      "check": "empty-state-source-unavailable",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 1148,
+      "run_at_iso8601": "2026-10-21T09:40:11.907Z",
+      "screenshot": "check-empty-source-unavailable-390x844.png",
+      "evidence": "{\"waitMs\": 6, \"newMsgs\": 2, \"emptyPresent\": true, \"emptyText\": \"upstream_timeout (HTTP 504)\", \"before\": \"url(\\\"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-source-unavailable.png\\\")\", \"errorMsgPresent\": true, \"errorText\": \"upstream_timeout (HTTP 504)\", \"status\": \"TURN FAILED\", \"anyEmpty\": \"od-empty-state od-empty-state--source-unavailable\"}",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 2
+     },
+     {
+      "check": "root-first-responsive",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 1943,
+      "run_at_iso8601": "2026-10-21T09:40:13.056Z",
+      "screenshot": "check-rootfirst-390x844.png",
+      "evidence": "{\"vw\": 390, \"vh\": 844, \"scrollWidth\": 390, \"mini\": {\"x\": 0, \"y\": 481.53125, \"w\": 390, \"h\": 362.46875, \"fits\": true}, \"input\": {\"x\": 13, \"y\": 800.703125, \"w\": 186, \"h\": 32.296875, \"visible\": true}, \"marks\": [{\"id\": \"title-logo brand-logo\", \"rect\": {\"x\": 29, \"y\": 25, \"w\": 36, \"h\": 24.140625}, \"visible\": true}, {\"id\": \"loader-logo brand-logo\", \"rect\": {\"x\": 132.27879333496094, \"y\": 331.9204406738281, \"w\": 125.44242858886719, \"h\": 84.15911865234375}, \"visible\": false}], \"overlaps\": []}",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "agent": 2
+     },
+     {
+      "check": "composer-pointer-hit-test",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:41:26.185Z",
+      "screenshot": "check-send-hittest-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"send_rect\": {\"x\": 1195, \"y\": 768.703125, \"w\": 208, \"h\": 32.296875, \"bottom\": 801}, \"input_rect\": {\"x\": 1003, \"y\": 768.703125, \"w\": 186, \"h\": 32.296875, \"bottom\": 801}, \"send_center_hits_send\": true, \"input_center_hits_input\": true, \"occluder\": null, \"real_pointer_click\": {\"pre\": 0, \"msgs\": 2, \"status\": \"STREAMING\\u2026\", \"inputValue\": \"\", \"sent\": true}}",
+      "agent": 2
+     },
+     {
+      "check": "composer-pointer-hit-test",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "DEFECT",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:41:26.185Z",
+      "screenshot": "check-send-hittest-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"send_rect\": {\"x\": 205, \"y\": 800.703125, \"w\": 166, \"h\": 32.296875, \"bottom\": 833}, \"input_rect\": {\"x\": 13, \"y\": 800.703125, \"w\": 186, \"h\": 32.296875, \"bottom\": 833}, \"send_center_hits_send\": false, \"input_center_hits_input\": false, \"occluder\": {\"tag\": \"SPAN\", \"pos\": \"static\", \"zIndex\": \"auto\", \"text\": \"OnDemand Intelligence Workstation is running as a serverless\", \"source\": \"src/serverlessMode.js installServerlessNotice() \\u2014 fixed banner left/right/bottom:12px z-index:2147483000 [data-gev-serverless-notice]\"}, \"real_pointer_click\": {\"pre\": 2, \"msgs\": 2, \"status\": \"READY\", \"inputValue\": \"hit test\", \"sent\": false}}",
+      "agent": 2
+     }
+    ],
+    "agent3": [
+     {
+      "check": "harness-scenario",
+      "scenario": "E",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 5944,
+      "run_at_iso8601": "2026-10-21T09:33:09.332Z",
+      "screenshot": "agent3/efg/E-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"checks\": [{\"name\": \"history_messages_present_before_switch\", \"pass\": true, \"detail\": \"Found 2 prior messages in transcript\"}, {\"name\": \"session_isolated_for_different_object\", \"pass\": true, \"detail\": \"Isolated transcript: containsEarthquake=false, msgs=0\"}], \"detail\": null, \"png_bytes_nonzero\": true, \"mean_gray\": 67.19, \"brightness_gt_40\": true}",
+      "agent": 3
+     },
+     {
+      "check": "harness-scenario",
+      "scenario": "F",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 179,
+      "run_at_iso8601": "2026-10-21T09:33:16.712Z",
+      "screenshot": "agent3/efg/F-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"checks\": [{\"name\": \"active_plugins_cap_and_id_regex\", \"pass\": true, \"detail\": \"activePlugins=10/10, validPluginIds=33/33\"}, {\"name\": \"plugin_panel_lifecycle_states\", \"pass\": true, \"detail\": \"present, 32 badges, allValid=true\"}, {\"name\": \"plugins_api_probe\", \"pass\": true, \"detail\": \"probe result: 200 mounted (obj)\"}], \"detail\": null, \"png_bytes_nonzero\": true, \"mean_gray\": 67.14, \"brightness_gt_40\": true}",
+      "agent": 3
+     },
+     {
+      "check": "harness-scenario",
+      "scenario": "G",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 5938,
+      "run_at_iso8601": "2026-10-21T09:33:17.998Z",
+      "screenshot": "agent3/efg/G-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"checks\": [{\"name\": \"synthetic_502_error_ui\", \"pass\": true, \"detail\": \"Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable\"}, {\"name\": \"retry_recovery_turn_success\", \"pass\": true, \"detail\": \"Recovered turn completed (status READY)\"}, {\"name\": \"globe_and_hud_interactive_stability\", \"pass\": true, \"detail\": \"canvasPresent=true, titleBarPresent=true, controlsResponsive=true\"}], \"detail\": null, \"png_bytes_nonzero\": true, \"mean_gray\": 68.74, \"brightness_gt_40\": true}",
+      "agent": 3
+     },
+     {
+      "check": "harness-scenario",
+      "scenario": "E",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 4914,
+      "run_at_iso8601": "2026-10-21T09:33:32.944Z",
+      "screenshot": "agent3/efg/E-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"checks\": [{\"name\": \"history_messages_present_before_switch\", \"pass\": true, \"detail\": \"Found 7 prior messages in transcript\"}, {\"name\": \"session_isolated_for_different_object\", \"pass\": true, \"detail\": \"Isolated transcript: containsEarthquake=false, msgs=0\"}], \"detail\": null, \"png_bytes_nonzero\": true, \"mean_gray\": 67.65, \"brightness_gt_40\": true}",
+      "agent": 3
+     },
+     {
+      "check": "harness-scenario",
+      "scenario": "F",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 84,
+      "run_at_iso8601": "2026-10-21T09:33:38.219Z",
+      "screenshot": "agent3/efg/F-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"checks\": [{\"name\": \"active_plugins_cap_and_id_regex\", \"pass\": true, \"detail\": \"activePlugins=10/10, validPluginIds=33/33\"}, {\"name\": \"plugin_panel_lifecycle_states\", \"pass\": true, \"detail\": \"present, 32 badges, allValid=true\"}, {\"name\": \"plugins_api_probe\", \"pass\": true, \"detail\": \"probe result: 200 mounted (obj)\"}], \"detail\": null, \"png_bytes_nonzero\": true, \"mean_gray\": 67.52, \"brightness_gt_40\": true}",
+      "agent": 3
+     },
+     {
+      "check": "harness-scenario",
+      "scenario": "G",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 6285,
+      "run_at_iso8601": "2026-10-21T09:33:38.439Z",
+      "screenshot": "agent3/efg/G-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"checks\": [{\"name\": \"synthetic_502_error_ui\", \"pass\": true, \"detail\": \"Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable\"}, {\"name\": \"retry_recovery_turn_success\", \"pass\": true, \"detail\": \"Recovered turn completed (status READY)\"}, {\"name\": \"globe_and_hud_interactive_stability\", \"pass\": true, \"detail\": \"canvasPresent=true, titleBarPresent=true, controlsResponsive=true\"}], \"detail\": null, \"png_bytes_nonzero\": true, \"mean_gray\": 61.74, \"brightness_gt_40\": true}",
+      "agent": 3
+     },
+     {
+      "check": "failure",
+      "scenario": "parity",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 5610,
+      "run_at_iso8601": "2026-10-21T09:41:16.988Z",
+      "screenshot": "agent3/check-failure-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"intercepted\": 1, \"status\": \"TURN FAILED\", \"emptyState\": {\"kind\": \"source-unavailable\", \"text\": \"upstream_error \\u00b7 Synthetic 502 (HTTP 502)\"}, \"errorMsgs\": 1, \"transcript\": [{\"role\": \"user\", \"history\": null, \"len\": 15, \"text\": \"Trigger failure\"}, {\"role\": \"error\", \"history\": null, \"len\": 41, \"text\": \"upstream_error \\u00b7 Synthetic 502 (HTTP 502)\"}], \"run_log\": \"agent3/parity-run1-desktop.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "retry-recovery",
+      "scenario": "parity",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 7307,
+      "run_at_iso8601": "2026-10-21T09:41:22.633Z",
+      "screenshot": "agent3/check-recovery-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"status\": \"READY \\u00b7 inferred\", \"chatResponse\": {\"status\": 200, \"keySource\": \"server\", \"at\": \"2026-10-21T09:41:24.112Z\"}, \"assistantLen\": 107, \"assistantPreview\": \"Parity Fire is an object classified as a fire, but no location, time window, or other details are provided.\", \"retryAffordance\": \"none (recovery via composer)\", \"run_log\": \"agent3/parity-run1-desktop.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "cancel",
+      "scenario": "parity",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 3373,
+      "run_at_iso8601": "2026-10-21T09:41:29.940Z",
+      "screenshot": "agent3/check-cancel-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"status\": \"CANCELLED\", \"cancel_latency_ms\": 2, \"lenAfterCancel\": 9, \"lenAfter3s\": 9, \"run_log\": \"agent3/parity-run1-desktop.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "isolation",
+      "scenario": "parity",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 9250,
+      "run_at_iso8601": "2026-10-21T09:41:33.313Z",
+      "screenshot": "agent3/check-isolation-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"alertMsgs\": 0, \"alertEmptyState\": {\"kind\": \"no-sessions\", \"text\": \"No prior investigation for this object\"}, \"alertContainsFire\": false, \"fireMsgsBefore\": 6, \"fireMsgsReplayed\": 2, \"fireReplayHistoryAttr\": 2, \"fireReplayLive\": 0, \"alertScreenshot\": \"agent3/check-isolation-alert-1440x900.png\", \"run_log\": \"agent3/parity-run1-desktop.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "reload-persistence",
+      "scenario": "parity",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 12717,
+      "run_at_iso8601": "2026-10-21T09:41:42.563Z",
+      "screenshot": "agent3/check-reload-persist-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"restoredMsgs\": 2, \"historyAttr\": 2, \"messagesResponses\": [{\"status\": 200, \"at\": \"2026-10-21T09:41:51.123Z\"}], \"preview\": [\"Recover: summarize this object in one sentence.\", \"Parity Fire is an object classified as a fire, but no locati\"], \"run_log\": \"agent3/parity-run1-desktop.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "failure",
+      "scenario": "parity",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 2937,
+      "run_at_iso8601": "2026-10-21T09:52:05.550Z",
+      "screenshot": "agent3/check-failure-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"intercepted\": 1, \"status\": \"TURN FAILED\", \"emptyState\": {\"kind\": \"source-unavailable\", \"text\": \"upstream_error \\u00b7 Synthetic 502 (HTTP 502)\"}, \"errorMsgs\": 1, \"transcript\": [{\"role\": \"user\", \"history\": null, \"len\": 15, \"text\": \"Trigger failure\"}, {\"role\": \"error\", \"history\": null, \"len\": 41, \"text\": \"upstream_error \\u00b7 Synthetic 502 (HTTP 502)\"}], \"run_log\": \"agent3/parity-run2-mobile.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "retry-recovery",
+      "scenario": "parity",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 6154,
+      "run_at_iso8601": "2026-10-21T09:52:08.491Z",
+      "screenshot": "agent3/check-recovery-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"status\": \"READY \\u00b7 inferred\", \"chatResponse\": {\"status\": 200, \"keySource\": \"server\", \"at\": \"2026-10-21T09:52:09.093Z\"}, \"assistantLen\": 104, \"assistantPreview\": \"Confirmed: This object is a fire labeled \\u201cParity Fire\\u201d; its location and other details are not provided.\", \"retryAffordance\": \"none (recovery via composer)\", \"run_log\": \"agent3/parity-run2-mobile.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "cancel",
+      "scenario": "parity",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 3166,
+      "run_at_iso8601": "2026-10-21T09:52:14.645Z",
+      "screenshot": "agent3/check-cancel-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"status\": \"CANCELLED\", \"cancel_latency_ms\": 5, \"lenAfterCancel\": 9, \"lenAfter3s\": 9, \"run_log\": \"agent3/parity-run2-mobile.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "isolation",
+      "scenario": "parity",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 8834,
+      "run_at_iso8601": "2026-10-21T09:52:17.811Z",
+      "screenshot": "agent3/check-isolation-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"alertMsgs\": 0, \"alertEmptyState\": {\"kind\": \"no-sessions\", \"text\": \"No prior investigation for this object\"}, \"alertContainsFire\": false, \"fireMsgsBefore\": 6, \"fireMsgsReplayed\": 2, \"fireReplayHistoryAttr\": 2, \"fireReplayLive\": 0, \"alertScreenshot\": \"agent3/check-isolation-alert-390x844.png\", \"run_log\": \"agent3/parity-run2-mobile.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "reload-persistence",
+      "scenario": "parity",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 10804,
+      "run_at_iso8601": "2026-10-21T09:52:26.645Z",
+      "screenshot": "agent3/check-reload-persist-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"restoredMsgs\": 2, \"historyAttr\": 2, \"messagesResponses\": [{\"status\": 200, \"at\": \"2026-10-21T09:52:34.924Z\"}], \"preview\": [\"Recover: summarize this object in one sentence.\", \"Confirmed: This object is a fire labeled \\u201cParity Fire\\u201d; its \"], \"run_log\": \"agent3/parity-run2-mobile.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "3way-isolation",
+      "scenario": "parity",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 40759,
+      "run_at_iso8601": "2026-10-21T09:52:37.462Z",
+      "screenshot": "agent3/check-3way-isolation-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"storageKey\": \"ondemand.v2.externalUserId.default\", \"externalUserIds\": [\"iso-user-1-0917\", \"iso-user-2-0917\", \"iso-user-3-0917\"], \"perPage\": [{\"page\": 1, \"userId\": \"iso-user-1-0917\", \"userMsgs\": 1, \"own\": 1, \"foreign\": 0, \"status\": \"READY \\u00b7 inferred\", \"assistantLen\": 2}, {\"page\": 2, \"userId\": \"iso-user-2-0917\", \"userMsgs\": 1, \"own\": 1, \"foreign\": 0, \"status\": \"READY \\u00b7 inferred\", \"assistantLen\": 2}, {\"page\": 3, \"userId\": \"iso-user-3-0917\", \"userMsgs\": 1, \"own\": 1, \"foreign\": 0, \"status\": \"READY \\u00b7 inferred\", \"assistantLen\": 2}], \"run_log\": \"agent3/parity-run2-mobile.log\"}",
+      "agent": 3
+     },
+     {
+      "check": "composer-hit-testable-under-serverless-banner",
+      "scenario": "parity",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T10:03:00Z",
+      "screenshot": "agent3/check-banner-occlusion-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"bannerPresent\": true, \"banner\": {\"x\": 400, \"y\": 813, \"w\": 640, \"h\": 75}, \"send\": {\"x\": 1195, \"y\": 769, \"w\": 208, \"h\": 32}, \"input\": {\"x\": 1003, \"y\": 769, \"w\": 186, \"h\": 32}, \"sendOverlapPx\": 0, \"inputOverlapPx\": 0, \"sendHittable\": true, \"inputHittable\": true, \"bannerZ\": \"2147483000\", \"chatZ\": \"186\", \"source\": \"src/serverlessMode.js installServerlessNotice(): position:fixed;bottom:12px;left/right:12px;z-index:2147483000 vs #ondemand-mini-chat z-index 186\", \"repro\": \"parity-run1-desktop.log mobile block: puppeteer page.click(#ondemand-mini-chat-send) at real coordinates landed on the banner span (elementFromPoint) -> no user message, no POST /api/ondemand/v2/chat; tap-probe-390x844.log / tap-probe2-390x844.log show elementsFromPoint stack (banner span, banner div z=2147483000, then button#ondemand-mini-chat-send)\", \"workaround_used_for_parity_checks\": \"element.click() via page.evaluate (bypasses hit-testing) in parity-run2-mobile.log; the app logic itself is correct, only the real-pointer path is blocked until the banner is dismissed (\\u00d7 button) or sessionStorage dismissal key is set\"}",
+      "agent": 3
+     },
+     {
+      "check": "composer-hit-testable-under-serverless-banner",
+      "scenario": "parity",
+      "viewport": "390x844",
+      "status": "DEFECT",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T10:03:00Z",
+      "screenshot": "agent3/check-banner-occlusion-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run\", \"bannerPresent\": true, \"banner\": {\"x\": 12, \"y\": 739, \"w\": 366, \"h\": 93}, \"send\": {\"x\": 205, \"y\": 801, \"w\": 166, \"h\": 32}, \"input\": {\"x\": 13, \"y\": 801, \"w\": 186, \"h\": 32}, \"sendOverlapPx\": 5146, \"inputOverlapPx\": 5766, \"sendHittable\": false, \"inputHittable\": false, \"bannerZ\": \"2147483000\", \"chatZ\": \"186\", \"source\": \"src/serverlessMode.js installServerlessNotice(): position:fixed;bottom:12px;left/right:12px;z-index:2147483000 vs #ondemand-mini-chat z-index 186\", \"repro\": \"parity-run1-desktop.log mobile block: puppeteer page.click(#ondemand-mini-chat-send) at real coordinates landed on the banner span (elementFromPoint) -> no user message, no POST /api/ondemand/v2/chat; tap-probe-390x844.log / tap-probe2-390x844.log show elementsFromPoint stack (banner span, banner div z=2147483000, then button#ondemand-mini-chat-send)\", \"workaround_used_for_parity_checks\": \"element.click() via page.evaluate (bypasses hit-testing) in parity-run2-mobile.log; the app logic itself is correct, only the real-pointer path is blocked until the banner is dismissed (\\u00d7 button) or sessionStorage dismissal key is set\"}",
+      "agent": 3
+     }
+    ],
+    "agent4": [
+     {
+      "check": "A1 GET /api/ondemand/v2/health",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 97,
+      "run_at_iso8601": "2026-10-21T09:33:47Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run/api/ondemand/v2/health",
+      "evidence": "{\"http\": 200, \"contracts\": 33, \"activePlugins\": 10, \"keySource\": \"server\", \"configured\": true, \"raw\": \"agent4/api/01-health-v2.json\"}",
+      "agent": 4
+     },
+     {
+      "check": "A1 GET /api/health",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 81,
+      "run_at_iso8601": "2026-10-21T09:33:47Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run/api/health",
+      "evidence": "{\"http\": 200, \"contracts\": 33, \"activePlugins\": 10, \"keySource\": \"server\", \"configured\": true, \"raw\": \"agent4/api/01-health.json\"}",
+      "agent": 4
+     },
+     {
+      "check": "A2 GET /api/ondemand/v2/contracts \u2014 kind counts, pluginId format, activePlugins<=10",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 78,
+      "run_at_iso8601": "2026-10-21T09:33:47Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run/api/ondemand/v2/contracts",
+      "evidence": "{\"http\": 200, \"total\": 33, \"byKind\": {\"ondemand-plugin\": 11, \"ondemand-tool\": 21, \"ondemand-workflow\": 1}, \"nonNullPluginIds\": 11, \"badPluginIds\": [], \"activePluginCount\": 10, \"activePlugins\": [\"perplexity_research\", \"internet_web_search\", \"gpt_search\", \"x_search\", \"tiktok_scraper\", \"instagram_user_info\", \"instagram_professional\", \"youtube_captions\", \"reddit_posts\", \"linkedin_search\"], \"inactive\": [\"x_mcp_connector\"], \"raw\": \"agent4/api/02-contracts.json\"}",
+      "agent": 4
+     },
+     {
+      "check": "A3 GET /plugins (before)",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 86,
+      "run_at_iso8601": "2026-10-21T09:33:47Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"http\": 200, \"count\": 32, \"byState\": {\"discovered\": 32}, \"generatedAt\": \"2026-10-21T09:33:47.449Z\", \"raw\": \"agent4/api/03-plugins-before.json\"}",
+      "agent": 4
+     },
+     {
+      "check": "A4 POST /plugins/verify internet_web_search (X-Workstation-User: agent4-probe)",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 4905,
+      "run_at_iso8601": "2026-10-21T09:34:07Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"http\": 200, \"state\": \"ready\", \"latencyMs\": 4788, \"verifiedAt\": \"2026-10-21T09:34:11.946Z\", \"pluginId\": \"plugin-1713924030\", \"answerPreview\": \"READY\", \"raw\": \"agent4/api/04-verify-internet.json\"}",
+      "agent": 4
+     },
+     {
+      "check": "A5 POST /plugins/verify x_mcp_connector \u2192 failed/inactive_on_account",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 88,
+      "run_at_iso8601": "2026-10-21T09:34:11Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"http\": 200, \"state\": \"failed\", \"error\": {\"code\": \"inactive_on_account\", \"httpStatus\": 400, \"message\": \"This research source is currently inactive on the OnDemand account.\", \"retryable\": false, \"failedAt\": \"2026-10-21T09:34:12.068Z\"}, \"availability\": \"inactive\", \"shape_source\": \"server/ondemand/foundation/plugin-lifecycle.js verify(): inactive contract \\u2192 transition failed with {code:inactive_on_account, httpStatus:400, retryable:false}; HTTP envelope is 200 {plugins:[\\u2026]}\", \"raw\": \"agent4/api/05-verify-xmcp.json\"}",
+      "agent": 4
+     },
+     {
+      "check": "A6 POST /plugins/verify names:[] \u2192 all active plugins",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 6085,
+      "run_at_iso8601": "2026-10-21T09:34:12Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"http\": 200, \"count\": 10, \"ready\": 10, \"perPlugin\": [{\"name\": \"perplexity_research\", \"pluginId\": \"plugin-1722260873\", \"state\": \"ready\", \"latencyMs\": 5048}, {\"name\": \"internet_web_search\", \"pluginId\": \"plugin-1713924030\", \"state\": \"ready\", \"latencyMs\": 4788}, {\"name\": \"gpt_search\", \"pluginId\": \"plugin-1741871229\", \"state\": \"ready\", \"latencyMs\": 4473}, {\"name\": \"x_search\", \"pluginId\": \"plugin-1751872652\", \"state\": \"ready\", \"latencyMs\": 4612}, {\"name\": \"tiktok_scraper\", \"pluginId\": \"plugin-1716372717\", \"state\": \"ready\", \"latencyMs\": 4613}, {\"name\": \"instagram_user_info\", \"pluginId\": \"plugin-1716164040\", \"state\": \"ready\", \"latencyMs\": 5999}, {\"name\": \"instagram_professional\", \"pluginId\": \"plugin-1785987361\", \"state\": \"ready\", \"latencyMs\": 5721}, {\"name\": \"youtube_captions\", \"pluginId\": \"plugin-1784356219\", \"state\": \"ready\", \"latencyMs\": 5529}, {\"name\": \"reddit_posts\", \"pluginId\": \"plugin-1748003575\", \"state\": \"ready\", \"latencyMs\": 4529}, {\"name\": \"linkedin_search\", \"pluginId\": \"plugin-1718116202\", \"state\": \"ready\", \"latencyMs\": 5981}], \"note\": \"internet_web_search returned from 10-min ready cache (same latencyMs 4788 / verifiedAt as A4)\", \"raw\": \"agent4/api/06-verify-all.json\"}",
+      "agent": 4
+     },
+     {
+      "check": "A7 GET /plugins (after) \u2014 10 ready / 1 failed / 21 discovered + diff vs A3",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 177,
+      "run_at_iso8601": "2026-10-21T09:34:18Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"http\": 200, \"byStateBefore\": {\"discovered\": 32}, \"byStateAfter\": {\"ready\": 10, \"failed\": 1, \"discovered\": 21}, \"diff\": [{\"name\": \"perplexity_research\", \"from\": \"discovered\", \"to\": \"ready\"}, {\"name\": \"internet_web_search\", \"from\": \"discovered\", \"to\": \"ready\"}, {\"name\": \"gpt_search\", \"from\": \"discovered\", \"to\": \"ready\"}, {\"name\": \"x_search\", \"from\": \"discovered\", \"to\": \"ready\"}, {\"name\": \"x_mcp_connector\", \"from\": \"discovered\", \"to\": \"failed\"}, {\"name\": \"tiktok_scraper\", \"from\": \"discovered\", \"to\": \"ready\"}, {\"name\": \"instagram_user_info\", \"from\": \"discovered\", \"to\": \"ready\"}, {\"name\": \"instagram_professional\", \"from\": \"discovered\", \"to\": \"ready\"}, {\"name\": \"youtube_captions\", \"from\": \"discovered\", \"to\": \"ready\"}, {\"name\": \"reddit_posts\", \"from\": \"discovered\", \"to\": \"ready\"}, {\"name\": \"linkedin_search\", \"from\": \"discovered\", \"to\": \"ready\"}], \"raw\": \"agent4/api/07-plugins-after.json\"}",
+      "agent": 4
+     },
+     {
+      "check": "A8 POST /plugins/verify header someone-else vs body agent4-probe \u2192 403 user_mismatch",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 113,
+      "run_at_iso8601": "2026-10-21T09:34:18Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"http\": 403, \"body\": {\"error\": \"user_mismatch\"}, \"raw\": \"agent4/api/08-verify-mismatch.json\"}",
+      "agent": 4
+     },
+     {
+      "check": "A9 POST /plugins/verify names:[\"does_not_exist\"] \u2192 honest error (expect 400/404 unknown plugin)",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "DEFECT",
+      "duration_ms": 100,
+      "run_at_iso8601": "2026-10-21T09:34:18Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"http\": 500, \"body\": {\"error\": \"internal_error\"}, \"assessment\": \"Honest (no fake ready, no plugins array) but wrong status/code: verify() throws Error(\\\"Unknown plugin contract: \\u2026\\\") inside handle() with no try/catch, so the outer router answers 500 {\\\"error\\\":\\\"internal_error\\\"} instead of 400/404 {\\\"error\\\":\\\"unknown_plugin\\\"}. Severity: low (negative path only).\", \"raw\": \"agent4/api/09-verify-unknown.json\"}",
+      "agent": 4
+     },
+     {
+      "check": "B1 panel located + initial badge counts",
+      "scenario": "plugins-initial",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 12198,
+      "run_at_iso8601": "2026-10-21T09:35:08.007Z",
+      "screenshot": "agent4/browser/check-plugins-initial-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"mountedIn\": \"#ondemand-plugin-dock (floating dock; mini chat not yet in DOM at install time)\", \"detailsOpen\": true, \"toggleNeeded\": false, \"summary\": \"10 ready\", \"rows\": 32, \"countsByState\": {\"ready\": 10, \"failed\": 1, \"discovered\": 21}, \"boot_ms\": 12198, \"note\": \"counts already 10 ready/1 failed/21 discovered because Part A verified server-side state before the browser run (lifecycle state is process-global)\"}",
+      "agent": 4
+     },
+     {
+      "check": "B2 click VERIFY internet_web_search \u2192 READY + latency",
+      "scenario": "plugins-ready",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 5507,
+      "run_at_iso8601": "2026-10-21T09:58:13.072Z",
+      "screenshot": "agent4/browser/check-plugins-dock-ready-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"run\": \"run5 (dock only, mini chat closed, real page.click)\", \"clicked_at\": \"2026-10-21T09:58:13.072Z\", \"hitTestReachesTarget\": true, \"mutation_sequence(t_ms,button,data-state,badge)\": [[0, \"VERIFY\", \"ready\", \"READY\"], [184, \"VERIFYING\\u2026\", \"ready\", \"READY\"], [5413, \"VERIFY\", \"ready\", \"READY\"]], \"polled_100ms\": [[185, \"VERIFYING\\u2026\", \"ready\"], [5506, \"VERIFY\", \"ready\"]], \"finalBadge\": \"READY\", \"finalSub\": \"just now5212ms\\\"READY\\\"\", \"ui_states_exposed\": \"Only button text VERIFY\\u2192VERIFYING\\u2026\\u2192VERIFY and the badge after the response; data-state never shows installing/authenticating because the POST is a single request/response (no streaming) and the badge was already READY from the 10-min cache (A4/A6). The UI collapses pending/installing/authenticating into VERIFYING\\u2026\", \"server_side_truth\": \"plugin-lifecycle.test.mjs: discovered\\u2192installing\\u2192authenticating\\u2192ready (3 plugin_state audits, active plugin); discovered\\u2192failed code inactive_on_account (1 audit, inactive plugin)\", \"network\": [{\"t\": \"2026-10-21T09:58:18.489Z\", \"phase\": \"response\", \"method\": \"POST\", \"url\": \"/api/ondemand/v2/plugins/verify\", \"status\": 200, \"body\": \"{\\\"plugins\\\":[{\\\"name\\",
+      "agent": 4
+     },
+     {
+      "check": "B3 click VERIFY x_mcp_connector \u2192 FAILED inactive-on-account",
+      "scenario": "plugins-failed",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 132,
+      "run_at_iso8601": "2026-10-21T09:58:19.220Z",
+      "screenshot": "agent4/browser/check-plugins-dock-failed-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"run\": \"run5\", \"clicked_at\": \"2026-10-21T09:58:19.220Z\", \"mutation_sequence(t_ms,button,data-state,badge)\": [[0, \"VERIFY\", \"failed\", \"FAILED\"], [27, \"VERIFYING\\u2026\", \"failed\", \"FAILED\"], [43, \"VERIFY\", \"failed\", \"FAILED\"]], \"finalBadge\": \"FAILED\", \"errorMessage\": \"This research source is currently inactive on the OnDemand account.\", \"toggleDisabled\": true, \"server_side_truth\": \"plugin-lifecycle.test.mjs: discovered\\u2192installing\\u2192authenticating\\u2192ready (3 plugin_state audits, active plugin); discovered\\u2192failed code inactive_on_account (1 audit, inactive plugin)\"}",
+      "agent": 4
+     },
+     {
+      "check": "B4 window.__odPlugins.getSelectedPluginIds() \u226410 ids /^plugin-\\d{10}$/",
+      "scenario": "plugins-selected-ids",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:35:08.007Z",
+      "screenshot": "agent4/browser/check-plugins-initial-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"defaultSelection\": [], \"afterCheckingEveryEnabledToggle\": {\"count\": 31, \"pluginIds\": [\"plugin-1722260873\", \"plugin-1713924030\", \"plugin-1741871229\", \"plugin-1751872652\", \"plugin-1716372717\", \"plugin-1716164040\", \"plugin-1785987361\", \"plugin-1784356219\", \"plugin-1748003575\", \"plugin-1718116202\"], \"toolRouteNames\": [\"earthquake_search\", \"list_satellites_in_scene\", \"satellite_passes\", \"flights_in_bbox\", \"flight_by_icao24\", \"military_flights_in_bbox\", \"vessels_in_bbox\", \"vessel_by_mmsi\", \"traffic_flow_at_point\", \"road_network_status\", \"fire_detection_search\", \"osm_features_near\", \"geocode_place\", \"bike_share_status_near\", \"transit_vehicles_in_bbox\", \"regional_brief\", \"terrain_height_at\", \"cameras_in_bbox\", \"military_installations_in_bbox\", \"radio_stations_near\", \"rocket_launches_recent\"]}, \"afterReset\": [], \"note\": \"Default selection is [] (nothing persisted). Plugin-kind ids: 10, all /^plugin-\\\\d{10}$/, x_mcp_connector toggle disabled. OBSERVATION: the handle also returns tool-route NAMES (e.g. earthquake_search) when tool toggles are checked, because the panel keys selection on entry.pluginId||entry.name; the mini chat takes getPluginIds().slice(0,4) and the orchestrator ignores un",
+      "agent": 4
+     },
+     {
+      "check": "B5 pointer reachability of PLUGINS panel while mini chat is open",
+      "scenario": "plugins-overlay",
+      "viewport": "1440x900",
+      "status": "DEFECT",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:48:25.426Z",
+      "screenshot": "agent4/browser/check-plugins-overlay-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"run\": \"run4 overlay + run3 click comparison\", \"panel\": {\"sel\": \"section#ondemand-plugin-panel.od-plugins\", \"rect\": {\"x\": 1038, \"y\": 500, \"w\": 384, \"h\": 376}, \"position\": \"static\", \"zIndex\": \"auto\", \"pointerEvents\": \"auto\", \"display\": \"flex\", \"opacity\": \"1\"}, \"dock\": {\"sel\": \"div#ondemand-plugin-dock.\", \"rect\": {\"x\": 1038, \"y\": 500, \"w\": 384, \"h\": 376}, \"position\": \"fixed\", \"zIndex\": \"184\", \"pointerEvents\": \"auto\", \"display\": \"block\", \"opacity\": \"1\"}, \"miniChat\": {\"sel\": \"aside#ondemand-mini-chat.od-chat.od-chat--mini\", \"rect\": {\"x\": 990, \"y\": 421, \"w\": 432, \"h\": 391}, \"position\": \"fixed\", \"zIndex\": \"186\", \"pointerEvents\": \"auto\", \"display\": \"flex\", \"opacity\": \"1\"}, \"hitTest\": {\"summary.od-plugins__summary\": {\"reachesTarget\": false, \"topmost\": \"div#ondemand-mini-chat-starters.od-chat__starters\"}, \"button.od-plugins__refresh-btn\": {\"reachesTarget\": false, \"topmost\": \"div#ondemand-mini-chat-starters.od-chat__starters\"}, \"li.od-plugin__row:first-child .od-plugin__toggle\": {\"reachesTarget\": false, \"topmost\": \"div.od-empty-state.od-empty-state--no-sessions\"}, \"button.od-plugin__verify[data-plugin-name=\\\"perplexity_research\\\"]\": {\"reachesTarget\": false, \"topmost\": \"div.od-empty-state.od",
+      "agent": 4
+     },
+     {
+      "check": "B1 panel located + initial badge counts",
+      "scenario": "plugins-initial",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 9719,
+      "run_at_iso8601": "2026-10-21T09:36:25.145Z",
+      "screenshot": "agent4/browser/check-plugins-initial-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"mountedIn\": \"#ondemand-plugin-dock (floating dock; mini chat not yet in DOM at install time)\", \"detailsOpen\": true, \"toggleNeeded\": false, \"summary\": \"10 ready\", \"rows\": 32, \"countsByState\": {\"ready\": 10, \"failed\": 1, \"discovered\": 21}, \"boot_ms\": 9719, \"note\": \"counts already 10 ready/1 failed/21 discovered because Part A verified server-side state before the browser run (lifecycle state is process-global)\"}",
+      "agent": 4
+     },
+     {
+      "check": "B2 click VERIFY internet_web_search \u2192 READY + latency",
+      "scenario": "plugins-ready",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 128,
+      "run_at_iso8601": "2026-10-21T09:58:29.362Z",
+      "screenshot": "agent4/browser/check-plugins-dock-ready-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"run\": \"run5 (dock only, mini chat closed, real page.click)\", \"clicked_at\": \"2026-10-21T09:58:29.362Z\", \"hitTestReachesTarget\": true, \"mutation_sequence(t_ms,button,data-state,badge)\": [[0, \"VERIFY\", \"ready\", \"READY\"], [20, \"VERIFYING\\u2026\", \"ready\", \"READY\"], [40, \"VERIFY\", \"ready\", \"READY\"]], \"polled_100ms\": [[27, \"VERIFYING\\u2026\", \"ready\"], [128, \"VERIFY\", \"ready\"]], \"finalBadge\": \"READY\", \"finalSub\": \"just now5212ms\\\"READY\\\"\", \"ui_states_exposed\": \"Only button text VERIFY\\u2192VERIFYING\\u2026\\u2192VERIFY and the badge after the response; data-state never shows installing/authenticating because the POST is a single request/response (no streaming) and the badge was already READY from the 10-min cache (A4/A6). The UI collapses pending/installing/authenticating into VERIFYING\\u2026\", \"server_side_truth\": \"plugin-lifecycle.test.mjs: discovered\\u2192installing\\u2192authenticating\\u2192ready (3 plugin_state audits, active plugin); discovered\\u2192failed code inactive_on_account (1 audit, inactive plugin)\", \"network\": [{\"t\": \"2026-10-21T09:58:29.412Z\", \"phase\": \"response\", \"method\": \"POST\", \"url\": \"/api/ondemand/v2/plugins/verify\", \"status\": 200, \"body\": \"{\\\"plugins\\\":[{\\\"name\\\":\\\"i",
+      "agent": 4
+     },
+     {
+      "check": "B3 click VERIFY x_mcp_connector \u2192 FAILED inactive-on-account",
+      "scenario": "plugins-failed",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 132,
+      "run_at_iso8601": "2026-10-21T09:58:29.964Z",
+      "screenshot": "agent4/browser/check-plugins-dock-failed-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"run\": \"run5\", \"clicked_at\": \"2026-10-21T09:58:29.964Z\", \"mutation_sequence(t_ms,button,data-state,badge)\": [[0, \"VERIFY\", \"failed\", \"FAILED\"], [24, \"VERIFYING\\u2026\", \"failed\", \"FAILED\"], [45, \"VERIFY\", \"failed\", \"FAILED\"]], \"finalBadge\": \"FAILED\", \"errorMessage\": \"This research source is currently inactive on the OnDemand account.\", \"toggleDisabled\": true, \"server_side_truth\": \"plugin-lifecycle.test.mjs: discovered\\u2192installing\\u2192authenticating\\u2192ready (3 plugin_state audits, active plugin); discovered\\u2192failed code inactive_on_account (1 audit, inactive plugin)\"}",
+      "agent": 4
+     },
+     {
+      "check": "B4 window.__odPlugins.getSelectedPluginIds() \u226410 ids /^plugin-\\d{10}$/",
+      "scenario": "plugins-selected-ids",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:36:25.145Z",
+      "screenshot": "agent4/browser/check-plugins-initial-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"defaultSelection\": [], \"afterCheckingEveryEnabledToggle\": {\"count\": 31, \"pluginIds\": [\"plugin-1722260873\", \"plugin-1713924030\", \"plugin-1741871229\", \"plugin-1751872652\", \"plugin-1716372717\", \"plugin-1716164040\", \"plugin-1785987361\", \"plugin-1784356219\", \"plugin-1748003575\", \"plugin-1718116202\"], \"toolRouteNames\": [\"earthquake_search\", \"list_satellites_in_scene\", \"satellite_passes\", \"flights_in_bbox\", \"flight_by_icao24\", \"military_flights_in_bbox\", \"vessels_in_bbox\", \"vessel_by_mmsi\", \"traffic_flow_at_point\", \"road_network_status\", \"fire_detection_search\", \"osm_features_near\", \"geocode_place\", \"bike_share_status_near\", \"transit_vehicles_in_bbox\", \"regional_brief\", \"terrain_height_at\", \"cameras_in_bbox\", \"military_installations_in_bbox\", \"radio_stations_near\", \"rocket_launches_recent\"]}, \"afterReset\": [], \"note\": \"Default selection is [] (nothing persisted). Plugin-kind ids: 10, all /^plugin-\\\\d{10}$/, x_mcp_connector toggle disabled. OBSERVATION: the handle also returns tool-route NAMES (e.g. earthquake_search) when tool toggles are checked, because the panel keys selection on entry.pluginId||entry.name; the mini chat takes getPluginIds().slice(0,4) and the orchestrator ignores un",
+      "agent": 4
+     },
+     {
+      "check": "B5 pointer reachability of PLUGINS panel while mini chat is open",
+      "scenario": "plugins-overlay",
+      "viewport": "390x844",
+      "status": "DEFECT",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:48:37.608Z",
+      "screenshot": "agent4/browser/check-plugins-overlay-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": "{\"run\": \"run4 overlay + run3 click comparison\", \"panel\": {\"sel\": \"section#ondemand-plugin-panel.od-plugins\", \"rect\": {\"x\": 14, \"y\": 444, \"w\": 358, \"h\": 376}, \"position\": \"static\", \"zIndex\": \"auto\", \"pointerEvents\": \"auto\", \"display\": \"flex\", \"opacity\": \"1\"}, \"dock\": {\"sel\": \"div#ondemand-plugin-dock.\", \"rect\": {\"x\": 14, \"y\": 444, \"w\": 358, \"h\": 376}, \"position\": \"fixed\", \"zIndex\": \"184\", \"pointerEvents\": \"auto\", \"display\": \"block\", \"opacity\": \"1\"}, \"miniChat\": {\"sel\": \"aside#ondemand-mini-chat.od-chat.od-chat--mini\", \"rect\": {\"x\": 0, \"y\": 453, \"w\": 390, \"h\": 391}, \"position\": \"fixed\", \"zIndex\": \"186\", \"pointerEvents\": \"auto\", \"display\": \"flex\", \"opacity\": \"1\"}, \"hitTest\": {\"summary.od-plugins__summary\": {\"reachesTarget\": false, \"topmost\": \"header.od-chat__header.od-chat__header--mini\"}, \"button.od-plugins__refresh-btn\": {\"reachesTarget\": false, \"topmost\": \"button#ondemand-mini-chat-expand.od-chat__icon-btn\"}, \"li.od-plugin__row:first-child .od-plugin__toggle\": {\"reachesTarget\": false, \"topmost\": \"div.od-chat__status-row\"}, \"button.od-plugin__verify[data-plugin-name=\\\"perplexity_research\\\"]\": {\"reachesTarget\": false, \"topmost\": \"span.od-chat__key-state\"}, \"button.od-plugin__verify[d",
+      "agent": 4
+     }
+    ],
+    "agent5": [
+     {
+      "check": "identity",
+      "scenario": "title+wordmark+brand-mark+favicon-link",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 11931,
+      "run_at_iso8601": "2026-10-21T09:34:42.545Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"title\": \"OnDemand Intelligence Workstation\", \"wordmark\": \"OnDemand Intelligence Workstation\", \"brand_marks\": [{\"tag\": \"span\", \"w\": 52, \"h\": 34.875, \"src\": \"\"}, {\"tag\": \"span\", \"w\": 127.14263916015625, \"h\": 85.2998046875, \"src\": \"\"}], \"icon_links\": [\"/assets/brand/favicon.ico\", \"/assets/brand/favicon-16.png\", \"/assets/brand/favicon-32.png\", \"/assets/brand/favicon-48.png\", \"/brand/mark.svg\"], \"manifest\": \"/brand/site.webmanifest\"}",
+      "agent": 5
+     },
+     {
+      "check": "loading-screen-backdrop",
+      "scenario": "#loading-screen computed background-image",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:34:54.752Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"backgroundImage\": \"linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\\\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\\\")\"}",
+      "agent": 5
+     },
+     {
+      "check": "legacy-terms",
+      "scenario": "base page (chat closed)",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:34:54.788Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"user_facing_hits\": 0, \"hits\": [], \"internal_identifiers_allowed\": [\"style[id=\\\"gev-screen-whiteboard-styles\\\"]\", \"input[class=\\\"gev-quantitative-slider\\\"]\", \"output[class=\\\"gev-slider-value\\\"]\", \"div[class=\\\"gev-screen-whiteboard\\\"]\", \"svg[class=\\\"gev-screen-whiteboard-svg\\\"]\", \"filter[id=\\\"gev-sketch\\\"]\", \"window.__godsEyeView\"]}",
+      "agent": 5
+     },
+     {
+      "check": "eye-motif",
+      "scenario": "base page (chat closed)",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:34:54.890Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"assets_scanned\": 54, \"flagged\": [{\"kind\": \"svg\", \"url\": \"scan-eye\", \"title\": \"\", \"desc\": \"\"}], \"note\": \"Only hit is the Lucide UI glyph 'scan-eye' (data-icon attribute on the DISPLAY\\u203aHUD toggle, src/ui/templates/display-controls.html:10; a viewfinder/focus pictogram from the icon set, not a brand eye motif). No image/CSS URL or <title>/<desc> contains 'eye'. Classified as allowed; listed for the orchestrator to decide.\", \"url_or_title_hits\": 0}",
+      "agent": 5
+     },
+     {
+      "check": "mini-chat-open",
+      "scenario": "gev:ask-object earthquake",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 4886,
+      "run_at_iso8601": "2026-10-21T09:34:59.776Z",
+      "screenshot": "agent5/check-branding-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"chatOpen\": true, \"pluginPanel\": {\"present\": true, \"open\": true, \"rows\": 32, \"summary\": \"PLUGINS10 ready\"}, \"keySetup\": {\"chipPresent\": false, \"rootPresent\": false}, \"keySetupVisible\": false}",
+      "agent": 5
+     },
+     {
+      "check": "legacy-terms",
+      "scenario": "chat open + plugins panel open (settings/key-setup not present)",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:34:59.776Z",
+      "screenshot": "agent5/check-branding-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"user_facing_hits\": 0, \"hits\": [], \"internal_identifiers_allowed\": [\"style[id=\\\"gev-screen-whiteboard-styles\\\"]\", \"input[class=\\\"gev-quantitative-slider\\\"]\", \"output[class=\\\"gev-slider-value\\\"]\", \"div[class=\\\"gev-screen-whiteboard\\\"]\", \"svg[class=\\\"gev-screen-whiteboard-svg\\\"]\", \"filter[id=\\\"gev-sketch\\\"]\", \"window.__godsEyeView\"]}",
+      "agent": 5
+     },
+     {
+      "check": "eye-motif",
+      "scenario": "chat open + plugins panel open",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:34:59.776Z",
+      "screenshot": "agent5/check-branding-1440x900.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"assets_scanned\": 56, \"flagged\": [{\"kind\": \"svg\", \"url\": \"scan-eye\", \"title\": \"\", \"desc\": \"\"}], \"note\": \"Only hit is the Lucide UI glyph 'scan-eye' (data-icon attribute on the DISPLAY\\u203aHUD toggle, src/ui/templates/display-controls.html:10; a viewfinder/focus pictogram from the icon set, not a brand eye motif). No image/CSS URL or <title>/<desc> contains 'eye'. Classified as allowed; listed for the orchestrator to decide.\", \"url_or_title_hits\": 0}",
+      "agent": 5
+     },
+     {
+      "check": "identity",
+      "scenario": "title+wordmark+brand-mark+favicon-link",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 9543,
+      "run_at_iso8601": "2026-10-21T09:35:00.337Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"title\": \"OnDemand Intelligence Workstation\", \"wordmark\": \"OnDemand Intelligence Workstation\", \"brand_marks\": [{\"tag\": \"span\", \"w\": 36, \"h\": 24.140625, \"src\": \"\"}, {\"tag\": \"span\", \"w\": 125.46502685546875, \"h\": 84.17431640625, \"src\": \"\"}], \"icon_links\": [\"/assets/brand/favicon.ico\", \"/assets/brand/favicon-16.png\", \"/assets/brand/favicon-32.png\", \"/assets/brand/favicon-48.png\", \"/brand/mark.svg\"], \"manifest\": \"/brand/site.webmanifest\"}",
+      "agent": 5
+     },
+     {
+      "check": "loading-screen-backdrop",
+      "scenario": "#loading-screen computed background-image",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:35:09.898Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"backgroundImage\": \"linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\\\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\\\")\"}",
+      "agent": 5
+     },
+     {
+      "check": "legacy-terms",
+      "scenario": "base page (chat closed)",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:35:09.925Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"user_facing_hits\": 0, \"hits\": [], \"internal_identifiers_allowed\": [\"style[id=\\\"gev-screen-whiteboard-styles\\\"]\", \"input[class=\\\"gev-quantitative-slider\\\"]\", \"output[class=\\\"gev-slider-value\\\"]\", \"div[class=\\\"gev-screen-whiteboard\\\"]\", \"svg[class=\\\"gev-screen-whiteboard-svg\\\"]\", \"filter[id=\\\"gev-sketch\\\"]\", \"window.__godsEyeView\"]}",
+      "agent": 5
+     },
+     {
+      "check": "eye-motif",
+      "scenario": "base page (chat closed)",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:35:10.006Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"assets_scanned\": 54, \"flagged\": [{\"kind\": \"svg\", \"url\": \"scan-eye\", \"title\": \"\", \"desc\": \"\"}], \"note\": \"Only hit is the Lucide UI glyph 'scan-eye' (data-icon attribute on the DISPLAY\\u203aHUD toggle, src/ui/templates/display-controls.html:10; a viewfinder/focus pictogram from the icon set, not a brand eye motif). No image/CSS URL or <title>/<desc> contains 'eye'. Classified as allowed; listed for the orchestrator to decide.\", \"url_or_title_hits\": 0}",
+      "agent": 5
+     },
+     {
+      "check": "mini-chat-open",
+      "scenario": "gev:ask-object earthquake",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 3716,
+      "run_at_iso8601": "2026-10-21T09:35:13.722Z",
+      "screenshot": "agent5/check-branding-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"chatOpen\": true, \"pluginPanel\": {\"present\": true, \"open\": true, \"rows\": 32, \"summary\": \"PLUGINS10 ready\"}, \"keySetup\": {\"chipPresent\": false, \"rootPresent\": false}, \"keySetupVisible\": false}",
+      "agent": 5
+     },
+     {
+      "check": "legacy-terms",
+      "scenario": "chat open + plugins panel open (settings/key-setup not present)",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:35:13.722Z",
+      "screenshot": "agent5/check-branding-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"user_facing_hits\": 0, \"hits\": [], \"internal_identifiers_allowed\": [\"style[id=\\\"gev-screen-whiteboard-styles\\\"]\", \"input[class=\\\"gev-quantitative-slider\\\"]\", \"output[class=\\\"gev-slider-value\\\"]\", \"div[class=\\\"gev-screen-whiteboard\\\"]\", \"svg[class=\\\"gev-screen-whiteboard-svg\\\"]\", \"filter[id=\\\"gev-sketch\\\"]\", \"window.__godsEyeView\"]}",
+      "agent": 5
+     },
+     {
+      "check": "eye-motif",
+      "scenario": "chat open + plugins panel open",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:35:13.722Z",
+      "screenshot": "agent5/check-branding-390x844.png",
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical\", \"assets_scanned\": 56, \"flagged\": [{\"kind\": \"svg\", \"url\": \"scan-eye\", \"title\": \"\", \"desc\": \"\"}], \"note\": \"Only hit is the Lucide UI glyph 'scan-eye' (data-icon attribute on the DISPLAY\\u203aHUD toggle, src/ui/templates/display-controls.html:10; a viewfinder/focus pictogram from the icon set, not a brand eye motif). No image/CSS URL or <title>/<desc> contains 'eye'. Classified as allowed; listed for the orchestrator to decide.\", \"url_or_title_hits\": 0}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "mark-primary.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 1288,
+      "run_at_iso8601": "2026-10-21T09:36:02Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/mark-primary.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 828607, \"sha256\": \"43abf5cc21779088c665d9b9b3d9e58f28d08e20974d75716304b637b919bd3d\", \"catalog_sha256\": \"43abf5cc21779088c665d9b9b3d9e58f28d08e20974d75716304b637b919bd3d\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 0, \"ocr_psm11_sample\": \"<>\", \"ocr_psm6_sample\": \"\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 198, \"hough_naive_concentric_pairs\": 7, \"hough_strong_circles\": 2, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"naive Hough (param2=40, minDist=4) reports 7 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \\u2014 strong pass is authoritative\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "mark-mono.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 1490,
+      "run_at_iso8601": "2026-10-21T09:36:03Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/mark-mono.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 882285, \"sha256\": \"e38da23ac4f292dc57555af16258f7c22e54cfc50545e6d59c499afbb7133b5a\", \"catalog_sha256\": \"e38da23ac4f292dc57555af16258f7c22e54cfc50545e6d59c499afbb7133b5a\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 2, \"ocr_psm11_sample\": \"\", \"ocr_psm6_sample\": \"Bi\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 147, \"hough_naive_concentric_pairs\": 6, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"naive Hough (param2=40, minDist=4) reports 6 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \\u2014 strong pass is authoritative\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "empty-no-results.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 4939,
+      "run_at_iso8601": "2026-10-21T09:36:05Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-no-results.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 854662, \"sha256\": \"91c63a81ed15f52ade8dff2bca6a8d03888eae88c2aca72bbb58b24b28f2363d\", \"catalog_sha256\": \"91c63a81ed15f52ade8dff2bca6a8d03888eae88c2aca72bbb58b24b28f2363d\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 2, \"ocr_psm11_sample\": \"\", \"ocr_psm6_sample\": \"ee\\n=\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 969, \"hough_naive_concentric_pairs\": 36, \"hough_strong_circles\": 1, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"naive Hough (param2=40, minDist=4) reports 36 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \\u2014 strong pass is authoritative\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "empty-no-sessions.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 10362,
+      "run_at_iso8601": "2026-10-21T09:36:10Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-no-sessions.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 833892, \"sha256\": \"99986406498b95f24f70557a203369b71d2a65921196fac8decfe3c2d4add732\", \"catalog_sha256\": \"99986406498b95f24f70557a203369b71d2a65921196fac8decfe3c2d4add732\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 2, \"ocr_psm6_alnum\": 2, \"ocr_psm11_sample\": \"an\", \"ocr_psm6_sample\": \"(og\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 1653, \"hough_naive_concentric_pairs\": 59, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"naive Hough (param2=40, minDist=4) reports 59 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \\u2014 strong pass is authoritative\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "empty-source-unavailable.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 866,
+      "run_at_iso8601": "2026-10-21T09:36:20Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-source-unavailable.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 851438, \"sha256\": \"9722bbf35ca0dfcdffd1598378751f2f405a7a86ac100d2a84c0cb464ec28d04\", \"catalog_sha256\": \"9722bbf35ca0dfcdffd1598378751f2f405a7a86ac100d2a84c0cb464ec28d04\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 3, \"ocr_psm11_sample\": \"-----\", \"ocr_psm6_sample\": \"Sre\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 226, \"hough_naive_concentric_pairs\": 10, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"naive Hough (param2=40, minDist=4) reports 10 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \\u2014 strong pass is authoritative\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "backdrop-network.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 1050,
+      "run_at_iso8601": "2026-10-21T09:36:21Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 1243829, \"sha256\": \"cba96745119c9aa84b8383aed402f3349788d8896d5d2753e246448df5710b03\", \"catalog_sha256\": \"cba96745119c9aa84b8383aed402f3349788d8896d5d2753e246448df5710b03\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 10, \"ocr_psm6_alnum\": 0, \"ocr_psm11_sample\": \"Ta\\n\\nme\\n\\nke <\\n\\nax\\n\\n>\\n\\neo\", \"ocr_psm6_sample\": \"\", \"ocr_no_text_le3\": false, \"hough_naive_circles\": 0, \"hough_naive_concentric_pairs\": 0, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": [0, []], \"note\": \"psm11 alnum=10 is OCR noise on the dark network texture (documented caveat); psm6 alnum=0; downscaled 384x256 contiguous text-like regions = 0 -> no text\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "mark-variant-a.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 1158,
+      "run_at_iso8601": "2026-10-21T09:36:22Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/mark-variant-a.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 770292, \"sha256\": \"0556ca19503c624cce8670cfd17aa9d9ea69e2d2e3ba37ef14aea0cb73aaeb51\", \"catalog_sha256\": \"0556ca19503c624cce8670cfd17aa9d9ea69e2d2e3ba37ef14aea0cb73aaeb51\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 2, \"ocr_psm11_sample\": \"\", \"ocr_psm6_sample\": \"cs\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 235, \"hough_naive_concentric_pairs\": 22, \"hough_strong_circles\": 4, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"naive Hough (param2=40, minDist=4) reports 22 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \\u2014 strong pass is authoritative\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "mark-variant-b.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 1121,
+      "run_at_iso8601": "2026-10-21T09:36:23Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/mark-variant-b.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 848084, \"sha256\": \"f7ea09b785ea93a3897241b805584852be3dc67ebc04ed1d978e22855bea8efa\", \"catalog_sha256\": \"f7ea09b785ea93a3897241b805584852be3dc67ebc04ed1d978e22855bea8efa\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 2, \"ocr_psm11_sample\": \"\", \"ocr_psm6_sample\": \"cs\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 198, \"hough_naive_concentric_pairs\": 10, \"hough_strong_circles\": 1, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"naive Hough (param2=40, minDist=4) reports 10 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \\u2014 strong pass is authoritative\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "favicon.ico",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 571,
+      "run_at_iso8601": "2026-10-21T09:36:24Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/favicon.ico\", \"http_status\": 200, \"content_type\": \"image/x-icon\", \"bytes\": 655, \"sha256\": \"fdd1dc86e6bfcf25f22df8edf59af02bf979b38fb99a6dbbbf4cc6c3fe8757d0\", \"catalog_sha256\": \"fdd1dc86e6bfcf25f22df8edf59af02bf979b38fb99a6dbbbf4cc6c3fe8757d0\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 0, \"ocr_psm11_sample\": \"\", \"ocr_psm6_sample\": \"&\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 1, \"hough_naive_concentric_pairs\": 0, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "apple-touch-icon.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 561,
+      "run_at_iso8601": "2026-10-21T09:36:25Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/apple-touch-icon.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 30314, \"sha256\": \"ca5a07dc2d5a3ab67546837dcd3ba9526112ad1f44f6b12d360cc877422e13c6\", \"catalog_sha256\": \"ca5a07dc2d5a3ab67546837dcd3ba9526112ad1f44f6b12d360cc877422e13c6\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 2, \"ocr_psm11_sample\": \"~~\", \"ocr_psm6_sample\": \"Ss\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 3, \"hough_naive_concentric_pairs\": 0, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "android-chrome-192.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 427,
+      "run_at_iso8601": "2026-10-21T09:36:25Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/android-chrome-192.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 34284, \"sha256\": \"0d8df8839bdda401a4e605120f7bc4d8de3735469c18e9e09e73bb9d1d87a204\", \"catalog_sha256\": \"0d8df8839bdda401a4e605120f7bc4d8de3735469c18e9e09e73bb9d1d87a204\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 2, \"ocr_psm11_sample\": \"~~\", \"ocr_psm6_sample\": \"es\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 2, \"hough_naive_concentric_pairs\": 0, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "android-chrome-512.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 500,
+      "run_at_iso8601": "2026-10-21T09:36:26Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/android-chrome-512.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 231053, \"sha256\": \"bc5d55abb81cd40ec72759fea9ba6f23e77fe35322fbf350fecd618b731a2f6d\", \"catalog_sha256\": \"bc5d55abb81cd40ec72759fea9ba6f23e77fe35322fbf350fecd618b731a2f6d\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 2, \"ocr_psm11_sample\": \"\", \"ocr_psm6_sample\": \"Bi\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 32, \"hough_naive_concentric_pairs\": 0, \"hough_strong_circles\": 3, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "favicon-16.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 521,
+      "run_at_iso8601": "2026-10-21T09:36:26Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/favicon-16.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 638, \"sha256\": \"e9cab6f53df06debf1d6f9482996c6c0b784c1f438a2127ac8e8e741f0fdd068\", \"catalog_sha256\": \"e9cab6f53df06debf1d6f9482996c6c0b784c1f438a2127ac8e8e741f0fdd068\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 0, \"ocr_psm11_sample\": \"\", \"ocr_psm6_sample\": \"&\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 1, \"hough_naive_concentric_pairs\": 0, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "favicon-32.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 754,
+      "run_at_iso8601": "2026-10-21T09:36:27Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/favicon-32.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 1714, \"sha256\": \"c6666d54405b2c41652e9d26d24b34980301aec28e0c8cc56a8a69b588eed281\", \"catalog_sha256\": \"c6666d54405b2c41652e9d26d24b34980301aec28e0c8cc56a8a69b588eed281\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 0, \"ocr_psm11_sample\": \"\", \"ocr_psm6_sample\": \"&\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 7, \"hough_naive_concentric_pairs\": 0, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "favicon-48.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 729,
+      "run_at_iso8601": "2026-10-21T09:36:28Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/favicon-48.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 3143, \"sha256\": \"b561065689cfc438ff27c8520da3a6f6ef3d68387eac731474a79d984b7b35fd\", \"catalog_sha256\": \"b561065689cfc438ff27c8520da3a6f6ef3d68387eac731474a79d984b7b35fd\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 0, \"ocr_psm6_alnum\": 0, \"ocr_psm11_sample\": \"\", \"ocr_psm6_sample\": \"&\", \"ocr_no_text_le3\": true, \"hough_naive_circles\": 10, \"hough_naive_concentric_pairs\": 0, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"\"}",
+      "agent": 5
+     },
+     {
+      "check": "brand-asset",
+      "scenario": "og-image.png",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 1235,
+      "run_at_iso8601": "2026-10-21T09:36:28Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/og-image.png\", \"http_status\": 200, \"content_type\": \"image/png\", \"bytes\": 515862, \"sha256\": \"93ddea86633a972d9481f60d17a3d21e3d555aa639c63b57cbeb75cb65a5e9d9\", \"catalog_sha256\": \"93ddea86633a972d9481f60d17a3d21e3d555aa639c63b57cbeb75cb65a5e9d9\", \"match_catalog\": true, \"match_local_public_assets_brand\": true, \"ocr_psm11_alnum\": 9, \"ocr_psm6_alnum\": 43, \"ocr_psm11_sample\": \"Se\\n\\n\\u00bb\\n\\nSS\\n\\nSw\\n\\nane\", \"ocr_psm6_sample\": \"\\u00b0 p\\ngi\\nse Oy\\n\\u201ce\\n. .\\n5 ai\\n<\\nx \\\\\\na \\u2014\\u2014\\u2014 \\\\\\nae S A\\nVag a\\n* J . WA\", \"ocr_no_text_le3\": false, \"hough_naive_circles\": 41, \"hough_naive_concentric_pairs\": 1, \"hough_strong_circles\": 0, \"hough_strong_concentric_pairs\": 0, \"backdrop_text_regions\": null, \"note\": \"og-image is a composite (backdrop + mark); OCR psm6 alnum=43 is pure noise fragments (no dictionary words); strong-circle concentric pairs 0; naive pass 1 pair -> noise; naive Hough (param2=40, minDist=4) reports 1 pairs from accumulator noise on illustrated textures; strong-circle pass (param2=70, minDist=20, >=50% edge support) reports 0 \\u2014 strong pass is authoritative\"}",
+      "agent": 5
+     },
+     {
+      "check": "webmanifest",
+      "scenario": "GET /brand/site.webmanifest + icon paths",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 1000,
+      "run_at_iso8601": "2026-10-21T09:37:16Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/brand/site.webmanifest\", \"http_status\": 200, \"content_type\": \"application/octet-stream\", \"name\": \"OnDemand Intelligence Workstation\", \"icons\": {\"/assets/brand/android-chrome-192.png\": \"200 image/png 34284\", \"/assets/brand/android-chrome-512.png\": \"200 image/png 231053\"}, \"note\": \"MINOR: manifest served as application/octet-stream instead of application/manifest+json (browsers accept it; not a functional defect). Also /brand/mark.svg (svg icon link) 200 image/svg+xml 748 B, /assets/brand/og-image.png 200 image/png.\"}",
+      "agent": 5
+     },
+     {
+      "check": "favicon-resolves",
+      "scenario": "GET /assets/brand/favicon.ico",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:37:16Z",
+      "screenshot": null,
+      "evidence": "{\"url\": \"https://sb-4asza5droe1u.vercel.run/assets/brand/favicon.ico\", \"http_status\": 200, \"content_type\": \"image/x-icon\", \"bytes\": 655}",
+      "agent": 5
+     },
+     {
+      "check": "css-empty-state-wiring",
+      "scenario": "src/ui/styles/ondemand-chat.css (read-only grep)",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 0,
+      "run_at_iso8601": "2026-10-21T09:38:28Z",
+      "screenshot": null,
+      "evidence": "{\"lines\": {\"549-551\": \".od-empty-state--no-results::before { background-image: url(/assets/brand/empty-no-results.png) }\", \"552-554\": \".od-empty-state--no-sessions::before { background-image: url(/assets/brand/empty-no-sessions.png) }\", \"555-557\": \".od-empty-state--source-unavailable::before { background-image: url(/assets/brand/empty-source-unavailable.png) }\"}, \"loading_screen_css\": \"src/ui/styles/controls.css:269-276 #loading-screen background-image: linear-gradient(...), url(/assets/brand/backdrop-network.png)\"}",
+      "agent": 5
+     }
+    ]
+   },
+   "agent_counts": {
+    "agent1": {
+     "PASS": 8,
+     "DEFECT": 3
+    },
+    "agent2": {
+     "PASS": 15,
+     "DEFECT": 1
+    },
+    "agent3": {
+     "PASS": 18,
+     "DEFECT": 1
+    },
+    "agent4": {
+     "PASS": 17,
+     "DEFECT": 3
+    },
+    "agent5": {
+     "PASS": 33
+    }
+   },
+   "defects": [
+    {
+     "id": "R17-D1",
+     "severity": "medium",
+     "title": "Serverless notice banner occluded the mini-chat composer at 390\u00d7844",
+     "found_by": [
+      1,
+      2,
+      3
+     ],
+     "root_cause": "src/serverlessMode.js banner at z-index 2147483000, position:fixed bottom:12px \u2014 elementFromPoint on #ondemand-mini-chat-send/-input returned the banner; real taps delivered nothing (harness passed only via element.click()).",
+     "fix": "banner z-index 180 (below both chat panels 185/186 and key setup 190) + syncWithChatPanels(): hidden while #ondemand-mini-chat / #ondemand-entity-chat is open, restored on close (MutationObserver on the panels + gev:ask-object fast path); unit tests src/serverlessMode.test.mjs (5).",
+     "before": [
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-mobile-send-occlusion-390x844.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent2/check-send-hittest-390x844.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent3/check-banner-occlusion-390x844.png"
+     ],
+     "after": [
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-390x844.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-1440x900.png"
+     ],
+     "after_evidence": [
+      {
+       "check": "mobile_composer_not_occluded_by_banner",
+       "scenario": "A/fix",
+       "viewport": "1440x900",
+       "status": "PASS",
+       "duration_ms": 1703,
+       "run_at_iso8601": "2026-10-21T10:23:54.380Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-1440x900.png",
+       "evidence": "bannerBefore={\"present\":true,\"hidden\":false,\"z\":\"180\"} bannerWhileChatOpen={\"present\":true,\"hidden\":true,\"display\":\"flex\"} hit={\"ondemand-mini-chat-input\":{\"rect\":{\"x\":1003,\"y\":769,\"w\":186,\"h\":32},\"topId\":\"ondemand-mini-chat-input\",\"topTag\":\"INPUT\",\"hitsSelf\":true},\"ondemand-mini-chat-send\":{\"rect\":{\"x\":1195,\"y\":769,\"w\":208,\"h\":32},\"topId\":\"ondemand-mini-chat-send\",\"topTag\":\"BUTTON\",\"hitsSelf\":true}}",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-1440x900.png"
+      },
+      {
+       "check": "real_pointer_send_delivers_message",
+       "scenario": "A/fix",
+       "viewport": "1440x900",
+       "status": "PASS",
+       "duration_ms": 339,
+       "run_at_iso8601": "2026-10-21T10:23:54.719Z",
+       "screenshot": null,
+       "evidence": "pointer=mouse.click userMessages=1 settled=true"
+      },
+      {
+       "check": "banner_restored_after_chat_close",
+       "scenario": "A/fix",
+       "viewport": "1440x900",
+       "status": "PASS",
+       "duration_ms": 304,
+       "run_at_iso8601": "2026-10-21T10:24:02.611Z",
+       "screenshot": null,
+       "evidence": "{\"hidden\":false}"
+      },
+      {
+       "check": "mobile_composer_not_occluded_by_banner",
+       "scenario": "A/fix",
+       "viewport": "390x844",
+       "status": "PASS",
+       "duration_ms": 673,
+       "run_at_iso8601": "2026-10-21T10:24:11.977Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-390x844.png",
+       "evidence": "bannerBefore={\"present\":true,\"hidden\":false,\"z\":\"180\"} bannerWhileChatOpen={\"present\":true,\"hidden\":true,\"display\":\"flex\"} hit={\"ondemand-mini-chat-input\":{\"rect\":{\"x\":13,\"y\":801,\"w\":186,\"h\":32},\"topId\":\"ondemand-mini-chat-input\",\"topTag\":\"INPUT\",\"hitsSelf\":true},\"ondemand-mini-chat-send\":{\"rect\":{\"x\":205,\"y\":801,\"w\":166,\"h\":32},\"topId\":\"ondemand-mini-chat-send\",\"topTag\":\"BUTTON\",\"hitsSelf\":true}}",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-390x844.png"
+      },
+      {
+       "check": "real_pointer_send_delivers_message",
+       "scenario": "A/fix",
+       "viewport": "390x844",
+       "status": "PASS",
+       "duration_ms": 160,
+       "run_at_iso8601": "2026-10-21T10:24:12.137Z",
+       "screenshot": null,
+       "evidence": "pointer=touchscreen.tap userMessages=1 settled=true"
+      },
+      {
+       "check": "banner_restored_after_chat_close",
+       "scenario": "A/fix",
+       "viewport": "390x844",
+       "status": "PASS",
+       "duration_ms": 302,
+       "run_at_iso8601": "2026-10-21T10:24:14.739Z",
+       "screenshot": null,
+       "evidence": "{\"hidden\":false}"
+      }
+     ]
+    },
+    {
+     "id": "R17-D2",
+     "severity": "medium",
+     "title": "Deliverable media rendered as plain anchors (no thumbnails/lightbox/poster/side pane)",
+     "found_by": [
+      1
+     ],
+     "root_cause": "src/ondemand/miniChat.js renderAnswer() emitted only .od-chat__cite anchors; no media rendering existed.",
+     "fix": "tokenizeAnswer/classifyMediaUrl/renderDeliverables: documents side by side in a .od-chat__deliverables grid, images as lazy <img> thumbnails that open #ondemand-mini-chat-lightbox, videos as a muted preload=metadata poster (no autoplay, no controls) that opens the #ondemand-mini-chat-media side pane where playback is user-initiated; PDFs preview in a sandboxed iframe; CSS in src/ui/styles/ondemand-chat.css; unit tests src/ondemand/miniChat.media.test.mjs (7).",
+     "before": [
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-media-rendering-1440x900.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-media-rendering-390x844.png"
+     ],
+     "after": [
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-1440x900.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-390x844.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-1440x900.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-390x844.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-1440x900.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-390x844.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-1440x900.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-390x844.png"
+     ],
+     "after_evidence": [
+      {
+       "check": "media_deliverables_render_thumb_poster_doc_no_autoplay",
+       "scenario": "A/fix",
+       "viewport": "1440x900",
+       "status": "PASS",
+       "duration_ms": 1574,
+       "run_at_iso8601": "2026-10-21T10:23:56.293Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-1440x900.png",
+       "evidence": "{\"anchors\":4,\"imgs\":1,\"videos\":1,\"autoplayVideos\":0,\"videoAutoplayProp\":false,\"videoControls\":false,\"videoPaused\":true,\"gridDisplay\":\"grid\",\"gridCols\":3,\"cards\":[{\"media\":\"document\",\"x\":1013,\"y\":610,\"w\":113,\"h\":99},{\"media\":\"image\",\"x\":1134,\"y\":610,\"w\":113,\"h\":99},{\"media\":\"video\",\"x\":1254,\"y\":610,\"w\":113,\"h\":99}],\"docCards\":1,\"thumbs\":1,\"posters\":1,\"lightboxInDom\":false,\"paneInDom\":false} sideBySide=true",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-1440x900.png"
+      },
+      {
+       "check": "image_thumbnail_opens_lightbox",
+       "scenario": "A/fix",
+       "viewport": "1440x900",
+       "status": "PASS",
+       "duration_ms": 1483,
+       "run_at_iso8601": "2026-10-21T10:23:57.776Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-1440x900.png",
+       "evidence": "lightbox={\"open\":\"true\",\"hidden\":false,\"display\":\"grid\",\"src\":\"https://example.com/figure.png\",\"z\":\"188\",\"role\":\"dialog\"} closedAfterX=true",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-1440x900.png"
+      },
+      {
+       "check": "video_poster_opens_side_pane_no_autoplay",
+       "scenario": "A/fix",
+       "viewport": "1440x900",
+       "status": "PASS",
+       "duration_ms": 1711,
+       "run_at_iso8601": "2026-10-21T10:23:59.488Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-1440x900.png",
+       "evidence": "{\"open\":\"true\",\"display\":\"flex\",\"media\":\"video\",\"hasVideo\":true,\"controls\":true,\"autoplay\":false,\"paused\":true,\"rect\":{\"x\":498,\"y\":504,\"w\":480,\"h\":308},\"overlapsChat\":false,\"streamAutoplay\":0}",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-1440x900.png"
+      },
+      {
+       "check": "document_card_opens_pdf_preview",
+       "scenario": "A/fix",
+       "viewport": "1440x900",
+       "status": "PASS",
+       "duration_ms": 1614,
+       "run_at_iso8601": "2026-10-21T10:24:01.102Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-1440x900.png",
+       "evidence": "{\"open\":\"true\",\"media\":\"document\",\"iframe\":true,\"iframeSrc\":\"https://example.com/brief.pdf\",\"sandbox\":\"\"}",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-1440x900.png"
+      },
+      {
+       "check": "media_deliverables_render_thumb_poster_doc_no_autoplay",
+       "scenario": "A/fix",
+       "viewport": "390x844",
+       "status": "PASS",
+       "duration_ms": 327,
+       "run_at_iso8601": "2026-10-21T10:24:12.464Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-390x844.png",
+       "evidence": "{\"anchors\":4,\"imgs\":1,\"videos\":1,\"autoplayVideos\":0,\"videoAutoplayProp\":false,\"videoControls\":false,\"videoPaused\":true,\"gridDisplay\":\"grid\",\"gridCols\":3,\"cards\":[{\"media\":\"document\",\"x\":23,\"y\":652,\"w\":100,\"h\":89},{\"media\":\"image\",\"x\":131,\"y\":652,\"w\":100,\"h\":89},{\"media\":\"video\",\"x\":238,\"y\":652,\"w\":100,\"h\":89}],\"docCards\":1,\"thumbs\":1,\"posters\":1,\"lightboxInDom\":false,\"paneInDom\":false} sideBySide=true",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-390x844.png"
+      },
+      {
+       "check": "image_thumbnail_opens_lightbox",
+       "scenario": "A/fix",
+       "viewport": "390x844",
+       "status": "PASS",
+       "duration_ms": 722,
+       "run_at_iso8601": "2026-10-21T10:24:13.186Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-390x844.png",
+       "evidence": "lightbox={\"open\":\"true\",\"hidden\":false,\"display\":\"grid\",\"src\":\"https://example.com/figure.png\",\"z\":\"188\",\"role\":\"dialog\"} closedAfterX=true",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-390x844.png"
+      },
+      {
+       "check": "video_poster_opens_side_pane_no_autoplay",
+       "scenario": "A/fix",
+       "viewport": "390x844",
+       "status": "PASS",
+       "duration_ms": 652,
+       "run_at_iso8601": "2026-10-21T10:24:13.838Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-390x844.png",
+       "evidence": "{\"open\":\"true\",\"display\":\"flex\",\"media\":\"video\",\"hasVideo\":true,\"controls\":true,\"autoplay\":false,\"paused\":true,\"rect\":{\"x\":0,\"y\":17,\"w\":390,\"h\":236},\"overlapsChat\":false,\"streamAutoplay\":0}",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-390x844.png"
+      },
+      {
+       "check": "document_card_opens_pdf_preview",
+       "scenario": "A/fix",
+       "viewport": "390x844",
+       "status": "PASS",
+       "duration_ms": 431,
+       "run_at_iso8601": "2026-10-21T10:24:14.269Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-390x844.png",
+       "evidence": "{\"open\":\"true\",\"media\":\"document\",\"iframe\":true,\"iframeSrc\":\"https://example.com/brief.pdf\",\"sandbox\":\"\"}",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-390x844.png"
+      }
+     ]
+    },
+    {
+     "id": "R17-D3",
+     "severity": "medium",
+     "title": "Open mini chat (z 186) covered the PLUGINS dock (z 184) \u2014 VERIFY/REFRESH unreachable by pointer",
+     "found_by": [
+      4
+     ],
+     "root_cause": "#ondemand-plugin-dock and #ondemand-mini-chat share the bottom-right corner.",
+     "fix": "src/ui/styles/plugin-panel.css: body:has(#ondemand-mini-chat[data-open=true]) moves the dock left of the chat (and left of the media pane when open); at \u2264640px it stacks above the chat sheet.",
+     "before": [
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent4/browser/check-plugins-overlay-1440x900.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent4/browser/check-plugins-overlay-390x844.png"
+     ],
+     "after": [
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-1440x900.png",
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-390x844.png"
+     ],
+     "after_evidence": [
+      {
+       "check": "plugin_dock_reachable_while_chat_open",
+       "scenario": "A/fix",
+       "viewport": "1440x900",
+       "status": "PASS",
+       "duration_ms": 1205,
+       "run_at_iso8601": "2026-10-21T10:24:02.307Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-1440x900.png",
+       "evidence": "{\"present\":true,\"dockRect\":{\"x\":594,\"y\":500,\"w\":384,\"h\":376},\"chatRect\":{\"x\":990,\"y\":436,\"w\":432,\"h\":376},\"verifyHitsSelf\":true,\"topId\":\"od-plugin__verify\",\"overlapsChat\":false,\"right\":\"462px\"}",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-1440x900.png"
+      },
+      {
+       "check": "plugin_dock_reachable_while_chat_open",
+       "scenario": "A/fix",
+       "viewport": "390x844",
+       "status": "PASS",
+       "duration_ms": 168,
+       "run_at_iso8601": "2026-10-21T10:24:14.437Z",
+       "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-390x844.png",
+       "evidence": "{\"present\":true,\"dockRect\":{\"x\":0,\"y\":17,\"w\":390,\"h\":236},\"chatRect\":{\"x\":0,\"y\":462,\"w\":390,\"h\":382},\"verifyHitsSelf\":true,\"topId\":\"od-plugin__verify\",\"overlapsChat\":false,\"right\":\"0px\"}",
+       "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-390x844.png"
+      }
+     ]
+    },
+    {
+     "id": "R17-D4",
+     "severity": "low",
+     "title": "POST /plugins/verify with an unknown plugin name answered 500 internal_error",
+     "found_by": [
+      4
+     ],
+     "root_cause": "verify() threw \"Unknown plugin contract\" uncaught inside handle().",
+     "fix": "server/ondemand/foundation/plugin-lifecycle.js: names outside the registry \u2192 404 {error:\"unknown_plugin\", unknown:[\u2026]} before any verify() runs; unit test added (plugin-lifecycle.test.mjs 14/14).",
+     "before": [
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent4/api/"
+     ],
+     "after": [
+      "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/verify-unknown-plugin-after.json"
+     ],
+     "after_evidence": [
+      {
+       "utc": "2026-10-21T10:26:15Z",
+       "http": 404,
+       "body": {
+        "error": "unknown_plugin",
+        "message": "Unknown plugin contract(s): does_not_exist",
+        "unknown": [
+         "does_not_exist"
+        ]
+       }
+      }
+     ]
+    }
+   ],
+   "after_fix_checks": [
+    {
+     "check": "mobile_composer_not_occluded_by_banner",
+     "scenario": "A/fix",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 1703,
+     "run_at_iso8601": "2026-10-21T10:23:54.380Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-1440x900.png",
+     "evidence": "bannerBefore={\"present\":true,\"hidden\":false,\"z\":\"180\"} bannerWhileChatOpen={\"present\":true,\"hidden\":true,\"display\":\"flex\"} hit={\"ondemand-mini-chat-input\":{\"rect\":{\"x\":1003,\"y\":769,\"w\":186,\"h\":32},\"topId\":\"ondemand-mini-chat-input\",\"topTag\":\"INPUT\",\"hitsSelf\":true},\"ondemand-mini-chat-send\":{\"rect\":{\"x\":1195,\"y\":769,\"w\":208,\"h\":32},\"topId\":\"ondemand-mini-chat-send\",\"topTag\":\"BUTTON\",\"hitsSelf\":true}}",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-1440x900.png"
+    },
+    {
+     "check": "real_pointer_send_delivers_message",
+     "scenario": "A/fix",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 339,
+     "run_at_iso8601": "2026-10-21T10:23:54.719Z",
+     "screenshot": null,
+     "evidence": "pointer=mouse.click userMessages=1 settled=true"
+    },
+    {
+     "check": "media_deliverables_render_thumb_poster_doc_no_autoplay",
+     "scenario": "A/fix",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 1574,
+     "run_at_iso8601": "2026-10-21T10:23:56.293Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-1440x900.png",
+     "evidence": "{\"anchors\":4,\"imgs\":1,\"videos\":1,\"autoplayVideos\":0,\"videoAutoplayProp\":false,\"videoControls\":false,\"videoPaused\":true,\"gridDisplay\":\"grid\",\"gridCols\":3,\"cards\":[{\"media\":\"document\",\"x\":1013,\"y\":610,\"w\":113,\"h\":99},{\"media\":\"image\",\"x\":1134,\"y\":610,\"w\":113,\"h\":99},{\"media\":\"video\",\"x\":1254,\"y\":610,\"w\":113,\"h\":99}],\"docCards\":1,\"thumbs\":1,\"posters\":1,\"lightboxInDom\":false,\"paneInDom\":false} sideBySide=true",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-1440x900.png"
+    },
+    {
+     "check": "image_thumbnail_opens_lightbox",
+     "scenario": "A/fix",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 1483,
+     "run_at_iso8601": "2026-10-21T10:23:57.776Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-1440x900.png",
+     "evidence": "lightbox={\"open\":\"true\",\"hidden\":false,\"display\":\"grid\",\"src\":\"https://example.com/figure.png\",\"z\":\"188\",\"role\":\"dialog\"} closedAfterX=true",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-1440x900.png"
+    },
+    {
+     "check": "video_poster_opens_side_pane_no_autoplay",
+     "scenario": "A/fix",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 1711,
+     "run_at_iso8601": "2026-10-21T10:23:59.488Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-1440x900.png",
+     "evidence": "{\"open\":\"true\",\"display\":\"flex\",\"media\":\"video\",\"hasVideo\":true,\"controls\":true,\"autoplay\":false,\"paused\":true,\"rect\":{\"x\":498,\"y\":504,\"w\":480,\"h\":308},\"overlapsChat\":false,\"streamAutoplay\":0}",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-1440x900.png"
+    },
+    {
+     "check": "document_card_opens_pdf_preview",
+     "scenario": "A/fix",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 1614,
+     "run_at_iso8601": "2026-10-21T10:24:01.102Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-1440x900.png",
+     "evidence": "{\"open\":\"true\",\"media\":\"document\",\"iframe\":true,\"iframeSrc\":\"https://example.com/brief.pdf\",\"sandbox\":\"\"}",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-1440x900.png"
+    },
+    {
+     "check": "plugin_dock_reachable_while_chat_open",
+     "scenario": "A/fix",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 1205,
+     "run_at_iso8601": "2026-10-21T10:24:02.307Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-1440x900.png",
+     "evidence": "{\"present\":true,\"dockRect\":{\"x\":594,\"y\":500,\"w\":384,\"h\":376},\"chatRect\":{\"x\":990,\"y\":436,\"w\":432,\"h\":376},\"verifyHitsSelf\":true,\"topId\":\"od-plugin__verify\",\"overlapsChat\":false,\"right\":\"462px\"}",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-1440x900.png"
+    },
+    {
+     "check": "banner_restored_after_chat_close",
+     "scenario": "A/fix",
+     "viewport": "1440x900",
+     "status": "PASS",
+     "duration_ms": 304,
+     "run_at_iso8601": "2026-10-21T10:24:02.611Z",
+     "screenshot": null,
+     "evidence": "{\"hidden\":false}"
+    },
+    {
+     "check": "mobile_composer_not_occluded_by_banner",
+     "scenario": "A/fix",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 673,
+     "run_at_iso8601": "2026-10-21T10:24:11.977Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-390x844.png",
+     "evidence": "bannerBefore={\"present\":true,\"hidden\":false,\"z\":\"180\"} bannerWhileChatOpen={\"present\":true,\"hidden\":true,\"display\":\"flex\"} hit={\"ondemand-mini-chat-input\":{\"rect\":{\"x\":13,\"y\":801,\"w\":186,\"h\":32},\"topId\":\"ondemand-mini-chat-input\",\"topTag\":\"INPUT\",\"hitsSelf\":true},\"ondemand-mini-chat-send\":{\"rect\":{\"x\":205,\"y\":801,\"w\":166,\"h\":32},\"topId\":\"ondemand-mini-chat-send\",\"topTag\":\"BUTTON\",\"hitsSelf\":true}}",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-390x844.png"
+    },
+    {
+     "check": "real_pointer_send_delivers_message",
+     "scenario": "A/fix",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 160,
+     "run_at_iso8601": "2026-10-21T10:24:12.137Z",
+     "screenshot": null,
+     "evidence": "pointer=touchscreen.tap userMessages=1 settled=true"
+    },
+    {
+     "check": "media_deliverables_render_thumb_poster_doc_no_autoplay",
+     "scenario": "A/fix",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 327,
+     "run_at_iso8601": "2026-10-21T10:24:12.464Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-390x844.png",
+     "evidence": "{\"anchors\":4,\"imgs\":1,\"videos\":1,\"autoplayVideos\":0,\"videoAutoplayProp\":false,\"videoControls\":false,\"videoPaused\":true,\"gridDisplay\":\"grid\",\"gridCols\":3,\"cards\":[{\"media\":\"document\",\"x\":23,\"y\":652,\"w\":100,\"h\":89},{\"media\":\"image\",\"x\":131,\"y\":652,\"w\":100,\"h\":89},{\"media\":\"video\",\"x\":238,\"y\":652,\"w\":100,\"h\":89}],\"docCards\":1,\"thumbs\":1,\"posters\":1,\"lightboxInDom\":false,\"paneInDom\":false} sideBySide=true",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-390x844.png"
+    },
+    {
+     "check": "image_thumbnail_opens_lightbox",
+     "scenario": "A/fix",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 722,
+     "run_at_iso8601": "2026-10-21T10:24:13.186Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-390x844.png",
+     "evidence": "lightbox={\"open\":\"true\",\"hidden\":false,\"display\":\"grid\",\"src\":\"https://example.com/figure.png\",\"z\":\"188\",\"role\":\"dialog\"} closedAfterX=true",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-390x844.png"
+    },
+    {
+     "check": "video_poster_opens_side_pane_no_autoplay",
+     "scenario": "A/fix",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 652,
+     "run_at_iso8601": "2026-10-21T10:24:13.838Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-390x844.png",
+     "evidence": "{\"open\":\"true\",\"display\":\"flex\",\"media\":\"video\",\"hasVideo\":true,\"controls\":true,\"autoplay\":false,\"paused\":true,\"rect\":{\"x\":0,\"y\":17,\"w\":390,\"h\":236},\"overlapsChat\":false,\"streamAutoplay\":0}",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-390x844.png"
+    },
+    {
+     "check": "document_card_opens_pdf_preview",
+     "scenario": "A/fix",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 431,
+     "run_at_iso8601": "2026-10-21T10:24:14.269Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-390x844.png",
+     "evidence": "{\"open\":\"true\",\"media\":\"document\",\"iframe\":true,\"iframeSrc\":\"https://example.com/brief.pdf\",\"sandbox\":\"\"}",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-390x844.png"
+    },
+    {
+     "check": "plugin_dock_reachable_while_chat_open",
+     "scenario": "A/fix",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 168,
+     "run_at_iso8601": "2026-10-21T10:24:14.437Z",
+     "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-390x844.png",
+     "evidence": "{\"present\":true,\"dockRect\":{\"x\":0,\"y\":17,\"w\":390,\"h\":236},\"chatRect\":{\"x\":0,\"y\":462,\"w\":390,\"h\":382},\"verifyHitsSelf\":true,\"topId\":\"od-plugin__verify\",\"overlapsChat\":false,\"right\":\"0px\"}",
+     "screenshot_url": "https://raw.githubusercontent.com/mk42-ai/gods-eye-view/integration/ondemand-native/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-390x844.png"
+    },
+    {
+     "check": "banner_restored_after_chat_close",
+     "scenario": "A/fix",
+     "viewport": "390x844",
+     "status": "PASS",
+     "duration_ms": 302,
+     "run_at_iso8601": "2026-10-21T10:24:14.739Z",
+     "screenshot": null,
+     "evidence": "{\"hidden\":false}"
+    }
+   ],
+   "ui_validator": {
+    "pre_fix": {
+     "label": "retry0917-health",
+     "assertions": "14/14 at 1440x900 + 390x844 (title, wordmark, brand mark, favicon link, no legacy terms, mini chat opens from #hud-ask-ondemand, no browser key)"
+    },
+    "post_fix": {
+     "label": "retry0917-after-fixes",
+     "assertions": "15/15 at both viewports (banner hidden while chat open, composer input+SEND hit-test, plugin dock not overlapping chat, title, no legacy terms, no browser key)"
+    }
+   },
+   "generated_utc": "2026-10-21T10:28:15Z"
+  }
+ ],
+ "latest_run": "retry-0917"
+}
