@@ -238,6 +238,21 @@ const VETTED_VARS = new Set([
   '--dock-presets-pinned-height',
 ]);
 
+// The responsive workstation (src/ui/workstation.js, 2026-10-23) is a second
+// LAYOUT OWNER: it moves #command-dock, #right-context-rail's modules and the
+// trays into its drawer (static flow, no fixed offsets) and pins
+// #cesium-credits inside #workstation-view. Those rules are scoped under
+// `#workstation-shell`, only apply once that shell exists, and are verified
+// live by the Playwright layout sweep (tests/e2e/21 (e): no overlap/clipping
+// at 1440×900, 1024×768, 767×524, 401×511 with the credit visible). The
+// keep-out model below is for the legacy floating layout, so workstation
+// rules are out of its scope — but ONLY that exact scope, checked here.
+const WORKSTATION_SCOPE = '#workstation-shell ';
+
+function isWorkstationScoped(part) {
+  return part.startsWith(WORKSTATION_SCOPE);
+}
+
 /** Rules whose final compound targets a modelled element (pseudo-elements aside). */
 function ownBoxEntries() {
   const entries = [];
@@ -246,11 +261,28 @@ function ownBoxEntries() {
       const compound = lastCompound(part);
       if (!ELEMENT_KEYS.some((key) => compound.includes(key))) continue;
       if (compound.includes('::')) continue; // a pseudo-element is its own box
+      if (isWorkstationScoped(part)) continue; // second layout owner (see above)
       entries.push({ rule, part });
     }
   }
   return entries;
 }
+
+test('workstation-scoped rules are the only exemption and the workstation really owns those boxes', () => {
+  const scoped = [];
+  for (const rule of RULES)
+    for (const part of rule.parts) {
+      const compound = lastCompound(part);
+      if (ELEMENT_KEYS.some((key) => compound.includes(key)) && isWorkstationScoped(part)) scoped.push(part);
+    }
+  assert.ok(scoped.length > 0, 'the workstation stylesheet positions modelled elements inside #workstation-shell');
+  for (const part of scoped) assert.match(part, /^#workstation-shell /, `exempt rule is scoped to the shell: "${part}"`);
+  const workstation = fs.readFileSync(path.join(ROOT, 'src', 'ui', 'workstation.js'), 'utf8');
+  for (const id of ['command-dock', 'cesium-credits']) {
+    assert.ok(workstation.includes(`'${id}'`), `workstation.js moves/owns #${id}`);
+  }
+  assert.ok(workstation.includes("root.dataset.workstation = '1'"), 'the shell marks the document so legacy fixed layout rules yield');
+});
 
 /** A media condition the model can resolve, or null. */
 function parseMediaCondition(condition) {

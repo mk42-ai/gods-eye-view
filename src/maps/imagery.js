@@ -13,14 +13,18 @@ export function createOsmImagery() {
 }
 
 export function createEsriImagery() {
-  return providerDeadline(Cesium.ArcGisMapServerImageryProvider.fromUrl(
-    'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
-    {
-      credit:
-        'Powered by Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
-      enablePickFeatures: false,
-    },
-  ), 3500, 'Satellite imagery');
+  return providerDeadline(
+    Cesium.ArcGisMapServerImageryProvider.fromUrl(
+      'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
+      {
+        credit:
+          'Powered by Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+        enablePickFeatures: false,
+      },
+    ),
+    3500,
+    'Satellite imagery',
+  );
 }
 
 export function createIonImagery(style, accessToken) {

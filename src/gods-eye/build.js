@@ -64,7 +64,12 @@ export function fixtureFootage(fixture, scene) {
       verified: raw.verified,
       recency: 'ARCHIVE',
       rankScore: (raw.verified ? 1 : 0.5) - i * 0.01,
-      location: { lat: t.lat, lon: t.lon, confidence: 'approx', basis: 'fixture' },
+      location: {
+        lat: t.lat,
+        lon: t.lon,
+        confidence: 'approx',
+        basis: 'fixture',
+      },
     };
   });
 }
@@ -333,11 +338,21 @@ export function createSceneBuilder({
     });
     if (signal.aborted) return summary;
     if (!(store.getState().scenes[id]?.footage?.length > 0)) {
-      const fx = fixtureFootage(await loadStep1Fixture(), store.getState().scenes[id]);
+      const fx = fixtureFootage(
+        await loadStep1Fixture(),
+        store.getState().scenes[id],
+      );
       if (fx.length) {
         store.mergeFootage(id, fx, { force: true, replace: true });
         store.patchScene(id, { fixtureFallback: true });
-        if (summary) summary.earliestUploadedAt = summary.earliestUploadedAt || fx.map((f) => f.uploadedAt).filter(Boolean).sort()[0] || null;
+        if (summary)
+          summary.earliestUploadedAt =
+            summary.earliestUploadedAt ||
+            fx
+              .map((f) => f.uploadedAt)
+              .filter(Boolean)
+              .sort()[0] ||
+            null;
       }
     }
     const statuses = Object.values(summary?.sources || {}).map((x) => x.status);

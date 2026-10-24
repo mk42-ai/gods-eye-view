@@ -163,8 +163,10 @@ export function createScenePlayer({ document, window: win, onEnded, onPip }) {
     root.dataset.playing = '0';
     root.dataset.kind = 'armed';
     root.dataset.itemId = item?.id || '';
-    if (item?.thumbUrl || item?.thumb)
-      { posterImg.hidden = false; posterImg.src = item.thumbUrl || item.thumb; }
+    if (item?.thumbUrl || item?.thumb) {
+      posterImg.hidden = false;
+      posterImg.src = item.thumbUrl || item.thumb;
+    }
     posterLabel.textContent = 'PRESS PLAY · ENTER';
   }
 
@@ -195,7 +197,12 @@ export function createScenePlayer({ document, window: win, onEnded, onPip }) {
       video.playsInline = true;
       video.src = src;
       video.addEventListener('ended', () => onEnded?.());
-      video.addEventListener('error', () => { root.dataset.playing = '0'; posterLabel.textContent = 'Video unavailable from this source. Select another item.'; root.dataset.kind = 'poster'; });
+      video.addEventListener('error', () => {
+        root.dataset.playing = '0';
+        posterLabel.textContent =
+          'Video unavailable from this source. Select another item.';
+        root.dataset.kind = 'poster';
+      });
       mediaContainer.appendChild(video);
     } else if (kind === 'embed') {
       const iframe = document.createElement('iframe');
@@ -205,7 +212,10 @@ export function createScenePlayer({ document, window: win, onEnded, onPip }) {
       activeTimer = setTimeout(() => onEnded?.(), 18000);
     } else {
       if (item?.thumbUrl || item?.thumb) {
-        { posterImg.hidden = false; posterImg.src = item.thumbUrl || item.thumb; }
+        {
+          posterImg.hidden = false;
+          posterImg.src = item.thumbUrl || item.thumb;
+        }
       }
       activeTimer = setTimeout(() => onEnded?.(), 6000);
     }
@@ -220,7 +230,8 @@ export function createScenePlayer({ document, window: win, onEnded, onPip }) {
       // displayed; loading/empty/error states use truthful, readable text.
       posterImg.hidden = true;
       posterImg.removeAttribute('src');
-      posterLabel.textContent = label || POSTER_LABELS[keyOrUrl] || 'No source media available';
+      posterLabel.textContent =
+        label || POSTER_LABELS[keyOrUrl] || 'No source media available';
     },
     showBanner(text) {
       if (text) {

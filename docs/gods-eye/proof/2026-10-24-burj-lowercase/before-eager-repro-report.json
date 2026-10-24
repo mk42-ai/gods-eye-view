@@ -1,0 +1,765 @@
+{
+  "label": "before-eager",
+  "prompt": "burj khalifa",
+  "startedAt": "2026-10-24T02:40:23.398Z",
+  "clickedAt": "2026-10-24T02:40:27.867Z",
+  "loadState": {
+    "renderState": "loading",
+    "hasEngine": false,
+    "hasViewer": false,
+    "renderLoop": null,
+    "cesium": false
+  },
+  "buttonUnderPointer": {
+    "under": "BUTTON#incident-composer-submit.incident-composer__submit",
+    "isButton": true,
+    "disabled": false,
+    "pointerEvents": "auto",
+    "visibility": "visible",
+    "opacity": "1",
+    "zIndex": "auto"
+  },
+  "fixedOverlays": [
+    {
+      "id": "workstation-shell",
+      "z": "1",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "text": "OnDemand Intelligence Workstation\n\nSPATIAL INTELLIGENCE CONS"
+    },
+    {
+      "id": "traffic-sync-chip",
+      "z": "24",
+      "x": 16,
+      "y": 798,
+      "w": 145,
+      "h": 24,
+      "text": "SYNCING ROAD NETWORK"
+    },
+    {
+      "id": "cctv-sync-chip",
+      "z": "24",
+      "x": 16,
+      "y": 798,
+      "w": 152,
+      "h": 24,
+      "text": "LOADING FRAMES\n0/0"
+    },
+    {
+      "id": "gev-screen-whiteboard",
+      "z": "90",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "text": ""
+    }
+  ],
+  "final": {
+    "sec": 27,
+    "formState": "done",
+    "geStage": "S4",
+    "buildStage": "saved",
+    "sceneStatus": "playing",
+    "sceneError": null,
+    "footage": 3,
+    "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:done playing:done saved:done",
+    "result": "Scene “burj khalifa” saved · 3 clips.",
+    "hasEngine": true,
+    "renderState": "ready",
+    "renderLoop": true,
+    "statuses": [
+      "parsing",
+      "geocoded",
+      "routing",
+      "flying",
+      "fetching",
+      "ranked",
+      "playing",
+      "saved"
+    ],
+    "stages": [
+      "S0",
+      "S1",
+      "S2",
+      "S3",
+      "S4"
+    ],
+    "clicks": 2,
+    "submits": 1
+  },
+  "scenePanel": {
+    "header": true,
+    "rail": 3,
+    "timeline": true,
+    "evidence": true,
+    "panelCards": 1,
+    "pins": 16
+  },
+  "timeline": [
+    {
+      "sec": 6,
+      "formState": "busy",
+      "geStage": "S0",
+      "buildStage": "fetching",
+      "sceneStatus": "fetching",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:active ranked:pending playing:pending saved:pending",
+      "result": "Fetching… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching"
+      ],
+      "stages": [
+        "S0"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 10,
+      "formState": "busy",
+      "geStage": "S0",
+      "buildStage": "fetching",
+      "sceneStatus": "fetching",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:active ranked:pending playing:pending saved:pending",
+      "result": "Fetching… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching"
+      ],
+      "stages": [
+        "S0"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 12,
+      "formState": "busy",
+      "geStage": "S1",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 14,
+      "formState": "busy",
+      "geStage": "S2",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 16,
+      "formState": "busy",
+      "geStage": "S2",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 19,
+      "formState": "busy",
+      "geStage": "S2",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 21,
+      "formState": "busy",
+      "geStage": "S3",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 24,
+      "formState": "busy",
+      "geStage": "S3",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 27,
+      "formState": "done",
+      "geStage": "S4",
+      "buildStage": "saved",
+      "sceneStatus": "playing",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:done playing:done saved:done",
+      "result": "Scene “burj khalifa” saved · 3 clips.",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked",
+        "playing",
+        "saved"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "clicks": 2,
+      "submits": 1
+    }
+  ],
+  "consoleErrors": [
+    {
+      "ts": "2026-10-24T02:40:43.394Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/9/668/328.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:43.395Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/10/1339/655.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:43.818Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/9/669/327.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:43.818Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/9/668/327.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:46.744Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/5351/2624.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:46.745Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/5350/2624.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:46.746Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/5350/2625.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:46.940Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/5357/2624.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:46.942Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/5356/2624.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.718Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10707/5245.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.719Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10709/5245.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.720Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10708/5244.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.722Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10710/5245.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.722Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10706/5245.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.722Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10709/5244.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.725Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10708/5245.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.725Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10710/5244.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.726Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10707/5244.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.727Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10711/5245.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.727Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10706/5244.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:47.728Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10705/5245.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.061Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21417/10487.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.063Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10708/5246.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.066Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21415/10487.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.066Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21416/10487.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.067Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10706/5246.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.067Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10711/5244.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.068Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10709/5243.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.071Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10708/5243.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.072Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10707/5246.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.072Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10707/5242.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.073Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10710/5243.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.073Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10707/5243.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.340Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/5353/2621.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.342Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21417/10488.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.343Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/5354/2621.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.345Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21417/10489.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.346Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21415/10486.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.346Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21415/10488.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.346Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21416/10488.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.349Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21415/10489.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.349Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21416/10486.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.350Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21416/10489.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.350Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21418/10488.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.350Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21418/10489.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.682Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/11/2677/1310.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.684Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21417/10486.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.686Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21414/10487.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.687Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21414/10488.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.687Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21418/10486.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.688Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21416/10485.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.692Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21414/10489.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.692Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21417/10485.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.693Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21418/10487.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.693Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21414/10486.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:48.693Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21419/10487.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:49.062Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10708/5242.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:50.703Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21415/10485.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:53.064Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21415/10485.terrain"
+    },
+    {
+      "ts": "2026-10-24T02:40:53.406Z",
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 429 ()",
+      "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21414/10485.terrain"
+    }
+  ],
+  "consoleWarnings": [
+    {
+      "ts": "2026-10-24T02:40:24.890Z",
+      "type": "warning",
+      "text": "[.WebGL-0x386400f69a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+    },
+    {
+      "ts": "2026-10-24T02:40:24.918Z",
+      "type": "warning",
+      "text": "[.WebGL-0x386400f69a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+    },
+    {
+      "ts": "2026-10-24T02:40:24.940Z",
+      "type": "warning",
+      "text": "[.WebGL-0x386400f69a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+    },
+    {
+      "ts": "2026-10-24T02:40:24.992Z",
+      "type": "warning",
+      "text": "[.WebGL-0x386400f69a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+    },
+    {
+      "ts": "2026-10-24T02:40:31.333Z",
+      "type": "warning",
+      "text": "Entity geometry outlines are unsupported on terrain. Outlines will be disabled. To enable outlines, disable geometry terrain clamping by explicitly setting height to 0.",
+      "url": "https://sb-20uyxy7ozgk7.vercel.run/cesium/Cesium.js"
+    },
+    {
+      "ts": "2026-10-24T02:40:55.950Z",
+      "type": "warning",
+      "text": "No available adapters.",
+      "url": "https://www.youtube.com/embed/QH7pi2sULQQ?autoplay=1&mute=1&playsinline=1&enablejsapi=1"
+    }
+  ],
+  "screenshot": "before-eager-burj-lowercase-1440x900-2026-10-24T02-40-54-464Z.png",
+  "finishedAt": "2026-10-24T02:40:57.853Z"
+}

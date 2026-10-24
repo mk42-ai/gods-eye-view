@@ -484,66 +484,69 @@ export function installIncidentScenes({
   });
 
   // ---------------------------------------------------------------- composer
-  const composer = win.__workstation?.composer || createIncidentComposer({
-    document: doc,
-    client,
-    buildScene: (incidents) => buildScenes(incidents)[0],
-    // LIVE FOOTAGE (2026-10-23): a "rebuild the <incident> reported in
-    // <place>" command drives the footage dock (fly-to + archive playlist)
-    // and still builds the incident scene below.
-    onFootageCommand: (command) => {
-      const godsEye = win.__godsEye;
-      if (!godsEye) return null;
-      void godsEye.buildFromPrompt(command.raw);
-      return {
-        handled: true,
-        alsoBuildScene: false,
-        message: `SCENE · building "${command.raw}" — parsing → register → route → fly-in → footage`,
-      };
-    },
-    onScene: async ({ scene, incident, override, footage }) => {
-      const sceneWithFlags = override ? { ...scene, override: true } : scene;
-      const added = sceneDirector.addIncidentScene(sceneWithFlags, {
-        override,
-        select: true,
-      });
-      if (!added.added) throw new Error(added.reason || 'scene rejected');
-      if (incident) {
-        state.incidents = [
-          incident,
-          ...state.incidents.filter((i) => i.id !== incident.id),
+  const composer =
+    win.__workstation?.composer ||
+    createIncidentComposer({
+      document: doc,
+      client,
+      buildScene: (incidents) => buildScenes(incidents)[0],
+      // LIVE FOOTAGE (2026-10-23): a "rebuild the <incident> reported in
+      // <place>" command drives the footage dock (fly-to + archive playlist)
+      // and still builds the incident scene below.
+      onFootageCommand: (command) => {
+        const godsEye = win.__godsEye;
+        if (!godsEye) return null;
+        void godsEye.buildFromPrompt(command.raw);
+        return {
+          handled: true,
+          alsoBuildScene: false,
+          message: `SCENE · building "${command.raw}" — parsing → register → route → fly-in → footage`,
+        };
+      },
+      onScene: async ({ scene, incident, override, footage }) => {
+        const sceneWithFlags = override ? { ...scene, override: true } : scene;
+        const added = sceneDirector.addIncidentScene(sceneWithFlags, {
+          override,
+          select: true,
+        });
+        if (!added.added) throw new Error(added.reason || 'scene rejected');
+        if (incident) {
+          state.incidents = [
+            incident,
+            ...state.incidents.filter((i) => i.id !== incident.id),
+          ];
+          overlay.setIncidents(state.incidents);
+        }
+        state.scenes = [
+          sceneWithFlags,
+          ...state.scenes.filter((s) => s.id !== scene.id),
         ];
-        overlay.setIncidents(state.incidents);
-      }
-      state.scenes = [
-        sceneWithFlags,
-        ...state.scenes.filter((s) => s.id !== scene.id),
-      ];
-      counts.textContent = `${state.incidents.length} incidents · ${state.scenes.length} scenes · ${state.rejected.count} out of AOI`;
-      panel.dataset.incidents = String(state.incidents.length);
-      panel.dataset.scenes = String(state.scenes.length);
-      win.dispatchEvent?.(
-        new CustomEvent(INCIDENT_EVENTS.sceneBuilt, {
-          detail: {
-            sceneId: scene.id,
-            incidentId: incident?.id,
-            override: Boolean(override),
-          },
-        }),
-      );
-      // A LIVE FOOTAGE rebuild command already flew the camera to the
-      // incident place; the approach→overhead→context tour would carry it
-      // ~30 km away again, so the scene is selected but not auto-toured.
-      if (footage?.skipPlayback) {
-        selectedSceneId = scene.id;
-        sceneDirector._selectedSceneId = scene.id;
-        sceneDirector._publish?.({ type: 'scene-options-changed' });
-        return;
-      }
-      await playScene(scene.id);
-    },
-  });
-  if (!composer.element.parentElement) (doc.body || doc.documentElement).appendChild(composer.element);
+        counts.textContent = `${state.incidents.length} incidents · ${state.scenes.length} scenes · ${state.rejected.count} out of AOI`;
+        panel.dataset.incidents = String(state.incidents.length);
+        panel.dataset.scenes = String(state.scenes.length);
+        win.dispatchEvent?.(
+          new CustomEvent(INCIDENT_EVENTS.sceneBuilt, {
+            detail: {
+              sceneId: scene.id,
+              incidentId: incident?.id,
+              override: Boolean(override),
+            },
+          }),
+        );
+        // A LIVE FOOTAGE rebuild command already flew the camera to the
+        // incident place; the approach→overhead→context tour would carry it
+        // ~30 km away again, so the scene is selected but not auto-toured.
+        if (footage?.skipPlayback) {
+          selectedSceneId = scene.id;
+          sceneDirector._selectedSceneId = scene.id;
+          sceneDirector._publish?.({ type: 'scene-options-changed' });
+          return;
+        }
+        await playScene(scene.id);
+      },
+    });
+  if (!composer.element.parentElement)
+    (doc.body || doc.documentElement).appendChild(composer.element);
 
   // Close the popover on Escape.
   const onKey = (event) => {

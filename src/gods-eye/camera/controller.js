@@ -134,11 +134,44 @@ export function createCameraController({
     return res;
   }
 
+  /**
+   * Cesium's `camera.flyTo` advances only on rendered frames. The workstation
+   * runs the globe in requestRenderMode (idle governor) and may have switched
+   * the default render loop OFF for 2D recovery; both leave a flight parked at
+   * its first frame until the watchdog snaps it. For the duration of a scene
+   * flight the loop is forced ON and the scene is rendered continuously, then
+   * both are restored exactly as found.
+   */
+  function withContinuousRender() {
+    if (!has3d()) return () => {};
+    const scene = viewer.scene;
+    const prevLoop = viewer.useDefaultRenderLoop;
+    const prevMode = scene?.requestRenderMode;
+    try {
+      viewer.useDefaultRenderLoop = true;
+      if (scene && prevMode !== undefined) scene.requestRenderMode = false;
+      scene?.requestRender?.();
+    } catch {}
+    return () => {
+      try {
+        if (scene && prevMode !== undefined) scene.requestRenderMode = prevMode;
+        // Only restore an OFF loop when the page is really in 2D recovery;
+        // a flight that finished while 3D is live keeps the globe rendering.
+        const recovery =
+          typeof document !== 'undefined' &&
+          document?.documentElement?.dataset?.renderState === 'fallback';
+        if (prevLoop === false && recovery) viewer.useDefaultRenderLoop = false;
+        scene?.requestRender?.();
+      } catch {}
+    };
+  }
+
   async function flyScenePath(path, { signal, sceneId } = {}) {
     cancel();
     const ac = new AbortController();
     abortController = ac;
     const isAborted = () => signal?.aborted || ac.signal.aborted;
+    const restoreRender = withContinuousRender();
 
     const waitMs = (ms) =>
       new Promise((resolve) => {
@@ -248,6 +281,7 @@ export function createCameraController({
       }
       return 'arrived';
     } finally {
+      restoreRender();
       signal?.removeEventListener?.('abort', onAbort);
       if (abortController === ac) abortController = null;
     }

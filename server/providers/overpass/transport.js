@@ -14,6 +14,51 @@ import { simplifyOverpassPayloadBody } from './geometry.js';
 const OVERPASS_PROVIDER_SOURCE = 'Overpass';
 
 /**
+ * Per-mirror rate-limit cooldown (2026-10-24). The public Overpass instances
+ * ban clients that keep hitting them after a 429/406 and ask for >= 30 s of
+ * silence after a 429. A mirror that answered 429 (status or body) is
+ * therefore parked for `max(Retry-After, 30 s)` and SKIPPED by every later
+ * rotation until the cooldown lapses — the next request goes straight to the
+ * remaining mirrors instead of re-offending. A 406 (client refused) is parked
+ * for 5 min: it is per-egress and rarely lifts within one session. The
+ * table is process-local (one Vercel function instance / one dev server) and
+ * is never persisted.
+ */
+const OVERPASS_RATE_LIMIT_COOLDOWN_MS = 30_000;
+const OVERPASS_REFUSAL_COOLDOWN_MS = 300_000;
+/** Hard cap on mirrors attempted per request (bounded fan-out, never a storm). */
+const OVERPASS_MAX_ATTEMPTS_PER_REQUEST = 3;
+const _mirrorCooldownUntil = new Map(); // endpoint → epoch ms
+
+function parkMirror(endpoint, untilMs) {
+  const prev = _mirrorCooldownUntil.get(endpoint) || 0;
+  if (untilMs > prev) _mirrorCooldownUntil.set(endpoint, untilMs);
+}
+
+/** Epoch ms until which `endpoint` is parked, or 0 when it is available. */
+function mirrorCooldownUntil(endpoint, nowMs = Date.now()) {
+  const until = _mirrorCooldownUntil.get(endpoint) || 0;
+  if (until <= nowMs) {
+    if (until) _mirrorCooldownUntil.delete(endpoint);
+    return 0;
+  }
+  return until;
+}
+
+/** Snapshot of parked mirrors (for /api/tools/road_network_status + tests). */
+function overpassMirrorCooldowns(nowMs = Date.now()) {
+  const out = {};
+  for (const [endpoint, until] of _mirrorCooldownUntil)
+    if (until > nowMs)
+      out[overpassMirrorLabel(endpoint)] = Math.ceil((until - nowMs) / 1000);
+  return out;
+}
+
+function _resetOverpassCooldownsForTest() {
+  _mirrorCooldownUntil.clear();
+}
+
+/**
  * Detect whether an Overpass API response body indicates rate-limiting.
  *
  * Checks for known rate-limit phrases in the body text regardless of
@@ -116,14 +161,20 @@ function describeFailure(f) {
  * @param {Array<object>} failures  one entry per mirror tried
  * @param {number} total            mirrors in the list
  */
-function describeRotationFailure(failures, total) {
+function describeRotationFailure(
+  failures,
+  total,
+  { parked = 0, capped = 0 } = {},
+) {
   const last = failures[failures.length - 1];
   const tail = last ? ` · last: ${last.label} ${describeFailure(last)}` : '';
+  const cooling = parked ? ` (${parked} cooling down after rate limit)` : '';
   if (failures.length >= total) {
-    return `all ${total} mirror${total === 1 ? '' : 's'} failed${tail}`;
+    return `all ${total} mirror${total === 1 ? '' : 's'} failed${cooling}${tail}`;
   }
   const skipped = total - failures.length;
-  return `${failures.length} of ${total} mirrors failed, ${skipped} skipped (time budget)${tail}`;
+  const why = capped > 0 && skipped <= capped ? 'attempt cap' : 'time budget';
+  return `${failures.length} of ${total} mirrors failed, ${skipped} skipped (${why})${cooling}${tail}`;
 }
 
 /**
@@ -169,13 +220,35 @@ async function fetchOverpassPayload(
     totalTimeoutMs = OVERPASS_TOTAL_TIMEOUT_MS,
     now = () => Date.now(),
     sleep,
+    // Opt-in per caller: the /api/overpass proxy passes { cooldowns: true,
+    // maxAttempts: 3 }; direct callers and the transport contract tests keep
+    // the plain "every mirror once" rotation.
+    cooldowns = false,
+    maxAttempts = Infinity,
   } = {},
 ) {
-  const list = Array.isArray(endpoints) && endpoints.length ? endpoints : [];
+  const all = Array.isArray(endpoints) && endpoints.length ? endpoints : [];
+  // Parked (rate-limited / refused) mirrors are skipped for this request. If
+  // EVERY mirror is parked the rotation still tries the one that frees up
+  // soonest rather than answering nothing at all.
+  const parked = cooldowns
+    ? all.filter((e) => mirrorCooldownUntil(e, now()) > 0)
+    : [];
+  let list = all.filter((e) => !parked.includes(e));
+  if (!list.length && all.length) {
+    list = [...all]
+      .sort(
+        (a, b) => mirrorCooldownUntil(a, now()) - mirrorCooldownUntil(b, now()),
+      )
+      .slice(0, 1);
+  }
+  const attemptCap =
+    Number.isFinite(maxAttempts) && maxAttempts > 0 ? maxAttempts : list.length;
   const failures = [];
   let firstQueryRefusal = null;
   let everyMirrorThrew = list.length > 0;
   const startedAt = now();
+  let attempted = 0;
 
   // Legacy/test fetch doubles answer `{ status, headers: { get } }` and rely on
   // an injected `readBody`; the shared helper reads real Responses. Normalise
@@ -198,6 +271,8 @@ async function fetchOverpassPayload(
     const label = overpassMirrorLabel(endpoint);
     const remaining = totalTimeoutMs - (now() - startedAt);
     if (remaining < 250) break; // budget spent — the reason says how many were skipped
+    if (attempted >= attemptCap) break; // bounded fan-out: at most `maxAttempts` mirrors per request
+    attempted += 1;
 
     const result = await fetchUpstream(endpoint, {
       method: 'POST',
@@ -226,6 +301,8 @@ async function fetchOverpassPayload(
       const rateLimited = overpassLooksRateLimited(responseBody);
       const runtimeError = overpassLooksRuntimeError(responseBody);
       if (rateLimited || runtimeError) {
+        if (rateLimited && cooldowns)
+          parkMirror(endpoint, now() + OVERPASS_RATE_LIMIT_COOLDOWN_MS);
         failures.push({
           endpoint,
           label,
@@ -255,6 +332,19 @@ async function fetchOverpassPayload(
     const networkLevel = code === 'network' || code === 'timeout';
     if (!networkLevel) everyMirrorThrew = false;
     failures.push({ endpoint, label, status, code, message, timeoutMs });
+    if (cooldowns) {
+      if (status === 429 || code === 'rate_limited') {
+        // >= 30 s of silence after a 429 (Overpass usage policy); a longer
+        // Retry-After is honoured in full.
+        parkMirror(
+          endpoint,
+          now() +
+            Math.max(OVERPASS_RATE_LIMIT_COOLDOWN_MS, result.retryAfterMs || 0),
+        );
+      } else if (status === 406 || status === 403) {
+        parkMirror(endpoint, now() + OVERPASS_REFUSAL_COOLDOWN_MS);
+      }
+    }
 
     // A non-2xx that is neither a mirror-health status nor a network problem
     // is the query being refused (400 parse error, 413 body cap, …). Keep the
@@ -279,8 +369,11 @@ async function fetchOverpassPayload(
     }
   }
 
-  const reason = list.length
-    ? describeRotationFailure(failures, list.length)
+  const reason = all.length
+    ? describeRotationFailure(failures, list.length, {
+        parked: parked.length,
+        capped: Math.max(0, list.length - attempted),
+      })
     : 'no Overpass mirrors configured';
   const degraded = providerStatus({
     status: 'degraded',
@@ -331,8 +424,12 @@ async function fetchOverpassPayload(
 
 export {
   OVERPASS_PROVIDER_SOURCE,
+  OVERPASS_RATE_LIMIT_COOLDOWN_MS,
+  OVERPASS_MAX_ATTEMPTS_PER_REQUEST,
   describeRotationFailure,
   isMirrorFailureStatus,
   overpassPayloadIsData,
+  overpassMirrorCooldowns,
   fetchOverpassPayload,
+  _resetOverpassCooldownsForTest,
 };

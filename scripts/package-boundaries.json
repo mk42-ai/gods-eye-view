@@ -1158,6 +1158,7 @@
       "src/maps/defaultSources.js",
       "src/maps/google3d.js",
       "src/maps/imagery.js",
+      "src/maps/providerDeadline.js",
       "src/maps/registry.js",
       "src/maps/terrain.js",
       "src/keySetupCore.mjs"
@@ -1562,6 +1563,7 @@
       "src/maps/defaultSources.js",
       "src/maps/google3d.js",
       "src/maps/imagery.js",
+      "src/maps/providerDeadline.js",
       "src/maps/registry.js",
       "src/maps/terrain.js",
       "src/navigationPolicy.js",
@@ -1794,6 +1796,7 @@
       "src/footage/model.js",
       "src/footage/client.js",
       "src/gods-eye/build.js",
+      "tests/fixtures/step1-fixtures.json",
       "src/gods-eye/camera/controller.js",
       "src/gods-eye/camera/index.js",
       "src/gods-eye/camera/ladder.js",

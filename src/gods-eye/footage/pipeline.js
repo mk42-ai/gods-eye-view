@@ -185,41 +185,45 @@ export async function runFootagePipeline({
     signal?.addEventListener?.('abort', onOuterAbort, { once: true });
     const capTimer = setTimeout(() => streamAbort.abort(), streamCapMs);
     try {
-    await client.stream(
-      query,
-      {
-        onSourceStart: ({ source }) => {
-          if (signal?.aborted) return;
-          const p = platformFor(source);
-          sources[p] = { ...sources[p], status: 'pending' };
-          if (enabled[p] !== false) onSource?.(p, { status: 'pending' });
+      await client.stream(
+        query,
+        {
+          onSourceStart: ({ source }) => {
+            if (signal?.aborted) return;
+            const p = platformFor(source);
+            sources[p] = { ...sources[p], status: 'pending' };
+            if (enabled[p] !== false) onSource?.(p, { status: 'pending' });
+          },
+          onItem: (raw) => {
+            if (signal?.aborted) return;
+            const item = normaliseItem(raw, { sceneId: scene?.id });
+            item.location = resolveLocation(item, scene);
+            if (item.sceneId !== scene?.id || enabled[item.platform] === false)
+              return;
+            collectedItems.push(item);
+            onItem?.(item);
+          },
+          onSourceDone: (data) => {
+            if (signal?.aborted) return;
+            const p = platformFor(data?.source);
+            sources[p] = {
+              status: statusFromSourceDone(data),
+              count: data?.count ?? 0,
+              latencyMs: data?.ms ?? 0,
+            };
+            if (enabled[p] !== false) onSource?.(p, sources[p]);
+          },
         },
-        onItem: (raw) => {
-          if (signal?.aborted) return;
-          const item = normaliseItem(raw, { sceneId: scene?.id });
-          item.location = resolveLocation(item, scene);
-          if (item.sceneId !== scene?.id || enabled[item.platform] === false)
-            return;
-          collectedItems.push(item);
-          onItem?.(item);
-        },
-        onSourceDone: (data) => {
-          if (signal?.aborted) return;
-          const p = platformFor(data?.source);
-          sources[p] = {
-            status: statusFromSourceDone(data),
-            count: data?.count ?? 0,
-            latencyMs: data?.ms ?? 0,
-          };
-          if (enabled[p] !== false) onSource?.(p, sources[p]);
-        },
-      },
-      { signal: streamAbort.signal },
-    );
+        { signal: streamAbort.signal },
+      );
     } catch (err) {
       for (const p of SOURCE_PLATFORMS)
         if (sources[p].status === 'pending' || sources[p].status === 'idle') {
-          sources[p] = { ...sources[p], status: 'error', error: String(err?.message || err) };
+          sources[p] = {
+            ...sources[p],
+            status: 'error',
+            error: String(err?.message || err),
+          };
           if (enabled[p] !== false) onSource?.(p, sources[p]);
         }
     } finally {

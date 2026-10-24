@@ -8,7 +8,12 @@ function deferredCesium() {
   const plugin = cesium();
   const tags = plugin.transformIndexHtml;
   plugin.transformIndexHtml = function (...args) {
-    return tags.apply(this, args).filter((tag) => !(tag.tag === 'script' && /\/Cesium\.js$/.test(tag.attrs?.src || '')));
+    return tags
+      .apply(this, args)
+      .filter(
+        (tag) =>
+          !(tag.tag === 'script' && /\/Cesium\.js$/.test(tag.attrs?.src || '')),
+      );
   };
   return plugin;
 }
@@ -21,6 +26,7 @@ export function createBrowserViteConfig({
   cesiumToken,
   host = 'localhost',
   port = 4173,
+  buildId = '',
 } = {}) {
   return {
     plugins: [
@@ -45,6 +51,10 @@ export function createBrowserViteConfig({
     define: {
       'import.meta.env.GOOGLE_MAPS_API_KEY': JSON.stringify(googleApiKey),
       'import.meta.env.CESIUM_ION_TOKEN': JSON.stringify(cesiumToken),
+      // Short commit / build label the shell exposes as
+      // documentElement.dataset.geBuild so a live preview is provably the
+      // deployed revision (never a secret; empty when unknown).
+      'import.meta.env.GEV_BUILD_ID': JSON.stringify(String(buildId || '')),
     },
     build: { chunkSizeWarningLimit: 1500 },
   };

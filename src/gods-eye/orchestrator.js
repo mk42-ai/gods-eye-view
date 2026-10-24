@@ -124,14 +124,16 @@ export function installGodsEye({
     onScrub: (window_) => playback.applyScrub(window_),
   });
   const sharedSidebar = win.__workstation?.sources || null;
-  const sidebar = sharedSidebar || installSourcesSidebar({
-    document: doc,
-    window: win,
-    store,
-    storage,
-    routeAgent: { status: 'unknown', latencyMs: null },
-    onToggle: (platform, enabled) => api.setSourceEnabled(platform, enabled),
-  });
+  const sidebar =
+    sharedSidebar ||
+    installSourcesSidebar({
+      document: doc,
+      window: win,
+      store,
+      storage,
+      routeAgent: { status: 'unknown', latencyMs: null },
+      onToggle: (platform, enabled) => api.setSourceEnabled(platform, enabled),
+    });
   sidebar.bindStore?.(store);
   Object.assign(enabledSources, sidebar.getEnabled?.() || {});
   const share = readShareLinks?.() || null;

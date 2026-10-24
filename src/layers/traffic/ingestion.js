@@ -396,7 +396,8 @@ export function createIngestion({
               30000,
             );
           }
-          if (layerState._retryAttempts >= 3) layerState._roadError = `${layerState._roadError || 'Overpass unavailable'}. Automatic retries stopped after 3 attempts; use Retry roads.`;
+          if (layerState._retryAttempts >= 3)
+            layerState._roadError = `${layerState._roadError || 'Overpass unavailable'}. Automatic retries stopped after 3 attempts; use Retry roads.`;
         } else {
           layerState._retryAttempts = 0;
           layerState._retryDelayMs = 1500;

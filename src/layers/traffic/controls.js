@@ -236,7 +236,11 @@ export function createControls({ state: layerState, services, parts, source }) {
         // DEGRADED · Overpass · <reason> line and only appends `retrying`.
         retryAttempts: layerState._retryAttempts || 0,
         retryExhausted: layerState._retryAttempts >= 3,
-        loadingLabel: roadDegraded ? (layerState._retryAttempts >= 3 ? 'unavailable — retry stopped' : 'retrying') : feed.loadingLabel,
+        loadingLabel: roadDegraded
+          ? layerState._retryAttempts >= 3
+            ? 'unavailable — retry stopped'
+            : 'retrying'
+          : feed.loadingLabel,
       };
     },
   };

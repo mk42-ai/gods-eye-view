@@ -196,3 +196,19 @@ body > .ws-hud-readout { display: none; }
   #workstation-build-host .incident-composer__chip { padding: 0 6px; font-size: 8px; }
   #workstation-build-host .incident-composer__result { max-height: 40px; overflow: auto; }
 }
+
+/* 2026-10-24 — BUILD SCENE progress state: the button is disabled, reads
+   BUILDING… and carries a spinner for the whole build; it is re-enabled with
+   its label restored on success or on the designed error state (+ Retry). */
+#workstation-build-host .incident-composer__submit { position: relative; min-width: 112px; transition: background-color .15s ease, opacity .15s ease; }
+#workstation-build-host #incident-composer[data-building='1'] .incident-composer__submit { opacity: 1; cursor: progress; color: #c9f3e6; background: #1d4f49; padding-left: 28px; }
+#workstation-build-host #incident-composer[data-building='1'] .incident-composer__submit::before { content: ''; position: absolute; left: 9px; top: 50%; width: 12px; height: 12px; margin-top: -7px; border: 2px solid #61dabb; border-right-color: transparent; border-radius: 50%; animation: ws-build-spin .8s linear infinite; }
+@keyframes ws-build-spin { to { transform: rotate(360deg); } }
+#workstation-build-host #incident-composer[data-state='error'] .incident-composer__submit { background: #e06c75; color: #2a0d10; }
+#workstation-build-host #incident-composer[data-state='done'] .incident-composer__submit { background: #61dabb; }
+#workstation-build-host .incident-composer__result { margin-top: 6px; }
+#workstation-build-host .incident-composer__message { margin: 0; padding: 6px 8px; border-radius: 6px; font: 11px/1.45 var(--font-sans, system-ui); }
+#workstation-build-host .incident-composer__message--ok { color: #d7fff1; background: #0f3a33; }
+#workstation-build-host .incident-composer__message--info { color: #e1f2ef; background: #123034; }
+#workstation-build-host .incident-composer__message--error { color: #ffd7d7; background: #3a1d22; }
+@media (prefers-reduced-motion: reduce) { #workstation-build-host #incident-composer[data-building='1'] .incident-composer__submit::before { animation: none; border-right-color: #61dabb; opacity: .6; } }

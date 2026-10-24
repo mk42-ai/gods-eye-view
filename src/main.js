@@ -5,7 +5,10 @@ import { installWorkstation } from './ui/workstation.js';
 // never hide the only recovery control behind the loading overlay.
 const workstation = installWorkstation();
 if (new URLSearchParams(location.search).get('fixtures') === '1') {
-  const label = document.createElement('span'); label.className = 'workstation-fixture-label'; label.textContent = 'TEST FIXTURES — not live data'; document.getElementById('workstation-header').appendChild(label);
+  const label = document.createElement('span');
+  label.className = 'workstation-fixture-label';
+  label.textContent = 'TEST FIXTURES — not live data';
+  document.getElementById('workstation-header').appendChild(label);
 }
 let application;
 let startupTimer;
@@ -16,22 +19,38 @@ async function loadCesium() {
     const script = document.createElement('script');
     script.src = '/cesium/Cesium.js';
     script.async = true;
-    const timer = setTimeout(() => { script.remove(); reject(new Error('Graphics library did not load within 8 seconds')); }, 8000);
-    script.onload = () => { clearTimeout(timer); resolve(); };
-    script.onerror = () => { clearTimeout(timer); reject(new Error('Graphics library could not be downloaded')); };
+    const timer = setTimeout(() => {
+      script.remove();
+      reject(new Error('Graphics library did not load within 8 seconds'));
+    }, 8000);
+    script.onload = () => {
+      clearTimeout(timer);
+      resolve();
+    };
+    script.onerror = () => {
+      clearTimeout(timer);
+      reject(new Error('Graphics library could not be downloaded'));
+    };
     document.head.appendChild(script);
   });
 }
 
 async function start() {
-  startupTimer = setTimeout(() => workstation.useFallback('The 3D map is taking longer than 12 seconds. Continue with the 2D map and standard chat, or retry 3D.'), 12000);
+  startupTimer = setTimeout(
+    () =>
+      workstation.useFallback(
+        'The 3D map is taking longer than 12 seconds. Continue with the 2D map and standard chat, or retry 3D.',
+      ),
+    12000,
+  );
   try {
     const probe = document.createElement('canvas');
     const gl = probe.getContext('webgl2') || probe.getContext('webgl');
     if (!gl) throw new Error('WebGL is unsupported or disabled');
     gl.getExtension('WEBGL_lose_context')?.loseContext();
     await loadCesium();
-    const { createStandaloneApplication } = await import('./standalone/application.js');
+    const { createStandaloneApplication } =
+      await import('./standalone/application.js');
     application = createStandaloneApplication({
       // No credentials enter the browser bundle. Keyless imagery/terrain are
       // optional; authenticated providers continue through server routes.
@@ -46,9 +65,14 @@ async function start() {
     clearTimeout(startupTimer);
     // Expected capability/network failures are shown to the operator, not an
     // uncaught rejection or a permanent full-screen spinner.
-    console.warn('[Workstation] 3D unavailable:', error?.message || String(error));
+    console.warn(
+      '[Workstation] 3D unavailable:',
+      error?.message || String(error),
+    );
     document.querySelector('.cesium-widget-errorPanel')?.remove();
-    workstation.useFallback(`3D unavailable: ${error?.message || 'initialization failed'}. Your location tools, Sources and standard chat remain available.`);
+    workstation.useFallback(
+      `3D unavailable: ${error?.message || 'initialization failed'}. Your location tools, Sources and standard chat remain available.`,
+    );
   }
 }
 void start();

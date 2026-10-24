@@ -92,7 +92,8 @@ export function createApplicationTools({
   // the loop, refresh the one DOM surface we gated, render a frame.
   const syncVisibilitySuspension = () => {
     const hidden = document.hidden;
-    viewer.useDefaultRenderLoop = !hidden && document.documentElement.dataset.renderState !== 'fallback';
+    viewer.useDefaultRenderLoop =
+      !hidden && document.documentElement.dataset.renderState !== 'fallback';
     cockpitCloudEffects?.setSuspended?.(hidden);
     if (!hidden) {
       data.presentation.flushVisible();

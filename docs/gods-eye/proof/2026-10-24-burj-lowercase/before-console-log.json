@@ -1,0 +1,56 @@
+[
+  {
+    "ts": "2026-10-24T02:35:25.296Z",
+    "type": "warning",
+    "text": "[.WebGL-0x22e400fb6200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+  },
+  {
+    "ts": "2026-10-24T02:35:25.324Z",
+    "type": "warning",
+    "text": "[.WebGL-0x22e400fb6200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+  },
+  {
+    "ts": "2026-10-24T02:35:25.364Z",
+    "type": "warning",
+    "text": "[.WebGL-0x22e400fb6200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+  },
+  {
+    "ts": "2026-10-24T02:35:25.402Z",
+    "type": "warning",
+    "text": "[.WebGL-0x22e400fb6200]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+    "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+  },
+  {
+    "ts": "2026-10-24T02:35:25.658Z",
+    "type": "log",
+    "text": "[Detection] Initialized",
+    "url": "https://sb-20uyxy7ozgk7.vercel.run/assets/application-DWhUxVgJ.js"
+  },
+  {
+    "ts": "2026-10-24T02:35:25.658Z",
+    "type": "log",
+    "text": "[TrackedReadout] Initialized",
+    "url": "https://sb-20uyxy7ozgk7.vercel.run/assets/application-DWhUxVgJ.js"
+  },
+  {
+    "ts": "2026-10-24T02:35:25.707Z",
+    "type": "log",
+    "text": "[Detection] Mode: DENSE",
+    "url": "https://sb-20uyxy7ozgk7.vercel.run/assets/application-DWhUxVgJ.js"
+  },
+  {
+    "ts": "2026-10-24T02:35:37.683Z",
+    "type": "warning",
+    "text": "Entity geometry outlines are unsupported on terrain. Outlines will be disabled. To enable outlines, disable geometry terrain clamping by explicitly setting height to 0.",
+    "url": "https://sb-20uyxy7ozgk7.vercel.run/cesium/Cesium.js"
+  },
+  {
+    "ts": "2026-10-24T02:36:02.113Z",
+    "type": "warning",
+    "text": "No available adapters.",
+    "url": "https://www.youtube.com/embed/QH7pi2sULQQ?autoplay=1&mute=1&playsinline=1&enablejsapi=1"
+  }
+]

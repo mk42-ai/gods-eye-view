@@ -1779,8 +1779,14 @@ export class SceneDirector {
     if (!q) return null;
     const scene =
       this._project.scenes.find((item) => item.id === query) ||
-      this._project.scenes.find((item) => String(item.title ?? '').toLowerCase() === q) ||
-      this._project.scenes.find((item) => String(item.title ?? '').toLowerCase().includes(q));
+      this._project.scenes.find(
+        (item) => String(item.title ?? '').toLowerCase() === q,
+      ) ||
+      this._project.scenes.find((item) =>
+        String(item.title ?? '')
+          .toLowerCase()
+          .includes(q),
+      );
     return scene
       ? { id: scene.id, title: scene.title, shots: scene.shots.length }
       : null;

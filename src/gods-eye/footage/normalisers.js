@@ -189,7 +189,9 @@ export function normaliseItem(raw, { sceneId = '' } = {}) {
   // News/web payloads sometimes carry a non-string title (null, number,
   // {text}); coerce before any string method runs.
   const textOf = (v) =>
-    v && typeof v === 'object' ? String(v.text ?? v.title ?? '') : String(v ?? '');
+    v && typeof v === 'object'
+      ? String(v.text ?? v.title ?? '')
+      : String(v ?? '');
   const caption = textOf(raw.caption) || textOf(raw.title) || '';
   raw = { ...raw, title: textOf(raw.title) || caption, caption };
   const extractedHashes = extractHashtags(caption);

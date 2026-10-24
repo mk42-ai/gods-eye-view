@@ -22,9 +22,13 @@ export async function createKeylessTerrain() {
   try {
     // Re:Earth / Mapterhorn ellipsoidal quantized mesh, CC BY 4.0.
     return {
-      provider: await providerDeadline(Cesium.CesiumTerrainProvider.fromUrl(
-        'https://terrain.reearth.land/cesium-mesh/ellipsoid',
-      ), 3500, 'Optional terrain'),
+      provider: await providerDeadline(
+        Cesium.CesiumTerrainProvider.fromUrl(
+          'https://terrain.reearth.land/cesium-mesh/ellipsoid',
+        ),
+        3500,
+        'Optional terrain',
+      ),
     };
   } catch (error) {
     console.warn(

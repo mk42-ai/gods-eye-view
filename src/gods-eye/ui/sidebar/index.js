@@ -225,7 +225,12 @@ export function installSourcesSidebar({
 
   return {
     element: root,
-    bindStore(nextStore) { unsub?.(); store = nextStore; unsub = store?.subscribe?.(update); update(); },
+    bindStore(nextStore) {
+      unsub?.();
+      store = nextStore;
+      unsub = store?.subscribe?.(update);
+      update();
+    },
     destroy,
     setRouteAgent: (ra) => {
       currentRouteAgent = { ...currentRouteAgent, ...ra };

@@ -117,7 +117,11 @@ export function createLifecycle({
       // failed first fetch left the viewport unloaded while parked.
       clearInterval(layerState._enableKickTimer);
       layerState._enableKickTimer = setInterval(() => {
-        if (!layerState._enabled || layerState._lastUpdate || layerState._retryAttempts >= 3) {
+        if (
+          !layerState._enabled ||
+          layerState._lastUpdate ||
+          layerState._retryAttempts >= 3
+        ) {
           clearInterval(layerState._enableKickTimer);
           layerState._enableKickTimer = null;
           return;

@@ -21,13 +21,18 @@ export function createApplicationViewer({ container, creditContainer }) {
     msaaSamples: 1,
     requestRenderMode: true,
     maximumRenderTimeChange: Infinity,
-    contextOptions: { webgl: { preserveDrawingBuffer: false, antialias: false } },
+    contextOptions: {
+      webgl: { preserveDrawingBuffer: false, antialias: false },
+    },
   });
   try {
     viewer.targetFrameRate = 60;
     // Cap backing resolution instead of repainting a high-DPI canvas at 4x
     // the work. Layer/state semantics and camera animation are unchanged.
-    viewer.resolutionScale = Math.min(1, 1.5 / (globalThis.devicePixelRatio || 1));
+    viewer.resolutionScale = Math.min(
+      1,
+      1.5 / (globalThis.devicePixelRatio || 1),
+    );
     viewer.scene.globe.show = false;
     viewer.scene.skyAtmosphere.show = true;
     viewer.scene.skyAtmosphere.atmosphereLightIntensity = 18;

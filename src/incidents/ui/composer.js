@@ -266,7 +266,9 @@ export function createIncidentComposer({
     command.raw = command.raw || trimmed;
     const footage = onFootageCommand ? onFootageCommand(command) : null;
     if (footage?.handled && footage.managed) {
-      // The workstation owns status chips + result for engine builds.
+      // The workstation owns status chips, result AND the button's
+      // building/disabled state for engine builds — nothing here may
+      // re-enable the button underneath it.
       return { plan: { kind: 'engine' }, scene: null, command };
     }
     if (footage?.handled && !footage.alsoBuildScene) {
