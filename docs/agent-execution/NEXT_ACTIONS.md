@@ -1,6 +1,6 @@
 # NEXT_ACTIONS — ONDEMAND-NATIVE INTELLIGENCE PLATFORM
 
-Branch `integration/ondemand-native` · updated 2026-10-21T10:35:00Z (UTC, cycle 6). Ordered queue; the resume protocol
+Branch `integration/ondemand-native` · updated 2026-10-22T13:05:00Z (UTC, cycle 9). Ordered queue; the resume protocol
 (`RESUME.md`) starts at the first item whose status is not DONE. Each item names its acceptance evidence.
 
 | # | action | depends on | acceptance evidence | status |
@@ -42,6 +42,12 @@ Branch `integration/ondemand-native` · updated 2026-10-21T10:35:00Z (UTC, cycle
 | N-25 | Set `ONDEMAND_INVESTIGATE_BUDGET_MS=50000` on the Vercel project (name only) so `/investigate` always finishes inside the 60 s function limit; re-run mobile `2c`. | Vercel admin | `2c` PASS (`planTurnSettled=true`). | TODO (operator action) |
 | N-32 | Embeddability of the served document: `build/vite.js::createBrowserViteConfig` no longer sets `X-Frame-Options: DENY` / `Content-Security-Policy: frame-ancestors 'none'` (nor the now-empty `headers` block); `src/tooling/viteBuild.test.mjs` asserts `config.server.headers === undefined`. | — | TEST_RESULTS §13: `/` and `/api/health` return **no** framing headers; iframe wrapper proof 7/7 assertions at 1440×900 + 390×844; `viteBuild.test.mjs` 4/4. | DONE (cycle 8) |
 
+| N-33 | **Wire the scheduled OnDemand workflow to `POST /api/ondemand/v2/incidents/refresh`** (or to `/ingest` with `X-Ingest-Secret`): create a cron workflow (every 30 min) whose HTTP node calls the deployed refresh route; set `INCIDENT_INGEST_SECRET` on the Vercel project (name only); keep the manual REFRESH LIVE button. | N-19 for FIRMS | workflow id recorded in INTEGRATION_MATRIX; `/list` count grows without a browser session; audit line `incident_refresh` per run. | TODO (hook + TODO comment in `server/incidents/routes.js`) |
+| N-34 | Push `integration/ondemand-native` (`0dcf469`…cycle-9 checkpoint), create the annotated tag `checkpoint/aoi-incident-scenes-v1` on the remote and update PR #2 — blocked in the agent container by the missing `GITHUB_TOKEN`; a git bundle `gods-eye-view-cycle9.bundle` is produced instead (RESUME.md hand-over). | token | `git ls-remote` shows the tag and the new head; PR #2 body lists the cycle-9 commits. | TODO (credential) |
+| N-35 | Durable incident ledger: provision KV (N-7) so `incident store` reports `kv+memory`; today the seed + session incidents live per instance (14-day TTL when KV is present). | N-7 | `/list.store_backend === "kv+memory"`. | TODO |
+| N-36 | Finer AOI polygons (Natural Earth admin-0 for Iran/Yemen/Somalia; official 12 nmi baselines) replacing the coarse operational rings in `config/aoi/uae-interest.json`; keep `verified:false` flags on Ghuwaifat / Greater & Lesser Tunb until geocoded. | — | membership tests still green; Hatta hotspot (24.990, 55.627) classified per the chosen buffer. | TODO |
+| N-37 | Composer: voice entry (reuse `/api/ondemand/v2/voice/turn` STT) and category chips so an operator can override the inferred category before ingest. | — | composer test for category override; A–G + a–g green. | TODO |
+
 ## Phase C exit criteria (what "done" means for the next cycle)
 1. 0 direct AI bypasses; 1 AI gateway (OnDemand) — INTEGRATION_MATRIX counts updated: ✅ (OpenAI Realtime completely removed; direct AI bypasses = 0).
 2. All chat surfaces on `/api/ondemand/v2/*`; no browser-held key path reachable without `ONDEMAND_ALLOW_CLIENT_KEY=1`: ✅ (MiniChat on v2; entityChat client-key blocked; voice on `/api/ondemand/v2/voice/turn`).
@@ -49,11 +55,4 @@ Branch `integration/ondemand-native` · updated 2026-10-21T10:35:00Z (UTC, cycle
 4. Typecheck + lint + secrets + boundaries + full unit suite green in CI on Node 24: ⬜ (4,188 pass on Node 22; static gates green; Node 24 CI run for 2 allocation benches pending N-21).
 5. Preview deployment of the integration branch healthy (`/api/ondemand/v2/health` ok, B-1 fixed): ✅ (Preview `dpl_6MnJQzCAvrgomj7UeG7BcFByNmqx` healthy, v2/health 200, B-1 resolved).
 
-GENERATED_UTC: 2026-10-22T06:34:00Z
-
-## Added in cycle 9 (2026-10-22)
-- N-32 — Wire a scheduler for `POST /api/incidents/refresh` (Vercel Cron on the Git-linked project, or an external cron with a per-group page); close B-25.
-- N-33 — Persist the incident store in Vercel KV when `KV_REST_API_URL`/`TOKEN` are present on the deployment (code path exists: `server/incidents/store.js` `kv+file+memory`); verify across two instances.
-- N-34 — Second pass on the research prompt to raise citable-incident yield (currently `{"incidents":[]}` for calm AOIs is the honest answer; consider adding `perplexity_research` as a second contract per AOI with a budget).
-- N-35 — Surface `matchedAoi` / zone tags of the protected-asset features as map markers (the data is in `uae-aoi.json`; only the SCENES panel consumes it today).
-
+GENERATED_UTC: 2026-10-22T13:05:00Z

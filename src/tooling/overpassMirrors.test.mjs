@@ -20,9 +20,13 @@ import {
   roadNetworkConfig,
 } from '../../server/providers/overpass/constants.js';
 import {
+  OVERPASS_MAX_ATTEMPTS_PER_REQUEST,
+  OVERPASS_RATE_LIMIT_COOLDOWN_MS,
+  _resetOverpassCooldownsForTest,
   describeRotationFailure,
   fetchOverpassPayload,
   isMirrorFailureStatus,
+  overpassMirrorCooldowns,
   overpassPayloadIsData,
 } from '../../server/providers/overpass/transport.js';
 import { PROVIDER_USER_AGENT } from '../../server/providers/common/upstream.js';
@@ -260,6 +264,7 @@ test('all mirrors fail → status degraded with a reason that names the count an
 });
 
 test('proxy: every mirror failing answers HTTP 503 with X-Provider-Status degraded and the reason (never a 502 or a 406 page)', async (t) => {
+  _resetOverpassCooldownsForTest();
   const plugin = createViteConfig({ mode: 'test' }).plugins.find((p) => p.name === 'overpass-proxy');
   const routes = new Map();
   plugin.configureServer({ middlewares: { use: (route, handler) => routes.set(route, handler) } });
@@ -287,13 +292,22 @@ test('proxy: every mirror failing answers HTTP 503 with X-Provider-Status degrad
     assert.equal(answer.headers['Cache-Control'], 'no-store');
     const body = JSON.parse(answer.body);
     assert.equal(body.provider.status, 'degraded');
+    // Bounded fan-out through the proxy (2026-10-24): at most
+    // OVERPASS_MAX_ATTEMPTS_PER_REQUEST (3) mirrors are asked per request, so a
+    // refusing public instance is never hammered five times in a row; the
+    // reason says how many were skipped and why.
+    const cap = Math.min(OVERPASS_MAX_ATTEMPTS_PER_REQUEST, OVERPASS_DEFAULT_UPSTREAMS.length);
+    const skipped = OVERPASS_DEFAULT_UPSTREAMS.length - cap;
     assert.equal(
       body.provider.error,
-      `all ${OVERPASS_DEFAULT_UPSTREAMS.length} mirrors failed · last: z.overpass-api.de HTTP 406`,
+      `${cap} of ${OVERPASS_DEFAULT_UPSTREAMS.length} mirrors failed, ${skipped} skipped (attempt cap) · last: ${overpassMirrorLabel(OVERPASS_DEFAULT_UPSTREAMS[cap - 1])} HTTP 406`,
     );
     assert.equal(body.error, body.provider.error);
-    assert.equal(body.failures.length, OVERPASS_DEFAULT_UPSTREAMS.length);
-    assert.equal(mock.mock.callCount(), OVERPASS_DEFAULT_UPSTREAMS.length, 'each default mirror asked once');
+    assert.equal(body.failures.length, cap);
+    assert.equal(mock.mock.callCount(), cap, 'bounded: the first three mirrors asked once each');
+    // …and the refused mirrors are parked, so a SECOND request right away does
+    // not touch them again (the policy that keeps this client off the ban list).
+    assert.deepEqual(Object.keys(overpassMirrorCooldowns()).length, cap, 'refusing mirrors are cooling down');
 
     // …and the client turns that answer into the row's reason, verbatim.
     const response = new Response(answer.body, { status: answer.status, headers: answer.headers });
@@ -309,6 +323,62 @@ test('proxy: every mirror failing answers HTTP 503 with X-Provider-Status degrad
   } finally {
     mock.mock.restore();
   }
+});
+
+// ---------------------------------------------------------------------------
+// (4b) 2026-10-24: bounded backoff — a 429 parks the mirror for >= 30 s and the
+//      next request skips it; at most 3 mirrors are attempted per request.
+// ---------------------------------------------------------------------------
+test('a 429 parks that mirror for >= 30 s (or Retry-After) and the next request skips it', async () => {
+  _resetOverpassCooldownsForTest();
+  let t = 1_000_000;
+  const now = () => t;
+  const { fetchImpl, calls } = scripted({
+    [MIRRORS[0]]: { status: 429, body: 'rate_limited' },
+    [MIRRORS[1]]: { status: 200, body: DATA_BODY },
+    [MIRRORS[2]]: { status: 200, body: DATA_BODY },
+  });
+  const opts = { endpoints: MIRRORS.slice(0, 3), fetchImpl, simplify: (b) => b, sleep: async () => {}, now, cooldowns: true, maxAttempts: 3 };
+  const first = await fetchOverpassPayload('data=x', 1e6, opts);
+  assert.equal(first.endpoint, MIRRORS[1], 'rotates past the 429 to the next mirror');
+  assert.deepEqual(overpassMirrorCooldowns(now()), { 'kumi.systems': 30 }, 'the 429 mirror is parked for 30 s');
+  calls.length = 0;
+  t += 5_000; // 5 s later — still inside the cooldown
+  const second = await fetchOverpassPayload('data=y', 1e6, opts);
+  assert.equal(second.endpoint, MIRRORS[1]);
+  assert.deepEqual(calls.map((c) => c.url), [MIRRORS[1]], 'the parked mirror is NOT asked again within 30 s');
+  calls.length = 0;
+  t += OVERPASS_RATE_LIMIT_COOLDOWN_MS; // cooldown lapsed
+  await fetchOverpassPayload('data=z', 1e6, opts);
+  assert.equal(calls[0].url, MIRRORS[0], 'after the cooldown the mirror is back in rotation');
+  _resetOverpassCooldownsForTest();
+});
+
+test('bounded fan-out: at most OVERPASS_MAX_ATTEMPTS_PER_REQUEST mirrors per request, degraded reason says so', async () => {
+  _resetOverpassCooldownsForTest();
+  const { fetchImpl, calls } = scripted(Object.fromEntries(MIRRORS.map((m) => [m, { status: 503, body: 'busy' }])));
+  const payload = await fetchOverpassPayload('data=x', 1e6, { endpoints: MIRRORS, fetchImpl, simplify: (b) => b, sleep: async () => {}, cooldowns: true, maxAttempts: OVERPASS_MAX_ATTEMPTS_PER_REQUEST });
+  assert.equal(calls.length, OVERPASS_MAX_ATTEMPTS_PER_REQUEST, 'three attempts, never five');
+  assert.equal(payload.provider.status, 'degraded');
+  assert.match(payload.provider.error, /^3 of 5 mirrors failed, 2 skipped \(attempt cap\)/);
+  assert.equal(overpassPayloadIsData(payload), false);
+});
+
+test('when every mirror is parked the soonest-free one is still tried (never a silent empty answer)', async () => {
+  _resetOverpassCooldownsForTest();
+  let t = 5_000_000;
+  const now = () => t;
+  const two = MIRRORS.slice(0, 2);
+  const { fetchImpl, calls } = scripted({ [two[0]]: { status: 429, body: 'no' }, [two[1]]: { status: 429, body: 'no' } });
+  await fetchOverpassPayload('data=x', 1e6, { endpoints: two, fetchImpl, simplify: (b) => b, sleep: async () => {}, now, cooldowns: true, maxAttempts: 3 });
+  assert.equal(calls.length, 2);
+  calls.length = 0;
+  t += 1_000;
+  const answers = scripted({ [two[0]]: { status: 200, body: DATA_BODY }, [two[1]]: { status: 200, body: DATA_BODY } });
+  const payload = await fetchOverpassPayload('data=y', 1e6, { endpoints: two, fetchImpl: answers.fetchImpl, simplify: (b) => b, sleep: async () => {}, now, cooldowns: true, maxAttempts: 3 });
+  assert.equal(answers.calls.length, 1, 'exactly one parked mirror is retried');
+  assert.equal(payload.status, 200);
+  _resetOverpassCooldownsForTest();
 });
 
 // ---------------------------------------------------------------------------

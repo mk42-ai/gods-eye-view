@@ -1,0 +1,275 @@
+/* Gods-Eye scenes director panel styling. Tokens from tokens.css */
+
+.ge-scenes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ge-space-2);
+  width: 100%;
+}
+.ge-scenes-tabs {
+  display: flex;
+  gap: var(--ge-space-1);
+  border-bottom: var(--ge-border-soft);
+  padding-bottom: var(--ge-space-1);
+}
+.ge-scenes-tab {
+  flex: 1;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--ge-radius);
+  color: var(--ge-ink-muted);
+  font: var(--ge-fs-xs) var(--ge-font-mono);
+  letter-spacing: var(--ge-tracking);
+  padding: var(--ge-space-1) var(--ge-space-2);
+  cursor: pointer;
+  transition: all var(--ge-motion) var(--ge-ease);
+  text-align: center;
+}
+.ge-scenes-tab:hover,
+.ge-scenes-tab.is-active {
+  background: var(--ge-teal-dim);
+}
+.ge-scenes-tab:hover {
+  color: var(--ge-ink);
+}
+.ge-scenes-tab.is-active {
+  color: var(--ge-teal);
+  border-color: var(--ge-teal);
+  font-weight: 600;
+}
+.ge-scenes-status {
+  font: var(--ge-fs-xs) var(--ge-font-mono);
+  letter-spacing: var(--ge-tracking);
+  color: var(--ge-teal);
+  padding: var(--ge-space-1) var(--ge-space-2);
+  background: rgba(7, 15, 22, 0.6);
+  border-radius: var(--ge-radius);
+  border-left: 2px solid var(--ge-teal);
+}
+.ge-scenes-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ge-space-2);
+  max-height: calc(100vh - 280px);
+  overflow-y: auto;
+  padding-right: var(--ge-space-1);
+}
+.ge-scene-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ge-space-2);
+  background: var(--ge-bg-raised);
+  border: var(--ge-border-soft);
+  border-radius: var(--ge-radius);
+  padding: var(--ge-space-2) var(--ge-space-3);
+  transition: border-color var(--ge-motion) var(--ge-ease);
+  outline: none;
+}
+.ge-scene-card:hover {
+  border-color: var(--ge-teal);
+}
+.ge-scene-card.is-active,
+.ge-scene-card[data-active='1'] {
+  border-color: var(--ge-teal);
+  box-shadow: 0 0 12px var(--ge-teal-dim);
+}
+.ge-sc-header,
+.ge-sc-meta,
+.ge-sc-stats,
+.ge-sc-actions,
+.ge-scene-thumbs,
+.ge-sc-badges,
+.ge-sc-source-dots {
+  display: flex;
+  gap: var(--ge-space-1);
+}
+.ge-sc-header {
+  flex-direction: column;
+}
+.ge-sc-badges,
+.ge-sc-meta,
+.ge-sc-actions {
+  flex-wrap: wrap;
+}
+.ge-sc-kind,
+.ge-sc-new,
+.ge-sc-archived {
+  font: var(--ge-fs-xs) var(--ge-font-mono);
+  letter-spacing: var(--ge-tracking);
+  padding: 2px var(--ge-space-1);
+  border-radius: var(--ge-radius-pill);
+  line-height: 1;
+  border: 1px solid;
+}
+.ge-sc-kind {
+  background: var(--ge-teal-dim);
+  color: var(--ge-teal);
+  border-color: var(--ge-teal);
+}
+[data-kind='incident'] .ge-sc-kind {
+  background: var(--ge-amber-dim);
+  color: var(--ge-amber);
+  border-color: var(--ge-amber);
+}
+[data-kind='rebuild'] .ge-sc-kind {
+  background: var(--ge-grey-dim);
+  color: var(--ge-grey);
+  border-color: var(--ge-grey);
+}
+.ge-sc-new {
+  background: rgba(53, 208, 127, 0.2);
+  color: var(--ge-live);
+  border-color: var(--ge-live);
+}
+.ge-sc-archived {
+  background: var(--ge-grey-dim);
+  color: var(--ge-archive);
+  border-color: var(--ge-archive);
+}
+.ge-sc-title {
+  margin: 0;
+  font: 600 var(--ge-fs-md)/var(--ge-lh) var(--ge-font-sans);
+  color: var(--ge-ink);
+}
+.ge-sc-title-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--ge-bg);
+  border: 1px solid var(--ge-teal);
+  border-radius: var(--ge-radius);
+  color: var(--ge-ink);
+  font: var(--ge-fs-md) var(--ge-font-sans);
+  padding: var(--ge-space-1);
+  outline: none;
+}
+.ge-sc-meta,
+.ge-sc-stats {
+  align-items: center;
+  gap: var(--ge-space-2);
+  font: var(--ge-fs-xs) var(--ge-font-mono);
+  color: var(--ge-ink-muted);
+}
+.ge-sc-target {
+  font-weight: 600;
+  color: var(--ge-ink);
+}
+.ge-sc-coords {
+  color: var(--ge-ink-dim);
+}
+.ge-sc-tref,
+.ge-sc-share-feedback {
+  color: var(--ge-teal);
+}
+.ge-sc-platform-icon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+.ge-sc-route {
+  margin-left: auto;
+  font: var(--ge-fs-xs) var(--ge-font-mono);
+  padding: 1px var(--ge-space-1);
+  border-radius: var(--ge-radius);
+  background: var(--ge-teal-dim);
+  color: var(--ge-teal);
+  border: 1px solid var(--ge-teal);
+}
+.ge-sc-route.is-fallback,
+.ge-sc-route[data-fallback='1'] {
+  background: var(--ge-amber-dim);
+  color: var(--ge-amber);
+  border-color: var(--ge-amber);
+}
+.ge-sc-source-dots {
+  align-items: center;
+}
+.ge-sc-source-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--ge-radius-pill);
+  background: var(--ge-grey-dim);
+}
+.ge-sc-source-dot[data-status='ok'] {
+  background: var(--ge-live);
+}
+.ge-sc-source-dot[data-status='quota'] {
+  background: var(--ge-amber);
+}
+.ge-sc-source-dot[data-status='error'] {
+  background: var(--ge-red);
+}
+.ge-sc-source-dot[data-status='inactive'] {
+  background: var(--ge-grey);
+}
+.ge-sc-source-dot[data-status='pending'] {
+  background: var(--ge-teal);
+}
+
+.ge-sc-thumb-slot {
+  width: 48px;
+  height: 27px;
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--ge-bg);
+  border: var(--ge-border-soft);
+  flex-shrink: 0;
+}
+.ge-sc-thumb {
+  width: 48px;
+  height: 27px;
+  object-fit: cover;
+  display: block;
+}
+.ge-sc-thumb.is-new {
+  animation: ge-sc-fade var(--ge-motion) var(--ge-ease);
+}
+@keyframes ge-sc-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.ge-sc-thumb.is-gone {
+  filter: grayscale(1);
+  opacity: 0.35;
+}
+.ge-sc-gone-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 7px/1 var(--ge-font-mono);
+  color: var(--ge-red);
+  background: rgba(7, 15, 22, 0.7);
+  text-align: center;
+}
+.ge-sc-thumb-empty {
+  width: 100%;
+  height: 100%;
+  border: 1px dashed var(--ge-ink-dim);
+  box-sizing: border-box;
+}
+.ge-sc-gone-count {
+  font: var(--ge-fs-xs) var(--ge-font-mono);
+  color: var(--ge-red);
+}
+.ge-scene-diff {
+  font: var(--ge-fs-xs) var(--ge-font-mono);
+  color: var(--ge-amber);
+}
+.ge-sc-share-feedback {
+  font: var(--ge-fs-xs) var(--ge-font-mono);
+  letter-spacing: var(--ge-tracking);
+}
+.ge-sc-actions .scene-btn {
+  font-size: var(--ge-fs-xs);
+  padding: 3px var(--ge-space-1);
+  min-width: 0;
+  flex: 1 1 auto;
+}

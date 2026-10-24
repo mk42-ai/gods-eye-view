@@ -1,0 +1,94 @@
+/* Player (#ge-player, skeleton 16:9) and banner styles */
+
+#ge-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--ge-bg);
+  border-bottom: var(--ge-border-soft);
+  overflow: hidden;
+}
+.ge-player-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ge-player-poster-label {
+  position: absolute;
+  top: var(--ge-space-2);
+  left: var(--ge-space-2);
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-ink-muted);
+  text-transform: uppercase;
+}
+.ge-player-media,
+.ge-player-media iframe,
+.ge-player-media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+#ge-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: var(--ge-space-1) var(--ge-space-2);
+  background: var(--ge-amber-dim);
+  border-bottom: 1px solid var(--ge-amber);
+  color: var(--ge-amber);
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  letter-spacing: var(--ge-tracking);
+  text-transform: uppercase;
+  z-index: 10;
+}
+#ge-banner[hidden] {
+  display: none;
+}
+.ge-player-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--ge-space-1) var(--ge-space-2);
+  background: linear-gradient(transparent, var(--ge-bg));
+  display: flex;
+  gap: var(--ge-space-2);
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  color: var(--ge-ink-muted);
+  pointer-events: none;
+}
+.ge-player-pip {
+  position: absolute;
+  top: var(--ge-space-2);
+  right: var(--ge-space-2);
+  padding: var(--ge-space-1) var(--ge-space-2);
+  background: var(--ge-bg-raised);
+  border: var(--ge-border-soft);
+  border-radius: var(--ge-radius-pill);
+  color: var(--ge-ink);
+  font-family: var(--ge-font-mono);
+  font-size: var(--ge-fs-xs);
+  cursor: pointer;
+  z-index: 12;
+}
+#ge-player.is-mini {
+  position: fixed;
+  width: 240px;
+  height: 135px;
+  aspect-ratio: auto;
+  right: var(--ge-space-4);
+  bottom: var(--ge-space-4);
+  z-index: var(--ge-z-modal);
+  box-shadow: var(--ge-shadow);
+  border: var(--ge-border);
+  border-radius: var(--ge-radius);
+  cursor: move;
+}

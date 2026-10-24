@@ -34,7 +34,7 @@
     "doctor": "node scripts/setup-doctor.mjs",
     "format": "node scripts/format.mjs --write",
     "format:check": "node scripts/format.mjs --check",
-    "dev": "vite",
+    "dev": "bash scripts/start-preview.sh",
     "dev:secure": "./scripts/dev-secure.sh",
     "opensky:import": "./scripts/opensky-import-client.sh",
     "prebuild": "node scripts/refresh-celestrak-snapshot.mjs --skip-if-fresh 6",
@@ -53,7 +53,14 @@
     "check:boundaries": "node scripts/check-import-directions.mjs && node scripts/check-package-boundaries.mjs && node scripts/check-brand-marks.mjs",
     "check:secrets": "node scripts/check-no-secrets.mjs",
     "qa:transit": "node scripts/qa-transit.mjs",
-    "qa:chat": "node scripts/qa-chat-harness.mjs"
+    "qa:chat": "node scripts/qa-chat-harness.mjs",
+    "footage:dev": "python3 -m uvicorn api.footage.index:app --host 127.0.0.1 --port 8787",
+    "footage:test": "python3 -m pytest -q api/footage/tests",
+    "start:preview": "bash scripts/start-preview.sh",
+    "test:e2e": "playwright test -c tests/playwright.config.mjs",
+    "test:gods-eye": "node --test src/gods-eye/**/*.test.mjs",
+    "dev:vite": "vite",
+    "test:workstation": "node scripts/run-browser-tests.mjs 19-workstation-recovery.spec.mjs --project=desktop --update-snapshots=none"
   },
   "dependencies": {
     "@mapbox/vector-tile": "^3.0.0",
@@ -64,6 +71,7 @@
     "satellite.js": "^6.0.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "lucide-static": "1.47.0",
     "prettier": "3.9.6",
     "puppeteer": "^25.10.0",

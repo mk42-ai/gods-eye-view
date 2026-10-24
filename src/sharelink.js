@@ -9,6 +9,7 @@ import {
   decodeLayerStateParams,
   encodeLayerStateParams,
 } from './data/layerState.js';
+import { decodeFootageParams, encodeFootageParams } from './footage/model.js';
 
 /**
  * Share Links — URL Hash State Management
@@ -128,6 +129,9 @@ export class ShareLinkManager {
     this._layerStateProvider = null;
     this._panelStateProvider = null;
     this._styleParamStateProvider = null;
+    // LIVE FOOTAGE dock (fv/fk/fm/fs + the `f.c` token inside `ui=`), 2026-10-23.
+    this._footageStateProvider = null;
+    this._sceneStateProvider = null;
     this._initialRestorePending = false;
     this._restoreAuthority = {
       visual: 0,
@@ -219,7 +223,9 @@ export class ShareLinkManager {
         Math.min(100, Math.round(parseOr(params.get('ko'), 5))),
       ),
       celestialRing: params.has('cr') ? params.get('cr') === '1' : false,
-      scopeEnabled: params.has('sc') ? params.get('sc') === '1' : true,
+      scopeEnabled: sceneScopeParam(params)
+        ? sceneScopeParam(params) === '1'
+        : true,
       // Deliberately still 35 through both later default moves (0 on
       // 2026-08-22, 8 on 2026-08-23). This is the PARSE fallback for a link that
       // predates `scf` entirely, and such a link was authored when 35 was what
@@ -248,6 +254,8 @@ export class ShareLinkManager {
         params.has('l') &&
         decodedLayerState === null,
       panelState: decodePanelStateParams(params),
+      footageState: decodeFootageParams(params),
+      sceneId: /^s_/.test(params.get('sc') || '') ? params.get('sc') : null,
       sharedAtMs: decodeShareCreatedAtMs(params),
     };
     state.restoreAuthority = {
@@ -410,6 +418,34 @@ export class ShareLinkManager {
   /** Install the finalized panel-state source used by URL generation. */
   setPanelStateProvider(provider) {
     this._panelStateProvider = typeof provider === 'function' ? provider : null;
+  }
+
+  /** Install the LIVE FOOTAGE dock state source (fv/fk/fm/fs + ui f.c). */
+  setFootageStateProvider(provider) {
+    this._footageStateProvider =
+      typeof provider === 'function' ? provider : null;
+    this._scheduleUpdate();
+  }
+
+  /** Called by the footage dock when its shareable state changes. */
+  onFootageStateChange() {
+    this._scheduleUpdate();
+  }
+
+  /**
+   * Install the Gods-Eye scene state source. The provider returns null or
+   * `{ sceneId, params: {name: value} }`; `sc=<sceneId>` then replaces the
+   * legacy scope toggle (which moves to `scp`) so a link reproduces the
+   * scene with zero refetch. Scene ids always start with `s_`.
+   */
+  setSceneStateProvider(provider) {
+    this._sceneStateProvider = typeof provider === 'function' ? provider : null;
+    this._scheduleUpdate();
+  }
+
+  /** Called by the scene engine when the active scene or its state changes. */
+  onSceneStateChange() {
+    this._scheduleUpdate();
   }
 
   /** Install the active visual preset parameter source used by URL generation. */
@@ -588,6 +624,19 @@ export class ShareLinkManager {
     const layerState = this._layerStateProvider?.();
     if (layerState) encodeLayerStateParams(params, layerState);
     this._encodePanelStateParam(params, this._panelStateProvider?.());
+    // Footage params ride after the panel tokens so the `f.c` token merges
+    // into the `ui=` value the panel encoder just wrote.
+    encodeFootageParams(params, this._footageStateProvider?.());
+    const sceneShare = this._sceneStateProvider?.();
+    if (sceneShare?.sceneId && /^s_/.test(String(sceneShare.sceneId))) {
+      params.set('scp', params.get('sc') || '1');
+      params.set('sc', String(sceneShare.sceneId));
+      for (const [key, value] of Object.entries(sceneShare.params || {})) {
+        if (value === null || value === undefined || value === '')
+          params.delete(key);
+        else params.set(key, String(value));
+      }
+    }
     encodeStyleParamState(
       params,
       this._currentStyle,
@@ -621,11 +670,24 @@ export class ShareLinkManager {
     this._layerStateProvider = null;
     this._panelStateProvider = null;
     this._styleParamStateProvider = null;
+    this._footageStateProvider = null;
     this._onRestore = null;
   }
 }
 
 /** Decode a strict positive epoch-seconds copy timestamp for age classification. */
+/**
+ * The scope toggle lives in `sc` unless `sc` carries a Gods-Eye scene id
+ * (`s_…`), in which case the toggle moved to `scp`. Returns the raw toggle
+ * string ('0' | '1') or null when the link predates both.
+ */
+export function sceneScopeParam(params) {
+  const sc = params.get('sc');
+  if (sc === null) return null;
+  if (/^s_/.test(sc)) return params.has('scp') ? params.get('scp') : null;
+  return sc;
+}
+
 export function decodeShareCreatedAtMs(params, { nowMs = Date.now() } = {}) {
   const raw = params?.get?.(SHARE_CREATED_AT_PARAM);
   if (typeof raw !== 'string' || !/^[1-9]\d*$/.test(raw)) return null;

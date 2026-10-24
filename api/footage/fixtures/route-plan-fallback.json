@@ -1,0 +1,1 @@
+{ "_fixture": true, "_note": "FIXTURE — route agent returned HTTP 500; client must fall back to the great-circle ladder.", "status": 500, "body": { "error": "route_agent_failed", "message": "mocked 500" } }

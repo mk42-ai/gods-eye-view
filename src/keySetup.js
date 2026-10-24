@@ -166,6 +166,18 @@ export async function initKeySetup({
   const root = documentRef?.getElementById?.('key-setup');
   if (!chip || !root || root.dataset.initialized === 'true') return null;
   root.dataset.initialized = 'true';
+  // A serverless build has no key-setup endpoint by design (the deployed
+  // filesystem is read-only; server/serverless/app.js never mounts it), so
+  // skip the probe instead of logging a 404 on every page load.
+  if (
+    ['true', '1', 'yes'].includes(
+      String(import.meta.env?.VITE_SERVERLESS_MODE ?? '').toLowerCase(),
+    )
+  ) {
+    chip.remove();
+    root.remove();
+    return null;
+  }
   const lifetime = new AbortController();
   let disposed = false;
   let disposeControls = () => {};

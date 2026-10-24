@@ -1,0 +1,446 @@
+{
+  "label": "after",
+  "prompt": "burj khalifa",
+  "startedAt": "2026-10-24T03:47:41.203Z",
+  "clickedAt": "2026-10-24T03:47:45.451Z",
+  "loadState": {
+    "renderState": "loading",
+    "hasEngine": false,
+    "hasViewer": false,
+    "renderLoop": null,
+    "cesium": false
+  },
+  "buttonUnderPointer": {
+    "under": "BUTTON#incident-composer-submit.incident-composer__submit",
+    "isButton": true,
+    "disabled": false,
+    "pointerEvents": "auto",
+    "visibility": "visible",
+    "opacity": "1",
+    "zIndex": "auto"
+  },
+  "fixedOverlays": [
+    {
+      "id": "workstation-shell",
+      "z": "1",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "text": "OnDemand Intelligence Workstation\n\nSPATIAL INTELLIGENCE CONS"
+    },
+    {
+      "id": "traffic-sync-chip",
+      "z": "24",
+      "x": 16,
+      "y": 798,
+      "w": 145,
+      "h": 24,
+      "text": "SYNCING ROAD NETWORK"
+    },
+    {
+      "id": "cctv-sync-chip",
+      "z": "24",
+      "x": 16,
+      "y": 798,
+      "w": 152,
+      "h": 24,
+      "text": "LOADING FRAMES\n0/0"
+    },
+    {
+      "id": "gev-screen-whiteboard",
+      "z": "90",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "text": ""
+    }
+  ],
+  "final": {
+    "sec": 27,
+    "formState": "done",
+    "building": "0",
+    "btnDisabled": false,
+    "btnText": "BUILD SCENE",
+    "build": "fix-2026-10-",
+    "geStage": "S4",
+    "buildStage": "saved",
+    "sceneStatus": "playing",
+    "sceneError": null,
+    "footage": 3,
+    "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:done playing:done saved:done",
+    "result": "Scene “burj khalifa” saved · 3 clips · degraded: route agent unavailable — great-circle approach · sources: tiktok inactive, x inactive, reddit error, web error.",
+    "hasEngine": true,
+    "renderState": "ready",
+    "renderLoop": true,
+    "statuses": [
+      "parsing",
+      "geocoded",
+      "routing",
+      "flying",
+      "fetching",
+      "ranked",
+      "playing",
+      "saved"
+    ],
+    "stages": [
+      "S0",
+      "S1",
+      "S2",
+      "S3",
+      "S4"
+    ],
+    "clicks": 2,
+    "submits": 1
+  },
+  "scenePanel": {
+    "header": true,
+    "rail": 3,
+    "timeline": true,
+    "evidence": true,
+    "panelCards": 1,
+    "pins": 16
+  },
+  "timeline": [
+    {
+      "sec": 6,
+      "formState": "busy",
+      "building": "1",
+      "btnDisabled": true,
+      "btnText": "BUILDING…",
+      "build": "fix-2026-10-",
+      "geStage": "S0",
+      "buildStage": "fetching",
+      "sceneStatus": "fetching",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:active ranked:pending playing:pending saved:pending",
+      "result": "Fetching… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching"
+      ],
+      "stages": [
+        "S0"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 8,
+      "formState": "busy",
+      "building": "1",
+      "btnDisabled": true,
+      "btnText": "BUILDING…",
+      "build": "fix-2026-10-",
+      "geStage": "S0",
+      "buildStage": "fetching",
+      "sceneStatus": "fetching",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:active ranked:pending playing:pending saved:pending",
+      "result": "Fetching… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching"
+      ],
+      "stages": [
+        "S0"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 11,
+      "formState": "busy",
+      "building": "1",
+      "btnDisabled": true,
+      "btnText": "BUILDING…",
+      "build": "fix-2026-10-",
+      "geStage": "S1",
+      "buildStage": "fetching",
+      "sceneStatus": "fetching",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:active ranked:pending playing:pending saved:pending",
+      "result": "Fetching… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching"
+      ],
+      "stages": [
+        "S0",
+        "S1"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 13,
+      "formState": "busy",
+      "building": "1",
+      "btnDisabled": true,
+      "btnText": "BUILDING…",
+      "build": "fix-2026-10-",
+      "geStage": "S1",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 15,
+      "formState": "busy",
+      "building": "1",
+      "btnDisabled": true,
+      "btnText": "BUILDING…",
+      "build": "fix-2026-10-",
+      "geStage": "S2",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 18,
+      "formState": "busy",
+      "building": "1",
+      "btnDisabled": true,
+      "btnText": "BUILDING…",
+      "build": "fix-2026-10-",
+      "geStage": "S2",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 20,
+      "formState": "busy",
+      "building": "1",
+      "btnDisabled": true,
+      "btnText": "BUILDING…",
+      "build": "fix-2026-10-",
+      "geStage": "S2",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 24,
+      "formState": "busy",
+      "building": "1",
+      "btnDisabled": true,
+      "btnText": "BUILDING…",
+      "build": "fix-2026-10-",
+      "geStage": "S3",
+      "buildStage": "ranked",
+      "sceneStatus": "ranked",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:active playing:pending saved:pending",
+      "result": "Ranked… “burj khalifa”",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "clicks": 2,
+      "submits": 1
+    },
+    {
+      "sec": 27,
+      "formState": "done",
+      "building": "0",
+      "btnDisabled": false,
+      "btnText": "BUILD SCENE",
+      "build": "fix-2026-10-",
+      "geStage": "S4",
+      "buildStage": "saved",
+      "sceneStatus": "playing",
+      "sceneError": null,
+      "footage": 3,
+      "chips": "parsing:done geocoded:done routing:done flying:done fetching:done ranked:done playing:done saved:done",
+      "result": "Scene “burj khalifa” saved · 3 clips · degraded: route agent unavailable — great-circle approach · sources: tiktok inactive, x inactive, reddit error, web error.",
+      "hasEngine": true,
+      "renderState": "ready",
+      "renderLoop": true,
+      "statuses": [
+        "parsing",
+        "geocoded",
+        "routing",
+        "flying",
+        "fetching",
+        "ranked",
+        "playing",
+        "saved"
+      ],
+      "stages": [
+        "S0",
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "clicks": 2,
+      "submits": 1
+    }
+  ],
+  "consoleErrors": [],
+  "consoleWarnings": [
+    {
+      "ts": "2026-10-24T03:47:42.890Z",
+      "type": "warning",
+      "text": "[.WebGL-0x57400df9000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+    },
+    {
+      "ts": "2026-10-24T03:47:42.890Z",
+      "type": "warning",
+      "text": "[.WebGL-0x57400df9000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+    },
+    {
+      "ts": "2026-10-24T03:47:42.890Z",
+      "type": "warning",
+      "text": "[.WebGL-0x57400df9000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+    },
+    {
+      "ts": "2026-10-24T03:47:42.896Z",
+      "type": "warning",
+      "text": "[.WebGL-0x57400df9000]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "url": "https://sb-20uyxy7ozgk7.vercel.run/"
+    },
+    {
+      "ts": "2026-10-24T03:47:48.276Z",
+      "type": "warning",
+      "text": "Entity geometry outlines are unsupported on terrain. Outlines will be disabled. To enable outlines, disable geometry terrain clamping by explicitly setting height to 0.",
+      "url": "https://sb-20uyxy7ozgk7.vercel.run/cesium/Cesium.js"
+    },
+    {
+      "ts": "2026-10-24T03:48:12.722Z",
+      "type": "warning",
+      "text": "No available adapters.",
+      "url": "https://www.youtube.com/embed/QH7pi2sULQQ?autoplay=1&mute=1&playsinline=1&enablejsapi=1"
+    }
+  ],
+  "screenshot": "after-burj-lowercase-1440x900-2026-10-24T03-48-11-990Z.png",
+  "finishedAt": "2026-10-24T03:48:14.483Z",
+  "progressState": {
+    "sawBuilding": true,
+    "reEnabled": true,
+    "finalLabel": "BUILD SCENE"
+  }
+}

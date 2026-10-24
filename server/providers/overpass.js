@@ -16,6 +16,7 @@ import {
 } from './overpass/cache.js';
 import {
   OVERPASS_PROVIDER_SOURCE,
+  OVERPASS_MAX_ATTEMPTS_PER_REQUEST,
   overpassPayloadIsData,
   fetchOverpassPayload,
 } from './overpass/transport.js';
@@ -236,7 +237,14 @@ function overpassProxy({ routing = {} } = {}) {
           return;
         }
         _overpassConcurrent += 1;
-        const requestPromise = fetchOverpassPayload(safeBody)
+        // Bounded fan-out (2026-10-24): at most 3 mirrors per request, and a
+        // mirror that answered 429/406 is parked (>= 30 s / 5 min) so later
+        // requests never re-offend — the public instances ban repeat
+        // offenders. Scene building never waits on this route.
+        const requestPromise = fetchOverpassPayload(safeBody, undefined, {
+          cooldowns: true,
+          maxAttempts: OVERPASS_MAX_ATTEMPTS_PER_REQUEST,
+        })
           .then((payload) => {
             // Only a 2xx is data. `< 500` cached every 4xx, so one mirror's
             // refusal was written to memory AND disk — and boundary-class

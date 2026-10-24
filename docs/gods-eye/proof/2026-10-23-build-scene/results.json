@@ -1,0 +1,79 @@
+[
+  {
+    "check": "(a) no-prompt load renders globe/2D map + UI",
+    "result": "PASS",
+    "screenshot": "a-load-1440x900.png",
+    "ts": "2026-10-23T18:12:26.630Z",
+    "detail": "{\"rs\":\"ready\",\"canvas\":true,\"raster\":0,\"nav\":7,\"composer\":true}"
+  },
+  {
+    "check": "(b) Burj Khalifa BUILD SCENE: stages, fly-in, header/pins/rail/timeline/evidence, Scenes panel",
+    "result": "PASS",
+    "screenshot": "b2-burj-khalifa-built-1440x900.png",
+    "ts": "2026-10-23T18:12:59.569Z",
+    "detail": "{\"id\":\"s_mvlaf1eq7cmlei\",\"title\":\"Burj Khalifa\",\"status\":\"playing\",\"stage\":\"S4\",\"target\":{\"name\":\"Burj Khalifa\",\"lat\":25.1972,\"lon\":55.2744,\"geocodeSource\":\"register\",\"confidence\":0.9},\"footage\":4,\"fixture\":false,\"route\":\"FALLBACK\",\"header\":true,\"rail\":4,\"timeline\":true,\"evidence\":true,\"player\":true,\"media\":1,\"pins\":19,\"panelCard\":true,\"chips\":[\"parsing:done\",\"geocoded:done\",\"routing:done\",\"flying:done\",\"fetching:done\",\"ranked:done\",\"playing:done\",\"saved:done\"],\"sources\":{\"tiktok\":\"error\",\"instagram\":\"ok\",\"youtube\":\"ok\",\"x\":\"error\",\"reddit\":\"error\",\"web\":\"error\"},\"hash\":\"#v=2&lat=25.194419221882516&lon=55.27277022213241&alt=300&heading=27.937805664363907&pitch=-30&roll=0&style=normal&bloom=0&sharpen=1&bi=0&bv=2&si=49&hud=tactical&hv=1&dm=DENSE&dd=75&da=elastic&kf=7&ko=1&cr=0&sc=s_mvlaf1eq7cmlei&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.1_g.c.1_p.c.1_m.c.0&scp=1&fv=1&fk=Burj+Khalifa&fm=live&fs=2026-10-23T18%3A12%3A30.055Z&gr=27.93849948203274&tlat=25.1972&tlon=55.2744&tn=Burj+Khalifa\",\"stagesSeen\":[\"parsing\",\"geocoded\",\"routing\",\"flying\",\"fetching\",\"ranked\",\"playing\",\"saved\"]}"
+  },
+  {
+    "check": "(c) Enter: Umm Suqeim rebuild + archival banner",
+    "result": "PASS",
+    "screenshot": "c-umm-suqeim-rebuild-1440x900.png",
+    "ts": "2026-10-23T18:13:28.282Z",
+    "detail": "{\"id\":\"s_mvlafofsfbpd1b\",\"kind\":\"rebuild\",\"target\":{\"name\":\"Umm Suqeim\",\"lat\":25.147,\"lon\":55.199,\"geocodeSource\":\"dictionary\",\"confidence\":0.95},\"footage\":6,\"fixture\":false,\"banner\":\"REBUILT FROM ARCHIVAL FOOTAGE \u2014 originally reported 2026-04-03\",\"archiveTags\":7,\"isoStamps\":[\"2026-09-26 11:46Z\",\"2026-04-03 11:09Z\",\"2026-10-23 18:13Z\"],\"hash\":\"lat=25.14882190154044&lon=55.201835515692665\"}"
+  },
+  {
+    "check": "(d) Open saved scene from Scenes panel \u2014 zero refetch (network log)",
+    "result": "PASS",
+    "screenshot": "d-open-saved-scene-1440x900.png",
+    "ts": "2026-10-23T18:13:37.607Z",
+    "detail": "{\"opened\":\"s_mvlaf1eq7cmlei\",\"requestsDuring\":111,\"refetch\":[],\"armed\":\"armed\"}"
+  },
+  {
+    "check": "(e) layout 1440\u00d7900: no overlap/clipping, HUD controls grouped",
+    "result": "PASS",
+    "screenshot": "e-layout-1440x900.png",
+    "ts": "2026-10-23T18:14:09.994Z",
+    "detail": "{\"W\":1440,\"H\":900,\"docOverflowX\":false,\"clipped\":[],\"overlaps\":[],\"loose\":[]}"
+  },
+  {
+    "check": "(e) layout 1024\u00d7768: no overlap/clipping, HUD controls grouped",
+    "result": "PASS",
+    "screenshot": "e-layout-1024x768.png",
+    "ts": "2026-10-23T18:14:13.383Z",
+    "detail": "{\"W\":1024,\"H\":768,\"docOverflowX\":false,\"clipped\":[],\"overlaps\":[],\"loose\":[]}"
+  },
+  {
+    "check": "(e) layout 767\u00d7524: no overlap/clipping, HUD controls grouped",
+    "result": "PASS",
+    "screenshot": "e-layout-767x524.png",
+    "ts": "2026-10-23T18:14:15.050Z",
+    "detail": "{\"W\":767,\"H\":524,\"docOverflowX\":false,\"clipped\":[],\"overlaps\":[],\"loose\":[]}"
+  },
+  {
+    "check": "(e) layout 401\u00d7511: no overlap/clipping, HUD controls grouped",
+    "result": "PASS",
+    "screenshot": "e-layout-401x511.png",
+    "ts": "2026-10-23T18:14:16.675Z",
+    "detail": "{\"W\":401,\"H\":511,\"docOverflowX\":false,\"clipped\":[],\"overlaps\":[],\"loose\":[]}"
+  },
+  {
+    "check": "(e) grouped HUD controls stack (Display/CCTV/Context + BITS/LVL) at 767\u00d7524",
+    "result": "INFO",
+    "screenshot": "e-hud-stack-767x524.png",
+    "ts": "2026-10-23T18:14:18.391Z",
+    "detail": ""
+  },
+  {
+    "check": "(e) 0 application console errors (flow + layout runs)",
+    "result": "PASS",
+    "screenshot": "",
+    "ts": "2026-10-23T18:14:18.391Z",
+    "detail": "[]"
+  },
+  {
+    "check": "(f) no-WebGL 2D fallback: map renders + scene builds S0\u2192S4",
+    "result": "PASS",
+    "screenshot": "f-no-webgl-2d-build-767x524.png",
+    "ts": "2026-10-23T18:14:46.691Z",
+    "detail": "{\"is2d\":true,\"stage\":\"S4\",\"tiles\":9,\"hash\":\"lat=25.194052378726962&lon=55.274400000000014\",\"footage\":4}"
+  }
+]

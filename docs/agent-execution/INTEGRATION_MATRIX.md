@@ -252,34 +252,17 @@ Deny-listed by code (never read, present only as a Vercel env var): `ELEVENLABS_
 | After-fix checks (composer hit-test + real tap, thumbnails/lightbox, poster/side pane, PDF preview, dock reachability, banner restore) | 16 | **16 / 16 PASS** | 10:23Z–10:25Z | `retry-0917/fixes-after/results.json` |
 | Brand assets `/assets/brand/*` (12 required + favicon-16/32/48 + og-image) | 16 files | 16/16 HTTP 200, sha256 = catalogue = `public/assets/brand`, OCR ≤ 3 chars, 0 concentric pairs | 09:33Z–09:38Z | `retry-0917/agent5/asset-results.json` |
 
-GENERATED_UTC: 2026-10-21T10:35:00Z
+## Cycle-9 additions (2026-10-22) — UAE AOI incident ledger (`server/incidents/*`, mounted by `server/ondemand/foundation/proxy-route.js`)
 
-## Cycle-9 integration evidence (2026-10-22T08:00Z–10:20Z) — UAE AOI live incidents, sandbox `https://sb-17suihbulexj.vercel.run`
+| repo file | local route | upstream / data path | guards | notes |
+|---|---|---|---|---|
+| `server/incidents/routes.js` | `POST /api/ondemand/v2/incidents/ingest` | none (store write) | `X-Ingest-Secret` (env `INCIDENT_INGEST_SECRET`, timing-safe) → shared ledger; else session-scoped `externalUserId` (+ principal binding); JSON-schema validation; AOI filter with reason; sha1 dedupe (category·0.01°·6 h) incl. against the shared ledger; `override:true` honoured | returns inserted / existing / duplicates / rejected(reason) / invalid + scenes |
+| `server/incidents/routes.js` | `GET /api/ondemand/v2/incidents/list?aoi=<id\|all>&externalUserId=` | none | rate limit | incidents + clustered scenes + per-AOI / per-category counts + rejected seeds with reasons + legend |
+| `server/incidents/routes.js` | `GET /api/ondemand/v2/incidents/aoi` | `config/aoi/uae-interest.json` | — | editable config + renderable outlines (27 AOIs, 5 groups) |
+| `server/incidents/routes.js` | `POST /api/ondemand/v2/incidents/refresh` | OnDemand `POST /chat/v1/sessions` + `/sessions/{id}/query` with `pluginIds` `plugin-1722260873` (perplexity_research) and `plugin-1713924030` (internet_web_search) via `contractRegistry`; `fire_detection_search` via the in-process tool invoker (NASA FIRMS, needs `NASA_FIRMS_MAP_KEY`) | server key only; per-source isolation; 409 backoff | **live-verified 12:27Z**: 2/2 research sources ok, +3 incidents in AOI; FIRMS `not_configured` (N-19). TODO hook: scheduled OnDemand workflow → `/ingest` with the secret (N-33) |
+| `server/incidents/routes.js` | `POST /api/ondemand/v2/incidents/locate` | gazetteer (offline) → OnDemand fulfilment endpoint `predefined-gpt-6-luna` entity extraction (fenced UNTRUSTED prompt) → `geocode_place` tool (Nominatim) | server key only | candidates carry `aoi_membership` + `reason` + `confidence`; same-place merge ≤15 km; live-verified (“Sohar refinery” → 24.503, 56.625 IN_AOI Gulf of Oman) |
+| `src/incidents/client.js` + `src/incidents/ui/*` | browser → the five routes above | — | `X-Workstation-User` / workspace headers; no provider calls from the frontend | composer, overlay, popover, ASK ONDEMAND → existing `/api/ondemand/v2/chat` mini chat with `objectType:'alert'` context (incident_id, aoi, sources, timestamps) |
 
-Registry: **37 contracts** (11 ondemand-plugin · 25 ondemand-tool · 1 ondemand-workflow); `activePluginIds()` unchanged at 10.
-Four new `ondemand-tool` contracts describe the incident pipeline steps and are listed/verified by the PLUGINS panel
-through the existing lifecycle (`toolInvoker` answers them from the incident store with the honest LIVE/SEED/NO KEY state):
+Counts after cycle 9: OnDemand-native call sites **39** (+5: refresh ×2 plugins, locate entity extraction, locate geocode tool, FIRMS tool invoker); external providers unchanged (54); direct AI bypasses **0**.
 
-| contract | kind | route | OnDemand surface actually invoked | live evidence (UTC) | status |
-|---|---|---|---|---|---|
-| `incident_news_search` | ondemand-tool | `POST /api/incidents/refresh` | chat session + sync query on `predefined-gpt-6-luna` with `pluginIds:[plugin-1713924030]` (Internet web search) per AOI, structured JSON answer | 09:55Z local: YEMEN/2 AOIs → 1 citable incident ingested (Al Jazeera, Mayun); 10:16:50Z sandbox: SOMALIA/4 AOIs → 3 ok (`{"incidents":[]}`), 1 timeout, `lastRefreshUtc` 10:17:29Z | **LIVE · verified** |
-| `incident_classify_extract` | ondemand-tool | `POST /api/incidents/resolve` | sync query (fulfilmentOnly, low effort) on `predefined-gpt-6-luna`, JSON schema prompt, user text fenced as UNTRUSTED | 10:13:43Z: `Houthi drone strike on tanker near Bab el-Mandeb` → 12.58N 43.33E, drone_strike, HIGH, entities [Houthi, tanker], provider `ondemand`, 4.3 s | **LIVE · verified** |
-| `incident_source_verification` | ondemand-tool | `POST /api/incidents` (x-ingest-secret) | gateway-side: candidates without their own source URL dropped, AOI polygon filter, dedupe key normalised(headline)+0.1°+24 h | 10:17:29Z: 401 on wrong secret, 200 `added 1` on the right one; unit `incidents.test.mjs` | **verified** |
-| `incident_scheduled_refresh` | ondemand-tool | `POST /api/incidents/refresh` (cron-capable) | same sweep as above behind an in-flight lock + 4/min limiter; reports `state:"NO KEY"` with zero activity when `ONDEMAND_API_KEY` is absent | local 09:54Z (no key): `{"ok":false,"state":"NO KEY",...}`; unit: 2 concurrent POSTs → 1 sweep | **verified** (no platform cron yet — see BLOCKERS B-25) |
-
-Data/UX surfaces integrated this cycle:
-
-| surface | file(s) | evidence |
-|---|---|---|
-| AOI library (44 Polygon AOIs across IRAN 7 / YEMEN 14 / SOMALIA 10 / UAE HOME BORDER 13, 17 protected-asset features tagged with the 8 UAE Penal-Code-derived zone categories, aliases, `source_url`) | `src/data/local_data/uae-aoi/uae-aoi.json`, `src/data/uaeAoi.js` | `uaeAoi.test.mjs` 11/11 |
-| 31 seeded incidents (IRAN 10 · YEMEN 10 · SOMALIA 8 · UAE HOME BORDER 3) with camera presets (ONA 35–65°, 8–120 km, dwell 3.5–5 s + 9–14 s) | `src/data/local_data/uae-aoi/uae-aoi-seed-incidents.json`, `src/data/uaeIncidents.js` | `GET /api/incidents` counts 10/10/8/3 |
-| Scene library replaces Nepal defaults (`createDefaultProject()` → one scene per group, one shot per incident; `shot.incident` card metadata validated by `src/director/document.js`) | `src/scenes/project.js`, `src/scenes/recipes.js` (`LEGACY_EVENT_RECIPES`), `src/scenes/director.js` (`addIncidentScene`, `syncIncidentLibrary`, `findIncidentShot`) | director tests 60/60, browser before/after passes |
-| SCENES panel additions (group dropdown, artwork, LIVE/SEED/NO KEY badge with LAST REFRESH, REFRESH, chips, source link, sticky composer with safe-area inset, OUTSIDE UAE AOI banner) | `src/ui/incidentPanel.js`, `src/ui/styles/scenes.css`, `src/app/tools.js` | `incidentPanel.test.mjs` 9/9, TEST_RESULTS §14.4 |
-| Server routes + store (file under `os.tmpdir()` + optional KV + memory; seeds on first read) | `server/incidents/{route,store,resolver}.js`, mounted in `server/serverless/app.js` (same catch-all function) | `incidents.test.mjs` 13/13, §14.3 |
-| Embeddability | `vercel.json` framing headers removed (build/vite.js already clean) | `GET /` raw headers 0 hits; iframe proof both viewports |
-
-Direct-provider bypasses introduced: **0** (geocoding/classification/news all go through the foundation client; the offline gazetteer is a
-fallback, not a third-party call). Browser-held secrets: **0** (the composer persists through the same-origin `/api/incidents/composer`
-proxy; `INCIDENT_INGEST_SECRET` and `ONDEMAND_API_KEY` are process-env only, compared constant-time, never echoed).
-
-GENERATED_UTC: 2026-10-22T10:20:00Z
+GENERATED_UTC: 2026-10-22T13:05:00Z

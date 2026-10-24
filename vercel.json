@@ -11,9 +11,25 @@
     },
     "api/ondemand/*.js": {
       "maxDuration": 60
+    },
+    "api/footage/index.py": {
+      "maxDuration": 60,
+      "memory": 1024
     }
   },
   "rewrites": [
+    {
+      "source": "/footage",
+      "destination": "/api/footage/index?__fp=index"
+    },
+    {
+      "source": "/footage/:__fp*",
+      "destination": "/api/footage/index?__fp=:__fp*"
+    },
+    {
+      "source": "/api/footage/:__fp*",
+      "destination": "/api/footage/index?__fp=:__fp*"
+    },
     {
       "source": "/api/:__gev_api_path*",
       "destination": "/api/route"

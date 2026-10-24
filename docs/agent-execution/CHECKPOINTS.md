@@ -3,7 +3,6 @@
 | tag | base commit | created (UTC) | purpose |
 |---|---|---|---|
 | `recovery/pre-ondemand-rebuild-20261020` | `1c9558c` | 2026-10-20T21:26:36Z | pre-rebuild protection point (never move) |
-| `checkpoint-2026-10-22-uae-aoi-live-incidents` | `abe8418` (cycle-9 feature commit on top of `b698032`) | 2026-10-22T10:23:32Z | UAE AOI scene library + `/api/incidents` + SCENES composer; sandbox `sb-17suihbulexj` verified (TEST_RESULTS §14); pushed with the branch |
 | `checkpoint-2026-10-21-preview-retry` | cycle-6 checkpoint commit (on top of the cycle-6 fix/feat/test commits; deploy source of the retry sandbox was `712a552`) | 2026-10-21T10:3xZ (see `git tag -n`) | preview retry: fresh sandbox `sb-4asza5droe1u` health-gated, A–G 14/14 pre- and post-fix, 4 defects fixed (B-21…B-24) with before/after evidence, 4,688 units |
 | `checkpoint-2026-10-21-post-sandbox-verification` | `712a552` (cycle-5 checkpoint commit on top of `7b669a3` artefacts + `eb4ec15` legacy cleanup) | 2026-10-21T09:0xZ (see `git tag -n`) | post-verification baseline: 14/14 A–G on the live sandbox with PNG proof, parity/plugin/branding/asset checks green, 4,674/4,675 units — taken BEFORE any further Signal Engine chat-UI change |
 | `checkpoint-2026-10-21-verify-cycle4` | `226217f` (cycle-3 checkpoint docs) | 2026-10-21T04:12:28Z | cycle-4 baseline before the five-agent verification swarm and the sandbox resume |

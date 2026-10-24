@@ -50,6 +50,15 @@ const catchAllFile = path.join(apiDir, '[...route].js');
 const dynamicImport = new Function('specifier', 'return import(specifier)');
 
 const PORT = Number(process.env.PORT) || 3000;
+// The LIVE FOOTAGE service is a Python (FastAPI) Vercel function
+// (api/footage/index.py). This Node emulator cannot import it, so when
+// FOOTAGE_UPSTREAM names a running uvicorn (e.g. http://127.0.0.1:8787) the
+// `/footage/*` and `/api/footage/*` routes are proxied there — the same
+// mapping vercel.json's rewrites perform on the platform.
+const FOOTAGE_UPSTREAM = (process.env.FOOTAGE_UPSTREAM || '').replace(
+  /\/$/,
+  '',
+);
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -263,6 +272,55 @@ async function handleStatic(req, res, pathname) {
 }
 
 // ---------------------------------------------------------------------------
+// /footage/* — reverse proxy to the Python footage service (streams SSE as-is)
+// ---------------------------------------------------------------------------
+
+function proxyFootage(req, res, pathname, url) {
+  if (!FOOTAGE_UPSTREAM) {
+    res.statusCode = 503;
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-store');
+    res.end(
+      JSON.stringify({
+        error: 'footage_upstream_not_configured',
+        message:
+          'Set FOOTAGE_UPSTREAM=http://127.0.0.1:8787 and run `uvicorn api.footage.index:app --port 8787`.',
+      }),
+    );
+    return;
+  }
+  return new Promise((resolve) => {
+    const target = new URL(FOOTAGE_UPSTREAM + pathname + url.search);
+    const headers = { ...req.headers, host: target.host };
+    const upstream = http.request(
+      target,
+      { method: req.method, headers },
+      (up) => {
+        res.writeHead(up.statusCode || 502, up.headers);
+        up.pipe(res);
+        up.on('end', resolve);
+        up.on('error', resolve);
+      },
+    );
+    upstream.on('error', (error) => {
+      if (!res.headersSent) {
+        res.statusCode = 502;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(
+          JSON.stringify({
+            error: 'footage_upstream_unreachable',
+            message: String(error?.message || error),
+          }),
+        );
+      } else if (!res.writableEnded) res.end();
+      resolve();
+    });
+    req.on('aborted', () => upstream.destroy());
+    req.pipe(upstream);
+  });
+}
+
+// ---------------------------------------------------------------------------
 // server
 // ---------------------------------------------------------------------------
 
@@ -286,6 +344,14 @@ const server = http.createServer((req, res) => {
 
   Promise.resolve()
     .then(() => {
+      if (
+        pathname === '/footage' ||
+        pathname.startsWith('/footage/') ||
+        pathname === '/api/footage' ||
+        pathname.startsWith('/api/footage/')
+      ) {
+        return proxyFootage(req, res, pathname, url);
+      }
       if (pathname === '/api' || pathname.startsWith('/api/')) {
         return handleApi(req, res, pathname, url);
       }

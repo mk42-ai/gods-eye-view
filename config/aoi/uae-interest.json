@@ -1,0 +1,1713 @@
+{
+  "$schema": "./uae-interest.schema.json",
+  "version": 1,
+  "name": "UAE areas of interest",
+  "crs": "WGS84 (lat, lon in decimal degrees; polygon rings are [lon, lat])",
+  "generated_utc": "2026-10-22T10:30:00Z",
+  "notes": [
+    "Editable. Every radius/buffer below is a policy default, not a legal boundary.",
+    "Country outlines are coarse operational polygons (10-25 vertices); the territorial buffer absorbs coastline error.",
+    "Entries flagged verified:false came from a gazetteer fallback because the geocoder returned no result.",
+    "2026-10-23: Dubai neighbourhood gazetteer entries added for the LIVE FOOTAGE dock / incident composer (Umm Suqeim, Jumeirah, Al Barsha, JVC, Marina, Al Warqa, Business Bay, Deira, ...)."
+  ],
+  "buffers_km": {
+    "territorial_nmi": 12,
+    "territorial_km": 22.2,
+    "contiguous_nmi": 24,
+    "contiguous_km": 44.4,
+    "maritime_corridor_km": 200,
+    "land_border_km": 50,
+    "presence_node_km": 25
+  },
+  "groups": {
+    "country": {
+      "label": "Countries",
+      "default_on": true,
+      "color": "#f5a623"
+    },
+    "maritime": {
+      "label": "Maritime chokepoints",
+      "default_on": true,
+      "color": "#3bb795"
+    },
+    "border": {
+      "label": "UAE land borders",
+      "default_on": true,
+      "color": "#7bbdd3"
+    },
+    "waters": {
+      "label": "UAE territorial waters",
+      "default_on": true,
+      "color": "#4f9fd8"
+    },
+    "presence": {
+      "label": "UAE presence nodes",
+      "default_on": true,
+      "color": "#e06c75"
+    }
+  },
+  "aois": [
+    {
+      "id": "iran",
+      "name": "Iran",
+      "group": "country",
+      "kind": "polygon",
+      "buffer_km": 22.2,
+      "ring": [
+        [
+          44.0,
+          39.4
+        ],
+        [
+          48.0,
+          39.6
+        ],
+        [
+          53.9,
+          37.3
+        ],
+        [
+          57.3,
+          38.0
+        ],
+        [
+          61.2,
+          36.6
+        ],
+        [
+          61.0,
+          34.0
+        ],
+        [
+          60.9,
+          29.8
+        ],
+        [
+          63.3,
+          27.2
+        ],
+        [
+          61.6,
+          25.0
+        ],
+        [
+          57.3,
+          25.4
+        ],
+        [
+          56.3,
+          27.0
+        ],
+        [
+          54.0,
+          26.5
+        ],
+        [
+          50.6,
+          28.6
+        ],
+        [
+          49.3,
+          29.9
+        ],
+        [
+          48.0,
+          30.0
+        ],
+        [
+          47.7,
+          31.0
+        ],
+        [
+          45.5,
+          33.9
+        ],
+        [
+          45.4,
+          35.9
+        ],
+        [
+          44.8,
+          37.1
+        ],
+        [
+          44.0,
+          39.4
+        ]
+      ],
+      "anchors": [
+        {
+          "name": "Tehran",
+          "lat": 35.6893,
+          "lon": 51.3896,
+          "verified": true
+        },
+        {
+          "name": "Bandar Abbas",
+          "lat": 27.1842,
+          "lon": 56.2893,
+          "verified": true
+        },
+        {
+          "name": "Khark Island",
+          "lat": 29.2406,
+          "lon": 50.3117,
+          "verified": true
+        },
+        {
+          "name": "Chabahar",
+          "lat": 25.2935,
+          "lon": 60.6469,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "yemen",
+      "name": "Yemen",
+      "group": "country",
+      "kind": "polygon",
+      "buffer_km": 22.2,
+      "ring": [
+        [
+          42.6,
+          16.4
+        ],
+        [
+          43.2,
+          17.4
+        ],
+        [
+          45.2,
+          17.4
+        ],
+        [
+          46.4,
+          17.2
+        ],
+        [
+          47.0,
+          16.9
+        ],
+        [
+          47.5,
+          17.1
+        ],
+        [
+          48.2,
+          18.2
+        ],
+        [
+          49.1,
+          18.6
+        ],
+        [
+          52.0,
+          19.0
+        ],
+        [
+          53.1,
+          16.6
+        ],
+        [
+          52.2,
+          15.6
+        ],
+        [
+          49.2,
+          14.3
+        ],
+        [
+          48.1,
+          13.8
+        ],
+        [
+          45.8,
+          13.0
+        ],
+        [
+          45.0,
+          12.6
+        ],
+        [
+          43.4,
+          12.6
+        ],
+        [
+          43.2,
+          13.2
+        ],
+        [
+          42.8,
+          14.3
+        ],
+        [
+          42.6,
+          15.4
+        ],
+        [
+          42.6,
+          16.4
+        ]
+      ],
+      "anchors": [
+        {
+          "name": "Sana'a",
+          "lat": 15.3539,
+          "lon": 44.2059,
+          "verified": true
+        },
+        {
+          "name": "Hodeidah",
+          "lat": 14.7979,
+          "lon": 42.9545,
+          "verified": true
+        },
+        {
+          "name": "Mocha",
+          "lat": 13.3179,
+          "lon": 43.2501,
+          "verified": true
+        },
+        {
+          "name": "Aden",
+          "lat": 12.7896,
+          "lon": 45.0285,
+          "verified": true
+        },
+        {
+          "name": "Mukalla",
+          "lat": 14.5425,
+          "lon": 49.1231,
+          "verified": true
+        },
+        {
+          "name": "Balhaf",
+          "lat": 14.0044,
+          "lon": 48.1763,
+          "verified": true
+        },
+        {
+          "name": "Yemen LNG (Balhaf)",
+          "lat": 13.9838,
+          "lon": 48.1804,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "somalia",
+      "name": "Somalia",
+      "group": "country",
+      "kind": "polygon",
+      "buffer_km": 22.2,
+      "ring": [
+        [
+          41.0,
+          -1.7
+        ],
+        [
+          41.6,
+          -1.6
+        ],
+        [
+          41.0,
+          3.9
+        ],
+        [
+          42.0,
+          4.2
+        ],
+        [
+          43.5,
+          4.9
+        ],
+        [
+          44.9,
+          5.0
+        ],
+        [
+          45.0,
+          8.0
+        ],
+        [
+          43.1,
+          9.4
+        ],
+        [
+          42.7,
+          10.6
+        ],
+        [
+          43.2,
+          11.5
+        ],
+        [
+          44.0,
+          10.5
+        ],
+        [
+          45.5,
+          10.7
+        ],
+        [
+          47.5,
+          11.2
+        ],
+        [
+          49.0,
+          11.4
+        ],
+        [
+          50.0,
+          11.7
+        ],
+        [
+          51.3,
+          12.0
+        ],
+        [
+          51.1,
+          10.5
+        ],
+        [
+          50.8,
+          9.3
+        ],
+        [
+          49.0,
+          6.0
+        ],
+        [
+          47.8,
+          4.4
+        ],
+        [
+          46.0,
+          2.4
+        ],
+        [
+          44.5,
+          1.3
+        ],
+        [
+          42.5,
+          -0.5
+        ],
+        [
+          41.6,
+          -1.8
+        ],
+        [
+          41.0,
+          -1.7
+        ]
+      ],
+      "anchors": [
+        {
+          "name": "Mogadishu",
+          "lat": 2.0349,
+          "lon": 45.3419,
+          "verified": true
+        },
+        {
+          "name": "Kismayo",
+          "lat": -0.3602,
+          "lon": 42.5409,
+          "verified": true
+        },
+        {
+          "name": "Galkayo",
+          "lat": 6.7697,
+          "lon": 47.4308,
+          "verified": true
+        },
+        {
+          "name": "Bosaso",
+          "lat": 11.2785,
+          "lon": 49.18,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "strait-of-hormuz",
+      "name": "Strait of Hormuz",
+      "group": "maritime",
+      "kind": "bbox",
+      "bbox": [
+        55.2127,
+        25.7106,
+        57.3469,
+        27.1888
+      ],
+      "buffer_km": 44.4,
+      "anchors": [
+        {
+          "name": "Strait of Hormuz",
+          "lat": 26.4494,
+          "lon": 56.2028,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "gulf-of-oman",
+      "name": "Gulf of Oman",
+      "group": "maritime",
+      "kind": "bbox",
+      "bbox": [
+        56.0,
+        24.0,
+        59.5,
+        26.6
+      ],
+      "buffer_km": 22.2,
+      "anchors": [
+        {
+          "name": "Gulf of Oman",
+          "lat": 25.0,
+          "lon": 58.0,
+          "verified": false
+        }
+      ]
+    },
+    {
+      "id": "southern-red-sea",
+      "name": "Southern Red Sea",
+      "group": "maritime",
+      "kind": "bbox",
+      "bbox": [
+        40.6,
+        12.4,
+        43.6,
+        17.0
+      ],
+      "buffer_km": 22.2,
+      "anchors": [
+        {
+          "name": "Hodeidah approaches",
+          "lat": 14.8,
+          "lon": 42.6,
+          "verified": false
+        }
+      ]
+    },
+    {
+      "id": "bab-el-mandeb",
+      "name": "Bab el-Mandeb",
+      "group": "maritime",
+      "kind": "bbox",
+      "bbox": [
+        43.2028,
+        12.4541,
+        43.5049,
+        12.6941
+      ],
+      "buffer_km": 44.4,
+      "anchors": [
+        {
+          "name": "Bab el-Mandeb",
+          "lat": 12.5744,
+          "lon": 43.3128,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "gulf-of-aden",
+      "name": "Gulf of Aden",
+      "group": "maritime",
+      "kind": "bbox",
+      "bbox": [
+        43.2574,
+        10.3784,
+        51.2667,
+        14.8511
+      ],
+      "buffer_km": 44.4,
+      "anchors": [
+        {
+          "name": "Gulf of Aden",
+          "lat": 12.6147,
+          "lon": 47.5063,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "socotra",
+      "name": "Socotra",
+      "group": "maritime",
+      "kind": "circle",
+      "center": {
+        "lat": 12.6512,
+        "lon": 54.0237
+      },
+      "radius_km": 110,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Hadiboh",
+          "lat": 12.6512,
+          "lon": 54.0237,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "al-ain-buraimi",
+      "name": "Al Ain – Al Buraimi border",
+      "group": "border",
+      "kind": "circle",
+      "center": {
+        "lat": 24.242,
+        "lon": 55.7645
+      },
+      "radius_km": 50,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Al Ain",
+          "lat": 24.2249,
+          "lon": 55.7452,
+          "verified": true
+        },
+        {
+          "name": "Al Buraimi",
+          "lat": 24.2592,
+          "lon": 55.7838,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "hatta",
+      "name": "Hatta border",
+      "group": "border",
+      "kind": "circle",
+      "center": {
+        "lat": 24.7976,
+        "lon": 56.1206
+      },
+      "radius_km": 50,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Hatta",
+          "lat": 24.7976,
+          "lon": 56.1206,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "ghuwaifat",
+      "name": "Ghuwaifat border crossing",
+      "group": "border",
+      "kind": "circle",
+      "center": {
+        "lat": 24.12,
+        "lon": 51.62
+      },
+      "radius_km": 50,
+      "buffer_km": 0,
+      "verified": false,
+      "anchors": [
+        {
+          "name": "Ghuwaifat",
+          "lat": 24.12,
+          "lon": 51.62,
+          "verified": false
+        }
+      ]
+    },
+    {
+      "id": "musandam-approaches",
+      "name": "Musandam approaches",
+      "group": "border",
+      "kind": "circle",
+      "center": {
+        "lat": 25.9997,
+        "lon": 56.2499
+      },
+      "radius_km": 60,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Musandam Governorate",
+          "lat": 25.9997,
+          "lon": 56.2499,
+          "verified": true
+        },
+        {
+          "name": "Khasab",
+          "lat": 26.1841,
+          "lon": 56.247,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "ras-al-khaimah",
+      "name": "Ras Al Khaimah border",
+      "group": "border",
+      "kind": "circle",
+      "center": {
+        "lat": 25.7738,
+        "lon": 55.9382
+      },
+      "radius_km": 50,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Ras Al Khaimah",
+          "lat": 25.7738,
+          "lon": 55.9382,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "uae-gulf-waters",
+      "name": "UAE territorial waters (Arabian Gulf)",
+      "group": "waters",
+      "kind": "polygon",
+      "buffer_km": 22.2,
+      "ring": [
+        [
+          51.6,
+          24.1
+        ],
+        [
+          52.5,
+          24.2
+        ],
+        [
+          53.5,
+          24.1
+        ],
+        [
+          54.4,
+          24.4
+        ],
+        [
+          55.1,
+          25.0
+        ],
+        [
+          55.4,
+          25.4
+        ],
+        [
+          56.0,
+          26.1
+        ],
+        [
+          56.0,
+          26.5
+        ],
+        [
+          55.3,
+          25.8
+        ],
+        [
+          54.9,
+          25.3
+        ],
+        [
+          54.2,
+          24.9
+        ],
+        [
+          53.4,
+          24.6
+        ],
+        [
+          52.4,
+          24.7
+        ],
+        [
+          51.5,
+          24.6
+        ],
+        [
+          51.6,
+          24.1
+        ]
+      ],
+      "anchors": [
+        {
+          "name": "Abu Dhabi",
+          "lat": 24.4539,
+          "lon": 54.3773,
+          "verified": true
+        },
+        {
+          "name": "Dubai",
+          "lat": 25.2048,
+          "lon": 55.2708,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "fujairah-anchorage",
+      "name": "Fujairah / Khor Fakkan anchorages",
+      "group": "waters",
+      "kind": "circle",
+      "center": {
+        "lat": 25.2369,
+        "lon": 56.3417
+      },
+      "radius_km": 44.4,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Fujairah",
+          "lat": 25.1245,
+          "lon": 56.3355,
+          "verified": true
+        },
+        {
+          "name": "Fujairah (emirate centroid)",
+          "lat": 25.4147,
+          "lon": 56.2314,
+          "verified": true
+        },
+        {
+          "name": "Khor Fakkan",
+          "lat": 25.3492,
+          "lon": 56.3478,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "abu-musa",
+      "name": "Abu Musa",
+      "group": "waters",
+      "kind": "circle",
+      "center": {
+        "lat": 25.8778,
+        "lon": 55.0306
+      },
+      "radius_km": 22.2,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Abu Musa",
+          "lat": 25.8778,
+          "lon": 55.0306,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "greater-tunb",
+      "name": "Greater Tunb",
+      "group": "waters",
+      "kind": "circle",
+      "center": {
+        "lat": 26.2667,
+        "lon": 55.3
+      },
+      "radius_km": 22.2,
+      "buffer_km": 0,
+      "verified": false,
+      "anchors": [
+        {
+          "name": "Greater Tunb",
+          "lat": 26.2667,
+          "lon": 55.3,
+          "verified": false
+        }
+      ]
+    },
+    {
+      "id": "lesser-tunb",
+      "name": "Lesser Tunb",
+      "group": "waters",
+      "kind": "circle",
+      "center": {
+        "lat": 26.2417,
+        "lon": 55.1444
+      },
+      "radius_km": 22.2,
+      "buffer_km": 0,
+      "verified": false,
+      "anchors": [
+        {
+          "name": "Lesser Tunb",
+          "lat": 26.2417,
+          "lon": 55.1444,
+          "verified": false
+        }
+      ]
+    },
+    {
+      "id": "presence-berbera",
+      "name": "UAE presence · Berbera",
+      "group": "presence",
+      "kind": "circle",
+      "center": {
+        "lat": 10.4386,
+        "lon": 45.0134
+      },
+      "radius_km": 25,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Berbera",
+          "lat": 10.4386,
+          "lon": 45.0134,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "presence-bosaso",
+      "name": "UAE presence · Bosaso",
+      "group": "presence",
+      "kind": "circle",
+      "center": {
+        "lat": 11.2785,
+        "lon": 49.18
+      },
+      "radius_km": 25,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Bosaso",
+          "lat": 11.2785,
+          "lon": 49.18,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "presence-aden",
+      "name": "UAE presence · Aden",
+      "group": "presence",
+      "kind": "circle",
+      "center": {
+        "lat": 12.7896,
+        "lon": 45.0285
+      },
+      "radius_km": 25,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Aden",
+          "lat": 12.7896,
+          "lon": 45.0285,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "presence-mukalla",
+      "name": "UAE presence · Mukalla",
+      "group": "presence",
+      "kind": "circle",
+      "center": {
+        "lat": 14.5425,
+        "lon": 49.1231
+      },
+      "radius_km": 25,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Mukalla",
+          "lat": 14.5425,
+          "lon": 49.1231,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "presence-mocha",
+      "name": "UAE presence · Mocha",
+      "group": "presence",
+      "kind": "circle",
+      "center": {
+        "lat": 13.3179,
+        "lon": 43.2501
+      },
+      "radius_km": 25,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Mocha",
+          "lat": 13.3179,
+          "lon": 43.2501,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "presence-socotra",
+      "name": "UAE presence · Socotra (Hadiboh)",
+      "group": "presence",
+      "kind": "circle",
+      "center": {
+        "lat": 12.6512,
+        "lon": 54.0237
+      },
+      "radius_km": 25,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Hadiboh",
+          "lat": 12.6512,
+          "lon": 54.0237,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "presence-balhaf",
+      "name": "UAE presence · Balhaf",
+      "group": "presence",
+      "kind": "circle",
+      "center": {
+        "lat": 14.0044,
+        "lon": 48.1763
+      },
+      "radius_km": 25,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Balhaf",
+          "lat": 14.0044,
+          "lon": 48.1763,
+          "verified": true
+        }
+      ]
+    },
+    {
+      "id": "presence-perim",
+      "name": "UAE presence · Perim / Mayun",
+      "group": "presence",
+      "kind": "circle",
+      "center": {
+        "lat": 12.6518,
+        "lon": 43.4278
+      },
+      "radius_km": 25,
+      "buffer_km": 0,
+      "anchors": [
+        {
+          "name": "Perim (Mayun)",
+          "lat": 12.6518,
+          "lon": 43.4278,
+          "verified": true
+        }
+      ]
+    }
+  ],
+  "gazetteer": [
+    {
+      "name": "Tehran",
+      "aliases": [
+        "tehran"
+      ],
+      "lat": 35.6893,
+      "lon": 51.3896,
+      "country": "IR",
+      "verified": true
+    },
+    {
+      "name": "Bandar Abbas",
+      "aliases": [
+        "bandar abbas",
+        "bandar-e abbas"
+      ],
+      "lat": 27.1842,
+      "lon": 56.2893,
+      "country": "IR",
+      "verified": true
+    },
+    {
+      "name": "Khark Island",
+      "aliases": [
+        "khark",
+        "kharg",
+        "kharg island"
+      ],
+      "lat": 29.2406,
+      "lon": 50.3117,
+      "country": "IR",
+      "verified": true
+    },
+    {
+      "name": "Chabahar",
+      "aliases": [
+        "chabahar",
+        "chah bahar"
+      ],
+      "lat": 25.2935,
+      "lon": 60.6469,
+      "country": "IR",
+      "verified": true
+    },
+    {
+      "name": "Jask",
+      "aliases": [
+        "jask",
+        "bandar jask"
+      ],
+      "lat": 25.6439,
+      "lon": 57.7744,
+      "country": "IR",
+      "verified": false
+    },
+    {
+      "name": "Sana'a",
+      "aliases": [
+        "sanaa",
+        "sana'a",
+        "sana"
+      ],
+      "lat": 15.3539,
+      "lon": 44.2059,
+      "country": "YE",
+      "verified": true
+    },
+    {
+      "name": "Hodeidah",
+      "aliases": [
+        "hodeidah",
+        "hudaydah",
+        "al hudaydah",
+        "hodeida",
+        "hodeidah port"
+      ],
+      "lat": 14.7979,
+      "lon": 42.9545,
+      "country": "YE",
+      "verified": true
+    },
+    {
+      "name": "Mocha",
+      "aliases": [
+        "mocha",
+        "mokha",
+        "al mukha"
+      ],
+      "lat": 13.3179,
+      "lon": 43.2501,
+      "country": "YE",
+      "verified": true
+    },
+    {
+      "name": "Aden",
+      "aliases": [
+        "aden",
+        "aden port"
+      ],
+      "lat": 12.7896,
+      "lon": 45.0285,
+      "country": "YE",
+      "verified": true
+    },
+    {
+      "name": "Mukalla",
+      "aliases": [
+        "mukalla",
+        "al mukalla"
+      ],
+      "lat": 14.5425,
+      "lon": 49.1231,
+      "country": "YE",
+      "verified": true
+    },
+    {
+      "name": "Balhaf",
+      "aliases": [
+        "balhaf",
+        "yemen lng",
+        "balhaf lng"
+      ],
+      "lat": 14.0044,
+      "lon": 48.1763,
+      "country": "YE",
+      "verified": true
+    },
+    {
+      "name": "Perim (Mayun)",
+      "aliases": [
+        "perim",
+        "mayun",
+        "perim island",
+        "mayun island"
+      ],
+      "lat": 12.6518,
+      "lon": 43.4278,
+      "country": "YE",
+      "verified": true
+    },
+    {
+      "name": "Hadiboh (Socotra)",
+      "aliases": [
+        "hadiboh",
+        "hadibu",
+        "socotra"
+      ],
+      "lat": 12.6512,
+      "lon": 54.0237,
+      "country": "YE",
+      "verified": true
+    },
+    {
+      "name": "Mogadishu",
+      "aliases": [
+        "mogadishu",
+        "muqdisho"
+      ],
+      "lat": 2.0349,
+      "lon": 45.3419,
+      "country": "SO",
+      "verified": true
+    },
+    {
+      "name": "Kismayo",
+      "aliases": [
+        "kismayo",
+        "kismaayo"
+      ],
+      "lat": -0.3602,
+      "lon": 42.5409,
+      "country": "SO",
+      "verified": true
+    },
+    {
+      "name": "Galkayo",
+      "aliases": [
+        "galkayo",
+        "gaalkacyo"
+      ],
+      "lat": 6.7697,
+      "lon": 47.4308,
+      "country": "SO",
+      "verified": true
+    },
+    {
+      "name": "Bosaso",
+      "aliases": [
+        "bosaso",
+        "boosaaso",
+        "bosaso port"
+      ],
+      "lat": 11.2785,
+      "lon": 49.18,
+      "country": "SO",
+      "verified": true
+    },
+    {
+      "name": "Berbera",
+      "aliases": [
+        "berbera",
+        "berbera port"
+      ],
+      "lat": 10.4386,
+      "lon": 45.0134,
+      "country": "SO",
+      "verified": true
+    },
+    {
+      "name": "Strait of Hormuz",
+      "aliases": [
+        "hormuz",
+        "strait of hormuz"
+      ],
+      "lat": 26.4494,
+      "lon": 56.2028,
+      "country": null,
+      "verified": true
+    },
+    {
+      "name": "Bab el-Mandeb",
+      "aliases": [
+        "bab el-mandeb",
+        "bab al-mandab",
+        "bab el mandeb",
+        "mandeb"
+      ],
+      "lat": 12.5744,
+      "lon": 43.3128,
+      "country": null,
+      "verified": true
+    },
+    {
+      "name": "Gulf of Aden",
+      "aliases": [
+        "gulf of aden"
+      ],
+      "lat": 12.6147,
+      "lon": 47.5063,
+      "country": null,
+      "verified": true
+    },
+    {
+      "name": "Al Ain",
+      "aliases": [
+        "al ain",
+        "al-ain"
+      ],
+      "lat": 24.2249,
+      "lon": 55.7452,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Al Buraimi",
+      "aliases": [
+        "buraimi",
+        "al buraimi"
+      ],
+      "lat": 24.2592,
+      "lon": 55.7838,
+      "country": "OM",
+      "verified": true
+    },
+    {
+      "name": "Hatta",
+      "aliases": [
+        "hatta"
+      ],
+      "lat": 24.7976,
+      "lon": 56.1206,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Ghuwaifat",
+      "aliases": [
+        "ghuwaifat",
+        "al ghuwaifat",
+        "ghweifat"
+      ],
+      "lat": 24.12,
+      "lon": 51.62,
+      "country": "AE",
+      "verified": false
+    },
+    {
+      "name": "Khasab",
+      "aliases": [
+        "khasab"
+      ],
+      "lat": 26.1841,
+      "lon": 56.247,
+      "country": "OM",
+      "verified": true
+    },
+    {
+      "name": "Musandam",
+      "aliases": [
+        "musandam"
+      ],
+      "lat": 25.9997,
+      "lon": 56.2499,
+      "country": "OM",
+      "verified": true
+    },
+    {
+      "name": "Ras Al Khaimah",
+      "aliases": [
+        "ras al khaimah",
+        "rak",
+        "ras al-khaimah"
+      ],
+      "lat": 25.7738,
+      "lon": 55.9382,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Fujairah",
+      "aliases": [
+        "fujairah",
+        "fujairah anchorage",
+        "fujairah port"
+      ],
+      "lat": 25.1245,
+      "lon": 56.3355,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Khor Fakkan",
+      "aliases": [
+        "khor fakkan",
+        "khorfakkan"
+      ],
+      "lat": 25.3492,
+      "lon": 56.3478,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Abu Musa",
+      "aliases": [
+        "abu musa"
+      ],
+      "lat": 25.8778,
+      "lon": 55.0306,
+      "country": null,
+      "verified": true
+    },
+    {
+      "name": "Greater Tunb",
+      "aliases": [
+        "greater tunb",
+        "tunb al kubra"
+      ],
+      "lat": 26.2667,
+      "lon": 55.3,
+      "country": null,
+      "verified": false
+    },
+    {
+      "name": "Lesser Tunb",
+      "aliases": [
+        "lesser tunb",
+        "tunb al sughra"
+      ],
+      "lat": 26.2417,
+      "lon": 55.1444,
+      "country": null,
+      "verified": false
+    },
+    {
+      "name": "Abu Dhabi",
+      "aliases": [
+        "abu dhabi"
+      ],
+      "lat": 24.4539,
+      "lon": 54.3773,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Dubai",
+      "aliases": [
+        "dubai"
+      ],
+      "lat": 25.2048,
+      "lon": 55.2708,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Sharjah",
+      "aliases": [
+        "sharjah"
+      ],
+      "lat": 25.3463,
+      "lon": 55.4209,
+      "country": "AE",
+      "verified": false
+    },
+    {
+      "name": "Yanbu",
+      "aliases": [
+        "yanbu"
+      ],
+      "lat": 24.0896,
+      "lon": 38.0618,
+      "country": "SA",
+      "verified": true
+    },
+    {
+      "name": "Riyadh",
+      "aliases": [
+        "riyadh"
+      ],
+      "lat": 24.7136,
+      "lon": 46.6753,
+      "country": "SA",
+      "verified": false
+    },
+    {
+      "name": "Djibouti",
+      "aliases": [
+        "djibouti",
+        "djibouti city"
+      ],
+      "lat": 11.5721,
+      "lon": 43.1456,
+      "country": "DJ",
+      "verified": false
+    },
+    {
+      "name": "Paris",
+      "aliases": [
+        "paris"
+      ],
+      "lat": 48.8566,
+      "lon": 2.3522,
+      "country": "FR",
+      "verified": true
+    },
+    {
+      "name": "Hotan",
+      "aliases": [
+        "hotan",
+        "khotan"
+      ],
+      "lat": 37.1114,
+      "lon": 79.9229,
+      "country": "CN",
+      "verified": false
+    },
+    {
+      "name": "Umm Suqeim",
+      "aliases": [
+        "umm suqeim",
+        "um suqeim",
+        "umm suqaim",
+        "umm suqeim street",
+        "أم سقيم"
+      ],
+      "lat": 25.147,
+      "lon": 55.199,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Jumeirah",
+      "aliases": [
+        "jumeirah",
+        "jumeira",
+        "jumeirah street",
+        "jumeirah beach"
+      ],
+      "lat": 25.218,
+      "lon": 55.252,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Al Barsha",
+      "aliases": [
+        "al barsha",
+        "barsha"
+      ],
+      "lat": 25.112,
+      "lon": 55.196,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Jumeirah Village Circle",
+      "aliases": [
+        "jvc",
+        "jumeirah village circle",
+        "jumeirah village"
+      ],
+      "lat": 25.058,
+      "lon": 55.209,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Dubai Marina",
+      "aliases": [
+        "dubai marina",
+        "jbr",
+        "jumeirah beach residence"
+      ],
+      "lat": 25.08,
+      "lon": 55.14,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Al Warqa",
+      "aliases": [
+        "al warqa",
+        "warqa",
+        "al warqaa"
+      ],
+      "lat": 25.192,
+      "lon": 55.41,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Business Bay",
+      "aliases": [
+        "business bay",
+        "downtown dubai"
+      ],
+      "lat": 25.186,
+      "lon": 55.265,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Deira",
+      "aliases": [
+        "deira",
+        "al rigga"
+      ],
+      "lat": 25.271,
+      "lon": 55.312,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Bur Dubai",
+      "aliases": [
+        "bur dubai",
+        "al karama",
+        "karama"
+      ],
+      "lat": 25.255,
+      "lon": 55.297,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Al Quoz",
+      "aliases": [
+        "al quoz"
+      ],
+      "lat": 25.139,
+      "lon": 55.232,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Al Qusais",
+      "aliases": [
+        "al qusais"
+      ],
+      "lat": 25.275,
+      "lon": 55.38,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Mirdif",
+      "aliases": [
+        "mirdif",
+        "mirdiff"
+      ],
+      "lat": 25.221,
+      "lon": 55.42,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Dubai Silicon Oasis",
+      "aliases": [
+        "silicon oasis",
+        "dubai silicon oasis"
+      ],
+      "lat": 25.121,
+      "lon": 55.381,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "International City",
+      "aliases": [
+        "international city"
+      ],
+      "lat": 25.164,
+      "lon": 55.408,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Jebel Ali",
+      "aliases": [
+        "jebel ali",
+        "jafza"
+      ],
+      "lat": 24.985,
+      "lon": 55.065,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Palm Jumeirah",
+      "aliases": [
+        "palm jumeirah",
+        "the palm"
+      ],
+      "lat": 25.112,
+      "lon": 55.138,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Dubai International Airport",
+      "aliases": [
+        "dubai airport",
+        "dxb airport",
+        "dubai international airport"
+      ],
+      "lat": 25.253,
+      "lon": 55.365,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Sheikh Zayed Road",
+      "aliases": [
+        "sheikh zayed road",
+        "szr"
+      ],
+      "lat": 25.197,
+      "lon": 55.272,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Al Nahda",
+      "aliases": [
+        "al nahda"
+      ],
+      "lat": 25.293,
+      "lon": 55.37,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Motor City",
+      "aliases": [
+        "motor city",
+        "dubai sports city"
+      ],
+      "lat": 25.047,
+      "lon": 55.237,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Ajman",
+      "aliases": [
+        "ajman"
+      ],
+      "lat": 25.4052,
+      "lon": 55.5136,
+      "country": "AE",
+      "verified": true
+    },
+    {
+      "name": "Umm Al Quwain",
+      "aliases": [
+        "umm al quwain",
+        "uaq"
+      ],
+      "lat": 25.5647,
+      "lon": 55.5552,
+      "country": "AE",
+      "verified": true
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "_fixture": true,
+  "_note": "FIXTURE — Burj Khalifa live scene. Not live data.",
+  "prompt": "Burj Khalifa",
+  "target": { "name": "Burj Khalifa", "lat": 25.1972, "lon": 55.2744, "geocodeSource": "register", "confidence": 0.98 },
+  "query": { "place": { "name": "Burj Khalifa", "lat": 25.1972, "lon": 55.2744 } },
+  "sources": [
+    { "source": "youtube", "status": "ok", "count": 3, "ms": 380 },
+    { "source": "instagram", "status": "ok", "count": 2, "ms": 520 },
+    { "source": "web", "status": "ok", "count": 1, "ms": 640 },
+    { "source": "reddit", "status": "ok", "count": 1, "ms": 450 },
+    { "source": "tiktok", "status": "quota", "count": 0, "ms": 80 },
+    { "source": "x", "status": "inactive", "count": 0, "ms": 50 }
+  ],
+  "items": [
+    { "source": "youtube", "title": "Burj Khalifa fountain show tonight", "url": "https://www.youtube.com/shorts/fixture0001", "embed_url": "https://www.youtube.com/embed/fixture0001", "thumb": "/assets/states/state-flyin-building.png", "published_at": "__NOW-600__", "freshness": "LIVE", "relevance": 0.9, "author": "dxbwalks", "lat": 25.1962, "lon": 55.2755, "canonical": "yt:fixture0001" },
+    { "source": "youtube", "title": "Downtown Dubai boulevard right now", "url": "https://www.youtube.com/shorts/fixture0002", "embed_url": "https://www.youtube.com/embed/fixture0002", "thumb": "/assets/states/state-flyin-building.png", "published_at": "__NOW-2400__", "freshness": "RECENT", "relevance": 0.7, "author": "citycam", "canonical": "yt:fixture0002" },
+    { "source": "youtube", "title": "Dubai Mall entrance crowd", "url": "https://www.youtube.com/shorts/fixture0003", "embed_url": "https://www.youtube.com/embed/fixture0003", "thumb": "/assets/states/state-flyin-building.png", "published_at": "__NOW-7200__", "freshness": "RECENT", "relevance": 0.6, "author": "mallcam", "lat": 25.1985, "lon": 55.2796, "canonical": "yt:fixture0003" },
+    { "source": "instagram", "title": "View from the top #burjkhalifa", "url": "https://www.instagram.com/reel/fixture0004/", "embed_url": "https://www.instagram.com/reel/fixture0004/embed/", "thumb": "/assets/states/state-flyin-building.png", "published_at": "__NOW-900__", "freshness": "LIVE", "relevance": 0.8, "author": "skyline.ae", "canonical": "ig:fixture0004" },
+    { "source": "instagram", "title": "Souk Al Bahar at dusk", "url": "https://www.instagram.com/p/fixture0005/", "embed_url": "https://www.instagram.com/p/fixture0005/embed/", "thumb": "/assets/states/state-flyin-building.png", "published_at": "__NOW-5400__", "freshness": "RECENT", "relevance": 0.5, "author": "dxbnights", "canonical": "ig:fixture0005" },
+    { "source": "web", "title": "Dubai Opera traffic advisory", "url": "https://example.com/fixture-web-1", "embed_url": null, "thumb": "/assets/states/state-flyin-building.png", "published_at": "__NOW-3600__", "freshness": "RECENT", "relevance": 0.4, "author": "RTA", "canonical": "web:fixture-1" },
+    { "source": "reddit", "title": "r/dubai — fountain show schedule changed?", "url": "https://www.reddit.com/r/dubai/comments/fixture6/", "embed_url": null, "thumb": "/assets/states/state-flyin-building.png", "published_at": "__NOW-1800__", "freshness": "RECENT", "relevance": 0.45, "author": "u/fixture", "canonical": "rd:fixture6" }
+  ],
+  "groundRoutes": [
+    { "id": "szr", "name": "Sheikh Zayed Road (E11)", "kind": "motorway", "status": "open", "lastChecked": "2026-10-23T08:00:00Z", "source": "FIXTURE route table", "geometry": [[25.2210, 55.2850], [25.2048, 55.2708], [25.1859, 55.2534], [25.1663, 55.2318]] },
+    { "id": "fin", "name": "Financial Centre Road (D71)", "kind": "arterial", "status": "open", "lastChecked": "2026-10-23T08:00:00Z", "source": "FIXTURE route table", "geometry": [[25.2111, 55.2794], [25.2005, 55.2780], [25.1920, 55.2705]] }
+  ],
+  "alerts": []
+}

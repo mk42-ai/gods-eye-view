@@ -28,7 +28,7 @@ describe('tool-contracts (registry-derived PluginContracts + in-process invoker)
     assert.ok(built.every((c) => c.kind === 'ondemand-tool'));
     assert.ok(built.every((c) => c.toolRoute === `/api/tools/${c.name}`));
     assert.ok(!built.some((c) => c.name === 'earthquake_search'));
-    assert.equal(contractRegistry.list({ kind: 'ondemand-tool' }).length, 25);
+    assert.equal(contractRegistry.list({ kind: 'ondemand-tool' }).length, 21);
     for (const c of built)
       assert.equal(contractRegistry.get(c.name)?.toolRoute, c.toolRoute);
   });

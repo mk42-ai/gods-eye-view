@@ -56,44 +56,89 @@ function visual(value, path, legacy) {
     });
 }
 
-/** UAE AOI incident card metadata carried by a shot (document v6, 2026-10-22). */
-const INCIDENT_FIELDS = [
-  'id',
-  'country',
-  'group',
-  'aoi_id',
-  'incident_type',
-  'severity',
-  'event_time_utc',
-  'source_url',
-  'source_name',
-  'summary',
-  'lat',
-  'lon',
-  'insideAoi',
-];
-function incidentCard(value, path) {
-  fields(value, path, INCIDENT_FIELDS);
-  for (const key of [
-    'id',
-    'country',
-    'group',
-    'aoi_id',
-    'incident_type',
-    'severity',
-    'event_time_utc',
-    'source_url',
-    'source_name',
+function validateIncidentBlock(value, path) {
+  fields(value, path, [
+    'incident_ids',
+    'category',
+    'aoi',
+    'markers',
+    'evidence',
+    'timeline_events',
+    'sources',
     'summary',
-  ])
-    optional(value, key, path, (v, p) => {
-      if (v === null) return;
-      string(v, p, 4096);
+    'confidence',
+    'time_utc',
+    'override',
+    'reason',
+  ]);
+  ids(value.incident_ids, `${path}.incident_ids`);
+  for (const key of ['category', 'aoi', 'confidence', 'time_utc', 'reason'])
+    optional(value, key, path, (v, p) => string(v, p, 512));
+  optional(value, 'summary', path, (v, p) => string(v, p, 8192));
+  if (Object.hasOwn(value, 'override') && typeof value.override !== 'boolean')
+    fail(`${path}.override`, 'expected a boolean');
+  optional(value, 'markers', path, (markers, field) => {
+    array(markers, field, 512);
+    markers.forEach((marker, i) => {
+      const at = `${field}[${i}]`;
+      fields(marker, at, [
+        'lat',
+        'lon',
+        'category',
+        'icon',
+        'title',
+        'incident_id',
+        'confidence',
+      ]);
+      number(marker.lat, `${at}.lat`, -90, 90);
+      number(marker.lon, `${at}.lon`, -180, 180);
+      for (const key of [
+        'category',
+        'icon',
+        'title',
+        'incident_id',
+        'confidence',
+      ])
+        optional(marker, key, at, (v, p) => string(v, p, 2048));
     });
-  optional(value, 'lat', path, (v, p) => number(v, p, -90, 90));
-  optional(value, 'lon', path, (v, p) => number(v, p, -180, 180));
-  optional(value, 'insideAoi', path, (v, p) => {
-    if (typeof v !== 'boolean') fail(p, 'expected a boolean');
+  });
+  optional(value, 'evidence', path, (items, field) => {
+    array(items, field, 64);
+    items.forEach((item, i) => {
+      const at = `${field}[${i}]`;
+      fields(item, at, [
+        'item_id',
+        'thumbnail_url',
+        'acquired',
+        'clear_percent',
+      ]);
+      for (const key of ['item_id', 'thumbnail_url', 'acquired'])
+        optional(item, key, at, (v, p) => {
+          if (v !== null) string(v, p, 2048);
+        });
+      optional(item, 'clear_percent', at, (v, p) => number(v, p, 0, 100));
+    });
+  });
+  optional(value, 'timeline_events', path, (items, field) => {
+    array(items, field, 512);
+    items.forEach((item, i) => {
+      const at = `${field}[${i}]`;
+      fields(item, at, ['time_utc', 'title', 'incident_id']);
+      for (const key of ['time_utc', 'title', 'incident_id'])
+        optional(item, key, at, (v, p) => string(v, p, 4096));
+    });
+  });
+  optional(value, 'sources', path, (items, field) => {
+    array(items, field, 64);
+    items.forEach((item, i) => {
+      const at = `${field}[${i}]`;
+      fields(item, at, ['url', 'published_at', 'title']);
+      string(item.url, `${at}.url`, 2048);
+      for (const key of ['published_at', 'title'])
+        optional(item, key, at, (v, p) => {
+          if (v !== null) string(v, p, 2048);
+        });
+    });
   });
 }
 
@@ -127,9 +172,14 @@ export function validateSceneDocument(project) {
       'shots',
       ...(version >= 4 ? ['anchors'] : []),
       ...(version >= 5 ? ['dataPacks'] : []),
+      ...(version >= 6 ? ['incident'] : []),
     ]);
     uniqueId(scene, path, sceneIds);
     optional(scene, 'title', path, (v, p) => string(v, p, 4096));
+    // Incident-derived scenes (2026-10-22, src/scenes/incidentScenes.js) carry
+    // a bounded provenance block so the panel can show markers, sources and
+    // the AOI verdict without re-fetching. Still data only: nothing executes.
+    optional(scene, 'incident', path, (v, p) => validateIncidentBlock(v, p));
     optional(scene, 'releaseLayerIds', path, ids);
     optional(scene, 'appliedShotPacks', path, (packs, field) => {
       array(packs, field);
@@ -168,10 +218,9 @@ export function validateSceneDocument(project) {
         'sourcePackVersion',
         ...(version >= 4 ? ['move'] : []),
         ...(version >= 5 ? ['dataPackIds'] : []),
-        ...(version >= 6 ? ['interactions', 'incident'] : []),
+        ...(version >= 6 ? ['interactions'] : []),
       ]);
       uniqueId(shot, at, shotIds);
-      optional(shot, 'incident', at, incidentCard);
       optional(shot, 'title', at, (v, p) => string(v, p, 4096));
       optional(shot, 'sourcePackId', at, string);
       optional(shot, 'sourcePackVersion', at, (v, p) =>

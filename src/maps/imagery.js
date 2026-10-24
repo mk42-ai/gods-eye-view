@@ -1,4 +1,5 @@
 import * as Cesium from 'cesium';
+import { providerDeadline } from './providerDeadline.js';
 
 // Attribution and service rights are documented in DATA_SOURCES.md.
 export const ESRI_ATTRIBUTION_HTML =
@@ -12,13 +13,17 @@ export function createOsmImagery() {
 }
 
 export function createEsriImagery() {
-  return Cesium.ArcGisMapServerImageryProvider.fromUrl(
-    'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
-    {
-      credit:
-        'Powered by Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
-      enablePickFeatures: false,
-    },
+  return providerDeadline(
+    Cesium.ArcGisMapServerImageryProvider.fromUrl(
+      'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
+      {
+        credit:
+          'Powered by Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community',
+        enablePickFeatures: false,
+      },
+    ),
+    3500,
+    'Satellite imagery',
   );
 }
 

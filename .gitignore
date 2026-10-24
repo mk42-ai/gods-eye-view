@@ -16,3 +16,7 @@ pinokio/.installed
 .env.*.local
 .env.production.local
 .env.local
+__pycache__/
+.pytest_cache/
+*.pyc
+tests/report/

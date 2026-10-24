@@ -25,6 +25,7 @@
  */
 import { tomtomProxy } from '../providers/traffic.js';
 import { roadNetworkConfig } from '../providers/overpass/constants.js';
+import { overpassMirrorCooldowns } from '../providers/overpass/transport.js';
 import { createPluginInvoker, providerFromHeaders } from './_invoke.js';
 
 const TOMTOM_ROUTE = '/api/tomtom';
@@ -293,7 +294,9 @@ export const tools = [
       }
       return {
         ok: true,
-        data: { ...roadNetwork, tomtom },
+        // `cooldowns`: mirrors currently parked after a 429/406 (label →
+        // seconds left) — the bounded-backoff state behind /api/overpass.
+        data: { ...roadNetwork, tomtom, cooldowns: overpassMirrorCooldowns() },
         // Honest status for the configuration itself: 'off' is unavailable by
         // choice, the default public mirrors are degraded (blocker above), a
         // private mirror override is what makes the road network live.

@@ -1,0 +1,171 @@
+{
+  "_fixture": true,
+  "generatedAt": "2026-10-23T14:41:41Z",
+  "incident": {
+    "name": "Umm Suqeim car crash (driver fainted)",
+    "target": {
+      "name": "Umm Suqeim",
+      "lat": 25.147,
+      "lon": 55.199,
+      "verified": true,
+      "source": "task-provided coordinates"
+    },
+    "reportedDate": "2026-09-26",
+    "reportedAtUTC": "2026-09-26T14:52:00Z",
+    "incidentTimeUTC": "2026-09-26T00:00:00Z",
+    "timeWindowMinutes": null,
+    "verified": false,
+    "basis": "Derived from Gulf Today article published 2026-09-26 18:52:00 +04:00 (14:52:00 UTC) and Khaleej Times article published 2026-09-26 18:51:26 +04:00 (14:51:26 UTC). No explicit time of day for the accident was stated in reporting; defaulted to 2026-09-26T00:00:00Z with verified:false per task instructions."
+  },
+  "burjKhalifa": {
+    "name": "Burj Khalifa",
+    "lat": 25.1972,
+    "lon": 55.2744,
+    "verified": true,
+    "source": "task-provided coordinates"
+  },
+  "articles": [
+    {
+      "publisher": "Gulf Today",
+      "url": "https://www.gulftoday.ae/news/2026/09/26/dubai-police-warn-of-dangers-of-driving-while-fatigued-after-a-driver-faints-causing-an-accident-in-umm-suqeim",
+      "title": "Dubai Police warn of dangers of driving while fatigued after a driver faints causing an accident in Umm Suqeim",
+      "publishedAtUTC": "2026-09-26T14:52:00Z",
+      "httpStatus": 200,
+      "verified": true,
+      "excerpt": "An accident took place on Umm Suqeim Street, heading towards Jumeirah Street, when a driver lost control of the vehicle after losing consciousness. This led to the vehicle veering off course and crashing into other cars. Dubai Police warned of driving while fatigued."
+    },
+    {
+      "publisher": "Gulf News",
+      "url": null,
+      "title": null,
+      "publishedAtUTC": null,
+      "httpStatus": null,
+      "verified": false,
+      "excerpt": null,
+      "note": "Search on gulfnews.com and web search returned no article covering this driver fainting accident on Umm Suqeim Street."
+    },
+    {
+      "publisher": "Dubai Police",
+      "url": null,
+      "title": null,
+      "publishedAtUTC": null,
+      "httpStatus": null,
+      "verified": false,
+      "excerpt": null,
+      "note": "No direct public article URL reachable on dubaipolice.gov.ae (connection reset / client-side SPA shell); official statement was distributed as a press release to media outlets."
+    },
+    {
+      "publisher": "Khaleej Times",
+      "url": "https://www.khaleejtimes.com/uae/dubai-police-warning-tired-driver-faints-causes-collision",
+      "title": "'Don't risk it': Dubai Police issue warning after driver faints, causes collision | Khaleej Times",
+      "publishedAtUTC": "2026-09-26T14:51:26Z",
+      "httpStatus": 200,
+      "verified": true,
+      "excerpt": "Dubai Police warned motorists against driving when fatigued or experiencing health issues that affect vehicle control. The warning followed a collision on Umm Suqeim Street towards Jumeirah Street, where a driver lost consciousness, veering off course and colliding with another vehicle."
+    }
+  ],
+  "socialPosts": [
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/p/DXgVj3djDAR",
+      "httpStatus": 200,
+      "reachable": true,
+      "verified": false,
+      "title": null,
+      "author": null,
+      "note": "Resolves with HTTP 200 to Instagram web shell; unauthenticated requests receive login/SPA shell without post metadata or incident verification"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/reel/DW8khmCg4CY",
+      "httpStatus": 200,
+      "reachable": true,
+      "verified": false,
+      "title": null,
+      "author": null,
+      "note": "Resolves with HTTP 200 to Instagram web shell; unauthenticated requests receive login/SPA shell without post metadata or incident verification"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/reel/DWqtTHDgSdN",
+      "httpStatus": 200,
+      "reachable": true,
+      "verified": false,
+      "title": null,
+      "author": null,
+      "note": "Resolves with HTTP 200 to Instagram web shell; unauthenticated requests receive login/SPA shell without post metadata or incident verification"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/p/DdyBfSdl-zh/",
+      "httpStatus": 200,
+      "reachable": true,
+      "verified": false,
+      "title": null,
+      "author": null,
+      "note": "Resolves with HTTP 200 to Instagram web shell; unauthenticated requests receive login/SPA shell without post metadata or incident verification"
+    },
+    {
+      "platform": "instagram",
+      "url": "https://www.instagram.com/p/Ddv9evCDLQp/",
+      "httpStatus": 200,
+      "reachable": true,
+      "verified": false,
+      "title": null,
+      "author": null,
+      "note": "Resolves with HTTP 200 to Instagram web shell; unauthenticated requests receive login/SPA shell without post metadata or incident verification"
+    },
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/khaleejtimes/posts/1634956428291176",
+      "httpStatus": 200,
+      "reachable": true,
+      "verified": true,
+      "title": "Khaleej Times - The driver fell unconscious and lost...",
+      "author": "Khaleej Times",
+      "note": "Verified via GET response OpenGraph metadata; describes driver falling unconscious on Umm Suqeim Street and colliding with another vehicle (HEAD returns 400 from host, GET returns 200)"
+    },
+    {
+      "platform": "youtube",
+      "url": "https://www.youtube.com/shorts/pu6shIJmb5s",
+      "httpStatus": 200,
+      "reachable": true,
+      "verified": false,
+      "title": "Pak Driver Killed in Dubai Interception Debris Falls on Car After Iran Attack",
+      "author": "CRUX",
+      "note": "Reachable via oEmbed (HTTP 200), but content is unrelated to the Umm Suqeim driver fainting incident"
+    },
+    {
+      "platform": "reddit",
+      "url": "https://www.reddit.com/r/dubai/comments/1ph9l65/",
+      "httpStatus": 403,
+      "reachable": false,
+      "verified": false,
+      "title": null,
+      "author": null,
+      "note": "blocked by host (HTTP 403 Forbidden on web and .json endpoints)"
+    }
+  ],
+  "roads": [
+    {
+      "name": "Sheikh Zayed Road (E11)",
+      "status": "unknown",
+      "verified": false,
+      "note": "no historical RTA status source reachable; mocked in route fixtures"
+    },
+    {
+      "name": "Al Wasl Road (D92)",
+      "status": "unknown",
+      "verified": false,
+      "note": "no historical RTA status source reachable; mocked in route fixtures"
+    }
+  ],
+  "blockers": [
+    "Exact time of day of the crash on 2026-09-26 could not be verified: news reports from Gulf Today and Khaleej Times record publication times (18:51–18:52 +04:00) but do not report the incident hour; official police dispatch records are needed.",
+    "Gulf News article could not be verified: search on gulfnews.com and web search returned no article covering this specific driver fainting incident on Umm Suqeim Street.",
+    "Dubai Police official portal article URL could not be verified: dubaipolice.gov.ae connection resets on portal/media center routes and serves a client-side SPA shell without static press release pages.",
+    "Reddit candidate URL (https://www.reddit.com/r/dubai/comments/1ph9l65/) could not be verified: blocked by host with HTTP 403 Forbidden on both HTML and JSON endpoints; authenticated Reddit API access is required.",
+    "Instagram candidate URLs could not be verified: Instagram returns unauthenticated client-side SPA shells with no post captions or authors in static HTML; authenticated Instagram Graph API access is required.",
+    "Historical road traffic/closure status for Sheikh Zayed Road (E11) and Al Wasl Road (D92) at the time of the incident could not be verified: no public historical RTA traffic API exists."
+  ]
+}

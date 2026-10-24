@@ -394,6 +394,18 @@ export class PanelChrome {
     if (explicit && !restore)
       this.shareLinkManager?.claimRestoreLane?.('panel', panelId);
     const nextCollapsed = Boolean(collapsed);
+    // Legacy buttons, voice and scene APIs still own disclosure semantics.
+    // When they reveal a panel, reveal its responsive host as well.
+    if (
+      !nextCollapsed &&
+      !restore &&
+      window.__workstation &&
+      window.__godsEyeView
+    ) {
+      window.dispatchEvent(
+        new CustomEvent('workstation:reveal-panel', { detail: { panelId } }),
+      );
+    }
     const wasAutoCollapsed = panelEl.classList.contains(
       'layout-auto-collapsed',
     );

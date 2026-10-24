@@ -273,6 +273,7 @@ export function createState({ services }) {
   // Failed destinations retry while parked, with a bounded backoff.
   layerState._retryTimer = null;
   layerState._retryDelayMs = 1500;
+  layerState._retryAttempts = 0;
   layerState._retryBoundsKey = null;
   layerState._roadError = null;
   /**

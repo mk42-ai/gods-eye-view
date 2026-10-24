@@ -30,7 +30,16 @@ test('explicit build inputs preserve browser-only defines, plugin order and loop
   assert.deepEqual(config.define, {
     'import.meta.env.GOOGLE_MAPS_API_KEY': '"browser-fixture"',
     'import.meta.env.CESIUM_ION_TOKEN': '"ion-fixture"',
+    // Served-revision label (2026-10-24): empty when no build id is given,
+    // never derived from the environment inside createBrowserViteConfig.
+    'import.meta.env.GEV_BUILD_ID': '""',
   });
+  assert.equal(
+    createBrowserViteConfig({ buildId: 'abc123def' }).define[
+      'import.meta.env.GEV_BUILD_ID'
+    ],
+    '"abc123def"',
+  );
   assert.equal(
     createBrowserViteConfig({ host: '0.0.0.0', port: '4800' }).server
       .allowedHosts,

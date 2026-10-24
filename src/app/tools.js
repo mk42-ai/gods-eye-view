@@ -1,5 +1,9 @@
 import { SceneDirector } from '../scenes/director.js';
-import { installIncidentPanel } from '../ui/incidentPanel.js';
+import { createAoiScenePolicy } from '../scenes/aoiScenePolicy.js';
+import { getUaeAoiIndex } from '../aoi/uaeInterest.js';
+import { installIncidentScenes } from '../incidents/ui/index.js';
+import { installGodsEye } from '../gods-eye/orchestrator.js';
+import * as Cesium from 'cesium';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
 import { createGevActionRunner } from '../voice/gevActions.js';
@@ -36,15 +40,15 @@ export function createApplicationTools({
     dataPacks: sceneDataPacks,
     isMapStackAvailable: (id) =>
       mapStackController?.isStackAvailable(id) === true,
+    // UAE AOI restriction (2026-10-22): only scenes inside Iran / Yemen /
+    // Somalia / Hormuz / Bab el-Mandeb / UAE borders+waters / presence nodes
+    // reach the panel and playback; the rest stay in storage with a reason.
+    aoiPolicy: createAoiScenePolicy(getUaeAoiIndex()),
   });
   dataManager.layers
     .get('bhote-koshi-2026')
     ?.module.attachSceneController(sceneDirector);
   defer(() => sceneDirector.destroy());
-  // UAE AOI live incidents (2026-10-22): group filter, LIVE badge, REFRESH,
-  // scene-card chips and the bottom incident composer on the SCENES panel.
-  const incidentPanel = installIncidentPanel({ director: sceneDirector });
-  defer(() => incidentPanel?.destroy());
   onSceneDirector?.(sceneDirector);
   const annotations = initAnnotations({
     viewer,
@@ -88,7 +92,8 @@ export function createApplicationTools({
   // the loop, refresh the one DOM surface we gated, render a frame.
   const syncVisibilitySuspension = () => {
     const hidden = document.hidden;
-    viewer.useDefaultRenderLoop = !hidden;
+    viewer.useDefaultRenderLoop =
+      !hidden && document.documentElement.dataset.renderState !== 'fallback';
     cockpitCloudEffects?.setSuspended?.(hidden);
     if (!hidden) {
       data.presentation.flushVisible();
@@ -135,12 +140,34 @@ export function createApplicationTools({
   // regional brief, HUD summary, provider badge, graph node/edge, …) on the
   // server-key-only /api/ondemand/v2 foundation (src/ondemand/miniChat.js).
   // Any widget opens it with `gev:ask-object` or createAskOnDemandButton().
-  debug.miniChat = installMiniChat({ signal });
+  debug.miniChat = window.__workstation?.chat || installMiniChat({ signal });
   // PLUGINS panel (src/ondemand/pluginPanel.js): honest lifecycle badges from
   // GET /api/ondemand/v2/plugins and per-turn plugin selection consumed by the
   // mini chat (`getPluginIds`) and the voice pipeline. Mounted after the mini
   // chat so it can dock into the panel's header slot.
   debug.pluginPanel = installPluginPanel({ signal });
+  // AOI incident scenes (2026-10-22): live incident ledger → scenes, map
+  // markers + popovers with ASK ONDEMAND, AOI layer toggles + legend, and the
+  // bottom "Type an incident…" composer (src/incidents/ui/*).
+  debug.incidentScenes = installIncidentScenes({
+    viewer,
+    sceneDirector,
+    signal,
+  });
+  // GODS-EYE scene engine (2026-10-23): prompt → AOI register → route agent →
+  // S0..S4 fly-in → footage pipeline → ranked rail/timeline/player. Nothing
+  // fetches, plays or flies until a prompt is built (HARD RULE §0); the
+  // always-on LIVE FOOTAGE dock was removed. See docs/gods-eye/CONTRACTS.md.
+  // A 2D-recovery engine (installed by the workstation while WebGL was not
+  // ready) is replaced by the full 3D engine; stored scenes re-hydrate.
+  if (window.__godsEye?.is2d) window.__godsEye.destroy();
+  debug.godsEye = installGodsEye({
+    viewer,
+    Cesium,
+    signal,
+    sceneDirector,
+    readShareLinks: () => styleManager?.shareLinkManager || null,
+  });
   const runner = createGevActionRunner({
     ...voice,
     floorServices: operations.surface.groundFloor,

@@ -1,5 +1,65 @@
 # Changelog
 
+## 2026-10-23 — GODS-EYE scene engine replaces the LIVE FOOTAGE dock (feature/live-footage-dock, PR #3)
+
+- **Removed** the always-on LIVE FOOTAGE dock (`src/footage/ui/dock.js`, `src/ui/styles/footage.css`). Nothing
+  fetches, plays or flies until a scene is built from the AOI prompt bar (`#incident-composer`).
+- **Added** `src/gods-eye/` — scenes (store, reducer, AOI register, prompt parser, persistence, share codec),
+  route (client, 5-min cache, great-circle fallback, dwell monitor), camera (S0–S4 ladder, controller, VIIRS),
+  footage (SSE pipeline, normalisers, geo-resolver, Web-Worker ranker, TTL cache), ui/scene (header, rail,
+  timeline, player, evidence, map layers, posters), ui/scenes-panel, ui/sidebar (Sources + register modal),
+  orchestrator / build / playback / diff. Design tokens in `src/gods-eye/ui/tokens.css`.
+- **Backend** `api/footage/route.py` (`POST /footage/route/plan`, `GET /footage/route/alerts`),
+  `scenes_store.py` (`/footage/scenes` CRUD), `fixtures_replay.py` (`?fixtures=1` test mode).
+- **Posters** `public/assets/states/state-*.png` (9 designed states; `route-fallback` and `outside-aoi` rendered
+  locally after upstream generation failed) — referenced only through `ui/scene/posters.js` tokens.
+- **Sources sidebar** replaces the HUD CAPABILITIES plugin list (the plugin panel still docks inside ASK ONDEMAND).
+- **Tests** `tests/e2e/` 18 Playwright acceptance specs + `tests/fixtures/` (incl. verified
+  `step1-fixtures.json`); 94 new node:test units; 20 pytest. Evidence in
+  `docs/agent-execution/artifacts/gods-eye-2026-10-23/`.
+
+## 2026-10-23 — LIVE FOOTAGE dock + `gods-eye-footage-service` (feature/live-footage-dock)
+
+- **Backend** `api/footage/` (FastAPI on the Vercel Python runtime, `vercel.json` rewrites `/footage/*` and
+  `/api/footage/*` → `api/footage/index.py`): `GET /footage/search`, `GET /footage/stream` (SSE: `open`,
+  `query`, `source_start`, `item`, `source_done {status: ok|error|quota|unavailable}`, `done`) and
+  `GET /footage/health` (booleans only). Concurrent fan-out (`asyncio`, per-source timeouts) to YouTube
+  Shorts (Data API v3 when `YOUTUBE_API_KEY` is set → public results page with the `sp` short/video/upload
+  filter → Invidious), TikTok `plugin-1716372717`, Instagram (`plugin-1762980461` → `plugin-1716164040`
+  after two failures, plus a keyless `/embed/` resolver that yields the MP4 `video_url`, author and caption),
+  Reddit `plugin-1748003575`, X `plugin-1751872652` and web discovery `plugin-1722260873` /
+  `plugin-1713924030` / `plugin-1741871229` — every plugin through OnDemand's public Chat API
+  (`POST /chat/v1/sessions`, `POST /chat/v1/sessions/{id}/query`, header `apikey`; `api/footage/ondemand_client.py`).
+  Keyword engine (`geo.py`): offline Dubai/UAE neighbourhood table (Umm Suqeim, Jumeirah, Al Barsha, JVC,
+  Marina, Al Warqa, Business Bay, Deira, …) → BigDataCloud keyless reverse geocode → Nominatim
+  (`NOMINATIM_USER_AGENT`); English + Arabic query variants; rank = relevance × recency decay; canonical
+  dedupe; freshness LIVE (<15 min) / RECENT (<24 h) / ARCHIVE; 60 s in-memory cache; `mode=rebuild`
+  widens `since` to 2 y. Curated, live-resolved seeds for the Umm Suqeim crash (`seeds.py`,
+  `reported_at` 2026-09-26). Tests `api/footage/tests` (13, no network). OpenAPI `docs/plugins/footage/openapi.json`.
+- **Frontend** `src/footage/` — `LIVE FOOTAGE` dock in the tactical HUD (`#footage-dock`, right of the globe,
+  left of the PLUGINS dock): auto-fetch on scene build / camera / hash change (800 ms debounce), progressive
+  playlist, auto-play (YouTube IFrame API `ENDED` → next, TikTok embed timed advance, Instagram/MP4
+  `<video muted autoplay playsinline>` `ended` → next, Instagram embed fallback), PiP (Document PiP or
+  draggable mini-player), SOURCE + LIVE/RECENT/ARCHIVE badges with absolute UTC timestamps, keyword
+  chips, per-source status row, command box (`parseCommand`: "rebuild the car crash reported in Umm Suqeim"
+  → fly-to 25.147/55.199, keywords, mode=rebuild, since=2y), persistent
+  `REBUILT FROM ARCHIVAL FOOTAGE — originally reported <date>` banner, posters for acquiring / archive /
+  empty (`public/assets/footage/`). URL state `fv` `fk` `fm` `fs` + `f.c` token in `ui=`
+  (`src/sharelink.js` `setFootageStateProvider`), backward compatible with the v2 hash schema.
+  Labelled client fixtures only when the backend reports every source failed.
+- **Composer fix**: "rebuild the car crash reported in Umm Suqeim" now resolves (22 Dubai neighbourhoods
+  added to `config/aoi/uae-interest.json` gazetteer + dictionary fallback in `src/incidents/ui/composer.js`);
+  the command is routed to the footage dock and still builds the incident scene (tour skipped so the
+  camera stays on the place). `src/keySetup.js` skips the `/api/setup/status` probe in serverless builds
+  (no more 404 on every load).
+- Dev: `npm run footage:dev` (uvicorn 8787), `FOOTAGE_UPSTREAM` proxy in `server/standalone/vite.config.js`
+  and `server/serverless/dev-server.mjs`, `scripts/start-preview.sh`. Env: `ONDEMAND_API_KEY` (server),
+  optional `YOUTUBE_API_KEY`, `NOMINATIM_USER_AGENT`, `FOOTAGE_*_TIMEOUT_S`. Evidence:
+  `docs/agent-execution/artifacts/live-footage-2026-10-23/` (preview https://sb-2u4blbzyl0rp.vercel.run).
+- Also lands the 48 cycle-9 AOI-incident files that were in the `dpl_H9yVA3kDuV8ekgs7xzj7AjDPgaSH`
+  deploy snapshot but never pushed (`server/incidents/{routes,seed}.js`, `src/incidents/**`, `src/aoi/**`,
+  `config/aoi/uae-interest.json`, `public/icons/incidents/*`, `scripts/qa-aoi-incident-scenes.mjs`, …).
+
 ## 2026-09-19 — Closeout: configurable Overpass mirrors, `DEGRADED · Overpass · <reason>`, rename decisions
 
 - Street Traffic road network (`/api/overpass`, `server/providers/overpass/*`): mirror list from

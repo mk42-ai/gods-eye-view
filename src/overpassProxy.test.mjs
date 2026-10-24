@@ -13,6 +13,7 @@ import path from 'node:path';
 import { Readable } from 'node:stream';
 import createViteConfig, { fetchOverpassPayload, overpassPayloadIsData, readOverpassDisk } from '../vite.config.js';
 import { OVERPASS_DEFAULT_UPSTREAMS } from '../server/providers/overpass/constants.js';
+import { OVERPASS_MAX_ATTEMPTS_PER_REQUEST, _resetOverpassCooldownsForTest } from '../server/providers/overpass/transport.js';
 
 const ENDPOINTS = ['https://a.example/api', 'https://b.example/api', 'https://c.example/api'];
 
@@ -269,6 +270,7 @@ function invoke(handler, body) {
 test('coalesced outage callers both receive last-good data, never a cached refusal', async (t) => {
   const handler = proxyHandler();
   for (const status of [406, 503, 429]) {
+    _resetOverpassCooldownsForTest(); // each outage starts with every mirror available
     const query = `[out:json][timeout:12];node(around:10,30.27,-97.74)["name"="${randomUUID()}"];out;`;
     const body = `data=${encodeURIComponent(query)}`;
     const directory = path.join(process.cwd(), '.gev-cache', 'overpass');
@@ -298,7 +300,9 @@ test('coalesced outage callers both receive last-good data, never a cached refus
         assert.equal(response.body, DATA.body);
         assert.equal(response.headers['X-Overpass-Cache'], 'STALE');
       }
-      assert.equal(fetches, OVERPASS_DEFAULT_UPSTREAMS.length, 'one shared, bounded mirror sequence (every default mirror once)');
+      // Bounded fan-out through the proxy (2026-10-24): at most
+      // OVERPASS_MAX_ATTEMPTS_PER_REQUEST mirrors per request, shared by both callers.
+      assert.equal(fetches, Math.min(OVERPASS_MAX_ATTEMPTS_PER_REQUEST, OVERPASS_DEFAULT_UPSTREAMS.length), 'one shared, bounded mirror sequence (attempt cap)');
       assert.deepEqual(JSON.parse(await readFile(file, 'utf8')), stale);
     } finally {
       release.resolve();

@@ -1,0 +1,227 @@
+[
+  {
+    "id": "aoi_abu_dhabi",
+    "name": "Abu Dhabi",
+    "country": "ARE",
+    "lat": 24.4539,
+    "lon": 54.3773,
+    "category": "home",
+    "radiusKm": 45
+  },
+  {
+    "id": "aoi_dubai",
+    "name": "Dubai",
+    "country": "ARE",
+    "lat": 25.2048,
+    "lon": 55.2708,
+    "category": "home",
+    "radiusKm": 45
+  },
+  {
+    "id": "aoi_sharjah",
+    "name": "Sharjah",
+    "country": "ARE",
+    "lat": 25.3463,
+    "lon": 55.4209,
+    "category": "home",
+    "radiusKm": 45
+  },
+  {
+    "id": "aoi_ajman",
+    "name": "Ajman",
+    "country": "ARE",
+    "lat": 25.4052,
+    "lon": 55.5136,
+    "category": "home",
+    "radiusKm": 45
+  },
+  {
+    "id": "aoi_umm_al_quwain",
+    "name": "Umm Al Quwain",
+    "country": "ARE",
+    "lat": 25.5647,
+    "lon": 55.5552,
+    "category": "home",
+    "radiusKm": 45
+  },
+  {
+    "id": "aoi_ras_al_khaimah",
+    "name": "Ras Al Khaimah",
+    "country": "ARE",
+    "lat": 25.7895,
+    "lon": 55.9432,
+    "category": "home",
+    "radiusKm": 45
+  },
+  {
+    "id": "aoi_fujairah",
+    "name": "Fujairah",
+    "country": "ARE",
+    "lat": 25.1288,
+    "lon": 56.3265,
+    "category": "home",
+    "radiusKm": 45
+  },
+  {
+    "id": "aoi_burj_khalifa",
+    "name": "Burj Khalifa",
+    "country": "ARE",
+    "lat": 25.1972,
+    "lon": 55.2744,
+    "category": "home",
+    "radiusKm": 3
+  },
+  {
+    "id": "aoi_umm_suqeim",
+    "name": "Umm Suqeim",
+    "country": "ARE",
+    "lat": 25.147,
+    "lon": 55.199,
+    "category": "home",
+    "radiusKm": 4
+  },
+  {
+    "id": "aoi_abu_musa",
+    "name": "Abu Musa",
+    "country": "IRN",
+    "lat": 25.8733,
+    "lon": 55.0322,
+    "category": "claim",
+    "radiusKm": 15
+  },
+  {
+    "id": "aoi_greater_tunb",
+    "name": "Greater Tunb",
+    "country": "IRN",
+    "lat": 26.2658,
+    "lon": 55.3064,
+    "category": "claim",
+    "radiusKm": 15
+  },
+  {
+    "id": "aoi_lesser_tunb",
+    "name": "Lesser Tunb",
+    "country": "IRN",
+    "lat": 26.2403,
+    "lon": 55.1458,
+    "category": "claim",
+    "radiusKm": 15
+  },
+  {
+    "id": "aoi_hodeidah",
+    "name": "Hodeidah",
+    "country": "YEM",
+    "lat": 14.7978,
+    "lon": 42.9545,
+    "category": "active-presence",
+    "radiusKm": 25
+  },
+  {
+    "id": "aoi_aden",
+    "name": "Aden",
+    "country": "YEM",
+    "lat": 12.7855,
+    "lon": 45.0187,
+    "category": "active-presence",
+    "radiusKm": 25
+  },
+  {
+    "id": "aoi_mukalla",
+    "name": "Mukalla",
+    "country": "YEM",
+    "lat": 14.5425,
+    "lon": 49.1242,
+    "category": "active-presence",
+    "radiusKm": 25
+  },
+  {
+    "id": "aoi_socotra",
+    "name": "Socotra",
+    "country": "YEM",
+    "lat": 12.4634,
+    "lon": 53.8237,
+    "category": "active-presence",
+    "radiusKm": 25
+  },
+  {
+    "id": "aoi_perim",
+    "name": "Perim / Mayun",
+    "country": "YEM",
+    "lat": 12.6567,
+    "lon": 43.4147,
+    "category": "active-presence",
+    "radiusKm": 25
+  },
+  {
+    "id": "aoi_berbera",
+    "name": "Berbera",
+    "country": "SOM",
+    "lat": 10.4396,
+    "lon": 45.0143,
+    "category": "active-presence",
+    "radiusKm": 25
+  },
+  {
+    "id": "aoi_bosaso",
+    "name": "Bosaso",
+    "country": "SOM",
+    "lat": 11.2842,
+    "lon": 49.1816,
+    "category": "active-presence",
+    "radiusKm": 25
+  },
+  {
+    "id": "aoi_mogadishu",
+    "name": "Mogadishu",
+    "country": "SOM",
+    "lat": 2.0469,
+    "lon": 45.3182,
+    "category": "active-presence",
+    "radiusKm": 25
+  },
+  {
+    "id": "aoi_al_ghuwaifat",
+    "name": "Al Ghuwaifat",
+    "country": "ARE",
+    "lat": 24.1167,
+    "lon": 51.5833,
+    "category": "border-protection",
+    "radiusKm": 20
+  },
+  {
+    "id": "aoi_hatta",
+    "name": "Hatta",
+    "country": "ARE",
+    "lat": 24.8033,
+    "lon": 56.12,
+    "category": "border-protection",
+    "radiusKm": 20
+  },
+  {
+    "id": "aoi_khor_fakkan",
+    "name": "Khor Fakkan",
+    "country": "ARE",
+    "lat": 25.339,
+    "lon": 56.348,
+    "category": "border-protection",
+    "radiusKm": 20
+  },
+  {
+    "id": "aoi_fujairah_border",
+    "name": "Fujairah Border",
+    "country": "ARE",
+    "lat": 25.1288,
+    "lon": 56.3265,
+    "category": "border-protection",
+    "radiusKm": 20
+  },
+  {
+    "id": "aoi_hormuz_approaches",
+    "name": "Hormuz approaches",
+    "country": "OMN",
+    "lat": 26.3,
+    "lon": 56.4,
+    "category": "border-protection",
+    "radiusKm": 60
+  }
+]
