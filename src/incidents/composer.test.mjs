@@ -1276,3 +1276,17 @@ describe('cycle 16: embedded-host feedback guarantees', () => {
     assert.deepEqual(texts, ['Dubai Marina', 'Dubai Marina']);
   });
 });
+
+
+test('production BUILD constructs a geographic scene for research text and carries recording scope', async () => {
+  const client = fakeClient({ candidates: [BURJ] }), delivered = [];
+  const composer = createIncidentComposer({ document: makeDoc(), client, buildResearchScene: true,
+    createGeographicScene: ({ candidate }) => ({ id: 'fixture-geographic', geographic: true, anchor: candidate }),
+    onScene: async (payload) => delivered.push(payload),
+  });
+  await composer.submit('burj khalifa check if there is any incidents');
+  assert.equal(delivered.length, 1); assert.equal(delivered[0].selectedTime.windowHours, 1);
+  assert.equal(delivered[0].scene.geographic, true);
+  assert.equal(client.calls.filter(([kind]) => kind === 'ingest').length, 0);
+  assert.ok(composer.element.find(n => n.id === 'incident-composer-play').length);
+});

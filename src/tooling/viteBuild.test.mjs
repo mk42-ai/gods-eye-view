@@ -17,26 +17,22 @@ test('explicit build inputs preserve browser-only defines, plugin order and loop
   assert.equal(config.plugins[3], plugin);
   assert.equal(config.server.host, 'localhost');
   assert.equal(config.server.port, 4173);
-  assert.deepEqual(config.server.allowedHosts, [
-    'localhost',
-    '127.0.0.1',
-    '.local',
-  ]);
+  assert.equal(config.server.allowedHosts, true);
   assert.ok(config.server.fs.deny.includes('**/ENVIRONMENT'));
   assert.ok(config.server.fs.deny.includes('.env.*'));
   // The dev/preview server must be embeddable (cycle 8): no X-Frame-Options and no
   // frame-ancestors 'none' on the document the browser loads.
-  assert.equal(config.server.headers, undefined);
+  assert.match(config.server.headers['Content-Security-Policy'], /frame-src 'self'/);
   // …and the same holds for `vite preview` and for any header block a later
   // edit might add (2026-10-23: the stale X-Frame-Options assertion this test
   // used to carry is gone; this guards against it coming back).
   assert.equal(config.preview?.headers, undefined);
   const headerValues = JSON.stringify([config.server, config.preview ?? {}]);
   assert.doesNotMatch(headerValues, /X-Frame-Options/i);
-  assert.doesNotMatch(headerValues, /frame-ancestors/i);
+  assert.doesNotMatch(headerValues, /frame-ancestors\s+'none'/i);
   assert.deepEqual(config.define, {
-    'import.meta.env.GOOGLE_MAPS_API_KEY': '"browser-fixture"',
-    'import.meta.env.CESIUM_ION_TOKEN': '"ion-fixture"',
+    'import.meta.env.VITE_GOOGLE_MAPS_API_KEY': '"browser-fixture"',
+    'import.meta.env.VITE_CESIUM_ION_TOKEN': '"ion-fixture"',
   });
   assert.equal(
     createBrowserViteConfig({ host: '0.0.0.0', port: '4800' }).server
@@ -55,7 +51,7 @@ test('build helper does not discover environment values or construct local provi
   try {
     const config = createBrowserViteConfig();
     assert.equal(
-      config.define['import.meta.env.GOOGLE_MAPS_API_KEY'],
+      config.define['import.meta.env.VITE_GOOGLE_MAPS_API_KEY'],
       undefined,
     );
     assert.equal(config.plugins.length, 3);

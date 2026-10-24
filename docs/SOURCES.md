@@ -124,3 +124,24 @@ reports `credentials required` in the SOURCE STATUS panel and returns **no** dat
 | OnDemand X Search Agent credits | plugin-1751872652 | top up the plugin owner's X credits in OnDemand (currently exhausted). |
 
 GENERATED_UTC: 2026-10-24T07:05:00Z
+
+
+## Cycle 18 correction — 2026-10-24 (current policy)
+
+The original source descriptions above document an earlier implementation. Production scene research now exclusively calls the existing OnDemand server plugin layer; direct YouTube/Meta/TikTok/X/RSS/GDELT HTTP and automatic oEmbed enrichment were removed from this path. Instagram and other search results are **unverified URL candidates**. A model-generated JSON object or permalink, a caption, an upload timestamp, an oEmbed response or a profile place is never recording evidence. No derived post-id timestamp is promoted to a recording time.
+
+Live OnDemand public OpenAPI was retrieved for createchatsession/submitquery/getchatmessage on 2026-10-24: authentication is `apikey`; body uses `pluginIds`; response `data.answer` is model text and does not provide a raw verified plugin execution. This prevents claims that the current connector can attest source metadata. Instagram Graph/oEmbed requires authorized application permissions and tokens; TikTok Display is user-scoped, Research is approval-scoped; YouTube recordingDetails (not search/oEmbed) is needed for recording facts; X created_at is post creation, not video recording. Sources and field absence are reported honestly.
+
+Current implementation: `src/sceneEvidence/qualification.js`, `server/scene-evidence/{sources,pipeline,routes,safety}.js`. Six mediated attempts have 18s individual / 24s total deadlines. Four raw-metadata adapters are explicitly unavailable, not simulated. Optional direct Cerebras inference is not invoked because no app-owned direct key was available or needed; deterministic parsing/admission is the normal fast path. The configured Cerebras-hosted **OnDemand fulfillment endpoint** formats discovery responses only, never certifies facts.
+
+Official references checked/read for this cycle:
+- https://docs.on-demand.io/ and live `/config/v1/public/docs/reference/api/submitquery`
+- https://developers.google.com/youtube/v3/docs/search/list
+- https://developers.google.com/youtube/v3/docs/videos
+- https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/instagram-oembed
+- https://developers.tiktok.com/doc/embed-player
+- https://developers.tiktok.com/doc/research-api-specs-query-videos/
+- https://docs.x.com/x-api/posts/recent-search
+- https://inference-docs.cerebras.ai/api-reference/chat-completions
+
+Raw social-provider success behind the OnDemand answer cannot be independently audited from the documented response. Current live results, transport codes, exact UTC windows, exclusions and blockers are in the root repair report/evidence JSON. Prior archival playback evidence is not a current-footage demonstration.

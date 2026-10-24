@@ -515,19 +515,22 @@ export function installIncidentScenes({
   // explicitly named/saved by the operator, never ingested as reported events.
   // Scene evidence (2026-10-24): every in-AOI scene opens its evidence panel.
   // Saved scenes reopen from the local evidence cache with no provider calls.
-  function openEvidence(scene, { text, preferCache = false } = {}) {
+  const evidenceScopeByScene = new Map();
+  function openEvidence(scene, { text, preferCache = false, selectedTime = {} } = {}) {
+    if (selectedTime.windowHours || selectedTime.timeMode) evidenceScopeByScene.set(scene.id, selectedTime);
+    selectedTime = evidenceScopeByScene.get(scene.id) || { windowHours: Number(doc.getElementById('incident-composer-window')?.value) || 1, timeMode: 'recent' };
     const a = scene?.anchor;
     if (!a || !Number.isFinite(a.lat) || !Number.isFinite(a.lon)) return;
     win.dispatchEvent?.(
       new CustomEvent('gev:scene-evidence', {
-        detail: { text: text || a.name || scene.title, place: a.name || undefined, lat: a.lat, lon: a.lon, sceneId: scene.id, windowHours: 72, preferCache },
+        detail: { text: text || a.name || scene.title, place: a.name || undefined, lat: a.lat, lon: a.lon, sceneId: scene.id, windowHours: selectedTime.windowHours || 1, ...selectedTime, preferCache },
       }),
     );
   }
-  function activateGeographic(scene, { saved = false, focus = true, evidenceText, reopen = false } = {}) {
+  function activateGeographic(scene, { saved = false, focus = true, evidenceText, reopen = false, selectedTime = {}, research = true } = {}) {
     const gate = resolveIncidentGate(scene.title, scene.anchor);
     if (!gate.allowed) throw new Error('Outside UAE AOI — external context only');
-    openEvidence(scene, { text: evidenceText, preferCache: reopen });
+    if (research) openEvidence(scene, { text: evidenceText, preferCache: reopen, selectedTime });
     activeGeographicScene = scene;
     const added = sceneDirector.addIncidentScene(scene, { select: true });
     if (!added.added) throw new Error(added.reason || 'Scene was not accepted');
@@ -571,6 +574,7 @@ export function installIncidentScenes({
   const composer = createIncidentComposer({
     document: doc,
     client,
+    buildResearchScene: true,
     buildScene: (incidents) => buildScenes(incidents)[0],
     createGeographicScene: ({ candidate, extraction, text, signal: requestSignal }) => {
       if (requestSignal?.aborted) throw new DOMException('Cancelled', 'AbortError');
@@ -610,7 +614,7 @@ export function installIncidentScenes({
         }),
       );
     },
-    onScene: async ({ scene, incident, override, play = false, text, signal: requestSignal }) => {
+    onScene: async ({ scene, incident, override, play = false, text, selectedTime = {}, signal: requestSignal }) => {
       if (requestSignal?.aborted) return;
       if (!play && (sceneDirector.running || sceneDirector.paused)) {
         // LOAD is rejected while a previous playback owns the camera. Wait for
@@ -621,14 +625,14 @@ export function installIncidentScenes({
         sceneDirector._paused = null;
       }
       if (scene.geographic) {
-        activateGeographic(scene, { saved: Boolean(geographicStore.load(scene.id)), focus: !play, evidenceText: text });
+        activateGeographic(scene, { saved: Boolean(geographicStore.load(scene.id)), focus: !play, evidenceText: text, selectedTime, research: !play });
         if (play) void playScene(scene.id, { fly: false });
         return;
       }
       const point = scene.anchor || scene.keyframes?.[0];
       if (!point || !resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon }).allowed) throw new Error('Outside UAE AOI — external context only');
       const sceneWithFlags = scene;
-      if (!play && text) win.dispatchEvent?.(new CustomEvent('gev:scene-evidence', { detail: { text, lat: point.lat, lon: point.lon, sceneId: scene.id, windowHours: 72 } }));
+      if (!play && text) win.dispatchEvent?.(new CustomEvent('gev:scene-evidence', { detail: { text, lat: point.lat, lon: point.lon, sceneId: scene.id, windowHours: selectedTime.windowHours || 1, ...selectedTime } }));
       const added = sceneDirector.addIncidentScene(sceneWithFlags, {
         override,
         select: true,

@@ -20,7 +20,12 @@ const memStorage = () => {
   const m = new Map();
   return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), _m: m };
 };
-const item = (url, title, extra = {}) => buildEvidenceItem({ url, title, ...extra }, { now: NOW, place: 'Dubai Marina', anchor: { lat: 25.08, lon: 55.14 } });
+// Source-verified fixture contract. These records never enter production.
+const item = (url, title, extra = {}) => buildEvidenceItem({ url, title,
+  evidence: { kind: 'provider-record', verified: true }, mediaType: 'video',
+  mediaLocation: { sourceVerified: true, basis: 'recording-location', field: 'recordingDetails.location', geometry: { type: 'Point', coordinates: [55.14,25.08] } },
+  recordingTime: { sourceVerified: true, basis: 'recorded', field: 'recordingDetails.recordingDate', value: '2026-10-24T05:45:00Z', precision: 'second' },
+  playback: { authorized: true, type: 'official-embed' }, ...extra }, { now: NOW, place: 'Dubai Marina', anchor: { lat: 25.08, lon: 55.14 } });
 
 test('reducer: plan → items stream in ranked → done; first-card timing recorded', () => {
   let s = initialState({ place: 'Dubai Marina', lat: 25.08, lon: 55.14 });
@@ -30,7 +35,7 @@ test('reducer: plan → items stream in ranked → done; first-card timing recor
   s = applyEvent(s, 'item', item('https://youtu.be/dQw4w9WgXcQ', 'random'), 2500);
   assert.equal(s.client.firstCardMs, 1500);
   s = applyEvent(s, 'item', item('https://www.tiktok.com/@a/video/7690936936990592274', 'Dubai Marina walk'), 3000);
-  assert.equal(s.items[0].platform, 'tiktok'); // text geo outranks none
+  assert.equal(s.items.length, 2); // only qualified fixture records
   s = applyEvent(s, 'source', { id: 'a', state: 'ok', count: 2 }, 3100);
   assert.equal(s.sources.find((x) => x.id === 'a').state, 'ok');
   s = applyEvent(s, 'signal', { id: 's1', title: 't', publishedAt: '2026-10-24T05:00:00Z' }, 3200);
@@ -44,9 +49,9 @@ test('filters toggle and apply', () => {
   let s = initialState({});
   s = applyEvent(s, 'item', item('https://youtu.be/dQw4w9WgXcQ', 'random'));
   s = applyEvent(s, 'item', item('https://www.tiktok.com/@a/video/7690936936990592274', 'Dubai Marina walk'));
-  s = toggleFilter(s, 'precisions', 'text');
-  assert.deepEqual(visibleItems(s).map((x) => x.platform), ['tiktok']);
-  s = toggleFilter(s, 'precisions', 'text');
+  s = toggleFilter(s, 'precisions', 'place');
+  assert.deepEqual(visibleItems(s), []);
+  s = toggleFilter(s, 'precisions', 'place');
   assert.equal(visibleItems(s).length, 2);
 });
 
@@ -57,7 +62,7 @@ test('scene cache: save → reload re-ages freshness; diff on rebuild; Instagram
   s = applyEvent(s, 'item', item('https://www.tiktok.com/@a/video/7690936936990592274', 'Dubai Marina walk'));
   s = applyEvent(s, 'done', { items: s.items, signals: [], sources: [] });
   assert.equal(saveSceneEvidence(st, s, NOW.getTime()), true);
-  assert.doesNotMatch(st._m.get('gev.sceneEvidence.v1'), /secret caption/);
+  assert.doesNotMatch(st._m.get('gev.sceneEvidence.v2'), /secret caption/);
   const back = loadSceneEvidence(st, s.key, NOW);
   assert.equal(back.items.length, 2);
   assert.ok(back.cachedAt);
@@ -133,20 +138,22 @@ test('panel: streams SSE into cards, source status shows credentials-required, c
     ['done', { key: 'k1', place: 'Dubai Marina', items: [it1], signals: [], sources: [{ id: 'od_search_tiktok', name: 'TikTok', state: 'ok', count: 1 }, { id: 'x_api_v2', name: 'X API', state: 'credentials_required', credentials: ['X_BEARER_TOKEN'] }], timings: { totalMs: 6000 } }],
   ];
   let calls = 0;
-  const panel = createSceneEvidencePanel({ document: doc, window: {}, storage: st, fetch: async () => (calls++, { ok: true, body: sseBody(events) }) });
+  const panel = createSceneEvidencePanel({ document: doc, window: {}, storage: st, now: () => NOW.getTime(), fetch: async () => (calls++, { ok: true, body: sseBody(events) }) });
   await panel.open({ text: 'Dubai Marina', place: 'Dubai Marina', lat: 25.08, lon: 55.14 });
   const root = panel.element;
   assert.equal(root.dataset.phase, 'done');
   const cards = all(root, (n) => n.className === 'sev-card');
   assert.equal(cards.length, 1);
-  assert.equal(cards[0].getAttribute('data-freshness'), 'STALE');
-  assert.equal(cards[0].getAttribute('data-geo'), 'text');
+  assert.equal(cards[0].getAttribute('data-freshness'), 'RECENT');
+  assert.equal(cards[0].getAttribute('data-geo'), 'exact');
   const geoBadge = find(cards[0], (n) => n.getAttribute?.('data-geo-badge'));
-  assert.match(geoBadge.textContent, /^~TEXT-INFERRED 40%/); // approximate is labelled, never "exact"
+  assert.match(geoBadge.textContent, /^EXACT GEOTAG/); // approximate is labelled, never "exact"
   const credRow = find(root, (n) => n.getAttribute?.('data-source-id') === 'x_api_v2');
   assert.equal(credRow.getAttribute('data-state'), 'credentials_required');
   assert.match(find(credRow, (n) => n.className === 'sev__source-meta').textContent, /X_BEARER_TOKEN/);
-  // first item auto-selected → embed iframe lazy
+  // Explicit Play is required; an arriving thumbnail is not playback.
+  assert.equal(find(root, (n) => n.tagName === 'IFRAME'), null);
+  find(cards[0], (n) => n.className?.includes('sev-card__play')).dispatch('click');
   const frame = find(root, (n) => n.tagName === 'IFRAME');
   assert.equal(frame.getAttribute('loading'), 'lazy');
   assert.match(frame.getAttribute('src'), /tiktok\.com\/player\/v1\/7690936936990592274/);
@@ -155,13 +162,13 @@ test('panel: streams SSE into cards, source status shows credentials-required, c
   const pop = find(root, (n) => n.id === 'scene-evidence-profile');
   assert.equal(pop.hidden, false);
   assert.ok(find(pop, (n) => n.className === 'sev__profile-followers'));
-  assert.match(find(pop, (n) => n.className === 'sev__profile-note').textContent, /name, handle, url, followers/);
+  assert.match(find(pop, (n) => n.className === 'sev__profile-note').textContent, /name, url, followers/);
   assert.equal(find(pop, (n) => n.className === 'sev__profile-bio'), null); // not returned → not shown
-  // reopen → served from the local cache with NO network call
+  // Reopen uses cache as a snapshot, but always revalidates live evidence
   const before = calls;
   await panel.open({ text: 'Dubai Marina', place: 'Dubai Marina', lat: 25.08, lon: 55.14 }, { preferCache: true });
-  assert.equal(calls, before);
-  assert.equal(root.dataset.phase, 'cached');
+  assert.equal(calls, before + 1);
+  assert.equal(root.dataset.phase, 'done');
 });
 
 test('panel: HTTP errors surface as an error state (no fabricated data)', async () => {

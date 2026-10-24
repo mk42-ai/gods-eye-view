@@ -110,6 +110,7 @@ describe('/incidents routes', () => {
     audits = [];
     handler = createIncidentRoutes({
       incidentStore,
+      diagnosticSeeds: seedIncidents(), // explicit isolated historical fixtures; production never imports these
       store,
       aoiIndex: index,
       env: { INCIDENT_INGEST_SECRET: 's3cret-value' },
@@ -509,4 +510,11 @@ test('cycle 16: conversational text never calls a provider', async () => {
   assert.equal(called, 0);
   assert.equal(result.status, 'empty');
   assert.equal(result.extraction.kind, 'conversational');
+});
+
+test('production incident list has no automatic historical fixture seeding', async () => {
+  __resetSeedForTests();
+  const handler = createIncidentRoutes({ incidentStore: createIncidentStore({ backend: 'memory' }), store: createConversationStore({ backend: 'memory' }), aoiIndex: index });
+  const { body } = await run(handler, { url: '/incidents/list?aoi=all' });
+  assert.equal(body.count, 0); assert.equal(body.scene_count, 0);
 });

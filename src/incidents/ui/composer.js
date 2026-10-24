@@ -25,6 +25,7 @@ export function createIncidentComposer({
   createGeographicScene,
   onUnresolved,
   requestTimeoutMs = 75_000,
+  buildResearchScene = false,
 } = {}) {
   const root = document.createElement('form');
   root.id = COMPOSER_ID;
@@ -71,6 +72,21 @@ export function createIncidentComposer({
   retry.hidden = true;
   row.append(icon, input, submit, cancelButton, retry);
 
+  const timeRow = document.createElement('div');
+  timeRow.className = 'incident-composer__time';
+  const timeLabel = document.createElement('label');
+  timeLabel.textContent = 'Recording window (UTC) ';
+  timeLabel.setAttribute('for', 'incident-composer-window');
+  const timeSelect = document.createElement('select');
+  timeSelect.id = 'incident-composer-window';
+  timeSelect.setAttribute('aria-label', 'Recording time window');
+  for (const [value, title] of [['1', 'Last hour'], ['6', 'Last 6 hours'], ['24', 'Last 24 hours'], ['72', 'Last 72 hours'], ['168', 'Last 7 days'], ['historical', 'Historical interval']]) {
+    const option = document.createElement('option'); option.value = value; option.textContent = title; timeSelect.appendChild(option);
+  }
+  timeSelect.value = '1';
+  const historicalStart = document.createElement('input'); historicalStart.type = 'datetime-local'; historicalStart.id = 'incident-composer-from'; historicalStart.setAttribute('aria-label', 'Recording interval start UTC'); historicalStart.hidden = true;
+  const historicalEnd = document.createElement('input'); historicalEnd.type = 'datetime-local'; historicalEnd.id = 'incident-composer-to'; historicalEnd.setAttribute('aria-label', 'Recording interval end UTC'); historicalEnd.hidden = true;
+  timeRow.append(timeLabel, timeSelect, historicalStart, historicalEnd);
   const chips = document.createElement('div');
   chips.className = 'incident-composer__chips';
   chips.id = `${COMPOSER_ID}-chips`;
@@ -80,7 +96,7 @@ export function createIncidentComposer({
   result.id = `${COMPOSER_ID}-result`;
   result.hidden = true;
   result.setAttribute('aria-live', 'polite');
-  root.append(row, chips, result);
+  root.append(row, timeRow, chips, result);
 
   const layoutHost = document.documentElement || document.body;
   const updateStackHeight = () => {
@@ -321,6 +337,7 @@ export function createIncidentComposer({
 
   function geographicOnly(run) {
     const extraction = run.extraction;
+    if (buildResearchScene && extraction?.intent === 'incident_search') return true;
     if (extraction?.intent !== 'build_scene') return false;
     // Prefer the shared parser's metadata; the fallback preserves compatibility
     // with older /locate extraction payloads that only expose intent/place.
@@ -353,7 +370,8 @@ export function createIncidentComposer({
       if (!current(run) || state.busy) return;
       void replayScene(payload, run, reused);
     });
-    wrap.append(play);
+    const provenance = document.createElement('small'); provenance.className = 'incident-composer__provenance'; provenance.textContent = 'Camera scene only · footage verified separately · UTC recording filter';
+    wrap.append(play, provenance);
     showResult(wrap);
   }
   async function replayScene(payload, run, reused) {
@@ -423,6 +441,7 @@ export function createIncidentComposer({
       signal: run.signal,
       generation: run.id,
       source: geographic ? 'geographic' : 'incident',
+      selectedTime: { windowHours: run.extraction.windowHours, timeMode: run.extraction.timeMode, windowStart: run.extraction.windowStart, windowEnd: run.extraction.windowEnd },
     };
     await onScene?.(payload);
     checkCurrent(run);
@@ -538,6 +557,7 @@ export function createIncidentComposer({
     if (candidate.reason) wrap.append(message(candidate.reason));
     showResult(wrap);
     root.setAttribute('data-state', 'external');
+    if (document.defaultView?.CustomEvent) document.defaultView.dispatchEvent(new document.defaultView.CustomEvent('gev:incident-external'));
     await onExternal?.({
       candidate,
       extraction: run.extraction,
@@ -551,9 +571,9 @@ export function createIncidentComposer({
     checkCurrent(run);
     if (!candidate.aoi_membership?.inside)
       return externalContext(candidate, run);
-    return run.extraction?.intent === 'incident_search'
-      ? searchAt(candidate, run)
-      : build(candidate, run);
+    // BUILD always constructs the geographic scene; an incident question is
+    // research intent, never evidence that an incident actually occurred.
+    return run.extraction?.intent === 'incident_search' && !buildResearchScene ? searchAt(candidate, run) : build(candidate, run);
   }
   async function choose(candidate, run) {
     if (!current(run) || state.busy) return;
@@ -583,7 +603,7 @@ export function createIncidentComposer({
     root.setAttribute('data-state', 'pick');
   }
 
-  async function submitText(text) {
+  async function submitText(text, { timeChange = false } = {}) {
     const trimmed = String(text || '')
       .trim()
       .slice(0, 500);
@@ -595,16 +615,33 @@ export function createIncidentComposer({
       input.focus?.({ preventScroll: true });
       return null;
     }
-    if (state.busy && trimmed === state.text) {
+    const selectionKey = `${timeSelect.value}|${historicalStart.value || ''}|${historicalEnd.value || ''}`;
+    if (state.busy && trimmed === state.text && selectionKey === state.submittedScope) {
       // Duplicate press while running: keep the visible progress, never no-op silently.
       root.setAttribute('data-duplicate', String(Date.now()));
       return null;
     }
     const parsed = parseIncidentQuery(trimmed, { defaultIntent: 'build_scene' });
+    if (!timeChange && /\b(?:last|past)\s+\d+\s*(?:h|hour|hr|day)/i.test(trimmed)) {
+      const value = String(parsed.windowHours);
+      if (![...timeSelect.children].some(option => option.value === value)) { const option = document.createElement('option'); option.value = value; option.textContent = `Last ${value} hours`; timeSelect.appendChild(option); }
+      timeSelect.value = value;
+    }
+    parsed.windowHours = Number(timeSelect.value) || 1;
+    parsed.timeMode = timeSelect.value === 'historical' ? 'historical' : 'recent';
+    if (parsed.timeMode === 'historical') {
+      parsed.windowStart = historicalStart.value ? `${historicalStart.value}:00Z`.replace(/:00:00Z$/, ':00Z') : null;
+      parsed.windowEnd = historicalEnd.value ? `${historicalEnd.value}:00Z`.replace(/:00:00Z$/, ':00Z') : null;
+      if (!parsed.windowStart || !parsed.windowEnd || Date.parse(parsed.windowStart) >= Date.parse(parsed.windowEnd) || Date.parse(parsed.windowEnd) > Date.now()) {
+        showResult(message('Choose a valid past recording interval in UTC before building.', 'error')); root.setAttribute('data-state', 'error'); return null;
+      }
+    }
+    state.submittedScope = `${timeSelect.value}|${historicalStart.value || ''}|${historicalEnd.value || ''}`;
     if (parsed.kind === 'conversational') {
       // Greetings/small talk are not places: answer locally and instantly with a
       // discreet hint. Any pending request is superseded, no provider is called.
       state.generation += 1;
+      if (document.defaultView?.CustomEvent) document.defaultView.dispatchEvent(new document.defaultView.CustomEvent('gev:incident-command-started'));
       state.abort?.abort();
       activeRun = null;
       state.text = trimmed;
@@ -618,6 +655,7 @@ export function createIncidentComposer({
     // A newly edited AOI supersedes pending research/build work. Invalidate the
     // old generation before aborting it; its finally must not unlock this run.
     state.generation += 1;
+    if (document.defaultView?.CustomEvent) document.defaultView.dispatchEvent(new document.defaultView.CustomEvent('gev:incident-command-started'));
     state.abort?.abort();
     state.abort =
       typeof AbortController === 'function' ? new AbortController() : null;
@@ -693,6 +731,14 @@ export function createIncidentComposer({
     }
   }
 
+  timeSelect.addEventListener('change', () => {
+    historicalStart.hidden = historicalEnd.hidden = timeSelect.value !== 'historical';
+    if (timeSelect.value !== 'historical' && input.value.trim()) void submitText(input.value, { timeChange: true });
+    updateStackHeight();
+  });
+  for (const field of [historicalStart, historicalEnd]) field.addEventListener('change', () => {
+    if (historicalStart.value && historicalEnd.value && input.value.trim()) void submitText(input.value, { timeChange: true });
+  });
   cancelButton.addEventListener('click', cancelRequest);
   retry.addEventListener('click', () => {
     if (!state.busy && !destroyed) void submitText(state.text || input.value);
@@ -702,6 +748,15 @@ export function createIncidentComposer({
     // The actual form submit handles both Enter and the submit button. Do not
     // synthesize a second request from keydown or clear text after a stale run.
     void submitText(input.value);
+  });
+  input.addEventListener('input', () => {
+    if (!state.text || input.value.trim() === state.text) return;
+    if (state.busy) cancelRequest();
+    else {
+      state.generation += 1; activeRun = null; state.lastScene = null;
+      hideResult(); resetSteps();
+      if (document.defaultView?.CustomEvent) document.defaultView.dispatchEvent(new document.defaultView.CustomEvent('gev:incident-command-started'));
+    }
   });
   input.addEventListener('keydown', (event) => {
     // Prevent workstation shortcuts without preventing native Enter submission.

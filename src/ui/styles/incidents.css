@@ -524,3 +524,15 @@ body.recording-mode .incident-popover {
 .serverless-notice:not([open]) {
   z-index: 100;
 }
+
+/* Recording scope is explicit and separate from the camera scene. */
+.incident-composer__time { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 5px; font-size: 10px; color: #c6dad5; }
+.incident-composer__time select, .incident-composer__time input { color: #e7f6f0; background: #10221f; border: 1px solid #37665c; border-radius: 5px; padding: 4px 7px; min-width: 0; }
+.incident-composer__time input[hidden] { display: none; }
+.incident-composer__provenance { margin-left: 8px; color: #b2cbc4; font-size: 10px; }
+@media (max-width: 700px) {
+  .incident-composer__time { font-size: 11px; }
+  .incident-composer__time select { min-height: 36px; font-size: 13px; }
+  .incident-composer__time input { max-width: 100%; font-size: 13px; }
+  .incident-composer__provenance { display: block; margin: 4px 0 0; }
+}

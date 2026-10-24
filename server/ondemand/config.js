@@ -621,7 +621,7 @@ function reconcileReasoningMode() {
 }
 
 function computeConfig() {
-  const apiKeyResult = reconcile('ONDEMAND_API_KEY', null, '');
+  const apiKeyResult = reconcile('ONDEMAND_API_KEY', 'ON_DEMAND_API_KEY', '');
 
   const baseUrlResult = reconcile(
     'ONDEMAND_BASE_URL',

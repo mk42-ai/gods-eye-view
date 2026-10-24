@@ -288,6 +288,7 @@ export function createOnDemandClient(options = {}) {
         });
       } catch (err) {
         link.cleanup();
+        try { init.onResponse?.({ method, path: new URL(url).pathname.replace(/\/sessions\/[^/]+\//, '/sessions/:sessionId/'), status: init.signal?.aborted ? 499 : 504, ms: Date.now() - started, attempt: attempt + 1, utc: new Date().toISOString() }); } catch { /* transport diagnostics only */ }
         if (init.signal?.aborted) throw new OnDemandAbortError('aborted');
         if (link.timedOut()) {
           lastErr = new OnDemandAbortError('timeout');
@@ -309,6 +310,8 @@ export function createOnDemandClient(options = {}) {
         link.cleanup();
       }
       const ms = Date.now() - started;
+      // Transport-only correlation for scene verification, never request bodies or auth.
+      try { init.onResponse?.({ method, path: new URL(url).pathname.replace(/\/sessions\/[^/]+\//, '/sessions/:sessionId/'), status: res.status, ms, attempt: attempt + 1, utc: new Date().toISOString() }); } catch { /* observability cannot fail the request */ }
       if (res.ok) {
         log(`[ondemand] ${method} ${redactUrl(url)} ${res.status} ${ms}ms`);
         return res;

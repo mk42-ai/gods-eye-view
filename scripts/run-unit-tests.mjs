@@ -64,7 +64,7 @@ function runTests(args) {
   const result = spawnSync(process.execPath, args, {
     cwd: process.cwd(),
     stdio: 'inherit',
-    env: process.env,
+    env: Object.fromEntries(Object.entries(process.env).filter(([key]) => !['ON_DEMAND_API_KEY', 'ONDEMAND_API_KEY', 'OVERPASS_ENDPOINTS'].includes(key))),
   });
   if (result.error) throw result.error;
   return result.status ?? 1;

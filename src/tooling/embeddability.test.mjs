@@ -22,8 +22,8 @@ test('vercel.json emits no framing headers for the document', () => {
         `${rule.source} must not set X-Frame-Options`,
       );
       assert.ok(
-        !/frame-ancestors/i.test(String(header.value)),
-        `${rule.source} must not set a frame-ancestors policy`,
+        !/frame-ancestors\s+'none'/i.test(String(header.value)),
+        `${rule.source} must not block the authorized OnDemand frame parent`,
       );
     }
   }
@@ -32,4 +32,12 @@ test('vercel.json emits no framing headers for the document', () => {
     config.headers.some((rule) => rule.source === '/assets/(.*)'),
     'asset cache header retained',
   );
+});
+
+test('framing allowlist admits OnDemand but not arbitrary parents', () => {
+  const config = JSON.parse(readFileSync(new URL('../../vercel.json', import.meta.url), 'utf8'));
+  const csp = config.headers.flatMap(x => x.headers).find(x => x.key === 'Content-Security-Policy').value;
+  assert.match(csp, /frame-src 'self' https:\/\/www.youtube-nocookie.com/);
+  assert.match(csp, /frame-ancestors 'self' https:\/\/on-demand.io https:\/\/\*.on-demand.io/);
+  assert.doesNotMatch(csp, /frame-ancestors \*/);
 });

@@ -2004,7 +2004,8 @@
       "src/scenes/geographicScene.js",
       "src/incidents/ui/sceneLibrary.js",
       "src/incidents/ui/diagnostics.js",
-      "src/incidents/ui/geographicOverlay.js"
+      "src/incidents/ui/geographicOverlay.js",
+      "src/sceneEvidence/qualification.js"
     ],
     "external": [
       "@mapbox/vector-tile",

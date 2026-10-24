@@ -5,8 +5,8 @@ import { installOndemandVoice } from './voice/ondemand/index.js';
 import { PRODUCT_NAME } from './brand/productName.js';
 
 const application = createStandaloneApplication({
-  googleApiKey: import.meta.env.GOOGLE_MAPS_API_KEY,
-  cesiumToken: import.meta.env.CESIUM_ION_TOKEN,
+  googleApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+  cesiumToken: import.meta.env.VITE_CESIUM_ION_TOKEN,
   allowQaRegistration: import.meta.env.DEV,
 });
 

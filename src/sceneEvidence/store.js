@@ -12,7 +12,7 @@ import {
   filterEvidence,
 } from './model.js';
 
-export const CACHE_STORAGE_KEY = 'gev.sceneEvidence.v1';
+export const CACHE_STORAGE_KEY = 'gev.sceneEvidence.v2';
 export const CACHE_MAX = 24;
 
 export function initialState(request = {}) {
@@ -24,7 +24,7 @@ export function initialState(request = {}) {
       lat: request.lat,
       lon: request.lon,
       radiusKm: request.radiusKm,
-      windowHours: request.windowHours,
+      windowHours: request.windowHours, text: request.text, timeMode: request.timeMode, windowStart: request.windowStart, windowEnd: request.windowEnd,
     }),
     phase: 'idle', // idle | streaming | done | cached | error | timeout
     place: request.place || '',
@@ -32,6 +32,12 @@ export function initialState(request = {}) {
     engine: null,
     sources: [],
     items: [],
+    candidates: [],
+    transport: [],
+    totals: null,
+    window: null,
+    requestId: request.requestId || null,
+    snapshotAt: null,
     signals: [],
     summary: null,
     timings: {},
@@ -39,6 +45,7 @@ export function initialState(request = {}) {
       startedAt: null,
       firstCardMs: null,
       firstSignalMs: null,
+      firstProviderResultMs: null,
       doneMs: null,
     },
     selectedId: null,
@@ -59,16 +66,25 @@ function upsert(list, item) {
 
 /** Apply one SSE event. Returns a NEW state object. */
 export function applyEvent(state, event, data, nowMs = Date.now()) {
+  if (state.requestId && data?.requestId && data.requestId !== state.requestId) return state;
   const s = { ...state };
   const since = () => (s.client.startedAt ? nowMs - s.client.startedAt : null);
   switch (event) {
     case 'plan':
       s.phase = 'streaming';
+      s.window = data.window || s.window;
+      s.requestId = data.requestId || s.requestId;
       s.serverKey = data.key || null;
       s.place = data.place || s.place;
       s.aliases = data.aliases || [];
       s.engine = data.engine || null;
       s.sources = (data.sources || []).map((x) => ({ ...x }));
+      break;
+    case 'transport':
+      s.transport = [...s.transport, data];
+      break;
+    case 'candidate':
+      s.candidates = rankEvidence(upsert(s.candidates, data));
       break;
     case 'source': {
       const i = s.sources.findIndex((x) => x.id === data.id);
@@ -79,6 +95,7 @@ export function applyEvent(state, event, data, nowMs = Date.now()) {
       break;
     }
     case 'item':
+      if (data.eligible !== true) { s.candidates = rankEvidence(upsert(s.candidates, data)); break; }
       s.items = rankEvidence(upsert(s.items, data));
       if (s.client.firstCardMs === null)
         s.client = { ...s.client, firstCardMs: since() };
@@ -99,7 +116,11 @@ export function applyEvent(state, event, data, nowMs = Date.now()) {
     case 'done':
     case 'cached':
       s.phase = event === 'cached' ? 'cached' : 'done';
-      s.items = rankEvidence(dedupeEvidence(data.items || s.items));
+      s.items = rankEvidence(dedupeEvidence(data.items || s.items)).filter((x) => x.eligible === true);
+      s.candidates = rankEvidence(data.candidates || s.candidates);
+      s.totals = data.totals || s.totals;
+      s.window = data.window || s.window;
+      s.transport = data.transport || s.transport;
       s.signals = data.signals || s.signals;
       s.sources = data.sources || s.sources;
       s.summary = data.summary || s.summary;
@@ -162,6 +183,7 @@ export function saveSceneEvidence(storage, state, nowMs = Date.now()) {
     request: state.request,
     place: state.place,
     items: state.items.map(sanitizeForCache),
+    candidates: state.candidates.map(sanitizeForCache),
     signals: state.signals,
     sources: state.sources,
     summary: state.summary,
@@ -178,7 +200,7 @@ export function loadSceneEvidence(storage, key, now = new Date()) {
   if (!e) return null;
   return {
     ...e,
-    items: rankEvidence(refreshFreshness(e.items || [], now)),
+    items: rankEvidence(refreshFreshness(e.items || [], now, e.request || {})),
     cachedAt: new Date(e.at).toISOString(),
   };
 }
@@ -212,6 +234,7 @@ export function encodeShare(request = {}) {
     a: Number.isFinite(request.lat) ? +request.lat.toFixed(5) : undefined,
     o: Number.isFinite(request.lon) ? +request.lon.toFixed(5) : undefined,
     w: Number.isFinite(request.windowHours) ? request.windowHours : undefined,
+    m: request.timeMode, b: request.windowStart, e: request.windowEnd,
     s: request.sceneId ? String(request.sceneId).slice(0, 160) : undefined,
   };
   return encodeURIComponent(JSON.stringify(r));
@@ -233,7 +256,8 @@ export function decodeShare(param) {
       lon: ok ? lon : undefined,
       windowHours: Number.isFinite(Number(r.w))
         ? Math.max(1, Math.min(168, Number(r.w)))
-        : 72,
+        : 1,
+      ...(r.m === 'historical' ? { timeMode: 'historical', windowStart: r.b, windowEnd: r.e } : {}),
       sceneId: typeof r.s === 'string' ? r.s.slice(0, 160) : undefined,
     };
   } catch {

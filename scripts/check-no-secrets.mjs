@@ -43,6 +43,8 @@ const KEY_NAMES = [
   'OPENSKY_CLIENT_SECRET',
   'VERCEL_TOKEN',
   'GITHUB_TOKEN',
+  'YOUTUBE_API_KEY', 'X_BEARER_TOKEN', 'IG_GRAPH_ACCESS_TOKEN',
+  'META_OEMBED_ACCESS_TOKEN', 'TIKTOK_RESEARCH_CLIENT_KEY', 'TIKTOK_RESEARCH_CLIENT_SECRET', 'CEREBRAS_API_KEY',
 ];
 const P = {
   elevenStyleKey: new RegExp('\\bsk' + '_[A-Za-z0-9]{32,}\\b'),
@@ -149,7 +151,7 @@ for (const f of files) {
       const m = re.exec(line);
       if (m)
         hits.push(
-          `${relative(root, f)}:${i + 1} — ${name} near "${line.slice(Math.max(0, m.index - 20), m.index + 14).replace(/\s+/g, ' ')}…"`,
+          `${relative(root, f)}:${i + 1} — ${name} (matched value redacted)`,
         );
     }
   }

@@ -115,3 +115,26 @@ body:has(#scene-evidence:not([hidden])) #scene-video-rail { display: none; }
   .sev__head { flex-wrap: nowrap; }
   .sev__timing { display: none; }
 }
+
+/* Strict evidence boundary: candidates cannot look like playable footage. */
+.sev__scope { color: #c4d3dc; margin: 0; font: 10px/1.45 var(--font-mono, monospace); overflow-wrap: anywhere; }
+.sev__empty { padding: 12px; border: 1px solid #c59d55; border-radius: 7px; color: #ffe4b3; background: #292116; font-size: 12px; line-height: 1.5; }
+.sev__empty[hidden], .sev__player[hidden], .sev__timeline[hidden], .sev__filters[hidden] { display: none; }
+.sev__source-note { grid-column: 1 / -1; color: #bbc9d5; overflow-wrap: anywhere; line-height: 1.4; }
+.sev__candidates { border-top: 1px dashed #8e7650; padding-top: 8px; }
+.sev__candidates > summary { color: #f5c880; cursor: pointer; min-height: 32px; }
+.sev__candidates .sev-card { cursor: default; border-color: #6e6049; }
+.sev-card__rejection { color: #e9c88e; line-height: 1.45; font-size: 11px; }
+.sev-badge--unverified { color: #f5c880; background: #30271c; }
+.sev-badge--historical { color: #cfe4ff; background: #243a54; }
+.sev__source[data-state='unsupported'] .sev__source-state { color: #d4b3f6; }
+.sev__source[data-state='quota'] .sev__source-state { color: #ffbb8b; }
+.sev-card__meta { overflow-wrap: anywhere; }
+@media (max-width: 700px) {
+  .sev__btn, .sev__chip { min-height: 44px; }
+  .sev__head { flex-wrap: wrap; }
+  .sev__title { flex-basis: 100%; }
+  .sev { max-height: calc(100dvh - 76px - var(--incident-composer-height, 130px) - 24px); }
+  .sev__source { grid-template-columns: 6.2rem minmax(0,1fr) auto; }
+  .sev__source-meta { max-width: 15ch; overflow: hidden; text-overflow: ellipsis; }
+}

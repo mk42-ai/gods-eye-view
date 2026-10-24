@@ -393,107 +393,21 @@ describe('routes', () => {
     };
   }
 
-  test('media allow-list: is.gd + Instagram/Facebook CDN only, https only', () => {
-    assert.equal(
-      allowedMediaUrl('https://is.gd/HNpafE'),
-      'https://is.gd/HNpafE',
-    );
-    assert.ok(
-      allowedMediaUrl(
-        'https://scontent-cph2-1.cdninstagram.com/o1/v/x.mp4?a=1',
-      ),
-    );
-    assert.equal(
-      allowedMediaUrl('http://scontent.cdninstagram.com/x.mp4'),
-      null,
-    );
-    assert.equal(allowedMediaUrl('https://evil.example.com/x.mp4'), null);
-    assert.equal(allowedMediaUrl('https://cdninstagram.com.evil.io/x'), null);
-    assert.equal(allowedMediaUrl('https://is.gd/../../etc'), null);
+  test('legacy media URLs are disabled, not an arbitrary URL proxy', () => {
+    for (const u of ['https://is.gd/HNpafE','https://scontent.cdninstagram.com/x.mp4','http://169.254.169.254/latest/meta-data','https://u:p@cdninstagram.com:444/a']) assert.equal(allowedMediaUrl(u), null);
   });
-
-  test('POST /scene/videos streams SSE events ending in done', async () => {
-    __resetBreakers();
-    const { invoke } = fakeInvoker();
-    const handler = createSceneVideoRoutes({ invoke, now: () => NOW });
-    const res = mockRes();
-    const handled = await handler(
-      mockReq('POST', {
-        prompt: 'rebuild the car crash reported in Umm Suqeim',
-        hash: HASH,
-      }),
-      res,
-      {
-        path: '/scene/videos',
-        method: 'POST',
-        url: new URL('http://x/scene/videos'),
-      },
-    );
-    assert.equal(handled, true);
-    assert.match(res.headers['content-type'], /text\/event-stream/);
-    const events = [...res.body.matchAll(/^event: (\w+)$/gm)].map((m) => m[1]);
-    assert.equal(events[0], 'plan');
-    assert.ok(events.includes('clip'));
-    assert.equal(events.at(-1), 'done');
-    assert.ok(res.ended);
-  });
-
-  test('missing prompt → 400; media proxy rejects foreign hosts; unknown /scene path falls through', async () => {
-    const handler = createSceneVideoRoutes({
-      invoke: async () => ({ answer: '[]' }),
-    });
-    const r1 = mockRes();
-    await handler(mockReq('POST', {}), r1, {
-      path: '/scene/videos',
-      method: 'POST',
-      url: new URL('http://x/'),
-    });
-    assert.equal(r1.statusCode, 400);
-    const r2 = mockRes();
-    await handler(mockReq('GET'), r2, {
-      path: '/scene/media',
-      method: 'GET',
-      url: new URL('http://x/scene/media?u=https://evil.example.com/a.mp4'),
-    });
-    assert.equal(r2.statusCode, 400);
-    assert.equal(
-      await handler(mockReq('GET'), mockRes(), {
-        path: '/scene/other',
-        method: 'GET',
-        url: new URL('http://x/'),
-      }),
-      false,
-    );
-  });
-
-  test('media proxy follows is.gd once, passes Range, maps expired CDN 403 → 410', async () => {
-    const seen = [];
-    const fetchImpl = async (url, init) => {
-      seen.push([url, init?.method, init?.headers?.range]);
-      if (url.startsWith('https://is.gd/'))
-        return new Response(null, {
-          status: 301,
-          headers: {
-            location: 'https://scontent-cph2-1.cdninstagram.com/v/x.mp4?oe=1',
-          },
-        });
-      return new Response(null, { status: 403 });
-    };
-    const handler = createSceneVideoRoutes({
-      fetch: fetchImpl,
-      invoke: async () => ({ answer: '' }),
-    });
-    const res = mockRes();
-    await handler(mockReq('GET', null, { range: 'bytes=0-' }), res, {
-      path: '/scene/media',
-      method: 'GET',
-      url: new URL(
-        'http://x/scene/media?u=' + encodeURIComponent('https://is.gd/HNpafE'),
-      ),
-    });
-    assert.equal(res.statusCode, 410);
-    assert.equal(seen[0][1], 'HEAD');
-    assert.equal(seen[1][2], 'bytes=0-');
+  test('legacy footage/downloader routes return explicit 410 without contacting a provider', async () => {
+    let outgoing = 0;
+    const handler = createSceneVideoRoutes({ fetch: async () => { outgoing++; }, invoke: async () => { outgoing++; } });
+    for (const route of ['/scene/videos', '/scene/media']) for (const method of ['GET', 'POST', 'HEAD']) {
+      const res = mockRes();
+      assert.equal(await handler(mockReq(method, { prompt: 'Dubai Marina' }, { range: 'bytes=0-1,3-5' }), res, { path: route, method, url: new URL('http://x' + route + '?u=https://is.gd/HNpafE') }), true);
+      assert.equal(res.statusCode, 410);
+      assert.match(res.body, /legacy_media_path_retired/);
+      assert.doesNotMatch(res.headers['content-type'], /text\/event-stream/);
+    }
+    assert.equal(outgoing, 0, 'redirects, DNS rebinding, 206/416 and expired URLs cannot start an upstream request');
+    assert.equal(await handler(mockReq('GET'), mockRes(), { path: '/scene/other', method: 'GET' }), false);
   });
 
   test('short-url resolver only accepts Instagram/Facebook CDN redirects', async () => {

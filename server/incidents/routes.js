@@ -35,7 +35,7 @@ import {
   INCIDENT_CATEGORIES,
 } from '../../src/incidents/model.js';
 import { getIncidentStore, SHARED_SCOPE } from './store.js';
-import { seedIncidents } from './seed.js';
+// Historical seed fixtures are injected by isolated tests/diagnostics only.
 import { readJsonBody, sendJson } from '../ondemand/http.js';
 import {
   ValidationError,
@@ -131,9 +131,10 @@ let seeded = null;
 export async function ensureSeeded(
   store = getIncidentStore(),
   index = getAoiIndex(),
+  diagnosticSeeds = [],
 ) {
   if (seeded) return seeded;
-  const screened = screenIncidents(seedIncidents(), {
+  const screened = screenIncidents(diagnosticSeeds, {
     membership: index.membership,
     now: new Date('2026-10-22T00:00:00Z'),
   });
@@ -165,9 +166,9 @@ function countBy(list, key) {
 export async function listPayload(
   store,
   index,
-  { scope = SHARED_SCOPE, aoi = 'all' } = {},
+  { scope = SHARED_SCOPE, aoi = 'all', diagnosticSeeds = [] } = {},
 ) {
-  const seed = await ensureSeeded(store, index);
+  const seed = await ensureSeeded(store, index, diagnosticSeeds);
   const all = await store.listVisible(scope);
   const filtered =
     aoi && aoi !== 'all'
@@ -362,6 +363,7 @@ export async function refreshFromPlugins({
   const names = contracts || ['perplexity_research', 'internet_web_search'];
   const sources = [];
   const raw = [];
+  const candidates = [];
   for (const name of names) {
     const contract = contractRegistry.get(name);
     if (!contract || contract.availability === 'inactive') {
@@ -389,12 +391,16 @@ export async function refreshFromPlugins({
         externalUserId,
         signal,
       });
-      raw.push(...r.items);
+      // A generated answer is not a source incident record. Never geocode
+      // it into an exact incident, mark it confirmed, or feed it into scenes.
+      candidates.push(...r.items.map(item => ({ title: item.title, sources: item.sources, reason: 'unverified-research-answer' })));
       sources.push({
         contract: name,
         pluginId: r.pluginId,
         status: 'ok',
-        items: r.items.length,
+        items: 0,
+        candidates: r.items.length,
+        note: 'Model research leads only; excluded from live incident ledger',
       });
     } catch (err) {
       sources.push({
@@ -445,24 +451,7 @@ export async function refreshFromPlugins({
       error: toolInvoker ? 'contract_missing' : 'no_tool_invoker',
     });
   }
-  // Research answers often name the place but omit coordinates: resolve those
-  // through the gazetteer so a real incident is not dropped as "invalid".
-  for (const item of raw) {
-    const lat = Number(item.lat ?? item.latitude);
-    const lon = Number(item.lon ?? item.lng ?? item.longitude);
-    if (Number.isFinite(lat) && Number.isFinite(lon)) continue;
-    const [hit] = index.gazetteerLookup(
-      `${item.place || ''} ${item.title || ''}`,
-      1,
-    );
-    if (hit) {
-      item.lat = hit.lat;
-      item.lon = hit.lon;
-      item.place = item.place || hit.name;
-      item.geocoded_by = 'gazetteer';
-    }
-  }
-  return { raw, sources };
+  return { raw, sources, candidates };
 }
 
 // ---------------------------------------------------------------- /locate
@@ -707,7 +696,7 @@ export function createIncidentRoutes(deps = {}) {
     if (sub === '/list' && method === 'GET') {
       const scope = url?.searchParams.get('externalUserId') || SHARED_SCOPE;
       const aoi = url?.searchParams.get('aoi') || 'all';
-      sendJson(res, 200, await listPayload(incidents, index, { scope, aoi }));
+      sendJson(res, 200, await listPayload(incidents, index, { scope, aoi, diagnosticSeeds: deps.diagnosticSeeds || [] }));
       return true;
     }
     if (sub === '/aoi' && method === 'GET') {
@@ -775,7 +764,7 @@ export function createIncidentRoutes(deps = {}) {
         rejected: screened.rejected.length,
         duplicates: result.duplicates.length,
       });
-      const payload = await listPayload(incidents, index, { scope });
+      const payload = await listPayload(incidents, index, { scope, diagnosticSeeds: deps.diagnosticSeeds || [] });
       sendJson(res, 200, {
         inserted: result.inserted,
         inserted_count: result.inserted.length,

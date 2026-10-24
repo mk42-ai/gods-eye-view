@@ -28,7 +28,7 @@ function createPins(viewer) {
     set(items, selectedId) {
       source.entities.removeAll();
       const located = items.filter(
-        (i) => Number.isFinite(i.geo?.lat) && Number.isFinite(i.geo?.lon),
+        (i) => i.eligible === true && Number.isFinite(i.geo?.lat) && Number.isFinite(i.geo?.lon),
       );
       // Approximate (place/text) items share the AOI centre: fan them on a ring
       // so each stays clickable — the ring itself signals "approximate".
@@ -139,8 +139,6 @@ export function installSceneEvidence({
     handler = null;
   }
 
-  let lastKey = '';
-  let lastAt = 0;
   const onEvent = (event) => {
     const d = event?.detail || {};
     if (!d.text && !d.place) return;
@@ -150,26 +148,18 @@ export function installSceneEvidence({
       lat: Number.isFinite(d.lat) ? d.lat : d.anchor?.lat,
       lon: Number.isFinite(d.lon) ? d.lon : d.anchor?.lon,
       radiusKm: d.radiusKm || 5,
-      windowHours: d.windowHours || 72,
+      windowHours: d.windowHours || 1,
+      timeMode: d.timeMode || 'recent', windowStart: d.windowStart, windowEnd: d.windowEnd,
       sceneId: d.sceneId,
-      fresh: Boolean(d.fresh),
+      fresh: !d.preferCache,
     };
-    // located → built fire back-to-back for one BUILD SCENE: open once.
-    const key = `${request.place || request.text}|${request.lat?.toFixed?.(3)}|${request.lon?.toFixed?.(3)}`;
-    if (
-      !d.fresh &&
-      !d.preferCache &&
-      key === lastKey &&
-      Date.now() - lastAt < 15_000
-    )
-      return;
-    lastKey = key;
-    lastAt = Date.now();
     void panel.open(request, { preferCache: Boolean(d.preferCache) });
   };
   win?.addEventListener?.(SCENE_EVIDENCE_EVENT, onEvent);
   const onCancel = () => panel.close();
   win?.addEventListener?.('gev:incident-command-cancelled', onCancel);
+  win?.addEventListener?.('gev:incident-command-started', onCancel);
+  win?.addEventListener?.('gev:incident-external', onCancel);
 
   // Shared link: ?evidence=<encoded request> reopens the same evidence scene.
   try {
@@ -195,8 +185,21 @@ export function installSceneEvidence({
         key: s.key,
         place: s.place,
         items: s.items.length,
+        candidates: s.candidates.length,
+        requestId: s.requestId,
+        window: s.window,
+        totals: s.totals,
+        transport: s.transport,
+        candidateRecords: s.candidates.map((x) => ({ id: x.id, url: x.url, mediaType: x.mediaType, publishedAt: x.publishedAt, recordedAt: x.recordedAt, retrievedAt: x.retrievedAt, source: x.source, geo: x.geo, qualification: x.qualification })),
+        rejections: s.candidates.map((x) => ({ id: x.id, platform: x.platform, reasons: x.qualification?.reasons })),
         signals: s.signals.length,
         sources: s.sources.map((x) => ({
+          name: x.name,
+          platforms: x.platforms,
+          note: x.note,
+          credentials: x.credentials,
+          candidateCount: x.candidateCount,
+          verifiedVideoCount: x.verifiedVideoCount,
           id: x.id,
           state: x.state,
           count: x.count,
@@ -222,6 +225,8 @@ export function installSceneEvidence({
     destroy() {
       win?.removeEventListener?.(SCENE_EVIDENCE_EVENT, onEvent);
       win?.removeEventListener?.('gev:incident-command-cancelled', onCancel);
+      win?.removeEventListener?.('gev:incident-command-started', onCancel);
+      win?.removeEventListener?.('gev:incident-external', onCancel);
       handler?.destroy?.();
       panel.destroy();
       if (pins && viewer?.dataSources?.remove)

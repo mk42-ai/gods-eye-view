@@ -7,7 +7,7 @@
  * stays out of this module. Streams POST /api/ondemand/v2/scene/evidence (SSE).
  */
 import { createSceneSseParser } from '../sceneVideos/rail.js';
-import { FRESHNESS, GEO_PRECISION, GEO_LABEL } from './model.js';
+import { GEO_PRECISION, GEO_LABEL, parsePostUrl } from './model.js';
 import {
   initialState,
   applyEvent,
@@ -41,13 +41,13 @@ const STATE_LABEL = {
   timeout: 'timed out',
   unavailable: 'unavailable',
   credentials_required: 'credentials required',
+  unsupported: 'not configured', quota: 'quota restricted', cancelled: 'cancelled',
 };
 export const LIMITS_NOTE =
   'Public data only. Profiles show just the fields an official API or oEmbed returned (name, handle, avatar, bio, followers) with a link to the public profile. ' +
   'No private data, no login or rate-limit bypass, no Instagram media download, no identity resolution or cross-platform tracking of individuals. ' +
   'Instagram metadata is not stored in caches (Meta oEmbed terms). TEXT-INFERRED means the place is named in the post text — not a confirmed recording location.';
 
-const CACHE_REUSE_MS = 10 * 60_000;
 const STREAM_TIMEOUT_MS = 60_000;
 
 function el(doc, tag, { id, className, text, attrs } = {}) {
@@ -98,6 +98,8 @@ export function createSceneEvidencePanel({
   let state = initialState();
   let abort = null;
   let timer = null;
+  let generation = 0;
+  let profileInvoker = null;
 
   // ------------------------------------------------------------ skeleton
   const root = el(doc, 'aside', {
@@ -157,6 +159,14 @@ export function createSceneEvidencePanel({
     className: 'sev__status',
     attrs: { 'aria-live': 'polite', role: 'status' },
   });
+  const emptyState = el(doc, 'section', {
+    id: 'scene-evidence-empty', className: 'sev__empty', attrs: { role: 'status', 'aria-live': 'polite' },
+  });
+  const timeScope = el(doc, 'p', { id: 'scene-evidence-window', className: 'sev__scope' });
+  const candidatesBox = el(doc, 'details', { id: 'scene-evidence-candidates', className: 'sev__candidates' });
+  const candidatesSummary = el(doc, 'summary', { text: 'UNVERIFIED CANDIDATES · not pinned, not playable' });
+  const candidatesList = el(doc, 'ol', { className: 'sev__list' });
+  candidatesBox.append(candidatesSummary, candidatesList);
   const diffLine = el(doc, 'div', {
     id: `${PANEL_ID}-diff`,
     className: 'sev__diff',
@@ -196,7 +206,7 @@ export function createSceneEvidencePanel({
     filterButtons.push(b);
     filters.appendChild(b);
   };
-  for (const f of FRESHNESS) addFilter('freshness', f, f);
+  for (const f of ['RECENT', 'HISTORICAL']) addFilter('freshness', f, f);
   for (const g of GEO_PRECISION) addFilter('precisions', g, GEO_SHORT[g]);
   const player = el(doc, 'div', {
     id: `${PANEL_ID}-player`,
@@ -205,7 +215,7 @@ export function createSceneEvidencePanel({
   });
   const playerEmpty = el(doc, 'p', {
     className: 'sev__player-empty',
-    text: 'Select a card to load its official embed.',
+    text: 'No eligible video selected. Only source-verified recordings are playable.',
   });
   player.appendChild(playerEmpty);
   const nowLine = el(doc, 'div', {
@@ -248,6 +258,8 @@ export function createSceneEvidencePanel({
   });
   body.append(
     status,
+    timeScope,
+    emptyState,
     diffLine,
     sourcesBox,
     filters,
@@ -255,6 +267,7 @@ export function createSceneEvidencePanel({
     nowLine,
     timeline,
     list,
+    candidatesBox,
     summaryBox,
     limits,
   );
@@ -296,7 +309,7 @@ export function createSceneEvidencePanel({
                 : `${s.count || 0}${Number.isFinite(s.ms) ? ` · ${(s.ms / 1000).toFixed(1)} s` : ''}`,
           }),
         );
-        if (s.note && s.state !== 'ok') li.title = s.note;
+        if (s.note) { li.title = s.note; li.append(el(doc, 'small', { className: 'sev__source-note', text: s.note })); }
         return li;
       }),
     );
@@ -319,7 +332,8 @@ export function createSceneEvidencePanel({
         'data-freshness': item.freshness,
         'data-geo': item.geo.precision,
         'data-selected': String(item.id === state.selectedId),
-        'data-embed-status': item.embedStatus || 'pending',
+        'data-embed-status': item.embedStatus || 'unverified',
+        'data-eligible': String(item.eligible === true),
         tabindex: '0',
       },
     });
@@ -333,7 +347,7 @@ export function createSceneEvidencePanel({
             : 'undated → ARCHIVAL',
       }),
       badge(
-        `${item.geo.precision === 'exact' ? '' : '~'}${GEO_LABEL[item.geo.precision]} ${Math.round(item.geo.confidence * 100)}%`,
+        `${item.geo.precision === 'exact' ? '' : '~'}${GEO_LABEL[item.geo.precision]}`,
         `sev-badge--geo-${item.geo.precision}`,
         { 'data-geo-badge': item.geo.precision, title: item.geo.basis },
       ),
@@ -352,7 +366,7 @@ export function createSceneEvidencePanel({
     });
     const meta = el(doc, 'div', {
       className: 'sev-card__meta',
-      text: `${formatWhen(item)}${item.ageHours !== null ? ` · ${formatAge(item.ageHours)}` : ''}`,
+      text: `Recorded: ${item.recordedAt || 'unknown'} (${item.recordingTimePrecision || 'unknown'}; ${item.recordingTimeSource || 'no source field'}) · Published: ${formatWhen(item)} · Retrieved: ${item.retrievedAt || item.source?.at || 'unknown'} · AOI distance: ${item.distanceKm === null || item.distanceKm === undefined ? 'unknown' : item.distanceKm.toFixed(3) + ' km (' + item.distanceMethod + ')'}`,
     });
     const attribution = el(doc, 'div', {
       className: 'sev-card__src',
@@ -385,6 +399,7 @@ export function createSceneEvidencePanel({
     });
     prof.addEventListener('click', (e) => {
       e?.stopPropagation?.();
+      profileInvoker = prof;
       openProfile(item);
     });
     const orig = el(doc, 'a', {
@@ -392,11 +407,14 @@ export function createSceneEvidencePanel({
       text: 'ORIGINAL POST',
       attrs: { href: item.url, target: '_blank', rel: 'noopener noreferrer' },
     });
-    actions.append(play, prof, orig);
+    if (item.eligible === true && item.embedUrl) actions.append(play);
+    if (item.author?.fields?.length) actions.append(prof);
+    actions.append(orig);
+    if (item.eligible !== true) li.append(el(doc, 'p', { className: 'sev-card__rejection', text: (item.qualification?.labels || ['Unverified source metadata']).join('; ') }));
     li.append(top, t, meta, attribution, actions);
-    li.addEventListener('click', () => select(item.id));
+    if (item.eligible === true) li.addEventListener('click', () => select(item.id));
     li.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') select(item.id);
+      if (e.key === 'Enter' && item.eligible === true) select(item.id);
     });
     return li;
   }
@@ -490,9 +508,9 @@ export function createSceneEvidencePanel({
     const shown = vis === n ? `${n}` : `${vis}/${n}`;
     switch (state.phase) {
       case 'streaming':
-        return `Streaming ${state.place || 'AOI'} — ${shown} item(s), ${state.signals.length} signal(s) so far…`;
+        return `Retrieving ${state.place || 'AOI'} — ${shown} verified video(s), ${state.candidates.length} unverified candidate(s). Providers run independently…`;
       case 'done':
-        return `${shown} item(s) · ${state.signals.length} signal(s) for ${state.place}. Ranked by geo precision, then freshness.`;
+        return `${shown} source-verified video(s) · ${state.candidates.length} unverified candidate(s) for ${state.place}. ${state.sources.filter((x) => x.state === 'timeout').length} timed out.`;
       case 'cached':
         return `Reopened from cache (${state.cachedAt ? state.cachedAt.slice(0, 16).replace('T', ' ') : ''} UTC) — no provider calls. ${shown} item(s). REBUILD to refresh and diff.`;
       case 'timeout':
@@ -507,6 +525,9 @@ export function createSceneEvidencePanel({
   function render() {
     root.dataset.phase = state.phase;
     root.dataset.items = String(state.items.length);
+    root.dataset.candidates = String(state.candidates.length);
+    root.dataset.requestId = state.requestId || '';
+    root.dataset.verifiedVideos = String(state.items.filter((x) => x.eligible === true).length);
     root.dataset.signals = String(state.signals.length);
     root.dataset.key = state.key || '';
     title.textContent = `SCENE EVIDENCE${state.place ? ` · ${state.place}` : ''}`;
@@ -530,6 +551,16 @@ export function createSceneEvidencePanel({
           ),
         ),
       );
+    timeScope.textContent = state.window ? `Recording time: ${state.window.startUtc} → ${state.window.endUtc} · ${state.request.radiusKm || 5} km · ${state.window.mode}. No automatic widening.` : `Recording window: ${state.request.windowHours || 1} hour(s), ending at server execution time (UTC).`;
+    emptyState.hidden = state.items.length > 0;
+    emptyState.textContent = state.phase === 'streaming'
+      ? 'Awaiting source-verified recordings. Search leads are not current footage.'
+      : 'No verified recent footage. Recording location and recording time must both be source-backed and inside the selected scope. Unknown or historical leads are excluded, not played.';
+    player.hidden = state.items.length === 0;
+    timeline.hidden = state.items.length === 0;
+    filters.hidden = state.items.length === 0;
+    candidatesSummary.textContent = `UNVERIFIED CANDIDATES (${state.candidates.length}) · not pinned, not playable`;
+    candidatesList.replaceChildren(...state.candidates.map(card));
     renderSources();
     const items = visibleItems(state);
     list.replaceChildren(...items.map(card));
@@ -544,7 +575,8 @@ export function createSceneEvidencePanel({
     player.dataset.evidenceId = item.id;
     player.dataset.platform = item.platform;
     delete player.dataset.currentTime;
-    if (!item.embedUrl) {
+    const expectedEmbed = parsePostUrl(item.url)?.embedUrl;
+    if (item.eligible !== true || !expectedEmbed || expectedEmbed !== item.embedUrl) {
       player.replaceChildren(
         el(doc, 'p', {
           className: 'sev__player-empty',
@@ -561,6 +593,7 @@ export function createSceneEvidencePanel({
         allow: 'autoplay; encrypted-media; picture-in-picture; fullscreen',
         referrerpolicy: 'strict-origin-when-cross-origin',
         loading: 'lazy',
+        sandbox: 'allow-scripts allow-same-origin allow-presentation',
         'data-evidence-id': item.id,
         'data-platform': item.platform,
       },
@@ -612,7 +645,7 @@ export function createSceneEvidencePanel({
 
   function select(id, { focusMap = true } = {}) {
     const item = state.items.find((x) => x.id === id);
-    if (!item) return;
+    if (!item || item.eligible !== true) return;
     state = { ...state, selectedId: id };
     root.dataset.selected = id;
     nowLine.textContent = `${item.freshness} · ${GEO_LABEL[item.geo.precision]} · ${PLATFORM_NAME[item.platform]} · ${formatWhen(item)}`;
@@ -692,9 +725,11 @@ export function createSceneEvidencePanel({
     });
     close.addEventListener('click', () => {
       popover.hidden = true;
+      profileInvoker?.focus?.();
     });
     popover.appendChild(close);
     popover.hidden = false;
+    close.focus?.();
   }
 
   // ------------------------------------------------------------ data flow
@@ -713,102 +748,71 @@ export function createSceneEvidencePanel({
     if (event === 'done' || event === 'cached' || event === 'error')
       clearTimeout(timer);
     render();
-    if (event === 'item' && !state.selectedId)
-      select(data.id, { focusMap: false });
+    // An arriving card is not playback. Only an explicit operator Play loads it.
   }
 
-  async function stream(request) {
-    abort?.abort();
+  async function stream(request, run) {
     const controller = new AbortController();
     abort = controller;
-    timer = setTimeout(() => {
+    const current = () => run === generation && abort === controller && !controller.signal.aborted;
+    const dispatchCurrent = (event, data) => {
+      if (!current() || (data?.requestId && data.requestId !== request.requestId)) return;
+      dispatch(event, data);
+    };
+    const localTimer = setTimeout(() => {
+      if (!current()) return;
+      dispatchCurrent('timeout', { error: 'Evidence deadline exceeded; no fresh result asserted' });
       controller.abort();
-      if (!['done', 'cached'].includes(state.phase))
-        dispatch('timeout', {
-          error: `no complete result within ${STREAM_TIMEOUT_MS / 1000} s`,
-        });
     }, STREAM_TIMEOUT_MS);
+    timer = localTimer;
+    let reader;
     try {
       const res = await fetchImpl(EVIDENCE_URL, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          accept: 'text/event-stream',
-        },
-        body: JSON.stringify({
-          text: request.text,
-          place: request.place,
-          lat: request.lat,
-          lon: request.lon,
-          radiusKm: request.radiusKm,
-          windowHours: request.windowHours,
-          sceneId: request.sceneId,
-          fresh: request.fresh ? '1' : undefined,
-        }),
-        signal: controller.signal,
+        method: 'POST', headers: { 'content-type': 'application/json', accept: 'text/event-stream' },
+        body: JSON.stringify({ ...request, fresh: '1' }), signal: controller.signal,
       });
+      if (!current()) return;
       if (!res.ok || !res.body) {
-        let detail = '';
-        try {
-          detail = (await res.text()).slice(0, 160);
-        } catch {
-          /* none */
-        }
-        dispatch('error', {
-          error: `HTTP ${res.status}${detail ? ` ${detail}` : ''}`,
-        });
-        return;
+        dispatchCurrent('error', { error: `HTTP ${res.status}: evidence retrieval unavailable` }); return;
       }
-      const parser = createSceneSseParser();
-      const reader = res.body.getReader();
-      const dec = new TextDecoder();
+      const parser = createSceneSseParser(), dec = new TextDecoder();
+      reader = res.body.getReader();
       for (;;) {
         const { value, done } = await reader.read();
+        if (!current()) return;
         if (done) break;
-        for (const ev of parser.push(dec.decode(value, { stream: true })))
-          dispatch(ev.event, ev.data);
+        for (const ev of parser.push(dec.decode(value, { stream: true }))) dispatchCurrent(ev.event, ev.data);
       }
-      for (const ev of parser.flush()) dispatch(ev.event, ev.data);
-      if (state.phase === 'streaming')
-        dispatch('error', { error: 'stream ended before completion' });
+      for (const ev of parser.flush()) dispatchCurrent(ev.event, ev.data);
+      if (current() && state.phase === 'streaming') dispatchCurrent('error', { error: 'Stream ended without a completed result' });
     } catch (err) {
-      if (controller.signal.aborted) return;
-      dispatch('error', { error: String(err?.message || err).slice(0, 160) });
+      if (current()) dispatchCurrent('error', { error: 'Evidence connection failed; retry this AOI' });
     } finally {
+      clearTimeout(localTimer);
+      try { reader?.releaseLock?.(); } catch { /* already closed */ }
       if (abort === controller) abort = null;
     }
   }
 
-  /**
-   * Open the panel for a scene request.
-   *  opts.preferCache — saved-scene reopen: use the local cache with NO network.
-   *  request.fresh    — bypass both caches (REBUILD).
-   */
   function open(request, { preferCache = false } = {}) {
-    clearTimeout(timer);
-    abort?.abort();
-    state = initialState(request);
+    generation += 1;
+    clearTimeout(timer); abort?.abort();
+    const run = generation;
+    const scoped = { ...request, windowHours: request.windowHours || 1, requestId: `sev-${now().toString(36)}-${generation}`, fresh: true };
+    state = initialState(scoped);
     state.client.startedAt = now();
-    root.hidden = false;
-    root.dataset.collapsed = 'false';
-    diffLine.hidden = true;
-    popover.hidden = true;
-    player.replaceChildren(playerEmpty);
-    player.dataset.embedLoaded = 'false';
-    nowLine.textContent = '';
-    if (!request.fresh) {
-      const cached = loadSceneEvidence(storage, state.key, new Date(now()));
-      if (
-        cached &&
-        (preferCache || now() - Date.parse(cached.cachedAt) < CACHE_REUSE_MS)
-      ) {
-        dispatch('cached', { ...cached, key: state.key });
-        return Promise.resolve(state);
-      }
+    root.hidden = false; root.dataset.collapsed = 'false';
+    diffLine.hidden = true; popover.hidden = true;
+    player.replaceChildren(playerEmpty); player.dataset.embedLoaded = 'false'; nowLine.textContent = '';
+    const cached = loadSceneEvidence(storage, state.key, new Date(now()));
+    if (cached) {
+      state.snapshotAt = cached.cachedAt;
+      diffLine.hidden = false;
+      diffLine.textContent = `Previous retrieval ${cached.cachedAt} · revalidating now; cached leads are not fresh footage.`;
     }
-    state.phase = 'streaming';
-    render();
-    return stream(request).then(() => state);
+    void preferCache; // Saving a camera scene does not save freshness of external evidence.
+    state.phase = 'streaming'; render();
+    return stream(scoped, run).then(() => state);
   }
 
   rebuildBtn.addEventListener('click', () => {
@@ -838,6 +842,7 @@ export function createSceneEvidencePanel({
   closeBtn.addEventListener('click', () => close());
 
   function close() {
+    generation += 1;
     abort?.abort();
     clearTimeout(timer);
     root.hidden = true;
@@ -848,6 +853,8 @@ export function createSceneEvidencePanel({
   // YouTube IFrame API infoDelivery → currentTime (playback proof for QA + UI).
   const onMessage = (event) => {
     const origin = String(event.origin || '');
+    const currentFrame = player.querySelector?.('iframe');
+    if (!currentFrame || event.source !== currentFrame.contentWindow) return;
     if (origin === 'https://www.tiktok.com') {
       const m = event.data;
       if (
@@ -861,8 +868,7 @@ export function createSceneEvidencePanel({
         player.dataset.playerState = String(m.value);
       return;
     }
-    if (!/youtube(-nocookie)?\.com$/.test(origin.replace(/^https?:\/\//, '')))
-      return;
+    if (!['https://www.youtube-nocookie.com', 'https://www.youtube.com'].includes(origin)) return;
     let d = event.data;
     try {
       d = typeof d === 'string' ? JSON.parse(d) : d;
@@ -875,6 +881,8 @@ export function createSceneEvidencePanel({
       player.dataset.playerState = String(d.info.playerState);
   };
   win?.addEventListener?.('message', onMessage);
+  const onEscape = (event) => { if (event.key === 'Escape' && !popover.hidden) { popover.hidden = true; profileInvoker?.focus?.(); } };
+  root.addEventListener('keydown', onEscape);
 
   return {
     element: root,

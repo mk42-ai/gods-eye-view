@@ -74,7 +74,7 @@ test('geo precision never upgrades: exact only with coordinates; place/text pins
   const pl = scoreGeo({ placeTag: { name: 'Dubai Marina' }, anchor });
   assert.equal(pl.precision, 'place');
   assert.equal(pl.approximate, true);
-  assert.equal(pl.lat, 25.08);
+  assert.equal(pl.lat, null); // place tags must not borrow the AOI centroid
   const tx = scoreGeo({ text: 'Walking tour of Dubai Marina at night', place: 'Dubai Marina', anchor });
   assert.equal(tx.precision, 'text');
   assert.equal(tx.approximate, true);
@@ -92,12 +92,13 @@ test('buildEvidenceItem derives dates from ids, flags window membership, keeps p
     { now: NOW, place: 'Dubai Marina', anchor: { lat: 25.08, lon: 55.14 }, windowHours: 72 },
   );
   assert.equal(it.id, 'tiktok:7690936936990592274');
-  assert.equal(it.dateSource, 'id-derived');
-  assert.equal(it.freshness, 'STALE');
+  assert.equal(it.dateSource, null);
+  assert.equal(it.recordedAt, null);
+  assert.equal(it.freshness, 'UNVERIFIED');
   assert.equal(it.inWindow, false);
   assert.equal(it.geo.precision, 'text');
   assert.equal(it.source.via, 'OnDemand plugin-1740745780');
-  assert.equal(it.author.handle, 'x');
+  assert.equal(it.author.handle, undefined); // URL claim is not a sourced author record
   assert.equal(buildEvidenceItem({ url: 'https://example.com' }, { now: NOW }), null);
 });
 
@@ -170,13 +171,14 @@ test('diffEvidence reports added / removed / changed against a cached scene', ()
 });
 
 test('evidenceKey is stable and scene-scoped', () => {
-  assert.equal(evidenceKey({ place: 'Dubai Marina', lat: 25.07861, lon: 55.13531 }), 'place:dubai-marina|25.079,55.135|r5|w72');
-  assert.equal(evidenceKey({ sceneId: 'geo-1', lat: 1, lon: 2, windowHours: 24 }), 'scene:geo-1|1.000,2.000|r5|w24');
+  assert.equal(evidenceKey({ place: 'Dubai Marina', lat: 25.07861, lon: 55.13531 }), 'place:dubai-marina|25.079,55.135|r5|w1|q:dubai-marina|recent|||source-recording-v2');
+  assert.equal(evidenceKey({ sceneId: 'geo-1', lat: 1, lon: 2, windowHours: 24 }), 'scene:geo-1|1.000,2.000|r5|w24|q:|recent|||source-recording-v2');
 });
 
 test('signals, public profile whitelist and deterministic summary', () => {
   const s = buildSignal({ url: 'https://gulfnews.com/a', title: 'Road closure near Dubai Marina', outlet: 'Gulf News', publishedAt: at(3) }, { now: NOW, place: 'Dubai Marina' });
-  assert.equal(s.freshness, 'RECENT');
+  assert.equal(s.freshness, 'CONTEXT');
+  assert.equal(s.publicationFreshness, 'RECENT');
   assert.equal(s.geo.precision, 'text');
   assert.equal(buildSignal({ url: 'javascript:alert(1)', title: 'x' }), null);
   const p = publicProfile({ name: 'Dubai Police', handle: '@DubaiPoliceHQ', followers: '0', email: 'private@x', phone: '1' }, 'oEmbed');
@@ -184,8 +186,8 @@ test('signals, public profile whitelist and deterministic summary', () => {
   assert.equal(p.email, undefined);
   assert.equal(p.handle, 'DubaiPoliceHQ');
   const sum = deterministicSummary({ place: 'Dubai Marina', items: [{ freshness: 'STALE', geo: { precision: 'text' } }], signals: [s], sources: [{ state: 'ok' }, { state: 'credentials_required' }] });
-  assert.equal(sum.engine, 'deterministic');
-  assert.match(sum.text, /1 public video\/post item/);
-  assert.match(sum.text, /1 need credentials/);
-  assert.match(sum.text, /Road closure near Dubai Marina/);
+  assert.equal(sum.engine, 'deterministic-policy');
+  assert.match(sum.text, /0 source-verified/);
+  assert.match(sum.text, /No verified recent footage/);
+  assert.match(sum.text, /1 unverified context/);
 });

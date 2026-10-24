@@ -1,3 +1,4 @@
+import { validPoint, qualifyRecording, resolveEvidenceWindow, EVIDENCE_POLICY_VERSION } from './qualification.js';
 /**
  * Scene evidence — pure core shared by the server pipeline
  * (server/scene-evidence/*) and the browser panel (src/sceneEvidence/panel.js).
@@ -124,8 +125,10 @@ const X_RE =
 /** Identify the platform post behind a public URL; null when not a post. */
 export function parsePostUrl(url) {
   const s = String(url || '');
+  let host;
+  try { const u = new URL(s); if (u.protocol !== 'https:' || u.username || u.password || u.port) return null; host = u.hostname.toLowerCase(); } catch { return null; }
   let m = s.match(YT_RE);
-  if (m)
+  if (m && ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'].includes(host))
     return {
       platform: 'youtube',
       id: m[1],
@@ -135,7 +138,7 @@ export function parsePostUrl(url) {
       idDate: null,
     };
   m = s.match(TT_RE);
-  if (m)
+  if (m && ['tiktok.com', 'www.tiktok.com'].includes(host))
     return {
       platform: 'tiktok',
       id: m[2],
@@ -148,7 +151,7 @@ export function parsePostUrl(url) {
       idDate: tiktokIdDate(m[2]),
     };
   m = s.match(IG_RE);
-  if (m) {
+  if (m && ['instagram.com', 'www.instagram.com'].includes(host)) {
     const type = m[1] === 'reels' ? 'reel' : m[1];
     return {
       platform: 'instagram',
@@ -160,7 +163,7 @@ export function parsePostUrl(url) {
     };
   }
   m = s.match(X_RE);
-  if (m)
+  if (m && ['x.com', 'www.x.com', 'twitter.com', 'www.twitter.com'].includes(host))
     return {
       platform: 'x',
       id: m[2],
@@ -207,7 +210,7 @@ export function scoreGeo({
   aliases,
   anchor,
 } = {}) {
-  if (coords && Number.isFinite(coords.lat) && Number.isFinite(coords.lon))
+  if (coords && validPoint(coords.lat, coords.lon))
     return {
       precision: 'exact',
       lat: coords.lat,
@@ -217,12 +220,13 @@ export function scoreGeo({
       confidence: GEO_CONFIDENCE.exact,
       basis: 'coordinates returned by the platform API',
     };
-  const at = anchor && Number.isFinite(anchor.lat) ? anchor : null;
+  // An AOI/search centroid is never the recording location of a post.
+  void anchor;
   if (placeTag)
     return {
       precision: 'place',
-      lat: Number.isFinite(placeTag.lat) ? placeTag.lat : (at?.lat ?? null),
-      lon: Number.isFinite(placeTag.lon) ? placeTag.lon : (at?.lon ?? null),
+      lat: null,
+      lon: null,
       approximate: true,
       label: GEO_LABEL.place,
       confidence: GEO_CONFIDENCE.place,
@@ -231,12 +235,12 @@ export function scoreGeo({
   if (place && mentionsPlace(text, place, aliases))
     return {
       precision: 'text',
-      lat: at?.lat ?? null,
-      lon: at?.lon ?? null,
+      lat: null,
+      lon: null,
       approximate: true,
       label: GEO_LABEL.text,
       confidence: GEO_CONFIDENCE.text,
-      basis: `"${String(place).slice(0, 60)}" appears in the post text; pin is the AOI centre`,
+      basis: `"${String(place).slice(0, 60)}" appears in text; recording location is unknown (not pinned)`,
     };
   return {
     precision: 'none',
@@ -304,50 +308,47 @@ export function buildEvidenceItem(raw, ctx = {}) {
   const parsed = parsePostUrl(raw?.url);
   if (!parsed) return null;
   const now = ctx.now || new Date();
-  let publishedAt = toIso(raw.publishedAt);
-  let dateSource = publishedAt ? raw.dateSource || 'api' : null;
-  if (!publishedAt && parsed.idDate) {
-    publishedAt = parsed.idDate;
-    dateSource = 'id-derived';
-  }
-  const f = classifyFreshness(publishedAt, now);
-  const text = `${raw.title || ''} ${raw.snippet || ''}`;
+  const qualification = qualifyRecording(raw, { ...ctx, window: ctx.window || resolveEvidenceWindow(ctx, now), now });
+  const sourceBacked = raw.evidence?.kind === 'provider-record' && raw.evidence?.verified === true;
+  const publishedAt = sourceBacked ? toIso(raw.publishedAt) : null;
+  const dateSource = publishedAt ? 'api' : null;
   const geo = scoreGeo({
-    coords: raw.coords,
-    placeTag: raw.placeTag,
-    text,
-    place: ctx.place,
-    aliases: ctx.aliases,
-    anchor: ctx.anchor,
+    coords: sourceBacked && qualification.measurement?.precision === 'exact'
+      ? { lat: qualification.measurement.lat, lon: qualification.measurement.lon } : null,
+    placeTag: sourceBacked ? raw.placeTag : null,
+    text: `${raw.title || ''} ${raw.snippet || ''}`,
+    place: ctx.place, aliases: ctx.aliases,
   });
-  const windowHours = Number(ctx.windowHours) || 72;
   return {
     id: `${parsed.platform}:${parsed.id}`,
-    kind: parsed.kind,
-    platform: parsed.platform,
-    url: parsed.url,
-    embedUrl: parsed.embedUrl,
+    kind: sourceBacked && raw.mediaType === 'video' ? 'video' : parsed.kind,
+    mediaType: sourceBacked ? raw.mediaType || 'unknown' : 'unverified',
+    platform: parsed.platform, url: parsed.url,
+    embedUrl: qualification.eligible ? parsed.embedUrl : null,
     title: clip(raw.title || raw.snippet || parsed.url, 220),
     snippet: clip(raw.snippet, 280),
-    author: publicProfile(
-      { handle: parsed.handle, ...(raw.author || {}) },
-      raw.author?.source || raw.authorSource || '',
-    ),
-    publishedAt,
-    dateSource,
-    dateConfidence: DATE_CONFIDENCE[dateSource] || 0,
-    freshness: f.freshness,
-    ageHours: f.ageHours,
-    undated: f.undated,
-    inWindow: f.ageHours !== null && f.ageHours <= windowHours,
+    author: publicProfile(sourceBacked ? raw.author || {} : {}, sourceBacked ? raw.author?.source || raw.authorSource || '' : ''),
+    publishedAt, dateSource, dateConfidence: sourceBacked && publishedAt ? 1 : 0,
+    recordedAt: qualification.recordedAt,
+    retrievedAt: toIso(now),
+    recordingTimeSource: qualification.recordingTimeSource,
+    recordingTimePrecision: qualification.recordingTimePrecision,
+    publicationClaim: sourceBacked ? null : toIso(raw.publishedAt),
+    freshness: qualification.freshness,
+    ageHours: qualification.recordedAt ? Math.max(0, (new Date(now) - Date.parse(qualification.recordedAt)) / 3600000) : null,
+    undated: !qualification.recordedAt,
+    inWindow: qualification.eligible,
+    eligible: qualification.eligible, qualification,
+    mediaLocation: sourceBacked ? raw.mediaLocation || null : null,
+    distanceKm: qualification.measurement?.distanceKm ?? null,
+    distanceMethod: qualification.measurement?.method ?? null,
     geo,
     source: {
-      id: clip(raw.sourceId, 40),
-      name: clip(raw.sourceName, 80),
-      via: clip(raw.via, 120),
-      query: clip(raw.query, 200),
-      at: toIso(raw.fetchedAt) || toIso(now),
+      id: clip(raw.sourceId, 60), name: clip(raw.sourceName, 90), via: clip(raw.via, 120),
+      query: clip(raw.query, 240), at: toIso(now),
+      verified: sourceBacked, verification: sourceBacked ? 'provider-record' : 'discovery-only',
     },
+    provenance: { kind: sourceBacked ? 'provider-record' : 'mediated-discovery-answer', policy: EVIDENCE_POLICY_VERSION, pluginId: clip(raw.pluginId, 80), operation: clip(raw.operation, 80) },
     cachePolicy: parsed.platform === 'instagram' ? 'ids-only' : 'full',
   };
 }
@@ -356,7 +357,7 @@ export function buildEvidenceItem(raw, ctx = {}) {
 export function compareEvidence(a, b) {
   return (
     P_RANK[b.geo?.precision || 'none'] - P_RANK[a.geo?.precision || 'none'] ||
-    F_RANK[b.freshness] - F_RANK[a.freshness] ||
+    (F_RANK[b.freshness] || 0) - (F_RANK[a.freshness] || 0) ||
     (Date.parse(b.publishedAt || 0) || 0) -
       (Date.parse(a.publishedAt || 0) || 0) ||
     String(a.id).localeCompare(String(b.id))
@@ -441,15 +442,16 @@ export function filterEvidence(
 }
 
 /** Re-derive freshness against a new `now` (cached scenes age honestly). */
-export function refreshFreshness(items, now = new Date()) {
+export function refreshFreshness(items, now = new Date(), request = {}) {
+  const window = resolveEvidenceWindow(request, now);
   return items.map((it) => {
-    const f = classifyFreshness(it.publishedAt, now);
-    return {
-      ...it,
-      freshness: f.freshness,
-      ageHours: f.ageHours,
-      undated: f.undated,
-    };
+    if (!it.qualification) return { ...it, ...classifyFreshness(it.publishedAt, now) };
+    // A cache cannot extend an old recording's eligibility or establish live status.
+    const time = Date.parse(it.recordedAt || '');
+    const eligible = it.eligible === true && Number.isFinite(time) && time >= Date.parse(window.startUtc) && time < Date.parse(window.endUtc);
+    return { ...it, eligible, inWindow: eligible, embedUrl: eligible ? it.embedUrl : null,
+      freshness: eligible ? (window.mode === 'historical' ? 'HISTORICAL' : 'RECENT') : 'UNVERIFIED',
+      qualification: { ...it.qualification, eligible, window, reasons: eligible ? [] : [...new Set([...it.qualification.reasons, 'cache_requires_revalidation'])] } };
   });
 }
 
@@ -499,7 +501,7 @@ export function evidenceKey({
   lat,
   lon,
   radiusKm = 5,
-  windowHours = 72,
+  windowHours = 1, text, timeMode = 'recent', windowStart, windowEnd,
 } = {}) {
   const loc =
     Number.isFinite(lat) && Number.isFinite(lon)
@@ -508,7 +510,9 @@ export function evidenceKey({
   const base = sceneId
     ? `scene:${sceneId}`
     : `place:${normalizeText(place).replace(/ /g, '-').slice(0, 60)}`;
-  return `${base}|${loc}|r${radiusKm}|w${windowHours}`;
+  const scope = `${timeMode}|${windowStart || ''}|${windowEnd || ''}`;
+  const query = normalizeText(text || place || '').replace(/ /g, '-').slice(0, 160);
+  return `${base}|${loc}|r${radiusKm}|w${windowHours}|q:${query}|${scope}|${EVIDENCE_POLICY_VERSION}`;
 }
 
 /** Normalise a news/incident signal. */
@@ -531,7 +535,9 @@ export function buildSignal(raw, ctx = {}) {
     url,
     outlet: clip(raw.outlet, 80),
     publishedAt,
-    freshness: f.freshness,
+    freshness: 'CONTEXT',
+    publicationFreshness: f.freshness,
+    verified: raw.sourceVerified === true,
     ageHours: f.ageHours,
     geo: {
       precision: geo.precision,
@@ -547,37 +553,13 @@ export function buildSignal(raw, ctx = {}) {
 }
 
 /** Deterministic evidence summary (the no-LLM fallback). */
-export function deterministicSummary({
-  place,
-  items = [],
-  signals = [],
-  sources = [],
-} = {}) {
-  const by = (k, arr) =>
-    arr.reduce((m, x) => ((m[x[k]] = (m[x[k]] || 0) + 1), m), {});
-  const fr = by('freshness', items);
-  const geo = items.reduce(
-    (m, x) => ((m[x.geo.precision] = (m[x.geo.precision] || 0) + 1), m),
-    {},
-  );
-  const ok = sources.filter((s) => s.state === 'ok').length;
-  const creds = sources.filter(
-    (s) => s.state === 'credentials_required',
-  ).length;
+export function deterministicSummary({ place, items = [], candidates = [], signals = [], sources = [] } = {}) {
+  const eligible = items.filter((x) => x.eligible === true).length;
+  const blocked = sources.filter((s) => !['ok', 'empty', 'running'].includes(s.state)).length;
   const lines = [
-    `${items.length} public video/post item(s) and ${signals.length} news/incident signal(s) for ${place || 'the AOI'}.`,
-    `Freshness: ${FRESHNESS.map((k) => `${k} ${fr[k] || 0}`).join(' · ')}.`,
-    `Geo precision: exact ${geo.exact || 0} · place ${geo.place || 0} · text-inferred ${geo.text || 0} · none ${geo.none || 0}.`,
-    `${ok} source(s) answered; ${creds} need credentials.`,
+    `${eligible} source-verified video(s) for ${place || 'the AOI'}; ${candidates.length} unverified candidate(s) kept separately.`,
+    eligible ? 'Only footage with source-backed recording location and time is admitted.' : 'No verified recent footage. Publication, retrieval, captions and model answers do not prove recording place or time.',
+    `${signals.length} unverified context reference(s); ${blocked} unavailable/restricted source(s). No conclusion about whether an incident occurred.`,
   ];
-  const fresh = signals.filter(
-    (s) => s.freshness === 'LIVE' || s.freshness === 'RECENT',
-  );
-  if (fresh.length)
-    lines.push(
-      `Most recent signal: "${fresh[0].title}" (${fresh[0].outlet || fresh[0].source?.name || 'source'}, ${fresh[0].publishedAt || 'undated'}).`,
-    );
-  else
-    lines.push('No LIVE/RECENT public signal names this place in the window.');
-  return { text: lines.join(' '), engine: 'deterministic', lines };
+  return { text: lines.join(' '), engine: 'deterministic-policy', lines };
 }
