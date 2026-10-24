@@ -277,11 +277,11 @@ export function createVoicePipeline({
       });
     } catch (error) {
       if (activeTurn !== turn) return turn;
-      setState('error', `Microphone unavailable: ${error?.message || error}`);
-      emit({
-        type: 'error',
-        message: `Microphone unavailable: ${error?.message || error}`,
-      });
+      // Isolated failure: an embed without microphone permission must only
+      // affect this control. Typing/AOI submission share no state with it.
+      const reason = `Microphone unavailable: ${error?.message || error} — type in the AOI box instead`;
+      setState('error', reason);
+      emit({ type: 'error', message: reason });
       activeTurn = null;
       return turn;
     }

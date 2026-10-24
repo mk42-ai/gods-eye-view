@@ -8,7 +8,7 @@ import {
   planFromCandidates,
   incidentFromText,
 } from '../client.js';
-import { parseIncidentQuery } from '../query.js';
+import { parseIncidentQuery, CONVERSATIONAL_HINT } from '../query.js';
 
 export const COMPOSER_ID = 'incident-composer';
 export const COMPOSER_PLACEHOLDER = 'Type an incident…';
@@ -23,6 +23,7 @@ export function createIncidentComposer({
   onExternal,
   buildScene,
   createGeographicScene,
+  onUnresolved,
   requestTimeoutMs = 75_000,
 } = {}) {
   const root = document.createElement('form');
@@ -216,6 +217,39 @@ export function createIncidentComposer({
     p.textContent = text;
     return p;
   }
+  function notice(detail, run) {
+    const p = document.createElement('p');
+    p.className = 'incident-composer__message incident-composer__message--notice';
+    p.dataset.kind = 'retry-notice';
+    p.setAttribute('role', 'status');
+    p.setAttribute('title', String(detail || '').slice(0, 400));
+    p.dataset.detail = String(detail || '').slice(0, 400);
+    const label =
+      run?.stage === 'locating'
+        ? 'Couldn’t reach the location service.'
+        : run?.extraction?.intent === 'incident_search'
+          ? 'Incident search didn’t complete — no conclusion can be drawn.'
+          : 'Scene build didn’t complete.';
+    const lead = document.createElement('span');
+    lead.textContent = `${label} Press Retry to resend “${(run?.text || '').slice(0, 60)}”. `;
+    const small = document.createElement('small');
+    small.className = 'incident-composer__detail';
+    small.textContent = String(detail || '');
+    p.append(lead, small);
+    return p;
+  }
+  function pending(text) {
+    const p = document.createElement('p');
+    p.className = 'incident-composer__message incident-composer__message--pending';
+    p.dataset.kind = 'pending';
+    const spinner = document.createElement('span');
+    spinner.className = 'incident-composer__spinner';
+    spinner.setAttribute('aria-hidden', 'true');
+    const label = document.createElement('span');
+    label.textContent = text;
+    p.append(spinner, label);
+    return p;
+  }
   function markActive(status) {
     for (const id of Object.keys(state.steps))
       if (state.steps[id] === 'active') state.steps[id] = status;
@@ -245,6 +279,9 @@ export function createIncidentComposer({
       cancelRequest();
       return;
     }
+    if (run.stage === 'locating') {
+      try { onUnresolved?.({ text: run.text, extraction: run.extraction, status: 'error' }); } catch {}
+    }
     markActive('error');
     const detail = error?.message || String(error);
     const text =
@@ -253,7 +290,9 @@ export function createIncidentComposer({
         : run.extraction?.intent === 'incident_search'
           ? `Request failed: ${detail}. No conclusion about incidents can be drawn.`
           : `Scene request failed: ${detail}`;
-    showResult(message(text, 'error'));
+    // Discreet notice: a short, calm line plus Retry. The full provider detail
+    // stays available (title/data attribute) without shouting raw errors.
+    showResult(notice(text, run));
     retry.hidden = false;
     setChips(false, { error: true });
     if (error?.name === 'TimeoutError') {
@@ -335,6 +374,7 @@ export function createIncidentComposer({
   async function build(candidate, run) {
     step('verifying', 'done', run);
     step('building', 'active', run);
+    showResult(pending(`Building scene at ${candidate.name}…`));
     let scene,
       inserted = null,
       ingest = null,
@@ -547,8 +587,34 @@ export function createIncidentComposer({
     const trimmed = String(text || '')
       .trim()
       .slice(0, 500);
-    if (!trimmed || destroyed) return null;
-    if (state.busy && trimmed === state.text) return null;
+    if (destroyed) return null;
+    if (!trimmed) {
+      // Empty submit: say what to type instead of silently ignoring the press.
+      showResult(message(CONVERSATIONAL_HINT, 'hint'));
+      root.setAttribute('data-state', 'hint');
+      input.focus?.({ preventScroll: true });
+      return null;
+    }
+    if (state.busy && trimmed === state.text) {
+      // Duplicate press while running: keep the visible progress, never no-op silently.
+      root.setAttribute('data-duplicate', String(Date.now()));
+      return null;
+    }
+    const parsed = parseIncidentQuery(trimmed, { defaultIntent: 'build_scene' });
+    if (parsed.kind === 'conversational') {
+      // Greetings/small talk are not places: answer locally and instantly with a
+      // discreet hint. Any pending request is superseded, no provider is called.
+      state.generation += 1;
+      state.abort?.abort();
+      activeRun = null;
+      state.text = trimmed;
+      resetSteps();
+      setBusy(false);
+      retry.hidden = true;
+      showResult(message(CONVERSATIONAL_HINT, 'hint'));
+      root.setAttribute('data-state', 'hint');
+      return { plan: { kind: 'hint' }, scene: null, search: null, hint: CONVERSATIONAL_HINT };
+    }
     // A newly edited AOI supersedes pending research/build work. Invalidate the
     // old generation before aborting it; its finally must not unlock this run.
     state.generation += 1;
@@ -573,8 +639,11 @@ export function createIncidentComposer({
     setBusy(true);
     hideResult();
     resetSteps();
+    // Immediate, visible acknowledgement before any network round-trip.
+    showResult(pending(`Locating “${(parsed.place || trimmed).slice(0, 80)}”…`));
+    root.setAttribute('data-state', 'busy');
     try {
-      state.extraction = run.extraction = parseIncidentQuery(trimmed, { defaultIntent: 'build_scene' });
+      state.extraction = run.extraction = parsed;
       step('locating', 'active', run);
       const located = await bounded(run, () => client.locate(trimmed, { signal: run.signal }));
       checkCurrent(run);
@@ -603,6 +672,8 @@ export function createIncidentComposer({
         );
         retry.hidden = false;
         setChips(false, { error: true });
+        // Never leave the operator on the boot view after an AOI request.
+        try { onUnresolved?.({ text: trimmed, extraction: run.extraction, status: located?.status || 'none' }); } catch {}
       } else if (plan.kind === 'single' || plan.kind === 'out-of-aoi') {
         outcome = await bounded(run, () => perform(plan.candidate, run));
       } else {

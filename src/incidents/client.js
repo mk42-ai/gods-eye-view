@@ -39,8 +39,10 @@ export function createIncidentClient({
       body = null;
     }
     if (!res.ok) {
+      // Platform errors may nest {error:{code,message}}; never show "[object Object]".
+      const nested = body?.error && typeof body.error === 'object' ? body.error.message || body.error.code : null;
       const err = new Error(
-        body?.error || body?.message || `HTTP ${res.status}`,
+        String(nested || (typeof body?.error === 'string' ? body.error : '') || body?.message || `HTTP ${res.status}`),
       );
       err.status = res.status;
       err.body = body;

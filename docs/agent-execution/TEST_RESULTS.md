@@ -986,3 +986,30 @@ Focused regression result so far: 73 passed / 0 failed. Final full-suite, build,
 - Continuous compositor recordings: core 48.6s and clear-map 52.4s, source viewport375×739, encoded376×740 (one-pixel padding for H264). Both full-stream ffmpeg decodes passed. PNGs and Chrome traces are under workspace `.ui-proof/`; all download links, UTC events, source hashes, and twenty actual read-only task IDs are in `aoi-rebuild-evidence.json`.
 - Original URL returned410; unchanged source was restored before edits. Native typing itself worked, but BUILD SCENE routed bare locations to research and active playback could retain the old camera. The stock ui-validator final attempt returned `TimeoutError: timed out` after HTTP200 and provided no final screenshots; it is not counted as passing. The independent real Chromium suites provide the proof. Actual embedded-host focus/iframe/pointer behavior and on-device virtual keyboards remain untested.
 - Current preview: https://sb-2b4qpbcnpg5o.vercel.run; sandbox sbx_bx0AMF9m7fhl1rahb8TIlEtxtfw2; port5173; buildReference `aoi-rebuild-20261024-2ad171fc8c42`. Health was200 with configured:true/keySource:server. Server temporary key file was removed before start; no credentials are in deliverables.
+
+## Cycle 16 — Embedded chat-canvas AOI BUILD SCENE repair — 2026-10-24T05:47:49Z
+
+Checkpoint before edits: `659119c` (preserved uncommitted celestrak snapshot + marina-cycle14 artifacts). Previous preview https://sb-2b4qpbcnpg5o.vercel.run returned **HTTP 410 (sandbox stopped)**, so the BEFORE baseline was rebuilt from the unchanged `659119c` tree and served locally.
+
+Harness: `public/embed-canvas-harness.html` — a MIRROR of a chat-canvas embed (cross-origin iframe, `sandbox="allow-scripts allow-same-origin allow-forms allow-popups"`, restrictive `allow` with `microphone 'none'`, and an `allow=mic` variant). **Not the real OnDemand host.** Driver: `scripts/qa-embed-aoi.mjs` (Puppeteer frame handles, native keyboard/Enter/mouse/touch; supervised process group, hard cap).
+
+| Check | BEFORE (659119c, local) | AFTER (sb-7gcltu6u15nc) |
+|---|---|---|
+| AOI input / BUILD SCENE centre hit-test (1440×900, 375×739) | pass | pass (2026-10-24T05:36:56Z / 05:39:22Z) |
+| Mobile SCENES drawer open → AOI + BUILD SCENE hit-testable | not measured | pass (05:39:25Z) |
+| Full-viewport pointer-capturing overlay | none | none |
+| 'hi' → visible feedback ≤350 ms | **FAIL** (busy, empty result) 05:14:52Z | pass — hint 05:37:10Z |
+| 'hi' → discreet hint | **FAIL** — "Outside UAE AOI — external context only"; 375 px camera flew to Mexico (28.84,-105.44) | pass — "Type a place in the UAE…", no provider call |
+| 'Dubai Marina r' → feedback ≤350 ms | **FAIL** (1440: busy, empty) | pass ("Locating “Dubai Marina”…" / scene) |
+| 'Dubai Marina r' → camera at Marina + Play | pass (geocoder) | pass (offline verified cache) |
+| 'burj khalifa check if there is any incidents' → camera at 25.197,55.2741 + scoped 5 km search | pass (live geocoder) | pass (offline verified gazetteer) |
+| Unique Dubai Marina build → save → play (clock advanced) | pass | pass |
+| Mic TALK pressed with microphone denied → typing/submission unaffected, no page errors | pass | pass |
+| Frame harness totals | 50 pass / 4 fail | **110 pass / 0 fail** (restrictive + mic, both viewports, 05:36:43Z–05:41:10Z) |
+
+Stock ui-validator (`ui_validate.py`, run against the harness URL, 5 evals: composer mounted + loader hidden, centre hit-tests, 'hi' hint, 'Dubai Marina r' pending→Play, diagnostics):
+- BEFORE attempts 1–2: exit 2 `TimeoutError: timed out` — root cause of the historic timeout: Cesium's continuous render loop starves CDP `Page.captureScreenshot` (60 s) on this 1-vCPU host. Fixed in the eval by pausing `viewer.useDefaultRenderLoop` after assertions ran. BEFORE attempt 4: exit 1 — hint eval **false**, Marina eval **false**.
+- AFTER: **exit 0, ok:true at 1440×900 (2026-10-24T05:34:31Z) and 375×739 (05:35:07Z)**, all 7 assertions true. Only console noise: 404 `/api/setup/status` (pre-existing, unrelated).
+
+Gates: `npm run build` ✓ (local + sandbox); `npm test` **4,465 pass / 0 fail / 1 skipped (4,466)**; `check-no-secrets` ✓ src, ✓ `--dist`; `check:boundaries` ✓.
+Deploy: sandbox `sbx_eTHvnHNQ6FtMjfZDghk8ugPERDjm`, https://sb-7gcltu6u15nc.vercel.run — `/api/health` 200 `configured:true, keySource:server` (05:25:16Z), `/` 200 title "OnDemand Intelligence Workstation", no X-Frame-Options / CSP / Permissions-Policy headers. OnDemand key restored by name from the previous live sandbox process into a 0600 temp file, sourced into the server process only and deleted before start (`SECRET_FILE_GONE`, `KEY_NOT_IN_ENV_FILE`).

@@ -420,7 +420,7 @@ describe('plugin-mediated refresh + locate (fake OnDemand client)', () => {
 test('locate geocodes the extracted place, not the natural-language query', async () => {
   const queries = [];
   const result = await locateText(
-    'burj khalifa check if there is any incidents',
+    'dubai opera check if there is any incidents',
     {
       index,
       useOnDemand: false,
@@ -431,8 +431,8 @@ test('locate geocodes the extracted place, not the natural-language query', asyn
           data: {
             candidates: [
               {
-                formatted_address: 'Burj Khalifa, Dubai',
-                geometry: { location: { lat: 25.1972, lng: 55.2744 } },
+                formatted_address: 'Dubai Opera, Dubai',
+                geometry: { location: { lat: 25.1956, lng: 55.2721 } },
               },
             ],
           },
@@ -440,13 +440,13 @@ test('locate geocodes the extracted place, not the natural-language query', asyn
       },
     },
   );
-  assert.deepEqual(queries, ['burj khalifa']);
+  assert.deepEqual(queries, ['dubai opera']);
   assert.equal(result.extraction.intent, 'incident_search');
-  assert.equal(result.candidates[0].lat, 25.1972);
+  assert.equal(result.candidates[0].lat, 25.1956);
   assert.equal(result.candidates[0].verified, true);
 });
 test('unavailable geocoder is reported as unavailable rather than no places', async () => {
-  const result = await locateText('Burj Khalifa', {
+  const result = await locateText('Dubai Opera', {
     index,
     useOnDemand: false,
     toolInvoker: async () => {
@@ -482,4 +482,31 @@ test('scoped search route returns missing-credentials coverage without writing a
       (source) => source.error === 'ondemand_not_configured',
     ),
   );
+});
+
+test('cycle 16: Burj Khalifa resolves offline from the verified gazetteer even when the geocoder is down', async () => {
+  for (const text of ['burj khalifa check if there is any incidents', 'Burj Khalifa']) {
+    const result = await locateText(text, {
+      index: getAoiIndex(),
+      useOnDemand: false,
+      toolInvoker: async () => { throw new Error('unit-test lookup unavailable'); },
+    });
+    assert.equal(result.status, 'resolved');
+    assert.equal(result.candidates[0].name, 'Burj Khalifa');
+    assert.ok(Math.abs(result.candidates[0].lat - 25.197) < 0.01);
+    assert.equal(result.candidates[0].aoi_membership.inside, true);
+  }
+});
+test('cycle 16: trailing noise still reaches the exact Dubai Marina area', async () => {
+  const result = await locateText('Dubai Marina r', { index: getAoiIndex(), useOnDemand: false });
+  assert.equal(result.extraction.place, 'Dubai Marina');
+  assert.equal(result.status, 'resolved');
+  assert.ok(Math.abs(result.candidates[0].lat - 25.0786) < 0.01);
+});
+test('cycle 16: conversational text never calls a provider', async () => {
+  let called = 0;
+  const result = await locateText('hi', { index: getAoiIndex(), useOnDemand: false, toolInvoker: async () => { called += 1; return { ok: true, data: { candidates: [] } }; } });
+  assert.equal(called, 0);
+  assert.equal(result.status, 'empty');
+  assert.equal(result.extraction.kind, 'conversational');
 });

@@ -580,6 +580,11 @@ export function installIncidentScenes({
       geographicOverlay.setExternal(candidate);
       overlay.flyTo(candidate.lat, candidate.lon, { altitude: 14000, duration: 1.6 });
     },
+    onUnresolved: () => {
+      // The AOI box is UAE-scoped: an unresolved request still leaves the boot
+      // (Austin) view for the UAE overview instead of appearing to do nothing.
+      overlay.flyTo(24.45, 54.6, { altitude: 650000, duration: 1.6 });
+    },
     onLocated: ({ candidate, extraction }) => {
       overlay.flyTo(candidate.lat, candidate.lon, {
         altitude: 8500,

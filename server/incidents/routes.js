@@ -516,6 +516,10 @@ export async function locateText(
   } = {},
 ) {
   const extraction = parseIncidentQuery(text);
+  // Small talk ("hi") names no place: answer instantly, never spend a provider
+  // round-trip (the composer shows a local hint before it would even call us).
+  if (extraction.kind === 'conversational')
+    return { text: extraction.originalText, extraction, candidates: [], steps: [{ step: 'conversational', status: 'skipped' }], status: 'empty' };
   const query = extraction.place.slice(0, MAX_TEXT);
   const candidates = [];
   const seen = new Set();

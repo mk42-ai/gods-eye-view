@@ -1220,3 +1220,59 @@ describe('AOI BUILD SCENE intent, bounded work and native rebuilds', () => {
     c.destroy();
   });
 });
+
+describe('cycle 16: embedded-host feedback guarantees', () => {
+  test("'hi' shows a discreet local hint instantly and calls no provider", async () => {
+    const client = fakeClient({ candidates: [] });
+    let unresolved = 0;
+    const composer = createIncidentComposer({ document: makeDoc(), client, onUnresolved: () => { unresolved += 1; } });
+    const out = await composer.submit('hi');
+    assert.equal(out.plan.kind, 'hint');
+    assert.equal(client.calls.length, 0);
+    assert.equal(composer.element.getAttribute('data-state'), 'hint');
+    assert.match(composer.element.text(), /Type a place in the UAE/);
+    assert.equal(composer.state.busy, false);
+    assert.equal(unresolved, 0);
+  });
+  test('empty submit is never silent', async () => {
+    const composer = createIncidentComposer({ document: makeDoc(), client: fakeClient() });
+    assert.equal(await composer.submit('   '), null);
+    assert.equal(composer.element.getAttribute('data-state'), 'hint');
+    assert.match(composer.element.text(), /Type a place in the UAE/);
+  });
+  test('a place request shows a pending spinner synchronously, before locate resolves', async () => {
+    let release;
+    const client = { calls: [], locate: () => new Promise((resolve) => { release = resolve; }) };
+    const composer = createIncidentComposer({ document: makeDoc(), client });
+    const pendingRun = composer.submit('Dubai Marina r');
+    assert.equal(composer.element.getAttribute('data-state'), 'busy');
+    assert.match(composer.element.text(), /Locating “Dubai Marina”…/);
+    assert.equal(composer.element.find((n) => n.className === 'incident-composer__spinner').length, 1);
+    release({ candidates: [] });
+    await pendingRun;
+  });
+  test('unresolved locate fires onUnresolved so the camera leaves the boot view', async () => {
+    let unresolved = null;
+    const composer = createIncidentComposer({ document: makeDoc(), client: fakeClient({ candidates: [] }), onUnresolved: (info) => { unresolved = info; } });
+    await composer.submit('Atlantis Lost City');
+    assert.equal(unresolved?.text, 'Atlantis Lost City');
+    assert.equal(composer.element.getAttribute('data-state'), 'error');
+  });
+  test('locate failure is a discreet retry notice; Retry resubmits the original text', async () => {
+    const texts = [];
+    let unresolved = 0;
+    const client = { async locate(text) { texts.push(text); if (texts.length === 1) throw new Error('HTTP 503 upstream'); return { candidates: [] }; } };
+    const composer = createIncidentComposer({ document: makeDoc(), client, onUnresolved: () => { unresolved += 1; } });
+    await composer.submit('Dubai Marina');
+    const notice = composer.element.find((n) => n.dataset?.kind === 'retry-notice');
+    assert.equal(notice.length, 1);
+    assert.match(composer.element.text(), /Press Retry to resend “Dubai Marina”/);
+    assert.equal(unresolved, 1);
+    const retry = composer.element.find((n) => n.id === 'incident-composer-retry')[0];
+    assert.equal(retry.hidden, false);
+    composer.input.value = 'something else';
+    retry.dispatch('click');
+    await new Promise((r) => setTimeout(r, 10));
+    assert.deepEqual(texts, ['Dubai Marina', 'Dubai Marina']);
+  });
+});

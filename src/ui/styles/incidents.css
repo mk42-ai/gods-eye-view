@@ -462,3 +462,65 @@ body.recording-mode .incident-popover {
     max-height: min(36vh, 260px);
   }
 }
+
+/* ---- cycle 16: immediate feedback, discreet hint / retry notice ---------- */
+.incident-composer__message--pending {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(243, 243, 243, 0.85);
+}
+.incident-composer__spinner {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(59, 183, 149, 0.25);
+  border-top-color: var(--od-green-500, #3bb795);
+  border-radius: 50%;
+  animation: incident-composer-spin 0.8s linear infinite;
+}
+@keyframes incident-composer-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .incident-composer__spinner {
+    animation-duration: 2.4s;
+  }
+}
+.incident-composer__message--hint {
+  color: rgba(243, 243, 243, 0.62);
+  font-style: italic;
+}
+.incident-composer__message--notice {
+  color: #f3d9a4;
+}
+.incident-composer__detail {
+  display: block;
+  margin-top: 2px;
+  color: rgba(243, 243, 243, 0.42);
+  font-size: 9px;
+  overflow-wrap: anywhere;
+}
+/* Purely decorative full-viewport layers must never take pointer input. */
+.vignette,
+[class*='vignette'],
+.scope-mask,
+#scope-mask,
+.crt-overlay,
+.scanlines,
+[data-decorative-overlay] {
+  pointer-events: none !important;
+}
+/* Desktop: keep a visible gap between the AOI bar and the command dock's
+   VISUAL PRESETS / LOCATION trays beneath it, and keep the bar above any
+   availability notice (z 100) so neither can cover the other. */
+@media (min-width: 701px) {
+  .incident-composer {
+    margin-bottom: 10px;
+  }
+}
+.serverless-notice:not([open]) {
+  z-index: 100;
+}

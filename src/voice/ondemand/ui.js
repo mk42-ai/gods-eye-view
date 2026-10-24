@@ -271,7 +271,13 @@ export function bindOdVoiceUi(
   });
 
   const onPress = () => {
-    void pipeline.press();
+    // Never let a rejected voice turn (e.g. permission policy in an iframe)
+    // escape as an unhandled rejection or steal focus from the AOI input.
+    try {
+      Promise.resolve(pipeline.press()).catch(() => {});
+    } catch {
+      /* isolated: voice failures stay inside the voice control */
+    }
   };
   const onRoute = () => {
     const current = pipeline.getMode();

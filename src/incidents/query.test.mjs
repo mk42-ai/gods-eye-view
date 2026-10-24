@@ -1,6 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseIncidentQuery } from './query.js';
+import {
+  parseIncidentQuery,
+  isConversationalQuery,
+  CONVERSATIONAL_HINT,
+  stripTrailingNoise,
+} from './query.js';
 
 for (const input of [
   'burj khalifa check if there is any incidents',
@@ -131,4 +136,123 @@ test('BUILD SCENE form can opt into bare-location construction without changing 
   }
   for (const text of ['check for incidents near Dubai Marina', 'Dubai Marina any incidents', 'what happened in Abu Dhabi'])
     assert.equal(parseIncidentQuery(text, { defaultIntent: 'build_scene' }).intent, 'incident_search');
+});
+
+test('trailing noise stripping: Dubai Marina r (build default) with strippedNoise r', () => {
+  const result = parseIncidentQuery('Dubai Marina r', { defaultIntent: 'build_scene' });
+  assert.equal(result.place, 'Dubai Marina');
+  assert.equal(result.intent, 'build_scene');
+  assert.equal(result.kind, 'place');
+  assert.equal(result.noiseStripped, true);
+  assert.equal(result.strippedNoise, 'r');
+  assert.equal(result.originalText, 'Dubai Marina r');
+});
+
+test('trailing noise stripping: Dubai Marina r.', () => {
+  const result = parseIncidentQuery('Dubai Marina r.');
+  assert.equal(result.place, 'Dubai Marina');
+  assert.equal(result.kind, 'place');
+  assert.equal(result.noiseStripped, true);
+  assert.equal(result.strippedNoise, 'r.');
+  assert.equal(result.originalText, 'Dubai Marina r.');
+});
+
+test('trailing noise stripping: punctuation and emoji variants', () => {
+  for (const [input, expectedPlace, expectedNoise] of [
+    ['Dubai Marina ,,', 'Dubai Marina', ',,'],
+    ['Dubai Marina ...', 'Dubai Marina', '...'],
+    ['Dubai Marina 🙂', 'Dubai Marina', '🙂'],
+    ['Burj Khalifa x', 'Burj Khalifa', 'x'],
+  ]) {
+    const result = parseIncidentQuery(input);
+    assert.equal(result.place, expectedPlace);
+    assert.equal(result.noiseStripped, true);
+    assert.equal(result.strippedNoise, expectedNoise);
+  }
+});
+
+test('noise in middle is not required to strip and does not crash: Burj Khalifa x check if there is any incidents', () => {
+  const result = parseIncidentQuery('Burj Khalifa x check if there is any incidents');
+  assert.ok(result.place.includes('Burj Khalifa'));
+  assert.equal(result.intent, 'incident_search');
+  assert.equal(result.kind, 'place');
+});
+
+test('legitimate short/digit tokens are preserved without stripping', () => {
+  // Terminal 3 keeps 3
+  const t3 = parseIncidentQuery('Terminal 3');
+  assert.equal(t3.place, 'Terminal 3');
+  assert.equal(t3.noiseStripped, false);
+  assert.equal(t3.kind, 'place');
+  assert.ok(!('strippedNoise' in t3));
+
+  // Gate 2 keeps 2
+  const g2 = parseIncidentQuery('Gate 2');
+  assert.equal(g2.place, 'Gate 2');
+  assert.equal(g2.noiseStripped, false);
+
+  // Jebel Ali Port unchanged
+  const jap = parseIncidentQuery('Jebel Ali Port');
+  assert.equal(jap.place, 'Jebel Ali Port');
+  assert.equal(jap.noiseStripped, false);
+  assert.equal(jap.kind, 'place');
+
+  // Al Ain unchanged
+  const aa = parseIncidentQuery('Al Ain');
+  assert.equal(aa.place, 'Al Ain');
+  assert.equal(aa.noiseStripped, false);
+  assert.equal(aa.kind, 'place');
+
+  // Coordinates unchanged
+  const coords = parseIncidentQuery('25.08, 55.14');
+  assert.equal(coords.place, '25.08, 55.14');
+  assert.equal(coords.noiseStripped, false);
+  assert.equal(coords.kind, 'place');
+});
+
+test('conversational input classification: kind conversational for greetings and non-places', () => {
+  for (const input of [
+    'hi',
+    'Hello!',
+    'thanks',
+    '?',
+    'hey',
+    'hey there',
+    'thank you',
+    'ok',
+    'yo',
+    'test',
+    'help',
+    'how are you',
+    'good morning',
+  ]) {
+    const result = parseIncidentQuery(input);
+    assert.equal(result.kind, 'conversational', `expected "${input}" to have kind conversational`);
+    assert.equal(isConversationalQuery(input), true, `expected isConversationalQuery("${input}") to be true`);
+  }
+});
+
+test('place input classification: kind place for landmarks, codes, and coordinates', () => {
+  for (const input of [
+    'Dubai',
+    'JBR',
+    'Abu Dhabi',
+    'Dubai Marina r',
+    'burj khalifa check if there is any incidents',
+    'Al Ain',
+    'DXB',
+    'Hormuz',
+    '25.2, 55.3',
+  ]) {
+    const result = parseIncidentQuery(input);
+    assert.equal(result.kind, 'place', `expected "${input}" to have kind place`);
+    assert.equal(isConversationalQuery(input), false, `expected isConversationalQuery("${input}") to be false`);
+  }
+});
+
+test('CONVERSATIONAL_HINT export matches required text', () => {
+  assert.equal(
+    CONVERSATIONAL_HINT,
+    'Type a place in the UAE — e.g. "Dubai Marina" or "Burj Khalifa incidents".',
+  );
 });
