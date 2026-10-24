@@ -1,6 +1,7 @@
 import { SceneDirector } from '../scenes/director.js';
 import { createAoiScenePolicy } from '../scenes/aoiScenePolicy.js';
 import { getUaeAoiIndex } from '../aoi/uaeInterest.js';
+import { resolveIncidentGate } from '../aoi/sceneGate.js';
 import { installIncidentScenes } from '../incidents/ui/index.js';
 import { installSceneVideos } from '../sceneVideos/index.js';
 import { initAnnotations } from '../annotations/index.js';
@@ -39,10 +40,15 @@ export function createApplicationTools({
     dataPacks: sceneDataPacks,
     isMapStackAvailable: (id) =>
       mapStackController?.isStackAvailable(id) === true,
-    // UAE AOI restriction (2026-10-22): only scenes inside Iran / Yemen /
-    // Somalia / Hormuz / Bab el-Mandeb / UAE borders+waters / presence nodes
-    // reach the panel and playback; the rest stay in storage with a reason.
-    aoiPolicy: createAoiScenePolicy(getUaeAoiIndex()),
+    // The broad interest map is context only. Playback is restricted by the
+    // editable, strictly UAE scene allowlist; foreign scenes stay in storage.
+    aoiPolicy: createAoiScenePolicy({
+      membership(lat, lon) {
+        const context = getUaeAoiIndex().membership(lat, lon);
+        const gate = resolveIncidentGate('', { lat, lon });
+        return { ...context, inside: gate.allowed, aoi_ids: gate.aoiIds, reason: gate.reason };
+      },
+    }),
   });
   dataManager.layers
     .get('bhote-koshi-2026')

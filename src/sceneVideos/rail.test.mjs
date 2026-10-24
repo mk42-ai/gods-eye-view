@@ -190,3 +190,21 @@ test('rail.start consumes a real SSE body end-to-end', async () => {
   assert.equal(rail.element.dataset.platforms, 'youtube,instagram');
   assert.equal(rail.state.playingId, 'instagram:a');
 });
+
+test('rail rejects EOF without an explicit done instead of inventing successful coverage', async () => {
+  const enc = new TextEncoder();
+  const rail = createSceneVideoRail({ document: makeDoc(), window: {}, fetch: async () => ({ ok: true, body: new ReadableStream({ start(c) { c.enqueue(enc.encode('event: plan\ndata: {}\n\n')); c.close(); } }) }) });
+  await rail.start('fixture incident');
+  assert.equal(rail.state.done, false);
+  assert.equal(rail.element.dataset.state, 'error');
+});
+
+test('rail cancellation is explicit and never claims a successful completed stream', () => {
+  const rail = createSceneVideoRail({ document: makeDoc(), window: {} });
+  let aborted = false;
+  rail.state.abort = { abort() { aborted = true; } };
+  rail.cancel();
+  assert.equal(aborted, true);
+  assert.equal(rail.state.done, false);
+  assert.equal(rail.element.dataset.state, 'cancelled');
+});

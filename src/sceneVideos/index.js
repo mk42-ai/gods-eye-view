@@ -12,6 +12,7 @@ import { createSceneVideoRail } from './rail.js';
 import { PLATFORM_SHORT } from './labels.js';
 import { governorRequestRender } from '../renderGovernor.js';
 
+
 export const SCENE_VIDEOS_EVENT = 'gev:scene-videos';
 const TIER_COLOR = { LIVE: '#ff3b3b', RECENT: '#ffb020', ARCHIVAL: '#9aa4b2' };
 
@@ -93,9 +94,10 @@ export function installSceneVideos({
   const onSubmit = (event) => {
     const form = event.target;
     if (!form || form.id !== 'incident-composer') return;
-    const input = form.querySelector?.('#incident-composer-input');
-    const text = String(input?.value || '').trim();
-    if (text) void rail.start(text);
+    // Wait for the command's validated location event for ALL evidence
+    // queries. Never launch an out-of-AOI incident as a playable scene.
+    rail.cancel();
+    rail.element.hidden = true;
   };
   // capture phase: runs before the composer's own handler clears the input
   doc.addEventListener('submit', onSubmit, true);
@@ -104,6 +106,8 @@ export function installSceneVideos({
     if (prompt) void rail.start(prompt, { anchor: event.detail.anchor });
   };
   win?.addEventListener?.(SCENE_VIDEOS_EVENT, onEvent);
+  const onCancel = () => rail.cancel();
+  win?.addEventListener?.('gev:incident-command-cancelled', onCancel);
 
   const api = {
     rail,
@@ -120,6 +124,7 @@ export function installSceneVideos({
     destroy() {
       doc.removeEventListener('submit', onSubmit, true);
       win?.removeEventListener?.(SCENE_VIDEOS_EVENT, onEvent);
+      win?.removeEventListener?.('gev:incident-command-cancelled', onCancel);
       rail.destroy();
       if (pins && viewer?.dataSources?.remove)
         viewer.dataSources.remove(pins.source, true);

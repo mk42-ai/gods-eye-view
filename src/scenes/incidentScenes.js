@@ -32,6 +32,23 @@ export function shotTimings(keyframes, totalSec = INCIDENT_SCENE_DURATION_SEC) {
   });
 }
 
+// Geographic keyframes name ground targets. Offsetting the camera behind the
+// target keeps that location in frame at an oblique pitch; putting the camera
+// directly above it points the viewport several kilometres past the AOI.
+export function geographicCameraPose(kf) {
+  const rad = Math.PI / 180;
+  const alt = Number.isFinite(kf.altitudeM) ? kf.altitudeM : altitudeForZoom(kf.zoom, kf.lat);
+  const pitch = kf.pitch ?? -45;
+  const heading = kf.bearing || 0;
+  const distance = alt / Math.tan(Math.max(1, Math.min(90, Math.abs(pitch))) * rad);
+  const angle = distance / 6371008.8;
+  const lat = kf.lat * rad;
+  const bearing = (heading + 180) * rad;
+  const nextLat = Math.asin(Math.sin(lat) * Math.cos(angle) + Math.cos(lat) * Math.sin(angle) * Math.cos(bearing));
+  const nextLon = kf.lon * rad + Math.atan2(Math.sin(bearing) * Math.sin(angle) * Math.cos(lat), Math.cos(angle) - Math.sin(lat) * Math.sin(nextLat));
+  return { lat: nextLat / rad, lon: ((nextLon / rad + 540) % 360) - 180, alt, heading, pitch, roll: 0 };
+}
+
 function sceneLayers() {
   // Incident scenes do not take an opinion on live data layers; they only
   // assert that the incident overlay is on (reconciled by the overlay itself).
@@ -45,7 +62,7 @@ function sceneLayers() {
 export function incidentSceneToProjectScene(incidentScene, options = {}) {
   if (!incidentScene?.keyframes?.length)
     throw new Error('incident scene needs keyframes');
-  const timings = shotTimings(incidentScene.keyframes);
+  const timings = shotTimings(incidentScene.keyframes, incidentScene.durationSec || INCIDENT_SCENE_DURATION_SEC);
   const shots = incidentScene.keyframes.map((kf, i) =>
     normalizeShot(
       {
@@ -53,10 +70,10 @@ export function incidentSceneToProjectScene(incidentScene, options = {}) {
         title: kf.label || `Keyframe ${i + 1}`,
         durationSec: timings[i].durationSec,
         holdSec: timings[i].holdSec,
-        camera: {
+        camera: incidentScene.geographic ? geographicCameraPose(kf) : {
           lat: kf.lat,
           lon: kf.lon,
-          alt: altitudeForZoom(kf.zoom, kf.lat),
+          alt: Number.isFinite(kf.altitudeM) ? kf.altitudeM : altitudeForZoom(kf.zoom, kf.lat),
           heading: kf.bearing || 0,
           pitch: kf.pitch ?? -45,
           roll: 0,

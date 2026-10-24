@@ -604,6 +604,7 @@ export function createFoundationHandler(deps = {}) {
         sendJson(res, 200, {
           ok: true,
           configured: isConfigured(),
+          ...(process.env.BUILD_REFERENCE ? { buildReference: process.env.BUILD_REFERENCE } : {}),
           conversationBackend: store.backend,
           contracts: contractRegistry.size(),
           activePlugins: contractRegistry.activePluginIds().length,

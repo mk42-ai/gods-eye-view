@@ -46,6 +46,8 @@ export function createIncidentClient({
       err.body = body;
       throw err;
     }
+    if (!body || typeof body !== 'object')
+      throw new Error('Invalid server response. Please retry the AOI request.');
     return body;
   }
   return {
@@ -60,6 +62,12 @@ export function createIncidentClient({
       call('/locate', {
         method: 'POST',
         body: JSON.stringify({ text, externalUserId }),
+        signal,
+      }),
+    search: (text, candidate, { signal } = {}) =>
+      call('/search', {
+        method: 'POST',
+        body: JSON.stringify({ text, candidate, externalUserId }),
         signal,
       }),
     ingest: (incident, { signal } = {}) =>

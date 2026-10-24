@@ -42,3 +42,97 @@ export function isHudSummaryUnconfigured(status, data) {
     data?.summary === null
   );
 }
+
+/**
+ * Conservative AIS copy shared by the HUD and deployment notice. A connected
+ * transport, enabled toggle, cached count, or serverless build is not evidence
+ * of a live feed. Callers without accepted, recent provider data stay unverified.
+ */
+export function describeAisAvailability(stats = {}, { now = Date.now() } = {}) {
+  const state = String(
+    stats.providerStatus || stats.status || stats.feedState || '',
+  ).toLowerCase();
+  const reason = String(
+    stats.providerError || stats.error || stats.lastError || '',
+  ).trim();
+  const unavailable = [
+    'unavailable',
+    'unsupported',
+    'missing-key',
+    'auth-failed',
+    'down',
+    'closed',
+    'error',
+  ];
+  const count = Number(stats.acceptedRowCount ?? stats.count ?? 0);
+  const updated =
+    typeof stats.lastUpdate === 'string'
+      ? Date.parse(stats.lastUpdate)
+      : Number(stats.lastUpdate);
+  const recent =
+    Number.isFinite(updated) &&
+    updated > 0 &&
+    now >= updated &&
+    now - updated <= 120000;
+  const knownLive = ['live', 'ok', 'healthy', 'nominal', 'streaming'].includes(
+    state,
+  );
+  const hasError = Boolean(reason) || stats.degraded === true;
+  let status = 'unverified';
+  let label = 'AIS · not verified';
+  let detail =
+    'AIS availability has not been confirmed. An enabled layer is not proof of live vessel data.';
+  if (stats.enabled === false || state === 'off' || state === 'disabled') {
+    status = 'off';
+    label = 'AIS · off';
+    detail =
+      'The AIS vessel layer is off. Enable it in Layers to check provider availability.';
+  } else if (unavailable.includes(state) || stats.keyRequired === true) {
+    status = 'unavailable';
+    label = 'AIS · unavailable';
+    detail =
+      reason ||
+      'The AIS provider is unavailable. No live vessel positions are confirmed.';
+  } else if (
+    stats.stale === true ||
+    state === 'stale' ||
+    (knownLive && count > 0 && !recent)
+  ) {
+    status = 'stale';
+    label = 'AIS · stale';
+    detail =
+      reason ||
+      'AIS positions are not confirmed current. Cached positions must not be treated as live.';
+  } else if (
+    ['demo', 'replay', 'fallback'].includes(state) ||
+    stats.fallback === true ||
+    stats.demo === true
+  ) {
+    status = 'fallback';
+    label = 'AIS · fallback';
+    detail =
+      reason || 'Fallback or replay vessel positions are not a live AIS feed.';
+  } else if (
+    hasError ||
+    ['degraded', 'reconnecting', 'partial'].includes(state)
+  ) {
+    status = 'degraded';
+    label = 'AIS · degraded';
+    detail =
+      reason ||
+      'The AIS feed is incomplete or interrupted. Live coverage is not confirmed.';
+  } else if (
+    stats.loading === true ||
+    ['loading', 'connecting'].includes(state)
+  ) {
+    status = 'loading';
+    label = 'AIS · checking';
+    detail =
+      'Waiting for accepted AIS vessel positions. No live coverage is confirmed yet.';
+  } else if (knownLive && count > 0 && recent) {
+    status = 'live';
+    label = 'AIS · recent data';
+    detail = `${count} accepted vessel positions were recently updated. Coverage is limited to the provider query area, not global.`;
+  }
+  return { status, label, detail, live: status === 'live' };
+}

@@ -910,3 +910,79 @@ playable clip, no LIVE/RECENT label, TikTok scraper still quota-blocked, YouTube
 download ratio moved (6/7 → 3/12) and its one MP4 is a 225-day ARCHIVAL repost of the cycle-11 4 s clip.
 
 GENERATED_UTC: 2026-10-23T05:24:00Z
+
+
+## Cycle 13 — AOI query submission repair — 2026-10-24T01:38:42.714629+00:00
+
+Continued `feat/scene-video-evidence` from `ffe6d3505f734335df4d6bfca77094df0b65d4d7` in place. Prior preview returned HTTP 410. Original keyboard/click baseline at both viewports reproduced the cause: questions were ingested as unverified operator incidents instead of being searched; the form controls and original OnDemand coordinate extraction themselves worked.
+
+Implemented shared intent/place extraction, registered-geocoder-first lookup and same-origin `/api/ondemand/v2/incidents/search` through existing research contracts. Queries now expose scope, dated sources and distinct partial/unavailable states; they are not ingested. Publication time remains distinct from incident time. Video queries receive the resolved anchor; existing freshness rules unchanged.
+
+Current preview: https://sb-2nei6kyp3xva.vercel.run (`sbx_gvBKmP4qburZYYp7g3EAD8wBWtxw`, port 5173). Final health/root at 01:28:34Z: HTTP 200, configured true/server key, expected title, no framing headers. Runtime-only OnDemand secret transported and removed; no key in source/dist/evidence.
+
+Final source tests: 4,308 pass / 0 fail / 1 skip of 4,309; two additional Node-24 allocation files not run under Node 22. Server suites: 434 pass / 0 fail. Focused sandbox AOI regressions: 60 pass / 0 fail. Build and source/dist secret gates pass. Full sandbox suite did not produce a final summary within the tool cap; not counted as passed.
+
+Final browser matrix 2026-10-24T01:28:34.721Z–2026-10-24T01:34:38.750Z: 94/96 assertions, 6/8 UI cases pass. All 8 submit, locate Burj Khalifa (25.19703,55.27413), search a 5 km / 72 h scope and show an honest unavailable state. TWO MOBILE FAILURES REMAIN: natural query + button, bare place + Enter; `od-plugin__row` overlaps the input/button for long diagnostic results despite measured-height spacing. Three post-change matrices performed; no fourth repair loop. All final live research coverage blocked (409, 499 or provider-reported unavailable), so no no-incident claim is warranted.
+
+Video smoke: mobile muted MP4 readyState 4 advances 4.577753→5.153424 s; desktop sampled an ended clip and advancing playback is unproven. Observed label checks pass. TikTok primary scraper quota-blocked; fallback observed; YouTube still searching at smoke snapshots. ui_validate.py before/after exited 2 with TimeoutError; real Chromium/Puppeteer proof used.
+
+Detailed deliverables at workspace root: `aoi-query-repair-test-report.md`, `aoi-query-repair-sanitized-evidence.json`, selected `aoi-*.png` proof. No remote push/PR/tag claimed. The next fix should investigate plugin-dock descendant overflow/min-size; do not treat this checkpoint as fully passing.
+
+
+## Cycle 14 — initial integration checks — 2026-10-24T02:01:41.592632+00:00
+- Original baseline screenshot/selector check: failed expected missing #scene-library-save, HTTP200, screenshot artifacts captured at1440x900 and375x739.
+- Focused final integration: **200 pass,0 fail** (parser, composer, strict gate, persistence, accessibility, incident server/search).
+- First complete source run:4432 total,4428 pass,3 fail,1 skipped. Three failures came from new mobile CSS exceeding the old fail-closed attribution model. Corrected the stylesheet/model while retaining attribution clearance; focused attribution rerun **13/13** passed. The full rerun outcome is appended at final verification.
+- Production build passed (Vite emits existing large-chunk/dynamic-import warnings, not errors). Source and dist secret scans passed; package-boundary/import gates passed.
+
+### Cycle 14 integrated gates and deployment — 2026-10-24T02:02:49Z
+- Complete source suite:4433 tests,4432 pass,0 fail,1 skip; two additional Node24-calibrated allocation microbenchmarks explicitly not run by the Node22 runner.
+- Server suites:451 tests,451 pass,0 fail. Combined counted tests:4884 total,4883 pass,0 fail,1 skip. Focused200/200 and attribution13/13 are subsets, not added to that total.
+- Source and dist secret scans passed; import directions and package boundaries passed. Local and sandbox production builds succeeded; existing large-chunk and mixed dynamic/static import warnings remain.
+- Existing sandbox reused, not recreated:sbx_gvBKmP4qburZYYp7g3EAD8wBWtxw at https://sb-2nei6kyp3xva.vercel.run. Build reference marina-20261024-a110b5da82e2.
+- Existing app's running ONDEMAND_API_KEY preserved entirely inside the sandbox. Temporary mode0600 file removed before server exec; no container platform key copied and no credential in source export.
+- GET /api/health and GET / both200 at02:02:47–48UTC, configured:true,keySource:server; no X-Frame-Options or CSP header. Added nosniff and strict-origin-when-cross-origin, without weakening authentication.
+- Real post-deploy /locate resolved the exact prompt "Create a waterfront orbit scene around Dubai Marina" to Dubai Marina,25.0786415,55.1352524, through registered geocode_place at02:02:48.864UTC (not cached), 95% location confidence, strict dubai-marina AOI. Bandar Abbas was resolved as IR and denied a scene. These are backend probes, not browser success claims.
+
+
+### Cycle 14 final browser/recording evidence — 2026-10-24T02:32:08.800483+00:00
+
+Final live build reference: **marina-20261024-d6b3cceb0593**, same sandbox/URL as baseline. The save-confirmation reentrancy bug and the mobile sticky-header hit-test obstruction discovered during actual UI testing were fixed, not dismissed. Test-harness-only issues (combined Puppeteer Control+A, textContent paragraph-boundary assertion and Chrome viewport-triggered reload) were corrected separately.
+
+- Latest selected real-browser lanes: **50/50 assertions pass**: desktop8, mobile18, equivalent iframe18, cancellation/retry/external4, existing video2. No page errors in selected suites. Real 375×739 touch input, safe hit targets, drawer tabs, playback containment, save/reload and control-driven camera change passed.
+- Host chat was inaccessible; the iframe test is the existing same-origin `embed-harness.html`, not proof of the host chat itself.
+- Continuous final recording: **16/16 checks pass**, started before typing at2026-10-24T02:29:30.862Z; actual typing began02:29:32.467Z; recording ended02:30:33.190Z. Source viewport375×739; H264 MP4 padded1px right/bottom to376×740,20fps,61.2s,9,716,594bytes. Full local AND published-URL decode passed. No fabricated frames, mocked network or internal-state injection.
+- Exact entered request: `Create a waterfront orbit scene around Dubai Marina`. The scene was named/saved `Dubai Marina — Waterfront Orbit` using visible controls. Browser-local persistence survived a real reload and native selection. This is not a multi-user cloud library.
+- Live incident query retried through actual services: partial coverage, one factual HTTP409 and a second no-results source. No no-incident conclusion was emitted. Video regression latest9clips, allARCHIVAL (YouTube5/TikTok3/Instagram1). An actual proxied Instagram MP4 played muted at readyState4, currentTime22.357901→22.759926. Counts differ from the earlier10clip API probe; no fixed13–14 count assumed.
+- Latest source suite **4435total/4434pass/0fail/1skip**; server451/451pass. Combined4886total/4885pass/0fail/1skip. Two additional Node24 allocation files not run underNode22.
+- Source/dist secret gates pass after documentation:1768/2037textfiles scanned. Every published evidence file returnedHTTP200 and matched its local SHA256; videoContent-Type video/mp4.
+- Published video: https://sb-2nei6kyp3xva.vercel.run/proof/dubai-marina-waterfront-orbit.mp4
+- Published manifest: https://sb-2nei6kyp3xva.vercel.run/proof/dubai-marina-evidence.json
+
+20 actual specialist tasks ran under a five-concurrent-task cap. Eighteen wrote reports; two action-capped read-only tasks did not. Missing start/end timestamps are recorded as null rather than invented. Per-agent task IDs, ownership, partial outcomes and coordinator integration are in the manifest. Existing uncommitted work was preserved; no branch reset, remote push or production deployment was performed.
+
+
+## Cycle 15 — Exact AOI BUILD SCENE repair — 2026-10-24T02:59:34.798087+00:00
+
+Preserved the existing `feat/scene-video-evidence` tree at `ffe6d3505f734335df4d6bfca77094df0b65d4d7`; 71 pre-existing changed/untracked files were hash-manifested and checkpointed before editing. No recovery archive, reset, scaffold or architecture migration. Twenty actual read-only specialist tasks ran; the integration owner alone edited.
+
+Fresh direct-preview baseline: original URL returned HTTP 410. Unchanged source was rebuilt in `sbx_bx0AMF9m7fhl1rahb8TIlEtxtfw2` at `https://sb-2b4qpbcnpg5o.vercel.run`. Native `Dubai Marina` typing and click/touch/Enter reached `/locate` at both 1440x900 and 375x739, with verified geocode 25.0786415,55.1352524. The form wrongly inherited the general parser `incident_search` default, then called unavailable research instead of building any scene. Explicit geographic generation during running Abu Dhabi playback produced a Marina label/anchor but left the camera over Abu Dhabi; LOAD was rejected while playback owned the camera. The original embedded host was not accessible; no host focus/pointer claim is made.
+
+Minimal repair: parser accepts a caller-specific default, and this BUILD SCENE form uses `build_scene` while preserving explicit incident searches and general parser behavior. Pending requests accept replacement AOIs, coalesce duplicates, bound all asynchronous stages, reject stale responses and restore retry controls on timeouts. Invalid JSON becomes an actionable request error. Scene activation stops and awaits prior playback ownership before applying the new AOI. No new provider calls or credentials in client code.
+
+Focused regression result so far: 73 passed / 0 failed. Final full-suite, build, source/dist secret-gate and deployed-browser results are appended below only after those runs. Evidence log: `aoi-rebuild-evidence.json` in this turn. Browser screenshots and traces carry `aoi-before-*` / `aoi-after-*` labels; recordings are direct compositor streams, not image slideshows.
+
+### Cycle 15 fresh gates — 2026-10-24T03:08:14.003871+00:00
+
+- Full source suite after the target-framing correction: 4,453 tests / 4,452 passed / 0 failed / 1 existing skipped. Eighteen new regression tests cover the exact AOI default, replacement/cancellation/deadline paths, malformed response and geographic camera targeting.
+- Server suites: 451 passed / 0 failed. The 14 calibrated allocation checks were run separately on actual Node v24.22.1 and all passed (the Node22 runner skips those two files by design). Combined: 4,918 test cases, 4,917 passed, 0 failed, 1 existing skipped.
+- `node --check` for changed runtime modules and the new QA harness passed. There is no TypeScript/typecheck script in this JavaScript app. Import/package/brand boundary gates passed. Production build completed both locally and in the sandbox; existing large-chunk warnings remain.
+- Source/dist secret gates passed. Exact restored OnDemand key bytes were also absent from source, public assets and dist. The live key remains server-only, outside the exported .env; its temporary sandbox file is deleted before starting. Sanitized source therefore intentionally requires its own key for live research after a new restart.
+
+### Cycle 15 final direct-preview verification — 2026-10-24T03:12:18.451926+00:00
+
+- Core native browser suite: **20/20 passed**, 2026-10-24T03:05:56.933Z to 2026-10-24T03:08:42.955Z, at **1440×900 and 375×739**. Each viewport typed exact `Dubai Marina`, submitted by Enter and real BUILD SCENE click/touch, built Abu Dhabi between Marina builds, rebuilt during active playback, injected a separately labelled HTTP503, and recovered through a real `/locate` request. No successful response was mocked and no input value was set through JavaScript.
+- Additional clear-map suite: **20/20 passed**, 2026-10-24T03:09:39.266Z to 2026-10-24T03:12:01.386Z. Side panels were collapsed through their own native controls. The actual anchor foreground hit-test was CANVAS at both viewports, and ready rendered imagery tiles covered the real geocode. Final Marina ground centers were approximately 17.7m from 25.0786415,55.1352524. This is ground geometry and actual raster imagery, not just a toast or label.
+- Continuous compositor recordings: core 48.6s and clear-map 52.4s, source viewport375×739, encoded376×740 (one-pixel padding for H264). Both full-stream ffmpeg decodes passed. PNGs and Chrome traces are under workspace `.ui-proof/`; all download links, UTC events, source hashes, and twenty actual read-only task IDs are in `aoi-rebuild-evidence.json`.
+- Original URL returned410; unchanged source was restored before edits. Native typing itself worked, but BUILD SCENE routed bare locations to research and active playback could retain the old camera. The stock ui-validator final attempt returned `TimeoutError: timed out` after HTTP200 and provided no final screenshots; it is not counted as passing. The independent real Chromium suites provide the proof. Actual embedded-host focus/iframe/pointer behavior and on-device virtual keyboards remain untested.
+- Current preview: https://sb-2b4qpbcnpg5o.vercel.run; sandbox sbx_bx0AMF9m7fhl1rahb8TIlEtxtfw2; port5173; buildReference `aoi-rebuild-20261024-2ad171fc8c42`. Health was200 with configured:true/keySource:server. Server temporary key file was removed before start; no credentials are in deliverables.

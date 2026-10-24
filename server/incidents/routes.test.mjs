@@ -15,6 +15,7 @@ import {
   __resetSeedForTests,
 } from './routes.js';
 import { seedIncidents } from './seed.js';
+import { resolveIncidentGate } from '../../src/aoi/sceneGate.js';
 
 const index = getAoiIndex();
 
@@ -123,7 +124,7 @@ describe('/incidents routes', () => {
     assert.equal(status, 200);
     assert.ok(body.count >= 30);
     assert.ok(
-      body.scene_count >= 10 && body.scene_count < body.count,
+      body.scene_count > 0 && body.scene_count < body.count,
       `clustered: ${body.scene_count}/${body.count}`,
     );
     assert.ok(body.rejected.count >= 15);
@@ -134,10 +135,9 @@ describe('/incidents routes', () => {
         (s) => s.keyframes.length === 3 && s.markers.length >= 1,
       ),
     );
-    const aden = body.scenes.find((s) =>
-      s.incident_ids.includes('presence-aden'),
-    );
-    assert.ok(aden.evidence.length >= 1, 'Aden carries PlanetScope evidence');
+    assert.ok(body.incidents.some((i) => i.id === 'presence-aden'), 'Aden remains available as external context');
+    assert.ok(!body.scenes.some((s) => s.incident_ids.includes('presence-aden')), 'Aden is never playable');
+    assert.ok(body.scenes.every((s) => resolveIncidentGate(s.title, s.keyframes[0]).allowed));
   });
 
   test('GET /list?aoi=yemen narrows to that AOI', async () => {
@@ -154,8 +154,8 @@ describe('/incidents routes', () => {
     const inc = {
       title: 'Vessel boarded east of Fujairah',
       category: 'vessel_seizure',
-      lat: 25.2,
-      lon: 56.6,
+      lat: 25.2369,
+      lon: 56.3417,
       time_utc: '2026-10-22T08:00:00Z',
       sources: [{ url: 'https://example.org/x' }],
     };
@@ -269,7 +269,7 @@ describe('/incidents routes', () => {
     assert.equal(ovr.body.inserted[0].override, true);
   });
 
-  test('POST /locate: single gazetteer candidate inside AOI', async () => {
+  test('POST /locate: foreign gazetteer candidate is external context only', async () => {
     const { status, body } = await run(handler, {
       url: '/incidents/locate',
       method: 'POST',
@@ -280,8 +280,8 @@ describe('/incidents routes', () => {
     });
     assert.equal(status, 200);
     assert.equal(body.candidates[0].name, 'Hodeidah');
-    assert.equal(body.candidates[0].aoi_membership.inside, true);
-    assert.match(body.candidates[0].reason, /^IN_AOI/);
+    assert.equal(body.candidates[0].aoi_membership.inside, false);
+    assert.match(body.candidates[0].reason, /^OUT_OF_SCENE_AOI/);
   });
 
   test('POST /locate: Paris is a candidate but out of AOI with reason', async () => {
@@ -292,7 +292,7 @@ describe('/incidents routes', () => {
     });
     assert.equal(body.candidates[0].name, 'Paris');
     assert.equal(body.candidates[0].aoi_membership.inside, false);
-    assert.match(body.candidates[0].reason, /^OUT_OF_AOI: nearest AOI .+ km$/);
+    assert.match(body.candidates[0].reason, /^OUT_OF_SCENE_AOI/);
   });
 
   test('POST /refresh without OnDemand configured reports skipped sources and keeps the ledger', async () => {
@@ -310,7 +310,7 @@ describe('/incidents routes', () => {
   test('unknown sub-route → 404 with the route list', async () => {
     const { status, body } = await run(handler, { url: '/incidents/' });
     assert.equal(status, 404);
-    assert.ok(body.routes.length === 5);
+    assert.ok(body.routes.length === 6);
   });
 });
 
@@ -375,8 +375,8 @@ describe('plugin-mediated refresh + locate (fake OnDemand client)', () => {
     assert.equal(out.candidates[0].source, 'geocode_place');
     assert.equal(
       out.candidates[0].aoi_membership.inside,
-      true,
-      'Sohar is inside the Gulf of Oman box',
+      false,
+      'Sohar is foreign context, not a UAE playable scene',
     );
   });
   test('locateText merges same-place candidates from different sources', async () => {
@@ -415,4 +415,71 @@ describe('plugin-mediated refresh + locate (fake OnDemand client)', () => {
     assert.equal(a, b);
     assert.equal(await s.size('shared'), a.accepted);
   });
+});
+
+test('locate geocodes the extracted place, not the natural-language query', async () => {
+  const queries = [];
+  const result = await locateText(
+    'burj khalifa check if there is any incidents',
+    {
+      index,
+      useOnDemand: false,
+      toolInvoker: async (_contract, args) => {
+        queries.push(args.q);
+        return {
+          ok: true,
+          data: {
+            candidates: [
+              {
+                formatted_address: 'Burj Khalifa, Dubai',
+                geometry: { location: { lat: 25.1972, lng: 55.2744 } },
+              },
+            ],
+          },
+        };
+      },
+    },
+  );
+  assert.deepEqual(queries, ['burj khalifa']);
+  assert.equal(result.extraction.intent, 'incident_search');
+  assert.equal(result.candidates[0].lat, 25.1972);
+  assert.equal(result.candidates[0].verified, true);
+});
+test('unavailable geocoder is reported as unavailable rather than no places', async () => {
+  const result = await locateText('Burj Khalifa', {
+    index,
+    useOnDemand: false,
+    toolInvoker: async () => {
+      throw new Error('unit-test lookup unavailable');
+    },
+  });
+  assert.equal(result.status, 'unavailable');
+  assert.equal(result.candidates.length, 0);
+});
+test('scoped search route returns missing-credentials coverage without writing an incident', async () => {
+  const handler = createIncidentRoutes({
+    searchOptions: { configured: false },
+  });
+  const out = await run(handler, {
+    url: '/incidents/search',
+    method: 'POST',
+    body: {
+      text: 'Burj Khalifa',
+      externalUserId: 'unit-test-search',
+      candidate: {
+        name: 'Burj Khalifa',
+        lat: 25.1972,
+        lon: 55.2744,
+        source: 'geocode_place',
+      },
+    },
+  });
+  assert.equal(out.status, 200);
+  assert.equal(out.body.status, 'unavailable');
+  assert.deepEqual(out.body.reports, []);
+  assert.ok(
+    out.body.sources.every(
+      (source) => source.error === 'ondemand_not_configured',
+    ),
+  );
 });

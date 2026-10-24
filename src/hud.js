@@ -790,6 +790,9 @@ export class IntelHUD {
   }
 
   _setSummaryText(text, animate) {
+    // An enabled toggle is not evidence of live/global AIS coverage. Keep the
+    // generic generated HUD summary conservative; the Layers badge owns health.
+    text = String(text || '').replace(/\blive\s+ais\s+vessels/gi, 'AIS availability unverified').replace(/\bglobal\s+context\b/gi, 'map context');
     if (animate) {
       this._typeSummary(text);
       return;
@@ -808,7 +811,7 @@ export class IntelHUD {
       this._dataManager
         ?.getAll?.()
         ?.filter((layer) => layer.enabled)
-        .map((layer) => layer.name) || [];
+        .map((layer) => layer.id === 'ais-live-vessels' ? 'AIS vessels (availability not established by toggle)' : layer.name) || [];
     return {
       placeLabels: labels.placeLabels,
       streetLabels: labels.streetLabels,

@@ -1,28 +1,7 @@
 import { PRODUCT_NAME } from './brand/productName.js';
-/**
- * Serverless-deployment notice banner.
- *
- * `VITE_SERVERLESS_MODE` is a Vite build-time flag (set for the build the
- * Vercel deployment runs — see vercel.json's `buildCommand`). When it is on,
- * a couple of features that need a persistent server process instead of a
- * Vercel Function — the live-vessel AISStream relay
- * (src/sources/live/standalone.js `createAisStreamSource`) —
- * is short-circuited at its source rather than left to
- * fail per-request against an endpoint that can only ever answer 501
- * (see server/serverless/app.js). Voice control is routed through OnDemand.
- * This module is the user-visible half
- * of that: a small, dismissible, non-blocking banner naming what is off.
- *
- * Deliberately imported ONLY from src/main.js. Nothing else in the app
- * reaches this module, so it never has to satisfy
- * scripts/check-import-directions.mjs's portable-export / browser-global
- * rules for any Node-reachable graph (package.json's `exports` map has no
- * entry pointing here) — see that script's `portableExport` roots.
- */
+import { describeAisAvailability } from './hudSummaryResponse.js';
 
-const DISMISSED_KEY = 'gev.serverlessNoticeDismissed';
-
-/** True only in a build produced with VITE_SERVERLESS_MODE=true (see vercel.json). */
+/** True only in a build produced with VITE_SERVERLESS_MODE=true. */
 function isServerlessBuild() {
   return ['true', '1', 'yes'].includes(
     String(import.meta.env?.VITE_SERVERLESS_MODE ?? '').toLowerCase(),
@@ -30,79 +9,109 @@ function isServerlessBuild() {
 }
 
 /**
- * Inject the notice banner, once, when this is a serverless build. No-op
- * (returns null) otherwise, or if the visitor already dismissed it this
- * session.
- * @param {Document} [doc]
- * @returns {HTMLElement|null}
+ * Compact, closed-by-default availability disclosure, never a dismiss-and-forget
+ * warning. Prefer the Layers rail; the small floating fallback lasts only until
+ * that asynchronously mounted rail exists. Serverless alone proves neither
+ * that AIS works nor that it is unavailable (a snapshot collector may exist).
+ *
+ * getAisStats is optional and must return actual provider/accepted-data stats.
+ * Without it, rendered layer health can report failures but cannot prove live.
  */
-function installServerlessNotice(doc = document) {
-  if (!isServerlessBuild()) return null;
-  try {
-    if (window.sessionStorage?.getItem(DISMISSED_KEY) === '1') return null;
-  } catch {
-    /* storage may be unavailable (private browsing); show the notice anyway */
-  }
+function installServerlessNotice(
+  doc = globalThis.document,
+  { serverless = isServerlessBuild(), getAisStats } = {},
+) {
+  if (!serverless || !doc?.createElement) return null;
+  const existing = doc.querySelector?.('[data-gev-serverless-notice]');
+  if (existing) return existing;
 
-  const banner = doc.createElement('div');
-  banner.setAttribute('role', 'status');
+  const banner = doc.createElement('details');
+  banner.className = 'serverless-notice';
   banner.setAttribute('data-gev-serverless-notice', '');
-  // Stacking: the notice is informational and must never intercept input
-  // meant for the ASK ONDEMAND panels (#ondemand-mini-chat z-index 186,
-  // #ondemand-entity-chat 185, src/ui/styles/ondemand-chat.css) or the key
-  // setup dialog (190). It used to sit at z-index 2147483000, which at
-  // 390×844 covered the mini chat's composer (input + SEND) so real taps never
-  // reached it (sandbox-verify-2026-10-21/retry-0917, agents 1–3). It now
-  // stacks BELOW those surfaces; when a chat panel is open the banner is
-  // hidden outright (see `syncWithChatPanels`) and comes back once it closes.
-  banner.style.cssText = [
-    'position:fixed',
-    'left:12px',
-    'right:12px',
-    'bottom:12px',
-    'z-index:180',
-    'max-width:640px',
-    'margin:0 auto',
-    'padding:10px 14px',
-    'border-radius:8px',
-    'background:rgba(20,20,24,0.92)',
-    'color:#f2f2f2',
-    'font:13px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif',
-    'box-shadow:0 4px 18px rgba(0,0,0,0.35)',
-    'display:flex',
-    'align-items:flex-start',
-    'gap:10px',
-  ].join(';');
-
-  const text = doc.createElement('span');
-  text.style.cssText = 'flex:1 1 auto';
-  text.textContent =
-    `${PRODUCT_NAME} is running as a serverless deployment: live vessels ` +
-    '(AISStream relay) need a persistent server and are turned off here. ' +
-    'Voice control is available through OnDemand.';
-  banner.appendChild(text);
-
-  const dismiss = doc.createElement('button');
-  dismiss.type = 'button';
-  dismiss.setAttribute('aria-label', 'Dismiss');
-  dismiss.textContent = '\u00d7';
-  dismiss.style.cssText =
-    'flex:0 0 auto;background:transparent;border:0;color:inherit;' +
-    'font-size:16px;line-height:1;cursor:pointer;padding:0 2px';
-  dismiss.addEventListener('click', () => {
-    banner.remove();
-    banner.dispatchEvent?.(new Event('gev:serverless-notice-dismissed'));
-    try {
-      window.sessionStorage?.setItem(DISMISSED_KEY, '1');
-    } catch {
-      /* ignore */
-    }
-  });
-  banner.appendChild(dismiss);
-
+  banner.setAttribute('aria-label', 'AIS availability details');
+  banner.open = false;
+  banner.style.cssText =
+    'position:fixed;left:12px;bottom:12px;z-index:100;' +
+    'max-width:calc(100vw - 24px);width:20rem;box-sizing:border-box;' +
+    'max-height:40vh;overflow:auto;padding:8px 12px;border-radius:6px;' +
+    'background:#141418;color:#f2f2f2;font:12px/1.45 system-ui,sans-serif';
+  const summary = doc.createElement('summary');
+  summary.style.cursor = 'pointer';
+  const badge = doc.createElement('span');
+  badge.setAttribute('role', 'status');
+  badge.setAttribute('aria-live', 'polite');
+  badge.setAttribute('aria-atomic', 'true');
+  summary.appendChild(badge);
+  const explanation = doc.createElement('p');
+  const deployment = doc.createElement('p');
+  deployment.textContent = `${PRODUCT_NAME} is running serverlessly. AIS depends on the configured provider and accepted data; serverless mode does not imply live or global coverage. Layer controls and provider details remain available in Layers.`;
+  banner.append(summary, explanation, deployment);
   (doc.body || doc.documentElement).appendChild(banner);
-  const stopSync = syncWithChatPanels(banner, doc);
-  banner.addEventListener('gev:serverless-notice-dismissed', stopSync, {
+
+  let stopped = false;
+  let inline = false;
+  const setText = (node, text) => {
+    if (node && node.textContent !== text) node.textContent = text;
+  };
+  const sync = () => {
+    if (stopped) return;
+    const host = doc.querySelector?.('#data-panel .data-panel-inner');
+    if (host && banner.parentNode !== host) {
+      host.appendChild(banner);
+      inline = true;
+      banner.classList.add('serverless-notice--inline');
+      banner.style.position = 'static';
+      banner.style.width = 'auto';
+      banner.style.margin = '8px 0';
+    }
+    // Keep the feature name neutral even before the first request completes.
+    // Only presentation changes: preserve toggle/ASK controls and listeners.
+    const row = doc.querySelector?.('[data-layer-id="ais-live-vessels"]');
+    setText(row?.querySelector?.('.data-name'), 'AIS vessels');
+    const toggle = row?.querySelector?.('.data-toggle-btn');
+    const renderedState = toggle?.dataset?.feedState || row?.dataset?.feedState;
+    const stats =
+      typeof getAisStats === 'function'
+        ? getAisStats()
+        : {
+            feedState: renderedState,
+            enabled: renderedState === 'off' ? false : undefined,
+            error: ['unavailable', 'degraded', 'stale', 'fallback'].includes(
+              renderedState,
+            )
+              ? row?.querySelector?.('.data-toggle-meta')?.textContent
+              : undefined,
+          };
+    const availability = describeAisAvailability(stats || {});
+    setText(badge, availability.label);
+    setText(explanation, availability.detail);
+    if (banner.dataset.aisStatus !== availability.status)
+      banner.dataset.aisStatus = availability.status;
+    const hidden = !inline && chatPanelOpen(doc);
+    if (banner.hidden !== hidden) banner.hidden = hidden;
+  };
+  sync();
+  const Observer =
+    doc.defaultView?.MutationObserver || globalThis.MutationObserver;
+  const observer = typeof Observer === 'function' ? new Observer(sync) : null;
+  observer?.observe(doc.body || doc.documentElement, {
+    subtree: true,
+    childList: true,
+    characterData: true,
+    attributes: true,
+    attributeFilter: ['data-feed-state', 'data-open', 'hidden'],
+  });
+  // Attribute/text writes are conditional so observing the disclosure itself
+  // settles after a change instead of spinning a MutationObserver feedback loop.
+  const destroy = () => {
+    if (stopped) return;
+    stopped = true;
+    observer?.disconnect();
+    banner.remove();
+  };
+  banner.destroy = destroy;
+  banner.update = sync;
+  banner.addEventListener('gev:serverless-notice-dismissed', destroy, {
     once: true,
   });
   return banner;

@@ -1,32 +1,29 @@
 /**
- * Bottom incident composer — fixed input "Type an incident…" on desktop and
- * mobile. Submit → status chips (locating → verifying AOI → building scene)
- * → POST /locate → candidate picker when ambiguous → OUT_OF_AOI reason +
- * "Add anyway (override)" → scene built + flown + auto-played + persisted via
- * the session-scoped /ingest route + added to the scene list.
- *
- * Layout: it sits ABOVE the command dock / serverless banner stack (bottom
- * offset computed in incidents.css) and never overlaps the plugin dock or the
- * mini chat (both right-anchored; the composer is centred and max 640px).
- *
- * `createIncidentComposer` is pure DOM over an injected document so the
- * state machine is unit-testable without a browser.
+ * Abortable incident search / scene composer. Geography-only scene requests
+ * never enter the incident ledger; out-of-AOI candidates are external context.
+ * Async integrations receive a signal and must honour it before side effects.
  */
 import {
   COMPOSER_STEPS,
   planFromCandidates,
   incidentFromText,
 } from '../client.js';
+import { parseIncidentQuery } from '../query.js';
 
 export const COMPOSER_ID = 'incident-composer';
 export const COMPOSER_PLACEHOLDER = 'Type an incident…';
 
 export function createIncidentComposer({
   document = globalThis.document,
+  ResizeObserver: ResizeObserverImpl = globalThis.ResizeObserver,
   client,
   onScene,
   onStatus,
+  onLocated,
+  onExternal,
   buildScene,
+  createGeographicScene,
+  requestTimeoutMs = 75_000,
 } = {}) {
   const root = document.createElement('form');
   root.id = COMPOSER_ID;
@@ -37,6 +34,7 @@ export function createIncidentComposer({
     'Type an incident to locate it and build a scene',
   );
   root.setAttribute('data-state', 'idle');
+  root.setAttribute('aria-busy', 'false');
 
   const row = document.createElement('div');
   row.className = 'incident-composer__row';
@@ -58,7 +56,19 @@ export function createIncidentComposer({
   submit.id = `${COMPOSER_ID}-submit`;
   submit.className = 'incident-composer__submit';
   submit.textContent = 'BUILD SCENE';
-  row.append(icon, input, submit);
+  const cancelButton = document.createElement('button');
+  cancelButton.type = 'button';
+  cancelButton.id = `${COMPOSER_ID}-cancel`;
+  cancelButton.className = 'incident-composer__submit';
+  cancelButton.textContent = 'Cancel';
+  cancelButton.hidden = true;
+  const retry = document.createElement('button');
+  retry.type = 'button';
+  retry.id = `${COMPOSER_ID}-retry`;
+  retry.className = 'incident-composer__submit';
+  retry.textContent = 'Retry';
+  retry.hidden = true;
+  row.append(icon, input, submit, cancelButton, retry);
 
   const chips = document.createElement('div');
   chips.className = 'incident-composer__chips';
@@ -68,7 +78,23 @@ export function createIncidentComposer({
   result.className = 'incident-composer__result';
   result.id = `${COMPOSER_ID}-result`;
   result.hidden = true;
+  result.setAttribute('aria-live', 'polite');
   root.append(row, chips, result);
+
+  const layoutHost = document.documentElement || document.body;
+  const updateStackHeight = () => {
+    const height = root.getBoundingClientRect?.().height;
+    if (height > 0)
+      layoutHost?.style?.setProperty?.(
+        '--incident-composer-height',
+        `${Math.ceil(height)}px`,
+      );
+  };
+  const resizeObserver =
+    typeof ResizeObserverImpl === 'function'
+      ? new ResizeObserverImpl(updateStackHeight)
+      : null;
+  resizeObserver?.observe(root);
 
   const state = {
     busy: false,
@@ -78,27 +104,96 @@ export function createIncidentComposer({
     lastPlan: null,
     lastScene: null,
     abort: null,
+    extraction: null,
+    lastSearch: null,
+    generation: 0,
   };
+  let destroyed = false;
+  let activeRun = null;
 
+  function current(run) {
+    return (
+      !destroyed &&
+      activeRun === run &&
+      run?.id === state.generation &&
+      !run.signal?.aborted
+    );
+  }
+  function checkCurrent(run) {
+    if (!current(run)) {
+      const error = new Error('Request cancelled.');
+      error.name = 'AbortError';
+      throw error;
+    }
+  }
+  // Bound every asynchronous stage, including adapters that ignore abort.
+  // The caller publishes the timeout before aborting so it remains an error,
+  // not a misleading user-cancelled result. Late stages cannot publish.
+  async function bounded(run, work) {
+    let timer;
+    let aborted;
+    try {
+      return await Promise.race([
+        Promise.resolve(work()),
+        new Promise((_, reject) => {
+          const timeout = Number(requestTimeoutMs);
+          timer = setTimeout(() => {
+            const error = new Error('Request timed out. Retry or edit the AOI and build again.');
+            error.name = 'TimeoutError';
+            reject(error);
+          }, Number.isFinite(timeout) && timeout > 0 ? timeout : 75_000);
+          aborted = () => {
+            const error = new Error('Request cancelled.');
+            error.name = 'AbortError';
+            reject(error);
+          };
+          run.signal?.addEventListener('abort', aborted, { once: true });
+          if (run.signal?.aborted) aborted();
+        }),
+      ]);
+    } finally {
+      clearTimeout(timer);
+      run.signal?.removeEventListener('abort', aborted);
+    }
+  }
+  function setBusy(busy) {
+    state.busy = busy;
+    // Keep a replacement request editable and submittable while work is pending.
+    // Identical duplicate submits are coalesced in submitText instead.
+    submit.disabled = false;
+    retry.disabled = busy;
+    cancelButton.hidden = !busy;
+    root.setAttribute('aria-busy', String(busy));
+    updateStackHeight();
+  }
   function setChips(active, { error = false, done = false } = {}) {
     chips.replaceChildren();
-    for (const step of COMPOSER_STEPS) {
+    for (const item of state.extraction?.intent === 'incident_search'
+      ? [
+          ...COMPOSER_STEPS.slice(0, 2),
+          { id: 'searching', label: 'searching sources' },
+        ]
+      : COMPOSER_STEPS) {
       const chip = document.createElement('span');
       chip.className = 'incident-composer__chip';
-      chip.dataset.step = step.id;
-      const status = state.steps[step.id] || 'pending';
-      chip.dataset.status = status;
-      chip.textContent = step.label;
+      chip.dataset.step = item.id;
+      chip.dataset.status = state.steps[item.id] || 'pending';
+      chip.textContent = item.label;
       chips.appendChild(chip);
     }
-    if (error) root.setAttribute('data-state', 'error');
-    else if (done) root.setAttribute('data-state', 'done');
-    else root.setAttribute('data-state', active ? 'busy' : 'idle');
+    root.setAttribute(
+      'data-state',
+      error ? 'error' : done ? 'done' : active ? 'busy' : 'idle',
+    );
+    updateStackHeight();
   }
-  function step(id, status) {
+  function step(id, status, run) {
+    checkCurrent(run);
+    if (status === 'active') run.stage = id;
     state.steps[id] = status;
     setChips(true);
     onStatus?.({ step: id, status });
+    checkCurrent(run);
   }
   function resetSteps() {
     state.steps = {};
@@ -108,10 +203,12 @@ export function createIncidentComposer({
   function showResult(node) {
     result.replaceChildren(node);
     result.hidden = false;
+    updateStackHeight();
   }
   function hideResult() {
     result.replaceChildren();
     result.hidden = true;
+    updateStackHeight();
   }
   function message(text, kind = 'info') {
     const p = document.createElement('p');
@@ -119,7 +216,55 @@ export function createIncidentComposer({
     p.textContent = text;
     return p;
   }
-
+  function markActive(status) {
+    for (const id of Object.keys(state.steps))
+      if (state.steps[id] === 'active') state.steps[id] = status;
+  }
+  function cancelRequest() {
+    if (!state.busy || destroyed) return false;
+    // Invalidate first: even a transport/callback that ignores AbortSignal may
+    // resolve later, but it cannot publish into this or a newer submission.
+    state.generation += 1;
+    activeRun = null;
+    state.abort?.abort();
+    state.lastScene = null;
+    state.lastSearch = null;
+    markActive('cancelled');
+    setChips(false);
+    root.setAttribute('data-state', 'cancelled');
+    retry.hidden = false;
+    showResult(message('Cancelled. No further results will be applied.'));
+    const WindowEvent = document.defaultView?.CustomEvent || globalThis.CustomEvent;
+    if (WindowEvent) document.defaultView?.dispatchEvent?.(new WindowEvent('gev:incident-command-cancelled'));
+    setBusy(false);
+    return true;
+  }
+  function failed(error, run) {
+    if (destroyed || run?.id !== state.generation) return;
+    if (run.signal?.aborted || error?.name === 'AbortError') {
+      cancelRequest();
+      return;
+    }
+    markActive('error');
+    const detail = error?.message || String(error);
+    const text =
+      run.stage === 'locating'
+        ? `Locate failed: ${detail}`
+        : run.extraction?.intent === 'incident_search'
+          ? `Request failed: ${detail}. No conclusion about incidents can be drawn.`
+          : `Scene request failed: ${detail}`;
+    showResult(message(text, 'error'));
+    retry.hidden = false;
+    setChips(false, { error: true });
+    if (error?.name === 'TimeoutError') {
+      // Invalidate before abort: a late callback cannot replace this error or
+      // the next request's scene, even if it ignores AbortSignal.
+      state.generation += 1;
+      activeRun = null;
+      state.abort?.abort();
+      setBusy(false);
+    }
+  }
   function candidateRow(candidate, onChoose) {
     const btn = document.createElement('button');
     btn.type = 'button';
@@ -135,175 +280,360 @@ export function createIncidentComposer({
     return btn;
   }
 
-  async function build(candidate, { override = false } = {}) {
-    step(
-      'verifying',
-      candidate.aoi_membership?.inside || override ? 'done' : 'error',
-    );
-    step('building', 'active');
-    const raw = incidentFromText(state.text, candidate, { override });
-    let ingest;
-    try {
-      ingest = await client.ingest(raw, { signal: state.abort?.signal });
-    } catch (err) {
-      step('building', 'error');
-      showResult(
-        message(`Could not persist the incident: ${err.message}`, 'error'),
+  function geographicOnly(run) {
+    const extraction = run.extraction;
+    if (extraction?.intent !== 'build_scene') return false;
+    // Prefer the shared parser's metadata; the fallback preserves compatibility
+    // with older /locate extraction payloads that only expose intent/place.
+    const describesEvent =
+      extraction.hasEventDescription ??
+      extraction.describesEvent ??
+      /\b(?:crash|collision|accident|fire|explosion|strike|rupture|incursion|flood|attack|bomb|threat|hotspot|seizure|protest)\b/i.test(
+        run.text,
       );
-      setChips(false, { error: true });
-      return null;
-    }
-    const inserted = ingest?.inserted?.[0] || ingest?.existing?.[0] || null;
-    let scene = ingest?.scenes?.[0] || null;
-    // Same category/cell/6h bucket already in the ledger → the server hands
-    // back that incident (`existing`) and its scene; reuse them.
-    const reused = !ingest?.inserted?.length && ingest?.duplicates?.length > 0;
-    if (!reused && !inserted && ingest?.rejected?.length) {
-      step('building', 'error');
-      showResult(message(ingest.rejected[0].reason, 'error'));
-      setChips(false, { error: true });
-      return null;
-    }
-    if (!scene && inserted && typeof buildScene === 'function')
-      scene = buildScene([inserted]);
-    if (!scene) {
-      step('building', 'error');
-      showResult(
-        message('No scene could be built from this incident.', 'error'),
-      );
-      setChips(false, { error: true });
-      return null;
-    }
-    if (override)
-      scene = { ...scene, override: true, reason: candidate.reason };
-    state.lastScene = scene;
-    step('building', 'done');
+    return !describesEvent;
+  }
+  function sceneSuccess(payload, run, reused = false) {
+    checkCurrent(run);
+    state.lastScene = payload.scene;
+    step('building', 'done', run);
     setChips(false, { done: true });
-    showResult(
+    const wrap = document.createElement('div');
+    wrap.append(
       message(
-        reused
-          ? `An equivalent incident is already in the ledger (same place, category and 6 h window) — reusing scene "${scene.title}" at ${candidate.name} and playing it.`
-          : `Scene "${scene.title}" built at ${candidate.name} — playing.`,
+        `${reused ? 'Existing scene ready' : 'Scene generated'} at ${payload.candidate.name}.`,
         'ok',
       ),
     );
+    const play = document.createElement('button');
+    play.type = 'button';
+    play.id = `${COMPOSER_ID}-play`;
+    play.className = 'incident-composer__submit';
+    play.textContent = 'Play';
+    play.addEventListener('click', () => {
+      if (!current(run) || state.busy) return;
+      void replayScene(payload, run, reused);
+    });
+    wrap.append(play);
+    showResult(wrap);
+  }
+  async function replayScene(payload, run, reused) {
+    setBusy(true);
+    retry.hidden = true;
     try {
-      await onScene?.({
-        scene,
-        incident: inserted || null,
-        candidate,
-        override,
-        ingest,
-      });
-    } catch (err) {
-      showResult(
-        message(
-          `Scene built but playback failed: ${err?.message || err}`,
-          'error',
-        ),
-      );
+      checkCurrent(run);
+      step('building', 'active', run);
+      await bounded(run, () => onScene?.({ ...payload, play: true }));
+      checkCurrent(run);
+      sceneSuccess(payload, run, reused);
+    } catch (error) {
+      failed(error, run);
+    } finally {
+      if (current(run)) setBusy(false);
     }
+  }
+  async function build(candidate, run) {
+    step('verifying', 'done', run);
+    step('building', 'active', run);
+    let scene,
+      inserted = null,
+      ingest = null,
+      reused = false;
+    const geographic = geographicOnly(run);
+    if (geographic) {
+      if (typeof createGeographicScene !== 'function')
+        throw new Error('Geographic scene creation is unavailable.');
+      scene = await createGeographicScene({
+        candidate,
+        extraction: run.extraction,
+        text: run.text,
+        signal: run.signal,
+      });
+      checkCurrent(run);
+    } else {
+      const raw = incidentFromText(run.text, candidate);
+      ingest = await client.ingest(raw, { signal: run.signal });
+      checkCurrent(run);
+      inserted = ingest?.inserted?.[0] || ingest?.existing?.[0] || null;
+      scene = ingest?.scenes?.[0] || null;
+      reused = !ingest?.inserted?.length && ingest?.duplicates?.length > 0;
+      if (!reused && !inserted && ingest?.rejected?.length) {
+        if (/OUT_OF_AOI/i.test(ingest.rejected[0].reason || ''))
+          return externalContext(
+            { ...candidate, reason: ingest.rejected[0].reason },
+            run,
+          );
+        throw new Error(ingest.rejected[0].reason || 'Incident rejected.');
+      }
+      if (!scene && inserted && typeof buildScene === 'function') {
+        scene = await buildScene([inserted], { signal: run.signal });
+        checkCurrent(run);
+      }
+    }
+    if (!scene) throw new Error('No scene could be built from this request.');
+    checkCurrent(run);
+    const payload = {
+      scene,
+      incident: inserted,
+      candidate,
+      override: false,
+      ingest,
+      extraction: run.extraction,
+      text: run.text,
+      signal: run.signal,
+      generation: run.id,
+      source: geographic ? 'geographic' : 'incident',
+    };
+    await onScene?.(payload);
+    checkCurrent(run);
+    sceneSuccess(payload, run, reused);
     return scene;
   }
 
-  function offerOverride(candidate) {
-    const wrap = document.createElement('div');
-    wrap.className = 'incident-composer__reject';
-    wrap.append(message(candidate.reason || 'OUT_OF_AOI', 'error'));
-    const hint = message(
-      `"${candidate.name}" is outside the configured UAE areas of interest. Scenes are restricted to the AOI unless you override.`,
-      'info',
-    );
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.id = `${COMPOSER_ID}-override`;
-    btn.className = 'incident-composer__override';
-    btn.textContent = 'Add anyway (override)';
-    btn.addEventListener('click', () => {
-      hideResult();
-      void build(candidate, { override: true });
+  async function searchAt(candidate, run) {
+    step('verifying', 'done', run);
+    step('searching', 'active', run);
+    await onLocated?.({
+      candidate,
+      extraction: run.extraction,
+      text: run.text,
+      signal: run.signal,
     });
-    wrap.append(hint, btn);
+    checkCurrent(run);
+    showResult(
+      message(
+        `Searching sources within 5 km of ${candidate.name} (${candidate.lat.toFixed(5)}, ${candidate.lon.toFixed(5)})…`,
+      ),
+    );
+    const out = await client.search(run.text, candidate, {
+      signal: run.signal,
+    });
+    checkCurrent(run);
+    if (
+      !out ||
+      !['complete', 'empty', 'partial', 'unavailable'].includes(out.status) ||
+      !out.scope ||
+      !Array.isArray(out.reports)
+    )
+      throw new Error(
+        'Invalid incident-search response; coverage could not be verified.',
+      );
+    state.lastSearch = out;
+    const wrap = document.createElement('section');
+    wrap.className = 'incident-composer__search';
+    wrap.setAttribute('aria-label', 'Scoped incident search results');
+    wrap.dataset.searchStatus = out.status;
+    wrap.dataset.lat = String(out.scope.lat);
+    wrap.dataset.lon = String(out.scope.lon);
+    wrap.dataset.intent = 'incident_search';
+    wrap.append(
+      message(
+        `${out.scope.place} · ${out.scope.lat.toFixed(5)}, ${out.scope.lon.toFixed(5)} · within ${out.scope.radiusKm} km`,
+        'ok',
+      ),
+    );
+    wrap.append(
+      message(
+        `${out.scope.startUtc} → ${out.scope.endUtc} · ${out.scope.geocodeSource}${out.scope.geocodeVerified ? '' : ' (estimated coordinates)'}`,
+      ),
+    );
+    wrap.append(
+      message(out.message, out.status === 'unavailable' ? 'error' : 'info'),
+    );
+    for (const report of out.reports) {
+      const item = document.createElement('article');
+      item.className = 'incident-composer__report';
+      item.append(message(`${report.title} · ${report.distanceKm} km`));
+      item.append(message(report.summary));
+      item.append(
+        message(
+          `Incident time: ${report.incident_time_utc || 'unknown — publication time is not incident time'}`,
+        ),
+      );
+      for (const source of report.sources || []) {
+        const link = document.createElement('a');
+        link.textContent = `${source.title || 'Open source'} · published ${source.published_at || 'date unavailable'}`;
+        link.setAttribute('href', source.url);
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
+        item.append(link);
+      }
+      item.append(message(`${report.provider} · ${report.confidence}`));
+      wrap.append(item);
+    }
+    for (const source of out.sources || [])
+      wrap.append(
+        message(
+          `${source.contract}: ${source.status}${source.error ? ' — ' + source.error : ''}${source.excluded?.length ? ` · ${source.excluded.length} unqualified reports excluded` : ''}${source.note ? ' · ' + source.note : ''}`,
+        ),
+      );
+    wrap.append(message(out.scope.coverage));
     showResult(wrap);
-    setChips(false, { error: true });
+    step(
+      'searching',
+      out.status === 'unavailable'
+        ? 'error'
+        : out.status === 'partial'
+          ? 'partial'
+          : 'done',
+      run,
+    );
+    retry.hidden = !['unavailable', 'partial'].includes(out.status);
+    root.setAttribute(
+      'data-state',
+      out.status === 'complete' ? 'done' : out.status,
+    );
+    return out;
   }
 
-  function offerPicker(candidates) {
+  async function externalContext(candidate, run) {
+    checkCurrent(run);
+    state.lastScene = null;
+    state.lastSearch = null;
+    markActive('skipped');
+    step('verifying', 'error', run);
+    const wrap = document.createElement('div');
+    wrap.className = 'incident-composer__reject';
+    wrap.append(message('Outside UAE AOI — external context only', 'info'));
+    if (candidate.reason) wrap.append(message(candidate.reason));
+    showResult(wrap);
+    root.setAttribute('data-state', 'external');
+    await onExternal?.({
+      candidate,
+      extraction: run.extraction,
+      text: run.text,
+      signal: run.signal,
+    });
+    checkCurrent(run);
+    return null;
+  }
+  async function perform(candidate, run) {
+    checkCurrent(run);
+    if (!candidate.aoi_membership?.inside)
+      return externalContext(candidate, run);
+    return run.extraction?.intent === 'incident_search'
+      ? searchAt(candidate, run)
+      : build(candidate, run);
+  }
+  async function choose(candidate, run) {
+    if (!current(run) || state.busy) return;
+    setBusy(true);
+    hideResult();
+    retry.hidden = true;
+    try {
+      await bounded(run, () => perform(candidate, run));
+    } catch (error) {
+      failed(error, run);
+    } finally {
+      if (current(run)) setBusy(false);
+    }
+  }
+  function offerPicker(candidates, run) {
+    checkCurrent(run);
     const wrap = document.createElement('div');
     wrap.className = 'incident-composer__picker';
     wrap.id = `${COMPOSER_ID}-picker`;
     wrap.append(message('Several places match — pick one:', 'info'));
-    for (const c of candidates) {
+    for (const candidate of candidates)
       wrap.appendChild(
-        candidateRow(c, (chosen) => {
-          hideResult();
-          if (chosen.aoi_membership?.inside) void build(chosen);
-          else offerOverride(chosen);
-        }),
+        candidateRow(candidate, (chosen) => void choose(chosen, run)),
       );
-    }
     showResult(wrap);
-    step('verifying', 'active');
+    step('verifying', 'active', run);
     root.setAttribute('data-state', 'pick');
   }
 
   async function submitText(text) {
-    const trimmed = String(text || '').trim();
-    if (!trimmed || state.busy) return null;
-    state.busy = true;
-    state.text = trimmed;
+    const trimmed = String(text || '')
+      .trim()
+      .slice(0, 500);
+    if (!trimmed || destroyed) return null;
+    if (state.busy && trimmed === state.text) return null;
+    // A newly edited AOI supersedes pending research/build work. Invalidate the
+    // old generation before aborting it; its finally must not unlock this run.
+    state.generation += 1;
     state.abort?.abort();
     state.abort =
       typeof AbortController === 'function' ? new AbortController() : null;
-    submit.disabled = true;
+    state.text = trimmed;
+    state.candidates = [];
+    state.lastPlan = null;
+    state.lastSearch = null;
+    state.lastScene = null;
+    state.extraction = null;
+    const run = {
+      id: state.generation,
+      signal: state.abort?.signal,
+      text: trimmed,
+      extraction: null,
+      stage: 'locating',
+    };
+    activeRun = run;
+    retry.hidden = true;
+    setBusy(true);
     hideResult();
     resetSteps();
-    step('locating', 'active');
-    let located;
     try {
-      located = await client.locate(trimmed, { signal: state.abort?.signal });
-    } catch (err) {
-      step('locating', 'error');
-      showResult(message(`Locate failed: ${err.message}`, 'error'));
-      setChips(false, { error: true });
-      state.busy = false;
-      submit.disabled = false;
+      state.extraction = run.extraction = parseIncidentQuery(trimmed, { defaultIntent: 'build_scene' });
+      step('locating', 'active', run);
+      const located = await bounded(run, () => client.locate(trimmed, { signal: run.signal }));
+      checkCurrent(run);
+      // Geocoding supplies coordinates, not the form's intent. An older server
+      // may classify a bare AOI as a search; retain the explicit BUILD default.
+      state.extraction = run.extraction = {
+        ...located?.extraction,
+        ...run.extraction,
+      };
+      state.candidates = located?.candidates || [];
+      const plan = planFromCandidates(state.candidates);
+      state.lastPlan = plan;
+      step('locating', plan.kind === 'none' ? 'error' : 'done', run);
+      let outcome = null;
+      if (plan.kind === 'none') {
+        showResult(
+          message(
+            located?.status === 'unavailable'
+              ? `Location lookup unavailable (${(located.steps || [])
+                  .filter((s) => s.error)
+                  .map((s) => s.error)
+                  .join('; ')}). Incident search was not performed.`
+              : 'No place could be identified in that text. Name a city, port, strait or coordinates inside the UAE areas of interest.',
+            'error',
+          ),
+        );
+        retry.hidden = false;
+        setChips(false, { error: true });
+      } else if (plan.kind === 'single' || plan.kind === 'out-of-aoi') {
+        outcome = await bounded(run, () => perform(plan.candidate, run));
+      } else {
+        offerPicker(plan.candidates, run);
+      }
+      checkCurrent(run);
+      return {
+        plan,
+        scene: run.extraction?.intent === 'incident_search' ? null : outcome,
+        search: state.lastSearch,
+      };
+    } catch (error) {
+      failed(error, run);
       return null;
+    } finally {
+      if (current(run)) setBusy(false);
     }
-    state.candidates = located?.candidates || [];
-    const plan = planFromCandidates(state.candidates);
-    state.lastPlan = plan;
-    step('locating', plan.kind === 'none' ? 'error' : 'done');
-    let outcome = null;
-    if (plan.kind === 'none') {
-      showResult(
-        message(
-          'No place could be identified in that text. Name a city, port, strait or coordinates inside the UAE areas of interest.',
-          'error',
-        ),
-      );
-      setChips(false, { error: true });
-    } else if (plan.kind === 'single') {
-      outcome = await build(plan.candidate);
-    } else if (plan.kind === 'out-of-aoi') {
-      step('verifying', 'error');
-      offerOverride(plan.candidate);
-    } else {
-      offerPicker(plan.candidates);
-    }
-    state.busy = false;
-    submit.disabled = false;
-    return { plan, scene: outcome };
   }
 
+  cancelButton.addEventListener('click', cancelRequest);
+  retry.addEventListener('click', () => {
+    if (!state.busy && !destroyed) void submitText(state.text || input.value);
+  });
   root.addEventListener('submit', (event) => {
     event.preventDefault?.();
-    void submitText(input.value).then(() => {
-      if (root.getAttribute('data-state') === 'done') input.value = '';
-    });
+    // The actual form submit handles both Enter and the submit button. Do not
+    // synthesize a second request from keydown or clear text after a stale run.
+    void submitText(input.value);
   });
   input.addEventListener('keydown', (event) => {
-    // Keep the workstation's single-key shortcuts (1–8 presets etc.) out of the field.
+    // Prevent workstation shortcuts without preventing native Enter submission.
     event.stopPropagation?.();
   });
 
@@ -311,9 +641,16 @@ export function createIncidentComposer({
     element: root,
     input,
     submit: submitText,
+    cancel: cancelRequest,
     state,
     destroy() {
+      destroyed = true;
+      state.generation += 1;
+      activeRun = null;
       state.abort?.abort();
+      state.busy = false;
+      resizeObserver?.disconnect();
+      layoutHost?.style?.removeProperty?.('--incident-composer-height');
       root.remove?.();
     },
   };

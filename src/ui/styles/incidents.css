@@ -390,8 +390,20 @@
     transform: none;
   }
   body:has(.incident-composer) #ondemand-plugin-dock {
-    bottom: calc(12px + 6.5rem + 3.4rem + 8px);
-    max-height: min(22rem, calc(100dvh - 16rem));
+    bottom: calc(
+      12px + 6.5rem + env(safe-area-inset-bottom, 0px) +
+        var(--incident-composer-height, 3.4rem) + 8px
+    );
+    max-height: max(
+      2.5rem,
+      min(
+        22rem,
+        calc(
+          100dvh - 12px - 6.5rem - env(safe-area-inset-bottom, 0px) -
+            var(--incident-composer-height, 3.4rem) - 8px - 4.6rem
+        )
+      )
+    );
   }
   .incident-composer__submit {
     padding: 0 8px;
@@ -422,4 +434,31 @@ body.recording-mode .incident-popover {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
+}
+
+/* Scoped queries are results, never synthetic incidents. Keep the controls
+   visible while long provider diagnostics/results scroll inside the panel. */
+.incident-composer__report {
+  padding: 6px 0;
+  border-top: 1px solid rgba(123, 189, 211, 0.25);
+}
+.incident-composer__search {
+  overflow-wrap: anywhere;
+}
+.incident-composer__report a {
+  display: block;
+  color: var(--od-green-500, #3bb795);
+  margin: 4px 0;
+}
+.incident-composer[data-state='partial'],
+.incident-composer[data-state='unavailable'] {
+  border-color: #e6aa56;
+}
+@media (max-width: 720px) {
+  .incident-composer {
+    bottom: calc(12px + 6.5rem + env(safe-area-inset-bottom, 0px));
+  }
+  .incident-composer__result {
+    max-height: min(36vh, 260px);
+  }
 }

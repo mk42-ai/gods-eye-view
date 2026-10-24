@@ -391,7 +391,9 @@ export class SceneDirector {
   /** Replace every incident-derived scene with the given list (list refresh). */
   syncIncidentScenes(incidentScenes, { keepSelection = true } = {}) {
     const selected = this._selectedSceneId;
-    const keep = this._project.scenes.filter((scene) => !scene.incident);
+    // User-authored geographic scenes are not live incident-ledger entries.
+    // Refreshing optional feeds must never discard a saved waterfront orbit.
+    const keep = this._project.scenes.filter((scene) => !scene.incident || scene.incident.category === 'geographic');
     const next = [];
     for (const incidentScene of incidentScenes) {
       const scene = incidentSceneToProjectScene(incidentScene);

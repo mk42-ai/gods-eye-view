@@ -49,6 +49,9 @@ import {
   wrapUntrusted,
 } from '../ondemand/foundation/guards.js';
 import { config as odConfig, isConfigured } from '../ondemand/config.js';
+import { parseIncidentQuery } from '../../src/incidents/query.js';
+import { searchIncidentsAt } from './search.js';
+import { sceneAoiConfig, resolveIncidentGate } from '../../src/aoi/sceneGate.js';
 
 const MAX_BODY = 512 * 1024;
 const MAX_INGEST = 500;
@@ -172,7 +175,7 @@ export async function listPayload(
           (i) => i.aoi === aoi || i.aoi_membership?.aoi_ids?.includes(aoi),
         )
       : all;
-  const scenes = buildScenes(filtered);
+  const scenes = buildScenes(filtered.filter((incident) => resolveIncidentGate(incident.title, { lat: incident.lat, lon: incident.lon }).allowed));
   return {
     aoi,
     count: filtered.length,
@@ -512,44 +515,116 @@ export async function locateText(
     useOnDemand = true,
   } = {},
 ) {
-  const query = String(text || '')
-    .trim()
-    .slice(0, MAX_TEXT);
+  const extraction = parseIncidentQuery(text);
+  const query = extraction.place.slice(0, MAX_TEXT);
   const candidates = [];
   const seen = new Set();
+  const normalizePlace = (value) => String(value || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  // A city-name substring is not a resolved neighbourhood. Dubai must never
+  // short-circuit the registered geocoder when the operator asks for Marina.
+  const preciseArea = sceneAoiConfig.aois.find((area) =>
+    (area.aliases || []).some((alias) => normalizePlace(alias) === normalizePlace(query)));
   const push = (c, source) => {
+    if (!c || !Number.isFinite(c.lat) || !Number.isFinite(c.lon) || Math.abs(c.lat) > 90 || Math.abs(c.lon) > 180) return;
     const key = `${c.name.toLowerCase()}|${c.lat.toFixed(2)}|${c.lon.toFixed(2)}`;
     if (seen.has(key)) return;
     seen.add(key);
     const m = index.membership(c.lat, c.lon);
+    const gate = resolveIncidentGate(text, { lat: c.lat, lon: c.lon });
     candidates.push({
       name: c.name,
-      lat: Math.round(c.lat * 1e5) / 1e5,
-      lon: Math.round(c.lon * 1e5) / 1e5,
+      lat: Math.round(c.lat * 1e7) / 1e7,
+      lon: Math.round(c.lon * 1e7) / 1e7,
       country: c.country ?? null,
       confidence: c.confidence,
       source: source || c.source,
-      verified: c.verified !== false,
-      aoi_membership: {
-        inside: m.inside,
-        aoi_ids: m.aoi_ids,
-        nearest: m.nearest,
-      },
-      reason: m.reason,
+      verified: c.verified !== false && source !== 'ondemand-entity-extraction',
+      sourceUrl: c.sourceUrl || null,
+      observedAt: c.observedAt || null,
+      cached: c.cached === true,
+      aoi_membership: { inside: gate.allowed, aoi_ids: gate.aoiIds, nearest: m.nearest },
+      scene_gate: gate,
+      context_membership: m,
+      reason: gate.reason,
     });
   };
   const steps = [];
-  for (const hit of index.gazetteerLookup(query, 3)) push(hit, 'gazetteer');
+  for (const hit of index.gazetteerLookup(query, 3)) {
+    const canonical = normalizePlace(query).replace(/\s+(?:port|iran|yemen|somalia|oman|uae|united arab emirates)$/, '');
+    if (!preciseArea && normalizePlace(hit.name) === canonical) push(hit, 'gazetteer');
+  }
   steps.push({ step: 'gazetteer', candidates: candidates.length });
 
+  if (!candidates.length && toolInvoker) {
+    const geocode = contractRegistry.get('geocode_place');
+    if (geocode) {
+      try {
+        const result = await toolInvoker(geocode, { q: preciseArea ? `${query}, Dubai, United Arab Emirates` : query }, { signal });
+        if (result?.ok === false) throw new Error(result?.error?.code || 'geocoder_unavailable');
+        const rows = result?.data?.candidates || [];
+        for (const r of rows.slice(0, 3)) {
+          const rawLat = r?.geometry?.location?.lat;
+          const rawLon = r?.geometry?.location?.lng;
+          const lat = typeof rawLat === 'number' ? rawLat : NaN;
+          const lon = typeof rawLon === 'number' ? rawLon : NaN;
+          if (preciseArea && haversineKm(lat, lon, preciseArea.center.lat, preciseArea.center.lon) > preciseArea.radius_km) continue;
+          if (Number.isFinite(lat) && Number.isFinite(lon))
+            push(
+              {
+                name: preciseArea ? query : String(r.formatted_address || query).slice(0, 120),
+                lat,
+                lon,
+                country: preciseArea ? 'AE' : null,
+                confidence: 0.95,
+                sourceUrl: result?.provenance?.source_url || 'https://www.openstreetmap.org',
+                observedAt: result?.provider?.fetchedAt || new Date().toISOString(),
+              },
+              'geocode_place',
+            );
+        }
+        steps.push({
+          step: 'geocode_place',
+          query,
+          status: 'ok',
+          candidates: rows.length,
+        });
+      } catch (err) {
+        steps.push({
+          step: 'geocode_place',
+          error: String(err?.code || err?.message || err).slice(0, 120),
+        });
+      }
+    }
+  }
+
+  // Authoritatively observed OSM feature, served by the same backend plugin
+  // boundary when its live provider is unavailable. This is explicitly cached
+  // geographic data, not a successful live research result or an incident.
+  if (!candidates.length && preciseArea?.observed_candidate && !signal?.aborted) {
+    push({
+      name: query,
+      lat: preciseArea.center.lat,
+      lon: preciseArea.center.lon,
+      country: 'AE', confidence: 0.95, verified: true, cached: true,
+      sourceUrl: preciseArea.source.feature_url,
+      observedAt: preciseArea.source.observed_utc,
+    }, 'osm-verified-cache');
+    steps.push({ step: 'verified-geographic-cache', status: 'cached', source: preciseArea.source.feature_url, observedAt: preciseArea.source.observed_utc });
+  }
   const strongGazetteer = candidates.some(
     (c) => c.source === 'gazetteer' && c.confidence >= 0.85,
   );
-  if (useOnDemand && client && isConfigured() && !strongGazetteer) {
+  if (
+    useOnDemand &&
+    client &&
+    isConfigured() &&
+    !strongGazetteer &&
+    !candidates.length
+  ) {
     try {
       const ctxKey = objectContextKey({
         objectType: 'incidentLocate',
-        objectId: 'global',
+        objectId: query.toLowerCase(),
       });
       let conv = await store.get(externalUserId, ctxKey);
       if (!conv?.sessionId) {
@@ -579,35 +654,6 @@ export async function locateText(
       });
     }
   }
-  if (!candidates.length && toolInvoker) {
-    const geocode = contractRegistry.get('geocode_place');
-    if (geocode) {
-      try {
-        const result = await toolInvoker(geocode, { q: query }, { signal });
-        const rows = result?.data?.candidates || [];
-        for (const r of rows.slice(0, 3)) {
-          const lat = Number(r?.geometry?.location?.lat);
-          const lon = Number(r?.geometry?.location?.lng);
-          if (Number.isFinite(lat) && Number.isFinite(lon))
-            push(
-              {
-                name: String(r.formatted_address || query).slice(0, 120),
-                lat,
-                lon,
-                confidence: 0.6,
-              },
-              'geocode_place',
-            );
-        }
-        steps.push({ step: 'geocode_place', candidates: rows.length });
-      } catch (err) {
-        steps.push({
-          step: 'geocode_place',
-          error: String(err?.code || err?.message || err).slice(0, 120),
-        });
-      }
-    }
-  }
   candidates.sort((a, b) => b.confidence - a.confidence);
   // The gazetteer and the model usually name the SAME place a few km apart
   // ("Hodeidah" vs "Hodeidah Port"): keep the best-confidence one per 15 km
@@ -624,7 +670,17 @@ export async function locateText(
       continue;
     merged.push(c);
   }
-  return { text: query, candidates: merged.slice(0, 5), steps };
+  return {
+    text: extraction.originalText,
+    extraction,
+    candidates: merged.slice(0, 5),
+    steps,
+    status: merged.length
+      ? 'resolved'
+      : steps.some((s) => s.error)
+        ? 'unavailable'
+        : 'empty',
+  };
 }
 
 // ---------------------------------------------------------------- handler
@@ -724,7 +780,7 @@ export function createIncidentRoutes(deps = {}) {
         rejected: screened.rejected,
         invalid: screened.invalid,
         scope: scope === SHARED_SCOPE ? 'shared' : 'session',
-        scenes: buildScenes([...result.inserted, ...(result.existing || [])]),
+        scenes: buildScenes([...result.inserted, ...(result.existing || [])].filter((incident) => resolveIncidentGate(incident.title, { lat: incident.lat, lon: incident.lon }).allowed)),
         list: { count: payload.count, scene_count: payload.scene_count },
       });
       return true;
@@ -735,7 +791,11 @@ export function createIncidentRoutes(deps = {}) {
       );
       const controller = new AbortController();
       const abort = () => controller.abort();
-      req.on?.('close', abort);
+      // IncomingMessage 'close' also fires after a normally completed request.
+      // Abort only for a real disconnect, not successful body consumption.
+      const responseClosed = () => { if (!res.writableEnded) abort(); };
+      req.on?.('aborted', abort);
+      res.on?.('close', responseClosed);
       try {
         const pulled = await refreshFromPlugins({
           client: deps.client,
@@ -774,23 +834,38 @@ export function createIncidentRoutes(deps = {}) {
             'TODO: scheduled OnDemand workflow → POST /api/ondemand/v2/incidents/ingest with X-Ingest-Secret (NEXT_ACTIONS N-33)',
         });
       } finally {
-        req.off?.('close', abort);
+        req.off?.('aborted', abort);
+        res.off?.('close', responseClosed);
       }
+      return true;
+    }
+    if (sub === '/search' && method === 'POST') {
+      const body = await readJsonBody(req, { maxBytes: 64 * 1024 });
+      if (typeof body.text !== 'string' || !body.text.trim())
+        throw new ValidationError('text', 'required');
+      const externalUserId = validateExternalUserId(body.externalUserId);
+      if (authorize && !authorize(externalUserId)) return true;
+      const out = await searchIncidentsAt(body, {
+        client: deps.client,
+        ...(deps.searchOptions || {}),
+      });
+      sendJson(res, 200, out);
       return true;
     }
     if (sub === '/locate' && method === 'POST') {
       const body = await readJsonBody(req, { maxBytes: 64 * 1024 });
       if (typeof body.text !== 'string' || !body.text.trim())
         throw new ValidationError('text', 'required');
-      if (body.externalUserId !== undefined) {
-        const externalUserId = validateExternalUserId(body.externalUserId);
-        if (authorize && !authorize(externalUserId)) return true;
-      }
+      const externalUserId = body.externalUserId !== undefined
+        ? validateExternalUserId(body.externalUserId) : 'incident-locate';
+      if (authorize && !authorize(externalUserId)) return true;
       const out = await locateText(body.text, {
         index,
         client: deps.client,
         store: deps.store,
         toolInvoker: deps.toolInvoker,
+        externalUserId,
+        signal: AbortSignal.timeout(45_000),
         useOnDemand: body.useOnDemand !== false,
       });
       sendJson(res, 200, out);
@@ -805,6 +880,7 @@ export function createIncidentRoutes(deps = {}) {
         'POST /incidents/ingest',
         'POST /incidents/refresh',
         'POST /incidents/locate',
+        'POST /incidents/search',
       ],
     });
     return true;

@@ -73,6 +73,8 @@ const MIME_TYPES = {
   '.map': 'application/json; charset=utf-8',
   '.webp': 'image/webp',
   '.mp3': 'audio/mpeg',
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
   '.ogg': 'audio/ogg',
   '.geojson': 'application/geo+json; charset=utf-8',
   '.csv': 'text/csv; charset=utf-8',
@@ -267,6 +269,10 @@ async function handleStatic(req, res, pathname) {
 // ---------------------------------------------------------------------------
 
 const server = http.createServer((req, res) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  // Retain the existing iframe-embeddable policy; never weaken an existing
+  // application authentication or CSP check just for a demonstration.
   const startedAt = Date.now();
   const method = req.method || 'GET';
   const requestUrl = req.url || '/';

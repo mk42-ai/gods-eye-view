@@ -26,6 +26,11 @@ import {
 import { createIncidentOverlay } from './overlay.js';
 import { createIncidentComposer } from './composer.js';
 import { ASK_OBJECT_EVENT } from '../../ondemand/miniChat.js';
+import { buildGeographicScene, createGeographicSceneStore } from '../../scenes/geographicScene.js';
+import { resolveIncidentGate } from '../../aoi/sceneGate.js';
+import { createSceneLibrary } from './sceneLibrary.js';
+import { installIncidentDiagnostics } from './diagnostics.js';
+import { createGeographicOverlay } from './geographicOverlay.js';
 
 export const INCIDENT_PANEL_ID = 'incident-panel';
 export const INCIDENT_POPOVER_ID = 'incident-popover';
@@ -55,6 +60,11 @@ export function installIncidentScenes({
 } = {}) {
   if (!doc || !viewer || !sceneDirector) return null;
   const client = createIncidentClient({ fetch: fetchImpl, storage });
+  const geographicStore = createGeographicSceneStore(storage || win.localStorage);
+  const geographicOverlay = createGeographicOverlay(viewer, { document: doc });
+  let activeGeographicScene = null;
+  let sceneLibrary = null;
+  let sidebar = null;
   const overlay = createIncidentOverlay(viewer, {
     onPick: (incident) => openPopover(incident),
   });
@@ -146,6 +156,7 @@ export function installIncidentScenes({
     text: '0.0s / 0.0s',
   });
   playback.append(playBtn, pauseBtn, prevBtn, nextBtn, scrub, clock);
+  const keyframeCaption = el(doc, 'p', { id: 'scene-active-keyframe', text: 'Select or build a scene', attrs: { 'aria-live': 'polite' } });
 
   // AOI toggles
   const toggles = el(doc, 'div', {
@@ -179,8 +190,9 @@ export function installIncidentScenes({
     id: `${INCIDENT_PANEL_ID}-hidden`,
     className: 'incident-panel__hidden',
   });
-  panel.append(header, playback, toggles, legend, hiddenNote);
+  panel.append(header, playback, keyframeCaption, toggles, legend, hiddenNote);
   host.appendChild(panel);
+  const diagnostics = installIncidentDiagnostics({ document: doc, panel, toggles, legend, hiddenNote, dataPanel: doc.getElementById('data-panel') });
 
   // ---------------------------------------------------------------- popover
   const popover = el(doc, 'aside', {
@@ -328,8 +340,12 @@ export function installIncidentScenes({
   // ---------------------------------------------------------------- playback
   let selectedSceneId = null;
   function playScene(sceneId, { fly = true } = {}) {
-    selectedSceneId = sceneId;
     const scene = state.scenes.find((s) => s.id === sceneId);
+    const point = scene?.anchor || scene?.keyframes?.[0];
+    if (!scene || !point || !resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon }).allowed) return Promise.resolve({ started: false, reason: 'outside-uae-aoi' });
+    selectedSceneId = sceneId;
+    viewer.useDefaultRenderLoop = true;
+    viewer.scene.requestRender();
     if (fly && scene?.keyframes?.[0]) {
       const kf = scene.keyframes[1] || scene.keyframes[0];
       overlay.flyTo(kf.lat, kf.lon, { duration: 0.1 });
@@ -351,16 +367,17 @@ export function installIncidentScenes({
     if (sceneDirector.running) sceneDirector.pauseScene();
     else if (sceneDirector.paused) void sceneDirector.resumeScene();
   });
-  prevBtn.addEventListener('click', () => {
-    const id = sceneDirector._selectedSceneId;
+  async function moveKeyframe(direction) {
+    if (sceneDirector.running) sceneDirector.pauseScene();
+    const id = selectedSceneId || sceneDirector._selectedSceneId;
     const shotId = sceneDirector._selectedShotId;
-    if (id && shotId) void sceneDirector.loadAdjacentShot(id, shotId, -1);
-  });
-  nextBtn.addEventListener('click', () => {
-    const id = sceneDirector._selectedSceneId;
-    const shotId = sceneDirector._selectedShotId;
-    if (id && shotId) void sceneDirector.loadAdjacentShot(id, shotId, 1);
-  });
+    if (id && shotId) {
+      sceneDirector._paused = null;
+      await sceneDirector.loadAdjacentShot(id, shotId, direction);
+    }
+  }
+  prevBtn.addEventListener('click', () => void moveKeyframe(-1));
+  nextBtn.addEventListener('click', () => void moveKeyframe(1));
   let scrubbing = false;
   scrub.addEventListener('input', () => {
     scrubbing = true;
@@ -376,6 +393,9 @@ export function installIncidentScenes({
     if (!scrubbing)
       scrub.value = String(Math.round((snap.sceneProgress || 0) * 1000));
     clock.textContent = `${(snap.sceneElapsedSec || 0).toFixed(1)}s / ${(snap.sceneDurationSec || 0).toFixed(1)}s${snap.running ? '' : ' · paused'}`;
+    const active = sceneDirector._getSelectedScene?.();
+    const frame = active?.shots?.find((shot) => shot.id === sceneDirector._selectedShotId);
+    keyframeCaption.textContent = frame ? frame.title : 'Select or build a scene';
     pauseBtn.textContent = snap.running
       ? 'PAUSE'
       : sceneDirector.paused
@@ -419,12 +439,20 @@ export function installIncidentScenes({
   function applyList(payload) {
     state.lastList = payload;
     state.incidents = payload.incidents || [];
-    state.scenes = payload.scenes || buildScenes(state.incidents);
+    const incoming = payload.scenes || buildScenes(state.incidents);
+    const saved = geographicStore.list();
+    state.scenes = [...saved, ...incoming].filter((scene) => {
+      const point = scene.anchor || scene.keyframes?.[0];
+      return point && resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon }).allowed;
+    });
     state.rejected = payload.rejected || { count: 0, items: [] };
     state.perAoi = payload.per_aoi || {};
     state.groups = payload.aoi_groups || state.groups;
     overlay.setIncidents(state.incidents);
-    sceneDirector.syncIncidentScenes(state.scenes);
+    sceneDirector.syncIncidentScenes(state.scenes.filter((scene) => !scene.geographic));
+    for (const savedScene of saved) sceneDirector.addIncidentScene(savedScene, { select: false });
+    sceneLibrary?.renderSaved(saved);
+    if (!activeGeographicScene && saved[0]) activateGeographic(saved[0], { saved: true });
     const hidden = sceneDirector.hiddenScenes?.() || [];
     counts.textContent = `${state.incidents.length} incidents · ${state.scenes.length} scenes · ${state.rejected.count} out of AOI`;
     counts.title = Object.entries(state.perAoi)
@@ -483,13 +511,108 @@ export function installIncidentScenes({
     }
   });
 
+  // Authored geographic plans reuse the existing SceneDirector. They are
+  // explicitly named/saved by the operator, never ingested as reported events.
+  function activateGeographic(scene, { saved = false, focus = true } = {}) {
+    const gate = resolveIncidentGate(scene.title, scene.anchor);
+    if (!gate.allowed) throw new Error('Outside UAE AOI — external context only');
+    activeGeographicScene = scene;
+    const added = sceneDirector.addIncidentScene(scene, { select: true });
+    if (!added.added) throw new Error(added.reason || 'Scene was not accepted');
+    selectedSceneId = scene.id;
+    state.scenes = [scene, ...state.scenes.filter((item) => item.id !== scene.id)];
+    sceneLibrary?.setScene(scene, { saved });
+    sceneLibrary?.element.setAttribute('data-scene-id', scene.id);
+    geographicOverlay.setScene(scene);
+    for (const button of [playBtn, pauseBtn, prevBtn, nextBtn]) button.disabled = false;
+    scrub.disabled = false;
+    panel.dataset.activeScene = scene.id;
+    panel.dataset.playable = 'true';
+    sidebar?.selectTab('scenes');
+    if (focus) {
+      viewer.useDefaultRenderLoop = true;
+      viewer.scene.requestRender();
+      const first = sceneDirector._getSelectedScene?.()?.shots?.[0];
+      if (first) void sceneDirector.loadShot(scene.id, first.id, { flyDuration: 1.8 });
+    }
+    return scene;
+  }
+  sceneLibrary = createSceneLibrary({
+    document: doc, window: win, sceneDirector, storage: geographicStore,
+    onSelect: (scene) => activateGeographic(scene, { saved: true }),
+    onSave: (scene) => {
+      const saved = geographicStore.save({ ...scene, updatedAt: new Date().toISOString() });
+      if (!saved.saved) throw new Error(saved.reason || 'Storage unavailable');
+      // Let the library finish its own save transaction before rerendering it;
+      // setScene() here would invalidate its generation and erase confirmation.
+      activeGeographicScene = saved.scene;
+      state.scenes = [saved.scene, ...state.scenes.filter((item) => item.id !== saved.scene.id)];
+      sceneDirector.addIncidentScene(saved.scene, { select: true });
+      return saved.scene;
+    },
+  });
+  sidebar = sceneLibrary.installSidebar();
+  for (const button of [playBtn, pauseBtn, prevBtn, nextBtn]) button.disabled = true;
+  scrub.disabled = true;
+
   // ---------------------------------------------------------------- composer
   const composer = createIncidentComposer({
     document: doc,
     client,
     buildScene: (incidents) => buildScenes(incidents)[0],
-    onScene: async ({ scene, incident, override }) => {
-      const sceneWithFlags = override ? { ...scene, override: true } : scene;
+    createGeographicScene: ({ candidate, extraction, text, signal: requestSignal }) => {
+      if (requestSignal?.aborted) throw new DOMException('Cancelled', 'AbortError');
+      const gate = resolveIncidentGate(text, candidate);
+      if (!gate.allowed) throw new Error('Outside UAE AOI — external context only');
+      const scene = buildGeographicScene({ candidate: { ...candidate, aoi_membership: { inside: true, aoi_ids: gate.aoiIds } }, extraction, text, now: new Date() });
+      return geographicStore.load(scene.id) || scene;
+    },
+    onExternal: ({ candidate }) => {
+      sceneDirector.stopScene('External context only');
+      activeGeographicScene = null;
+      selectedSceneId = null;
+      sceneLibrary.setScene(null);
+      sceneLibrary.element.removeAttribute('data-scene-id');
+      for (const button of [playBtn, pauseBtn, prevBtn, nextBtn]) button.disabled = true;
+      scrub.disabled = true;
+      panel.dataset.playable = 'false';
+      delete panel.dataset.activeScene;
+      geographicOverlay.setExternal(candidate);
+      overlay.flyTo(candidate.lat, candidate.lon, { altitude: 14000, duration: 1.6 });
+    },
+    onLocated: ({ candidate, extraction }) => {
+      overlay.flyTo(candidate.lat, candidate.lon, {
+        altitude: 8500,
+        duration: 1.8,
+      });
+      win.dispatchEvent?.(
+        new CustomEvent('gev:scene-videos', {
+          detail: {
+            prompt: extraction.originalText,
+            anchor: { lat: candidate.lat, lon: candidate.lon },
+          },
+        }),
+      );
+    },
+    onScene: async ({ scene, incident, override, play = false, text, signal: requestSignal }) => {
+      if (requestSignal?.aborted) return;
+      if (!play && (sceneDirector.running || sceneDirector.paused)) {
+        // LOAD is rejected while a previous playback owns the camera. Wait for
+        // its real cancellation cleanup before selecting/flying to the new AOI.
+        sceneDirector.stopScene('Rebuilding the AOI scene');
+        await sceneDirector._waitForRunIdle();
+        if (requestSignal?.aborted) return;
+        sceneDirector._paused = null;
+      }
+      if (scene.geographic) {
+        activateGeographic(scene, { saved: Boolean(geographicStore.load(scene.id)), focus: !play });
+        if (play) void playScene(scene.id, { fly: false });
+        return;
+      }
+      const point = scene.anchor || scene.keyframes?.[0];
+      if (!point || !resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon }).allowed) throw new Error('Outside UAE AOI — external context only');
+      const sceneWithFlags = scene;
+      if (!play && text) win.dispatchEvent?.(new CustomEvent('gev:scene-videos', { detail: { prompt: text, anchor: { lat: point.lat, lon: point.lon } } }));
       const added = sceneDirector.addIncidentScene(sceneWithFlags, {
         override,
         select: true,
@@ -518,7 +641,11 @@ export function installIncidentScenes({
           },
         }),
       );
-      await playScene(scene.id);
+      selectedSceneId = scene.id;
+      for (const button of [playBtn, pauseBtn, prevBtn, nextBtn]) button.disabled = false;
+      scrub.disabled = false;
+      if (play) void playScene(scene.id);
+      else if (scene.keyframes?.[0]) overlay.flyTo(scene.keyframes[0].lat, scene.keyframes[0].lon, { altitude: 7000, duration: 1.6 });
     },
   });
   (doc.body || doc.documentElement).appendChild(composer.element);
@@ -548,11 +675,17 @@ export function installIncidentScenes({
       perAoi: state.perAoi,
       hidden: sceneDirector.hiddenScenes?.() || [],
       sceneTitles: sceneDirector.listScenes().map((s) => s.title),
+      activeGeographicScene: activeGeographicScene?.id || null,
+      geographicSaved: geographicStore.list().map((scene) => ({ id: scene.id, title: scene.title, anchor: scene.anchor })),
+      geographicOverlay: geographicOverlay.getState(),
     }),
     destroy() {
       unsubscribeClock?.();
       doc.removeEventListener('keydown', onKey);
       composer.destroy();
+      diagnostics.destroy();
+      sceneLibrary.destroy();
+      geographicOverlay.destroy();
       popover.remove();
       panel.remove();
       overlay.destroy();
