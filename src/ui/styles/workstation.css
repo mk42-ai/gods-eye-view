@@ -15,6 +15,21 @@
 #workstation-nav > button[aria-expanded='true'] { color: #071719; background: #62ddbb; border-color: #62ddbb; }
 #workstation-render-status { font: 700 10px var(--font-mono, monospace); white-space: nowrap; color: #edca81; }
 #workstation-render-status[data-state='ready'] { color: #73eac7; }
+#workstation-build-id { font: 600 9px/1 var(--font-mono, monospace); letter-spacing: .06em; color: #8fd8c6; background: #0f3a33; border: 1px solid #2f6a60; border-radius: 999px; padding: 4px 8px; white-space: nowrap; }
+#workstation-build-id[hidden] { display: none; }
+/* Visible S0→S4 fly-in progress line under the composer (2026-10-24). */
+#workstation-build-progress { display: flex; align-items: center; gap: 8px; width: min(880px, 100%); margin: 0 auto 8px; padding: 6px 10px; border: 1px solid #3c6d66; border-radius: 8px; background: #102c2f; font: 600 10px/1 var(--font-mono, monospace); letter-spacing: .06em; color: #b4cdca; }
+#workstation-build-progress[hidden] { display: none; }
+#workstation-build-progress .ws-progress__stages { display: flex; flex: 1; gap: 4px; margin: 0; padding: 0; list-style: none; }
+#workstation-build-progress .ws-progress__stages li { flex: 1; text-align: center; padding: 5px 0; border-radius: 4px; background: #0b2022; border: 1px solid #1f4a48; color: #6f8f8b; transition: background-color .2s ease, color .2s ease; }
+#workstation-build-progress li[data-status='active'] { color: #06201a; background: #f5a623; border-color: #f5a623; animation: incident-chip-pulse 1.1s ease-in-out infinite; }
+#workstation-build-progress li[data-status='done'] { color: #06201a; background: #61dabb; border-color: #61dabb; }
+#workstation-build-progress li[data-status='error'] { color: #ffd7d7; background: #5a2328; border-color: #e06c75; }
+#workstation-build-progress[data-state='done'] { border-color: #61dabb; }
+#workstation-build-progress[data-state='error'] { border-color: #e06c75; }
+#workstation-build-progress .ws-progress__note { min-width: 96px; text-align: right; color: #8fd8c6; }
+@media (max-width: 550px) { #workstation-build-progress .ws-progress__note { display: none; } #workstation-build-id { display: none; } }
+@media (prefers-reduced-motion: reduce) { #workstation-build-progress li[data-status='active'] { animation: none; } }
 #workstation-main { display: flex; min-height: 0; min-width: 0; position: relative; overflow: hidden; }
 #workstation-view { flex: 1; min-width: 0; min-height: 0; position: relative; isolation: isolate; background: #081b22; overflow: hidden; }
 #workstation-view #cesiumContainer, #workstation-view #world-overlay-root, #workstation-view #intel-hud, #workstation-view #safe-frame-overlay { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; }

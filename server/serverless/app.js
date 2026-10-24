@@ -5,6 +5,7 @@ import { mountToolsRoute } from './tools-route.js';
 import { mountOndemandWorkflowSubpaths } from './ondemand-workflow-mount.js';
 import { mountFoundationRoutes } from '../ondemand/foundation/proxy-route.js';
 import { createToolInvoker } from '../ondemand/foundation/tool-contracts.js';
+import { versionRoute } from './build-info.js';
 
 /** VITE_SERVERLESS_MODE / SERVERLESS_MODE mirror the client-side build-time flag; VERCEL is set by the platform itself. */
 /** Accept the usual truthy spellings (`true`, `1`, `yes`) for an env flag. */
@@ -207,6 +208,10 @@ async function createServerlessApi({ serverlessMode: explicitMode } = {}) {
     }
     next();
   });
+
+  // Served revision (2026-10-24): GET/HEAD /api/version -> { build, startedAt }
+  // so a verifier can prove the deployed API and document are the same SHA.
+  router.use(versionRoute());
 
   // Liveness alias (2026-10-21): GET/HEAD /api/health -> /api/ondemand/v2/health.
   // Sandbox/preview orchestration and uptime probes expect a top-level

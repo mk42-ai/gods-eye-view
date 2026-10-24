@@ -165,6 +165,22 @@ test('liveness alias: GET /api/health answers with the foundation health payload
   assert.equal(post.statusCode, 404);
 });
 
+test('served revision: GET /api/version answers the build id (no-store) and POST falls through', async () => {
+  const api = await apiPromise;
+  const res = mockRes();
+  await api.handle(mockReq('/api/version'), res);
+  assert.equal(res.statusCode, 200);
+  const body = JSON.parse(res.body);
+  assert.equal(body.ok, true);
+  assert.equal(typeof body.build, 'string');
+  assert.equal(body.service, 'gods-eye-view');
+  const cc = Object.keys(res.headers).find((h) => h.toLowerCase() === 'cache-control');
+  assert.equal(res.headers[cc], 'no-store');
+  const post = mockRes();
+  await api.handle(mockReq('/api/version', { method: 'POST' }), post);
+  assert.equal(post.statusCode, 404);
+});
+
 test('key setup is never mounted: /api/setup/status falls through to the not-found layer', async () => {
   const api = await apiPromise;
   const res = mockRes();

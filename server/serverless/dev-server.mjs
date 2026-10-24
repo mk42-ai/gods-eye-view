@@ -22,6 +22,11 @@ import http from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import {
+  cacheControlFor,
+  resolveServedBuildId,
+  versionPayload,
+} from './build-info.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const distDir = path.join(root, 'dist');
@@ -50,6 +55,8 @@ const catchAllFile = path.join(apiDir, '[...route].js');
 const dynamicImport = new Function('specifier', 'return import(specifier)');
 
 const PORT = Number(process.env.PORT) || 3000;
+
+const BUILD_ID = resolveServedBuildId({ distDir, root });
 // The LIVE FOOTAGE service is a Python (FastAPI) Vercel function
 // (api/footage/index.py). This Node emulator cannot import it, so when
 // FOOTAGE_UPSTREAM names a running uvicorn (e.g. http://127.0.0.1:8787) the
@@ -225,13 +232,19 @@ async function handleApi(req, res, pathname, url) {
 // static file serving + SPA fallback
 // ---------------------------------------------------------------------------
 
-function sendFile(req, res, file, forcedStatus) {
+function sendFile(req, res, file, forcedStatus, urlPath = '') {
   return new Promise((resolve, reject) => {
     const type =
       MIME_TYPES[path.extname(file).toLowerCase()] ||
       'application/octet-stream';
     res.statusCode = forcedStatus || 200;
     res.setHeader('Content-Type', type);
+    res.setHeader(
+      'Cache-Control',
+      cacheControlFor(urlPath || `/${path.relative(distDir, file)}`),
+    );
+    if (/index\.html$/.test(file) && BUILD_ID)
+      res.setHeader('X-Build-Id', BUILD_ID);
     if (req.method === 'HEAD') {
       res.end();
       resolve();
@@ -256,13 +269,13 @@ async function handleStatic(req, res, pathname) {
   const withinDist =
     resolved === distDir || resolved.startsWith(distDir + path.sep);
   if (withinDist && existsSync(resolved) && statSync(resolved).isFile()) {
-    await sendFile(req, res, resolved);
+    await sendFile(req, res, resolved, undefined, decodedPath);
     return;
   }
   if (method === 'GET' || method === 'HEAD') {
     const indexFile = path.join(distDir, 'index.html');
     if (existsSync(indexFile)) {
-      await sendFile(req, res, indexFile, 200);
+      await sendFile(req, res, indexFile, 200, '/index.html');
       return;
     }
   }
@@ -352,6 +365,13 @@ const server = http.createServer((req, res) => {
       ) {
         return proxyFootage(req, res, pathname, url);
       }
+      if (pathname === '/api/version') {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.setHeader('Cache-Control', 'no-store');
+        res.end(JSON.stringify(versionPayload(BUILD_ID)));
+        return undefined;
+      }
       if (pathname === '/api' || pathname.startsWith('/api/')) {
         return handleApi(req, res, pathname, url);
       }
@@ -374,6 +394,6 @@ const server = http.createServer((req, res) => {
 // reach this server the same way it reaches a real `vite` dev server.
 server.listen(PORT, '0.0.0.0', () => {
   console.log(
-    `[dev-server] listening on http://0.0.0.0:${PORT} (dist: ${distDir})`,
+    `[dev-server] listening on http://0.0.0.0:${PORT} (dist: ${distDir}, build: ${BUILD_ID || 'unknown'})`,
   );
 });

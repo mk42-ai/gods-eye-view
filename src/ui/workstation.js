@@ -16,6 +16,15 @@ export function installWorkstation({
   // preview is the commit under test. Never a secret.
   root.dataset.geBuild = String(import.meta.env?.GEV_BUILD_ID || '');
   const byId = (id) => doc.getElementById(id);
+  // Visible build badge (2026-10-24): the served short SHA in the header, so
+  // "which build is this link serving?" is answerable from a screenshot.
+  {
+    const badge = byId('workstation-build-id');
+    if (badge && root.dataset.geBuild) {
+      badge.textContent = `build ${root.dataset.geBuild}`;
+      badge.hidden = false;
+    }
+  }
   const view = byId('workstation-view');
   const drawer = byId('workstation-drawer');
   const body = byId('workstation-drawer-body');
@@ -496,6 +505,47 @@ export function installWorkstation({
     }
     setBuilding(false);
   }
+  // Visible S0→S4 fly-in progress line (2026-10-24). Fed by the engine's
+  // `gev:scene-stage` events; reset at the start of every build.
+  const FLY_STAGES = ['S0', 'S1', 'S2', 'S3', 'S4'];
+  const FLY_NOTE_STOPPED = 'build stopped';
+  const FLY_NOTE_ARRIVED = 'camera arrived';
+  const FLY_NOTE_WAITING = 'waiting for route';
+  function renderFlyProgress(stage, { error = false, note = '' } = {}) {
+    const bar = byId('workstation-build-progress');
+    if (!bar) return;
+    const reached = FLY_STAGES.indexOf(stage);
+    bar.hidden = false;
+    bar.dataset.stage = stage || '';
+    bar.dataset.state = error ? 'error' : reached >= 4 ? 'done' : 'busy';
+    for (const li of bar.querySelectorAll('li[data-stage]')) {
+      const i = FLY_STAGES.indexOf(li.dataset.stage);
+      li.dataset.status =
+        error && i === Math.max(0, reached)
+          ? 'error'
+          : i < reached || (i === reached && reached === 4)
+            ? 'done'
+            : i === reached
+              ? 'active'
+              : 'pending';
+    }
+    const noteNode = byId('workstation-build-progress-note');
+    if (noteNode)
+      noteNode.textContent =
+        note ||
+        (error
+          ? FLY_NOTE_STOPPED
+          : reached < 0
+            ? FLY_NOTE_WAITING
+            : reached >= 4
+              ? FLY_NOTE_ARRIVED
+              : `stage ${reached + 1} of 5`);
+  }
+  const onFlyStage = (event) => {
+    const stage = event.detail?.stage;
+    if (FLY_STAGES.includes(stage)) renderFlyProgress(stage);
+  };
+  win.addEventListener('gev:scene-stage', onFlyStage);
   function renderStages(current, { error = null } = {}) {
     const chipsNode = byId('incident-composer-chips');
     const form = byId('incident-composer');
@@ -527,6 +577,9 @@ export function installWorkstation({
     root.dataset.geBuildStage = error ? 'error' : current;
   }
   function showBuildError(message) {
+    renderFlyProgress(byId('workstation-build-progress')?.dataset.stage || '', {
+      error: true,
+    });
     const node = composerResult();
     if (!node) return;
     node.replaceChildren();
@@ -695,6 +748,7 @@ export function installWorkstation({
       endBuild();
     }, BUILD_WATCHDOG_MS);
     renderStages('parsing');
+    renderFlyProgress('', { note: 'parsing prompt' });
     showBuildInfo(`Parsing “${text}”…`);
     try {
       const eng = await ensureEngine();
@@ -808,6 +862,7 @@ export function installWorkstation({
     },
     destroy() {
       win.removeEventListener('gev:scene-status', onStatus);
+      win.removeEventListener('gev:scene-stage', onFlyStage);
       if (buildWatchdog) clearTimeout(buildWatchdog);
       observer.disconnect();
       abort.abort();

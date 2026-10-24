@@ -2,6 +2,31 @@ import { applicationHtmlPlugin } from './application-html.js';
 import { productNamePlugin } from './product-name.js';
 import cesium from 'vite-plugin-cesium';
 
+/**
+ * Stamp the served revision into the document itself (2026-10-24):
+ * `<meta name="build-id">` + `data-build` on <html>, so a verifier can read
+ * the build id from the raw HTML before any script runs — the JS define
+ * (`GEV_BUILD_ID`) alone cannot prove which index.html a host is serving.
+ */
+export function buildIdHtmlPlugin(buildId = '') {
+  const id = String(buildId || '');
+  return {
+    name: 'gev-build-id',
+    transformIndexHtml: {
+      order: 'post',
+      handler: (html) =>
+        html
+          .replace(/<html(\s[^>]*)?>/, (m) =>
+            /data-build=/.test(m) ? m : m.replace(/>$/, ` data-build="${id}">`),
+          )
+          .replace(
+            /<meta charset="UTF-8" \/>/,
+            `<meta charset="UTF-8" />\n  <meta name="build-id" content="${id}" />`,
+          ),
+    },
+  };
+}
+
 /** Keep Cesium's assets/plugin semantics, but let the shell load its optional
  * script asynchronously with a deadline instead of blocking HTML parsing. */
 function deferredCesium() {
@@ -33,6 +58,7 @@ export function createBrowserViteConfig({
       deferredCesium(),
       applicationHtmlPlugin(),
       productNamePlugin(),
+      buildIdHtmlPlugin(buildId),
       ...plugins,
     ],
     ...(publicDir === undefined ? {} : { publicDir }),
@@ -56,6 +82,20 @@ export function createBrowserViteConfig({
       // deployed revision (never a secret; empty when unknown).
       'import.meta.env.GEV_BUILD_ID': JSON.stringify(String(buildId || '')),
     },
-    build: { chunkSizeWarningLimit: 1500 },
+    build: {
+      chunkSizeWarningLimit: 1500,
+      // Always start from an empty dist/ so a deploy can never ship a stale
+      // bundle next to the new index.html; every JS/CSS/asset filename is
+      // content-hashed (Vite default, pinned here explicitly) so only
+      // index.html needs `Cache-Control: no-store`.
+      emptyOutDir: true,
+      rollupOptions: {
+        output: {
+          entryFileNames: 'assets/[name]-[hash].js',
+          chunkFileNames: 'assets/[name]-[hash].js',
+          assetFileNames: 'assets/[name]-[hash][extname]',
+        },
+      },
+    },
   };
 }

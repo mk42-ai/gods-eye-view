@@ -68,7 +68,41 @@ def _sse(event: str, data) -> str:
 async def do_health():
     h = svc.health()
     h["route_agent"] = route.health_block()
+    h["build"] = served_build_id()
     return JSONResponse(h, headers=NO_STORE)
+
+
+_BUILD_ID_CACHE: Optional[str] = None
+
+
+def served_build_id() -> str:
+    """Build id this deployment serves (2026-10-24): BUILD_COMMIT /
+    VERCEL_GIT_COMMIT_SHA env, else the id stamped into dist/index.html by
+    build/vite.js, else git HEAD of the checkout, else ''. Never a secret."""
+    global _BUILD_ID_CACHE
+    if _BUILD_ID_CACHE is not None:
+        return _BUILD_ID_CACHE
+    bid = (os.environ.get("BUILD_COMMIT") or os.environ.get("VERCEL_GIT_COMMIT_SHA") or "")[:12]
+    if not bid:
+        try:
+            import re
+            with open(os.path.join(_HERE, "..", "..", "dist", "index.html"), "r", encoding="utf-8") as fh:
+                m = re.search(r'<meta name="build-id" content="([^"]*)"', fh.read(20000))
+            bid = m.group(1) if m else ""
+        except Exception:
+            bid = ""
+    if not bid:
+        try:
+            import subprocess
+            bid = subprocess.run(["git", "rev-parse", "--short=9", "HEAD"], cwd=os.path.join(_HERE, "..", ".."), capture_output=True, text=True, timeout=3).stdout.strip()
+        except Exception:
+            bid = ""
+    _BUILD_ID_CACHE = bid
+    return bid
+
+
+def do_version():
+    return JSONResponse({"ok": True, "build": served_build_id(), "service": "gods-eye-footage-service", "generated_at": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}, headers=NO_STORE)
 
 
 async def do_search(p: Params):
@@ -176,6 +210,12 @@ def _index():
         },
         headers=NO_STORE,
     )
+
+
+@app.get("/footage/version")
+@app.get("/api/footage/version")
+async def version_route():
+    return do_version()
 
 
 @app.get("/footage/health")
@@ -300,6 +340,8 @@ async def rewrite_dispatch(full_path: str, request: Request):
 
     if sub == "health":
         return await do_health()
+    if sub == "version":
+        return do_version()
     if sub == "search":
         return await do_search(Params(**_kw(request)))
     if sub == "stream":

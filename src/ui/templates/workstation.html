@@ -2,6 +2,7 @@
     <header id="workstation-header">
       <div id="workstation-brand"></div>
       <span id="workstation-render-status" role="status" data-state="loading">STARTING MAP</span>
+      <span id="workstation-build-id" title="Served build (git short SHA)" hidden></span>
       <a id="workstation-retry" href="" title="Reload the workstation">Reload</a>
     </header>
     <nav id="workstation-nav" aria-label="Workstation panels">
@@ -46,6 +47,13 @@
       </aside>
     </main>
     <footer id="workstation-build-host">
+      <div id="workstation-build-progress" role="status" aria-live="polite" aria-label="Scene build progress" hidden>
+        <span class="ws-progress__label">FLY-IN</span>
+        <ol class="ws-progress__stages">
+          <li data-stage="S0">S0</li><li data-stage="S1">S1</li><li data-stage="S2">S2</li><li data-stage="S3">S3</li><li data-stage="S4">S4</li>
+        </ol>
+        <span class="ws-progress__note" id="workstation-build-progress-note"></span>
+      </div>
       <p id="workstation-build-placeholder">Location & scene tools are starting… <a href="">Reload if this message persists.</a></p>
     </footer>
   </div>

@@ -1,4 +1,10 @@
 import { installWorkstation } from './ui/workstation.js';
+import { purgeStaleServiceWorkers } from './ui/staleServiceWorkers.js';
+
+// 2026-10-24: this app never registers a service worker. Any registration or
+// Cache Storage entry left by an older build (or another app on the same
+// origin) would pin stale bundles, so it is removed on every start.
+purgeStaleServiceWorkers();
 
 // Mount navigation, source preferences, location and the existing standard chat
 // BEFORE importing Cesium or waiting for any provider. A graphics failure must

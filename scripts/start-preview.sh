@@ -13,7 +13,10 @@ if ! python3 -c 'import fastapi, httpx, uvicorn' 2>/dev/null; then
   python3 -m pip --version >/dev/null 2>&1 || python3 -m ensurepip --user
   python3 -m pip install --user -q -r requirements.txt uvicorn
 fi
-[ -f dist/index.html ] || npm run build
+# Always a fresh build from HEAD (scripts/build-fresh.sh) unless a prebuilt
+# dist/ with a BUILD_ID is present (sandbox boot copies one in).
+if [ ! -f dist/index.html ] || [ ! -f dist/BUILD_ID ]; then bash scripts/build-fresh.sh; fi
+export BUILD_COMMIT="${BUILD_COMMIT:-$(cat dist/BUILD_ID 2>/dev/null || true)}"
 python3 -m uvicorn api.footage.index:app --host 127.0.0.1 --port 8787 &
 footage_pid=$!
 node server/serverless/dev-server.mjs &

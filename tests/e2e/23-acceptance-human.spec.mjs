@@ -79,7 +79,8 @@ async function freshContext(browser, viewport, videoDir) {
     viewport,
     deviceScaleFactor: 1,
     serviceWorkers: 'block',
-    recordVideo: { dir: videoDir, size: viewport },
+    // ACCEPT_NO_VIDEO=1 skips the recording when Playwright's ffmpeg is absent.
+    ...(process.env.ACCEPT_NO_VIDEO ? {} : { recordVideo: { dir: videoDir, size: viewport } }),
     locale: 'en-US',
     timezoneId: 'UTC',
   });
