@@ -1,0 +1,116 @@
+{
+  "agent": 20,
+  "task": "Continuous real-browser mobile recording harness implementation",
+  "status": "implemented_syntax_checked_not_executed",
+  "source": "/home/appuser/work/6692b763e851d28a036ab30e/6ad9daa8a32a07124b4a9356/gods-eye-view/scripts/qa-marina-recording.mjs",
+  "implementedAt": "2026-10-24T01:57:04.816427+00:00",
+  "filesOwned": [
+    "scripts/qa-marina-recording.mjs",
+    "/tmp/gev-agent-20.json"
+  ],
+  "syntaxCheck": {
+    "command": "node --check scripts/qa-marina-recording.mjs",
+    "passed": true,
+    "exitCode": 0
+  },
+  "execution": {
+    "performed": false,
+    "reason": "Per instruction: coordinator runs only after integration/deployment. No browser launched, no live URL fetched, and no recording or runtime assertions claimed."
+  },
+  "runAfterDeployment": "node scripts/qa-marina-recording.mjs --url \"https://<deployed-app>\" --out \"./qa-marina-recording\"",
+  "dependencies": {
+    "existingPuppeteer": "^25.10.0",
+    "chromium": "/usr/bin/chromium (auto-detected, optional --chromium override)",
+    "ffmpeg": "/usr/bin/ffmpeg",
+    "ffprobe": "/usr/bin/ffprobe",
+    "newDependencies": []
+  },
+  "method": "Puppeteer page.screencast captures a continuous actual browser compositor stream to WebM before any typing; ffmpeg transcodes that same source to H.264/yuv420p/faststart MP4. Checkpoint PNGs are never used as video input.",
+  "viewport": {
+    "width": 375,
+    "height": 739,
+    "deviceScaleFactor": 1,
+    "isMobile": true,
+    "hasTouch": true
+  },
+  "encodingNote": "H.264 yuv420p requires even dimensions; MP4 is padded right/bottom by exactly 1 black pixel to 376x740 without scaling/cropping viewport content. Source WebM and screenshots remain 375x739.",
+  "outputsUnderOut": [
+    "marina-recording-<timestamp>-<pid>.mp4",
+    "marina-recording-<timestamp>-<pid>.webm",
+    "marina-recording-<timestamp>-<pid>.json",
+    "marina-recording-<timestamp>-<pid>-created.png",
+    "marina-recording-<timestamp>-<pid>-playing.png",
+    "marina-recording-<timestamp>-<pid>-saved.png",
+    "marina-recording-<timestamp>-<pid>-layers.png",
+    "marina-recording-<timestamp>-<pid>-reloaded.png"
+  ],
+  "requiredSelectors": [
+    "#incident-composer-input",
+    "#incident-composer-play",
+    "#scene-library-name",
+    "#scene-library-save",
+    "#scene-library-status",
+    "#scene-library-saved",
+    "#scene-library .scene-library__meta",
+    "#sidebar-layers-tab",
+    "#sidebar-scenes-tab",
+    "#scene-drawer-toggle",
+    "#data-panel",
+    "#scene-panel",
+    "#incident-playback-play",
+    "#incident-playback-pause",
+    "#incident-playback-next",
+    "#incident-playback-prev"
+  ],
+  "selectorSourceCheck": "All primary IDs found directly or as COMPOSER_ID/PLAYBACK_BAR_ID template-generated IDs in current local source; no known missing selectors. Runtime presence/visibility/occlusion is intentionally not claimed.",
+  "runtimeAssertions": [
+    "ready-real-mobile-workstation",
+    "continuous-screencast-started-before-any-typing",
+    "native-page-type-exact-prompt-and-keyboard-enter",
+    "scene-created-and-resolved-to-dubai-marina",
+    "composer-play-and-six-seconds-genuine-camera-motion",
+    "visible-playback-pause",
+    "type-visible-scene-name-and-save",
+    "clean-visible-layers-scenes-buttons-and-real-switching",
+    "visible-playback-play-resumes-six-seconds-camera-motion",
+    "pause-before-native-keyframe-stepping",
+    "visible-next-keyframe",
+    "visible-previous-keyframe",
+    "final-play-with-six-seconds-real-camera-motion",
+    "final-visible-pause-and-real-idle-tail",
+    "saved-scene-survives-reload-after-recording",
+    "continuous-source-to-browser-compatible-h264-mp4"
+  ],
+  "interactionPolicy": {
+    "typing": "page.type on real visible focused fields; native keyboard Enter submits exact prompt",
+    "pointer": "hit-tested touchscreen.tap; native mouse wheel on actual visible scroll ancestors",
+    "evaluate": "read-only DOM, geometry, scene state and camera observations",
+    "forbiddenFeaturesAbsent": [
+      "network mocks",
+      "state injection",
+      "storage writes outside actual Save UI",
+      "forced CSS",
+      "overlay removal",
+      "synthetic frames",
+      "environment secret access",
+      "network-body logging"
+    ]
+  },
+  "cleanup": {
+    "supervision": "Worker launched detached in its own POSIX process group; Chromium manually spawned non-detached and driven by puppeteer.connect so early launch failures cannot escape cleanup; ffmpeg inherits the same group. Supervisor kills entire group on normal exit, signals, errors and timeout.",
+    "recordingStop": "Native recorder stop+stream flush in finally; also requested on abort.",
+    "limitsSeconds": {
+      "workerAbort": 300,
+      "supervisorSoftDeadline": 325,
+      "hardKill": 350,
+      "ultimateWallclockExit": 358
+    },
+    "temporaryProfile": "Dedicated /tmp profile removed by supervisor; supplied output artifacts retained."
+  },
+  "runtimeMetadata": "JSON contains recording start/stop/end, first typing time, each assertion status/time/data, native-action trace, screenshot paths/dimensions, actual camera samples, ffprobe metadata, MP4 atom ordering, missing/blocked selectors and honest failure messages.",
+  "knownLimitations": [
+    "Live behavior remains untested pending deployment.",
+    "MP4 raster is 376x740 only because H.264 yuv420p cannot encode odd 375x739 dimensions.",
+    "Requires Linux process groups and installed Chromium/ffmpeg/ffprobe."
+  ]
+}
