@@ -513,9 +513,21 @@ export function installIncidentScenes({
 
   // Authored geographic plans reuse the existing SceneDirector. They are
   // explicitly named/saved by the operator, never ingested as reported events.
-  function activateGeographic(scene, { saved = false, focus = true } = {}) {
+  // Scene evidence (2026-10-24): every in-AOI scene opens its evidence panel.
+  // Saved scenes reopen from the local evidence cache with no provider calls.
+  function openEvidence(scene, { text, preferCache = false } = {}) {
+    const a = scene?.anchor;
+    if (!a || !Number.isFinite(a.lat) || !Number.isFinite(a.lon)) return;
+    win.dispatchEvent?.(
+      new CustomEvent('gev:scene-evidence', {
+        detail: { text: text || a.name || scene.title, place: a.name || undefined, lat: a.lat, lon: a.lon, sceneId: scene.id, windowHours: 72, preferCache },
+      }),
+    );
+  }
+  function activateGeographic(scene, { saved = false, focus = true, evidenceText, reopen = false } = {}) {
     const gate = resolveIncidentGate(scene.title, scene.anchor);
     if (!gate.allowed) throw new Error('Outside UAE AOI — external context only');
+    openEvidence(scene, { text: evidenceText, preferCache: reopen });
     activeGeographicScene = scene;
     const added = sceneDirector.addIncidentScene(scene, { select: true });
     if (!added.added) throw new Error(added.reason || 'Scene was not accepted');
@@ -539,7 +551,7 @@ export function installIncidentScenes({
   }
   sceneLibrary = createSceneLibrary({
     document: doc, window: win, sceneDirector, storage: geographicStore,
-    onSelect: (scene) => activateGeographic(scene, { saved: true }),
+    onSelect: (scene) => activateGeographic(scene, { saved: true, reopen: true }),
     onSave: (scene) => {
       const saved = geographicStore.save({ ...scene, updatedAt: new Date().toISOString() });
       if (!saved.saved) throw new Error(saved.reason || 'Storage unavailable');
@@ -590,12 +602,11 @@ export function installIncidentScenes({
         altitude: 8500,
         duration: 1.8,
       });
+      // Scoped incident search: open the evidence panel for the located place
+      // (the legacy /scene/videos rail stays reachable via gev:scene-videos).
       win.dispatchEvent?.(
-        new CustomEvent('gev:scene-videos', {
-          detail: {
-            prompt: extraction.originalText,
-            anchor: { lat: candidate.lat, lon: candidate.lon },
-          },
+        new CustomEvent('gev:scene-evidence', {
+          detail: { text: extraction.originalText, place: candidate.name, lat: candidate.lat, lon: candidate.lon, windowHours: extraction.windowHours || 72 },
         }),
       );
     },
@@ -610,14 +621,14 @@ export function installIncidentScenes({
         sceneDirector._paused = null;
       }
       if (scene.geographic) {
-        activateGeographic(scene, { saved: Boolean(geographicStore.load(scene.id)), focus: !play });
+        activateGeographic(scene, { saved: Boolean(geographicStore.load(scene.id)), focus: !play, evidenceText: text });
         if (play) void playScene(scene.id, { fly: false });
         return;
       }
       const point = scene.anchor || scene.keyframes?.[0];
       if (!point || !resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon }).allowed) throw new Error('Outside UAE AOI — external context only');
       const sceneWithFlags = scene;
-      if (!play && text) win.dispatchEvent?.(new CustomEvent('gev:scene-videos', { detail: { prompt: text, anchor: { lat: point.lat, lon: point.lon } } }));
+      if (!play && text) win.dispatchEvent?.(new CustomEvent('gev:scene-evidence', { detail: { text, lat: point.lat, lon: point.lon, sceneId: scene.id, windowHours: 72 } }));
       const added = sceneDirector.addIncidentScene(sceneWithFlags, {
         override,
         select: true,

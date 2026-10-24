@@ -78,6 +78,7 @@ import { createPluginLifecycle } from './plugin-lifecycle.js';
 import { createVoiceTurnHandler } from './voice-route.js';
 import { createIncidentRoutes } from '../../incidents/routes.js';
 import { createSceneVideoRoutes } from '../../scene-videos/routes.js';
+import { createSceneEvidenceRoutes } from '../../scene-evidence/routes.js';
 
 export const FOUNDATION_MOUNT = '/api/ondemand/v2';
 const KEY_SOURCE_HEADER = 'X-OnDemand-Key-Source';
@@ -552,6 +553,22 @@ export function createFoundationHandler(deps = {}) {
       });
     return sceneVideoRoutes;
   };
+  // Scene evidence (2026-10-24): parallel multi-source fan-out with per-source
+  // budgets, SSE partials, per-scene cache, oEmbed profiles, optional Cerebras
+  // inference (server/scene-evidence/*).
+  let sceneEvidenceRoutes = null;
+  const getSceneEvidenceRoutes = (client) => {
+    if (!sceneEvidenceRoutes)
+      sceneEvidenceRoutes = createSceneEvidenceRoutes({
+        client: deps.sceneEvidenceClient || client,
+        audit,
+        invoke: deps.sceneEvidenceInvoke,
+        fetch: deps.evidenceFetch,
+        sources: deps.evidenceSources,
+        inference: deps.evidenceInference,
+      });
+    return sceneEvidenceRoutes;
+  };
   return async function foundationHandler(req, res) {
     if (rejectCrossOrigin(req, res)) return;
     res.setHeader(KEY_SOURCE_HEADER, 'server'); // the client key is never used here
@@ -734,6 +751,17 @@ export function createFoundationHandler(deps = {}) {
       if (path.startsWith('/incidents')) {
         if (
           await getIncidentRoutes(client, store)(req, res, {
+            path,
+            method,
+            url,
+            authorize,
+          })
+        )
+          return;
+      }
+      if (path.startsWith('/scene/evidence')) {
+        if (
+          await getSceneEvidenceRoutes(client)(req, res, {
             path,
             method,
             url,

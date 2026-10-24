@@ -44,6 +44,7 @@
     "test:serverless": "node --test server/serverless/*.test.mjs",
     "test:ondemand": "node --test server/ondemand/*.test.mjs",
     "test:foundation": "node --test server/ondemand/foundation/*.test.mjs",
+    "test:scene-evidence": "node --test server/scene-evidence/*.test.mjs server/scene-videos/*.test.mjs",
     "ondemand:foundation:live": "node scripts/ondemand-foundation-live.mjs",
     "ondemand:contract": "node scripts/ondemand-contract-test.mjs",
     "dev:serverless": "node server/serverless/dev-server.mjs",

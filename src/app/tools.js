@@ -4,6 +4,7 @@ import { getUaeAoiIndex } from '../aoi/uaeInterest.js';
 import { resolveIncidentGate } from '../aoi/sceneGate.js';
 import { installIncidentScenes } from '../incidents/ui/index.js';
 import { installSceneVideos } from '../sceneVideos/index.js';
+import { installSceneEvidence } from '../sceneEvidence/index.js';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
 import { createGevActionRunner } from '../voice/gevActions.js';
@@ -162,6 +163,10 @@ export function createApplicationTools({
   // YouTube / TikTok / Instagram through OnDemand plugins and streams clips
   // into the side rail with LIVE / RECENT / ARCHIVAL labels (src/sceneVideos/*).
   debug.sceneVideos = installSceneVideos({ viewer, signal });
+  // Scene evidence (2026-10-24): BUILD SCENE fans out to every configured
+  // public source in parallel and streams ranked, labelled cards, signals,
+  // source status and a summary into one panel (src/sceneEvidence/*).
+  debug.sceneEvidence = installSceneEvidence({ viewer, signal });
   const runner = createGevActionRunner({
     ...voice,
     floorServices: operations.surface.groundFloor,
