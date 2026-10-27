@@ -23,6 +23,7 @@ const LEVEL_LABEL = {
 const EVIDENCE_LABEL = {
   'hashtag-match': 'hashtag text match',
   'place-name-match': 'caption text match',
+  'plugin-text-match': 'plugin-reported text match (no caption returned)',
   geotag: 'geotag',
   unknown: 'unknown',
 };

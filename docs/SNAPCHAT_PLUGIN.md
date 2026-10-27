@@ -118,3 +118,9 @@ Native `<video muted playsinline autoplay loop controls>` pointed directly at th
 * Promotional or irrelevant matches (restaurant promos for Downtown Dubai; `#jbrtvusa` meme channel for JBR).
 * Latency 12–42 s per query; the plugin intermittently fails per item with HTTP 500 and sessions can answer 409 when busy.
 * The OnDemand answer is model-mediated: the app validates the JSON it returns but cannot independently audit the raw plugin execution.
+
+## Cycle 20 additions (2026-10-27)
+- Key: server-only `server/ondemand/server-key.js`, persistent env (`keySource:"env:persistent"`); no temp file.
+- One fresh-session retry when every candidate fails media HEAD verification (model-transcribed `storageUrl` corruption observed live).
+- Near-identical re-upload dedupe (normalised caption ≥12 chars + 1 s duration bucket), server and client.
+- `plugin-text-match` evidence for untitled clips the plugin itself reported as a `clip-text-match` for the requested place (no caption/hashtags to re-check).

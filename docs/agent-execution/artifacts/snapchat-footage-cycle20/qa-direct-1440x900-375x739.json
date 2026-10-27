@@ -1,0 +1,4979 @@
+{
+  "startedUtc": "2026-10-27T03:46:28.607Z",
+  "url": "https://sb-5kdyj18ew55x.vercel.run",
+  "label": "after",
+  "mode": "full",
+  "host": "DIRECT top-level page (no iframe)",
+  "driver": "Puppeteer (repo devDependency) driving /usr/bin/chromium",
+  "runs": [
+    {
+      "id": "after-direct-1440x900",
+      "mode": "direct",
+      "viewport": "1440x900",
+      "startedUtc": "2026-10-27T03:46:28.932Z",
+      "checks": [
+        {
+          "utc": "2026-10-27T03:46:30.071Z",
+          "name": "direct-top-level-page-loaded",
+          "ok": true,
+          "detail": {
+            "url": "https://sb-5kdyj18ew55x.vercel.run/?welcome=0"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:04.158Z",
+          "name": "marina: pending feedback appears immediately (in-page submit→pending < 250 ms)",
+          "ok": true,
+          "detail": {
+            "pendingMs": 32.7
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:36.089Z",
+          "name": "marina: footage request settled for the active locationId",
+          "ok": true,
+          "detail": {
+            "phase": "ready",
+            "locationId": "snap-dubai-marina"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:36.089Z",
+          "name": "marina: POST /api/scenes/:locationId/footage/snapchat observed",
+          "ok": true,
+          "detail": {
+            "status": 200,
+            "body": [
+              "locationId",
+              "lat",
+              "lon",
+              "placeName",
+              "bbox",
+              "clientTimeIso",
+              "fresh"
+            ]
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:36.089Z",
+          "name": "marina: OnDemand query carried pluginIds [plugin-1792945050] (or served from the per-location cache of such a query)",
+          "ok": true,
+          "detail": {
+            "cache": true
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:36.090Z",
+          "name": "marina: no clip labelled LIVE",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:47:38.595Z",
+          "name": "marina: playback readyState ≥ 3, currentTime advancing, muted",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 13.746384,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "locationId": "snap-dubai-marina",
+              "err": null,
+              "duration": 16.1,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 0.092368,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "duration": 16.1,
+              "wrapped": true,
+              "tUnwrapped": 16.192368000000002
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:38.595Z",
+          "name": "marina: playing clip belongs to the active locationId",
+          "ok": true,
+          "detail": {
+            "video": "snap-dubai-marina"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:38.595Z",
+          "name": "marina: displayed publication time matches raw uploadDateMs (UTC)",
+          "ok": true,
+          "detail": {
+            "raw": "September 9, 2026 at 5:13:12 PM",
+            "parsed": "2026-09-09T17:13:12.000Z",
+            "shown": "2026-09-09 17:13"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:38.595Z",
+          "name": "marina: capture time shown as unknown (plugin returns none)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:47:38.596Z",
+          "name": "marina: source attribution + original link shown",
+          "ok": true,
+          "detail": {
+            "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:38.596Z",
+          "name": "marina: last-checked time visible",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:47:38.596Z",
+          "name": "marina: location labelled as caption/hashtag text match (not geotag)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:47:38.596Z",
+          "name": "marina: clip selector lists every validated clip once",
+          "ok": true,
+          "detail": {
+            "selector": 1,
+            "clips": 1
+          }
+        },
+        {
+          "utc": "2026-10-27T03:48:25.910Z",
+          "name": "marina: refresh tick updated last-checked time",
+          "ok": true,
+          "detail": {
+            "before": "2026-10-27T03:43:40.276Z",
+            "after": "2026-10-27T03:48:25.761Z"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:48:25.910Z",
+          "name": "marina: refresh preserved the current clip",
+          "ok": true,
+          "detail": {
+            "before": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "after": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "videoAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:48:25.910Z",
+          "name": "marina: refresh merged without duplicates",
+          "ok": true,
+          "detail": {
+            "ids": 1
+          }
+        },
+        {
+          "utc": "2026-10-27T03:48:25.911Z",
+          "name": "marina: clip selector has no duplicate entries",
+          "ok": true,
+          "detail": {
+            "domIds": 1
+          }
+        },
+        {
+          "utc": "2026-10-27T03:48:28.415Z",
+          "name": "marina: playback continues after refresh (readyState ≥ 3, currentTime advancing)",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 15.091597,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "locationId": "snap-dubai-marina",
+              "err": null,
+              "duration": 16.1,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 1.434235,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "duration": 16.1,
+              "wrapped": true,
+              "tUnwrapped": 17.534235000000002
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:48:34.557Z",
+          "name": "burj: pending feedback appears immediately (in-page submit→pending < 250 ms)",
+          "ok": true,
+          "detail": {
+            "pendingMs": 22.1
+          }
+        },
+        {
+          "utc": "2026-10-27T03:49:05.793Z",
+          "name": "burj: footage request settled for the active locationId",
+          "ok": true,
+          "detail": {
+            "phase": "ready",
+            "locationId": "snap-burj-khalifa"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:49:05.793Z",
+          "name": "burj: POST /api/scenes/:locationId/footage/snapchat observed",
+          "ok": true,
+          "detail": {
+            "status": 200,
+            "body": [
+              "locationId",
+              "lat",
+              "lon",
+              "placeName",
+              "bbox",
+              "clientTimeIso",
+              "fresh"
+            ]
+          }
+        },
+        {
+          "utc": "2026-10-27T03:49:05.793Z",
+          "name": "burj: OnDemand query carried pluginIds [plugin-1792945050] (or served from the per-location cache of such a query)",
+          "ok": true,
+          "detail": {
+            "cache": true
+          }
+        },
+        {
+          "utc": "2026-10-27T03:49:05.794Z",
+          "name": "burj: no clip labelled LIVE",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:49:08.300Z",
+          "name": "burj: playback readyState ≥ 3, currentTime advancing, muted",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 2.15046,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "locationId": "snap-burj-khalifa",
+              "err": null,
+              "duration": 9.195011,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 4.655098,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "duration": 9.195011
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:49:08.300Z",
+          "name": "burj: playing clip belongs to the active locationId",
+          "ok": true,
+          "detail": {
+            "video": "snap-burj-khalifa"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:49:08.300Z",
+          "name": "burj: displayed publication time matches raw uploadDateMs (UTC)",
+          "ok": true,
+          "detail": {
+            "raw": "October 1, 2026 at 11:55:30 AM",
+            "parsed": "2026-10-01T11:55:30.000Z",
+            "shown": "2026-10-01 11:55"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:49:08.300Z",
+          "name": "burj: capture time shown as unknown (plugin returns none)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:49:08.300Z",
+          "name": "burj: source attribution + original link shown",
+          "ok": true,
+          "detail": {
+            "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:49:08.300Z",
+          "name": "burj: last-checked time visible",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:49:08.300Z",
+          "name": "burj: location labelled as caption/hashtag text match (not geotag)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:49:08.301Z",
+          "name": "burj: clip selector lists every validated clip once",
+          "ok": true,
+          "detail": {
+            "selector": 3,
+            "clips": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:05.681Z",
+          "name": "burj: refresh tick updated last-checked time",
+          "ok": true,
+          "detail": {
+            "before": "2026-10-27T03:44:47.708Z",
+            "after": "2026-10-27T03:50:05.544Z"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:05.681Z",
+          "name": "burj: refresh preserved the current clip",
+          "ok": true,
+          "detail": {
+            "before": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "after": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "videoAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:05.681Z",
+          "name": "burj: refresh merged without duplicates",
+          "ok": true,
+          "detail": {
+            "ids": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:05.682Z",
+          "name": "burj: clip selector has no duplicate entries",
+          "ok": true,
+          "detail": {
+            "domIds": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:08.186Z",
+          "name": "burj: playback continues after refresh (readyState ≥ 3, currentTime advancing)",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 6.533443,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "locationId": "snap-burj-khalifa",
+              "err": null,
+              "duration": 9.195011,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 9.036936,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "duration": 9.195011
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:14.315Z",
+          "name": "downtown: pending feedback appears immediately (in-page submit→pending < 250 ms)",
+          "ok": true,
+          "detail": {
+            "pendingMs": 28.9
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:17.163Z",
+          "name": "downtown: footage request settled for the active locationId",
+          "ok": true,
+          "detail": {
+            "phase": "ready",
+            "locationId": "snap-downtown-dubai"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:17.163Z",
+          "name": "downtown: POST /api/scenes/:locationId/footage/snapchat observed",
+          "ok": true,
+          "detail": {
+            "status": 200,
+            "body": [
+              "locationId",
+              "lat",
+              "lon",
+              "placeName",
+              "bbox",
+              "clientTimeIso",
+              "fresh"
+            ]
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:17.163Z",
+          "name": "downtown: OnDemand query carried pluginIds [plugin-1792945050] (or served from the per-location cache of such a query)",
+          "ok": true,
+          "detail": {
+            "cache": true
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:17.548Z",
+          "name": "downtown: no clip labelled LIVE",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:50:20.582Z",
+          "name": "downtown: playback readyState ≥ 3, currentTime advancing, muted",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 1,
+              "t": 0,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "locationId": "snap-downtown-dubai",
+              "err": null,
+              "duration": 35.4,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 2.59463,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "duration": 35.4
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:20.582Z",
+          "name": "downtown: playing clip belongs to the active locationId",
+          "ok": true,
+          "detail": {
+            "video": "snap-downtown-dubai"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:20.582Z",
+          "name": "downtown: displayed publication time matches raw uploadDateMs (UTC)",
+          "ok": true,
+          "detail": {
+            "raw": "October 11, 2026 at 8:16:09 AM",
+            "parsed": "2026-10-11T08:16:09.000Z",
+            "shown": "2026-10-11 08:16"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:20.582Z",
+          "name": "downtown: capture time shown as unknown (plugin returns none)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:50:20.582Z",
+          "name": "downtown: source attribution + original link shown",
+          "ok": true,
+          "detail": {
+            "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:20.582Z",
+          "name": "downtown: last-checked time visible",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:50:20.582Z",
+          "name": "downtown: location labelled as caption/hashtag text match (not geotag)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:50:20.949Z",
+          "name": "downtown: clip selector lists every validated clip once",
+          "ok": true,
+          "detail": {
+            "selector": 3,
+            "clips": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:51:21.479Z",
+          "name": "downtown: refresh tick updated last-checked time",
+          "ok": true,
+          "detail": {
+            "before": "2026-10-27T03:45:55.900Z",
+            "after": "2026-10-27T03:51:21.344Z"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:51:21.479Z",
+          "name": "downtown: refresh preserved the current clip",
+          "ok": true,
+          "detail": {
+            "before": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "after": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "videoAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:51:21.479Z",
+          "name": "downtown: refresh merged without duplicates",
+          "ok": true,
+          "detail": {
+            "ids": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:51:21.480Z",
+          "name": "downtown: clip selector has no duplicate entries",
+          "ok": true,
+          "detail": {
+            "domIds": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:51:23.983Z",
+          "name": "downtown: playback continues after refresh (readyState ≥ 3, currentTime advancing)",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 28.026598,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "locationId": "snap-downtown-dubai",
+              "err": null,
+              "duration": 35.4,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 30.52921,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "duration": 35.4
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:51:26.551Z",
+          "name": "race A→B→A→C: rendered clips always matched the active locationId",
+          "ok": true,
+          "detail": {
+            "bad": [],
+            "badCount": 0,
+            "samples": 44,
+            "final": {
+              "locationId": "snap-downtown-dubai",
+              "phase": "ready",
+              "clips": 3,
+              "discarded": 0
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:51:26.576Z",
+          "name": "forced plugin_error (INJECTED response) renders its state and no video",
+          "ok": true,
+          "detail": {
+            "msg": "Snapchat plugin error — the footage request failed.\n(upstream_500)"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:51:26.857Z",
+          "name": "forced credentials_required (INJECTED response) renders its state and no video",
+          "ok": true,
+          "detail": {
+            "msg": "Credentials required — the server has no OnDemand key configured for the Snapchat plugin."
+          }
+        },
+        {
+          "utc": "2026-10-27T03:51:27.116Z",
+          "name": "no uncaught page errors",
+          "ok": true,
+          "detail": []
+        }
+      ],
+      "stages": [
+        {
+          "utc": "2026-10-27T03:46:39.068Z",
+          "location": "marina",
+          "stage": "scene-selection",
+          "input": "Dubai Marina",
+          "via": "click"
+        },
+        {
+          "utc": "2026-10-27T03:47:36.084Z",
+          "location": "marina",
+          "stage": "footage-loading-visible",
+          "ok": false
+        },
+        {
+          "utc": "2026-10-27T03:47:36.089Z",
+          "location": "marina",
+          "stage": "backend-request",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:47:03.604Z",
+            "fresh": false
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:36.089Z",
+          "location": "marina",
+          "stage": "ondemand-session-and-query",
+          "cached": true
+        },
+        {
+          "utc": "2026-10-27T03:47:36.089Z",
+          "location": "marina",
+          "stage": "schema-validated",
+          "state": "ok",
+          "clips": 1,
+          "coverageLevel": "district",
+          "expanded": false,
+          "rejected": [],
+          "ladder": [
+            "Dubai Marina:district:q:1",
+            "Dubai:city:-:capped:0"
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:47:38.595Z",
+          "location": "marina",
+          "stage": "in-scene-playback",
+          "a": {
+            "rs": 4,
+            "t": 13.746384,
+            "muted": true,
+            "playsInline": true,
+            "paused": false,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "locationId": "snap-dubai-marina",
+            "err": null,
+            "duration": 16.1,
+            "loop": true
+          },
+          "b": {
+            "rs": 4,
+            "t": 0.092368,
+            "muted": true,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "duration": 16.1,
+            "wrapped": true,
+            "tUnwrapped": 16.192368000000002
+          }
+        },
+        {
+          "utc": "2026-10-27T03:47:38.900Z",
+          "location": "marina",
+          "stage": "refresh-tick-start",
+          "lastCheckedAt": "2026-10-27T03:43:40.276Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+          "refreshMs": 120000,
+          "via": "interval timer set to 30 s via the UI select"
+        },
+        {
+          "utc": "2026-10-27T03:48:25.909Z",
+          "location": "marina",
+          "stage": "refresh-tick-done",
+          "ticked": true,
+          "lastCheckedAt": "2026-10-27T03:48:25.761Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+          "refreshCount": 1,
+          "clipIds": 1,
+          "refreshMs": 30000
+        },
+        {
+          "utc": "2026-10-27T03:48:28.694Z",
+          "location": "burj",
+          "stage": "scene-selection",
+          "input": "Burj Khalifa",
+          "via": "enter"
+        },
+        {
+          "utc": "2026-10-27T03:49:05.779Z",
+          "location": "burj",
+          "stage": "footage-loading-visible",
+          "ok": false
+        },
+        {
+          "utc": "2026-10-27T03:49:05.793Z",
+          "location": "burj",
+          "stage": "backend-request",
+          "method": "POST",
+          "path": "/api/scenes/snap-burj-khalifa/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-burj-khalifa",
+            "lat": 25.1970336,
+            "lon": 55.2741329,
+            "placeName": "Burj Khalifa",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:48:33.150Z",
+            "fresh": false
+          }
+        },
+        {
+          "utc": "2026-10-27T03:49:05.793Z",
+          "location": "burj",
+          "stage": "ondemand-session-and-query",
+          "cached": true
+        },
+        {
+          "utc": "2026-10-27T03:49:05.793Z",
+          "location": "burj",
+          "stage": "schema-validated",
+          "state": "ok",
+          "clips": 3,
+          "coverageLevel": "landmark",
+          "expanded": false,
+          "rejected": [],
+          "ladder": [
+            "Burj Khalifa:landmark:q:3",
+            "Downtown Dubai:neighborhood:-:0",
+            "Dubai:city:-:capped:0"
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:49:08.300Z",
+          "location": "burj",
+          "stage": "in-scene-playback",
+          "a": {
+            "rs": 4,
+            "t": 2.15046,
+            "muted": true,
+            "playsInline": true,
+            "paused": false,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "locationId": "snap-burj-khalifa",
+            "err": null,
+            "duration": 9.195011,
+            "loop": true
+          },
+          "b": {
+            "rs": 4,
+            "t": 4.655098,
+            "muted": true,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "duration": 9.195011
+          }
+        },
+        {
+          "utc": "2026-10-27T03:49:08.671Z",
+          "location": "burj",
+          "stage": "refresh-tick-start",
+          "lastCheckedAt": "2026-10-27T03:44:47.708Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+          "refreshMs": 0,
+          "via": "interval timer set to 30 s via the UI select"
+        },
+        {
+          "utc": "2026-10-27T03:50:05.680Z",
+          "location": "burj",
+          "stage": "refresh-tick-done",
+          "ticked": true,
+          "lastCheckedAt": "2026-10-27T03:50:05.544Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+          "refreshCount": 1,
+          "clipIds": 3,
+          "refreshMs": 30000
+        },
+        {
+          "utc": "2026-10-27T03:50:08.446Z",
+          "location": "downtown",
+          "stage": "scene-selection",
+          "input": "Downtown Dubai",
+          "via": "click"
+        },
+        {
+          "utc": "2026-10-27T03:50:15.950Z",
+          "location": "downtown",
+          "stage": "footage-loading-visible",
+          "ok": true
+        },
+        {
+          "utc": "2026-10-27T03:50:17.163Z",
+          "location": "downtown",
+          "stage": "backend-request",
+          "method": "POST",
+          "path": "/api/scenes/snap-downtown-dubai/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-downtown-dubai",
+            "lat": 25.1948428,
+            "lon": 55.278195,
+            "placeName": "Downtown Dubai",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:50:14.673Z",
+            "fresh": false
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:17.163Z",
+          "location": "downtown",
+          "stage": "ondemand-session-and-query",
+          "cached": true
+        },
+        {
+          "utc": "2026-10-27T03:50:17.163Z",
+          "location": "downtown",
+          "stage": "schema-validated",
+          "state": "ok",
+          "clips": 3,
+          "coverageLevel": "neighborhood",
+          "expanded": false,
+          "rejected": [],
+          "ladder": [
+            "Downtown Dubai:neighborhood:q:3",
+            "Dubai:city:-:capped:0"
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:50:20.582Z",
+          "location": "downtown",
+          "stage": "in-scene-playback",
+          "a": {
+            "rs": 1,
+            "t": 0,
+            "muted": true,
+            "playsInline": true,
+            "paused": false,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "locationId": "snap-downtown-dubai",
+            "err": null,
+            "duration": 35.4,
+            "loop": true
+          },
+          "b": {
+            "rs": 4,
+            "t": 2.59463,
+            "muted": true,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "duration": 35.4
+          }
+        },
+        {
+          "utc": "2026-10-27T03:50:22.471Z",
+          "location": "downtown",
+          "stage": "refresh-tick-start",
+          "lastCheckedAt": "2026-10-27T03:45:55.900Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+          "refreshMs": 0,
+          "via": "interval timer set to 30 s via the UI select"
+        },
+        {
+          "utc": "2026-10-27T03:51:21.478Z",
+          "location": "downtown",
+          "stage": "refresh-tick-done",
+          "ticked": true,
+          "lastCheckedAt": "2026-10-27T03:51:21.344Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+          "refreshCount": 1,
+          "clipIds": 3,
+          "refreshMs": 30000
+        },
+        {
+          "utc": "2026-10-27T03:51:24.328Z",
+          "location": "race",
+          "stage": "start",
+          "sequence": "Dubai Marina → Burj Khalifa → Dubai Marina → Downtown Dubai"
+        },
+        {
+          "utc": "2026-10-27T03:51:26.551Z",
+          "location": "race",
+          "stage": "done",
+          "bad": [],
+          "badCount": 0,
+          "samples": 44,
+          "final": {
+            "locationId": "snap-downtown-dubai",
+            "phase": "ready",
+            "clips": 3,
+            "discarded": 0
+          }
+        }
+      ],
+      "network": [
+        {
+          "utc": "2026-10-27T03:47:04.130Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:47:03.604Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 1,
+          "requestId": "eba54b48-a053-4378-b0ae-d1aba16c146d",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:47:03.719Z",
+              "lat": 25.0786415,
+              "lon": 55.1352524,
+              "placeName": "Dubai Marina",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:47:03.719Z",
+              "ageMs": 203443
+            }
+          ],
+          "ladder": [
+            {
+              "level": "district",
+              "label": "Dubai Marina",
+              "names": [
+                "Dubai Marina"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 1
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "district",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "publicationTime": "2026-09-09T17:13:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:43:22.618Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Dubai Marina",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:48:25.763Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:48:08.904Z",
+            "fresh": true
+          },
+          "state": "ok",
+          "clips": 1,
+          "requestId": "3bcaedd4-06e9-4d38-8982-f03c13b86098",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:48:08.936Z",
+              "lat": 25.0786415,
+              "lon": 55.1352524,
+              "placeName": "Dubai Marina",
+              "bbox": null,
+              "fresh": true
+            },
+            {
+              "stage": "session_create",
+              "utc": "2026-10-27T03:48:08.936Z",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "attempt": 1
+            },
+            {
+              "stage": "session_created",
+              "utc": "2026-10-27T03:48:09.162Z",
+              "sessionId": "6ae01ef9600b913b65acaba0",
+              "attempt": 1
+            },
+            {
+              "stage": "query_submit",
+              "utc": "2026-10-27T03:48:09.162Z",
+              "sessionId": "6ae01ef9600b913b65acaba0",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "endpointId": "predefined-openai-gpt4.1-mini",
+              "responseMode": "sync",
+              "places": [
+                "Dubai Marina"
+              ],
+              "limit": 3,
+              "attempt": 1
+            },
+            {
+              "stage": "query_completed",
+              "utc": "2026-10-27T03:48:25.671Z",
+              "sessionId": "6ae01ef9600b913b65acaba0",
+              "messageId": "6ae01ef9600b913b65acaba1",
+              "status": "completed",
+              "ms": 16735,
+              "ragTimeSec": 10.66
+            },
+            {
+              "stage": "media_verified",
+              "utc": "2026-10-27T03:48:25.761Z",
+              "checked": 1,
+              "playable": 1,
+              "rejected": []
+            },
+            {
+              "stage": "schema_validated",
+              "utc": "2026-10-27T03:48:25.761Z",
+              "clips": 1,
+              "rejected": 0,
+              "coverageLevel": "district",
+              "expanded": false,
+              "media": [
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/j8Nmz8Tyig.mp4"
+              ]
+            }
+          ],
+          "ladder": [
+            {
+              "level": "district",
+              "label": "Dubai Marina",
+              "names": [
+                "Dubai Marina"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 1
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "district",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "publicationTime": "2026-09-09T17:13:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:48:08.936Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Dubai Marina",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:48:34.229Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-burj-khalifa/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-burj-khalifa",
+            "lat": 25.1970336,
+            "lon": 55.2741329,
+            "placeName": "Burj Khalifa",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:48:33.150Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "ab99f140-fa2f-4131-b887-9e314039876e",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:48:33.266Z",
+              "lat": 25.1970336,
+              "lon": 55.2741329,
+              "placeName": "Burj Khalifa",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:48:33.266Z",
+              "ageMs": 225558
+            }
+          ],
+          "ladder": [
+            {
+              "level": "landmark",
+              "label": "Burj Khalifa",
+              "names": [
+                "Burj Khalifa"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": false,
+              "clips": 0
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "landmark",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "publicationTime": "2026-10-01T11:55:30.000Z",
+              "publicationTimeRaw": "October 1, 2026 at 11:55:30 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:44:21.339Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw",
+              "publicationTime": "2026-09-09T09:48:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 9:48:12 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:44:21.339Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ",
+              "publicationTime": "2025-11-16T21:02:20.000Z",
+              "publicationTimeRaw": "November 16, 2025 at 9:02:20 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:44:21.339Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:50:05.547Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-burj-khalifa/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-burj-khalifa",
+            "lat": 25.1970336,
+            "lon": 55.2741329,
+            "placeName": "Burj Khalifa",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:49:38.674Z",
+            "fresh": true
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "301ce614-05cb-42c2-8a73-2f328d727d14",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:49:38.719Z",
+              "lat": 25.1970336,
+              "lon": 55.2741329,
+              "placeName": "Burj Khalifa",
+              "bbox": null,
+              "fresh": true
+            },
+            {
+              "stage": "session_create",
+              "utc": "2026-10-27T03:49:38.719Z",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "attempt": 1
+            },
+            {
+              "stage": "session_created",
+              "utc": "2026-10-27T03:49:39.004Z",
+              "sessionId": "6ae01f52600b913b65acabcd",
+              "attempt": 1
+            },
+            {
+              "stage": "query_submit",
+              "utc": "2026-10-27T03:49:39.005Z",
+              "sessionId": "6ae01f52600b913b65acabcd",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "endpointId": "predefined-openai-gpt4.1-mini",
+              "responseMode": "sync",
+              "places": [
+                "Burj Khalifa"
+              ],
+              "limit": 3,
+              "attempt": 1
+            },
+            {
+              "stage": "query_completed",
+              "utc": "2026-10-27T03:50:05.448Z",
+              "sessionId": "6ae01f52600b913b65acabcd",
+              "messageId": "6ae01f53600b913b65acabce",
+              "status": "completed",
+              "ms": 26729,
+              "ragTimeSec": 12.28
+            },
+            {
+              "stage": "media_verified",
+              "utc": "2026-10-27T03:50:05.544Z",
+              "checked": 3,
+              "playable": 3,
+              "rejected": []
+            },
+            {
+              "stage": "schema_validated",
+              "utc": "2026-10-27T03:50:05.544Z",
+              "clips": 3,
+              "rejected": 0,
+              "coverageLevel": "landmark",
+              "expanded": false,
+              "media": [
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/0W68euyta0.mp4",
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/Uit1dvD0j6.mp4",
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/WkVjy0LlK7.mp4"
+              ]
+            }
+          ],
+          "ladder": [
+            {
+              "level": "landmark",
+              "label": "Burj Khalifa",
+              "names": [
+                "Burj Khalifa"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": false,
+              "clips": 0
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "landmark",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "publicationTime": "2026-10-01T11:55:30.000Z",
+              "publicationTimeRaw": "October 1, 2026 at 11:55:30 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw",
+              "publicationTime": "2026-09-09T09:48:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 9:48:12 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ",
+              "publicationTime": "2025-11-16T21:02:20.000Z",
+              "publicationTimeRaw": "November 16, 2025 at 9:02:20 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:50:16.311Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-downtown-dubai/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-downtown-dubai",
+            "lat": 25.1948428,
+            "lon": 55.278195,
+            "placeName": "Downtown Dubai",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:50:14.673Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "ca4b444d-3901-4b99-993f-9b2ed0a071c8",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:50:14.788Z",
+              "lat": 25.1948428,
+              "lon": 55.278195,
+              "placeName": "Downtown Dubai",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:50:14.788Z",
+              "ageMs": 258888
+            }
+          ],
+          "ladder": [
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "neighborhood",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "publicationTime": "2026-10-11T08:16:09.000Z",
+              "publicationTimeRaw": "October 11, 2026 at 8:16:09 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:45:28.960Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "plugin-text-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ",
+              "publicationTime": "2026-01-13T08:55:34.000Z",
+              "publicationTimeRaw": "January 13, 2026 at 8:55:34 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:45:28.960Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ",
+              "publicationTime": "2026-01-12T07:37:02.000Z",
+              "publicationTimeRaw": "January 12, 2026 at 7:37:02 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:45:28.960Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:51:21.345Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-downtown-dubai/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-downtown-dubai",
+            "lat": 25.1948428,
+            "lon": 55.278195,
+            "placeName": "Downtown Dubai",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:50:52.474Z",
+            "fresh": true
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "cc8546e2-aac3-46f4-8090-be9a97226e2c",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:50:52.507Z",
+              "lat": 25.1948428,
+              "lon": 55.278195,
+              "placeName": "Downtown Dubai",
+              "bbox": null,
+              "fresh": true
+            },
+            {
+              "stage": "session_create",
+              "utc": "2026-10-27T03:50:52.507Z",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "attempt": 1
+            },
+            {
+              "stage": "session_created",
+              "utc": "2026-10-27T03:50:52.789Z",
+              "sessionId": "6ae01f9c600b913b65acabf1",
+              "attempt": 1
+            },
+            {
+              "stage": "query_submit",
+              "utc": "2026-10-27T03:50:52.789Z",
+              "sessionId": "6ae01f9c600b913b65acabf1",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "endpointId": "predefined-openai-gpt4.1-mini",
+              "responseMode": "sync",
+              "places": [
+                "Downtown Dubai"
+              ],
+              "limit": 3,
+              "attempt": 1
+            },
+            {
+              "stage": "query_completed",
+              "utc": "2026-10-27T03:51:21.247Z",
+              "sessionId": "6ae01f9c600b913b65acabf1",
+              "messageId": "6ae01f9d600b913b65acabf2",
+              "status": "completed",
+              "ms": 28740,
+              "ragTimeSec": 14.38
+            },
+            {
+              "stage": "media_verified",
+              "utc": "2026-10-27T03:51:21.344Z",
+              "checked": 3,
+              "playable": 3,
+              "rejected": []
+            },
+            {
+              "stage": "schema_validated",
+              "utc": "2026-10-27T03:51:21.344Z",
+              "clips": 3,
+              "rejected": 0,
+              "coverageLevel": "neighborhood",
+              "expanded": false,
+              "media": [
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/Rfn2kYwt6A.mp4",
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/PgNJU2RJlK.mp4",
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/iscbhb8F0v.mp4"
+              ]
+            }
+          ],
+          "ladder": [
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "neighborhood",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "publicationTime": "2026-10-11T08:16:09.000Z",
+              "publicationTimeRaw": "October 11, 2026 at 8:16:09 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "plugin-text-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ",
+              "publicationTime": "2026-01-13T08:55:34.000Z",
+              "publicationTimeRaw": "January 13, 2026 at 8:55:34 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ",
+              "publicationTime": "2026-01-12T07:37:02.000Z",
+              "publicationTimeRaw": "January 12, 2026 at 7:37:02 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:51:24.401Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:51:24.350Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 1,
+          "requestId": "cb875113-fd07-42d7-be5c-dd14bdde4b2f",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:51:24.401Z",
+              "lat": 25.0786415,
+              "lon": 55.1352524,
+              "placeName": "Dubai Marina",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:51:24.401Z",
+              "ageMs": 178640
+            }
+          ],
+          "ladder": [
+            {
+              "level": "district",
+              "label": "Dubai Marina",
+              "names": [
+                "Dubai Marina"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 1
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "district",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "publicationTime": "2026-09-09T17:13:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:48:08.936Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Dubai Marina",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:51:24.551Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-burj-khalifa/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-burj-khalifa",
+            "lat": 25.1970336,
+            "lon": 55.2741329,
+            "placeName": "Burj Khalifa",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:51:24.508Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "ceca1009-e5ac-40f7-8d25-961d81f7f6e7",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:51:24.542Z",
+              "lat": 25.1970336,
+              "lon": 55.2741329,
+              "placeName": "Burj Khalifa",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:51:24.542Z",
+              "ageMs": 78998
+            }
+          ],
+          "ladder": [
+            {
+              "level": "landmark",
+              "label": "Burj Khalifa",
+              "names": [
+                "Burj Khalifa"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": false,
+              "clips": 0
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "landmark",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "publicationTime": "2026-10-01T11:55:30.000Z",
+              "publicationTimeRaw": "October 1, 2026 at 11:55:30 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw",
+              "publicationTime": "2026-09-09T09:48:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 9:48:12 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ",
+              "publicationTime": "2025-11-16T21:02:20.000Z",
+              "publicationTimeRaw": "November 16, 2025 at 9:02:20 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:51:24.720Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:51:24.663Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 1,
+          "requestId": "d845577d-0239-4842-9442-e78ed0132c0e",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:51:24.700Z",
+              "lat": 25.0786415,
+              "lon": 55.1352524,
+              "placeName": "Dubai Marina",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:51:24.700Z",
+              "ageMs": 178939
+            }
+          ],
+          "ladder": [
+            {
+              "level": "district",
+              "label": "Dubai Marina",
+              "names": [
+                "Dubai Marina"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 1
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "district",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "publicationTime": "2026-09-09T17:13:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:48:08.936Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Dubai Marina",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:51:24.835Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-downtown-dubai/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-downtown-dubai",
+            "lat": 25.1945,
+            "lon": 55.278,
+            "placeName": "Downtown Dubai",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:51:24.797Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "505bb495-3895-495d-a686-e479195993a8",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:51:24.834Z",
+              "lat": 25.1945,
+              "lon": 55.278,
+              "placeName": "Downtown Dubai",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:51:24.835Z",
+              "ageMs": 3490
+            }
+          ],
+          "ladder": [
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "neighborhood",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "publicationTime": "2026-10-11T08:16:09.000Z",
+              "publicationTimeRaw": "October 11, 2026 at 8:16:09 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "plugin-text-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ",
+              "publicationTime": "2026-01-13T08:55:34.000Z",
+              "publicationTimeRaw": "January 13, 2026 at 8:55:34 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ",
+              "publicationTime": "2026-01-12T07:37:02.000Z",
+              "publicationTimeRaw": "January 12, 2026 at 7:37:02 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:51:26.563Z",
+          "injected": true,
+          "kind": "api-plugin_error",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat"
+        },
+        {
+          "utc": "2026-10-27T03:51:26.573Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 502,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:51:26.562Z",
+            "fresh": false
+          },
+          "state": "plugin_error",
+          "clips": 0,
+          "injected": true,
+          "clipsRaw": []
+        },
+        {
+          "utc": "2026-10-27T03:51:26.849Z",
+          "injected": true,
+          "kind": "api-credentials_required",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat"
+        },
+        {
+          "utc": "2026-10-27T03:51:26.854Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 503,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:51:26.847Z",
+            "fresh": false
+          },
+          "state": "credentials_required",
+          "clips": 0,
+          "injected": true,
+          "clipsRaw": []
+        }
+      ],
+      "pageErrors": [],
+      "screenshots": [
+        "after-direct-idle-1440x900.png",
+        "after-direct-marina-pending-1440x900.png",
+        "after-direct-marina-playing-1440x900.png",
+        "after-direct-marina-refreshed-1440x900.png",
+        "after-direct-burj-pending-1440x900.png",
+        "after-direct-burj-playing-1440x900.png",
+        "after-direct-burj-refreshed-1440x900.png",
+        "after-direct-downtown-pending-1440x900.png",
+        "after-direct-downtown-playing-1440x900.png",
+        "after-direct-downtown-refreshed-1440x900.png",
+        "after-direct-forced-plugin_error-1440x900.png",
+        "after-direct-forced-credentials_required-1440x900.png"
+      ],
+      "locations": {
+        "marina": {
+          "text": "Dubai Marina",
+          "pendingMs": 32.7,
+          "state": "ok",
+          "clips": 1,
+          "ladder": [
+            {
+              "level": "district",
+              "label": "Dubai Marina",
+              "names": [
+                "Dubai Marina"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 1
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "rejected": [],
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:47:03.719Z",
+              "lat": 25.0786415,
+              "lon": 55.1352524,
+              "placeName": "Dubai Marina",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:47:03.719Z",
+              "ageMs": 203443
+            }
+          ],
+          "coverageLevel": "district",
+          "expanded": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "publicationTime": "2026-09-09T17:13:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:43:22.618Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Dubai Marina",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+            }
+          ],
+          "panelText": "SNAPCHAT FOOTAGE\nHIDE\n×\nScene: Dubai Marina (25.0786, 55.1353)\nMatched place: “Dubai Marina” · coverage: district\n1 clip · +1 new on last refresh\nSource: Snapchat Spotlight · author handle not returned · open original\npublished 47d ago (2026-09-09 17:13 UTC)\ncapture time unknown\nretrieved 4m ago\nnot live\n#dubaimarina\nLocation evidence: hashtag text match — hashtag #dubaimarina equals the place name \"Dubai Marina\" · media link expires 2026-11-03 00:39 UTC\n#1\n#dubaimarina\npublished 47d ago\nretrieved 4m ago (server cache) · last checked 03:43:40 UTC (4m ago)\nrefresh 30s\nrefresh 1 min\nrefresh 2 min\nrefresh 5 min\nrefresh off\nCHECK NOW\n\nSnapchat Spotlight clips matched by caption/hashtag text for the place name — not geotagged Snap Map footage. Capture time and author handle are not provided by the plugin. Nothing here is live unless the source confirms it.",
+          "playback": {
+            "a": {
+              "rs": 4,
+              "t": 13.746384,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "locationId": "snap-dubai-marina",
+              "err": null,
+              "duration": 16.1,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 0.092368,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "duration": 16.1,
+              "wrapped": true,
+              "tUnwrapped": 16.192368000000002
+            }
+          },
+          "panelHasPublicationLabel": true,
+          "panelHasLastChecked": true,
+          "panelHasCaptionMatchLabel": true,
+          "selectorCount": 1,
+          "refresh": {
+            "before": "2026-10-27T03:43:40.276Z",
+            "after": "2026-10-27T03:48:25.761Z",
+            "selectedBefore": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "selectedAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "clipIds": 1
+          },
+          "playbackAfterRefresh": {
+            "a": {
+              "rs": 4,
+              "t": 15.091597,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "locationId": "snap-dubai-marina",
+              "err": null,
+              "duration": 16.1,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 1.434235,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "duration": 16.1,
+              "wrapped": true,
+              "tUnwrapped": 17.534235000000002
+            }
+          }
+        },
+        "burj": {
+          "text": "Burj Khalifa",
+          "pendingMs": 22.1,
+          "state": "ok",
+          "clips": 3,
+          "ladder": [
+            {
+              "level": "landmark",
+              "label": "Burj Khalifa",
+              "names": [
+                "Burj Khalifa"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": false,
+              "clips": 0
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "rejected": [],
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:48:33.266Z",
+              "lat": 25.1970336,
+              "lon": 55.2741329,
+              "placeName": "Burj Khalifa",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:48:33.266Z",
+              "ageMs": 225558
+            }
+          ],
+          "coverageLevel": "landmark",
+          "expanded": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "publicationTime": "2026-10-01T11:55:30.000Z",
+              "publicationTimeRaw": "October 1, 2026 at 11:55:30 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:44:21.339Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw",
+              "publicationTime": "2026-09-09T09:48:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 9:48:12 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:44:21.339Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ",
+              "publicationTime": "2025-11-16T21:02:20.000Z",
+              "publicationTimeRaw": "November 16, 2025 at 9:02:20 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:44:21.339Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ"
+            }
+          ],
+          "panelText": "SNAPCHAT FOOTAGE\nHIDE\n×\nScene: Burj Khalifa (25.1970, 55.2741)\nMatched place: “Burj Khalifa” · coverage: landmark\n3 clips · +3 new on last refresh\nSource: Snapchat Spotlight · author handle not returned · open original\npublished 26d ago (2026-10-01 11:55 UTC)\ncapture time unknown\nretrieved 5m ago\nnot live\n#Dubai #nazila #burjkhalifa\nLocation evidence: hashtag text match — hashtag #burjkhalifa equals the place name \"Burj Khalifa\" · media link expires 2026-11-03 00:39 UTC\n#1\n#Dubai #nazila #burjkhalifa\npublished 26d ago\n#2\nGTA 6 vs Burj Khalifa\npublished 48d ago\n#3\nWhat better way to celebrate the 52nd UAE National Day then experiencing one of the best views of the Burj Khalifa . Couldn’t believe this glass slide over 219\npublished 11mo ago\nretrieved 5m ago (server cache) · last checked 03:44:47 UTC (4m ago)\nrefresh 30s\nrefresh 1 min\nrefresh 2 min\nrefresh 5 min\nrefresh off\nCHECK NOW\n\nSnapchat Spotlight clips matched by caption/hashtag text for the place name — not geotagged Snap Map footage. Capture time and author handle are not provided by the plugin. Nothing here is live unless the source confirms it.",
+          "playback": {
+            "a": {
+              "rs": 4,
+              "t": 2.15046,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "locationId": "snap-burj-khalifa",
+              "err": null,
+              "duration": 9.195011,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 4.655098,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "duration": 9.195011
+            }
+          },
+          "panelHasPublicationLabel": true,
+          "panelHasLastChecked": true,
+          "panelHasCaptionMatchLabel": true,
+          "selectorCount": 3,
+          "refresh": {
+            "before": "2026-10-27T03:44:47.708Z",
+            "after": "2026-10-27T03:50:05.544Z",
+            "selectedBefore": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "selectedAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "clipIds": 3
+          },
+          "playbackAfterRefresh": {
+            "a": {
+              "rs": 4,
+              "t": 6.533443,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "locationId": "snap-burj-khalifa",
+              "err": null,
+              "duration": 9.195011,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 9.036936,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "duration": 9.195011
+            }
+          }
+        },
+        "downtown": {
+          "text": "Downtown Dubai",
+          "pendingMs": 28.9,
+          "state": "ok",
+          "clips": 3,
+          "ladder": [
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "rejected": [],
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:50:14.788Z",
+              "lat": 25.1948428,
+              "lon": 55.278195,
+              "placeName": "Downtown Dubai",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:50:14.788Z",
+              "ageMs": 258888
+            }
+          ],
+          "coverageLevel": "neighborhood",
+          "expanded": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "publicationTime": "2026-10-11T08:16:09.000Z",
+              "publicationTimeRaw": "October 11, 2026 at 8:16:09 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:45:28.960Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "plugin-text-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ",
+              "publicationTime": "2026-01-13T08:55:34.000Z",
+              "publicationTimeRaw": "January 13, 2026 at 8:55:34 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:45:28.960Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ",
+              "publicationTime": "2026-01-12T07:37:02.000Z",
+              "publicationTimeRaw": "January 12, 2026 at 7:37:02 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:45:28.960Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ"
+            }
+          ],
+          "panelText": "SNAPCHAT FOOTAGE\nHIDE\n×\nScene: Downtown Dubai (25.1948, 55.2782)\nMatched place: “Downtown Dubai” · coverage: neighborhood\n3 clips · +3 new on last refresh\nSource: Snapchat Spotlight · author handle not returned · open original\npublished 16d ago (2026-10-11 08:16 UTC)\ncapture time unknown\nretrieved 5m ago\nnot live\n(no caption)\nLocation evidence: plugin-reported text match (no caption returned) — plugin reported a caption/text match for \"Downtown Dubai\" but returned no caption or hashtags to re-check · media link expires 2026-11-03 00:39 UTC\n#1\n(no caption)\npublished 16d ago\n#2\nDiscover the essence of Middle Eastern dining at Ewaan - a refined culinary experience set within Palace Downtown, in the heart of Downtown Dubai.\npublished 9mo ago\n#3\nJanuary reset at The Spa Longevity, Address Downtown. #spa #wellness #downtowndubai #longevity #luxuryhotels\npublished 9mo ago\nretrieved 5m ago (server cache) · last checked 03:45:55 UTC (4m ago)\nrefresh 30s\nrefresh 1 min\nrefresh 2 min\nrefresh 5 min\nrefresh off\nCHECK NOW\n\nSnapchat Spotlight clips matched by caption/hashtag text for the place name — not geotagged Snap Map footage. Capture time and author handle are not provided by the plugin. Nothing here is live unless the source confirms it.",
+          "playback": {
+            "a": {
+              "rs": 1,
+              "t": 0,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "locationId": "snap-downtown-dubai",
+              "err": null,
+              "duration": 35.4,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 2.59463,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "duration": 35.4
+            }
+          },
+          "panelHasPublicationLabel": true,
+          "panelHasLastChecked": true,
+          "panelHasCaptionMatchLabel": true,
+          "selectorCount": 3,
+          "refresh": {
+            "before": "2026-10-27T03:45:55.900Z",
+            "after": "2026-10-27T03:51:21.344Z",
+            "selectedBefore": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "selectedAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "clipIds": 3
+          },
+          "playbackAfterRefresh": {
+            "a": {
+              "rs": 4,
+              "t": 28.026598,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "locationId": "snap-downtown-dubai",
+              "err": null,
+              "duration": 35.4,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 30.52921,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "duration": 35.4
+            }
+          }
+        }
+      },
+      "endedUtc": "2026-10-27T03:51:27.116Z"
+    },
+    {
+      "id": "after-direct-375x739",
+      "mode": "direct",
+      "viewport": "375x739",
+      "startedUtc": "2026-10-27T03:51:27.135Z",
+      "checks": [
+        {
+          "utc": "2026-10-27T03:51:28.143Z",
+          "name": "direct-top-level-page-loaded",
+          "ok": true,
+          "detail": {
+            "url": "https://sb-5kdyj18ew55x.vercel.run/?welcome=0"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:51:40.457Z",
+          "name": "marina: pending feedback appears immediately (in-page submit→pending < 250 ms)",
+          "ok": true,
+          "detail": {
+            "pendingMs": 45.3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:11.325Z",
+          "name": "marina: footage request settled for the active locationId",
+          "ok": true,
+          "detail": {
+            "phase": "ready",
+            "locationId": "snap-dubai-marina"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:11.325Z",
+          "name": "marina: POST /api/scenes/:locationId/footage/snapchat observed",
+          "ok": true,
+          "detail": {
+            "status": 200,
+            "body": [
+              "locationId",
+              "lat",
+              "lon",
+              "placeName",
+              "bbox",
+              "clientTimeIso",
+              "fresh"
+            ]
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:11.325Z",
+          "name": "marina: OnDemand query carried pluginIds [plugin-1792945050] (or served from the per-location cache of such a query)",
+          "ok": true,
+          "detail": {
+            "cache": true
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:11.326Z",
+          "name": "marina: no clip labelled LIVE",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:52:13.831Z",
+          "name": "marina: playback readyState ≥ 3, currentTime advancing, muted",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 13.850318,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "locationId": "snap-dubai-marina",
+              "err": null,
+              "duration": 16.1,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 0.194549,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "duration": 16.1,
+              "wrapped": true,
+              "tUnwrapped": 16.294549
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:13.831Z",
+          "name": "marina: playing clip belongs to the active locationId",
+          "ok": true,
+          "detail": {
+            "video": "snap-dubai-marina"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:13.831Z",
+          "name": "marina: displayed publication time matches raw uploadDateMs (UTC)",
+          "ok": true,
+          "detail": {
+            "raw": "September 9, 2026 at 5:13:12 PM",
+            "parsed": "2026-09-09T17:13:12.000Z",
+            "shown": "2026-09-09 17:13"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:13.831Z",
+          "name": "marina: capture time shown as unknown (plugin returns none)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:52:13.831Z",
+          "name": "marina: source attribution + original link shown",
+          "ok": true,
+          "detail": {
+            "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:13.831Z",
+          "name": "marina: last-checked time visible",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:52:13.831Z",
+          "name": "marina: location labelled as caption/hashtag text match (not geotag)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:52:13.832Z",
+          "name": "marina: clip selector lists every validated clip once",
+          "ok": true,
+          "detail": {
+            "selector": 1,
+            "clips": 1
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:30.969Z",
+          "name": "marina: refresh tick updated last-checked time",
+          "ok": true,
+          "detail": {
+            "before": "2026-10-27T03:48:25.761Z",
+            "after": "2026-10-27T03:52:30.936Z"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:30.969Z",
+          "name": "marina: refresh preserved the current clip",
+          "ok": true,
+          "detail": {
+            "before": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "after": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "videoAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:30.969Z",
+          "name": "marina: refresh merged without duplicates",
+          "ok": true,
+          "detail": {
+            "ids": 1
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:30.970Z",
+          "name": "marina: clip selector has no duplicate entries",
+          "ok": true,
+          "detail": {
+            "domIds": 1
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:33.474Z",
+          "name": "marina: playback continues after refresh (readyState ≥ 3, currentTime advancing)",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 1.176457,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "locationId": "snap-dubai-marina",
+              "err": null,
+              "duration": 16.1,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 3.680118,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "duration": 16.1
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:36.048Z",
+          "name": "burj: pending feedback appears immediately (in-page submit→pending < 250 ms)",
+          "ok": true,
+          "detail": {
+            "pendingMs": 37.9
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:07.023Z",
+          "name": "burj: footage request settled for the active locationId",
+          "ok": true,
+          "detail": {
+            "phase": "ready",
+            "locationId": "snap-burj-khalifa"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:07.023Z",
+          "name": "burj: POST /api/scenes/:locationId/footage/snapchat observed",
+          "ok": true,
+          "detail": {
+            "status": 200,
+            "body": [
+              "locationId",
+              "lat",
+              "lon",
+              "placeName",
+              "bbox",
+              "clientTimeIso",
+              "fresh"
+            ]
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:07.023Z",
+          "name": "burj: OnDemand query carried pluginIds [plugin-1792945050] (or served from the per-location cache of such a query)",
+          "ok": true,
+          "detail": {
+            "cache": true
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:07.024Z",
+          "name": "burj: no clip labelled LIVE",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:53:09.528Z",
+          "name": "burj: playback readyState ≥ 3, currentTime advancing, muted",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 1.539596,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "locationId": "snap-burj-khalifa",
+              "err": null,
+              "duration": 9.195011,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 4.043075,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "duration": 9.195011
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:09.528Z",
+          "name": "burj: playing clip belongs to the active locationId",
+          "ok": true,
+          "detail": {
+            "video": "snap-burj-khalifa"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:09.528Z",
+          "name": "burj: displayed publication time matches raw uploadDateMs (UTC)",
+          "ok": true,
+          "detail": {
+            "raw": "October 1, 2026 at 11:55:30 AM",
+            "parsed": "2026-10-01T11:55:30.000Z",
+            "shown": "2026-10-01 11:55"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:09.528Z",
+          "name": "burj: capture time shown as unknown (plugin returns none)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:53:09.528Z",
+          "name": "burj: source attribution + original link shown",
+          "ok": true,
+          "detail": {
+            "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:09.528Z",
+          "name": "burj: last-checked time visible",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:53:09.528Z",
+          "name": "burj: location labelled as caption/hashtag text match (not geotag)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:53:09.529Z",
+          "name": "burj: clip selector lists every validated clip once",
+          "ok": true,
+          "detail": {
+            "selector": 3,
+            "clips": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:36.684Z",
+          "name": "burj: refresh tick updated last-checked time",
+          "ok": true,
+          "detail": {
+            "before": "2026-10-27T03:50:05.544Z",
+            "after": "2026-10-27T03:53:36.453Z"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:36.684Z",
+          "name": "burj: refresh preserved the current clip",
+          "ok": true,
+          "detail": {
+            "before": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "after": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "videoAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:36.685Z",
+          "name": "burj: refresh merged without duplicates",
+          "ok": true,
+          "detail": {
+            "ids": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:36.685Z",
+          "name": "burj: clip selector has no duplicate entries",
+          "ok": true,
+          "detail": {
+            "domIds": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:39.190Z",
+          "name": "burj: playback continues after refresh (readyState ≥ 3, currentTime advancing)",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 3.425972,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "locationId": "snap-burj-khalifa",
+              "err": null,
+              "duration": 9.195011,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 5.92952,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "duration": 9.195011
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:42.498Z",
+          "name": "downtown: pending feedback appears immediately (in-page submit→pending < 250 ms)",
+          "ok": true,
+          "detail": {
+            "pendingMs": 38
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:13.002Z",
+          "name": "downtown: footage request settled for the active locationId",
+          "ok": true,
+          "detail": {
+            "phase": "ready",
+            "locationId": "snap-downtown-dubai"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:13.002Z",
+          "name": "downtown: POST /api/scenes/:locationId/footage/snapchat observed",
+          "ok": true,
+          "detail": {
+            "status": 200,
+            "body": [
+              "locationId",
+              "lat",
+              "lon",
+              "placeName",
+              "bbox",
+              "clientTimeIso",
+              "fresh"
+            ]
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:13.002Z",
+          "name": "downtown: OnDemand query carried pluginIds [plugin-1792945050] (or served from the per-location cache of such a query)",
+          "ok": true,
+          "detail": {
+            "cache": true
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:13.003Z",
+          "name": "downtown: no clip labelled LIVE",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:54:15.506Z",
+          "name": "downtown: playback readyState ≥ 3, currentTime advancing, muted",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 30.321305,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "locationId": "snap-downtown-dubai",
+              "err": null,
+              "duration": 35.4,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 32.823976,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "duration": 35.4
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:15.506Z",
+          "name": "downtown: playing clip belongs to the active locationId",
+          "ok": true,
+          "detail": {
+            "video": "snap-downtown-dubai"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:15.506Z",
+          "name": "downtown: displayed publication time matches raw uploadDateMs (UTC)",
+          "ok": true,
+          "detail": {
+            "raw": "October 11, 2026 at 8:16:09 AM",
+            "parsed": "2026-10-11T08:16:09.000Z",
+            "shown": "2026-10-11 08:16"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:15.506Z",
+          "name": "downtown: capture time shown as unknown (plugin returns none)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:54:15.506Z",
+          "name": "downtown: source attribution + original link shown",
+          "ok": true,
+          "detail": {
+            "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:15.506Z",
+          "name": "downtown: last-checked time visible",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:54:15.506Z",
+          "name": "downtown: location labelled as caption/hashtag text match (not geotag)",
+          "ok": true,
+          "detail": {}
+        },
+        {
+          "utc": "2026-10-27T03:54:15.507Z",
+          "name": "downtown: clip selector lists every validated clip once",
+          "ok": true,
+          "detail": {
+            "selector": 3,
+            "clips": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:44.164Z",
+          "name": "downtown: refresh tick updated last-checked time",
+          "ok": true,
+          "detail": {
+            "before": "2026-10-27T03:51:21.344Z",
+            "after": "2026-10-27T03:54:43.762Z"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:44.164Z",
+          "name": "downtown: refresh preserved the current clip",
+          "ok": true,
+          "detail": {
+            "before": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "after": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "videoAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:44.164Z",
+          "name": "downtown: refresh merged without duplicates",
+          "ok": true,
+          "detail": {
+            "ids": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:44.164Z",
+          "name": "downtown: clip selector has no duplicate entries",
+          "ok": true,
+          "detail": {
+            "domIds": 3
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:46.672Z",
+          "name": "downtown: playback continues after refresh (readyState ≥ 3, currentTime advancing)",
+          "ok": true,
+          "detail": {
+            "a": {
+              "rs": 4,
+              "t": 25.944029,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "locationId": "snap-downtown-dubai",
+              "err": null,
+              "duration": 35.4,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 28.450503,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "duration": 35.4
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:48.911Z",
+          "name": "race A→B→A→C: rendered clips always matched the active locationId",
+          "ok": true,
+          "detail": {
+            "bad": [],
+            "badCount": 0,
+            "samples": 43,
+            "final": {
+              "locationId": "snap-downtown-dubai",
+              "phase": "ready",
+              "clips": 3,
+              "discarded": 0
+            }
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:48.945Z",
+          "name": "forced plugin_error (INJECTED response) renders its state and no video",
+          "ok": true,
+          "detail": {
+            "msg": "Snapchat plugin error — the footage request failed.\n(upstream_500)"
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:49.074Z",
+          "name": "forced credentials_required (INJECTED response) renders its state and no video",
+          "ok": true,
+          "detail": {
+            "msg": "Credentials required — the server has no OnDemand key configured for the Snapchat plugin."
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:49.179Z",
+          "name": "no uncaught page errors",
+          "ok": true,
+          "detail": []
+        },
+        {
+          "utc": "2026-10-27T03:54:49.199Z",
+          "name": "OnDemand key never present in browser requests/responses",
+          "ok": true,
+          "detail": {
+            "requestsChecked": 1162,
+            "hits": 0
+          }
+        }
+      ],
+      "stages": [
+        {
+          "utc": "2026-10-27T03:51:36.307Z",
+          "location": "marina",
+          "stage": "scene-selection",
+          "input": "Dubai Marina",
+          "via": "tap"
+        },
+        {
+          "utc": "2026-10-27T03:52:11.321Z",
+          "location": "marina",
+          "stage": "footage-loading-visible",
+          "ok": false
+        },
+        {
+          "utc": "2026-10-27T03:52:11.325Z",
+          "location": "marina",
+          "stage": "backend-request",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:51:39.664Z",
+            "fresh": false
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:11.325Z",
+          "location": "marina",
+          "stage": "ondemand-session-and-query",
+          "cached": true
+        },
+        {
+          "utc": "2026-10-27T03:52:11.325Z",
+          "location": "marina",
+          "stage": "schema-validated",
+          "state": "ok",
+          "clips": 1,
+          "coverageLevel": "district",
+          "expanded": false,
+          "rejected": [],
+          "ladder": [
+            "Dubai Marina:district:q:1",
+            "Dubai:city:-:capped:0"
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:52:13.831Z",
+          "location": "marina",
+          "stage": "in-scene-playback",
+          "a": {
+            "rs": 4,
+            "t": 13.850318,
+            "muted": true,
+            "playsInline": true,
+            "paused": false,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "locationId": "snap-dubai-marina",
+            "err": null,
+            "duration": 16.1,
+            "loop": true
+          },
+          "b": {
+            "rs": 4,
+            "t": 0.194549,
+            "muted": true,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "duration": 16.1,
+            "wrapped": true,
+            "tUnwrapped": 16.294549
+          }
+        },
+        {
+          "utc": "2026-10-27T03:52:13.913Z",
+          "location": "marina",
+          "stage": "refresh-tick-start",
+          "lastCheckedAt": "2026-10-27T03:48:25.761Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+          "refreshMs": 120000,
+          "via": "CHECK NOW tap"
+        },
+        {
+          "utc": "2026-10-27T03:52:30.969Z",
+          "location": "marina",
+          "stage": "refresh-tick-done",
+          "ticked": true,
+          "lastCheckedAt": "2026-10-27T03:52:30.936Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+          "refreshCount": 1,
+          "clipIds": 1,
+          "refreshMs": 120000
+        },
+        {
+          "utc": "2026-10-27T03:52:33.576Z",
+          "location": "burj",
+          "stage": "scene-selection",
+          "input": "Burj Khalifa",
+          "via": "enter"
+        },
+        {
+          "utc": "2026-10-27T03:53:07.019Z",
+          "location": "burj",
+          "stage": "footage-loading-visible",
+          "ok": false
+        },
+        {
+          "utc": "2026-10-27T03:53:07.023Z",
+          "location": "burj",
+          "stage": "backend-request",
+          "method": "POST",
+          "path": "/api/scenes/snap-burj-khalifa/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-burj-khalifa",
+            "lat": 25.1970336,
+            "lon": 55.2741329,
+            "placeName": "Burj Khalifa",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:52:36.112Z",
+            "fresh": false
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:07.023Z",
+          "location": "burj",
+          "stage": "ondemand-session-and-query",
+          "cached": true
+        },
+        {
+          "utc": "2026-10-27T03:53:07.023Z",
+          "location": "burj",
+          "stage": "schema-validated",
+          "state": "ok",
+          "clips": 3,
+          "coverageLevel": "landmark",
+          "expanded": false,
+          "rejected": [],
+          "ladder": [
+            "Burj Khalifa:landmark:q:3",
+            "Downtown Dubai:neighborhood:-:0",
+            "Dubai:city:-:capped:0"
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:53:09.528Z",
+          "location": "burj",
+          "stage": "in-scene-playback",
+          "a": {
+            "rs": 4,
+            "t": 1.539596,
+            "muted": true,
+            "playsInline": true,
+            "paused": false,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "locationId": "snap-burj-khalifa",
+            "err": null,
+            "duration": 9.195011,
+            "loop": true
+          },
+          "b": {
+            "rs": 4,
+            "t": 4.043075,
+            "muted": true,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "duration": 9.195011
+          }
+        },
+        {
+          "utc": "2026-10-27T03:53:09.624Z",
+          "location": "burj",
+          "stage": "refresh-tick-start",
+          "lastCheckedAt": "2026-10-27T03:50:05.544Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+          "refreshMs": 120000,
+          "via": "CHECK NOW tap"
+        },
+        {
+          "utc": "2026-10-27T03:53:36.684Z",
+          "location": "burj",
+          "stage": "refresh-tick-done",
+          "ticked": true,
+          "lastCheckedAt": "2026-10-27T03:53:36.453Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+          "refreshCount": 1,
+          "clipIds": 3,
+          "refreshMs": 120000
+        },
+        {
+          "utc": "2026-10-27T03:53:39.274Z",
+          "location": "downtown",
+          "stage": "scene-selection",
+          "input": "Downtown Dubai",
+          "via": "tap"
+        },
+        {
+          "utc": "2026-10-27T03:54:12.998Z",
+          "location": "downtown",
+          "stage": "footage-loading-visible",
+          "ok": false
+        },
+        {
+          "utc": "2026-10-27T03:54:13.002Z",
+          "location": "downtown",
+          "stage": "backend-request",
+          "method": "POST",
+          "path": "/api/scenes/snap-downtown-dubai/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-downtown-dubai",
+            "lat": 25.1948428,
+            "lon": 55.278195,
+            "placeName": "Downtown Dubai",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:53:41.658Z",
+            "fresh": false
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:13.002Z",
+          "location": "downtown",
+          "stage": "ondemand-session-and-query",
+          "cached": true
+        },
+        {
+          "utc": "2026-10-27T03:54:13.002Z",
+          "location": "downtown",
+          "stage": "schema-validated",
+          "state": "ok",
+          "clips": 3,
+          "coverageLevel": "neighborhood",
+          "expanded": false,
+          "rejected": [],
+          "ladder": [
+            "Downtown Dubai:neighborhood:q:3",
+            "Dubai:city:-:capped:0"
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:54:15.506Z",
+          "location": "downtown",
+          "stage": "in-scene-playback",
+          "a": {
+            "rs": 4,
+            "t": 30.321305,
+            "muted": true,
+            "playsInline": true,
+            "paused": false,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "locationId": "snap-downtown-dubai",
+            "err": null,
+            "duration": 35.4,
+            "loop": true
+          },
+          "b": {
+            "rs": 4,
+            "t": 32.823976,
+            "muted": true,
+            "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "duration": 35.4
+          }
+        },
+        {
+          "utc": "2026-10-27T03:54:15.605Z",
+          "location": "downtown",
+          "stage": "refresh-tick-start",
+          "lastCheckedAt": "2026-10-27T03:51:21.344Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+          "refreshMs": 120000,
+          "via": "CHECK NOW tap"
+        },
+        {
+          "utc": "2026-10-27T03:54:44.163Z",
+          "location": "downtown",
+          "stage": "refresh-tick-done",
+          "ticked": true,
+          "lastCheckedAt": "2026-10-27T03:54:43.762Z",
+          "selectedId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+          "refreshCount": 1,
+          "clipIds": 3,
+          "refreshMs": 120000
+        },
+        {
+          "utc": "2026-10-27T03:54:46.754Z",
+          "location": "race",
+          "stage": "start",
+          "sequence": "Dubai Marina → Burj Khalifa → Dubai Marina → Downtown Dubai"
+        },
+        {
+          "utc": "2026-10-27T03:54:48.911Z",
+          "location": "race",
+          "stage": "done",
+          "bad": [],
+          "badCount": 0,
+          "samples": 43,
+          "final": {
+            "locationId": "snap-downtown-dubai",
+            "phase": "ready",
+            "clips": 3,
+            "discarded": 0
+          }
+        }
+      ],
+      "network": [
+        {
+          "utc": "2026-10-27T03:51:40.457Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:51:39.664Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 1,
+          "requestId": "ffd838d8-c568-4835-9fc0-1ae7bc387981",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:51:39.772Z",
+              "lat": 25.0786415,
+              "lon": 55.1352524,
+              "placeName": "Dubai Marina",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:51:39.772Z",
+              "ageMs": 194011
+            }
+          ],
+          "ladder": [
+            {
+              "level": "district",
+              "label": "Dubai Marina",
+              "names": [
+                "Dubai Marina"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 1
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "district",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "publicationTime": "2026-09-09T17:13:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:48:08.936Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Dubai Marina",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:52:30.932Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:52:13.958Z",
+            "fresh": true
+          },
+          "state": "ok",
+          "clips": 1,
+          "requestId": "b69969ec-4dca-4ce7-9554-e15ed178d70e",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:52:14.006Z",
+              "lat": 25.0786415,
+              "lon": 55.1352524,
+              "placeName": "Dubai Marina",
+              "bbox": null,
+              "fresh": true
+            },
+            {
+              "stage": "session_create",
+              "utc": "2026-10-27T03:52:14.006Z",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "attempt": 1
+            },
+            {
+              "stage": "session_created",
+              "utc": "2026-10-27T03:52:14.243Z",
+              "sessionId": "6ae01fee600b913b65acac1a",
+              "attempt": 1
+            },
+            {
+              "stage": "query_submit",
+              "utc": "2026-10-27T03:52:14.243Z",
+              "sessionId": "6ae01fee600b913b65acac1a",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "endpointId": "predefined-openai-gpt4.1-mini",
+              "responseMode": "sync",
+              "places": [
+                "Dubai Marina"
+              ],
+              "limit": 3,
+              "attempt": 1
+            },
+            {
+              "stage": "query_completed",
+              "utc": "2026-10-27T03:52:30.887Z",
+              "sessionId": "6ae01fee600b913b65acac1a",
+              "messageId": "6ae01feefd516ee6375af0e0",
+              "status": "completed",
+              "ms": 16881,
+              "ragTimeSec": 10.35
+            },
+            {
+              "stage": "media_verified",
+              "utc": "2026-10-27T03:52:30.936Z",
+              "checked": 1,
+              "playable": 1,
+              "rejected": []
+            },
+            {
+              "stage": "schema_validated",
+              "utc": "2026-10-27T03:52:30.936Z",
+              "clips": 1,
+              "rejected": 0,
+              "coverageLevel": "district",
+              "expanded": false,
+              "media": [
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/d6TgewZqKY.mp4"
+              ]
+            }
+          ],
+          "ladder": [
+            {
+              "level": "district",
+              "label": "Dubai Marina",
+              "names": [
+                "Dubai Marina"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 1
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "district",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "publicationTime": "2026-09-09T17:13:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:52:14.006Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Dubai Marina",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:52:37.091Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-burj-khalifa/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-burj-khalifa",
+            "lat": 25.1970336,
+            "lon": 55.2741329,
+            "placeName": "Burj Khalifa",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:52:36.112Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "2e7cf945-f634-4dee-99f1-333af6bc6e7d",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:52:36.258Z",
+              "lat": 25.1970336,
+              "lon": 55.2741329,
+              "placeName": "Burj Khalifa",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:52:36.258Z",
+              "ageMs": 150714
+            }
+          ],
+          "ladder": [
+            {
+              "level": "landmark",
+              "label": "Burj Khalifa",
+              "names": [
+                "Burj Khalifa"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": false,
+              "clips": 0
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "landmark",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "publicationTime": "2026-10-01T11:55:30.000Z",
+              "publicationTimeRaw": "October 1, 2026 at 11:55:30 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw",
+              "publicationTime": "2026-09-09T09:48:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 9:48:12 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ",
+              "publicationTime": "2025-11-16T21:02:20.000Z",
+              "publicationTimeRaw": "November 16, 2025 at 9:02:20 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:53:36.461Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-burj-khalifa/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-burj-khalifa",
+            "lat": 25.1970336,
+            "lon": 55.2741329,
+            "placeName": "Burj Khalifa",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:53:09.674Z",
+            "fresh": true
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "b5bf0996-ab0c-4cce-a821-ba5f66b125a9",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:53:09.711Z",
+              "lat": 25.1970336,
+              "lon": 55.2741329,
+              "placeName": "Burj Khalifa",
+              "bbox": null,
+              "fresh": true
+            },
+            {
+              "stage": "session_create",
+              "utc": "2026-10-27T03:53:09.711Z",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "attempt": 1
+            },
+            {
+              "stage": "session_created",
+              "utc": "2026-10-27T03:53:09.877Z",
+              "sessionId": "6ae02025d8a7360a433b5faf",
+              "attempt": 1
+            },
+            {
+              "stage": "query_submit",
+              "utc": "2026-10-27T03:53:09.877Z",
+              "sessionId": "6ae02025d8a7360a433b5faf",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "endpointId": "predefined-openai-gpt4.1-mini",
+              "responseMode": "sync",
+              "places": [
+                "Burj Khalifa"
+              ],
+              "limit": 3,
+              "attempt": 1
+            },
+            {
+              "stage": "query_completed",
+              "utc": "2026-10-27T03:53:36.327Z",
+              "sessionId": "6ae02025d8a7360a433b5faf",
+              "messageId": "6ae02026d8a7360a433b5fb0",
+              "status": "completed",
+              "ms": 26616,
+              "ragTimeSec": 11.52
+            },
+            {
+              "stage": "media_verified",
+              "utc": "2026-10-27T03:53:36.453Z",
+              "checked": 3,
+              "playable": 3,
+              "rejected": []
+            },
+            {
+              "stage": "schema_validated",
+              "utc": "2026-10-27T03:53:36.453Z",
+              "clips": 3,
+              "rejected": 0,
+              "coverageLevel": "landmark",
+              "expanded": false,
+              "media": [
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/VOpPXwHbbL.mp4",
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/FWCEhYJWfs.mp4",
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/3iA9zHx9gY.mp4"
+              ]
+            }
+          ],
+          "ladder": [
+            {
+              "level": "landmark",
+              "label": "Burj Khalifa",
+              "names": [
+                "Burj Khalifa"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": false,
+              "clips": 0
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "landmark",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "publicationTime": "2026-10-01T11:55:30.000Z",
+              "publicationTimeRaw": "October 1, 2026 at 11:55:30 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:53:09.711Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw",
+              "publicationTime": "2026-09-09T09:48:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 9:48:12 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:53:09.711Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ",
+              "publicationTime": "2025-11-16T21:02:20.000Z",
+              "publicationTimeRaw": "November 16, 2025 at 9:02:20 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:53:09.711Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:53:42.349Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-downtown-dubai/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-downtown-dubai",
+            "lat": 25.1948428,
+            "lon": 55.278195,
+            "placeName": "Downtown Dubai",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:53:41.658Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "f6d10d22-43e2-4277-98a6-3adfb8860f9b",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:53:41.759Z",
+              "lat": 25.1948428,
+              "lon": 55.278195,
+              "placeName": "Downtown Dubai",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:53:41.759Z",
+              "ageMs": 140415
+            }
+          ],
+          "ladder": [
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "neighborhood",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "publicationTime": "2026-10-11T08:16:09.000Z",
+              "publicationTimeRaw": "October 11, 2026 at 8:16:09 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "plugin-text-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ",
+              "publicationTime": "2026-01-13T08:55:34.000Z",
+              "publicationTimeRaw": "January 13, 2026 at 8:55:34 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ",
+              "publicationTime": "2026-01-12T07:37:02.000Z",
+              "publicationTimeRaw": "January 12, 2026 at 7:37:02 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:54:43.760Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-downtown-dubai/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-downtown-dubai",
+            "lat": 25.1948428,
+            "lon": 55.278195,
+            "placeName": "Downtown Dubai",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:54:15.653Z",
+            "fresh": true
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "89c35bf3-a02d-451b-8acf-f72133aad546",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:54:15.691Z",
+              "lat": 25.1948428,
+              "lon": 55.278195,
+              "placeName": "Downtown Dubai",
+              "bbox": null,
+              "fresh": true
+            },
+            {
+              "stage": "session_create",
+              "utc": "2026-10-27T03:54:15.691Z",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "attempt": 1
+            },
+            {
+              "stage": "session_created",
+              "utc": "2026-10-27T03:54:15.878Z",
+              "sessionId": "6ae02067fd516ee6375af0ff",
+              "attempt": 1
+            },
+            {
+              "stage": "query_submit",
+              "utc": "2026-10-27T03:54:15.878Z",
+              "sessionId": "6ae02067fd516ee6375af0ff",
+              "pluginIds": [
+                "plugin-1792945050"
+              ],
+              "endpointId": "predefined-openai-gpt4.1-mini",
+              "responseMode": "sync",
+              "places": [
+                "Downtown Dubai"
+              ],
+              "limit": 3,
+              "attempt": 1
+            },
+            {
+              "stage": "query_completed",
+              "utc": "2026-10-27T03:54:43.657Z",
+              "sessionId": "6ae02067fd516ee6375af0ff",
+              "messageId": "6ae02068d8a7360a433b5fe1",
+              "status": "completed",
+              "ms": 27966,
+              "ragTimeSec": 13.53
+            },
+            {
+              "stage": "media_verified",
+              "utc": "2026-10-27T03:54:43.762Z",
+              "checked": 3,
+              "playable": 3,
+              "rejected": []
+            },
+            {
+              "stage": "schema_validated",
+              "utc": "2026-10-27T03:54:43.762Z",
+              "clips": 3,
+              "rejected": 0,
+              "coverageLevel": "neighborhood",
+              "expanded": false,
+              "media": [
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/eM5LRKr1t0.mp4",
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/pSSM2m0VoH.mp4",
+                "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/kWze2u88h7.mp4"
+              ]
+            }
+          ],
+          "ladder": [
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "neighborhood",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "publicationTime": "2026-10-11T08:16:09.000Z",
+              "publicationTimeRaw": "October 11, 2026 at 8:16:09 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:54:15.691Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "plugin-text-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ",
+              "publicationTime": "2026-01-13T08:55:34.000Z",
+              "publicationTimeRaw": "January 13, 2026 at 8:55:34 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:54:15.691Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ",
+              "publicationTime": "2026-01-12T07:37:02.000Z",
+              "publicationTimeRaw": "January 12, 2026 at 7:37:02 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:54:15.691Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:54:46.791Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:54:46.765Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 1,
+          "requestId": "ce4dfd72-de1d-486b-8338-49c532906a63",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:54:46.799Z",
+              "lat": 25.0786415,
+              "lon": 55.1352524,
+              "placeName": "Dubai Marina",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:54:46.799Z",
+              "ageMs": 135863
+            }
+          ],
+          "ladder": [
+            {
+              "level": "district",
+              "label": "Dubai Marina",
+              "names": [
+                "Dubai Marina"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 1
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "district",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "publicationTime": "2026-09-09T17:13:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:52:14.006Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Dubai Marina",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:54:46.930Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-burj-khalifa/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-burj-khalifa",
+            "lat": 25.1970336,
+            "lon": 55.2741329,
+            "placeName": "Burj Khalifa",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:54:46.898Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "39beabe6-354f-4907-bc4f-4630a6bcb4fe",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:54:46.927Z",
+              "lat": 25.1970336,
+              "lon": 55.2741329,
+              "placeName": "Burj Khalifa",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:54:46.927Z",
+              "ageMs": 70474
+            }
+          ],
+          "ladder": [
+            {
+              "level": "landmark",
+              "label": "Burj Khalifa",
+              "names": [
+                "Burj Khalifa"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": false,
+              "clips": 0
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "landmark",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "publicationTime": "2026-10-01T11:55:30.000Z",
+              "publicationTimeRaw": "October 1, 2026 at 11:55:30 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:53:09.711Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw",
+              "publicationTime": "2026-09-09T09:48:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 9:48:12 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:53:09.711Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ",
+              "publicationTime": "2025-11-16T21:02:20.000Z",
+              "publicationTimeRaw": "November 16, 2025 at 9:02:20 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:53:09.711Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:54:47.054Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:54:47.030Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 1,
+          "requestId": "3b4c2604-6d1d-4b91-a76f-bed2db48434a",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:54:47.063Z",
+              "lat": 25.0786415,
+              "lon": 55.1352524,
+              "placeName": "Dubai Marina",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:54:47.064Z",
+              "ageMs": 136128
+            }
+          ],
+          "ladder": [
+            {
+              "level": "district",
+              "label": "Dubai Marina",
+              "names": [
+                "Dubai Marina"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 1
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "district",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "publicationTime": "2026-09-09T17:13:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:52:14.006Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Dubai Marina",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:54:47.179Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-downtown-dubai/footage/snapchat",
+          "status": 200,
+          "requestBody": {
+            "locationId": "snap-downtown-dubai",
+            "lat": 25.1945,
+            "lon": 55.278,
+            "placeName": "Downtown Dubai",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:54:47.160Z",
+            "fresh": false
+          },
+          "state": "ok",
+          "clips": 3,
+          "requestId": "08bdd606-b171-4abd-a001-d81dc010dc02",
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:54:47.188Z",
+              "lat": 25.1945,
+              "lon": 55.278,
+              "placeName": "Downtown Dubai",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:54:47.188Z",
+              "ageMs": 3426
+            }
+          ],
+          "ladder": [
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "coverageLevel": "neighborhood",
+          "expanded": false,
+          "rejected": [],
+          "injected": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "publicationTime": "2026-10-11T08:16:09.000Z",
+              "publicationTimeRaw": "October 11, 2026 at 8:16:09 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:54:15.691Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "plugin-text-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ",
+              "publicationTime": "2026-01-13T08:55:34.000Z",
+              "publicationTimeRaw": "January 13, 2026 at 8:55:34 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:54:15.691Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ",
+              "publicationTime": "2026-01-12T07:37:02.000Z",
+              "publicationTimeRaw": "January 12, 2026 at 7:37:02 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:54:15.691Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ"
+            }
+          ]
+        },
+        {
+          "utc": "2026-10-27T03:54:48.923Z",
+          "injected": true,
+          "kind": "api-plugin_error",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat"
+        },
+        {
+          "utc": "2026-10-27T03:54:48.938Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 502,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:54:48.921Z",
+            "fresh": false
+          },
+          "state": "plugin_error",
+          "clips": 0,
+          "injected": true,
+          "clipsRaw": []
+        },
+        {
+          "utc": "2026-10-27T03:54:49.057Z",
+          "injected": true,
+          "kind": "api-credentials_required",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat"
+        },
+        {
+          "utc": "2026-10-27T03:54:49.070Z",
+          "method": "POST",
+          "path": "/api/scenes/snap-dubai-marina/footage/snapchat",
+          "status": 503,
+          "requestBody": {
+            "locationId": "snap-dubai-marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "placeName": "Dubai Marina",
+            "bbox": null,
+            "clientTimeIso": "2026-10-27T03:54:49.056Z",
+            "fresh": false
+          },
+          "state": "credentials_required",
+          "clips": 0,
+          "injected": true,
+          "clipsRaw": []
+        }
+      ],
+      "pageErrors": [],
+      "screenshots": [
+        "after-direct-idle-375x739.png",
+        "after-direct-marina-pending-375x739.png",
+        "after-direct-marina-playing-375x739.png",
+        "after-direct-marina-refreshed-375x739.png",
+        "after-direct-burj-pending-375x739.png",
+        "after-direct-burj-playing-375x739.png",
+        "after-direct-burj-refreshed-375x739.png",
+        "after-direct-downtown-pending-375x739.png",
+        "after-direct-downtown-playing-375x739.png",
+        "after-direct-downtown-refreshed-375x739.png",
+        "after-direct-forced-plugin_error-375x739.png",
+        "after-direct-forced-credentials_required-375x739.png"
+      ],
+      "locations": {
+        "marina": {
+          "text": "Dubai Marina",
+          "pendingMs": 45.3,
+          "state": "ok",
+          "clips": 1,
+          "ladder": [
+            {
+              "level": "district",
+              "label": "Dubai Marina",
+              "names": [
+                "Dubai Marina"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 1
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "rejected": [],
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:51:39.772Z",
+              "lat": 25.0786415,
+              "lon": 55.1352524,
+              "placeName": "Dubai Marina",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:51:39.772Z",
+              "ageMs": 194011
+            }
+          ],
+          "coverageLevel": "district",
+          "expanded": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "publicationTime": "2026-09-09T17:13:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:48:08.936Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Dubai Marina",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+            }
+          ],
+          "panelText": "SNAPCHAT FOOTAGE\nHIDE\n×\nScene: Dubai Marina (25.0786, 55.1353)\nMatched place: “Dubai Marina” · coverage: district\n1 clip · +1 new on last refresh\nSource: Snapchat Spotlight · author handle not returned · open original\npublished 47d ago (2026-09-09 17:13 UTC)\ncapture time unknown\nretrieved 4m ago\nnot live\n#dubaimarina\nLocation evidence: hashtag text match — hashtag #dubaimarina equals the place name \"Dubai Marina\" · media link expires 2026-11-03 00:39 UTC\n#1\n#dubaimarina\npublished 47d ago\nretrieved 4m ago (server cache) · last checked 03:48:25 UTC (4m ago)\nrefresh 30s\nrefresh 1 min\nrefresh 2 min\nrefresh 5 min\nrefresh off\nCHECK NOW\n\nSnapchat Spotlight clips matched by caption/hashtag text for the place name — not geotagged Snap Map footage. Capture time and author handle are not provided by the plugin. Nothing here is live unless the source confirms it.",
+          "playback": {
+            "a": {
+              "rs": 4,
+              "t": 13.850318,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "locationId": "snap-dubai-marina",
+              "err": null,
+              "duration": 16.1,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 0.194549,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "duration": 16.1,
+              "wrapped": true,
+              "tUnwrapped": 16.294549
+            }
+          },
+          "panelHasPublicationLabel": true,
+          "panelHasLastChecked": true,
+          "panelHasCaptionMatchLabel": true,
+          "selectorCount": 1,
+          "refresh": {
+            "before": "2026-10-27T03:48:25.761Z",
+            "after": "2026-10-27T03:52:30.936Z",
+            "selectedBefore": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "selectedAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "clipIds": 1
+          },
+          "playbackAfterRefresh": {
+            "a": {
+              "rs": 4,
+              "t": 1.176457,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "locationId": "snap-dubai-marina",
+              "err": null,
+              "duration": 16.1,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 3.680118,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+              "duration": 16.1
+            }
+          }
+        },
+        "burj": {
+          "text": "Burj Khalifa",
+          "pendingMs": 37.9,
+          "state": "ok",
+          "clips": 3,
+          "ladder": [
+            {
+              "level": "landmark",
+              "label": "Burj Khalifa",
+              "names": [
+                "Burj Khalifa"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": false,
+              "clips": 0
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "rejected": [],
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:52:36.258Z",
+              "lat": 25.1970336,
+              "lon": 55.2741329,
+              "placeName": "Burj Khalifa",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:52:36.258Z",
+              "ageMs": 150714
+            }
+          ],
+          "coverageLevel": "landmark",
+          "expanded": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "publicationTime": "2026-10-01T11:55:30.000Z",
+              "publicationTimeRaw": "October 1, 2026 at 11:55:30 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw",
+              "publicationTime": "2026-09-09T09:48:12.000Z",
+              "publicationTimeRaw": "September 9, 2026 at 9:48:12 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ",
+              "publicationTime": "2025-11-16T21:02:20.000Z",
+              "publicationTimeRaw": "November 16, 2025 at 9:02:20 PM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:49:38.719Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Burj Khalifa",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYeGttYXFxbHB2AZqOedV0AZqOedVNAAAAAQ"
+            }
+          ],
+          "panelText": "SNAPCHAT FOOTAGE\nHIDE\n×\nScene: Burj Khalifa (25.1970, 55.2741)\nMatched place: “Burj Khalifa” · coverage: landmark\n3 clips · +3 new on last refresh\nSource: Snapchat Spotlight · author handle not returned · open original\npublished 26d ago (2026-10-01 11:55 UTC)\ncapture time unknown\nretrieved 3m ago\nnot live\n#Dubai #nazila #burjkhalifa\nLocation evidence: hashtag text match — hashtag #burjkhalifa equals the place name \"Burj Khalifa\" · media link expires 2026-11-03 00:39 UTC\n#1\n#Dubai #nazila #burjkhalifa\npublished 26d ago\n#2\nGTA 6 vs Burj Khalifa\npublished 48d ago\n#3\nWhat better way to celebrate the 52nd UAE National Day then experiencing one of the best views of the Burj Khalifa . Couldn’t believe this glass slide over 219\npublished 11mo ago\nretrieved 3m ago (server cache) · last checked 03:50:05 UTC (3m ago)\nrefresh 30s\nrefresh 1 min\nrefresh 2 min\nrefresh 5 min\nrefresh off\nCHECK NOW\n\nSnapchat Spotlight clips matched by caption/hashtag text for the place name — not geotagged Snap Map footage. Capture time and author handle are not provided by the plugin. Nothing here is live unless the source confirms it.",
+          "playback": {
+            "a": {
+              "rs": 4,
+              "t": 1.539596,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "locationId": "snap-burj-khalifa",
+              "err": null,
+              "duration": 9.195011,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 4.043075,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "duration": 9.195011
+            }
+          },
+          "panelHasPublicationLabel": true,
+          "panelHasLastChecked": true,
+          "panelHasCaptionMatchLabel": true,
+          "selectorCount": 3,
+          "refresh": {
+            "before": "2026-10-27T03:50:05.544Z",
+            "after": "2026-10-27T03:53:36.453Z",
+            "selectedBefore": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "selectedAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+            "clipIds": 3
+          },
+          "playbackAfterRefresh": {
+            "a": {
+              "rs": 4,
+              "t": 3.425972,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "locationId": "snap-burj-khalifa",
+              "err": null,
+              "duration": 9.195011,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 5.92952,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+              "duration": 9.195011
+            }
+          }
+        },
+        "downtown": {
+          "text": "Downtown Dubai",
+          "pendingMs": 38,
+          "state": "ok",
+          "clips": 3,
+          "ladder": [
+            {
+              "level": "neighborhood",
+              "label": "Downtown Dubai",
+              "names": [
+                "Downtown Dubai"
+              ],
+              "capped": false,
+              "queried": true,
+              "clips": 3
+            },
+            {
+              "level": "city",
+              "label": "Dubai",
+              "names": [
+                "Dubai"
+              ],
+              "capped": true,
+              "queried": false,
+              "clips": 0
+            }
+          ],
+          "rejected": [],
+          "trace": [
+            {
+              "stage": "request_received",
+              "utc": "2026-10-27T03:53:41.759Z",
+              "lat": 25.1948428,
+              "lon": 55.278195,
+              "placeName": "Downtown Dubai",
+              "bbox": null,
+              "fresh": false
+            },
+            {
+              "stage": "cache_hit",
+              "utc": "2026-10-27T03:53:41.759Z",
+              "ageMs": 140415
+            }
+          ],
+          "coverageLevel": "neighborhood",
+          "expanded": false,
+          "clipsRaw": [
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "publicationTime": "2026-10-11T08:16:09.000Z",
+              "publicationTimeRaw": "October 11, 2026 at 8:16:09 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "plugin-text-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ",
+              "publicationTime": "2026-01-13T08:55:34.000Z",
+              "publicationTimeRaw": "January 13, 2026 at 8:55:34 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "place-name-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ"
+            },
+            {
+              "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ",
+              "publicationTime": "2026-01-12T07:37:02.000Z",
+              "publicationTimeRaw": "January 12, 2026 at 7:37:02 AM",
+              "captureTime": null,
+              "isLive": false,
+              "retrievalTime": "2026-10-27T03:50:52.507Z",
+              "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+              "matchedPlaceName": "Downtown Dubai",
+              "locationEvidence": "hashtag-match",
+              "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYcHpxY2R4b3dwAZuxIw0qAZuxIwymAAAAAQ"
+            }
+          ],
+          "panelText": "SNAPCHAT FOOTAGE\nHIDE\n×\nScene: Downtown Dubai (25.1948, 55.2782)\nMatched place: “Downtown Dubai” · coverage: neighborhood\n3 clips · +3 new on last refresh\nSource: Snapchat Spotlight · author handle not returned · open original\npublished 16d ago (2026-10-11 08:16 UTC)\ncapture time unknown\nretrieved 3m ago\nnot live\n(no caption)\nLocation evidence: plugin-reported text match (no caption returned) — plugin reported a caption/text match for \"Downtown Dubai\" but returned no caption or hashtags to re-check · media link expires 2026-11-03 00:39 UTC\n#1\n(no caption)\npublished 16d ago\n#2\nDiscover the essence of Middle Eastern dining at Ewaan - a refined culinary experience set within Palace Downtown, in the heart of Downtown Dubai.\npublished 9mo ago\n#3\nJanuary reset at The Spa Longevity, Address Downtown. #spa #wellness #downtowndubai #longevity #luxuryhotels\npublished 9mo ago\nretrieved 3m ago (server cache) · last checked 03:51:21 UTC (3m ago)\nrefresh 30s\nrefresh 1 min\nrefresh 2 min\nrefresh 5 min\nrefresh off\nCHECK NOW\n\nSnapchat Spotlight clips matched by caption/hashtag text for the place name — not geotagged Snap Map footage. Capture time and author handle are not provided by the plugin. Nothing here is live unless the source confirms it.",
+          "playback": {
+            "a": {
+              "rs": 4,
+              "t": 30.321305,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "locationId": "snap-downtown-dubai",
+              "err": null,
+              "duration": 35.4,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 32.823976,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "duration": 35.4
+            }
+          },
+          "panelHasPublicationLabel": true,
+          "panelHasLastChecked": true,
+          "panelHasCaptionMatchLabel": true,
+          "selectorCount": 3,
+          "refresh": {
+            "before": "2026-10-27T03:51:21.344Z",
+            "after": "2026-10-27T03:54:43.762Z",
+            "selectedBefore": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "selectedAfter": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+            "clipIds": 3
+          },
+          "playbackAfterRefresh": {
+            "a": {
+              "rs": 4,
+              "t": 25.944029,
+              "muted": true,
+              "playsInline": true,
+              "paused": false,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "locationId": "snap-downtown-dubai",
+              "err": null,
+              "duration": 35.4,
+              "loop": true
+            },
+            "b": {
+              "rs": 4,
+              "t": 28.450503,
+              "muted": true,
+              "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+              "duration": 35.4
+            }
+          }
+        }
+      },
+      "endedUtc": "2026-10-27T03:54:49.179Z"
+    }
+  ],
+  "passed": 119,
+  "failed": 0,
+  "failures": [],
+  "keyScan": {
+    "checked": 1162,
+    "hits": 0,
+    "enabled": true,
+    "responsesChecked": 59
+  },
+  "endedUtc": "2026-10-27T03:54:49.199Z"
+}

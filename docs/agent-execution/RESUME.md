@@ -72,3 +72,5 @@ RESUME ONDEMAND INTELLIGENCE MISSION. Read the repository's docs/agent-execution
 - Vercel CLI is blocked in the agent container; deploy previews with `POST https://api.vercel.com/v13/deployments` (`gitSource` repoId 1375642703) against project `prj_VbHbEhFSDFkdXCqlq8XqONoFWQHO` (B-6 workaround).
 
 GENERATED_UTC: 2026-10-22T13:05:00Z
+
+- **Cycle 20 supersedes the temp-key-file recipe above.** `ONDEMAND_API_KEY` now lives in the Vercel project env (encrypted, all targets) and in the git-ignored 0600 app-root `.env`; `server/serverless/dev-server.mjs` loads it itself, so start with `PORT=5173 setsid nohup node server/serverless/dev-server.mjs` (no `/tmp/od-secret.env`). `/api/health` must show `keySource:"env:persistent"`.

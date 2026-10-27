@@ -23,6 +23,7 @@ import {
   spotlightUrl,
   createMediaVerifier,
   SNAPCHAT_PLUGIN_ID_DEFAULT,
+  locationEvidenceFor,
 } from './snapchat.js';
 import { createSceneFootageRoutes, validateFootageRequest } from './routes.js';
 import { OnDemandHttpError } from '../ondemand/foundation/client.js';
@@ -1033,4 +1034,51 @@ test('retrieve: every match failed inside the plugin → plugin_error (never "no
   assert.equal(res.statusCode, 502);
   assert.equal(json.state, 'plugin_error');
   assert.equal(json.error, 'plugin-media-download-failed');
+});
+
+test('retrieve: every candidate fails media verification → ONE fresh-session retry, then ok (cycle 20)', async () => {
+  const client = fakeClient([marinaResponse(), marinaResponse()]);
+  let n = 0;
+  const verify = async (clips) => {
+    n += 1;
+    return n === 1 ? [] : clips.map((c) => ({ ...c, mediaVerified: true }));
+  };
+  const stages = [];
+  const r = await retrieveSnapchatFootage(
+    { locationId: 'snap-dubai-marina', lat: 25.0786415, lon: 55.1352524, placeName: 'Dubai Marina' },
+    { client, cfg: CFG, now: () => NOW, verify, trace: (s) => stages.push(s) },
+  );
+  assert.equal(r.status, 'ok');
+  assert.equal(r.clips.length, 1);
+  assert.equal(client.calls.filter((c) => c.kind === 'query').length, 2);
+  assert.ok(stages.includes('media_retry'));
+});
+
+test('retrieve: media retry is bounded to one extra call', async () => {
+  const client = fakeClient([marinaResponse(), marinaResponse(), marinaResponse()]);
+  const r = await retrieveSnapchatFootage(
+    { locationId: 'snap-dubai-marina', lat: 25.0786415, lon: 55.1352524, placeName: 'Dubai Marina' },
+    { client, cfg: CFG, now: () => NOW, verify: async () => [] },
+  );
+  assert.equal(r.status, 'empty');
+  assert.equal(client.calls.filter((c) => c.kind === 'query').length, 2);
+});
+
+test('dedupeClips drops near-identical re-uploads (same caption, same 1 s duration bucket) but keeps untitled clips apart', () => {
+  const a = { id: 'snap-aaaaaaaaaa', storyId: 'aaaaaaaaaa', caption: 'Burj Khalifa at night!! #dubai', durationMs: 14550 };
+  const b = { id: 'snap-bbbbbbbbbb', storyId: 'bbbbbbbbbb', caption: 'burj khalifa at night #Dubai', durationMs: 14700 };
+  const c = { id: 'snap-cccccccccc', storyId: 'cccccccccc', caption: '', durationMs: 14550 };
+  const d = { id: 'snap-dddddddddd', storyId: 'dddddddddd', caption: '', durationMs: 14550 };
+  const e = { id: 'snap-eeeeeeeeee', storyId: 'eeeeeeeeee', caption: 'Burj Khalifa at night #dubai', durationMs: 30000 };
+  const { kept, dropped } = dedupeClips([a, b, c, d, e]);
+  assert.deepEqual(kept.map((x) => x.id), ['snap-aaaaaaaaaa', 'snap-cccccccccc', 'snap-dddddddddd', 'snap-eeeeeeeeee']);
+  assert.deepEqual(dropped, ['snap-bbbbbbbbbb']);
+});
+
+test('locationEvidenceFor: untitled clip accepted ONLY as plugin-text-match when the plugin asserted a clip-text-match for a requested name (cycle 20)', () => {
+  const r = { matchType: 'clip-text-match', matchedQuery: 'Downtown Dubai', place: 'Downtown Dubai' };
+  assert.equal(locationEvidenceFor({ description: null, hashtags: [] }, ['Downtown Dubai'], r).evidence, 'plugin-text-match');
+  assert.equal(locationEvidenceFor({ description: null, hashtags: [] }, ['Downtown Dubai'], null).evidence, 'unknown');
+  assert.equal(locationEvidenceFor({ description: 'random words', hashtags: [] }, ['Downtown Dubai'], r).evidence, 'unknown');
+  assert.equal(locationEvidenceFor({ description: null, hashtags: [] }, ['Dubai Marina'], r).evidence, 'unknown');
 });

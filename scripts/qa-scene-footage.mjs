@@ -50,11 +50,11 @@ const safe = (t) =>
     .replace(/\b(?:apikey|authorization)[=: ]+\S+/gi, '[credential omitted]')
     .slice(0, 600);
 
+// Cycle 20: the three locations from the latest live plugin output.
 const LOCATIONS = [
   { id: 'marina', text: 'Dubai Marina', locationId: 'snap-dubai-marina' },
   { id: 'burj', text: 'Burj Khalifa', locationId: 'snap-burj-khalifa' },
-  { id: 'jbr', text: 'Jumeirah Beach Residence', locationId: 'snap-jumeirah-beach-residence' },
-  { id: 'corniche', text: 'Abu Dhabi Corniche', locationId: 'snap-abu-dhabi-corniche' },
+  { id: 'downtown', text: 'Downtown Dubai', locationId: 'snap-downtown-dubai' },
 ];
 
 async function worker(cfg) {
@@ -95,7 +95,7 @@ async function worker(cfg) {
     for (const vp of cfg.viewports) {
       const [width, height] = vp.split('x').map(Number);
       const mobile = width < 600;
-      const run = { id: `${cfg.label}-${vp}`, viewport: vp, startedUtc: utc(), checks: [], stages: [], network: [], pageErrors: [], screenshots: [], locations: {} };
+      const run = { id: `${cfg.label}-${cfg.direct ? 'direct' : 'iframe'}-${vp}`, mode: cfg.direct ? 'direct' : 'iframe', viewport: vp, startedUtc: utc(), checks: [], stages: [], network: [], pageErrors: [], screenshots: [], locations: {} };
       report.runs.push(run);
       const stage = (location, name, data = {}) => {
         const s = { utc: utc(), location, stage: name, ...data };
@@ -137,7 +137,13 @@ async function worker(cfg) {
       page.on('response', async (res) => {
         try {
           const u = new URL(res.url());
+          if (KEY && u.pathname.startsWith('/api/') && !u.pathname.startsWith('/api/scenes/')) {
+            const t = await res.text().catch(() => '');
+            report.keyScan.responsesChecked = (report.keyScan.responsesChecked || 0) + 1;
+            if (t.includes(KEY) || JSON.stringify(res.headers()).includes(KEY)) report.keyScan.hits += 1;
+          }
           if (!u.pathname.startsWith('/api/scenes/')) return;
+          if (KEY) { report.keyScan.responsesChecked = (report.keyScan.responsesChecked || 0) + 1; if (JSON.stringify(res.headers()).includes(KEY)) report.keyScan.hits += 1; }
           const req = res.request();
           let json = null;
           try { json = await res.json(); } catch { /* injected/opaque */ }
@@ -146,7 +152,7 @@ async function worker(cfg) {
         } catch { /* diagnostics only */ }
       });
       const shot = async (name) => {
-        const file = path.join(cfg.out, `${cfg.label}-${name}-${vp}.png`);
+        const file = path.join(cfg.out, `${cfg.label}-${cfg.direct ? 'direct' : 'iframe'}-${name}-${vp}.png`);
         await page.screenshot({ path: file });
         run.screenshots.push(path.basename(file));
         return file;
@@ -156,13 +162,20 @@ async function worker(cfg) {
       // app CSP only allows self/on-demand.io parents: --same-origin-host serves the
       // harness from the app itself (labelled same-origin in the report).
       if (cfg.sameOriginHost) report.host = 'MIRRORED chat-canvas harness served SAME-ORIGIN from the app (local http baseline only)';
-      await page.goto(`${cfg.sameOriginHost ? cfg.url.replace(/\/$/, '') + '/embed-canvas-harness.html' : hostOrigin + '/'}?src=${encodeURIComponent(target)}&allow=restrictive`, { waitUntil: 'domcontentloaded', timeout: 90000 });
       let frame = null;
-      for (let i = 0; i < 120 && !frame; i += 1) {
-        frame = page.frames().find((f) => f !== page.mainFrame() && f.url().startsWith(cfg.url.replace(/\/$/, '')));
-        if (!frame) await sleep(500);
+      if (cfg.direct) {
+        report.host = 'DIRECT top-level page (no iframe)';
+        await page.goto(target, { waitUntil: 'domcontentloaded', timeout: 90000 });
+        frame = page.mainFrame();
+        check(run, 'direct-top-level-page-loaded', Boolean(frame), { url: target });
+      } else {
+        await page.goto(`${cfg.sameOriginHost ? cfg.url.replace(/\/$/, '') + '/embed-canvas-harness.html' : hostOrigin + '/'}?src=${encodeURIComponent(target)}&allow=restrictive`, { waitUntil: 'domcontentloaded', timeout: 90000 });
+        for (let i = 0; i < 120 && !frame; i += 1) {
+          frame = page.frames().find((f) => f !== page.mainFrame() && f.url().startsWith(cfg.url.replace(/\/$/, '')));
+          if (!frame) await sleep(500);
+        }
+        check(run, 'cross-origin-iframe-found', Boolean(frame), { hostOrigin });
       }
-      check(run, 'cross-origin-iframe-found', Boolean(frame), { hostOrigin });
       await frame.waitForSelector('#incident-composer-input', { timeout: 90000 });
       await sleep(cfg.settleMs);
       const fstate = () => frame.evaluate(() => window.__gevSceneFootage?.getState?.() || null);
@@ -194,9 +207,11 @@ async function worker(cfg) {
       const waitFootage = (locationId, timeout = 200000) =>
         frame.waitForFunction((id) => { const r = document.querySelector('#scene-footage'); return r && r.dataset.locationId === id && !['idle', 'loading'].includes(r.dataset.phase); }, { timeout, polling: 250 }, locationId).then(() => true).catch(() => false);
       const playback = async () => {
-        const a = await frame.evaluate(() => { const v = document.querySelector('#scene-footage-video'); return v ? { rs: v.readyState, t: v.currentTime, muted: v.muted, playsInline: v.playsInline, paused: v.paused, clipId: v.dataset.clipId, locationId: v.dataset.locationId, err: v.error?.code ?? null } : null; });
+        const a = await frame.evaluate(() => { const v = document.querySelector('#scene-footage-video'); return v ? { rs: v.readyState, t: v.currentTime, muted: v.muted, playsInline: v.playsInline, paused: v.paused, clipId: v.dataset.clipId, locationId: v.dataset.locationId, err: v.error?.code ?? null, duration: v.duration, loop: v.loop } : null; });
         await sleep(2500);
-        const b = await frame.evaluate(() => { const v = document.querySelector('#scene-footage-video'); return v ? { rs: v.readyState, t: v.currentTime, muted: v.muted, clipId: v.dataset.clipId } : null; });
+        const b = await frame.evaluate(() => { const v = document.querySelector('#scene-footage-video'); return v ? { rs: v.readyState, t: v.currentTime, muted: v.muted, clipId: v.dataset.clipId, duration: v.duration } : null; });
+        // Loop-aware: a looping clip that wrapped between samples (a near the end, b near the start) advanced.
+        if (a && b && b.t < a.t && a.loop && Number.isFinite(a.duration) && a.t > a.duration - 3 && b.t < 3) { b.wrapped = true; b.tUnwrapped = b.t + a.duration; }
         return { a, b };
       };
       const panelText = () => frame.evaluate(() => document.querySelector('#scene-footage')?.innerText || '');
@@ -209,7 +224,7 @@ async function worker(cfg) {
         check(run, 'before: no Snapchat footage panel exists (baseline)', !hasPanel, { hasPanel });
         await shot('marina-30s');
       } else {
-        const list = mobile ? LOCATIONS.filter((l) => ['marina', 'corniche'].includes(l.id)) : LOCATIONS;
+        const list = LOCATIONS;
         for (const loc of list) {
           const L = (run.locations[loc.id] = { text: loc.text });
           stage(loc.id, 'scene-selection', { input: loc.text, via: loc.id === 'burj' ? 'enter' : mobile ? 'tap' : 'click' });
@@ -217,7 +232,7 @@ async function worker(cfg) {
           const pendingMs = await typeAndBuild(loc.text, loc.id === 'burj' ? 'enter' : 'button');
           L.pendingMs = pendingMs;
           check(run, `${loc.id}: pending feedback appears immediately (in-page submit→pending < 250 ms)`, pendingMs !== null && pendingMs >= 0 && pendingMs < 250, { pendingMs });
-          if (loc.id === 'marina') await shot('marina-pending');
+          await shot(`${loc.id}-pending`);
           const footageLoading = await frame.waitForFunction(() => document.querySelector('#scene-footage')?.dataset.phase === 'loading', { timeout: 30000 }).then(() => true).catch(() => false);
           stage(loc.id, 'footage-loading-visible', { ok: footageLoading });
           const settled = await waitFootage(loc.locationId);
@@ -240,7 +255,7 @@ async function worker(cfg) {
             const pb = await playback();
             stage(loc.id, 'in-scene-playback', pb);
             L.playback = pb;
-            check(run, `${loc.id}: playback readyState ≥ 3, currentTime advancing, muted`, pb.a && pb.b && pb.b.rs >= 3 && pb.b.t > pb.a.t && pb.a.muted && pb.b.muted && pb.a.playsInline, pb);
+            check(run, `${loc.id}: playback readyState ≥ 3, currentTime advancing, muted`, pb.a && pb.b && pb.b.rs >= 3 && (pb.b.tUnwrapped ?? pb.b.t) > pb.a.t && pb.a.muted && pb.b.muted && pb.a.playsInline, pb);
             check(run, `${loc.id}: playing clip belongs to the active locationId`, pb.a?.locationId === loc.locationId, { video: pb.a?.locationId });
             // timestamp honesty: displayed published UTC stamp == parsed raw
             const raw = last.clipsRaw.find((c) => c.id === st.selectedId) || last.clipsRaw[0];
@@ -248,8 +263,16 @@ async function worker(cfg) {
             check(run, `${loc.id}: displayed publication time matches raw uploadDateMs (UTC)`, raw?.publicationTime && shown === raw.publicationTime.slice(0, 16).replace('T', ' '), { raw: raw?.publicationTimeRaw, parsed: raw?.publicationTime, shown });
             check(run, `${loc.id}: capture time shown as unknown (plugin returns none)`, /capture time unknown/.test(text) && raw?.captureTime === null, {});
             check(run, `${loc.id}: source attribution + original link shown`, /Source: Snapchat Spotlight/.test(text) && /open original/.test(text), { sourceUrl: raw?.sourceUrl });
-            if (loc.id === 'marina') {
-              await shot('marina-playing');
+            L.panelHasPublicationLabel = /published /.test(text) && /capture time unknown/.test(text);
+            L.panelHasLastChecked = /last checked/.test(text);
+            L.panelHasCaptionMatchLabel = /caption\/hashtag text|caption text match|hashtag text match|plugin-reported text match/.test(text);
+            check(run, `${loc.id}: last-checked time visible`, L.panelHasLastChecked, {});
+            check(run, `${loc.id}: location labelled as caption/hashtag text match (not geotag)`, L.panelHasCaptionMatchLabel && !/Location evidence: geotag/.test(text), {});
+            const domIds0 = await frame.evaluate(() => [...document.querySelectorAll('#scene-footage-clips [data-clip-id]')].map((n) => n.dataset.clipId));
+            L.selectorCount = domIds0.length;
+            check(run, `${loc.id}: clip selector lists every validated clip once`, domIds0.length === (st?.clipIds?.length || 0) && new Set(domIds0).size === domIds0.length, { selector: domIds0.length, clips: st?.clipIds?.length });
+            {
+              await shot(`${loc.id}-playing`);
               // ---- refresh tick ----
               const before = await fstate();
               const sel = await frame.$('#scene-footage-refresh');
@@ -261,13 +284,19 @@ async function worker(cfg) {
               const ids = after.clipIds;
               stage(loc.id, 'refresh-tick-done', { ticked, lastCheckedAt: after.lastCheckedAt, selectedId: after.selectedId, refreshCount: after.refreshCount, clipIds: ids.length, refreshMs: after.refreshMs });
               const videoAfter = await frame.evaluate(() => document.querySelector('#scene-footage-video')?.dataset.clipId);
-              check(run, 'marina: refresh tick updated last-checked time', ticked && after.lastCheckedAt !== before.lastCheckedAt, { before: before.lastCheckedAt, after: after.lastCheckedAt });
-              check(run, 'marina: refresh preserved the current clip', after.selectedId === before.selectedId && videoAfter === before.selectedId, { before: before.selectedId, after: after.selectedId, videoAfter });
-              check(run, 'marina: refresh merged without duplicates', new Set(ids).size === ids.length, { ids: ids.length });
+              L.refresh = { before: before.lastCheckedAt, after: after.lastCheckedAt, selectedBefore: before.selectedId, selectedAfter: after.selectedId, clipIds: ids.length };
+              check(run, `${loc.id}: refresh tick updated last-checked time`, ticked && after.lastCheckedAt !== before.lastCheckedAt, { before: before.lastCheckedAt, after: after.lastCheckedAt });
+              check(run, `${loc.id}: refresh preserved the current clip`, after.selectedId === before.selectedId && videoAfter === before.selectedId, { before: before.selectedId, after: after.selectedId, videoAfter });
+              check(run, `${loc.id}: refresh merged without duplicates`, new Set(ids).size === ids.length, { ids: ids.length });
               const domIds = await frame.evaluate(() => [...document.querySelectorAll('#scene-footage-clips [data-clip-id]')].map((n) => n.dataset.clipId));
-              check(run, 'marina: clip selector has no duplicate entries', new Set(domIds).size === domIds.length, { domIds: domIds.length });
-              await shot('marina-refreshed');
+              check(run, `${loc.id}: clip selector has no duplicate entries`, new Set(domIds).size === domIds.length, { domIds: domIds.length });
+              const pbR = await playback();
+              L.playbackAfterRefresh = pbR;
+              check(run, `${loc.id}: playback continues after refresh (readyState ≥ 3, currentTime advancing)`, pbR.b?.rs >= 3 && (pbR.b.tUnwrapped ?? pbR.b.t) > pbR.a.t, pbR);
+              await shot(`${loc.id}-refreshed`);
               if (!mobile) { const s2 = await frame.$('#scene-footage-refresh'); await s2.select('0'); }
+            }
+            if (loc.id === 'marina' && !cfg.direct && !cfg.skipInjected) {
               // ---- expired link (INJECTED 403 on the storage MP4) ----
               await page.setCacheEnabled(false);
               inject.mediaFail = 1;
@@ -277,7 +306,7 @@ async function worker(cfg) {
               await frame.waitForFunction(() => document.querySelector('#scene-footage')?.dataset.phase === 'ready' && !/re-fetching/.test(document.querySelector('#scene-footage-status')?.innerText || ''), { timeout: 200000 }).catch(() => {});
               await sleep(3000);
               const pb2 = await playback();
-              check(run, 'marina: expired link → one automatic re-fetch, playback resumes', refetched && pb2.b?.rs >= 3 && pb2.b.t > pb2.a.t, { refetched, pb2 });
+              check(run, 'marina: expired link → one automatic re-fetch, playback resumes', refetched && pb2.b?.rs >= 3 && (pb2.b.tUnwrapped ?? pb2.b.t) > pb2.a.t, { refetched, pb2 });
               inject.mediaFailAlways = true;
               await frame.evaluate(() => { const v = document.querySelector('#scene-footage-video'); const src = v.src; v.removeAttribute('src'); v.load(); v.src = src; v.play().catch(() => {}); });
               const gaveUp = await frame.waitForFunction(() => /expired again after one re-fetch/.test(document.querySelector('#scene-footage-status')?.innerText || ''), { timeout: 200000, polling: 300 }).then(() => true).catch(() => false);
@@ -296,7 +325,7 @@ async function worker(cfg) {
           }
         }
         // ---- rapid A→B→A→C race (programmatic opens, real network) ----
-        stage('race', 'start', { sequence: 'Dubai Marina → Burj Khalifa → Dubai Marina → Abu Dhabi Corniche' });
+        stage('race', 'start', { sequence: 'Dubai Marina → Burj Khalifa → Dubai Marina → Downtown Dubai' });
         const mismatches = await frame.evaluate(async () => {
           const api = window.__gevSceneFootage;
           const bad = [];
@@ -309,22 +338,22 @@ async function worker(cfg) {
           }, 50);
           const A = { lat: 25.0786415, lon: 55.1352524, place: 'Dubai Marina', force: true };
           const B = { lat: 25.1970336, lon: 55.2741329, place: 'Burj Khalifa', force: true };
-          const C = { lat: 24.474, lon: 54.329, place: 'Abu Dhabi Corniche', force: true };
+          const C = { lat: 25.1945, lon: 55.278, place: 'Downtown Dubai', force: true };
           api.open(A, 'race'); await new Promise((r) => setTimeout(r, 120));
           api.open(B, 'race'); await new Promise((r) => setTimeout(r, 120));
           api.open(A, 'race'); await new Promise((r) => setTimeout(r, 120));
           api.open(C, 'race');
           const t0 = Date.now();
-          while (Date.now() - t0 < 180000) { const s = api.getState(); if (s.locationId === 'snap-abu-dhabi-corniche' && !['loading', 'idle'].includes(s.phase)) break; await new Promise((r) => setTimeout(r, 250)); }
+          while (Date.now() - t0 < 180000) { const s = api.getState(); if (s.locationId === 'snap-downtown-dubai' && !['loading', 'idle'].includes(s.phase)) break; await new Promise((r) => setTimeout(r, 250)); }
           await new Promise((r) => setTimeout(r, 1500));
           clearInterval(probe);
           const s = api.getState();
           return { bad: bad.slice(0, 5), badCount: bad.length, samples, final: { locationId: s.locationId, phase: s.phase, clips: s.clipIds.length, discarded: s.discarded } };
         });
         stage('race', 'done', mismatches);
-        check(run, 'race A→B→A→C: rendered clips always matched the active locationId', mismatches.badCount === 0 && mismatches.final.locationId === 'snap-abu-dhabi-corniche', mismatches);
+        check(run, 'race A→B→A→C: rendered clips always matched the active locationId', mismatches.badCount === 0 && mismatches.final.locationId === 'snap-downtown-dubai', mismatches);
         // ---- forced plugin error + credentials state (INJECTED API responses) ----
-        for (const forced of [{ state: 'plugin_error', status: 502, error: 'upstream_500', re: /Snapchat plugin error/ }, { state: 'credentials_required', status: 503, error: 'credentials_required', re: /Credentials required/ }]) {
+        if (!cfg.skipInjected) for (const forced of [{ state: 'plugin_error', status: 502, error: 'upstream_500', re: /Snapchat plugin error/ }, { state: 'credentials_required', status: 503, error: 'credentials_required', re: /Credentials required/ }]) {
           inject.api = forced;
           await frame.evaluate((st) => window.__gevSceneFootage.open({ lat: 25.0786415, lon: 55.1352524, place: 'Dubai Marina', force: true }, `forced-${st}`), forced.state);
           const ok = await frame.waitForFunction((st) => document.querySelector('#scene-footage')?.dataset.phase === st, { timeout: 30000 }, forced.state).then(() => true).catch(() => false);
@@ -375,20 +404,35 @@ async function recordWorker(cfg) {
     await sleep(cfg.settleMs);
     const rec = await page.screencast({ path: cfg.record, fps: 15, quality: 28 });
     log.push({ utc: utc(), event: 'recording-start' });
-    const input = await frame.$('#incident-composer-input');
-    await input.click({ clickCount: 3 });
-    await page.keyboard.type('Dubai Marina', { delay: 60 });
-    await (await frame.$('#incident-composer-submit')).click();
-    log.push({ utc: utc(), event: 'BUILD SCENE clicked' });
-    await frame.waitForFunction(() => document.querySelector('#scene-footage')?.dataset.phase === 'ready', { timeout: 200000 });
-    log.push({ utc: utc(), event: 'footage ready', state: await frame.evaluate(() => ({ t: document.querySelector('#scene-footage-video')?.currentTime })) });
-    await sleep(6000);
-    const prev = await frame.evaluate(() => window.__gevSceneFootage.getState().refreshCount);
-    await (await frame.$('#scene-footage-check')).click();
-    log.push({ utc: utc(), event: 'CHECK NOW clicked (refresh)' });
-    await frame.waitForFunction((p) => window.__gevSceneFootage.getState().refreshCount > p, { timeout: 200000, polling: 500 }, prev);
-    log.push({ utc: utc(), event: 'refresh done', state: await frame.evaluate(() => { const s = window.__gevSceneFootage.getState(); return { lastCheckedAt: s.lastCheckedAt, selectedId: s.selectedId, t: document.querySelector('#scene-footage-video')?.currentTime }; }) });
-    await sleep(6000);
+    // Cycle 20: ONE continuous take — every location built from the AOI box with
+    // native typing + BUILD SCENE, footage verified playing in each scene.
+    const places = cfg.places || [['Dubai Marina', 'snap-dubai-marina']];
+    for (const [text, locationId] of places) {
+      const input = await frame.$('#incident-composer-input');
+      await input.click({ clickCount: 3 });
+      await page.keyboard.down('Control'); await page.keyboard.press('KeyA'); await page.keyboard.up('Control'); await page.keyboard.press('Backspace');
+      await page.keyboard.type(text, { delay: 70 });
+      await (await frame.$('#incident-composer-submit')).click();
+      log.push({ utc: utc(), event: `BUILD SCENE clicked: ${text}` });
+      await frame.waitForFunction((id) => { const r = document.querySelector('#scene-footage'); return r && r.dataset.locationId === id && r.dataset.phase === 'ready'; }, { timeout: 240000, polling: 250 }, locationId);
+      await frame.waitForFunction(() => { const v = document.querySelector('#scene-footage-video'); return v && v.readyState >= 3 && v.currentTime > 0.5; }, { timeout: 60000, polling: 250 });
+      const a = await frame.evaluate(() => { const v = document.querySelector('#scene-footage-video'); const s = window.__gevSceneFootage.getState(); return { rs: v.readyState, t: v.currentTime, muted: v.muted, clipId: v.dataset.clipId, locationId: v.dataset.locationId, clips: s.clipIds.length }; });
+      await sleep(7000);
+      const b = await frame.evaluate(() => { const v = document.querySelector('#scene-footage-video'); return { rs: v.readyState, t: v.currentTime, clipId: v.dataset.clipId }; });
+      log.push({ utc: utc(), event: `footage playing: ${text}`, a, b });
+      if (a.clips > 1) {
+        const ids = await frame.evaluate(() => [...document.querySelectorAll('#scene-footage-clips [data-clip-id]')].map((n) => n.dataset.clipId));
+        const btn = await frame.$(`#scene-footage-clips [data-clip-id="${ids[1]}"]`);
+        if (btn) { await btn.click(); await sleep(4500); log.push({ utc: utc(), event: `clip selector → second clip: ${text}`, video: await frame.evaluate(() => ({ clipId: document.querySelector('#scene-footage-video')?.dataset.clipId, rs: document.querySelector('#scene-footage-video')?.readyState, t: document.querySelector('#scene-footage-video')?.currentTime })) }); }
+      }
+      const prev = await frame.evaluate(() => window.__gevSceneFootage.getState().refreshCount);
+      const before = await frame.evaluate(() => window.__gevSceneFootage.getState().selectedId);
+      await (await frame.$('#scene-footage-check')).click();
+      log.push({ utc: utc(), event: `CHECK NOW clicked (refresh): ${text}` });
+      await frame.waitForFunction((p) => window.__gevSceneFootage.getState().refreshCount > p, { timeout: 240000, polling: 500 }, prev);
+      log.push({ utc: utc(), event: `refresh done: ${text}`, state: await frame.evaluate((bf) => { const s = window.__gevSceneFootage.getState(); return { lastCheckedAt: s.lastCheckedAt, keptClip: s.selectedId === bf, clips: s.clipIds.length, t: document.querySelector('#scene-footage-video')?.currentTime }; }, before) });
+      await sleep(5000);
+    }
     await rec.stop();
     log.push({ utc: utc(), event: 'recording-stop' });
   } finally {
@@ -415,7 +459,10 @@ if (process.argv[2] === '--worker') {
     settleMs: Number(arg('settle-ms', 6000)),
     hostOrigin: arg('host-origin', 'https://canvas.on-demand.io'),
     sameOriginHost: process.argv.includes('--same-origin-host'),
+    direct: process.argv.includes('--direct'),
+    skipInjected: process.argv.includes('--skip-injected'),
     out: arg('out', path.join(workspace, '.ui-proof')),
+    places: process.argv.includes('--three-places') ? [['Dubai Marina', 'snap-dubai-marina'], ['Burj Khalifa', 'snap-burj-khalifa'], ['Downtown Dubai', 'snap-downtown-dubai']] : undefined,
     report: arg('report', `/tmp/qa-scene-footage-${label}.json`),
   };
   await fs.mkdir(cfg.out, { recursive: true });

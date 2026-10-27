@@ -38,6 +38,10 @@ export const LOCATION_EVIDENCE = Object.freeze([
   'geotag',
   'place-name-match',
   'hashtag-match',
+  // Cycle 20: the plugin reported a clip-text-match for the requested place but
+  // returned NO caption and NO hashtags, so the match cannot be re-checked here.
+  // Accepted only in that exact case and labelled as plugin-reported.
+  'plugin-text-match',
   'unknown',
 ]);
 
@@ -306,7 +310,7 @@ export function spotlightUrl(storyId) {
 }
 
 /** How strongly the clip text ties to the searched place name. Never 'geotag' — the plugin has none. */
-export function locationEvidenceFor(video, names) {
+export function locationEvidenceFor(video, names, result = null) {
   const tags = (video.hashtags || []).map((t) =>
     compact(String(t).replace(/^#/, '')),
   );
@@ -332,6 +336,21 @@ export function locationEvidenceFor(video, names) {
         detail: `caption names "${name}"`,
       };
   }
+  const noText =
+    !String(video.description || '').trim() && !(video.hashtags || []).length;
+  const asserted =
+    result &&
+    result.matchType === 'clip-text-match' &&
+    names.some(
+      (n) =>
+        norm(n) === norm(result.matchedQuery || '') ||
+        norm(n) === norm(result.place || ''),
+    );
+  if (noText && asserted)
+    return {
+      evidence: 'plugin-text-match',
+      detail: `plugin reported a caption/text match for "${result.matchedQuery || result.place}" but returned no caption or hashtags to re-check`,
+    };
   return {
     evidence: 'unknown',
     detail:
@@ -423,7 +442,7 @@ export function normalizePluginResponse(
         });
         continue;
       }
-      const loc = locationEvidenceFor(video, step.names);
+      const loc = locationEvidenceFor(video, step.names, result);
       if (loc.evidence === 'unknown') {
         out.rejected.push({
           storyId: video.storyId,
@@ -493,7 +512,22 @@ export function normalizePluginResponse(
   return out;
 }
 
-/** Dedupe by storyId, sourceUrl, media hash and blob path (SAS-independent). */
+/**
+ * Near-identical re-upload fingerprint (cycle 20): the same normalised caption
+ * (≥ 12 letters/digits, so empty/"untitled" captions never collide) with a
+ * duration within the same 1-second bucket. Re-uploads get a new storyId,
+ * sourceUrl and blob, so the exact keys below miss them.
+ */
+export function nearDuplicateKey(c) {
+  const text = String(c?.caption || '')
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^\p{L}\p{N}]+/gu, '');
+  if (text.length < 12 || !Number.isFinite(c?.durationMs)) return null;
+  return `n:${text.slice(0, 160)}|${Math.round(c.durationMs / 1000)}`;
+}
+
+/** Dedupe by storyId, sourceUrl, media hash, blob path (SAS-independent) and near-identical re-upload. */
 export function dedupeClips(clips) {
   const seen = new Set();
   const kept = [],
@@ -504,6 +538,7 @@ export function dedupeClips(clips) {
       c.sourceUrl && `u:${c.sourceUrl}`,
       c.mediaHash && `h:${c.mediaHash}`,
       c.mediaUrl && `p:${redactMediaUrl(c.mediaUrl)}`,
+      nearDuplicateKey(c),
     ].filter(Boolean);
     if (keys.some((k) => seen.has(k))) {
       dropped.push(c.id);
@@ -758,9 +793,11 @@ export async function retrieveSnapchatFootage(scene, deps) {
       );
     return byLevel;
   };
+  let lastFinish = { candidates: 0, verified: 0 };
   const finish = async (s, clips) => {
     let verified = clips;
     if (verify) verified = await verify(clips, signal);
+    lastFinish = { candidates: clips.length, verified: verified.length };
     const { kept, dropped } = dedupeClips(verified);
     for (const id of dropped)
       report.rejected.push({
@@ -771,14 +808,35 @@ export async function retrieveSnapchatFootage(scene, deps) {
     return kept;
   };
 
+  // Cycle 20: the fulfillment model transcribes the plugin JSON and has been
+  // observed to corrupt a storageUrl (e.g. a wrong storage-account host →
+  // 404 ContainerNotFound) while the same plugin call returns a valid URL on
+  // the next session. When candidates existed but EVERY one failed media
+  // verification with a media-head-* rejection, re-run the step ONCE in a
+  // fresh session. Bounded: one extra call per level, traced as media_retry.
+  const everyCandidateFailedMedia = () =>
+    Boolean(verify) && lastFinish.candidates > 0 && lastFinish.verified === 0;
+
   // 1) requested/narrowest level alone
   const first = queryable[0];
   const json1 = await runStep(first.names, [first]);
   report.ladder.find((l) => l.label === first.label).queried = true;
   let picked = null;
   if (json1) {
-    const [b] = evaluate(json1, [first]);
-    const clips = await finish(first, b.clips);
+    let [b] = evaluate(json1, [first]);
+    let clips = await finish(first, b.clips);
+    if (everyCandidateFailedMedia()) {
+      trace('media_retry', {
+        level: first.level,
+        candidates: lastFinish.candidates,
+        note: 'every candidate failed media verification; one fresh-session retry',
+      });
+      const retryJson = await runStep(first.names, [first]);
+      if (retryJson) {
+        [b] = evaluate(retryJson, [first]);
+        clips = await finish(first, b.clips);
+      }
+    }
     report.ladder.find((l) => l.label === first.label).clips = clips.length;
     if (clips.length >= cfg.minClips) picked = { step: first, clips };
     else if (clips.length) picked = { step: first, clips, partial: true };

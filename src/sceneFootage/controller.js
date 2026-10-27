@@ -58,11 +58,25 @@ export function mergeClips(current, incoming, { selectedId } = {}) {
       return u;
     }
   };
+  // Near-identical re-upload key — mirrors server nearDuplicateKey().
+  const near = (c) => {
+    const text = String(c?.caption || '')
+      .toLowerCase()
+      .normalize('NFKD')
+      .replace(/[^\p{L}\p{N}]+/gu, '');
+    return text.length >= 12 && Number.isFinite(c?.durationMs)
+      ? `n:${text.slice(0, 160)}|${Math.round(c.durationMs / 1000)}`
+      : null;
+  };
   const known = new Set(
     current.flatMap((c) =>
-      [c.id, c.sourceUrl, c.mediaHash, c.mediaUrl && blob(c.mediaUrl)].filter(
-        Boolean,
-      ),
+      [
+        c.id,
+        c.sourceUrl,
+        c.mediaHash,
+        c.mediaUrl && blob(c.mediaUrl),
+        near(c),
+      ].filter(Boolean),
     ),
   );
   let added = 0;
@@ -86,6 +100,7 @@ export function mergeClips(current, incoming, { selectedId } = {}) {
       c.sourceUrl,
       c.mediaHash,
       c.mediaUrl && blob(c.mediaUrl),
+      near(c),
     ].filter(Boolean);
     if (keys.some((k) => known.has(k))) continue;
     keys.forEach((k) => known.add(k));

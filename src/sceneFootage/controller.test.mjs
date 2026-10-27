@@ -705,3 +705,11 @@ test('places: narrowest of operator text / geocoder label / coordinate wins (Cor
     'geocoded Corniche Beach point is inside the Corniche planning radius',
   );
 });
+
+test('mergeClips skips a near-identical re-upload on refresh (cycle 20)', () => {
+  const cur = [{ id: 'snap-a1', caption: 'Dubai Marina sunset walk', durationMs: 16100, publicationTime: '2026-09-09T17:13:12.000Z' }];
+  const inc = [{ id: 'snap-b2', caption: 'dubai marina — sunset walk!', durationMs: 16300, publicationTime: '2026-09-10T10:00:00.000Z' }];
+  const { clips, added } = mergeClips(cur, inc, { selectedId: 'snap-a1' });
+  assert.equal(added, 0);
+  assert.deepEqual(clips.map((c) => c.id), ['snap-a1']);
+});

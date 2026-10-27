@@ -127,3 +127,7 @@ Cycle 15 target-framing refinement: the real browser exposed that the original g
 - `77b8066` checkpoint (empty, clean tree) before changes; feature commit follows on `feat/scene-video-evidence` (PR #4). Baseline `baseline/approved-k8v6snzk7` @ `f20fab6` untouched.
 - Route `POST /api/scenes/:locationId/footage/snapchat` → OnDemand session + query with `pluginIds:["plugin-1792945050"]` (`fetchSnapchatVideosByPlace`). See MASTER_STATE / TEST_RESULTS "Cycle 19" and `docs/SNAPCHAT_PLUGIN.md`.
 - Preview https://sb-5nqbbabiczlf.vercel.run (`sbx_YKsxkm8145nAnFcN6LKwlb7TK6so`).
+
+### Cycle 20 (2026-10-27)
+- `9f00c28` checkpoint (empty, clean tree) → `de82db2` permanent server-side key (env:persistent, transient key-file path removed) → fix commit for media retry / near-dup dedupe / plugin-text-match + 3-location QA (see MASTER_STATE "Cycle 20"). Baseline `baseline/approved-k8v6snzk7` @ `f20fab6` untouched.
+- Preview https://sb-5kdyj18ew55x.vercel.run (`sbx_3IkaIWI9k9vOQfGJWtt74Yny6My8`).
