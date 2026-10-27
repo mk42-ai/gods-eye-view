@@ -22,11 +22,24 @@ import http from 'node:http';
 import { createReadStream, existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { loadServerDotenv } from './load-dotenv.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const distDir = path.join(root, 'dist');
 const apiDir = path.join(root, 'api');
 const catchAllFile = path.join(apiDir, '[...route].js');
+
+// Cycle 20: persistent server-side configuration. The OnDemand key (and every
+// other server setting) is read from the real environment first, then from
+// the git-ignored, mode-0600 `.env` at the app root — so a plain restart keeps
+// the key. No temp key file is read or required. Only counts are logged.
+// Runs before any api/* module (and so server/ondemand/config.js) is imported.
+{
+  const { files, loaded } = loadServerDotenv(root);
+  console.log(
+    `[dev-server] server env: ${loaded} value(s) from ${files.join(', ') || 'no dotenv file'} (process env wins)`,
+  );
+}
 
 /**
  * A genuinely dynamic `import()`.

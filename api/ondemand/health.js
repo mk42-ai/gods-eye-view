@@ -102,6 +102,7 @@ import {
   baseUrls,
   isConfigured,
   cameraChatPublicConfig,
+  keyStatus,
 } from './_config.js';
 import { ondemandFetch, clientKeyAllowed } from '../../server/ondemand/client.js';
 import {
@@ -296,6 +297,7 @@ export default async function handler(req, res) {
       workflow: 'not configured',
       plugins: {},
       configured: false,
+      keySource: 'unset',
       reasoningModeInvalid: cfg.reasoningModeInvalid,
       config: configDiagnostic(cfg),
       // Camera-chat profile defaults (ids/mode names only, never a key) —
@@ -365,6 +367,7 @@ export default async function handler(req, res) {
     workflow: workflowProbe.status,
     plugins,
     configured: true,
+    keySource: keyStatus().keySource,
     speechProbe: { cached, ageSec },
     reasoningModeInvalid: cfg.reasoningModeInvalid,
     config: configDiagnostic(cfg),

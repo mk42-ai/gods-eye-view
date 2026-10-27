@@ -39,7 +39,7 @@
  * client disconnect aborts the upstream fetch (abort propagation).
  */
 
-import { config, isConfigured, configSources } from '../config.js';
+import { config, isConfigured, configSources, keyStatus } from '../config.js';
 import {
   readJsonBody,
   BodyError,
@@ -646,7 +646,10 @@ export function createFoundationHandler(deps = {}) {
               process.env.ONDEMAND_V2_REQUIRE_USER_HEADER === '1',
             promptInjectionFencing: true,
           },
-          keySource: 'server',
+          // Cycle 20: persistent server-side key source (never the value).
+          keySource: keyStatus().keySource,
+          keyHolder: 'server',
+          keyEnvName: keyStatus().envName,
         });
         return;
       }

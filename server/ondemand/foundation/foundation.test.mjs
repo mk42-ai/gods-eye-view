@@ -415,7 +415,11 @@ describe('proxy route (/api/ondemand/v2)', () => {
       res,
     );
     assert.equal(res.statusCode, 200);
-    assert.equal(res.json().keySource, 'server');
+    assert.equal(res.json().keySource, 'env:persistent');
+    assert.equal(res.json().keyHolder, 'server');
+    assert.equal(res.json().keyEnvName, 'ONDEMAND_API_KEY');
+    assert.equal(res.json().configured, true);
+    assert.ok(!JSON.stringify(res.json()).includes(SERVER_KEY));
     assert.equal(res.getHeader('x-ondemand-key-source'), 'server');
     res = makeRes();
     await h(

@@ -127,6 +127,7 @@
  */
 
 import { readFileSync } from 'node:fs';
+import { resolveServerKey, PERSISTENT_KEY_SOURCE } from './server-key.js';
 
 /** An env var explicitly set to `""` (or whitespace-only) is treated as
  * unset, matching this module's long-standing `X || default` convention. */
@@ -621,7 +622,14 @@ function reconcileReasoningMode() {
 }
 
 function computeConfig() {
-  const apiKeyResult = reconcile('ONDEMAND_API_KEY', 'ON_DEMAND_API_KEY', '');
+  // Cycle 20: the key comes ONLY from the persistent environment
+  // (Vercel project env / snapshotted server-side .env) via server-key.js —
+  // the transient temp-file path is gone. Fail closed on empty/placeholder.
+  const resolvedKey = resolveServerKey(process.env);
+  const apiKeyResult = {
+    value: resolvedKey.value,
+    source: resolvedKey.envName,
+  };
 
   const baseUrlResult = reconcile(
     'ONDEMAND_BASE_URL',
@@ -896,6 +904,16 @@ export const config = {
 
 export function isConfigured() {
   return state.apiKey.length > 0;
+}
+
+/** Public, value-free key status for /health: { configured, keySource, envName }. */
+export function keyStatus() {
+  const configured = state.apiKey.length > 0;
+  return {
+    configured,
+    keySource: configured ? PERSISTENT_KEY_SOURCE : 'unset',
+    envName: state.sources.apiKey,
+  };
 }
 
 /**

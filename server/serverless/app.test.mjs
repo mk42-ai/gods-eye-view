@@ -152,7 +152,9 @@ test('liveness alias: GET /api/health answers with the foundation health payload
   assert.equal(res.statusCode, 200);
   const body = JSON.parse(res.body);
   assert.equal(body.ok, true);
-  assert.equal(body.keySource, 'server');
+  assert.ok(['env:persistent', 'unset'].includes(body.keySource));
+  assert.equal(body.keyHolder, 'server');
+  assert.equal(body.keySource === 'env:persistent', body.configured);
   assert.equal(typeof body.contracts, 'number');
   const keySourceHeader = Object.keys(res.headers).find(
     (h) => h.toLowerCase() === 'x-ondemand-key-source',
