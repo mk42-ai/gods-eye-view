@@ -122,3 +122,8 @@ Cycle 15 target-framing refinement: the real browser exposed that the original g
 - Runtime identity updated to `buildReference:dfa7739`. Current health/root verification at `2026-10-24T10:22:02.569432+00:00`: HTTP 200, configured true, server key source, correct application title, no X-Frame-Options, restrictive non-none frame-ancestors. Subsequent post-commit browser smoke: 8 passed / 0 failed at 1440×900 and 375×739.
 - Final full live browser run: 92/0, `2026-10-24T10:14:08.721Z` → `2026-10-24T10:20:56.699Z`. Its twelve completed AOI/window observations returned 247 unverified candidate occurrences (69 distinct post IDs): Instagram 27, TikTok 70, YouTube 60, X 90. These are mediated-answer URL leads, NOT verified source footage. Eligible videos 0; playback-verified videos 0. Source transport: 72 session-create HTTP 201 responses, 65 query HTTP 200 responses. Ultimate provider HTTP/raw metadata is unavailable from the documented response; no assertion of underlying provider success is made.
 - Genuine final browser recording `gods-eye-view-repair-demo.mp4`: 48.000s, 1440×900 H.264, continuous excerpt, full ffmpeg decode passed. No archival clip or fabricated successful video playback.
+
+## Cycle 19 — Snapchat scene footage — 2026-10-27
+- `77b8066` checkpoint (empty, clean tree) before changes; feature commit follows on `feat/scene-video-evidence` (PR #4). Baseline `baseline/approved-k8v6snzk7` @ `f20fab6` untouched.
+- Route `POST /api/scenes/:locationId/footage/snapchat` → OnDemand session + query with `pluginIds:["plugin-1792945050"]` (`fetchSnapchatVideosByPlace`). See MASTER_STATE / TEST_RESULTS "Cycle 19" and `docs/SNAPCHAT_PLUGIN.md`.
+- Preview https://sb-5nqbbabiczlf.vercel.run (`sbx_YKsxkm8145nAnFcN6LKwlb7TK6so`).

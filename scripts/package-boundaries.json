@@ -2005,7 +2005,12 @@
       "src/incidents/ui/sceneLibrary.js",
       "src/incidents/ui/diagnostics.js",
       "src/incidents/ui/geographicOverlay.js",
-      "src/sceneEvidence/qualification.js"
+      "src/sceneEvidence/qualification.js",
+      "src/sceneFootage/places.js",
+      "src/sceneFootage/controller.js",
+      "src/sceneFootage/panel.js",
+      "src/sceneFootage/index.js",
+      "config/aoi/footage-places.json"
     ],
     "external": [
       "@mapbox/vector-tile",

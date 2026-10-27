@@ -5,6 +5,7 @@ import { resolveIncidentGate } from '../aoi/sceneGate.js';
 import { installIncidentScenes } from '../incidents/ui/index.js';
 import { installSceneVideos } from '../sceneVideos/index.js';
 import { installSceneEvidence } from '../sceneEvidence/index.js';
+import { installSceneFootage } from '../sceneFootage/index.js';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
 import { createGevActionRunner } from '../voice/gevActions.js';
@@ -167,6 +168,9 @@ export function createApplicationTools({
   // public source in parallel and streams ranked, labelled cards, signals,
   // source status and a summary into one panel (src/sceneEvidence/*).
   debug.sceneEvidence = installSceneEvidence({ viewer, signal });
+  // Scene footage (2026-10-26): Snapchat Spotlight clips for the selected scene
+  // via POST /api/scenes/:locationId/footage/snapchat (src/sceneFootage/*).
+  debug.sceneFootage = installSceneFootage({ viewer, signal });
   const runner = createGevActionRunner({
     ...voice,
     floorServices: operations.surface.groundFloor,

@@ -145,3 +145,16 @@ Official references checked/read for this cycle:
 - https://inference-docs.cerebras.ai/api-reference/chat-completions
 
 Raw social-provider success behind the OnDemand answer cannot be independently audited from the documented response. Current live results, transport codes, exact UTC windows, exclusions and blockers are in the root repair report/evidence JSON. Prior archival playback evidence is not a current-footage demonstration.
+
+
+## Cycle 19 — Snapchat scene footage (plugin-1792945050) — 2026-10-26
+
+| source | access | operation / input | output | location basis | time basis | status |
+|---|---|---|---|---|---|---|
+| Snapchat video downloader (OnDemand plugin **`plugin-1792945050`**, agent `agent-1792945050`) | server-side OnDemand Chat API (`POST /chat/v1/sessions` → `POST /chat/v1/sessions/{id}/query`, `pluginIds:["plugin-1792945050"]`, `responseMode:"sync"`), key `ONDEMAND_API_KEY` from server env only | `fetchSnapchatVideosByPlace({ places: string[], limit: integer })` — Explore/hashtag **text** search by place name; **no coordinates or bounds** | Spotlight MP4s re-hosted on internal Azure Blob storage (SAS URL, `se=` expiry ≈ 7 days), `description`, `hashtags`, `storyId`, `uploadDateMs` (**human-readable string**, parsed as UTC), counts | caption/hashtag text match only — **NOT geotagged Snap Map results** | publication (upload) time only; **no capture time**; no live flag | live, verified 2026-10-26 |
+
+* App route: `POST /api/scenes/:locationId/footage/snapchat` (`server/scene-footage/*`), body `{locationId, lat, lon, placeName, bbox, clientTimeIso}`.
+* Place-name ladder (landmark → neighborhood → district → city) from `config/aoi/footage-places.json`, capped by `SNAPCHAT_MAX_COVERAGE_LEVEL`.
+* Timeouts: documented plugin limit 150 s; app query timeout 120 s; observed 12–42 s per query. Rate limits: platform 10,000 req/min/IP (free-plan RAG 100/min); app 12 req/min/IP, 3 attempts with exponential backoff on 408/409/425/429/5xx, cache TTL 5 min.
+* No author handle, thumbnail, geotag, capture time or live flag are returned; the app never fabricates them.
+* Full details, raw sample request/response and limitations: `docs/SNAPCHAT_PLUGIN.md`.

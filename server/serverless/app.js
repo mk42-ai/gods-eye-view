@@ -5,6 +5,7 @@ import { mountToolsRoute } from './tools-route.js';
 import { mountOndemandWorkflowSubpaths } from './ondemand-workflow-mount.js';
 import { mountFoundationRoutes } from '../ondemand/foundation/proxy-route.js';
 import { createToolInvoker } from '../ondemand/foundation/tool-contracts.js';
+import { mountSceneFootageRoutes } from '../scene-footage/routes.js';
 
 /** VITE_SERVERLESS_MODE / SERVERLESS_MODE mirror the client-side build-time flag; VERCEL is set by the platform itself. */
 /** Accept the usual truthy spellings (`true`, `1`, `yes`) for an env flag. */
@@ -236,6 +237,11 @@ async function createServerlessApi({ serverlessMode: explicitMode } = {}) {
   // plugins so no literal api/ondemand/*.js file shadows it.
   // B-13 (2026-10-21): `/investigate` now runs repo tools in-process through
   // the registry-derived invoker (same whitelist validation as /api/tools).
+  // Scene footage (2026-10-26): POST /api/scenes/:locationId/footage/snapchat —
+  // server-side OnDemand chat session + query with the real Snapchat plugin
+  // (plugin-1792945050) in pluginIds; strict zod clip schema, ladder, cache,
+  // rate limit (server/scene-footage/*, docs/SNAPCHAT_PLUGIN.md).
+  mountSceneFootageRoutes(router);
   mountFoundationRoutes(router, { toolInvoker: createToolInvoker() });
 
   for (const plugin of localProviderPlugins()) {

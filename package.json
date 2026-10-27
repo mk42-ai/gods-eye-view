@@ -44,7 +44,7 @@
     "test:serverless": "node --test server/serverless/*.test.mjs",
     "test:ondemand": "node --test server/ondemand/*.test.mjs",
     "test:foundation": "node --test server/ondemand/foundation/*.test.mjs",
-    "test:scene-evidence": "node --test server/scene-evidence/*.test.mjs server/scene-videos/*.test.mjs",
+    "test:scene-evidence": "node --test server/scene-evidence/*.test.mjs server/scene-videos/*.test.mjs server/scene-footage/*.test.mjs",
     "ondemand:foundation:live": "node scripts/ondemand-foundation-live.mjs",
     "ondemand:contract": "node scripts/ondemand-contract-test.mjs",
     "dev:serverless": "node server/serverless/dev-server.mjs",
@@ -54,7 +54,9 @@
     "check:boundaries": "node scripts/check-import-directions.mjs && node scripts/check-package-boundaries.mjs && node scripts/check-brand-marks.mjs",
     "check:secrets": "node scripts/check-no-secrets.mjs",
     "qa:transit": "node scripts/qa-transit.mjs",
-    "qa:chat": "node scripts/qa-chat-harness.mjs"
+    "qa:chat": "node scripts/qa-chat-harness.mjs",
+    "test:scene-footage": "node --test server/scene-footage/*.test.mjs",
+    "check:secrets:dist": "node scripts/check-no-secrets.mjs --dist"
   },
   "dependencies": {
     "@mapbox/vector-tile": "^3.0.0",
