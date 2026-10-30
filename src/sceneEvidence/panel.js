@@ -52,6 +52,40 @@ export const LIMITS_NOTE =
 
 const STREAM_TIMEOUT_MS = 60_000;
 
+const SMALL_WORDS = new Set(['of', 'and', 'the', 'in', 'at', 'on', 'for', 'de', 'la']);
+/**
+ * Split a geocoder display name into a short one-line label and the full
+ * address. "American University Of Sharjah, Bobyan Street, …" →
+ * { short: 'American University of Sharjah', full: '<unchanged>' }.
+ */
+export function shortPlaceName(name) {
+  const full = String(name || '').replace(/\s+/g, ' ').trim();
+  if (!full) return { short: '', full: '' };
+  const first = full.split(',')[0].trim() || full;
+  const short = first
+    .split(' ')
+    .map((w, i) => (i > 0 && SMALL_WORDS.has(w.toLowerCase()) ? w.toLowerCase() : w))
+    .join(' ');
+  return { short, full };
+}
+
+/** Compact stat counts shown on the evidence chip and in the drawer header. */
+export function evidenceStats(state) {
+  const verified = (state.items || []).filter((x) => x.eligible === true).length;
+  const candidates = (state.candidates || []).length;
+  const timedOut = (state.sources || []).filter((x) => x.state === 'timeout').length;
+  const failed = (state.sources || []).filter((x) => ['error', 'unavailable'].includes(x.state)).length;
+  return { verified, candidates, timedOut, failed };
+}
+
+/** Chip label: 'Evidence · 0 verified · 18 candidates' (never wraps mid-word). */
+export function evidenceChipLabel(state) {
+  const { verified, candidates } = evidenceStats(state);
+  if (state.phase === 'streaming') return `Evidence · searching… · ${verified} verified`;
+  if (state.phase === 'error' || state.phase === 'timeout') return `Evidence · ${verified} verified · retry`;
+  return `Evidence · ${verified} verified · ${candidates} candidate${candidates === 1 ? '' : 's'}`;
+}
+
 function el(doc, tag, { id, className, text, attrs } = {}) {
   const n = doc.createElement(tag);
   if (id) n.id = id;
@@ -110,48 +144,77 @@ export function createSceneEvidencePanel({
     attrs: { 'aria-label': 'Scene evidence', 'data-phase': 'idle' },
   });
   root.hidden = true;
+  root.setAttribute('role', 'dialog');
+  root.setAttribute('aria-modal', 'false');
+  root.setAttribute('aria-labelledby', `${PANEL_ID}-title`);
+  root.dataset.open = 'false';
+  // Cycle 22: the evidence panel is ON DEMAND. A build only reveals this chip;
+  // the chip opens the panel as a slide-over drawer (bottom sheet on phones).
+  const chip = el(doc, 'button', {
+    id: `${PANEL_ID}-chip`,
+    className: 'sev-chip',
+    attrs: {
+      type: 'button',
+      'aria-controls': PANEL_ID,
+      'aria-expanded': 'false',
+      'aria-haspopup': 'dialog',
+      title: 'Open scene evidence',
+    },
+  });
+  chip.hidden = true;
+  const chipIcon = el(doc, 'span', { className: 'sev-chip__icon', attrs: { 'aria-hidden': 'true' } });
+  setIconContent(chipIcon, 'film', {}, doc);
+  const chipLabel = el(doc, 'span', { className: 'sev-chip__label', text: 'Evidence' });
+  chip.append(chipIcon, chipLabel);
   const head = el(doc, 'div', { className: 'sev__head' });
-  const title = el(doc, 'span', {
+  const titleWrap = el(doc, 'div', { className: 'sev__titles' });
+  const title = el(doc, 'h2', {
     id: `${PANEL_ID}-title`,
     className: 'sev__title',
     text: 'Scene evidence',
   });
+  const address = el(doc, 'p', {
+    id: `${PANEL_ID}-address`,
+    className: 'sev__address',
+    text: '',
+  });
+  titleWrap.append(title, address);
   const timing = el(doc, 'span', {
     id: `${PANEL_ID}-timing`,
     className: 'sev__timing',
     text: '',
   });
-  const rebuildBtn = el(doc, 'button', {
-    id: `${PANEL_ID}-rebuild`,
-    className: 'sev__btn',
-    attrs: {
-      type: 'button',
-      title: 'Fetch fresh results and diff against the cached scene',
-    },
+  const iconButton = (id, icon, label) => {
+    const b = el(doc, 'button', {
+      id: `${PANEL_ID}-${id}`,
+      className: 'sev__icon-btn',
+      attrs: { type: 'button', 'aria-label': label, title: label },
+    });
+    setIconContent(b, icon, {}, doc);
+    return b;
+  };
+  const rebuildBtn = iconButton('rebuild', 'refresh-cw', 'Rebuild: fetch fresh results and diff against the cache');
+  const shareBtn = iconButton('share', 'link', 'Copy a link that reopens this evidence scene');
+  const closeBtn = iconButton('close', 'x', 'Close evidence (Esc)');
+  const actions = el(doc, 'div', { className: 'sev__actions', attrs: { role: 'toolbar', 'aria-label': 'Evidence actions' } });
+  actions.append(rebuildBtn, shareBtn, closeBtn);
+  head.append(titleWrap, actions);
+  const stats = el(doc, 'div', {
+    id: `${PANEL_ID}-stats`,
+    className: 'sev__stats',
+    attrs: { role: 'group', 'aria-label': 'Evidence counts' },
   });
-  setIconContent(rebuildBtn, 'refresh-cw', { text: 'Rebuild' }, doc);
-  const shareBtn = el(doc, 'button', {
-    id: `${PANEL_ID}-share`,
-    className: 'sev__btn',
-    attrs: {
-      type: 'button',
-      title: 'Copy a link that reopens this evidence scene',
-    },
-  });
-  setIconContent(shareBtn, 'link', { text: 'Share' }, doc);
-  const hideBtn = el(doc, 'button', {
-    id: `${PANEL_ID}-hide`,
-    className: 'sev__btn',
-    attrs: { type: 'button', 'aria-expanded': 'true', 'aria-label': 'Hide evidence' },
-  });
-  setIconContent(hideBtn, 'chevron-up', {}, doc);
-  const closeBtn = el(doc, 'button', {
-    id: `${PANEL_ID}-close`,
-    className: 'sev__btn',
-    attrs: { type: 'button', 'aria-label': 'Close scene evidence' },
-  });
-  setIconContent(closeBtn, 'x', {}, doc);
-  head.append(title, timing, rebuildBtn, shareBtn, hideBtn, closeBtn);
+  const statChip = (key, label) => {
+    const n = el(doc, 'span', { className: 'sev__stat', attrs: { 'data-stat': key } });
+    const v = el(doc, 'strong', { className: 'sev__stat-value', text: '0' });
+    n.append(v, el(doc, 'span', { className: 'sev__stat-label', text: label }));
+    stats.appendChild(n);
+    return { n, v };
+  };
+  const statVerified = statChip('verified', 'verified');
+  const statCandidates = statChip('candidates', 'candidates');
+  const statTimeout = statChip('timeout', 'timed out');
+  const meta = el(doc, 'div', { id: `${PANEL_ID}-meta`, className: 'sev__meta' });
   const body = el(doc, 'div', {
     id: `${PANEL_ID}-body`,
     className: 'sev__body',
@@ -165,8 +228,10 @@ export function createSceneEvidencePanel({
     id: 'scene-evidence-empty', className: 'sev__empty', attrs: { role: 'status', 'aria-live': 'polite' },
   });
   const timeScope = el(doc, 'p', { id: 'scene-evidence-window', className: 'sev__scope' });
-  const candidatesBox = el(doc, 'details', { id: 'scene-evidence-candidates', className: 'sev__candidates' });
-  const candidatesSummary = el(doc, 'summary', { text: 'Unverified candidates · not pinned, not playable' });
+  const diagnostics = el(doc, 'details', { id: `${PANEL_ID}-diagnostics`, className: 'sev__section sev__diagnostics' });
+  const diagnosticsSummary = el(doc, 'summary', { className: 'sev__section-summary', text: 'Diagnostics' });
+  const candidatesBox = el(doc, 'details', { id: 'scene-evidence-candidates', className: 'sev__section sev__candidates' });
+  const candidatesSummary = el(doc, 'summary', { className: 'sev__section-summary', text: 'Unverified candidates' });
   const candidatesList = el(doc, 'ol', { className: 'sev__list' });
   candidatesBox.append(candidatesSummary, candidatesList);
   const diffLine = el(doc, 'div', {
@@ -176,10 +241,10 @@ export function createSceneEvidencePanel({
   diffLine.hidden = true;
   const sourcesBox = el(doc, 'details', {
     id: `${PANEL_ID}-sources`,
-    className: 'sev__sources',
+    className: 'sev__section sev__sources',
   });
   const sourcesSummary = el(doc, 'summary', {
-    className: 'sev__sources-summary',
+    className: 'sev__section-summary sev__sources-summary',
     text: 'Source status',
   });
   const sourcesList = el(doc, 'ul', { className: 'sev__sources-list' });
@@ -233,11 +298,12 @@ export function createSceneEvidencePanel({
     id: `${PANEL_ID}-list`,
     className: 'sev__list',
   });
-  const summaryBox = el(doc, 'section', {
+  const summaryBox = el(doc, 'details', {
     id: `${PANEL_ID}-summary`,
-    className: 'sev__summary',
+    className: 'sev__section sev__summary',
     attrs: { 'aria-label': 'Evidence summary' },
   });
+  const summaryToggle = el(doc, 'summary', { className: 'sev__section-summary', text: 'Summary & context signals' });
   const summaryText = el(doc, 'p', { className: 'sev__summary-text' });
   const summaryEngine = el(doc, 'span', { className: 'sev__summary-engine' });
   const signalsList = el(doc, 'ul', {
@@ -245,10 +311,7 @@ export function createSceneEvidencePanel({
     className: 'sev__signals',
   });
   summaryBox.append(
-    el(doc, 'h3', {
-      className: 'sev__h',
-      text: 'Evidence summary · public incident & context signals',
-    }),
+    summaryToggle,
     summaryText,
     summaryEngine,
     signalsList,
@@ -258,20 +321,21 @@ export function createSceneEvidencePanel({
     className: 'sev__limits',
     text: LIMITS_NOTE,
   });
+  diagnostics.append(diagnosticsSummary, timeScope, timing, diffLine, limits);
   body.append(
+    stats,
+    meta,
     status,
-    timeScope,
     emptyState,
-    diffLine,
-    sourcesBox,
     filters,
     player,
     nowLine,
     timeline,
     list,
-    candidatesBox,
     summaryBox,
-    limits,
+    sourcesBox,
+    candidatesBox,
+    diagnostics,
   );
   const popover = el(doc, 'div', {
     id: `${PANEL_ID}-profile`,
@@ -287,7 +351,13 @@ export function createSceneEvidencePanel({
       (m, s) => ((m[s.state] = (m[s.state] || 0) + 1), m),
       {},
     );
-    sourcesSummary.textContent = `Source status · ${counts.ok || 0} ok · ${counts.running || 0} running · ${counts.credentials_required || 0} credentials required · ${(counts.error || 0) + (counts.timeout || 0) + (counts.unavailable || 0)} failed`;
+    const failedCount = (counts.error || 0) + (counts.timeout || 0) + (counts.unavailable || 0);
+    sourcesSummary.textContent = [
+      `Source status · ${counts.ok || 0} ok`,
+      counts.running ? `${counts.running} running` : '',
+      counts.credentials_required ? `${counts.credentials_required} need keys` : '',
+      failedCount ? `${failedCount} failed` : '',
+    ].filter(Boolean).join(' · ');
     sourcesList.replaceChildren(
       ...state.sources.map((s) => {
         const li = el(doc, 'li', {
@@ -515,15 +585,26 @@ export function createSceneEvidencePanel({
     );
   }
 
+  function metaLine(st) {
+    const w = st.window;
+    const radius = `${st.request?.radiusKm || 5} km`;
+    if (w?.startUtc && w?.endUtc) {
+      const fmt = (v) => String(v).slice(5, 16).replace('T', ' ');
+      return `${fmt(w.startUtc)} → ${fmt(w.endUtc)} UTC · ${radius} · ${w.mode || 'recent'}`;
+    }
+    const h = st.request?.windowHours || 1;
+    return `Last ${h >= 24 && h % 24 === 0 ? `${h / 24} d` : `${h} h`} · ${radius} · UTC`;
+  }
+
   function phaseText() {
     const n = state.items.length;
     const vis = visibleItems(state).length;
     const shown = vis === n ? `${n}` : `${vis}/${n}`;
     switch (state.phase) {
       case 'streaming':
-        return `Retrieving ${state.place || 'AOI'} — ${shown} verified video(s), ${state.candidates.length} unverified candidate(s). Providers run independently…`;
+        return `Searching sources… ${shown} verified so far.`;
       case 'done':
-        return `${shown} source-verified video(s) · ${state.candidates.length} unverified candidate(s) for ${state.place}. ${state.sources.filter((x) => x.state === 'timeout').length} timed out.`;
+        return '';
       case 'cached':
         return `Reopened from cache (${state.cachedAt ? state.cachedAt.slice(0, 16).replace('T', ' ') : ''} UTC) — no provider calls. ${shown} item(s). Rebuild to refresh and diff.`;
       case 'timeout':
@@ -543,7 +624,22 @@ export function createSceneEvidencePanel({
     root.dataset.verifiedVideos = String(state.items.filter((x) => x.eligible === true).length);
     root.dataset.signals = String(state.signals.length);
     root.dataset.key = state.key || '';
-    title.textContent = `Scene evidence${state.place ? ` · ${state.place}` : ''}`;
+    const names = shortPlaceName(state.place);
+    title.textContent = names.short || 'Scene evidence';
+    title.setAttribute('title', names.full || 'Scene evidence');
+    address.textContent = names.full && names.full !== names.short ? names.full : '';
+    address.setAttribute('title', names.full || '');
+    address.hidden = !address.textContent;
+    const counts = evidenceStats(state);
+    statVerified.v.textContent = String(counts.verified);
+    statCandidates.v.textContent = String(counts.candidates);
+    statTimeout.v.textContent = String(counts.timedOut);
+    statTimeout.n.hidden = counts.timedOut === 0;
+    statVerified.n.dataset.zero = String(counts.verified === 0);
+    chipLabel.textContent = evidenceChipLabel(state);
+    chip.dataset.phase = state.phase;
+    chip.setAttribute('aria-label', `${evidenceChipLabel(state)} — open scene evidence`);
+    root.dataset.verified = String(counts.verified);
     const c = state.client;
     timing.textContent = [
       c.firstCardMs !== null
@@ -554,6 +650,7 @@ export function createSceneEvidencePanel({
       .filter(Boolean)
       .join(' · ');
     status.textContent = phaseText();
+    status.hidden = !status.textContent;
     status.dataset.phase = state.phase;
     for (const b of filterButtons)
       b.setAttribute(
@@ -565,14 +662,18 @@ export function createSceneEvidencePanel({
         ),
       );
     timeScope.textContent = state.window ? `Recording time: ${state.window.startUtc} → ${state.window.endUtc} · ${state.request.radiusKm || 5} km · ${state.window.mode}. No automatic widening.` : `Recording window: ${state.request.windowHours || 1} hour(s), ending at server execution time (UTC).`;
+    meta.textContent = metaLine(state);
+    meta.setAttribute('title', timeScope.textContent);
     emptyState.hidden = state.items.length > 0;
     emptyState.textContent = state.phase === 'streaming'
-      ? 'Awaiting source-verified recordings. Search leads are not current footage.'
-      : 'No verified recent footage. Recording location and recording time must both be source-backed and inside the selected scope. Unknown or historical leads are excluded, not played.';
+      ? 'Waiting for source-verified recordings…'
+      : 'No verified footage in this window. Candidates below are unverified and not playable.';
     player.hidden = state.items.length === 0;
     timeline.hidden = state.items.length === 0;
     filters.hidden = state.items.length === 0;
-    candidatesSummary.textContent = `Unverified candidates (${state.candidates.length}) · not pinned, not playable`;
+    candidatesSummary.textContent = `Unverified candidates (${state.candidates.length})`;
+    candidatesBox.hidden = state.candidates.length === 0;
+    summaryToggle.textContent = `Summary & context signals${state.signals.length ? ` (${state.signals.length})` : ''}`;
     candidatesList.replaceChildren(...state.candidates.map(card));
     renderSources();
     const items = visibleItems(state);
@@ -807,14 +908,16 @@ export function createSceneEvidencePanel({
     }
   }
 
-  function open(request, { preferCache = false } = {}) {
+  function open(request, { preferCache = false, reveal = false } = {}) {
+    const keepOpen = reveal || isOpen();
     generation += 1;
     clearTimeout(timer); abort?.abort();
     const run = generation;
     const scoped = { ...request, windowHours: request.windowHours || 1, requestId: `sev-${now().toString(36)}-${generation}`, fresh: true };
     state = initialState(scoped);
     state.client.startedAt = now();
-    root.hidden = false; root.dataset.collapsed = 'false';
+    chip.hidden = false;
+    if (!keepOpen) setOpen(false);
     diffLine.hidden = true; popover.hidden = true;
     player.replaceChildren(playerEmpty); player.dataset.embedLoaded = 'false'; nowLine.textContent = '';
     const cached = loadSceneEvidence(storage, state.key, new Date(now()));
@@ -825,8 +928,38 @@ export function createSceneEvidencePanel({
     }
     void preferCache; // Saving a camera scene does not save freshness of external evidence.
     state.phase = 'streaming'; render();
+    if (reveal) setOpen(true);
     return stream(scoped, run).then(() => state);
   }
+
+  // ------------------------------------------------------------ drawer state
+  let lastFocus = null;
+  function isOpen() {
+    return root.dataset.open === 'true' && !root.hidden;
+  }
+  function setOpen(next, { focus = true } = {}) {
+    const openNow = Boolean(next) && !chip.hidden;
+    root.hidden = !openNow;
+    root.dataset.open = String(openNow);
+    chip.setAttribute('aria-expanded', String(openNow));
+    chip.dataset.open = String(openNow);
+    doc.body?.classList?.toggle?.('sev-open', openNow);
+    if (openNow) {
+      lastFocus = doc.activeElement || chip;
+      if (focus) closeBtn.focus?.({ preventScroll: true });
+    } else if (focus && lastFocus) {
+      if (root.contains?.(doc.activeElement)) chip.focus?.({ preventScroll: true });
+      lastFocus = null;
+    }
+    return openNow;
+  }
+  function toggle() {
+    return setOpen(!isOpen());
+  }
+  chip.addEventListener('click', (e) => {
+    e?.stopPropagation?.();
+    toggle();
+  });
 
   rebuildBtn.addEventListener('click', () => {
     if (!state.request) return;
@@ -846,20 +979,16 @@ export function createSceneEvidencePanel({
       setIconContent(shareBtn, 'link', { text: 'Share' }, doc);
     }, 2500);
   });
-  hideBtn.addEventListener('click', () => {
-    const collapsed = root.dataset.collapsed !== 'true';
-    root.dataset.collapsed = String(collapsed);
-    hideBtn.setAttribute('aria-expanded', String(!collapsed));
-    hideBtn.setAttribute('aria-label', collapsed ? 'Show evidence' : 'Hide evidence');
-    setIconContent(hideBtn, collapsed ? 'chevron-down' : 'chevron-up', {}, doc);
-  });
-  closeBtn.addEventListener('click', () => close());
+  // X / Esc / click outside only HIDE the drawer: results stay behind the chip.
+  closeBtn.addEventListener('click', () => setOpen(false));
 
+  /** Tear down the evidence scene (new AOI, cancel, external refusal). */
   function close() {
     generation += 1;
     abort?.abort();
     clearTimeout(timer);
-    root.hidden = true;
+    setOpen(false, { focus: false });
+    chip.hidden = true;
     player.replaceChildren(playerEmpty);
     pins?.clear?.();
   }
@@ -895,13 +1024,35 @@ export function createSceneEvidencePanel({
       player.dataset.playerState = String(d.info.playerState);
   };
   win?.addEventListener?.('message', onMessage);
-  const onEscape = (event) => { if (event.key === 'Escape' && !popover.hidden) { popover.hidden = true; profileInvoker?.focus?.(); } };
+  const onEscape = (event) => {
+    if (event.key !== 'Escape') return;
+    if (!popover.hidden) { popover.hidden = true; profileInvoker?.focus?.(); event.stopPropagation?.(); return; }
+    if (isOpen()) { setOpen(false); event.stopPropagation?.(); }
+  };
   root.addEventListener('keydown', onEscape);
+  const onDocKey = (event) => {
+    if (event.key === 'Escape' && isOpen() && popover.hidden && !event.defaultPrevented) setOpen(false);
+  };
+  const onDocPointer = (event) => {
+    if (!isOpen()) return;
+    const t = event.target;
+    if (!t || root.contains?.(t) || chip.contains?.(t)) return;
+    // Clicks on the globe / other chrome close the drawer; the walkthrough overlay is ignored.
+    if (t.closest?.('.driver-popover, .driver-overlay')) return;
+    setOpen(false, { focus: false });
+  };
+  doc.addEventListener?.('keydown', onDocKey);
+  doc.addEventListener?.('pointerdown', onDocPointer, true);
 
   return {
     element: root,
+    chip,
     open,
     close,
+    show: () => setOpen(true),
+    hide: () => setOpen(false),
+    toggle,
+    isOpen,
     select,
     openProfile,
     dispatch,
@@ -911,7 +1062,10 @@ export function createSceneEvidencePanel({
     destroy() {
       close();
       win?.removeEventListener?.('message', onMessage);
+      doc.removeEventListener?.('keydown', onDocKey);
+      doc.removeEventListener?.('pointerdown', onDocPointer, true);
       root.remove?.();
+      chip.remove?.();
     },
   };
 }

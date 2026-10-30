@@ -123,6 +123,15 @@ export function installSceneEvidence({
     storage: win?.localStorage,
   });
   (doc.body || doc.documentElement).appendChild(panel.element);
+  // Cycle 22: the compact evidence chip lives in the AOI composer's status row
+  // (merged with Play); fall back to the body if the composer is not mounted.
+  const mountChip = () => {
+    const slot = doc.getElementById?.('incident-composer-evidence-slot');
+    const host = slot || doc.body || doc.documentElement;
+    if (panel.chip.parentNode !== host) host.appendChild(panel.chip);
+    panel.chip.dataset.mounted = slot ? 'composer' : 'body';
+  };
+  mountChip();
 
   // Clicking a pin on the map selects its card (map ↔ rail ↔ player sync).
   let handler = null;
@@ -153,7 +162,8 @@ export function installSceneEvidence({
       sceneId: d.sceneId,
       fresh: !d.preferCache,
     };
-    void panel.open(request, { preferCache: Boolean(d.preferCache) });
+    mountChip();
+    void panel.open(request, { preferCache: Boolean(d.preferCache), reveal: Boolean(d.reveal) });
   };
   win?.addEventListener?.(SCENE_EVIDENCE_EVENT, onEvent);
   const onCancel = () => panel.close();
@@ -168,7 +178,7 @@ export function installSceneEvidence({
     );
     if (shared)
       setTimeout(
-        () => void panel.open({ ...shared, text: shared.place }),
+        () => void panel.open({ ...shared, text: shared.place }, { reveal: true }),
         1500,
       );
   } catch {
@@ -178,10 +188,15 @@ export function installSceneEvidence({
   const api = {
     panel,
     open: (req, opts) => panel.open(req, opts),
+    show: () => panel.show(),
+    hide: () => panel.hide(),
+    isOpen: () => panel.isOpen(),
     getState: () => {
       const s = panel.state;
       return {
         phase: s.phase,
+        open: panel.isOpen(),
+        chip: panel.chip.hidden ? null : panel.chip.textContent,
         key: s.key,
         place: s.place,
         items: s.items.length,

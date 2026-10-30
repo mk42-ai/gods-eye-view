@@ -1290,3 +1290,33 @@ test('production BUILD constructs a geographic scene for research text and carri
   assert.equal(client.calls.filter(([kind]) => kind === 'ingest').length, 0);
   assert.ok(composer.element.find(n => n.id === 'incident-composer-play').length);
 });
+
+import { shortPlaceLabel, STEP_STATUS_TEXT } from './ui/composer.js';
+describe('cycle 22 composer status row', () => {
+  test('shortPlaceLabel keeps only the first geocoder segment', () => {
+    assert.equal(shortPlaceLabel('American University Of Sharjah, Bobyan Street, Sharjah, United Arab Emirates'), 'American University of Sharjah');
+    assert.equal(shortPlaceLabel('Dubai Marina'), 'Dubai Marina');
+    assert.equal(shortPlaceLabel(''), '');
+  });
+  test('one inline status label per step', () => {
+    assert.deepEqual(Object.keys(STEP_STATUS_TEXT), ['locating', 'verifying', 'building', 'searching']);
+  });
+  test('built scene: short place + Play in one status row, never the long "Scene generated at" sentence', async () => {
+    const LONG = { ...MARINA, name: 'Dubai Marina, Marsa Dubai, Dubai, United Arab Emirates' };
+    const composer = createIncidentComposer({
+      document: makeDoc(),
+      client: fakeClient({ candidates: [LONG] }),
+      createGeographicScene: async (input) => geographicScene(input),
+      onScene: async () => {},
+    });
+    await composer.submit(MARINA_QUERY);
+    const text = composer.element.text();
+    assert.doesNotMatch(text, /Scene generated at/);
+    const place = composer.element.find((n) => n.className === 'incident-composer__place')[0];
+    assert.equal(place.textContent, 'Dubai Marina');
+    assert.equal(place.title, LONG.name);
+    const status = composer.element.find((n) => n.id === `${COMPOSER_ID}-status`)[0];
+    assert.ok(status.find((n) => n.id === `${COMPOSER_ID}-play`).length === 1, 'Play lives in the status row');
+    assert.ok(status.find((n) => n.id === `${COMPOSER_ID}-evidence-slot`).length === 1, 'evidence chip slot shares the row');
+  });
+});

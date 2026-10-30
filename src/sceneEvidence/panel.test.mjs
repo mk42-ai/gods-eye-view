@@ -179,3 +179,57 @@ test('panel: HTTP errors surface as an error state (no fabricated data)', async 
   assert.equal(panel.state.items.length, 0);
   assert.match(find(panel.element, (n) => n.id === 'scene-evidence-status').textContent, /HTTP 503/);
 });
+
+// ---------------------------------------------------------------- cycle 22: on-demand drawer
+import { shortPlaceName, evidenceStats, evidenceChipLabel } from './panel.js';
+
+test('shortPlaceName: one-line short name + untouched full address', () => {
+  const full = 'American University Of Sharjah, Bobyan Street, Al Jerainah, Muwailih, Sharjah, Sharjah Emirate, United Arab Emirates';
+  assert.deepEqual(shortPlaceName(full), { short: 'American University of Sharjah', full });
+  assert.deepEqual(shortPlaceName('Dubai Marina'), { short: 'Dubai Marina', full: 'Dubai Marina' });
+  assert.deepEqual(shortPlaceName(''), { short: '', full: '' });
+  assert.equal(shortPlaceName('  Burj   Khalifa , Dubai ').short, 'Burj Khalifa');
+});
+
+test('evidenceStats / evidenceChipLabel: compact counts', () => {
+  const st = { phase: 'done', items: [{ eligible: true }, { eligible: false }], candidates: new Array(18).fill({}), sources: [{ state: 'ok' }, { state: 'timeout' }, { state: 'error' }] };
+  assert.deepEqual(evidenceStats(st), { verified: 1, candidates: 18, timedOut: 1, failed: 1 });
+  assert.equal(evidenceChipLabel(st), 'Evidence · 1 verified · 18 candidates');
+  assert.equal(evidenceChipLabel({ ...st, items: [], candidates: [{}] }), 'Evidence · 0 verified · 1 candidate');
+  assert.match(evidenceChipLabel({ ...st, phase: 'streaming' }), /^Evidence · searching…/);
+});
+
+test('panel: hidden by default after a build; chip opens it; X hides it; close() tears down chip', async () => {
+  const doc = makeDoc();
+  const events = [
+    ['plan', { key: 'k2', place: 'American University Of Sharjah, Bobyan Street, Sharjah', sources: [{ id: 'a', name: 'A', state: 'running' }] }],
+    ['source', { id: 'a', state: 'timeout' }],
+    ['done', { key: 'k2', place: 'American University Of Sharjah, Bobyan Street, Sharjah', items: [], signals: [], sources: [{ id: 'a', name: 'A', state: 'timeout' }], timings: { totalMs: 1000 } }],
+  ];
+  const panel = createSceneEvidencePanel({ document: doc, window: {}, storage: memStorage(), now: () => NOW.getTime(), fetch: async () => ({ ok: true, body: sseBody(events) }) });
+  await panel.open({ text: 'sharjah university', place: 'American University Of Sharjah, Bobyan Street, Sharjah', lat: 25.31, lon: 55.49 });
+  assert.equal(panel.element.hidden, true, 'drawer stays closed after a build');
+  assert.equal(panel.chip.hidden, false, 'chip is revealed');
+  assert.match(find(panel.chip, (n) => n.className === 'sev-chip__label').textContent, /^Evidence · 0 verified · 0 candidates$/);
+  const title = find(panel.element, (n) => n.id === 'scene-evidence-title');
+  assert.equal(title.textContent, 'American University of Sharjah');
+  assert.match(title.getAttribute('title'), /Bobyan Street/);
+  const addr = find(panel.element, (n) => n.id === 'scene-evidence-address');
+  assert.match(addr.textContent, /Bobyan Street/);
+  const timeout = find(panel.element, (n) => n.getAttribute?.('data-stat') === 'timeout');
+  assert.equal(timeout.hidden, false);
+  // sections collapsed by default (no `open` attribute)
+  for (const id of ['scene-evidence-sources', 'scene-evidence-diagnostics', 'scene-evidence-summary'])
+    assert.equal(find(panel.element, (n) => n.id === id).getAttribute('open'), null, `${id} collapsed`);
+  panel.chip.dispatch('click');
+  assert.equal(panel.isOpen(), true);
+  assert.equal(panel.chip.getAttribute('aria-expanded'), 'true');
+  find(panel.element, (n) => n.id === 'scene-evidence-close').dispatch('click');
+  assert.equal(panel.isOpen(), false);
+  assert.equal(panel.chip.hidden, false, 'X only hides the drawer');
+  panel.chip.dispatch('click');
+  panel.element.dispatch('keydown', { key: 'Escape' });
+  assert.equal(panel.isOpen(), false, 'Esc hides the drawer');
+  panel.close();
+  assert.equal(panel.chip.hidden, true, 'teardown hides the chip too');
+});

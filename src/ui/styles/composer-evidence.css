@@ -1,0 +1,561 @@
+/* ==========================================================================
+   Composer + evidence drawer — cycle 22 (2026-10-30)
+   Loaded LAST (after walkthrough.css) so its geometry wins.
+
+   1. AOI composer: anchored above the command dock's MEASURED top edge
+      (--command-dock-clearance, set by src/incidents/ui/composer.js), so it
+      grows upward and never overlaps Visual presets / Location / Voice.
+      The three progress pills collapse into one inline status; a finished
+      build shows one row: [Play] Scene ready · short place name … [Evidence chip].
+   2. Scene evidence: hidden by default, opened from the compact chip as a
+      right slide-over drawer (desktop) or a bottom sheet (<=700px).
+      Solid surface (no ghosted cards behind it), words never break mid-word,
+      long names ellipsize with a tooltip, sections collapsed by default.
+   ========================================================================== */
+
+/* ---------- shared: words never break mid-word ---------- */
+#incident-composer,
+#incident-composer *,
+.sev,
+.sev *,
+.sev-chip,
+.sev-chip * {
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: manual;
+}
+
+/* ---------- composer: unified typography ---------- */
+#incident-composer :is(.incident-composer__submit, .incident-composer__play) {
+  font: 600 13px/1 var(--ui-font-sans, 'Inter', system-ui, sans-serif) !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+  overflow-wrap: normal !important;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: var(--ui-radius-sm, 6px);
+}
+#incident-composer .incident-composer__icon {
+  font: 600 12px/1 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  letter-spacing: normal;
+}
+#incident-composer .incident-composer__play {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 14px;
+  color: var(--ui-accent, #3bb795);
+  background: transparent;
+  border: 1px solid var(--ui-accent, #3bb795);
+  cursor: pointer;
+}
+#incident-composer .incident-composer__play:hover {
+  background: var(--ui-accent-subtle, rgba(59, 183, 149, 0.14));
+}
+
+/* The pills stay in the DOM (data-step/data-status for tests + a11y) but the
+ * operator sees ONE inline status line instead. */
+#incident-composer .incident-composer__chips {
+  display: none !important;
+}
+
+/* One compact status row: inline status/result + evidence chip slot. */
+#incident-composer .incident-composer__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-top: 6px;
+}
+#incident-composer .incident-composer__status:has(> .incident-composer__result[hidden]):not(:has(.sev-chip:not([hidden]))) {
+  display: none;
+}
+#incident-composer .incident-composer__status > .incident-composer__result {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+#incident-composer .incident-composer__evidence-slot {
+  flex: 0 0 auto;
+  display: flex;
+  min-width: 0;
+  margin-left: auto;
+}
+#incident-composer .incident-composer__evidence-slot:not(:has(.sev-chip:not([hidden]))) {
+  display: none;
+}
+#incident-composer .incident-composer__message {
+  margin: 0;
+  font: 12px/1.4 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+}
+#incident-composer .incident-composer__message--pending {
+  min-height: 32px;
+  color: var(--ui-text-secondary, #b7b9bc);
+}
+#incident-composer .incident-composer__done {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+#incident-composer .incident-composer__done-text {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap !important;
+  color: var(--ui-text-secondary, #b7b9bc);
+}
+#incident-composer .incident-composer__done-lead {
+  flex: 0 0 auto;
+  white-space: nowrap !important;
+  color: var(--ui-text-secondary, #b7b9bc);
+}
+#incident-composer :is(.incident-composer__place, .incident-composer__address) {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  overflow-wrap: normal !important;
+}
+#incident-composer .incident-composer__place {
+  flex: 0 1 auto;
+  color: var(--ui-text-primary, #f2f2f2);
+  font-weight: 600;
+}
+#incident-composer .incident-composer__address {
+  flex: 1 1 0;
+  color: var(--ui-text-muted, #8a8d91);
+  font-size: 11px;
+}
+
+/* ---------- evidence chip ---------- */
+.sev-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-height: 32px;
+  padding: 0 12px;
+  color: var(--ui-text-primary, #f2f2f2);
+  background: var(--ui-surface-2, #1d1e20);
+  border: 1px solid var(--ui-border-strong, #4a4d51);
+  border-radius: var(--ui-radius-pill, 999px);
+  font: 500 12px/1 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.sev-chip[hidden] {
+  display: none !important;
+}
+.sev-chip:hover,
+.sev-chip[aria-expanded='true'] {
+  background: var(--ui-surface-3, #27292b);
+  border-color: var(--ui-accent, #3bb795);
+}
+.sev-chip__icon {
+  display: inline-flex;
+  color: var(--ui-text-secondary, #b7b9bc);
+}
+.sev-chip__icon svg {
+  width: 14px;
+  height: 14px;
+}
+.sev-chip__label {
+  white-space: nowrap !important;
+  overflow: visible;
+  text-overflow: clip;
+}
+.sev-chip[data-phase='streaming'] .sev-chip__icon {
+  color: var(--ui-accent, #3bb795);
+}
+/* Fallback mount (composer not present): bottom-right corner above the dock. */
+body > .sev-chip {
+  position: fixed;
+  z-index: 152;
+  right: 16px;
+  bottom: calc(var(--command-dock-clearance, 96px) + 12px);
+}
+
+/* ---------- evidence drawer (desktop slide-over) ---------- */
+.sev,
+body .sev {
+  position: fixed;
+  z-index: 190;
+  top: calc(max(12px, env(safe-area-inset-top, 0px)) + 92px);
+  right: max(12px, env(safe-area-inset-right, 0px));
+  bottom: calc(var(--command-dock-clearance, 96px) + 12px);
+  left: auto;
+  width: min(400px, calc(100vw - 24px));
+  max-height: none;
+  display: flex;
+  flex-direction: column;
+  color: var(--ui-text-primary, #f2f2f2);
+  background: var(--ui-surface-1-solid, #141516) !important;
+  border: 1px solid var(--ui-border, #2f3134);
+  border-radius: var(--ui-radius-md, 10px);
+  box-shadow: var(--ui-shadow-1, 0 8px 24px rgba(0, 0, 0, 0.45));
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  isolation: isolate;
+  overflow: hidden;
+  font: 12px/1.45 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  animation: sev-slide-in 180ms ease-out;
+}
+.sev[hidden] {
+  display: none !important;
+}
+body .sev[data-open='true']:not([hidden]) {
+  display: flex !important;
+}
+@keyframes sev-slide-in {
+  from {
+    transform: translateX(24px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sev {
+    animation: none;
+  }
+}
+
+.sev .sev__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 12px 10px 14px;
+  border-bottom: 1px solid var(--ui-border, #2f3134);
+  flex: 0 0 auto;
+}
+.sev .sev__titles {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.sev .sev__title,
+.sev .sev__address {
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  overflow-wrap: normal !important;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.sev .sev__title {
+  font: 600 15px/1.3 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  color: var(--ui-text-primary, #f2f2f2);
+}
+.sev .sev__address {
+  margin-top: 2px;
+  font: 400 11.5px/1.35 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  color: var(--ui-text-muted, #8a8d91);
+}
+.sev .sev__address[hidden] {
+  display: none;
+}
+.sev .sev__actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 4px;
+}
+.sev .sev__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  color: var(--ui-text-secondary, #b7b9bc);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--ui-radius-sm, 6px);
+  cursor: pointer;
+}
+.sev .sev__icon-btn:hover {
+  color: var(--ui-text-primary, #f2f2f2);
+  background: var(--ui-surface-2, #1d1e20);
+  border-color: var(--ui-border, #2f3134);
+}
+.sev .sev__icon-btn svg {
+  width: 16px;
+  height: 16px;
+}
+.sev .sev__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px 14px;
+}
+
+/* stat chips */
+.sev .sev__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.sev .sev__stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 1px solid var(--ui-border, #2f3134);
+  border-radius: var(--ui-radius-pill, 999px);
+  background: var(--ui-surface-2, #1d1e20);
+  white-space: nowrap;
+}
+.sev .sev__stat[hidden] {
+  display: none;
+}
+.sev .sev__stat-value {
+  font: 600 13px/1 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  color: var(--ui-text-primary, #f2f2f2);
+}
+.sev .sev__stat[data-stat='verified']:not([data-zero='true']) .sev__stat-value {
+  color: var(--ui-accent, #3bb795);
+}
+.sev .sev__stat-label {
+  font: 400 11.5px/1 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  color: var(--ui-text-secondary, #b7b9bc);
+}
+.sev .sev__meta {
+  font: 400 11px/1.4 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  color: var(--ui-text-muted, #8a8d91);
+}
+.sev .sev__status {
+  font: 500 12px/1.4 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  color: var(--ui-text-secondary, #b7b9bc);
+}
+.sev .sev__status[hidden] {
+  display: none;
+}
+.sev .sev__empty {
+  padding: 10px 12px;
+  border: 1px dashed var(--ui-border-strong, #4a4d51);
+  border-radius: var(--ui-radius-sm, 6px);
+  background: transparent;
+  color: var(--ui-text-secondary, #b7b9bc);
+  font: 400 12px/1.45 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+}
+
+/* collapsible sections (collapsed by default — native <details>) */
+.sev .sev__section {
+  border: 1px solid var(--ui-border, #2f3134);
+  border-radius: var(--ui-radius-sm, 6px);
+  padding: 0 10px;
+  background: transparent;
+}
+.sev .sev__section[hidden] {
+  display: none;
+}
+.sev .sev__section > .sev__section-summary {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  cursor: pointer;
+  font: 500 12px/1.3 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--ui-text-secondary, #b7b9bc);
+  list-style: none;
+}
+.sev .sev__section > .sev__section-summary::-webkit-details-marker {
+  display: none;
+}
+.sev .sev__section > .sev__section-summary::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  margin-right: 9px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 120ms ease;
+}
+.sev .sev__section[open] > .sev__section-summary::before {
+  transform: rotate(45deg);
+}
+.sev .sev__section[open] {
+  padding-bottom: 10px;
+}
+.sev .sev__diagnostics :is(.sev__scope, .sev__timing, .sev__diff, .sev__limits) {
+  display: block;
+  margin: 0 0 6px;
+  font: 400 11px/1.45 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
+  color: var(--ui-text-muted, #8a8d91);
+  white-space: normal;
+}
+.sev .sev__diagnostics .sev__diff[hidden] {
+  display: none;
+}
+.sev .sev__summary {
+  border-top: 1px solid var(--ui-border, #2f3134);
+  padding-top: 0;
+}
+.sev .sev__summary-text {
+  margin: 0 0 4px;
+  font-size: 12px;
+}
+.sev .sev__source {
+  grid-template-columns: 7rem minmax(0, 1fr) auto;
+}
+.sev :is(.sev-card__meta, .sev__source-note, .sev-card__rejection, .sev-card__src) {
+  overflow-wrap: break-word !important;
+}
+
+/* ---------- telemetry / bleed: nothing shows through or under the drawer ---------- */
+body.sev-open #intel-hud :is(.hud-top-right, .hud-bottom-right, .hud-right-edge) {
+  visibility: hidden !important;
+}
+body.sev-open #scene-video-rail {
+  display: none !important;
+}
+
+/* ---------- desktop composer geometry ---------- */
+@media (min-width: 701px) {
+  #incident-composer,
+  body #incident-composer {
+    bottom: calc(var(--command-dock-clearance, 96px) + 12px) !important;
+    margin-bottom: 0 !important;
+    max-block-size: calc(100dvh - var(--command-dock-clearance, 96px) - 12px - 120px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  #incident-composer .incident-composer__status > .incident-composer__result {
+    max-block-size: min(24dvh, 190px);
+    overflow: auto;
+  }
+  /* The legacy sidebar reserve keys off this variable: follow the new anchor. */
+  :root {
+    --workstation-composer-bottom: calc(var(--command-dock-clearance, 96px) + 12px);
+  }
+  /* The drawer ends above the composer, so the two never share pixels. */
+  .sev,
+  body .sev {
+    bottom: calc(var(--command-dock-clearance, 96px) + 12px + var(--incident-composer-height, 96px) + 12px);
+  }
+  /* While typing, dock trays never pop open over the composer. */
+  body:has(#incident-composer:focus-within) #command-dock .dock-popover-content {
+    display: none !important;
+  }
+}
+
+/* ---------- mobile: bottom sheet ---------- */
+@media (max-width: 700px) {
+  .sev,
+  body .sev {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: min(78dvh, calc(100dvh - var(--marina-mobile-top, 68px) - 8px));
+    border-radius: 14px 14px 0 0;
+    border-bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    z-index: 260;
+    animation-name: sev-sheet-in;
+  }
+  /* Footage owns the top sheet; the evidence sheet is bottom-anchored and only
+   * appears on demand, so it may coexist with it. */
+  body.sfp-open:not(.sfp-collapsed) .sev[data-open='true']:not([hidden]) {
+    display: flex !important;
+  }
+  body.sev-open::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 259;
+    background: rgba(0, 0, 0, 0.45);
+    pointer-events: none;
+  }
+  body.sev-open #intel-hud {
+    visibility: hidden !important;
+  }
+  /* Telemetry corners sit above the dock, never on top of the composer. */
+  #intel-hud :is(.hud-bottom-left, .hud-bottom-right) {
+    bottom: calc(var(--command-dock-clearance, 200px) + 8px) !important;
+  }
+  /* Footage top sheet ends above the command dock (dock sits above the composer). */
+  .sfp {
+    max-height: calc(100dvh - max(8px, env(safe-area-inset-top, 0px)) - 60px - var(--command-dock-clearance, 200px) - 10px) !important;
+  }
+  .sev .sev__head::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    width: 36px;
+    height: 4px;
+    margin-left: -18px;
+    border-radius: 2px;
+    background: var(--ui-border-strong, #4a4d51);
+  }
+  .sev .sev__head {
+    position: relative;
+    padding-top: 16px;
+    flex-wrap: nowrap;
+  }
+  .sev .sev__title {
+    flex-basis: auto;
+  }
+  .sev .sev__icon-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .sev .sev__section > .sev__section-summary {
+    min-height: 44px;
+  }
+  #incident-composer .incident-composer__status {
+    order: 0;
+    margin-top: 0;
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+  #incident-composer .incident-composer__status > .incident-composer__result {
+    flex: 1 1 180px;
+  }
+  #incident-composer .incident-composer__evidence-slot {
+    margin-left: 0;
+  }
+  #incident-composer .incident-composer__address {
+    display: none;
+  }
+  #incident-composer .incident-composer__play {
+    min-height: 40px;
+  }
+  #incident-composer .sev-chip {
+    min-height: 40px;
+    padding: 0 10px;
+  }
+  #incident-composer .sev-chip .sev-chip__label {
+    font-size: 12px;
+  }
+}
+@keyframes sev-sheet-in {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}

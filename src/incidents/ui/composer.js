@@ -11,6 +11,23 @@ import {
 import { parseIncidentQuery, CONVERSATIONAL_HINT } from '../query.js';
 
 export const COMPOSER_ID = 'incident-composer';
+/** One inline status label per composer step (replaces the three pills). */
+export const STEP_STATUS_TEXT = Object.freeze({
+  locating: 'Locating',
+  verifying: 'Verifying AOI',
+  building: 'Building scene',
+  searching: 'Searching sources',
+});
+/** Short one-line place label from a geocoder display name (first segment). */
+export function shortPlaceLabel(name) {
+  const full = String(name || '').replace(/\s+/g, ' ').trim();
+  const first = (full.split(',')[0] || '').trim() || full;
+  const small = new Set(['of', 'and', 'the', 'in', 'at', 'on', 'for']);
+  return first
+    .split(' ')
+    .map((w, i) => (i > 0 && small.has(w.toLowerCase()) ? w.toLowerCase() : w))
+    .join(' ');
+}
 export const COMPOSER_PLACEHOLDER = 'Type an incident…';
 
 export function createIncidentComposer({
@@ -92,12 +109,22 @@ export function createIncidentComposer({
   chips.className = 'incident-composer__chips';
   chips.id = `${COMPOSER_ID}-chips`;
   chips.setAttribute('aria-live', 'polite');
+  chips.dataset.presentation = 'inline-status';
   const result = document.createElement('div');
   result.className = 'incident-composer__result';
   result.id = `${COMPOSER_ID}-result`;
   result.hidden = true;
   result.setAttribute('aria-live', 'polite');
-  root.append(row, timeRow, chips, result);
+  // Cycle 22: one compact status row — inline status/result on the left, a
+  // persistent slot on the right where the scene-evidence chip mounts.
+  const statusRow = document.createElement('div');
+  statusRow.className = 'incident-composer__status';
+  statusRow.id = `${COMPOSER_ID}-status`;
+  const evidenceSlot = document.createElement('div');
+  evidenceSlot.className = 'incident-composer__evidence-slot';
+  evidenceSlot.id = `${COMPOSER_ID}-evidence-slot`;
+  statusRow.append(result, evidenceSlot);
+  root.append(row, timeRow, chips, statusRow);
 
   const layoutHost = document.documentElement || document.body;
   const updateStackHeight = () => {
@@ -108,11 +135,42 @@ export function createIncidentComposer({
         `${Math.ceil(height)}px`,
       );
   };
+  let onObserved = updateStackHeight;
   const resizeObserver =
     typeof ResizeObserverImpl === 'function'
-      ? new ResizeObserverImpl(updateStackHeight)
+      ? new ResizeObserverImpl((...args) => onObserved(...args))
       : null;
   resizeObserver?.observe(root);
+  // Cycle 22: the composer is anchored ABOVE the command dock's measured top
+  // edge (--command-dock-clearance), so it grows upward and can never overlap
+  // the Visual presets / Location / Voice dock, whatever the dock's height.
+  const view = document.defaultView;
+  const updateDockClearance = () => {
+    const dock = document.getElementById?.('command-dock');
+    if (!dock || !view) return;
+    const rect = dock.getBoundingClientRect?.();
+    const style = view.getComputedStyle?.(dock);
+    const shown = rect && rect.height > 0 && style?.display !== 'none' && style?.visibility !== 'hidden';
+    const clearance = shown ? Math.max(0, Math.ceil((view.innerHeight || 0) - rect.top)) : 0;
+    layoutHost?.style?.setProperty?.('--command-dock-clearance', `${clearance}px`);
+  };
+  // The composer's own ResizeObserver also watches the dock (one observer).
+  let observedDock = null;
+  const observeDock = () => {
+    const dock = document.getElementById?.('command-dock');
+    if (dock && dock !== observedDock) {
+      resizeObserver?.observe(dock);
+      observedDock = dock;
+    }
+    updateDockClearance();
+  };
+  onObserved = () => {
+    updateStackHeight();
+    updateDockClearance();
+  };
+  observeDock();
+  view?.addEventListener?.('resize', updateDockClearance);
+  view?.setTimeout?.(observeDock, 0);
 
   const state = {
     busy: false,
@@ -210,6 +268,10 @@ export function createIncidentComposer({
     if (status === 'active') run.stage = id;
     state.steps[id] = status;
     setChips(true);
+    if (status === 'active' && id !== 'locating' && STEP_STATUS_TEXT[id]) {
+      const label = result.querySelector?.('[data-kind="pending"] [data-role="label"]');
+      if (label) label.textContent = `${STEP_STATUS_TEXT[id]}…`;
+    }
     onStatus?.({ step: id, status });
     checkCurrent(run);
   }
@@ -263,6 +325,7 @@ export function createIncidentComposer({
     spinner.className = 'incident-composer__spinner';
     spinner.setAttribute('aria-hidden', 'true');
     const label = document.createElement('span');
+    label.dataset.role = 'label';
     label.textContent = text;
     p.append(spinner, label);
     return p;
@@ -355,24 +418,40 @@ export function createIncidentComposer({
     state.lastScene = payload.scene;
     step('building', 'done', run);
     setChips(false, { done: true });
+    const fullName = String(payload.candidate.name || '');
     const wrap = document.createElement('div');
-    wrap.append(
-      message(
-        `${reused ? 'Existing scene ready' : 'Scene generated'} at ${payload.candidate.name}.`,
-        'ok',
-      ),
-    );
+    wrap.className = 'incident-composer__done';
+    wrap.dataset.kind = 'scene-ready';
     const play = document.createElement('button');
     play.type = 'button';
     play.id = `${COMPOSER_ID}-play`;
-    play.className = 'incident-composer__submit';
+    play.className = 'incident-composer__play';
     play.textContent = 'Play';
+    play.setAttribute('aria-label', `Play scene: ${shortPlaceLabel(fullName)}`);
+    play.title = 'Camera scene only · footage verified separately · UTC recording filter';
     play.addEventListener('click', () => {
       if (!current(run) || state.busy) return;
       void replayScene(payload, run, reused);
     });
-    const provenance = document.createElement('small'); provenance.className = 'incident-composer__provenance'; provenance.textContent = 'Camera scene only · footage verified separately · UTC recording filter';
-    wrap.append(play, provenance);
+    const text = document.createElement('p');
+    text.className = 'incident-composer__message incident-composer__message--ok incident-composer__done-text';
+    const lead = document.createElement('span');
+    lead.className = 'incident-composer__done-lead';
+    lead.textContent = reused ? 'Existing scene ready' : 'Scene ready';
+    const place = document.createElement('strong');
+    place.className = 'incident-composer__place';
+    place.textContent = shortPlaceLabel(fullName);
+    place.title = fullName;
+    text.append(lead, place);
+    if (fullName && fullName !== place.textContent) {
+      const addr = document.createElement('span');
+      addr.className = 'incident-composer__address';
+      addr.textContent = fullName;
+      addr.title = fullName;
+      text.append(addr);
+    }
+    text.title = `${lead.textContent} at ${fullName}`;
+    wrap.append(play, text);
     showResult(wrap);
   }
   async function replayScene(payload, run, reused) {
@@ -393,7 +472,7 @@ export function createIncidentComposer({
   async function build(candidate, run) {
     step('verifying', 'done', run);
     step('building', 'active', run);
-    showResult(pending(`Building scene at ${candidate.name}…`));
+    showResult(pending(`Building scene · ${shortPlaceLabel(candidate.name)}…`));
     let scene,
       inserted = null,
       ingest = null,
@@ -767,6 +846,7 @@ export function createIncidentComposer({
   return {
     element: root,
     input,
+    evidenceSlot,
     submit: submitText,
     cancel: cancelRequest,
     state,
@@ -777,6 +857,7 @@ export function createIncidentComposer({
       state.abort?.abort();
       state.busy = false;
       resizeObserver?.disconnect();
+      view?.removeEventListener?.('resize', updateDockClearance);
       layoutHost?.style?.removeProperty?.('--incident-composer-height');
       root.remove?.();
     },

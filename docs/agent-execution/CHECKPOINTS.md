@@ -138,3 +138,6 @@ Cycle 15 target-framing refinement: the real browser exposed that the original g
 ### Cycle 21 (2026-10-30)
 - `16387c2` checkpoint (preserved uncommitted WIP) → UI cleanup commit (see MASTER_STATE "Cycle 21"). Baseline `baseline/approved-k8v6snzk7` @ `f20fab6` untouched.
 - Preview https://ondemand-agent-oiteneqkl-schoolhack-web-team.vercel.app (`dpl_2A5DiF6PhbZKLU7PcM31DxAcDcfb`).
+
+### Cycle 22 (2026-10-30)
+- `5d6f8b5` clean-tree checkpoint → evidence drawer + composer/dock layout commit. Preview https://ondemand-agent-8kauk8eyv-schoolhack-web-team.vercel.app (`dpl_Hedd832KrEPZUYjzjN3gJ51EB44v`).
