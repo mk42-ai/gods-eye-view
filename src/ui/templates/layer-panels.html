@@ -4,7 +4,7 @@
     <div class="panel-glow"></div>
     <div class="data-panel-inner">
       <div class="panel-header">
-        <span class="panel-title">DATA LAYERS</span>
+        <span class="panel-title">Data layers</span>
         <span class="panel-divider"></span>
         <button class="panel-collapse-btn" data-collapse-target="data-panel" title="Collapse panel" aria-label="Collapse panel"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="plus" class="od-icon od-icon--plus" aria-hidden="true" focusable="false"><path d="M5 12h14m-7-7v14"/></svg></button>
       </div>
@@ -27,29 +27,29 @@
       <div id="cctv-source-badge" role="status" aria-live="polite">SOURCE · UNKNOWN</div>
       <div id="cctv-meta">Enable CCTV to load camera intersections</div>
       <div class="cctv-controls">
-        <button id="cctv-enable-btn" class="scene-btn">CCTV OFF</button>
-        <button id="cctv-nearest-btn" class="scene-btn">NEAREST</button>
+        <button id="cctv-enable-btn" class="scene-btn">CCTV off</button>
+        <button id="cctv-nearest-btn" class="scene-btn">Nearest</button>
         <!-- ASK ONDEMAND about the active camera (docs/ONDEMAND_CAMERA_CHAT_ADDENDUM_2026-09-21.md). Lucide message-square; hidden until a camera is active. -->
-        <button id="cctv-ask-btn" class="scene-btn cctv-ask-btn" type="button" title="Ask OnDemand about this camera (frame, lanes, traffic)" aria-label="Ask OnDemand about the active camera" hidden><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="message-square" class="od-icon od-icon--message-square" aria-hidden="true" focusable="false"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/></svg><span class="cctv-ask-label">ASK</span></button>
+        <button id="cctv-ask-btn" class="scene-btn cctv-ask-btn" type="button" title="Ask OnDemand about this camera (frame, lanes, traffic)" aria-label="Ask OnDemand about the active camera" hidden><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="message-square" class="od-icon od-icon--message-square" aria-hidden="true" focusable="false"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/></svg><span class="cctv-ask-label">Ask</span></button>
       </div>
       <div class="cctv-controls">
-        <button id="cctv-prev-btn" class="scene-btn">PREV</button>
+        <button id="cctv-prev-btn" class="scene-btn">Previous</button>
         <select id="cctv-camera-select" aria-label="CCTV camera"></select>
-        <button id="cctv-next-btn" class="scene-btn">NEXT</button>
+        <button id="cctv-next-btn" class="scene-btn">Next</button>
       </div>
       <div class="cctv-controls">
-        <button id="cctv-focus-btn" class="scene-btn">FOCUS</button>
-        <button id="cctv-coverage-btn" class="scene-btn">COVERAGE OFF</button>
-        <button id="cctv-auto-hop-btn" class="scene-btn">AUTO HOP OFF</button>
+        <button id="cctv-focus-btn" class="scene-btn">Focus</button>
+        <button id="cctv-coverage-btn" class="scene-btn">Coverage off</button>
+        <button id="cctv-auto-hop-btn" class="scene-btn">Auto hop off</button>
       </div>
       <div class="cctv-controls">
-        <button id="cctv-projection-btn" class="scene-btn">PROJECTION ON</button>
+        <button id="cctv-projection-btn" class="scene-btn">Projection on</button>
         <span id="cctv-quality-chip">CAL · --</span>
       </div>
       <div class="cctv-calibration-block">
         <div class="cctv-calibration-header">
-          <div class="cctv-summary-label">CALIBRATION</div>
-          <button id="cctv-adjust-btn" class="scene-btn" title="Drag the camera in the world: rings rotate, arrows move, handles set range/FOV">ADJUST</button>
+          <div class="cctv-summary-label">Calibration</div>
+          <button id="cctv-adjust-btn" class="scene-btn" title="Drag the camera in the world: rings rotate, arrows move, handles set range/FOV">Adjust</button>
         </div>
         <div id="cctv-cal-readout" class="cctv-cal-readout" aria-label="Camera pose — click a value to type">
           <button class="cctv-cal-value" data-cal-field="heading" title="Heading (compass °) — click to type">HDG --</button>
@@ -61,11 +61,11 @@
           <button class="cctv-cal-value" data-cal-field="east" title="East offset from catalog position (m) — click to type">ΔE --</button>
         </div>
         <div class="cctv-controls cctv-calibration-actions">
-          <button id="cctv-calib-save-btn" class="scene-btn">SAVE CAL</button>
-          <button id="cctv-calib-reset-btn" class="scene-btn">RESET CAL</button>
+          <button id="cctv-calib-save-btn" class="scene-btn">Save cal</button>
+          <button id="cctv-calib-reset-btn" class="scene-btn">Reset cal</button>
         </div>
       </div>
-      <div class="cctv-summary-label">SCENE SUMMARY</div>
+      <div class="cctv-summary-label">Scene summary</div>
       <div id="cctv-summary">Enable CCTV to start camera-linked intelligence summaries.</div>
     </div>
   </div>
@@ -75,29 +75,29 @@
     <div class="panel-glow"></div>
     <div class="scene-panel-inner">
       <div class="panel-header">
-        <span class="panel-title">SCENES</span>
+        <span class="panel-title">Scenes</span>
         <span class="panel-divider"></span>
         <button class="panel-collapse-btn" data-collapse-target="scene-panel" title="Collapse panel" aria-label="Collapse panel"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="plus" class="od-icon od-icon--plus" aria-hidden="true" focusable="false"><path d="M5 12h14m-7-7v14"/></svg></button>
       </div>
       <div class="scene-controls">
         <select id="scene-select" aria-label="Scene recipe"></select>
-        <button id="scene-new-btn" class="scene-btn">NEW</button>
-        <button id="scene-delete-btn" class="scene-btn scene-btn-danger">DEL</button>
+        <button id="scene-new-btn" class="scene-btn">New</button>
+        <button id="scene-delete-btn" class="scene-btn scene-btn-danger">Del</button>
       </div>
       <div class="scene-controls">
-        <button id="scene-capture-btn" class="scene-btn">CAPTURE SHOT</button>
-        <button id="scene-update-shot-btn" class="scene-btn">UPDATE SHOT</button>
+        <button id="scene-capture-btn" class="scene-btn">Capture shot</button>
+        <button id="scene-update-shot-btn" class="scene-btn">Update shot</button>
       </div>
       <div id="scene-shot-list" class="scene-shot-list"></div>
       <div class="scene-controls">
-        <button id="scene-start-btn" class="scene-btn">START</button>
-        <button id="scene-stop-btn" class="scene-btn scene-btn-danger">STOP</button>
-        <button id="scene-next-btn" class="scene-btn">NEXT</button>
+        <button id="scene-start-btn" class="scene-btn">Start</button>
+        <button id="scene-stop-btn" class="scene-btn scene-btn-danger">Stop</button>
+        <button id="scene-next-btn" class="scene-btn">Next</button>
       </div>
       <div class="scene-controls">
-        <button id="scene-export-btn" class="scene-btn">EXPORT PRESETS</button>
-        <button id="scene-import-btn" class="scene-btn">IMPORT</button>
-        <button id="scene-download-btn" class="scene-btn">RUN LOG</button>
+        <button id="scene-export-btn" class="scene-btn">Export presets</button>
+        <button id="scene-import-btn" class="scene-btn">Import</button>
+        <button id="scene-download-btn" class="scene-btn">Run log</button>
         <input type="file" id="scene-import-file" accept="application/json,.json" hidden />
       </div>
       <div class="scene-progress">

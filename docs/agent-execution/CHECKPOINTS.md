@@ -134,3 +134,7 @@ Cycle 15 target-framing refinement: the real browser exposed that the original g
 
 ## Checkpoint — cycle 21 pre-UI-cleanup (2026-10-30)
 - Clean tree at `b0c8a4d` on `feat/scene-video-evidence` (PR #4) before the UI/UX cleanup (single accent, decluttered first screen, Driver.js walkthrough, Lucide icon dock).
+
+### Cycle 21 (2026-10-30)
+- `16387c2` checkpoint (preserved uncommitted WIP) → UI cleanup commit (see MASTER_STATE "Cycle 21"). Baseline `baseline/approved-k8v6snzk7` @ `f20fab6` untouched.
+- Preview https://ondemand-agent-oiteneqkl-schoolhack-web-team.vercel.app (`dpl_2A5DiF6PhbZKLU7PcM31DxAcDcfb`).

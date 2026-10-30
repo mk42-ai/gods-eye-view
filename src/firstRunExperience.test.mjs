@@ -555,33 +555,14 @@ test('markup, startup ordering and accessibility remain pinned', () => {
   const startup = fs.readFileSync(new URL('./app/startupChrome.js', import.meta.url), 'utf8');
   const css = readStylesheet(new URL('../style.css', import.meta.url));
 
-  assert.match(html, /id="first-run-launcher" role="dialog"[^>]*aria-labelledby="first-run-title"[^>]*hidden/);
-  assert.equal((html.match(/data-first-run-choice=/g) || []).length, 4);
-  assert.match(html, /data-first-run-status[^>]*role="status"[^>]*aria-live="polite"/);
-  assert.match(html, /<input type="checkbox" data-first-run-suppress \/>/);
-  assert.match(html, /<strong data-first-run-environmental-title>/);
-  // Subcopy must name BOTH feeds the tile turns on — a tile that promised only
-  // half of what it does is the defect this replaced. Only the VISIBLE <small>
-  // text counts; the comment beside it naturally says the words too.
-  const envTile = html.slice(html.indexOf('data-first-run-choice="environmental"'));
-  const visible = envTile.slice(envTile.indexOf('<small>'), envTile.indexOf('</small>'));
-  assert.match(visible, /earthquakes/i);
-  assert.match(visible, /fires?/i, 'the tile must promise the fires it enables');
-
-  // The card's one persuasive line is OWNER-AUTHORED and pinned verbatim,
-  // unspaced em dash included. This is copy, not prose to be improved in a
-  // passing edit — changing it needs the owner, not a nicer-sounding rewrite.
-  assert.ok(
-    html.includes('<p id="first-run-description">It feels like a forbidden cockpit'
-      + '—then you realize the sources are public and the data is real.</p>'),
-    'the owner-authored first-run line must ship exactly as written',
-  );
-
-  // Menu order is the owner's, read straight off the markup.
-  const order = [...html.matchAll(/data-first-run-choice="([a-z-]+)"/g)].map((match) => match[1]);
-  assert.deepEqual(order, ['contacts', 'space-missions', 'environmental', 'explore']);
-  assert.doesNotMatch(html, /data-first-run-choice="infrastructure"/,
-    'the removed tile must leave no markup behind');
+  // Cycle 21 (2026-10-30, owner request): the four-card first-launch modal and
+  // its "forbidden cockpit" line were REMOVED and replaced by the calm launch +
+  // Driver.js walkthrough (src/ui/guidedLaunch.js). The pure show-policy helpers
+  // in firstRunExperience.js stay tested above; the markup must not come back.
+  assert.doesNotMatch(html, /id="first-run-launcher"/);
+  assert.doesNotMatch(html, /data-first-run-choice=/);
+  assert.doesNotMatch(html, /forbidden cockpit/i);
+  assert.match(startup, /initGuidedLaunch as initFirstRunExperience/);
 
   assert.match(startup, /styleManager\.initialRestorePromise/);
   assert.ok(startup.indexOf("loadingScreen.classList.add('hidden')") < startup.indexOf("loadingScreen.addEventListener('transitionend', revealFirstRun"));

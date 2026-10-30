@@ -33,16 +33,16 @@ const ROUTE_ORDER = ['auto', 'workflow', 'chat'];
 
 export const OD_VOICE_MARKUP = `
       <div class="od-voice-heading">
-        <span class="od-voice-kicker">VOICE</span>
-        <button id="od-voice-route" class="od-voice-route" type="button" aria-label="Thinking route: automatic" title="Thinking route — AUTO picks the workflow for spatial tasks, chat otherwise">AUTO</button>
+        <span class="od-voice-kicker">Voice</span>
+        <button id="od-voice-route" class="od-voice-route" type="button" aria-label="Thinking route: automatic" title="Thinking route — Auto picks the workflow for spatial tasks, chat otherwise">Auto</button>
       </div>
       <div class="od-voice-row">
         <button id="od-voice-button" class="od-voice-btn" type="button" aria-pressed="false" aria-label="OnDemand voice — press to talk, press again to send, press while speaking to interrupt" title="OnDemand voice (turn-based: STT → chat/workflow → TTS)">
           <span class="od-voice-mic" aria-hidden="true"></span>
-          <span class="od-voice-btn-label">TALK</span>
+          <span class="od-voice-btn-label">Talk</span>
         </button>
         <div class="od-voice-meta">
-          <span id="od-voice-status" class="od-voice-chip" role="status" aria-live="polite">IDLE</span>
+          <span id="od-voice-status" class="od-voice-chip" role="status" aria-live="polite">Idle</span>
           <span id="od-voice-detail" class="od-voice-detail">Turn-based · OnDemand STT → chat/workflow → TTS</span>
         </div>
       </div>
@@ -137,12 +137,12 @@ export function bindOdVoiceUi(
     'speaking',
   ]);
   const labels = {
-    idle: 'TALK',
-    error: 'RETRY',
-    listening: 'SEND',
-    transcribing: 'WAIT',
-    thinking: 'STOP',
-    speaking: 'CUT IN',
+    idle: 'Talk',
+    error: 'Retry',
+    listening: 'Send',
+    transcribing: 'Wait',
+    thinking: 'Stop',
+    speaking: 'Cut in',
   };
 
   const setRoute = (mode) => {
@@ -159,7 +159,7 @@ export function bindOdVoiceUi(
 
   const render = (state, text) => {
     root.dataset.state = state;
-    if (status) status.textContent = state.toUpperCase();
+    if (status) status.textContent = state.charAt(0).toUpperCase() + state.slice(1);
     if (detail) {
       detail.textContent = truncate(
         text || (state === 'idle' ? 'Ready' : ''),
@@ -171,7 +171,7 @@ export function bindOdVoiceUi(
       button.setAttribute('aria-pressed', String(busyStates.has(state)));
       button.dataset.state = state;
     }
-    if (buttonLabel) buttonLabel.textContent = labels[state] || 'TALK';
+    if (buttonLabel) buttonLabel.textContent = labels[state] || 'Talk';
     if (state === 'listening') {
       if (transcript) transcript.textContent = '';
       if (answer) answer.textContent = '';

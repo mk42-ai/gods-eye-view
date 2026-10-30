@@ -212,16 +212,16 @@ test('bindOdVoiceUi mirrors pipeline events: state chip, detail, transcript/answ
   const ui = createOdVoiceUi({ doc });
   const pipeline = fakePipeline();
   const unbind = bindOdVoiceUi(ui, pipeline, { doc });
-  assert.equal(ui.status.textContent, 'IDLE');
+  assert.equal(ui.status.textContent, 'Idle');
   assert.equal(ui.root.dataset.state, 'idle');
   assert.equal(ui.root.dataset.route, 'auto');
   assert.equal(ui.route.textContent, 'AUTO');
 
   pipeline.emit({ type: 'state', state: 'listening', detail: 'Listening…' });
-  assert.equal(ui.status.textContent, 'LISTENING');
+  assert.equal(ui.status.textContent, 'Listening');
   assert.equal(ui.root.dataset.state, 'listening');
   assert.equal(ui.button.getAttribute('aria-pressed'), 'true');
-  assert.equal(ui.buttonLabel.textContent, 'SEND');
+  assert.equal(ui.buttonLabel.textContent, 'Send');
 
   pipeline.emit({ type: 'transcript', text: 'show military flights near me' });
   // The speaker chevron is an inline SVG (aria-hidden); only the text is read.
@@ -264,12 +264,12 @@ test('bindOdVoiceUi mirrors pipeline events: state chip, detail, transcript/answ
     detail:
       'Transcription failed: OnDemand is not configured on this deployment',
   });
-  assert.equal(ui.status.textContent, 'ERROR');
+  assert.equal(ui.status.textContent, 'Error');
   assert.equal(
     ui.detail.textContent,
     'Transcription failed: OnDemand is not configured on this deployment',
   );
-  assert.equal(ui.buttonLabel.textContent, 'RETRY');
+  assert.equal(ui.buttonLabel.textContent, 'Retry');
 
   ui.route.click();
   assert.equal(pipeline.getMode(), 'workflow');

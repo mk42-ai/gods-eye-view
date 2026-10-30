@@ -57,7 +57,8 @@ export function createIncidentComposer({
   submit.type = 'submit';
   submit.id = `${COMPOSER_ID}-submit`;
   submit.className = 'incident-composer__submit';
-  submit.textContent = 'BUILD SCENE';
+  submit.textContent = 'Build scene';
+  submit.setAttribute('aria-label', 'Build scene');
   const cancelButton = document.createElement('button');
   cancelButton.type = 'button';
   cancelButton.id = `${COMPOSER_ID}-cancel`;

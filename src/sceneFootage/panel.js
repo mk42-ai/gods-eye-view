@@ -13,6 +13,7 @@ import {
   REFRESH_CHOICES_MS,
 } from './controller.js';
 import { setIconContent } from '../ui/icons/layerIcon.js';
+import { createPlatformLogo } from '../ui/icons/platformLogos.js';
 
 export const FOOTAGE_PANEL_ID = 'scene-footage';
 const LEVEL_LABEL = {
@@ -67,14 +68,18 @@ export function createSceneFootagePanel({
   const head = el(doc, 'div', { className: 'sfp__head' });
   const title = el(doc, 'span', {
     className: 'sfp__title',
-    text: 'SNAPCHAT FOOTAGE',
   });
+  const snapLogo = createPlatformLogo('snapchat', { size: 14, className: 'sfp__title-logo' }, doc);
+  if (snapLogo) {
+    title.append(snapLogo, doc.createTextNode(' '));
+  }
+  title.append(doc.createTextNode('Snapchat footage'));
   const collapseBtn = el(doc, 'button', {
     id: `${FOOTAGE_PANEL_ID}-collapse`,
     className: 'sfp__btn',
-    text: 'HIDE',
-    attrs: { type: 'button', 'aria-expanded': 'true' },
+    attrs: { type: 'button', 'aria-expanded': 'true', 'aria-label': 'Hide footage' },
   });
+  setIconContent(collapseBtn, 'chevron-up', {}, doc);
   const closeBtn = el(doc, 'button', {
     id: `${FOOTAGE_PANEL_ID}-close`,
     className: 'sfp__btn',
@@ -127,9 +132,9 @@ export function createSceneFootagePanel({
   const checkBtn = el(doc, 'button', {
     id: `${FOOTAGE_PANEL_ID}-check`,
     className: 'sfp__btn',
-    text: 'CHECK NOW',
     attrs: { type: 'button' },
   });
+  setIconContent(checkBtn, 'refresh-cw', { text: 'Check now' }, doc);
   foot.append(checked, refreshSel, checkBtn);
   const disclaimer = el(doc, 'p', {
     className: 'sfp__disclaimer',
@@ -329,11 +334,12 @@ export function createSceneFootagePanel({
     if (clip) {
       const tl = clipTimeLines(clip, t);
       const attr = el(doc, 'div', { className: 'sfp__attr' });
-      attr.append(
-        el(doc, 'span', {
-          text: `Source: Snapchat Spotlight · ${clip.attribution ? `@${clip.attribution}` : 'author handle not returned'}`,
-        }),
-      );
+      const attrSpan = el(doc, 'span');
+      const attrLogo = createPlatformLogo('snapchat', { size: 14 }, doc);
+      if (attrLogo) attrSpan.append(attrLogo, doc.createTextNode(' '));
+      const uploadTimeStr = clip.publicationTime ? ` · ${formatAgo(clip.publicationTime, t)}` : '';
+      attrSpan.append(doc.createTextNode(`Source: Snapchat Spotlight${uploadTimeStr} · ${clip.attribution ? `@${clip.attribution}` : 'author handle not returned'}`));
+      attr.append(attrSpan);
       if (clip.sourceUrl) {
         attr.append(doc.createTextNode(' · '));
         attr.append(
@@ -434,8 +440,9 @@ export function createSceneFootagePanel({
   collapseBtn.addEventListener('click', () => {
     const c = root.dataset.collapsed !== 'true';
     root.dataset.collapsed = String(c);
-    collapseBtn.textContent = c ? 'SHOW' : 'HIDE';
     collapseBtn.setAttribute('aria-expanded', String(!c));
+    collapseBtn.setAttribute('aria-label', c ? 'Show footage' : 'Hide footage');
+    setIconContent(collapseBtn, c ? 'chevron-down' : 'chevron-up', {}, doc);
     doc.body?.classList?.toggle('sfp-collapsed', c);
   });
   const unsub = controller.subscribe(render);

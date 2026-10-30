@@ -91,7 +91,7 @@ export function installIncidentScenes({
   const header = el(doc, 'div', { className: 'incident-panel__header' });
   const title = el(doc, 'span', {
     className: 'incident-panel__title',
-    text: 'AOI INCIDENTS',
+    text: 'AOI incidents',
   });
   const counts = el(doc, 'span', {
     id: `${INCIDENT_PANEL_ID}-counts`,
@@ -101,7 +101,7 @@ export function installIncidentScenes({
   const refreshBtn = el(doc, 'button', {
     id: `${INCIDENT_PANEL_ID}-refresh`,
     className: 'scene-btn incident-panel__refresh',
-    text: 'REFRESH LIVE',
+    text: 'Refresh',
     attrs: {
       type: 'button',
       title: 'Pull live incidents through OnDemand plugins (POST /refresh)',
@@ -117,25 +117,25 @@ export function installIncidentScenes({
   const playBtn = el(doc, 'button', {
     id: `${PLAYBACK_BAR_ID}-play`,
     className: 'scene-btn',
-    text: 'PLAY',
+    text: 'Play',
     attrs: { type: 'button' },
   });
   const pauseBtn = el(doc, 'button', {
     id: `${PLAYBACK_BAR_ID}-pause`,
     className: 'scene-btn',
-    text: 'PAUSE',
+    text: 'Pause',
     attrs: { type: 'button' },
   });
   const prevBtn = el(doc, 'button', {
     id: `${PLAYBACK_BAR_ID}-prev`,
     className: 'scene-btn',
-    text: 'PREV',
+    text: 'Previous',
     attrs: { type: 'button', 'aria-label': 'Previous keyframe' },
   });
   const nextBtn = el(doc, 'button', {
     id: `${PLAYBACK_BAR_ID}-next`,
     className: 'scene-btn',
-    text: 'NEXT',
+    text: 'Next',
     attrs: { type: 'button', 'aria-label': 'Next keyframe' },
   });
   const scrub = el(doc, 'input', {
@@ -300,14 +300,14 @@ export function installIncidentScenes({
     const actions = el(doc, 'div', { className: 'incident-popover__actions' });
     const play = el(doc, 'button', {
       className: 'scene-btn',
-      text: 'PLAY SCENE',
+      text: 'Play scene',
       attrs: { type: 'button', 'data-action': 'play' },
     });
     play.disabled = !scene;
     play.addEventListener('click', () => scene && playScene(scene.id));
     const ask = el(doc, 'button', {
       className: 'scene-btn incident-popover__ask ask-ondemand-btn',
-      text: 'ASK ONDEMAND',
+      text: 'Ask OnDemand',
       attrs: {
         type: 'button',
         'data-action': 'ask',
@@ -397,10 +397,10 @@ export function installIncidentScenes({
     const frame = active?.shots?.find((shot) => shot.id === sceneDirector._selectedShotId);
     keyframeCaption.textContent = frame ? frame.title : 'Select or build a scene';
     pauseBtn.textContent = snap.running
-      ? 'PAUSE'
+      ? 'Pause'
       : sceneDirector.paused
-        ? 'RESUME'
-        : 'PAUSE';
+        ? 'Resume'
+        : 'Pause';
     panel.dataset.playback = snap.running
       ? 'playing'
       : sceneDirector.paused
@@ -507,7 +507,7 @@ export function installIncidentScenes({
       counts.textContent = `refresh failed (${err.message})`;
     } finally {
       refreshBtn.disabled = false;
-      refreshBtn.textContent = 'REFRESH LIVE';
+      refreshBtn.textContent = 'Refresh';
     }
   });
 
@@ -566,7 +566,8 @@ export function installIncidentScenes({
       return saved.scene;
     },
   });
-  sidebar = sceneLibrary.installSidebar();
+  // Cycle 21 calm launch: the Scenes drawer starts CLOSED; the Scenes tab opens it.
+  sidebar = sceneLibrary.installSidebar({ expanded: false });
   for (const button of [playBtn, pauseBtn, prevBtn, nextBtn]) button.disabled = true;
   scrub.disabled = true;
 

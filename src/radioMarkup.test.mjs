@@ -236,12 +236,12 @@ test('Radio is nested inside Context with separate disclosure and power controls
   assert.match(html, /id="cockpit-radio-(?:prev|play|next)-btn"/);
   assert.match(html, /id="cockpit-radio-volume"/);
   assert.match(html, /id="radio-tuner"[^>]*hidden/);
-  assert.match(html, /id="radio-tuner-band-label">DIRECTORY BAND/);
+  assert.match(html, /id="radio-tuner-band-label">Directory band/);
   assert.match(html, /id="radio-tuner-slider"[^>]*type="range"/);
   assert.match(html, /id="radio-tuner-needle"[^>]*aria-hidden="true"/);
-  assert.match(html, /SNAPS TO AVAILABLE STATIONS/);
+  assert.match(html, /Snaps to available stations/);
   assert.match(html, /class="radio-tuner-scale" aria-hidden="true"><\/div>/);
-  assert.match(html, /DIRECTORY: RADIO BROWSER/);
+  assert.match(html, /Directory: Radio Browser/);
   assert.match(html, /Audio connects directly to the broadcaster/);
   assert.doesNotMatch(html, /radio-(?:favicon|visualizer|spectrum)/i);
   assert.match(css, /#radio-tuner-slider::-(?:webkit-slider-thumb|moz-range-thumb)/);

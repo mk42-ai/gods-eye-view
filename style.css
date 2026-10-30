@@ -1,6 +1,8 @@
 /* Preserve component and responsive rule order in one stylesheet entry. */
 /* Brand tokens first (single source of truth, docs/brand/BRAND_SOURCE.md). */
 @import './src/brand/tokens.css';
+/* Cycle 21 single-accent UI tokens (CSS variables for colour, spacing, type). */
+@import './src/brand/design-tokens.css';
 @import './src/ui/styles/foundation.css';
 /* Inline Lucide icon contract (docs/brand/ICON_SOURCE.md) — before the components that size it. */
 @import './src/ui/styles/icons.css';
@@ -32,3 +34,7 @@
 @import './src/ui/styles/scene-footage.css';
 @import './src/ui/styles/marina-workstation.css';
 @import './src/ui/styles/marina-mobile.css';
+/* Cycle 21 cleanup layers — must stay LAST: one-colour overrides, calm launch, walkthrough. */
+@import './src/ui/styles/ui-clean.css';
+@import './src/ui/styles/calm-launch.css';
+@import './src/ui/styles/walkthrough.css';

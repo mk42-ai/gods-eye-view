@@ -66,7 +66,8 @@
     "lucide": "1.65.0",
     "mgrs": "^2.1.0",
     "pbf": "^5.1.2",
-    "satellite.js": "^6.0.2"
+    "satellite.js": "^6.0.2",
+    "simple-icons": "^16.36.0"
   },
   "devDependencies": {
     "lucide-static": "1.47.0",

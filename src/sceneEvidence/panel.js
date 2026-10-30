@@ -7,7 +7,8 @@
  * stays out of this module. Streams POST /api/ondemand/v2/scene/evidence (SSE).
  */
 import { createSceneSseParser } from '../sceneVideos/rail.js';
-import { setIconContent } from '../ui/icons/layerIcon.js';
+import { setIconContent, appendIcon } from '../ui/icons/layerIcon.js';
+import { createPlatformLogo } from '../ui/icons/platformLogos.js';
 import { GEO_PRECISION, GEO_LABEL, parsePostUrl } from './model.js';
 import {
   initialState,
@@ -113,7 +114,7 @@ export function createSceneEvidencePanel({
   const title = el(doc, 'span', {
     id: `${PANEL_ID}-title`,
     className: 'sev__title',
-    text: 'SCENE EVIDENCE',
+    text: 'Scene evidence',
   });
   const timing = el(doc, 'span', {
     id: `${PANEL_ID}-timing`,
@@ -123,27 +124,27 @@ export function createSceneEvidencePanel({
   const rebuildBtn = el(doc, 'button', {
     id: `${PANEL_ID}-rebuild`,
     className: 'sev__btn',
-    text: 'REBUILD',
     attrs: {
       type: 'button',
       title: 'Fetch fresh results and diff against the cached scene',
     },
   });
+  setIconContent(rebuildBtn, 'refresh-cw', { text: 'Rebuild' }, doc);
   const shareBtn = el(doc, 'button', {
     id: `${PANEL_ID}-share`,
     className: 'sev__btn',
-    text: 'SHARE',
     attrs: {
       type: 'button',
       title: 'Copy a link that reopens this evidence scene',
     },
   });
+  setIconContent(shareBtn, 'link', { text: 'Share' }, doc);
   const hideBtn = el(doc, 'button', {
     id: `${PANEL_ID}-hide`,
     className: 'sev__btn',
-    text: 'HIDE',
-    attrs: { type: 'button', 'aria-expanded': 'true' },
+    attrs: { type: 'button', 'aria-expanded': 'true', 'aria-label': 'Hide evidence' },
   });
+  setIconContent(hideBtn, 'chevron-up', {}, doc);
   const closeBtn = el(doc, 'button', {
     id: `${PANEL_ID}-close`,
     className: 'sev__btn',
@@ -165,7 +166,7 @@ export function createSceneEvidencePanel({
   });
   const timeScope = el(doc, 'p', { id: 'scene-evidence-window', className: 'sev__scope' });
   const candidatesBox = el(doc, 'details', { id: 'scene-evidence-candidates', className: 'sev__candidates' });
-  const candidatesSummary = el(doc, 'summary', { text: 'UNVERIFIED CANDIDATES · not pinned, not playable' });
+  const candidatesSummary = el(doc, 'summary', { text: 'Unverified candidates · not pinned, not playable' });
   const candidatesList = el(doc, 'ol', { className: 'sev__list' });
   candidatesBox.append(candidatesSummary, candidatesList);
   const diffLine = el(doc, 'div', {
@@ -179,7 +180,7 @@ export function createSceneEvidencePanel({
   });
   const sourcesSummary = el(doc, 'summary', {
     className: 'sev__sources-summary',
-    text: 'SOURCE STATUS',
+    text: 'Source status',
   });
   const sourcesList = el(doc, 'ul', { className: 'sev__sources-list' });
   sourcesBox.append(sourcesSummary, sourcesList);
@@ -246,7 +247,7 @@ export function createSceneEvidencePanel({
   summaryBox.append(
     el(doc, 'h3', {
       className: 'sev__h',
-      text: 'EVIDENCE SUMMARY · PUBLIC INCIDENT & CONTEXT SIGNALS',
+      text: 'Evidence summary · public incident & context signals',
     }),
     summaryText,
     summaryEngine,
@@ -286,7 +287,7 @@ export function createSceneEvidencePanel({
       (m, s) => ((m[s.state] = (m[s.state] || 0) + 1), m),
       {},
     );
-    sourcesSummary.textContent = `SOURCE STATUS · ${counts.ok || 0} ok · ${counts.running || 0} running · ${counts.credentials_required || 0} credentials required · ${(counts.error || 0) + (counts.timeout || 0) + (counts.unavailable || 0)} failed`;
+    sourcesSummary.textContent = `Source status · ${counts.ok || 0} ok · ${counts.running || 0} running · ${counts.credentials_required || 0} credentials required · ${(counts.error || 0) + (counts.timeout || 0) + (counts.unavailable || 0)} failed`;
     sourcesList.replaceChildren(
       ...state.sources.map((s) => {
         const li = el(doc, 'li', {
@@ -352,10 +353,20 @@ export function createSceneEvidencePanel({
         `sev-badge--geo-${item.geo.precision}`,
         { 'data-geo-badge': item.geo.precision, title: item.geo.basis },
       ),
-      el(doc, 'span', {
-        className: 'sev-card__plat',
-        text: PLATFORM_NAME[item.platform] || item.platform,
-      }),
+      (() => {
+        const platSpan = el(doc, 'span', { className: 'sev-card__plat' });
+        const logo = createPlatformLogo(item.platform, { size: 14 }, doc);
+        if (logo) {
+          platSpan.append(logo);
+          if (typeof doc.createTextNode === 'function') platSpan.append(doc.createTextNode(' '));
+        }
+        if (typeof doc.createTextNode === 'function') {
+          platSpan.append(doc.createTextNode(PLATFORM_NAME[item.platform] || item.platform));
+        } else {
+          platSpan.textContent = PLATFORM_NAME[item.platform] || item.platform;
+        }
+        return platSpan;
+      })(),
       el(doc, 'span', {
         className: 'sev-card__rank',
         text: `#${item.rank || ''}`,
@@ -379,9 +390,9 @@ export function createSceneEvidencePanel({
     const actions = el(doc, 'div', { className: 'sev-card__actions' });
     const play = el(doc, 'button', {
       className: 'sev__btn sev-card__play',
-      text: item.kind === 'video' ? 'PLAY' : 'VIEW',
       attrs: { type: 'button' },
     });
+    setIconContent(play, item.kind === 'video' ? 'play' : 'eye', { text: item.kind === 'video' ? 'Play' : 'View' }, doc);
     play.addEventListener('click', (e) => {
       e?.stopPropagation?.();
       select(item.id);
@@ -405,9 +416,10 @@ export function createSceneEvidencePanel({
     });
     const orig = el(doc, 'a', {
       className: 'sev-card__orig',
-      text: 'ORIGINAL POST',
+      text: 'Original post',
       attrs: { href: item.url, target: '_blank', rel: 'noopener noreferrer' },
     });
+    appendIcon(orig, 'external-link', { size: 12 }, doc);
     if (item.eligible === true && item.embedUrl) actions.append(play);
     if (item.author?.fields?.length) actions.append(prof);
     actions.append(orig);
@@ -495,7 +507,7 @@ export function createSceneEvidencePanel({
           }),
           el(doc, 'span', {
             className: 'sev__signal-meta',
-            text: `${sig.kind === 'official' ? 'OFFICIAL · ' : ''}${sig.outlet || sig.source?.name || ''} · ${sig.publishedAt ? `${sig.publishedAt.slice(0, 16).replace('T', ' ')} UTC` : 'undated'} · ${sig.source?.name || ''} · ${sig.geo?.precision === 'text' ? 'names the place' : 'area context'}`,
+            text: `${sig.kind === 'official' ? 'Official · ' : ''}${sig.outlet || sig.source?.name || ''} · ${sig.publishedAt ? `${sig.publishedAt.slice(0, 16).replace('T', ' ')} UTC` : 'undated'} · ${sig.source?.name || ''} · ${sig.geo?.precision === 'text' ? 'names the place' : 'area context'}`,
           }),
         );
         return li;
@@ -513,11 +525,11 @@ export function createSceneEvidencePanel({
       case 'done':
         return `${shown} source-verified video(s) · ${state.candidates.length} unverified candidate(s) for ${state.place}. ${state.sources.filter((x) => x.state === 'timeout').length} timed out.`;
       case 'cached':
-        return `Reopened from cache (${state.cachedAt ? state.cachedAt.slice(0, 16).replace('T', ' ') : ''} UTC) — no provider calls. ${shown} item(s). REBUILD to refresh and diff.`;
+        return `Reopened from cache (${state.cachedAt ? state.cachedAt.slice(0, 16).replace('T', ' ') : ''} UTC) — no provider calls. ${shown} item(s). Rebuild to refresh and diff.`;
       case 'timeout':
-        return `Timed out: ${state.error}. Partial results kept — press REBUILD to retry.`;
+        return `Timed out: ${state.error}. Partial results kept — press Rebuild to retry.`;
       case 'error':
-        return `Evidence request failed: ${state.error}. Press REBUILD to retry.`;
+        return `Evidence request failed: ${state.error}. Press Rebuild to retry.`;
       default:
         return '';
     }
@@ -531,7 +543,7 @@ export function createSceneEvidencePanel({
     root.dataset.verifiedVideos = String(state.items.filter((x) => x.eligible === true).length);
     root.dataset.signals = String(state.signals.length);
     root.dataset.key = state.key || '';
-    title.textContent = `SCENE EVIDENCE${state.place ? ` · ${state.place}` : ''}`;
+    title.textContent = `Scene evidence${state.place ? ` · ${state.place}` : ''}`;
     const c = state.client;
     timing.textContent = [
       c.firstCardMs !== null
@@ -560,7 +572,7 @@ export function createSceneEvidencePanel({
     player.hidden = state.items.length === 0;
     timeline.hidden = state.items.length === 0;
     filters.hidden = state.items.length === 0;
-    candidatesSummary.textContent = `UNVERIFIED CANDIDATES (${state.candidates.length}) · not pinned, not playable`;
+    candidatesSummary.textContent = `Unverified candidates (${state.candidates.length}) · not pinned, not playable`;
     candidatesList.replaceChildren(...state.candidates.map(card));
     renderSources();
     const items = visibleItems(state);
@@ -721,9 +733,9 @@ export function createSceneEvidencePanel({
     );
     const close = el(doc, 'button', {
       className: 'sev__btn sev__profile-close',
-      text: 'CLOSE',
       attrs: { type: 'button' },
     });
+    setIconContent(close, 'x', { text: 'Close' }, doc);
     close.addEventListener('click', () => {
       popover.hidden = true;
       profileInvoker?.focus?.();
@@ -825,20 +837,21 @@ export function createSceneEvidencePanel({
     shareBtn.dataset.href = href;
     try {
       await win?.navigator?.clipboard?.writeText?.(href);
-      shareBtn.textContent = 'COPIED';
+      setIconContent(shareBtn, 'check', { text: 'Copied' }, doc);
     } catch {
-      shareBtn.textContent = 'LINK READY';
+      setIconContent(shareBtn, 'link', { text: 'Link ready' }, doc);
     }
     root.dataset.shareHref = href;
     setTimeout(() => {
-      shareBtn.textContent = 'SHARE';
+      setIconContent(shareBtn, 'link', { text: 'Share' }, doc);
     }, 2500);
   });
   hideBtn.addEventListener('click', () => {
     const collapsed = root.dataset.collapsed !== 'true';
     root.dataset.collapsed = String(collapsed);
-    hideBtn.textContent = collapsed ? 'SHOW' : 'HIDE';
     hideBtn.setAttribute('aria-expanded', String(!collapsed));
+    hideBtn.setAttribute('aria-label', collapsed ? 'Show evidence' : 'Hide evidence');
+    setIconContent(hideBtn, collapsed ? 'chevron-down' : 'chevron-up', {}, doc);
   });
   closeBtn.addEventListener('click', () => close());
 

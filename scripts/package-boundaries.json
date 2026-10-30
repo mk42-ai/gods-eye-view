@@ -476,9 +476,12 @@
       "src/keySetupCore.mjs",
       "src/data/feedState.js",
       "src/ui/icons/layerIcon.js",
-      "src/ui/icons/lucideIcons.generated.js"
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": []
+    "external": [
+      "lucide"
+    ]
   },
   "location-controls": {
     "exports": [
@@ -491,9 +494,12 @@
       "src/locationStatus.js",
       "src/app/stateChannel.js",
       "src/ui/icons/layerIcon.js",
-      "src/ui/icons/lucideIcons.generated.js"
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": []
+    "external": [
+      "lucide"
+    ]
   },
   "radio-controls": {
     "exports": [
@@ -506,9 +512,12 @@
       "src/ui/radioPresentation.js",
       "src/ui/radioTunerModel.js",
       "src/ui/icons/layerIcon.js",
-      "src/ui/icons/lucideIcons.generated.js"
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": []
+    "external": [
+      "lucide"
+    ]
   },
   "cctv-controls": {
     "exports": [
@@ -568,10 +577,14 @@
       "src/cockpitMath.js",
       "src/cockpitUtilityLayout.js",
       "src/cockpitVisionPolicy.js",
-      "src/ui/panelRailGeometry.js"
+      "src/ui/panelRailGeometry.js",
+      "src/ui/icons/lucideNodes.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/layerIcon.js"
     ],
     "external": [
-      "cesium"
+      "cesium",
+      "lucide"
     ]
   },
   "scene-controls": {
@@ -698,10 +711,12 @@
       "src/ui/displayBindings.js",
       "src/ui/shellFacade.js",
       "src/ui/icons/layerIcon.js",
-      "src/ui/icons/lucideIcons.generated.js"
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
     "external": [
-      "cesium"
+      "cesium",
+      "lucide"
     ]
   },
   "ui-styles": {
@@ -1067,10 +1082,12 @@
       "src/layers/launches/testing.js",
       "src/data/inputOwnership.js",
       "src/ui/icons/layerIcon.js",
-      "src/ui/icons/lucideIcons.generated.js"
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
     "external": [
-      "cesium"
+      "cesium",
+      "lucide"
     ]
   },
   "installations-layer": {
@@ -1123,10 +1140,12 @@
       "src/layers/awareness/testing.js",
       "src/ui/panelRailGeometry.js",
       "src/ui/icons/layerIcon.js",
-      "src/ui/icons/lucideIcons.generated.js"
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
     "external": [
-      "cesium"
+      "cesium",
+      "lucide"
     ]
   },
   "traffic-layer": {
@@ -2010,7 +2029,12 @@
       "src/sceneFootage/controller.js",
       "src/sceneFootage/panel.js",
       "src/sceneFootage/index.js",
-      "config/aoi/footage-places.json"
+      "config/aoi/footage-places.json",
+      "src/ui/icons/lucideNodes.js",
+      "src/ui/calmLaunch.js",
+      "src/ui/walkthrough.js",
+      "src/ui/guidedLaunch.js",
+      "src/ui/icons/platformLogos.js"
     ],
     "external": [
       "@mapbox/vector-tile",
@@ -2018,7 +2042,10 @@
       "egm96-universal",
       "mgrs",
       "pbf",
-      "satellite.js"
+      "satellite.js",
+      "lucide",
+      "driver.js",
+      "simple-icons"
     ]
   },
   "application-catalog": {
@@ -2413,7 +2440,8 @@
       "src/sources/featureSource.js",
       "src/sources/overpassRoads.js",
       "src/ui/icons/layerIcon.js",
-      "src/ui/icons/lucideIcons.generated.js"
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
     "external": [
       "cesium",
@@ -2421,7 +2449,8 @@
       "satellite.js",
       "@mapbox/vector-tile",
       "pbf",
-      "mgrs"
+      "mgrs",
+      "lucide"
     ]
   },
   "application-operations": {
@@ -2560,9 +2589,12 @@
       "src/ui/rightPanelRail.js",
       "src/ui/uiLifetime.js",
       "src/ui/icons/layerIcon.js",
-      "src/ui/icons/lucideIcons.generated.js"
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": []
+    "external": [
+      "lucide"
+    ]
   },
   "civil-flight-records": {
     "exports": [
@@ -2938,12 +2970,16 @@
       "src/sources/featureGeometry.js",
       "src/sources/overpassFeaturesRecords.js",
       "src/sources/overpassFeatures.js",
-      "src/sources/featureSource.js"
+      "src/sources/featureSource.js",
+      "src/ui/icons/lucideNodes.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/layerIcon.js"
     ],
     "external": [
       "cesium",
       "egm96-universal",
-      "pbf"
+      "pbf",
+      "lucide"
     ]
   },
   "transit-layer": {

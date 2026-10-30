@@ -1,0 +1,149 @@
+/* ==========================================================================
+   Calm launch — cycle 21 (2026-10-30)
+   First load shows ONLY the globe, the AOI box (input, recording window,
+   Build scene) and three quiet launchers (Scenes tab, Plugins chip, Mic) plus
+   the help button that replays the walkthrough. Telemetry (VIIRS / EL / AIS
+   HUD readouts), camera actions, visual-preset and location trays, the right
+   context rail and sync chips appear only after a scene has been built
+   (body[data-scene-ready='true'], set by src/ui/calmLaunch.js).
+   Loaded after ui-clean.css so geometry here wins.
+   ========================================================================== */
+
+body[data-scene-ready='false']
+  :is(
+    #intel-hud,
+    #style-indicator,
+    #top-center-actions,
+    #right-context-rail,
+    #traffic-sync-chip,
+    #cctv-sync-chip,
+    #global-loading-status,
+    #command-dock > #control-panel,
+    #command-dock > #location-bar,
+    #title-bar .brand-product,
+    #title-bar .subtitle,
+    .serverless-notice
+  ) {
+  display: none !important;
+}
+
+/* The style indicator ("Active style · Normal") is clutter in every state. */
+#style-indicator {
+  display: none !important;
+}
+
+/* Brand: the mark alone on the first screen, no tagline. */
+body[data-scene-ready='false'] #title-bar {
+  max-width: 44px;
+}
+
+/* ---------- Help button + Plugins chip placement ---------- */
+.gev-help-btn {
+  top: max(12px, env(safe-area-inset-top, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+}
+
+body #ondemand-plugin-dock#ondemand-plugin-dock {
+  position: fixed;
+  top: calc(max(12px, env(safe-area-inset-top, 0px)) + 44px);
+  right: max(12px, env(safe-area-inset-right, 0px));
+  bottom: auto;
+  left: auto;
+  width: auto;
+  max-width: calc(100vw - 24px);
+  max-height: none;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  pointer-events: none;
+}
+body #ondemand-plugin-dock#ondemand-plugin-dock > * {
+  pointer-events: auto;
+}
+body #ondemand-plugin-dock#ondemand-plugin-dock > #ondemand-plugin-panel {
+  width: min(340px, calc(100vw - 24px));
+  max-width: min(340px, calc(100vw - 24px));
+  max-height: min(60dvh, 520px);
+  overflow: auto;
+}
+body #ondemand-plugin-dock#ondemand-plugin-dock > #ondemand-plugin-panel[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 700px) {
+  /* Row 1: mark (8–52) · help (60–104) · camera actions (right). */
+  .gev-help-btn {
+    top: max(8px, env(safe-area-inset-top, 0px));
+    right: auto;
+    left: calc(max(8px, env(safe-area-inset-left, 0px)) + 52px);
+  }
+  /* Row 2: Scenes/Layers drawer bar on the left, Plugins chip on the right. */
+  body #ondemand-plugin-dock#ondemand-plugin-dock {
+    top: calc(var(--marina-mobile-top, 68px) + 5px);
+    right: max(8px, env(safe-area-inset-right, 0px));
+    max-width: calc(100vw - 16px);
+  }
+  body #ondemand-plugin-dock#ondemand-plugin-dock > #ondemand-plugin-panel {
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);
+    max-height: 46dvh;
+  }
+  /* When a drawer panel is open it needs the full width again. */
+  #left-panel-stack:has(> :is(#scene-panel, #data-panel):not([hidden]):not(.collapsed)) {
+    right: max(8px, env(safe-area-inset-right, 0px)) !important;
+  }
+  body:has(#left-panel-stack > :is(#scene-panel, #data-panel):not([hidden]):not(.collapsed))
+    #ondemand-plugin-dock#ondemand-plugin-dock {
+    top: calc(var(--marina-mobile-top, 68px) + var(--marina-mobile-drawer-height, 300px) + 8px);
+  }
+}
+
+/* The Plugins chip is ALWAYS visible; only its list opens and closes.
+ * (marina-mobile.css hides the whole dock on data-open='false' and clamps its
+ * height for the old inline list — both are superseded by the chip.) */
+body #ondemand-plugin-dock#ondemand-plugin-dock,
+body #ondemand-plugin-dock#ondemand-plugin-dock[data-open='false'],
+body:has(.incident-composer) #ondemand-plugin-dock#ondemand-plugin-dock {
+  display: flex !important;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  contain: none;
+  border-radius: 0;
+}
+
+/* Drawer toggle: the Scenes / Layers tabs open the drawer, so the separate
+ * toggle only appears once the drawer is open (as "Collapse drawer"). */
+.workstation-sidebar-tabs[data-expanded='false'] > #scene-drawer-toggle {
+  display: none !important;
+}
+
+@media (max-width: 700px) {
+  #left-panel-stack {
+    right: calc(max(8px, env(safe-area-inset-right, 0px)) + 146px) !important;
+  }
+  #left-panel-stack:has(> :is(#scene-panel, #data-panel):not([hidden]):not(.collapsed)) {
+    right: max(8px, env(safe-area-inset-right, 0px)) !important;
+  }
+}
+
+/* Narrow dock trays are icon-only buttons (the toggle keeps its aria-label):
+ * render the word as screen-reader text instead of clipping it to "Loc…". */
+@media (max-width: 700px) {
+  #command-dock :is(.location-toolbar-label, #control-panel .panel-title) {
+    font-size: 0 !important;
+    letter-spacing: 0;
+    overflow: visible;
+    text-overflow: clip;
+    justify-content: center;
+  }
+  #command-dock :is(.location-toolbar-label, #control-panel .panel-title)::after {
+    content: none !important;
+  }
+}
