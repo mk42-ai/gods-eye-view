@@ -131,3 +131,6 @@ Cycle 15 target-framing refinement: the real browser exposed that the original g
 ### Cycle 20 (2026-10-27)
 - `9f00c28` checkpoint (empty, clean tree) → `de82db2` permanent server-side key (env:persistent, transient key-file path removed) → fix commit for media retry / near-dup dedupe / plugin-text-match + 3-location QA (see MASTER_STATE "Cycle 20"). Baseline `baseline/approved-k8v6snzk7` @ `f20fab6` untouched.
 - Preview https://sb-5kdyj18ew55x.vercel.run (`sbx_3IkaIWI9k9vOQfGJWtt74Yny6My8`).
+
+## Checkpoint — cycle 21 pre-UI-cleanup (2026-10-30)
+- Clean tree at `b0c8a4d` on `feat/scene-video-evidence` (PR #4) before the UI/UX cleanup (single accent, decluttered first screen, Driver.js walkthrough, Lucide icon dock).
