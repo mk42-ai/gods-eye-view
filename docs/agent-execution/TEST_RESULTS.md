@@ -1190,3 +1190,30 @@ Marina 5.3 / 17.2 s and Burj 6.4 / 12.9 s (375). Unit suite re-run: 4,484 / 0 / 
 - Live preview QA (`scripts/qa-composer-evidence.mjs`, Puppeteer + /usr/bin/chromium, 1440×900 and 375×739, real plugins): **110 pass / 0 fail**. 'sharjah university' and 'Dubai Marina' built; composer vs dock no overlap in idle / focused / building / built; evidence hidden by default, chip opens it, X / Esc / click-outside close it; no mid-word breaks; every ellipsis carries a full-text tooltip; title clear of action buttons; drawer clear of telemetry, composer and dock; Play on the same row as the chip; no monospace on Build scene / Play; walkthrough 7 steps + Done; Dubai Marina Snapchat clip readyState 4, currentTime 1.99→4.49 s and 4.65→7.15 s, muted; 0 page errors.
 - Baseline (old preview b34f85f, --mode before): evidence panel auto-opened at 1440×900 with 7 mid-word breaks in its title ("evidence", "American", "University", "Sharjah,"…); three progress pills visible; "Scene generated at <full address>" sentence. (The old composer did not geometrically overlap the dock in the harness's 4 states at these sizes; the reported overlap came from the long sentence/Play row in the chat-canvas iframe height.)
 - Stock `ui_validate.py`: exit 2 "TimeoutError: timed out" (HTTP 200) — same CDP timeout on this WebGL page as cycles 17–21; not counted as a pass.
+
+## Cycle 23 — playback restored + icon visibility (2026-10-30)
+
+Root cause of "can't play the scene": `onScene` in `src/incidents/ui/index.js` started playback with `void playScene(...)`, so it resolved in ~0 ms. `replayScene` in the composer then immediately re-rendered the result row and set it back to idle with a fresh **Play** button, while the director was still running. Every later press was refused by `SceneDirector._startScene` with `already-running`, and there was no Pause path from the composer. Fix: `onScene` returns the started run (`startedPlayback`). The composer Play button is now a transport control (Play → Pause → Resume) that mirrors the director clock (`setPlaybackState` from `subscribeSceneClock`), through the new `onPlaybackControl` hook. A refused start now surfaces an error instead of a silent "Scene ready".
+
+Icons hidden or covered: on desktop the Snapchat footage panel (`.sfp`, z 188, left 16px) sat on top of the Scenes/Layers tabs, the Play/Pause/Prev/Next row, Save and Refresh. On phones it also covered the Plugins chip and ASK. It now sits beside the sidebar on desktop, and below the drawer bar on phones (hidden while the drawer is open). A build no longer auto-opens the drawer on phones. Glyph-less or text-only controls now carry Lucide outline icons and accessible names:
+- AOI pin, Build scene, Play/Pause, Cancel, Retry
+- Scenes/Layers tabs and the drawer toggle
+- Transport buttons and Refresh
+- Plugins chip and its close button
+- Visual presets and Location dock labels, and the Voice mic (inline SVG in place of a CSS mask or blank div)
+
+The evidence Share button stays icon-only and no longer injects text. Profile close is labelled.
+
+ui-validator timeout root cause: under SwiftShader, Cesium's 4x-MSAA full-resolution frames and the tile storm after every `Emulation.setDeviceMetricsOverride` stalled CDP. `src/app/viewer.js` now detects software WebGL: half resolution, no MSAA, 20 fps, and the render loop is held during resize until the size settles. Real GPUs are untouched.
+
+| Gate | Result |
+|---|---|
+| Unit (`npm test`) | 4,566 pass / 0 fail / 1 skipped (+4 new) |
+| Server (`server/**/*.test.mjs`, platform key unset) | 600 / 0 |
+| Build / boundaries | pass / pass |
+| Secrets (source, `--dist`) | pass / pass; OnDemand key in 0 files, 0 commits, 0 dist files |
+| `scripts/qa-playback-icons.mjs` live, direct | 68 / 0 (1440x900 + 375x739; Marina, Sharjah University, Burj Khalifa) |
+| `scripts/qa-playback-icons.mjs` live, iframe harness | 68 / 0 |
+| Same harness vs previous preview (before) | 12 pass / 16 fail (Pause, Next, icons covered, footage paused on mobile) |
+| Stock ui_validate.py direct 1440x900 / 375x739 | exit 0 (14/14) / exit 0 (14/14) |
+| Stock ui_validate.py iframe 1440x900 / 375x739 | exit 0 (15/15) on 2nd run after one exit-2 timeout / exit 0 (14/14) |

@@ -1320,3 +1320,56 @@ describe('cycle 22 composer status row', () => {
     assert.ok(status.find((n) => n.id === `${COMPOSER_ID}-evidence-slot`).length === 1, 'evidence chip slot shares the row');
   });
 });
+
+describe('cycle 23: composer Play is a real transport control', () => {
+  test('Play → Pause → Resume follows the director clock and never no-ops', async () => {
+    const client = fakeClient({ candidates: [MARINA] });
+    client.search = async () => assert.fail('no incident search');
+    const played = [];
+    const controls = [];
+    const composer = createIncidentComposer({
+      document: makeDoc(),
+      client,
+      createGeographicScene: async (input) => geographicScene(input),
+      onScene: async (payload) => {
+        played.push(payload);
+        return payload.play ? { started: true } : undefined;
+      },
+      onPlaybackControl: (c) => controls.push(c.action),
+    });
+    await composer.submit(MARINA_QUERY);
+    const play = () => button(composer, 'play');
+    assert.equal(play().dataset.playback, 'idle');
+    assert.equal(play().getAttribute('aria-label'), 'Play scene: Dubai Marina');
+    play().dispatch('click');
+    await tick(20);
+    assert.equal(played.length, 2, 'first press plays the built scene');
+    composer.setPlaybackState('playing');
+    assert.equal(play().dataset.playback, 'playing');
+    assert.match(play().getAttribute('aria-label'), /^Pause scene/);
+    play().dispatch('click');
+    await tick(5);
+    assert.deepEqual(controls, ['pause'], 'second press pauses instead of a rejected replay');
+    composer.setPlaybackState('paused');
+    assert.match(play().getAttribute('aria-label'), /^Resume scene/);
+    play().dispatch('click');
+    await tick(5);
+    assert.deepEqual(controls, ['pause', 'resume']);
+    assert.equal(played.length, 2, 'pause/resume never rebuilds or replays');
+  });
+
+  test('a refused start surfaces an error instead of a silent "Scene ready"', async () => {
+    const client = fakeClient({ candidates: [MARINA] });
+    client.search = async () => assert.fail('no incident search');
+    const composer = createIncidentComposer({
+      document: makeDoc(),
+      client,
+      createGeographicScene: async (input) => geographicScene(input),
+      onScene: async (payload) => (payload.play ? { started: false, reason: 'camera-unavailable' } : undefined),
+    });
+    await composer.submit(MARINA_QUERY);
+    button(composer, 'play').dispatch('click');
+    await tick(20);
+    assert.equal(composer.element.getAttribute('data-state'), 'error');
+  });
+});

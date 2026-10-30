@@ -11,6 +11,7 @@
  *
  * installSidebar() is explicitly opt-in and must run AFTER SceneDirector setup.
  */
+import { setIconContent } from '../../ui/icons/layerIcon.js';
 export function createSceneLibrary({
   document = globalThis.document,
   window = document?.defaultView || globalThis.window,
@@ -269,10 +270,14 @@ export function createSceneLibrary({
     const tabs = el('div', 'workstation-sidebar-tabs__list');
     tabs.setAttribute('role', 'tablist');
     tabs.setAttribute('aria-label', 'Sidebar sections');
-    const scenesTab = el('button', 'workstation-sidebar-tabs__tab', 'Scenes');
+    const scenesTab = el('button', 'workstation-sidebar-tabs__tab');
     scenesTab.id = 'sidebar-scenes-tab';
-    const layersTab = el('button', 'workstation-sidebar-tabs__tab', 'Layers');
+    setIconContent(scenesTab, 'clapperboard', { text: 'Scenes' }, document);
+    scenesTab.title = 'Scenes: build, play and save AOI scenes';
+    const layersTab = el('button', 'workstation-sidebar-tabs__tab');
     layersTab.id = 'sidebar-layers-tab';
+    setIconContent(layersTab, 'layers', { text: 'Layers' }, document);
+    layersTab.title = 'Layers: data layers on the globe';
     [scenesTab, layersTab].forEach((button, index) => {
       button.type = 'button';
       button.setAttribute('role', 'tab');
@@ -321,7 +326,8 @@ export function createSceneLibrary({
       });
       toggle.setAttribute('aria-expanded', String(open));
       toggle.setAttribute('aria-label', `${open ? 'Collapse' : 'Expand'} sidebar drawer`);
-      toggle.textContent = open ? 'Collapse drawer' : 'Expand drawer';
+      setIconContent(toggle, open ? 'panel-left-close' : 'panel-left-open', { text: open ? 'Collapse' : 'Expand' }, document);
+      toggle.title = `${open ? 'Collapse' : 'Expand'} sidebar drawer`;
       nav.dataset.activeTab = activeTab;
       nav.dataset.expanded = String(open);
     }

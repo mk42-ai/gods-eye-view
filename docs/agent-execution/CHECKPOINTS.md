@@ -141,3 +141,5 @@ Cycle 15 target-framing refinement: the real browser exposed that the original g
 
 ### Cycle 22 (2026-10-30)
 - `5d6f8b5` clean-tree checkpoint → evidence drawer + composer/dock layout commit. Preview https://ondemand-agent-8kauk8eyv-schoolhack-web-team.vercel.app (`dpl_Hedd832KrEPZUYjzjN3gJ51EB44v`).
+
+- Cycle 23 (2026-10-30): playback restored (root cause: fire-and-forget `playScene` in `onScene`), icon visibility and labels, footage panel placement, software-renderer budget. Gates: unit 4,566/0/1, server 600/0, live QA 68/0 direct + 68/0 iframe, stock ui-validator exit 0 at both viewports, direct and iframe.

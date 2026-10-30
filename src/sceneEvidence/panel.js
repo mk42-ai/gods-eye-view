@@ -158,6 +158,7 @@ export function createSceneEvidencePanel({
       'aria-controls': PANEL_ID,
       'aria-expanded': 'false',
       'aria-haspopup': 'dialog',
+      'aria-label': 'Evidence — open scene evidence',
       title: 'Open scene evidence',
     },
   });
@@ -834,7 +835,7 @@ export function createSceneEvidencePanel({
     );
     const close = el(doc, 'button', {
       className: 'sev__btn sev__profile-close',
-      attrs: { type: 'button' },
+      attrs: { type: 'button', 'aria-label': 'Close profile', title: 'Close profile' },
     });
     setIconContent(close, 'x', { text: 'Close' }, doc);
     close.addEventListener('click', () => {
@@ -970,13 +971,16 @@ export function createSceneEvidencePanel({
     shareBtn.dataset.href = href;
     try {
       await win?.navigator?.clipboard?.writeText?.(href);
-      setIconContent(shareBtn, 'check', { text: 'Copied' }, doc);
+      setIconContent(shareBtn, 'check', {}, doc);
+      shareBtn.title = 'Link copied';
     } catch {
-      setIconContent(shareBtn, 'link', { text: 'Link ready' }, doc);
+      setIconContent(shareBtn, 'link', {}, doc);
+      shareBtn.title = 'Link ready — copy it from the address';
     }
     root.dataset.shareHref = href;
     setTimeout(() => {
-      setIconContent(shareBtn, 'link', { text: 'Share' }, doc);
+      setIconContent(shareBtn, 'link', {}, doc);
+      shareBtn.title = 'Copy a link that reopens this evidence scene';
     }, 2500);
   });
   // X / Esc / click outside only HIDE the drawer: results stay behind the chip.

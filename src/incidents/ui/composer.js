@@ -9,6 +9,7 @@ import {
   incidentFromText,
 } from '../client.js';
 import { parseIncidentQuery, CONVERSATIONAL_HINT } from '../query.js';
+import { setIconContent } from '../../ui/icons/layerIcon.js';
 
 export const COMPOSER_ID = 'incident-composer';
 /** One inline status label per composer step (replaces the three pills). */
@@ -41,6 +42,7 @@ export function createIncidentComposer({
   buildScene,
   createGeographicScene,
   onUnresolved,
+  onPlaybackControl,
   requestTimeoutMs = 75_000,
   buildResearchScene = false,
 } = {}) {
@@ -60,7 +62,9 @@ export function createIncidentComposer({
   const icon = document.createElement('span');
   icon.className = 'incident-composer__icon';
   icon.setAttribute('aria-hidden', 'true');
-  icon.textContent = 'AOI';
+  icon.title = 'Area of interest';
+  // Lucide outline pin (was the text glyph "AOI"); decorative — the input is labelled.
+  setIconContent(icon, 'map-pin', {}, document);
   const input = document.createElement('input');
   input.type = 'text';
   input.id = `${COMPOSER_ID}-input`;
@@ -74,19 +78,24 @@ export function createIncidentComposer({
   submit.type = 'submit';
   submit.id = `${COMPOSER_ID}-submit`;
   submit.className = 'incident-composer__submit';
-  submit.textContent = 'Build scene';
   submit.setAttribute('aria-label', 'Build scene');
+  submit.title = 'Locate the place, verify it is inside a UAE AOI and build a camera scene';
+  setIconContent(submit, 'clapperboard', { text: 'Build scene' }, document);
   const cancelButton = document.createElement('button');
   cancelButton.type = 'button';
   cancelButton.id = `${COMPOSER_ID}-cancel`;
   cancelButton.className = 'incident-composer__submit';
-  cancelButton.textContent = 'Cancel';
+  cancelButton.setAttribute('aria-label', 'Cancel the current request');
+  cancelButton.title = 'Cancel the current request';
+  setIconContent(cancelButton, 'x', { text: 'Cancel' }, document);
   cancelButton.hidden = true;
   const retry = document.createElement('button');
   retry.type = 'button';
   retry.id = `${COMPOSER_ID}-retry`;
   retry.className = 'incident-composer__submit';
-  retry.textContent = 'Retry';
+  retry.setAttribute('aria-label', 'Retry the last request');
+  retry.title = 'Retry the last request';
+  setIconContent(retry, 'rotate-ccw', { text: 'Retry' }, document);
   retry.hidden = true;
   row.append(icon, input, submit, cancelButton, retry);
 
@@ -173,6 +182,7 @@ export function createIncidentComposer({
   view?.setTimeout?.(observeDock, 0);
 
   const state = {
+    playback: 'idle',
     busy: false,
     text: '',
     candidates: [],
@@ -413,6 +423,27 @@ export function createIncidentComposer({
       );
     return !describesEvent;
   }
+  // Composer Play is a real transport control: Play → Pause → Resume, driven by
+  // the scene director's clock (setPlaybackState) so a second press never
+  // silently no-ops against a run that is already playing.
+  let playButton = null;
+  let playPlace = '';
+  function renderPlayButton() {
+    if (!playButton) return;
+    const s = state.playback;
+    const label = s === 'playing' ? 'Pause' : s === 'paused' ? 'Resume' : 'Play';
+    playButton.dataset.playback = s;
+    playButton.setAttribute('aria-pressed', String(s === 'playing'));
+    playButton.setAttribute('aria-label', `${label} scene: ${playPlace}`);
+    playButton.title = `${label} the camera scene · footage verified separately · UTC recording filter`;
+    setIconContent(playButton, s === 'playing' ? 'pause' : 'play', { text: label }, document);
+  }
+  function setPlaybackState(next) {
+    const value = ['playing', 'paused'].includes(next) ? next : 'idle';
+    if (value === state.playback) return;
+    state.playback = value;
+    renderPlayButton();
+  }
   function sceneSuccess(payload, run, reused = false) {
     checkCurrent(run);
     state.lastScene = payload.scene;
@@ -426,11 +457,20 @@ export function createIncidentComposer({
     play.type = 'button';
     play.id = `${COMPOSER_ID}-play`;
     play.className = 'incident-composer__play';
-    play.textContent = 'Play';
-    play.setAttribute('aria-label', `Play scene: ${shortPlaceLabel(fullName)}`);
-    play.title = 'Camera scene only · footage verified separately · UTC recording filter';
+    playButton = play;
+    playPlace = shortPlaceLabel(fullName);
+    renderPlayButton();
     play.addEventListener('click', () => {
-      if (!current(run) || state.busy) return;
+      if (!current(run)) return;
+      if (state.playback === 'playing' && onPlaybackControl) {
+        onPlaybackControl({ action: 'pause', scene: payload.scene });
+        return;
+      }
+      if (state.playback === 'paused' && onPlaybackControl) {
+        void onPlaybackControl({ action: 'resume', scene: payload.scene });
+        return;
+      }
+      if (state.busy) return;
       void replayScene(payload, run, reused);
     });
     const text = document.createElement('p');
@@ -460,8 +500,10 @@ export function createIncidentComposer({
     try {
       checkCurrent(run);
       step('building', 'active', run);
-      await bounded(run, () => onScene?.({ ...payload, play: true }));
+      const outcome = await bounded(run, () => onScene?.({ ...payload, play: true }));
       checkCurrent(run);
+      if (outcome && outcome.started === false && outcome.reason !== 'already-running')
+        throw new Error(`Playback did not start (${outcome.reason || 'refused'})`);
       sceneSuccess(payload, run, reused);
     } catch (error) {
       failed(error, run);
@@ -847,6 +889,7 @@ export function createIncidentComposer({
     element: root,
     input,
     evidenceSlot,
+    setPlaybackState,
     submit: submitText,
     cancel: cancelRequest,
     state,

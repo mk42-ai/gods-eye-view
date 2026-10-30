@@ -559,3 +559,131 @@ body.sev-open #scene-video-rail {
     opacity: 1;
   }
 }
+
+/* Cycle 23 — playback + icon visibility (loaded last).
+ * 1. The Snapchat footage panel no longer sits on top of the Scenes/Layers
+ *    drawer (tabs, Play/Pause/Prev/Next, Save) or the Plugins chip.
+ * 2. Every Lucide outline icon has an explicit size inside its control.
+ * 3. Telemetry corners never sit under the AOI composer. */
+
+/* ---------- icon sizing inside controls ---------- */
+#incident-composer :is(.incident-composer__submit, .incident-composer__play) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+#incident-composer :is(.incident-composer__submit, .incident-composer__play) > svg.od-icon {
+  --od-icon-size: 15px;
+  flex: 0 0 auto;
+}
+#incident-composer .incident-composer__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  min-width: 20px;
+  color: var(--ui-accent, #3bb795);
+}
+#incident-composer .incident-composer__icon > svg.od-icon {
+  --od-icon-size: 18px;
+}
+#incident-composer .incident-composer__play[data-playback='playing'] {
+  color: #0f1011;
+  background: var(--ui-accent, #3bb795);
+}
+.workstation-sidebar-tabs__tab,
+#scene-drawer-toggle,
+#incident-playback > .scene-btn,
+.incident-panel__refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+.workstation-sidebar-tabs__tab > svg.od-icon,
+#scene-drawer-toggle > svg.od-icon,
+#incident-playback > .scene-btn > svg.od-icon,
+.incident-panel__refresh > svg.od-icon {
+  --od-icon-size: 14px;
+  flex: 0 0 auto;
+}
+#command-dock svg.dock-label-svg {
+  --od-icon-size: 16px;
+  margin-right: 6px;
+  color: var(--ui-text-secondary, #b7b9bc);
+  vertical-align: -3px;
+}
+#command-dock :is(#location-bar, #control-panel):hover svg.dock-label-svg,
+#command-dock :is(#location-bar, #control-panel).dock-pinned svg.dock-label-svg {
+  color: var(--ui-accent, #3bb795);
+}
+.od-voice-btn svg.od-voice-mic {
+  --od-icon-size: 18px;
+  display: block;
+  width: 18px;
+  height: 18px;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+  color: var(--ui-text-primary, #f2f2f2);
+}
+.od-plugins-chip > svg.od-plugins-chip__icon {
+  --od-icon-size: 14px;
+  flex: 0 0 auto;
+  color: var(--ui-text-secondary, #b7b9bc);
+}
+.od-plugins__close > svg.od-icon {
+  --od-icon-size: 16px;
+}
+
+/* ---------- desktop: footage beside the drawer, never on top of it ---------- */
+@media (min-width: 701px) {
+  .sfp,
+  body .sfp {
+    left: calc(var(--workstation-sidebar-width, 320px) + 32px);
+    max-height: calc(
+      100dvh - 96px - var(--command-dock-clearance, 96px) - var(--incident-composer-height, 96px) - 36px
+    );
+  }
+  /* Telemetry top-left (with ASK) moves past the footage column while it is open. */
+  body.sfp-open:not(.sfp-collapsed) #intel-hud .hud-top-left {
+    left: calc(var(--workstation-sidebar-width, 320px) + 32px + 360px + 16px);
+  }
+  /* Bottom-left telemetry lives under the sidebar column, clear of the composer. */
+  #intel-hud .hud-bottom-left {
+    left: 16px !important;
+  }
+}
+
+/* ---------- phones: footage sheet below the drawer bar + Plugins row ---------- */
+@media (max-width: 700px) {
+  .sfp,
+  body .sfp {
+    top: calc(var(--marina-mobile-top, 68px) + var(--marina-mobile-drawer-bar, 54px) + 8px) !important;
+    max-height: calc(
+      100dvh - var(--marina-mobile-top, 68px) - var(--marina-mobile-drawer-bar, 54px) - 8px -
+        var(--command-dock-clearance, 200px) - 10px
+    ) !important;
+  }
+  /* An open Scenes/Layers drawer owns the top band; the footage sheet waits
+   * (its video keeps playing) and returns when the drawer closes. */
+  body:has(#left-panel-stack > :is(#scene-panel, #data-panel):not([hidden]):not(.collapsed)) .sfp {
+    display: none !important;
+  }
+  .workstation-sidebar-tabs__tab,
+  #scene-drawer-toggle {
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+}
+
+/* Phones: an open Scenes/Layers drawer covers the telemetry band, so the
+ * top-left telemetry (and its ASK button) steps back until it closes. */
+@media (max-width: 700px) {
+  body:has(#left-panel-stack > :is(#scene-panel, #data-panel):not([hidden]):not(.collapsed)) #intel-hud .hud-top-left {
+    visibility: hidden !important;
+  }
+}

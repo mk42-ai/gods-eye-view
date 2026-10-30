@@ -24,6 +24,7 @@ import {
   INCIDENT_CATEGORIES,
 } from '../model.js';
 import { createIncidentOverlay } from './overlay.js';
+import { setIconContent } from '../../ui/icons/layerIcon.js';
 import { createIncidentComposer } from './composer.js';
 import { ASK_OBJECT_EVENT } from '../../ondemand/miniChat.js';
 import { buildGeographicScene, createGeographicSceneStore } from '../../scenes/geographicScene.js';
@@ -107,6 +108,7 @@ export function installIncidentScenes({
       title: 'Pull live incidents through OnDemand plugins (POST /refresh)',
     },
   });
+  setIconContent(refreshBtn, 'refresh-cw', { text: 'Refresh' }, doc);
   header.append(title, counts, refreshBtn);
 
   // playback bar: PAUSE / RESUME / PREV / NEXT / scrub
@@ -138,6 +140,17 @@ export function installIncidentScenes({
     text: 'Next',
     attrs: { type: 'button', 'aria-label': 'Next keyframe' },
   });
+  // Lucide outline icons + accessible names on every transport control.
+  for (const [button, icon, text, label] of [
+    [playBtn, 'play', 'Play', 'Play scene'],
+    [pauseBtn, 'pause', 'Pause', 'Pause scene'],
+    [prevBtn, 'skip-back', 'Previous', 'Previous keyframe'],
+    [nextBtn, 'skip-forward', 'Next', 'Next keyframe'],
+  ]) {
+    setIconContent(button, icon, { text }, doc);
+    button.setAttribute('aria-label', label);
+    button.title = label;
+  }
   const scrub = el(doc, 'input', {
     id: `${PLAYBACK_BAR_ID}-scrub`,
     className: 'incident-playback__scrub',
@@ -339,6 +352,16 @@ export function installIncidentScenes({
 
   // ---------------------------------------------------------------- playback
   let selectedSceneId = null;
+  let composerRef = null;
+  /**
+   * Resolve once the director has actually STARTED the run (it sets `running`
+   * synchronously), not when the whole fly-through ends. A start that is
+   * refused resolves with the director's `{ started: false, reason }`.
+   */
+  function startedPlayback(run) {
+    if (sceneDirector.running) return Promise.resolve({ started: true });
+    return Promise.resolve(run);
+  }
   function playScene(sceneId, { fly = true } = {}) {
     const scene = state.scenes.find((s) => s.id === sceneId);
     const point = scene?.anchor || scene?.keyframes?.[0];
@@ -396,16 +419,16 @@ export function installIncidentScenes({
     const active = sceneDirector._getSelectedScene?.();
     const frame = active?.shots?.find((shot) => shot.id === sceneDirector._selectedShotId);
     keyframeCaption.textContent = frame ? frame.title : 'Select or build a scene';
-    pauseBtn.textContent = snap.running
-      ? 'Pause'
-      : sceneDirector.paused
-        ? 'Resume'
-        : 'Pause';
+    const pauseLabel = !snap.running && sceneDirector.paused ? 'Resume' : 'Pause';
+    setIconContent(pauseBtn, pauseLabel === 'Resume' ? 'play' : 'pause', { text: pauseLabel }, doc);
+    pauseBtn.setAttribute('aria-label', `${pauseLabel} scene`);
     panel.dataset.playback = snap.running
       ? 'playing'
       : sceneDirector.paused
         ? 'paused'
         : 'idle';
+    // Mirror the transport state onto the AOI composer's Play button (Play or Pause).
+    composerRef?.setPlaybackState?.(panel.dataset.playback);
   });
 
   // ---------------------------------------------------------------- toggles
@@ -543,7 +566,9 @@ export function installIncidentScenes({
     scrub.disabled = false;
     panel.dataset.activeScene = scene.id;
     panel.dataset.playable = 'true';
-    sidebar?.selectTab('scenes');
+    // Phones: the drawer and the footage sheet share the top band; keep the
+    // drawer closed after a build so the footage (and every icon) stays visible.
+    if (!win.matchMedia?.('(max-width: 700px)')?.matches) sidebar?.selectTab('scenes');
     if (focus) {
       viewer.useDefaultRenderLoop = true;
       viewer.scene.requestRender();
@@ -572,7 +597,7 @@ export function installIncidentScenes({
   scrub.disabled = true;
 
   // ---------------------------------------------------------------- composer
-  const composer = createIncidentComposer({
+  const composer = (composerRef = createIncidentComposer({
     document: doc,
     client,
     buildResearchScene: true,
@@ -596,6 +621,11 @@ export function installIncidentScenes({
       delete panel.dataset.activeScene;
       geographicOverlay.setExternal(candidate);
       overlay.flyTo(candidate.lat, candidate.lon, { altitude: 14000, duration: 1.6 });
+    },
+    onPlaybackControl: ({ action }) => {
+      if (action === 'pause' && sceneDirector.running) return sceneDirector.pauseScene();
+      if (action === 'resume' && sceneDirector.paused) return sceneDirector.resumeScene();
+      return null;
     },
     onUnresolved: () => {
       // The AOI box is UAE-scoped: an unresolved request still leaves the boot
@@ -627,7 +657,10 @@ export function installIncidentScenes({
       }
       if (scene.geographic) {
         activateGeographic(scene, { saved: Boolean(geographicStore.load(scene.id)), focus: !play, evidenceText: text, selectedTime, research: !play });
-        if (play) void playScene(scene.id, { fly: false });
+        // Return the run (root-cause fix, cycle 23): a fire-and-forget start let
+        // the composer reset Play to idle in 0 ms, and the next press was then
+        // rejected by the director as 'already-running'.
+        if (play) return startedPlayback(playScene(scene.id, { fly: false }));
         return;
       }
       const point = scene.anchor || scene.keyframes?.[0];
@@ -665,10 +698,10 @@ export function installIncidentScenes({
       selectedSceneId = scene.id;
       for (const button of [playBtn, pauseBtn, prevBtn, nextBtn]) button.disabled = false;
       scrub.disabled = false;
-      if (play) void playScene(scene.id);
+      if (play) return startedPlayback(playScene(scene.id));
       else if (scene.keyframes?.[0]) overlay.flyTo(scene.keyframes[0].lat, scene.keyframes[0].lon, { altitude: 7000, duration: 1.6 });
     },
-  });
+  }));
   (doc.body || doc.documentElement).appendChild(composer.element);
 
   // Close the popover on Escape.

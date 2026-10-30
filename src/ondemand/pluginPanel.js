@@ -12,7 +12,7 @@
  * Importable under Node without DOM (guards like miniChat.js).
  */
 
-import { X } from 'lucide';
+import { Puzzle, X } from 'lucide';
 
 export const PLUGIN_PANEL_ID = 'ondemand-plugin-panel';
 export const PLUGIN_DOCK_ID = 'ondemand-plugin-dock';
@@ -275,6 +275,7 @@ export function createPluginPanel(deps = {}) {
 
     if (chipLabelElement) {
       chipLabelElement.textContent = `Plugins · ${readyCount} ready`;
+      chipElement?.setAttribute?.('aria-label', `Plugins · ${readyCount} ready — open the plugins panel`);
     }
     if (chipDotElement) {
       chipDotElement.setAttribute('data-state', readyCount > 0 ? 'ready' : 'idle');
@@ -433,8 +434,12 @@ export function createPluginPanel(deps = {}) {
         type: 'button',
         'aria-expanded': 'false',
         'aria-controls': PLUGIN_PANEL_ID,
+        'aria-label': 'Plugins · 0 ready — open the plugins panel',
+        title: 'Open the OnDemand plugins panel',
       },
     });
+    const chipIconElement = renderIcon(document, Puzzle);
+    chipIconElement.setAttribute?.('class', 'od-icon od-icon--puzzle od-plugins-chip__icon');
 
     chipDotElement = el(document, 'span', {
       className: 'od-plugins-chip__dot',
@@ -448,7 +453,7 @@ export function createPluginPanel(deps = {}) {
       text: 'Plugins · 0 ready',
     });
 
-    chipElement.append(chipDotElement, chipLabelElement);
+    chipElement.append(chipIconElement, chipDotElement, chipLabelElement);
     chipElement.addEventListener('click', () => {
       if (isOpen()) {
         close();
@@ -509,9 +514,11 @@ export function createPluginPanel(deps = {}) {
       attrs: {
         type: 'button',
         'aria-label': 'Close plugins',
+        title: 'Close plugins',
       },
     });
     const xIcon = renderIcon(document, X);
+    xIcon.setAttribute?.('class', 'od-icon od-icon--x');
     closeButton.appendChild(xIcon);
     closeButton.addEventListener('click', () => close());
 

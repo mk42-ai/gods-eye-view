@@ -464,3 +464,9 @@ Cycle 15 target-framing refinement: the real browser exposed that the original g
 - Styles: new last-loaded `src/ui/styles/composer-evidence.css`. Telemetry bottom corners lifted above the dock; footage top sheet ends above the dock on mobile.
 - QA harness: `scripts/qa-composer-evidence.mjs` (bounding-box overlap checks idle/focused/building/built, chip open/close via X/Esc/outside, mid-word break + tooltip-less truncation probes, telemetry/action-bar collisions, Snapchat playback, walkthrough).
 - Preview: https://ondemand-agent-8kauk8eyv-schoolhack-web-team.vercel.app (`dpl_Hedd832KrEPZUYjzjN3gJ51EB44v`, deploy-permanent).
+
+## Cycle 23 (2026-10-30) — playback + icons
+- Composer Play is a transport control: Play → Pause → Resume, mirrored from the director clock. `onScene` returns the started run. See TEST_RESULTS "Cycle 23".
+- Footage panel no longer covers the sidebar (desktop) or the Plugins chip/ASK (phones). Every icon control has a Lucide outline SVG plus an accessible name.
+- Software-WebGL render budget in `src/app/viewer.js` (fixes stock ui-validator CDP timeouts).
+- New QA harness: `scripts/qa-playback-icons.mjs` (`--iframe 1` for the chat-canvas copy).

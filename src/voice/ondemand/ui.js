@@ -38,7 +38,7 @@ export const OD_VOICE_MARKUP = `
       </div>
       <div class="od-voice-row">
         <button id="od-voice-button" class="od-voice-btn" type="button" aria-pressed="false" aria-label="OnDemand voice — press to talk, press again to send, press while speaking to interrupt" title="OnDemand voice (turn-based: STT → chat/workflow → TTS)">
-          <span class="od-voice-mic" aria-hidden="true"></span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="mic" class="od-icon od-icon--mic od-voice-mic" aria-hidden="true" focusable="false"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></svg>
           <span class="od-voice-btn-label">Talk</span>
         </button>
         <div class="od-voice-meta">
