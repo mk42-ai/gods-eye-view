@@ -13,20 +13,20 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.45rem 0.7rem;
-  color: rgba(225, 244, 248, 0.92);
+  color: rgba(237, 238, 239, 0.92);
   font-family: var(--font-mono);
   font-size: 0.6rem;
   letter-spacing: 0.09rem;
   background: linear-gradient(
     145deg,
-    rgba(10, 27, 37, 0.92),
+    rgba(128, 129, 130, 0.18),
     rgba(7, 13, 22, 0.9)
   );
-  border: 1px solid rgba(54, 220, 255, 0.38);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 0.42rem;
   box-shadow:
     0 0.4rem 1.6rem rgba(0, 0, 0, 0.5),
-    0 0 1.2rem rgba(59, 183, 149, 0.07);
+    0 0 1.2rem transparent;
   backdrop-filter: blur(18px) saturate(1.2);
   -webkit-backdrop-filter: blur(18px) saturate(1.2);
   cursor: pointer;
@@ -40,16 +40,16 @@
 #key-setup-chip:focus-visible {
   background: linear-gradient(
     145deg,
-    rgba(14, 38, 51, 0.95),
-    rgba(9, 18, 28, 0.93)
+    rgba(128, 129, 130, 0.18),
+    rgba(128, 129, 130, 0.18)
   );
-  border-color: rgba(54, 220, 255, 0.7);
+  border-color: rgba(59, 183, 149, 0.7);
   outline: none;
   transform: translateY(-1px);
 }
 
-#key-setup-chip .material-symbols-outlined {
-  color: #55dff5;
+#key-setup-chip .od-icon {
+  color: #bdbebf;
   font-size: 0.95rem;
 }
 
@@ -71,13 +71,13 @@
   overflow: hidden;
   color: var(--text-primary);
   background:
-    linear-gradient(145deg, rgba(10, 27, 37, 0.97), rgba(7, 13, 22, 0.95)),
-    rgba(7, 17, 25, 0.96);
-  border: 1px solid rgba(54, 220, 255, 0.42);
+    linear-gradient(145deg, rgba(128, 129, 130, 0.18), rgba(7, 13, 22, 0.95)),
+    rgba(16, 17, 18, 0.96);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 0.65rem;
   box-shadow:
     0 1.4rem 4.5rem rgba(0, 0, 0, 0.72),
-    0 0 2.5rem rgba(59, 183, 149, 0.09),
+    0 0 2.5rem transparent,
     inset 0 0 0 1px rgba(255, 255, 255, 0.025);
   backdrop-filter: blur(28px) saturate(1.25);
   -webkit-backdrop-filter: blur(28px) saturate(1.25);
@@ -107,10 +107,10 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(54, 220, 255, 0.8),
+    rgba(155, 156, 157, 0.18),
     transparent
   );
-  box-shadow: 0 0 1rem rgba(54, 220, 255, 0.45);
+  box-shadow: 0 0 1rem transparent;
   pointer-events: none;
 }
 
@@ -120,7 +120,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  color: rgba(171, 210, 220, 0.6);
+  color: rgba(189, 190, 191, 0.6);
   font-family: var(--font-mono);
   font-size: 0.58rem;
   letter-spacing: 0.1rem;
@@ -128,14 +128,14 @@
 }
 
 .key-setup-kicker {
-  color: rgba(54, 220, 255, 0.86);
+  color: rgba(189, 190, 191, 0.86);
 }
 
 .key-setup-close {
   display: grid;
   place-items: center;
   padding: 0.15rem;
-  color: rgba(171, 210, 220, 0.6);
+  color: rgba(189, 190, 191, 0.6);
   background: none;
   border: 1px solid transparent;
   border-radius: 0.3rem;
@@ -147,12 +147,12 @@
 
 .key-setup-close:hover,
 .key-setup-close:focus-visible {
-  color: rgba(225, 244, 248, 0.95);
-  border-color: rgba(54, 220, 255, 0.5);
+  color: rgba(59, 183, 149, 0.95);
+  border-color: rgba(59, 183, 149, 0.5);
   outline: none;
 }
 
-.key-setup-close .material-symbols-outlined {
+.key-setup-close .od-icon {
   font-size: 1rem;
 }
 
@@ -167,7 +167,7 @@
 #key-setup-description {
   max-width: 31rem;
   margin-top: 0.3rem;
-  color: rgba(215, 231, 235, 0.66);
+  color: rgba(237, 238, 239, 0.66);
   font-size: 0.78rem;
   line-height: 1.5;
 }
@@ -175,7 +175,7 @@
 #key-setup-description code {
   padding: 0.05rem 0.25rem;
   font-size: 0.92em;
-  background: rgba(54, 220, 255, 0.08);
+  background: rgba(153, 154, 155, 0.08);
   border-radius: 0.2rem;
 }
 
@@ -187,7 +187,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(54, 220, 255, 0.45) transparent;
+  scrollbar-color: rgba(153, 154, 155, 0.12) transparent;
   scrollbar-gutter: stable;
 }
 
@@ -195,7 +195,7 @@
   width: 6px;
 }
 .key-setup-rows::-webkit-scrollbar-thumb {
-  background: rgba(54, 220, 255, 0.45);
+  background: rgba(153, 154, 155, 0.12);
   border-radius: 3px;
 }
 
@@ -203,14 +203,14 @@
   display: grid;
   gap: 0.35rem;
   padding: 0.6rem 0.7rem;
-  background: rgba(29, 69, 81, 0.14);
-  border: 1px solid rgba(100, 200, 220, 0.15);
+  background: rgba(153, 154, 155, 0.12);
+  border: 1px solid rgba(153, 154, 155, 0.15);
   border-radius: 0.42rem;
 }
 
 .key-setup-row[data-set='true'] {
-  background: rgba(30, 81, 57, 0.12);
-  border-color: rgba(84, 227, 156, 0.32);
+  background: rgba(153, 154, 155, 0.12);
+  border-color: rgba(153, 154, 155, 0.22);
 }
 
 .key-setup-row-head {
@@ -230,13 +230,13 @@
   width: 0.5rem;
   height: 0.5rem;
   flex: none;
-  background: rgba(148, 178, 188, 0.35);
+  background: rgba(153, 154, 155, 0.12);
   border-radius: 50%;
 }
 
 .key-setup-row[data-set='true'] .key-setup-led {
-  background: #54e39c;
-  box-shadow: 0 0 0.5rem rgba(84, 227, 156, 0.66);
+  background: #3bb795;
+  box-shadow: 0 0 0.5rem transparent;
 }
 
 .key-setup-tier {
@@ -245,17 +245,17 @@
 
 .key-setup-exposed {
   padding: 0.05rem 0.3rem;
-  color: rgba(255, 200, 120, 0.75);
+  color: rgba(189, 190, 191, 0.75);
   font-size: 0.5rem;
   letter-spacing: 0.06rem;
   text-transform: uppercase;
-  border: 1px solid rgba(255, 200, 120, 0.3);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 0.3rem;
 }
 
 .key-setup-get {
   margin-left: auto;
-  color: rgba(54, 220, 255, 0.75);
+  color: rgba(189, 190, 191, 0.75);
   font-size: 0.58rem;
   letter-spacing: 0.08rem;
   text-decoration: none;
@@ -264,14 +264,14 @@
 
 .key-setup-get:hover,
 .key-setup-get:focus-visible {
-  color: rgba(54, 220, 255, 1);
+  color: #3bb795;
   text-decoration: underline;
   outline: none;
 }
 
 .key-setup-unlocks {
   margin: 0;
-  color: rgba(198, 220, 226, 0.6);
+  color: rgba(189, 190, 191, 0.6);
   font-size: 0.66rem;
 }
 
@@ -283,21 +283,21 @@
 .key-setup-fields input {
   width: 100%;
   padding: 0.42rem 0.55rem;
-  color: rgba(225, 244, 248, 0.92);
+  color: rgba(237, 238, 239, 0.92);
   font-family: var(--font-mono);
   font-size: 0.66rem;
   background: rgba(4, 14, 20, 0.72);
-  border: 1px solid rgba(100, 200, 220, 0.22);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 0.32rem;
 }
 
 .key-setup-fields input:focus {
-  border-color: rgba(54, 220, 255, 0.65);
+  border-color: rgba(59, 183, 149, 0.65);
   outline: none;
 }
 
 .key-setup-fields input::placeholder {
-  color: rgba(148, 178, 188, 0.42);
+  color: rgba(189, 190, 191, 0.42);
 }
 
 .key-setup-footer {
@@ -306,12 +306,12 @@
 
 .key-setup-apply {
   padding: 0.5rem 0.95rem;
-  color: #04141c;
+  color: #101112;
   font-family: var(--font-mono);
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.09rem;
-  background: linear-gradient(180deg, #45e0ff, #1fb9dd);
+  background: linear-gradient(180deg, rgba(162, 163, 164, 0.18), rgba(128, 129, 130, 0.18));
   border: none;
   border-radius: 0.38rem;
   cursor: pointer;
@@ -333,7 +333,7 @@
 .key-setup-note {
   min-height: 1.1rem;
   margin-top: 0.5rem;
-  color: rgba(199, 225, 231, 0.62);
+  color: rgba(189, 190, 191, 0.62);
   font-family: var(--font-mono);
   font-size: 0.62rem;
   line-height: 1.35;
@@ -362,11 +362,11 @@ body.scene-playback-mode #key-setup {
 /* Provider Settings additions: externally-managed badge + per-row remove. */
 .key-setup-external {
   padding: 0.05rem 0.3rem;
-  color: rgba(148, 200, 220, 0.7);
+  color: rgba(189, 190, 191, 0.7);
   font-size: 0.5rem;
   letter-spacing: 0.06rem;
   text-transform: uppercase;
-  border: 1px solid rgba(148, 200, 220, 0.28);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 0.3rem;
   white-space: nowrap;
 }
@@ -374,12 +374,12 @@ body.scene-playback-mode #key-setup {
 .key-setup-remove {
   justify-self: start;
   padding: 0.28rem 0.55rem;
-  color: rgba(255, 170, 150, 0.8);
+  color: rgba(184, 185, 186, 0.8);
   font-family: var(--font-mono);
   font-size: 0.55rem;
   letter-spacing: 0.08rem;
   background: none;
-  border: 1px solid rgba(255, 170, 150, 0.3);
+  border: 1px solid rgba(203, 204, 205, 0.3);
   border-radius: 0.32rem;
   cursor: pointer;
   transition:
@@ -389,7 +389,7 @@ body.scene-playback-mode #key-setup {
 
 .key-setup-remove:hover,
 .key-setup-remove:focus-visible {
-  color: rgba(255, 190, 170, 1);
-  border-color: rgba(255, 170, 150, 0.65);
+  color: #b8b9ba;
+  border-color: rgba(203, 204, 205, 0.65);
   outline: none;
 }

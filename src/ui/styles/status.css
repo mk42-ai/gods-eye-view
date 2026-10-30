@@ -49,14 +49,14 @@
   transform: none;
 }
 
-#top-center-actions .material-symbols-outlined {
+#top-center-actions .od-icon {
   font-size: 18px;
 }
 
 #tilt-map-view[aria-pressed='true'] {
   border-color: var(--accent);
   color: var(--accent);
-  box-shadow: 0 0 14px rgba(59, 183, 149, 0.18);
+  box-shadow: 0 0 14px transparent;
 }
 
 #north-up-view {
@@ -91,11 +91,11 @@
   max-width: calc(100vw - 32px);
   padding: 6px 10px;
   border-radius: 7px;
-  border: 1px solid rgba(59, 183, 149, 0.24);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   background: rgba(3, 10, 18, 0.78);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  color: rgba(170, 252, 255, 0.92);
+  color: rgba(189, 190, 191, 0.92);
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1.35px;
@@ -103,20 +103,20 @@
   transform: translateX(-50%);
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.34),
-    0 0 14px rgba(59, 183, 149, 0.08);
+    0 0 14px transparent;
   pointer-events: none;
 }
 #global-loading-status[hidden] {
   display: none;
 }
 #global-loading-label {
-  color: rgba(184, 244, 255, 0.92);
+  color: rgba(237, 238, 239, 0.92);
 }
 #global-loading-detail {
   min-width: 34px;
   max-width: min(220px, 38vw);
   overflow: hidden;
-  color: #00e1ff;
+  color: #bdbebf;
   font-weight: 600;
   letter-spacing: 1.6px;
   text-align: right;
@@ -140,32 +140,32 @@
   display: none;
 }
 #global-loading-status[data-state='error'] {
-  border-color: rgba(255, 98, 82, 0.55);
-  color: #ff9b8e;
+  border-color: rgba(229, 96, 90, 0.55);
+  color: #e5605a;
 }
 #global-loading-status[data-state='error'] #global-loading-label,
 #global-loading-status[data-state='error'] #global-loading-detail {
-  color: #ff9b8e;
+  color: #e5605a;
 }
 #global-loading-status[data-state='cancelled'] {
-  color: #ffd488;
+  color: #bdbebf;
 }
 #global-loading-status[data-state='retry'] {
-  border-color: rgba(255, 212, 136, 0.55);
+  border-color: rgba(153, 154, 155, 0.22);
 }
 #global-loading-status[data-state='retry'] #global-loading-label,
 #global-loading-status[data-state='retry'] #global-loading-detail {
-  color: #ffd488;
+  color: #bdbebf;
 }
 #global-loading-status[data-state='cancelled'] #global-loading-label,
 #global-loading-status[data-state='cancelled'] #global-loading-detail {
-  color: #ffd488;
+  color: #bdbebf;
 }
 #global-loading-status[data-state='acquiring'] {
-  border-color: rgba(59, 183, 149, 0.42);
+  border-color: rgba(153, 154, 155, 0.22);
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.34),
-    0 0 18px rgba(59, 183, 149, 0.12);
+    0 0 18px transparent;
 }
 
 .share-icon {
@@ -185,11 +185,11 @@
   gap: 10px;
   padding: 6px 10px;
   border-radius: 7px;
-  border: 1px solid rgba(59, 183, 149, 0.24);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   background: rgba(3, 10, 18, 0.78);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  color: rgba(170, 252, 255, 0.92);
+  color: rgba(189, 190, 191, 0.92);
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1.35px;
@@ -201,7 +201,7 @@
     transform 0.22s ease;
   box-shadow:
     0 8px 24px rgba(0, 0, 0, 0.34),
-    0 0 14px rgba(59, 183, 149, 0.08);
+    0 0 14px transparent;
 }
 
 /* Stacked below the traffic chip so both can show at once */
@@ -217,12 +217,12 @@
 
 #traffic-sync-label,
 #cctv-sync-label {
-  color: rgba(184, 244, 255, 0.92);
+  color: rgba(237, 238, 239, 0.92);
 }
 
 #traffic-sync-progress,
 #cctv-sync-progress {
-  color: #00e1ff;
+  color: #bdbebf;
   font-weight: 600;
   letter-spacing: 1.6px;
   min-width: 34px;
@@ -407,7 +407,7 @@
     opacity 0.3s ease,
     visibility 0.3s ease,
     transform 0.3s ease;
-  box-shadow: 0 0 20px rgba(59, 183, 149, 0.15);
+  box-shadow: 0 0 20px transparent;
 }
 
 #toast.visible {

@@ -775,24 +775,7 @@ export function findMaterialSymbolsUsages(text) {
  * surface migrates to Lucide, never increase, and no file outside this list
  * may carry a usage at all.
  */
-const MATERIAL_SYMBOLS_LEGACY_ALLOWLIST = Object.freeze({
-  'index.html': 1,
-  'src/celestialRing.js': 2,
-  'src/ui/cockpitLayout.js': 2,
-  'src/ui/cockpitSignals.js': 1,
-  'src/ui/styles/layers.css': 4,
-  'src/ui/styles/status.css': 1,
-  'src/ui/styles/first-run.css': 1,
-  'src/ui/styles/controls.css': 1,
-  'src/ui/styles/cockpit.css': 8,
-  'src/ui/styles/provider-settings.css': 2,
-  'src/ui/templates/cockpit.html': 16,
-  'src/ui/templates/scene-chrome.html': 3,
-  'src/ui/templates/display-controls.html': 3,
-  'src/ui/templates/context.html': 6,
-  'src/ui/templates/welcome.html': 8,
-  'src/ui/templates/provider-settings.html': 2,
-});
+const MATERIAL_SYMBOLS_LEGACY_ALLOWLIST = Object.freeze({});
 
 test('findMaterialSymbolsUsages catches ligature markup, the font link and @font-face, and ignores Lucide SVGs', () => {
   const span = findMaterialSymbolsUsages(

@@ -655,6 +655,118 @@
         "ASK ONDEMAND › attach the current camera frame to the next question (src/ondemand/entityChat.js)"
       ],
       "slots": []
+    },
+    {
+      "name": "chevron-down",
+      "replaces": "arrow_drop_down (Material Symbols Outlined ligature)",
+      "usage": [
+        "Cockpit heading caret (src/ui/templates/cockpit.html)"
+      ],
+      "slots": [
+        "cockpit.heading-caret"
+      ]
+    },
+    {
+      "name": "arrow-left",
+      "replaces": "arrow_left (Material Symbols Outlined ligature)",
+      "usage": [
+        "Cockpit left roll readout (src/ui/templates/cockpit.html)"
+      ],
+      "slots": [
+        "cockpit.roll.left"
+      ]
+    },
+    {
+      "name": "zap",
+      "replaces": "bolt (Material Symbols Outlined ligature)",
+      "usage": [
+        "Provider settings status chip (src/ui/templates/provider-settings.html)"
+      ],
+      "slots": [
+        "settings.provider-status"
+      ]
+    },
+    {
+      "name": "minimize-2",
+      "replaces": "close_fullscreen (Material Symbols Outlined ligature)",
+      "usage": [
+        "Cockpit exit button (src/ui/templates/cockpit.html)"
+      ],
+      "slots": [
+        "cockpit.exit"
+      ]
+    },
+    {
+      "name": "pen-tool",
+      "replaces": "draw (Material Symbols Outlined ligature)",
+      "usage": [
+        "DISPLAY › Post-process draw toggle (src/ui/templates/display-controls.html)"
+      ],
+      "slots": [
+        "display.draw"
+      ]
+    },
+    {
+      "name": "locate-fixed",
+      "replaces": "my_location (Material Symbols Outlined ligature)",
+      "usage": [
+        "Cockpit reticle (src/ui/templates/cockpit.html)"
+      ],
+      "slots": [
+        "cockpit.reticle"
+      ]
+    },
+    {
+      "name": "navigation",
+      "replaces": "navigation (Material Symbols Outlined ligature)",
+      "usage": [
+        "Cockpit context direction marker (src/ui/templates/cockpit.html)",
+        "Scene compass needle (src/ui/templates/scene-chrome.html)"
+      ],
+      "slots": [
+        "cockpit.context-direction",
+        "scene.compass-needle"
+      ]
+    },
+    {
+      "name": "maximize-2",
+      "replaces": "open_in_full (Material Symbols Outlined ligature)",
+      "usage": [
+        "Context radio full view toggle (src/ui/templates/context.html)"
+      ],
+      "slots": [
+        "context.radio-details"
+      ]
+    },
+    {
+      "name": "panel-right-close",
+      "replaces": "right_panel_close (Material Symbols Outlined ligature)",
+      "usage": [
+        "Cockpit context toggle closed state (src/ui/templates/cockpit.html, src/ui/cockpitLayout.js)"
+      ],
+      "slots": [
+        "cockpit.context-toggle.close"
+      ]
+    },
+    {
+      "name": "panel-right-open",
+      "replaces": "right_panel_open (Material Symbols Outlined ligature)",
+      "usage": [
+        "Cockpit context toggle open state (src/ui/cockpitLayout.js)"
+      ],
+      "slots": [
+        "cockpit.context-toggle.open"
+      ]
+    },
+    {
+      "name": "box",
+      "replaces": "view_in_ar (Material Symbols Outlined ligature)",
+      "usage": [
+        "Scene chrome 3D view toggle (src/ui/templates/scene-chrome.html)"
+      ],
+      "slots": [
+        "scene.view-3d"
+      ]
     }
   ],
   "sourceUrlTemplate": "https://unpkg.com/lucide-static@{version}/icons/{name}.svg"

@@ -16,7 +16,7 @@
   inset: -18px;
   background: radial-gradient(
     ellipse at center,
-    rgba(59, 183, 149, 0.16) 0%,
+    rgba(128, 129, 130, 0.16) 0%,
     transparent 65%
   );
   filter: blur(16px);
@@ -36,7 +36,7 @@
   max-height: calc(100vh - 24px);
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(59, 183, 149, 0.46) rgba(255, 255, 255, 0.06);
+  scrollbar-color: rgba(153, 154, 155, 0.12) rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(24px) saturate(1.4);
   -webkit-backdrop-filter: blur(24px) saturate(1.4);
   box-shadow:
@@ -57,10 +57,10 @@
 .cctv-panel-inner::-webkit-scrollbar-thumb {
   background: linear-gradient(
     180deg,
-    rgba(59, 183, 149, 0.6),
-    rgba(59, 183, 149, 0.28)
+    rgba(128, 129, 130, 0.18),
+    rgba(128, 129, 130, 0.18)
   );
-  border: 1px solid rgba(59, 183, 149, 0.4);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 999px;
 }
 
@@ -116,7 +116,7 @@
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.7px;
-  color: #91edff;
+  color: #bdbebf;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 7px;
@@ -138,8 +138,8 @@
   font-size: 9px;
   letter-spacing: 0.7px;
   color: var(--text-primary);
-  background: rgba(59, 183, 149, 0.1);
-  border: 1px solid rgba(59, 183, 149, 0.5);
+  background: rgba(153, 154, 155, 0.1);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 4px;
   padding: 1px 3px;
   outline: none;
@@ -199,13 +199,13 @@
   justify-content: center;
   min-width: 90px;
   padding: 6px 8px;
-  border: 1px solid rgba(59, 183, 149, 0.2);
+  border: 1px solid rgba(153, 154, 155, 0.2);
   border-radius: 8px;
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 1px;
-  color: #8fe7ff;
-  background: rgba(59, 183, 149, 0.08);
+  color: #bdbebf;
+  background: rgba(153, 154, 155, 0.08);
   text-transform: uppercase;
 }
 
@@ -213,22 +213,22 @@
    in-world tint). Three visually distinct states: calibrated / curated /
    raw-prior. */
 #cctv-quality-chip[data-cal-badge='calibrated'] {
-  color: #adffbf;
-  border-color: rgba(141, 255, 135, 0.42);
-  background: rgba(141, 255, 135, 0.12);
+  color: #bdbebf;
+  border-color: rgba(153, 154, 155, 0.22);
+  background: rgba(153, 154, 155, 0.12);
 }
 
 #cctv-quality-chip[data-cal-badge='curated'] {
-  color: #ffe6a2;
-  border-color: rgba(255, 217, 122, 0.35);
-  background: rgba(255, 217, 122, 0.1);
+  color: #bdbebf;
+  border-color: rgba(153, 154, 155, 0.22);
+  background: rgba(153, 154, 155, 0.1);
 }
 
 /* Unsaved live edits (save-gated persistence, viewshed design §3e). */
 #cctv-quality-chip[data-cal-badge='edited'] {
-  color: #ffd08a;
-  border-color: rgba(255, 176, 82, 0.5);
-  background: rgba(255, 176, 82, 0.14);
+  color: #bdbebf;
+  border-color: rgba(153, 154, 155, 0.22);
+  background: rgba(153, 154, 155, 0.12);
 }
 
 .cctv-frame-wrap {
@@ -239,7 +239,7 @@
   background:
     radial-gradient(
       circle at 20% 20%,
-      rgba(0, 244, 255, 0.09),
+      rgba(128, 129, 130, 0.09),
       transparent 44%
     ),
     linear-gradient(180deg, rgba(8, 14, 19, 0.88), rgba(4, 7, 11, 0.96));
@@ -259,9 +259,9 @@
   background: linear-gradient(
     100deg,
     transparent 24%,
-    rgba(59, 183, 149, 0.08) 44%,
-    rgba(170, 244, 255, 0.14) 50%,
-    rgba(59, 183, 149, 0.08) 56%,
+    rgba(128, 129, 130, 0.08) 44%,
+    rgba(212, 213, 214, 0.14) 50%,
+    rgba(128, 129, 130, 0.08) 56%,
     transparent 76%
   );
   transform: translateX(-100%);
@@ -286,7 +286,7 @@
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 2.2px;
-  color: rgba(145, 237, 255, 0.62);
+  color: rgba(189, 190, 191, 0.62);
   pointer-events: none;
 }
 
@@ -326,10 +326,10 @@
 
 #cctv-source-badge {
   align-self: flex-start;
-  border: 1px solid rgba(59, 183, 149, 0.32);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 999px;
-  background: rgba(59, 183, 149, 0.09);
-  color: #9defff;
+  background: rgba(153, 154, 155, 0.09);
+  color: #bdbebf;
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1.3px;
@@ -337,15 +337,15 @@
 }
 
 #cctv-source-badge[data-frame-state='loading'] {
-  color: #ffe59b;
-  border-color: rgba(255, 205, 92, 0.45);
-  background: rgba(255, 205, 92, 0.1);
+  color: #bdbebf;
+  border-color: rgba(153, 154, 155, 0.22);
+  background: rgba(153, 154, 155, 0.1);
 }
 
 #cctv-source-badge[data-frame-state='error'] {
-  color: #ffb0b0;
-  border-color: rgba(255, 102, 102, 0.5);
-  background: rgba(255, 72, 72, 0.11);
+  color: #e5605a;
+  border-color: rgba(229, 96, 90, 0.5);
+  background: rgba(229, 96, 90, 0.11);
 }
 
 .cctv-summary-label {
@@ -361,6 +361,6 @@
   font-size: 10px;
   letter-spacing: 0.8px;
   line-height: 1.45;
-  color: #a8f7ff;
-  text-shadow: 0 0 10px rgba(59, 183, 149, 0.18);
+  color: #bdbebf;
+  text-shadow: 0 0 10px transparent;
 }

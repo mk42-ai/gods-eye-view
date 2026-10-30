@@ -60,15 +60,15 @@ button > .od-icon:first-child:not(:only-child) {
 .data-toggle-row[data-feed-state='stale'] .data-icon,
 .data-toggle-row[data-feed-state='partial'] .data-icon,
 .data-toggle-row[data-feed-state='fallback'] .data-icon {
-  color: #ffd27a;
+  color: #bdbebf;
 }
 
 .data-toggle-row[data-feed-state='degraded'] .data-icon {
-  color: #ffad72;
+  color: #bdbebf;
 }
 
 .data-toggle-row[data-feed-state='unavailable'] .data-icon {
-  color: #ff8585;
+  color: #b8b9ba;
 }
 
 /* ── Key setup tier dots (metered = red, free = amber) ───────────────────── */
@@ -77,11 +77,11 @@ button > .od-icon:first-child:not(:only-child) {
 }
 
 .key-setup-tier[data-tier='metered'] {
-  color: #ff5c5c;
+  color: #b8b9ba;
 }
 
 .key-setup-tier[data-tier='free'] {
-  color: #ffbe52;
+  color: #bdbebf;
 }
 
 /* ── HUD REC dot keeps its red glow on the filled icon ───────────────────── */

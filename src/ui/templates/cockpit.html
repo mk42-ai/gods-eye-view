@@ -43,7 +43,7 @@
         <span data-speed-rim-tick><b></b><i></i></span>
       </div>
       <div class="cockpit-altitude-rim-pointer">
-        <span class="material-symbols-outlined">arrow_right</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="arrow-right" class="od-icon od-icon--arrow-right" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         <strong id="cockpit-speed-rim-value">---</strong>
       </div>
     </div>
@@ -63,7 +63,7 @@
       </div>
       <div class="cockpit-altitude-rim-pointer">
         <strong id="cockpit-altitude-rim-value">-----</strong>
-        <span class="material-symbols-outlined">arrow_left</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="arrow-left" class="od-icon od-icon--arrow-left" aria-hidden="true" focusable="false"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
       </div>
     </div>
     <div class="cockpit-topline">
@@ -74,7 +74,7 @@
       </div>
       <div class="cockpit-vision-controls" role="group" aria-label="Cockpit vision style">
         <button id="cockpit-vision-previous" class="cockpit-vision-nav" type="button" aria-label="Previous cockpit vision style" title="Previous vision style">
-          <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="chevron-left" class="od-icon od-icon--chevron-left" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
           <small>PREV</small>
         </button>
         <button id="cockpit-vision-current" class="cockpit-vision-current" type="button" data-cockpit-vision="optical" aria-label="Current cockpit vision style: NORMAL. Activate for next style." title="Current style: NORMAL — click for next">
@@ -83,11 +83,11 @@
         </button>
         <button id="cockpit-vision-next" class="cockpit-vision-nav" type="button" aria-label="Next cockpit vision style" title="Next vision style">
           <small>NEXT</small>
-          <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="chevron-right" class="od-icon od-icon--chevron-right" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
         </button>
       </div>
     </div>
-    <div class="cockpit-reticle material-symbols-outlined" aria-hidden="true">my_location</div>
+    <div class="cockpit-reticle" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="locate-fixed" class="od-icon od-icon--locate-fixed" aria-hidden="true" focusable="false"><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></svg></div>
     <div class="cockpit-compass" aria-label="Current aircraft heading">
       <div class="cockpit-instrument-row">
         <div class="cockpit-readout cockpit-speed">
@@ -102,7 +102,7 @@
           <span class="cockpit-readout-unit">FT</span>
         </div>
       </div>
-      <span class="cockpit-heading-caret material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+      <span class="cockpit-heading-caret" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="chevron-down" class="od-icon od-icon--chevron-down" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg></span>
       <div class="cockpit-compass-tape" id="cockpit-compass-tape" aria-hidden="true"></div>
     </div>
     <div class="cockpit-position-readout">
@@ -117,13 +117,13 @@
         </div>
         <nav class="cockpit-context-actions" aria-label="Contact navigation">
           <button id="cockpit-context-previous" type="button" aria-label="Previous — prior visited contact in the 250 km window" title="Previous — prior visited contact in the 250 km window">
-            <span class="material-symbols-outlined" aria-hidden="true">skip_previous</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="skip-back" class="od-icon od-icon--skip-back" aria-hidden="true" focusable="false"><path d="M17.971 4.285A2 2 0 0 1 21 6v12a2 2 0 0 1-3.029 1.715l-9.997-5.998a2 2 0 0 1-.003-3.432z"/><path d="M3 20V4"/></svg>
           </button>
           <button id="cockpit-context-next" type="button" aria-label="Next — nearest unvisited contact in the 250 km window" title="Next — nearest unvisited contact in the 250 km window">
-            <span class="material-symbols-outlined" aria-hidden="true">skip_next</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="skip-forward" class="od-icon od-icon--skip-forward" aria-hidden="true" focusable="false"><path d="M21 4v16"/><path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z"/></svg>
           </button>
           <button id="cockpit-context-toggle" type="button" aria-label="Collapse Contact panel" aria-expanded="true" title="Collapse contact panel">
-            <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="chevron-left" class="od-icon od-icon--chevron-left" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
           </button>
         </nav>
         <span class="cockpit-context-qualifier">CONTEXT ONLY</span>
@@ -135,7 +135,7 @@
         <div role="listitem" data-context-cohort="military-installations"><span>SITE</span><strong>—</strong><small>OpenStreetMap</small></div>
       </div>
       <div class="cockpit-context-nearest">
-        <span id="cockpit-context-direction" class="material-symbols-outlined" aria-hidden="true">navigation</span>
+        <span id="cockpit-context-direction" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="navigation" class="od-icon od-icon--navigation" aria-hidden="true" focusable="false"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></span>
         <div>
           <small>NEAREST OBSERVED / MAPPED</small>
           <strong id="cockpit-context-nearest-label">NO AVAILABLE EXAMPLE</strong>
@@ -170,7 +170,7 @@
             <span>FROM</span>
             <strong id="cockpit-route-from">UNKNOWN</strong>
           </div>
-          <span class="cockpit-route-arrow material-symbols-outlined" aria-hidden="true">east</span>
+          <span class="cockpit-route-arrow" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="arrow-right" class="od-icon od-icon--arrow-right" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
           <div class="cockpit-route-airport">
             <span>TO</span>
             <strong id="cockpit-route-to">UNKNOWN</strong>
@@ -184,11 +184,11 @@
         </div>
         <nav class="cockpit-brief-actions" aria-label="Cockpit briefing controls">
           <button id="cockpit-brief-previous" type="button" aria-label="Previous briefing page" title="Previous briefing page">
-            <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="chevron-left" class="od-icon od-icon--chevron-left" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
           </button>
           <span id="cockpit-brief-position" aria-live="polite">1 / 3</span>
           <button id="cockpit-brief-next" type="button" aria-label="Next briefing page" title="Next briefing page">
-            <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="chevron-right" class="od-icon od-icon--chevron-right" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
           </button>
           <button
             id="cockpit-brief-auto"
@@ -198,7 +198,7 @@
             title="Cycle briefing pages automatically every 9 seconds (Signals → News → Local). Pauses while you hover or focus the panel. Live signal data refreshes continuously either way."
           >CYCLE OFF</button>
           <button id="cockpit-signal-toggle" type="button" aria-label="Collapse cockpit briefing panel" aria-expanded="true" title="Collapse briefing panel">
-            <span class="material-symbols-outlined" aria-hidden="true">right_panel_close</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="panel-right-close" class="od-icon od-icon--panel-right-close" aria-hidden="true" focusable="false"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m8 9 3 3-3 3"/></svg>
           </button>
         </nav>
       </header>
@@ -275,11 +275,11 @@
 
   <nav id="view-switcher" aria-label="View switcher">
     <button id="cockpit-reset-globe" type="button" aria-label="Reset cockpit to full globe view" title="Exit cockpit and return to full globe view" hidden>
-      <span class="material-symbols-outlined" aria-hidden="true">public</span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="globe" class="od-icon od-icon--globe" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
       <span>RESET</span>
     </button>
     <button id="map-view-switch" type="button" aria-label="Exit cockpit view" aria-keyshortcuts="Escape C" title="Exit cockpit view" hidden>
-      <span class="material-symbols-outlined" aria-hidden="true">close_fullscreen</span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" data-icon="minimize-2" class="od-icon od-icon--minimize-2" aria-hidden="true" focusable="false"><path d="m14 10 7-7"/><path d="M20 10h-6V4"/><path d="m3 21 7-7"/><path d="M4 14h6v6"/></svg>
       <span>EXIT COCKPIT</span>
     </button>
   </nav>

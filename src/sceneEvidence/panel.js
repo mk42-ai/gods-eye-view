@@ -7,6 +7,7 @@
  * stays out of this module. Streams POST /api/ondemand/v2/scene/evidence (SSE).
  */
 import { createSceneSseParser } from '../sceneVideos/rail.js';
+import { setIconContent } from '../ui/icons/layerIcon.js';
 import { GEO_PRECISION, GEO_LABEL, parsePostUrl } from './model.js';
 import {
   initialState,
@@ -146,9 +147,9 @@ export function createSceneEvidencePanel({
   const closeBtn = el(doc, 'button', {
     id: `${PANEL_ID}-close`,
     className: 'sev__btn',
-    text: '×',
     attrs: { type: 'button', 'aria-label': 'Close scene evidence' },
   });
+  setIconContent(closeBtn, 'x', {}, doc);
   head.append(title, timing, rebuildBtn, shareBtn, hideBtn, closeBtn);
   const body = el(doc, 'div', {
     id: `${PANEL_ID}-body`,

@@ -41,7 +41,7 @@ test('Cockpit has one reset action beside its bottom exit path', () => {
   assert.doesNotMatch(html, /id="cockpit-exit"/);
   assert.match(
     html,
-    /id="map-view-switch"[^>]*aria-label="Exit cockpit view"[^>]*aria-keyshortcuts="Escape C"[\s\S]*?close_fullscreen[\s\S]*?EXIT COCKPIT/,
+    /id="map-view-switch"[^>]*aria-label="Exit cockpit view"[^>]*aria-keyshortcuts="Escape C"[\s\S]*?data-icon="minimize-2"[\s\S]*?EXIT COCKPIT/,
   );
   const topCenterActions = html.match(/<nav id="top-center-actions"[\s\S]*?<\/nav>/);
   assert.ok(topCenterActions, 'Top-center globe actions are missing');
@@ -54,7 +54,7 @@ test('Cockpit has one reset action beside its bottom exit path', () => {
   assert.doesNotMatch(viewSwitcher[0], /id="reset-globe-view"/, 'map-only reset must stay outside Cockpit');
   assert.match(
     viewSwitcher[0],
-    /id="cockpit-reset-globe"[^>]*type="button"[^>]*aria-label="Reset cockpit to full globe view"[^>]*hidden[\s\S]*?public[\s\S]*?RESET[\s\S]*?id="map-view-switch"/,
+    /id="cockpit-reset-globe"[^>]*type="button"[^>]*aria-label="Reset cockpit to full globe view"[^>]*hidden[\s\S]*?data-icon="globe"[\s\S]*?RESET[\s\S]*?id="map-view-switch"/,
   );
 
   const actions = html.match(/<div class="global-context-actions"[\s\S]*?<\/div>/);
@@ -110,7 +110,7 @@ test('Cockpit vision cycle exposes exactly five real visual styles without NONE'
 test('Contacts uses the approved radar icon', () => {
   const button = html.match(/<button id="global-context-flights-btn"[\s\S]*?<\/button>/);
   assert.ok(button, 'Contacts button is missing');
-  assert.match(button[0], /material-symbols-outlined" aria-hidden="true">radar<\/span>/);
+  assert.match(button[0], /data-icon="radar"/);
 });
 
 test('Cockpit Escape handling precedes form-control shortcut suppression and focus is restored', () => {

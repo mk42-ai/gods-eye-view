@@ -106,9 +106,9 @@
   transition:
     opacity 0.4s ease,
     visibility 0.4s ease;
-  --hud-color: rgba(0, 255, 255, 0.6);
-  --hud-glow: rgba(0, 255, 255, 0.4);
-  --hud-border: rgba(0, 255, 255, 0.15);
+  --hud-color: rgba(189, 190, 191, 0.6);
+  --hud-glow: transparent;
+  --hud-border: rgba(153, 154, 155, 0.15);
 }
 
 #intel-hud.active {
@@ -315,8 +315,8 @@
   width: min(52vw, 720px);
   transform: translateX(-50%);
   border-color: rgba(255, 255, 255, 0.24);
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(8, 26, 34, 0.5));
-  box-shadow: 0 0 24px rgba(0, 255, 255, 0.08);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(128, 129, 130, 0.18));
+  box-shadow: 0 0 24px transparent;
 }
 
 #intel-hud[data-variant='tactical'] .hud-top-left,

@@ -1,6 +1,7 @@
 import test, { describe } from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  displayStateFor,
   badgeTextFor,
   isToggleEnabled,
   readSelection,
@@ -171,15 +172,81 @@ function makeMockDoc() {
 }
 
 describe('pluginPanel pure helpers', () => {
-  test('badgeTextFor formats state as uppercase', () => {
-    assert.equal(badgeTextFor({ state: 'ready' }), 'READY');
-    assert.equal(badgeTextFor({ state: 'failed' }), 'FAILED');
-    assert.equal(badgeTextFor({ state: 'installing' }), 'INSTALLING');
-    assert.equal(badgeTextFor({ state: 'authenticating' }), 'AUTHENTICATING');
-    assert.equal(badgeTextFor({ state: 'invoking' }), 'INVOKING');
-    assert.equal(badgeTextFor({ state: 'discovered' }), 'DISCOVERED');
-    assert.equal(badgeTextFor(null), 'DISCOVERED');
-    assert.equal(badgeTextFor({}), 'DISCOVERED');
+  test('displayStateFor derives { key, label } for all five lifecycle keys', () => {
+    // ready
+    assert.deepEqual(displayStateFor({ state: 'ready' }), {
+      key: 'ready',
+      label: 'Ready',
+    });
+
+    // checking
+    assert.deepEqual(displayStateFor({ state: 'installing' }), {
+      key: 'checking',
+      label: 'Checking…',
+    });
+    assert.deepEqual(displayStateFor({ state: 'authenticating' }), {
+      key: 'checking',
+      label: 'Checking…',
+    });
+    assert.deepEqual(displayStateFor({ state: 'invoking' }), {
+      key: 'checking',
+      label: 'Checking…',
+    });
+
+    // unavailable
+    assert.deepEqual(
+      displayStateFor({
+        state: 'failed',
+        error: { code: 'inactive_on_account' },
+      }),
+      { key: 'unavailable', label: 'Unavailable' },
+    );
+    assert.deepEqual(displayStateFor({ availability: 'inactive' }), {
+      key: 'unavailable',
+      label: 'Unavailable',
+    });
+    assert.deepEqual(
+      displayStateFor({ state: 'failed', availability: 'inactive' }),
+      { key: 'unavailable', label: 'Unavailable' },
+    );
+
+    // error
+    assert.deepEqual(displayStateFor({ state: 'failed' }), {
+      key: 'error',
+      label: 'Error',
+    });
+    assert.deepEqual(
+      displayStateFor({
+        state: 'failed',
+        error: { code: 'other_error', message: 'Something broke' },
+      }),
+      { key: 'error', label: 'Error' },
+    );
+
+    // unverified
+    assert.deepEqual(displayStateFor({ state: 'discovered' }), {
+      key: 'unverified',
+      label: 'Not verified',
+    });
+    assert.deepEqual(displayStateFor(null), {
+      key: 'unverified',
+      label: 'Not verified',
+    });
+    assert.deepEqual(displayStateFor({}), {
+      key: 'unverified',
+      label: 'Not verified',
+    });
+  });
+
+  test('badgeTextFor returns displayStateFor label', () => {
+    assert.equal(badgeTextFor({ state: 'ready' }), 'Ready');
+    assert.equal(badgeTextFor({ state: 'failed' }), 'Error');
+    assert.equal(badgeTextFor({ state: 'installing' }), 'Checking…');
+    assert.equal(badgeTextFor({ state: 'authenticating' }), 'Checking…');
+    assert.equal(badgeTextFor({ state: 'invoking' }), 'Checking…');
+    assert.equal(badgeTextFor({ state: 'discovered' }), 'Not verified');
+    assert.equal(badgeTextFor(null), 'Not verified');
+    assert.equal(badgeTextFor({}), 'Not verified');
   });
 
   test('isToggleEnabled enables ready, discovered and regular failed, disables in-flight & inactive', () => {
@@ -310,7 +377,7 @@ describe('createPluginPanel DOM & lifecycle integration', () => {
 
     // Row 0: internet_web_search (ready)
     const stateBadge0 = rows[0].querySelector('.od-plugin__state');
-    assert.equal(stateBadge0.textContent, 'READY');
+    assert.equal(stateBadge0.textContent, 'Ready');
     assert.equal(stateBadge0.getAttribute('data-state'), 'ready');
     const toggle0 = rows[0].querySelector('.od-plugin__toggle');
     assert.equal(
@@ -319,27 +386,68 @@ describe('createPluginPanel DOM & lifecycle integration', () => {
       'persisted selection should be checked',
     );
     assert.equal(toggle0.disabled, false);
+    assert.equal(
+      toggle0.getAttribute('aria-label'),
+      'Use internet_web_search in answers',
+    );
+    const verify0 = rows[0].querySelector('.od-plugin__verify');
+    assert.ok(verify0);
+    assert.equal(verify0.textContent, 'Re-check');
 
     // Row 1: x_mcp_connector (failed inactive_on_account)
     const stateBadge1 = rows[1].querySelector('.od-plugin__state');
-    assert.equal(stateBadge1.textContent, 'FAILED');
-    assert.equal(stateBadge1.getAttribute('data-state'), 'failed');
+    assert.equal(stateBadge1.textContent, 'Unavailable');
+    assert.equal(stateBadge1.getAttribute('data-state'), 'unavailable');
     const toggle1 = rows[1].querySelector('.od-plugin__toggle');
     assert.equal(
       toggle1.disabled,
       true,
       'inactive_on_account toggle must be disabled',
     );
+    assert.equal(
+      toggle1.getAttribute('aria-label'),
+      'Use x_mcp_connector in answers',
+    );
     const errEl = rows[1].querySelector('.od-plugin__error');
     assert.ok(errEl, 'Error element must be rendered for failed row');
     assert.equal(errEl.textContent, 'Inactive on the OnDemand account');
+    assert.equal(
+      rows[1].querySelector('.od-plugin__verify'),
+      null,
+      'unavailable row must not have a verify button',
+    );
 
     // Row 2: earthquake_search (tool with route-level verification)
     const stateBadge2 = rows[2].querySelector('.od-plugin__state');
-    assert.equal(stateBadge2.textContent, 'DISCOVERED');
+    assert.equal(stateBadge2.textContent, 'Not verified');
+    assert.equal(stateBadge2.getAttribute('data-state'), 'unverified');
+    const toggle2 = rows[2].querySelector('.od-plugin__toggle');
+    assert.equal(
+      toggle2.getAttribute('aria-label'),
+      'Use earthquake_search in answers',
+    );
     const noteEl = rows[2].querySelector('.od-plugin__timing');
     assert.ok(noteEl);
     assert.equal(noteEl.textContent, 'route-level (see /api/tools)');
+    assert.equal(
+      rows[2].querySelector('.od-plugin__verify'),
+      null,
+      'tool-kind row must not have a verify button',
+    );
+
+    // Summary count & accessible attributes
+    const countEl = section.querySelector('.od-plugins__summary-count');
+    assert.ok(countEl);
+    assert.equal(countEl.textContent, '1 of 3 ready');
+    assert.equal(countEl.getAttribute('aria-live'), 'polite');
+
+    const header = section.querySelector('.od-plugins__header');
+    assert.ok(header);
+    const headerTitle = header.querySelector('span');
+    assert.equal(headerTitle.textContent, 'Capabilities');
+
+    const refreshBtn = section.querySelector('.od-plugins__refresh-btn');
+    assert.equal(refreshBtn.textContent, 'Refresh');
 
     // Toggle interaction test
     toggle0.checked = false;
@@ -419,11 +527,11 @@ describe('createPluginPanel DOM & lifecycle integration', () => {
 
     const verifyBtn = container.querySelector('.od-plugin__verify');
     assert.ok(verifyBtn, 'Verify button should exist');
-    assert.equal(verifyBtn.textContent, 'VERIFY');
+    assert.equal(verifyBtn.textContent, 'Verify');
 
     // Click VERIFY
     const clickPromise = verifyBtn.dispatchEvent({ type: 'click' });
-    assert.equal(verifyBtn.textContent, 'VERIFYING…');
+    assert.equal(verifyBtn.textContent, 'Checking…');
     assert.equal(verifyBtn.disabled, true);
 
     await new Promise((r) => setTimeout(r, 10));
@@ -440,10 +548,106 @@ describe('createPluginPanel DOM & lifecycle integration', () => {
       names: ['gpt_search'],
     });
 
-    // Check state badge updated to READY from server response
+    // Check state badge updated to Ready from server response
     const badge = container.querySelector('.od-plugin__state');
-    assert.equal(badge.textContent, 'READY');
+    assert.equal(badge.textContent, 'Ready');
     assert.equal(badge.getAttribute('data-state'), 'ready');
+    assert.equal(
+      container.querySelector('.od-plugin__verify').textContent,
+      'Re-check',
+    );
+
+    panel.destroy();
+  });
+
+  test('single-action rule: unavailable row has no .od-plugin__verify, error row has "Retry", ready row has "Re-check"', async () => {
+    const doc = makeMockDoc();
+    const storage = makeMockStorage();
+
+    const variedPlugins = [
+      {
+        name: 'ready_plugin',
+        kind: 'ondemand-plugin',
+        state: 'ready',
+      },
+      {
+        name: 'unverified_plugin',
+        kind: 'ondemand-plugin',
+        state: 'discovered',
+      },
+      {
+        name: 'checking_plugin',
+        kind: 'ondemand-plugin',
+        state: 'installing',
+      },
+      {
+        name: 'error_plugin',
+        kind: 'ondemand-plugin',
+        state: 'failed',
+        error: { code: 'rate_limited', message: 'Quota exceeded' },
+      },
+      {
+        name: 'unavailable_plugin',
+        kind: 'ondemand-plugin',
+        availability: 'inactive',
+        state: 'failed',
+        error: { code: 'inactive_on_account' },
+      },
+      {
+        name: 'tool_row',
+        kind: 'ondemand-tool',
+        state: 'discovered',
+      },
+    ];
+
+    const panel = createPluginPanel({
+      document: doc,
+      storage,
+      fetch: async () => ({
+        ok: true,
+        json: async () => ({ plugins: variedPlugins }),
+      }),
+    });
+
+    const container = doc.createElement('div');
+    doc.body.appendChild(container);
+    panel.mount(container);
+    await new Promise((r) => setTimeout(r, 10));
+
+    const rows = container.querySelectorAll('.od-plugin__row');
+    assert.equal(rows.length, 6);
+
+    // ready row: 'Re-check', not disabled
+    const readyBtn = rows[0].querySelector('.od-plugin__verify');
+    assert.ok(readyBtn);
+    assert.equal(readyBtn.textContent, 'Re-check');
+    assert.equal(readyBtn.disabled, false);
+
+    // unverified row: 'Verify', not disabled
+    const unverifiedBtn = rows[1].querySelector('.od-plugin__verify');
+    assert.ok(unverifiedBtn);
+    assert.equal(unverifiedBtn.textContent, 'Verify');
+    assert.equal(unverifiedBtn.disabled, false);
+
+    // checking row: 'Checking…', disabled
+    const checkingBtn = rows[2].querySelector('.od-plugin__verify');
+    assert.ok(checkingBtn);
+    assert.equal(checkingBtn.textContent, 'Checking…');
+    assert.equal(checkingBtn.disabled, true);
+
+    // error row: 'Retry', not disabled
+    const errorBtn = rows[3].querySelector('.od-plugin__verify');
+    assert.ok(errorBtn);
+    assert.equal(errorBtn.textContent, 'Retry');
+    assert.equal(errorBtn.disabled, false);
+
+    // unavailable row: no button at all
+    const unavailableBtn = rows[4].querySelector('.od-plugin__verify');
+    assert.equal(unavailableBtn, null);
+
+    // tool-kind row: no button at all
+    const toolBtn = rows[5].querySelector('.od-plugin__verify');
+    assert.equal(toolBtn, null);
 
     panel.destroy();
   });

@@ -12,6 +12,7 @@ import {
   utcStamp,
   REFRESH_CHOICES_MS,
 } from './controller.js';
+import { setIconContent } from '../ui/icons/layerIcon.js';
 
 export const FOOTAGE_PANEL_ID = 'scene-footage';
 const LEVEL_LABEL = {
@@ -77,9 +78,9 @@ export function createSceneFootagePanel({
   const closeBtn = el(doc, 'button', {
     id: `${FOOTAGE_PANEL_ID}-close`,
     className: 'sfp__btn',
-    text: '×',
     attrs: { type: 'button', 'aria-label': 'Close scene footage' },
   });
+  setIconContent(closeBtn, 'x', {}, doc);
   head.append(title, collapseBtn, closeBtn);
   const body = el(doc, 'div', { className: 'sfp__body' });
   const sceneLine = el(doc, 'div', {

@@ -1,4 +1,5 @@
 /** Reconcile actionable signal rows without disturbing native keyboard focus. */
+import { createIcon } from './icons/layerIcon.js';
 
 export function renderCockpitSignals() {
   if (!this.signalList) return;
@@ -40,10 +41,10 @@ export function renderCockpitSignals() {
         rule.className = 'cockpit-signal-target-rule';
         rule.setAttribute('aria-hidden', 'true');
         const chevron = document.createElement('span');
-        chevron.className =
-          'material-symbols-outlined cockpit-signal-target-chevron';
+        chevron.className = 'cockpit-signal-target-chevron';
         chevron.setAttribute('aria-hidden', 'true');
-        chevron.textContent = 'chevron_right';
+        const chevronIcon = createIcon('chevron-right', {}, document);
+        if (chevronIcon) chevron.appendChild(chevronIcon);
         heading.append(label, rule, chevron);
       }
       body.append(heading, document.createElement('span'));

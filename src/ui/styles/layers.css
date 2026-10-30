@@ -85,7 +85,7 @@
   overscroll-behavior: contain;
   padding-right: 4px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(59, 183, 149, 0.5) rgba(255, 255, 255, 0.04);
+  scrollbar-color: rgba(153, 154, 155, 0.12) rgba(255, 255, 255, 0.04);
   scrollbar-gutter: stable;
 }
 
@@ -144,8 +144,8 @@
 .data-toggle-list::-webkit-scrollbar-thumb {
   background: linear-gradient(
     180deg,
-    rgba(59, 183, 149, 0.65),
-    rgba(59, 183, 149, 0.2)
+    rgba(128, 129, 130, 0.18),
+    rgba(128, 129, 130, 0.18)
   );
   border-radius: 999px;
 }
@@ -299,7 +299,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(59, 183, 149, 0.4) transparent;
+  scrollbar-color: rgba(153, 154, 155, 0.12) transparent;
 }
 #right-context-rail.layout-focus
   > #cctv-panel:not(.collapsed)
@@ -342,9 +342,9 @@
   min-height: 0;
   gap: 8px;
   padding: 9px;
-  border: 1px solid rgba(98, 181, 255, 0.2);
+  border: 1px solid rgba(153, 154, 155, 0.2);
   border-radius: 7px;
-  background: rgba(4, 17, 31, 0.28);
+  background: rgba(18, 19, 20, 0.28);
 }
 #space-mission-panel-host .space-mission-roster-header {
   display: flex;
@@ -352,7 +352,7 @@
   justify-content: space-between;
   gap: 10px;
   padding: 1px 3px 7px;
-  border-bottom: 1px solid rgba(34, 230, 230, 0.14);
+  border-bottom: 1px solid rgba(153, 154, 155, 0.14);
   font-family: 'JetBrains Mono', monospace;
 }
 #space-mission-panel-host .space-mission-roster-header > div {
@@ -361,18 +361,18 @@
   gap: 3px;
 }
 #space-mission-panel-host .space-mission-roster-header strong {
-  color: #8fcfff;
+  color: #bdbebf;
   font-size: 9px;
   letter-spacing: 0.16em;
 }
 #space-mission-panel-host .space-mission-roster-header span {
-  color: rgba(190, 230, 230, 0.46);
+  color: rgba(189, 190, 191, 0.46);
   font-size: 7px;
   letter-spacing: 0.1em;
 }
 #space-mission-panel-host .space-mission-roster-header output {
   flex: 0 0 auto;
-  color: #22e6e6;
+  color: #bdbebf;
   font-size: 9px;
   letter-spacing: 0.08em;
 }
@@ -383,7 +383,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   padding-right: 3px;
-  scrollbar-color: rgba(34, 230, 230, 0.38) transparent;
+  scrollbar-color: rgba(153, 154, 155, 0.12) transparent;
   scrollbar-width: thin;
 }
 #space-mission-panel-host .space-mission-roster-item {
@@ -395,10 +395,10 @@
   width: 100%;
   min-height: 42px;
   padding: 7px 7px;
-  border: 1px solid rgba(98, 181, 255, 0.13);
+  border: 1px solid rgba(153, 154, 155, 0.13);
   border-radius: 4px;
-  color: #d8ffff;
-  background: rgba(42, 113, 171, 0.045);
+  color: #edeeef;
+  background: rgba(153, 154, 155, 0.045);
   font-family: 'JetBrains Mono', monospace;
   text-align: left;
   cursor: pointer;
@@ -414,23 +414,23 @@
   z-index: 1;
   opacity: 0;
   background:
-    linear-gradient(#22e6e6, #22e6e6) left top / 9px 1px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) left top / 1px 9px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) right top / 9px 1px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) right top / 1px 9px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) left bottom / 9px 1px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) left bottom / 1px 9px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) right bottom / 9px 1px no-repeat,
-    linear-gradient(#22e6e6, #22e6e6) right bottom / 1px 9px no-repeat;
-  filter: drop-shadow(0 0 4px rgba(34, 230, 230, 0.45));
+    linear-gradient(rgba(132, 133, 134, 0.18), rgba(132, 133, 134, 0.18)) left top / 9px 1px no-repeat,
+    linear-gradient(rgba(132, 133, 134, 0.18), rgba(132, 133, 134, 0.18)) left top / 1px 9px no-repeat,
+    linear-gradient(rgba(132, 133, 134, 0.18), rgba(132, 133, 134, 0.18)) right top / 9px 1px no-repeat,
+    linear-gradient(rgba(132, 133, 134, 0.18), rgba(132, 133, 134, 0.18)) right top / 1px 9px no-repeat,
+    linear-gradient(rgba(132, 133, 134, 0.18), rgba(132, 133, 134, 0.18)) left bottom / 9px 1px no-repeat,
+    linear-gradient(rgba(132, 133, 134, 0.18), rgba(132, 133, 134, 0.18)) left bottom / 1px 9px no-repeat,
+    linear-gradient(rgba(132, 133, 134, 0.18), rgba(132, 133, 134, 0.18)) right bottom / 9px 1px no-repeat,
+    linear-gradient(rgba(132, 133, 134, 0.18), rgba(132, 133, 134, 0.18)) right bottom / 1px 9px no-repeat;
+  filter: drop-shadow(0 0 4px transparent);
   pointer-events: none;
   transition: opacity 0.12s ease;
 }
 #space-mission-panel-host .space-mission-roster-item:hover,
 #space-mission-panel-host .space-mission-roster-item:focus-visible {
-  border-color: rgba(34, 230, 230, 0.58);
+  border-color: rgba(59, 183, 149, 0.58);
   outline: none;
-  background: rgba(34, 230, 230, 0.09);
+  background: rgba(59, 183, 149, 0.09);
   transform: translateX(2px);
 }
 #space-mission-panel-host .space-mission-roster-item:hover::before,
@@ -462,24 +462,24 @@
   white-space: nowrap;
 }
 #space-mission-panel-host .space-mission-roster-copy strong {
-  color: #d8ffff;
+  color: #edeeef;
   font-size: 9px;
   font-weight: 500;
   letter-spacing: 0.07em;
 }
 #space-mission-panel-host .space-mission-roster-copy small {
-  color: rgba(190, 230, 230, 0.48);
+  color: rgba(189, 190, 191, 0.48);
   font-size: 7px;
   letter-spacing: 0.035em;
 }
 #space-mission-panel-host .space-mission-roster-chevron {
-  color: rgba(34, 230, 230, 0.54);
+  color: rgba(189, 190, 191, 0.54);
   font-size: 16px;
   line-height: 1;
 }
 #space-mission-panel-host .space-mission-roster-empty {
   padding: 18px 10px;
-  color: rgba(190, 230, 230, 0.48);
+  color: rgba(189, 190, 191, 0.48);
   font:
     8px/1.5 'JetBrains Mono',
     monospace;
@@ -489,7 +489,7 @@
 #space-mission-panel-host .space-mission-roster-focus-continuation {
   margin: 0;
   padding: 3px;
-  color: rgba(190, 230, 230, 0.58);
+  color: rgba(189, 190, 191, 0.58);
   font:
     7px/1.4 'JetBrains Mono',
     monospace;
@@ -501,8 +501,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 0 2px;
-  border-top: 1px solid rgba(34, 230, 230, 0.18);
-  color: rgba(190, 230, 230, 0.58);
+  border-top: 1px solid rgba(153, 154, 155, 0.18);
+  color: rgba(189, 190, 191, 0.58);
   font:
     8px 'JetBrains Mono',
     monospace;
@@ -511,14 +511,14 @@
 #space-mission-panel .space-mission-view-header button {
   width: 24px;
   height: 24px;
-  border: 1px solid rgba(98, 181, 255, 0.24);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 5px;
-  color: rgba(190, 230, 230, 0.7);
-  background: rgba(42, 113, 171, 0.08);
+  color: rgba(189, 190, 191, 0.7);
+  background: rgba(153, 154, 155, 0.08);
   cursor: pointer;
 }
 #space-mission-panel .space-mission-view-header button:hover {
-  border-color: #22e6e6;
+  border-color: #3bb795;
   color: #fff;
 }
 #space-mission-panel .space-mission-detail {
@@ -535,20 +535,20 @@
   font-size: 14px;
 }
 #space-mission-panel .space-mission-detail span {
-  color: rgba(190, 230, 230, 0.7);
+  color: rgba(189, 190, 191, 0.7);
 }
 #space-mission-panel .space-mission-detail b {
-  color: #d8ffff;
+  color: #edeeef;
   font-weight: 400;
 }
 #space-mission-panel .mission-data-section {
   margin: 0 0 11px;
-  border-top: 1px solid rgba(34, 230, 230, 0.18);
+  border-top: 1px solid rgba(153, 154, 155, 0.18);
   padding-top: 9px;
 }
 #space-mission-panel .mission-data-section h4 {
   margin: 0 0 6px;
-  color: #22e6e6;
+  color: #bdbebf;
   font:
     10px 'JetBrains Mono',
     monospace;
@@ -561,7 +561,7 @@
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  color: #d8ffff;
+  color: #edeeef;
   font:
     9px 'JetBrains Mono',
     monospace;
@@ -569,15 +569,15 @@
 }
 #space-mission-panel .mission-data-table th {
   padding: 4px 5px;
-  border-bottom: 1px solid rgba(34, 230, 230, 0.22);
-  color: rgba(190, 230, 230, 0.58);
+  border-bottom: 1px solid rgba(153, 154, 155, 0.22);
+  color: rgba(189, 190, 191, 0.58);
   font-weight: 400;
   text-align: left;
 }
 #space-mission-panel .mission-data-table td {
   overflow-wrap: anywhere;
   padding: 6px 5px;
-  border-bottom: 1px solid rgba(34, 230, 230, 0.1);
+  border-bottom: 1px solid rgba(153, 154, 155, 0.1);
   vertical-align: top;
 }
 #space-mission-panel .mission-data-table th:nth-child(1),
@@ -591,12 +591,12 @@
 #space-mission-panel .mission-data-table small {
   display: block;
   margin-top: 3px;
-  color: rgba(190, 230, 230, 0.56);
+  color: rgba(189, 190, 191, 0.56);
   font-size: 8px;
   line-height: 1.35;
 }
 #space-mission-panel .mission-table-empty {
-  color: rgba(190, 230, 230, 0.56);
+  color: rgba(189, 190, 191, 0.56);
   text-align: center;
 }
 #space-mission-panel .mission-replay-speed-control {
@@ -668,9 +668,9 @@
     box-shadow 0.15s ease;
 }
 #space-mission-panel .mission-focus-button {
-  border-color: rgba(34, 230, 230, 0.58);
-  color: #22e6e6;
-  background: rgba(34, 230, 230, 0.07);
+  border-color: rgba(153, 154, 155, 0.22);
+  color: #bdbebf;
+  background: rgba(153, 154, 155, 0.07);
 }
 #space-mission-panel .mission-replay-button:hover,
 #space-mission-panel .mission-replay-button:focus-visible,
@@ -683,8 +683,8 @@
 }
 #space-mission-panel .mission-focus-button:hover,
 #space-mission-panel .mission-focus-button:focus-visible {
-  border-color: #22e6e6;
-  box-shadow: 0 0 14px rgba(34, 230, 230, 0.14);
+  border-color: #3bb795;
+  box-shadow: 0 0 14px transparent;
 }
 #space-mission-panel .mission-replay-button.active {
   border-color: #22e6e6;
@@ -756,9 +756,9 @@
 #space-mission-panel .mission-nav-button {
   min-width: 94px;
   padding: 7px 10px;
-  border: 1px solid rgba(34, 230, 230, 0.55);
-  background: rgba(8, 34, 42, 0.72);
-  color: #22e6e6;
+  border: 1px solid rgba(153, 154, 155, 0.22);
+  background: rgba(25, 26, 27, 0.72);
+  color: #bdbebf;
   font:
     11px 'JetBrains Mono',
     monospace;
@@ -770,8 +770,8 @@
     opacity 0.15s ease;
 }
 #space-mission-panel .mission-nav-button:hover:not(:disabled) {
-  background: rgba(34, 230, 230, 0.18);
-  border-color: #22e6e6;
+  background: rgba(59, 183, 149, 0.18);
+  border-color: #3bb795;
 }
 #space-mission-panel .mission-nav-button:disabled {
   cursor: not-allowed;
@@ -785,7 +785,7 @@
 #space-mission-panel .mission-nav-index {
   min-width: 58px;
   text-align: center;
-  color: #d8ffff;
+  color: #edeeef;
   font:
     11px 'JetBrains Mono',
     monospace;
@@ -958,7 +958,7 @@
   inset: -20px;
   background: radial-gradient(
     ellipse at center,
-    rgba(98, 181, 255, 0.2) 0%,
+    rgba(177, 178, 179, 0.18) 0%,
     transparent 62%
   );
   filter: blur(20px);
@@ -991,10 +991,10 @@
   height: 28px;
   place-items: center;
   padding: 0;
-  border: 1px solid rgba(98, 181, 255, 0.22);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 6px;
-  color: rgba(143, 207, 255, 0.58);
-  background: rgba(42, 113, 171, 0.08);
+  color: rgba(189, 190, 191, 0.58);
+  background: rgba(153, 154, 155, 0.08);
   cursor: pointer;
   transition:
     border-color 0.15s ease,
@@ -1002,22 +1002,22 @@
     background 0.15s ease,
     box-shadow 0.15s ease;
 }
-.context-radio-toggle .material-symbols-outlined {
+.context-radio-toggle .od-icon {
   font-size: 17px;
 }
 .context-radio-toggle:hover,
 .context-radio-toggle:focus-visible {
-  border-color: #79c2ff;
+  border-color: #3bb795;
   color: #fff;
   outline: none;
 }
 .context-radio-toggle.active {
-  border-color: rgba(101, 247, 255, 0.82);
-  color: #eaffff;
+  border-color: rgba(59, 183, 149, 0.82);
+  color: #3bb795;
   background: rgba(59, 183, 149, 0.16);
   box-shadow:
-    inset 0 0 12px rgba(59, 183, 149, 0.1),
-    0 0 12px rgba(59, 183, 149, 0.2);
+    inset 0 0 12px transparent,
+    0 0 12px transparent;
 }
 .context-radio-toggle:disabled {
   opacity: 0.5;
@@ -1033,7 +1033,7 @@
   box-sizing: border-box;
   gap: 8px;
   padding: 10px;
-  border: 1px solid rgba(65, 220, 231, 0.28);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 8px;
   background: rgba(2, 15, 20, 0.96);
   box-shadow:
@@ -1053,7 +1053,7 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 8px;
   align-items: center;
-  color: #65f7ff;
+  color: #bdbebf;
   font: 7px/1.2 var(--font-mono);
   letter-spacing: 0.12em;
 }
@@ -1063,15 +1063,15 @@
   height: 26px;
   place-items: center;
   padding: 0;
-  border: 1px solid rgba(65, 220, 231, 0.28);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 5px;
-  color: #8feaf2;
-  background: rgba(14, 69, 78, 0.16);
+  color: #bdbebf;
+  background: rgba(46, 47, 48, 0.16);
   cursor: pointer;
 }
 .context-radio-mini-heading button:hover,
 .context-radio-mini-heading button:focus-visible {
-  border-color: #65f7ff;
+  border-color: #3bb795;
   color: #fff;
   outline: none;
 }
@@ -1079,7 +1079,7 @@
   display: flex;
   gap: 5px;
 }
-.context-radio-mini-heading .material-symbols-outlined {
+.context-radio-mini-heading .od-icon {
   font-size: 16px;
 }
 .context-radio-mini > .panel-layer-toggle {
@@ -1087,7 +1087,7 @@
 }
 .context-radio-mini-heading strong {
   overflow: hidden;
-  color: #e8feff;
+  color: #edeeef;
   font-size: 8px;
   font-weight: 500;
   text-align: right;
@@ -1102,17 +1102,17 @@
 .context-radio-mini-transport button {
   min-height: 28px;
   padding: 5px;
-  border: 1px solid rgba(65, 220, 231, 0.28);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 5px;
-  color: #8feaf2;
-  background: rgba(14, 69, 78, 0.16);
+  color: #bdbebf;
+  background: rgba(46, 47, 48, 0.16);
   font: 8px/1 var(--font-mono);
   cursor: pointer;
 }
 .context-radio-mini-transport button:hover:not(:disabled),
 .context-radio-mini-transport button:focus-visible:not(:disabled),
 .context-radio-mini-transport button.active {
-  border-color: #65f7ff;
+  border-color: #3bb795;
   color: #fff;
   outline: none;
 }
@@ -1161,15 +1161,15 @@
   width: 26px;
   min-height: 30px;
   padding: 0;
-  border: 1px solid rgba(98, 181, 255, 0.22);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 5px;
-  background: rgba(42, 113, 171, 0.08);
+  background: rgba(153, 154, 155, 0.08);
   /* The mark is now an inline Lucide `triangle` (stroke: currentColor), so it
      needs an ink of its own — without one a <button> falls back to the UA
      buttontext (black on the dark panel). The dim/lit states are still carried
      by `filter` alongside the border and fill, as they were for the former
      colour-font saucer glyph. 14px sits inside the 26px chip with room. */
-  color: rgba(190, 220, 255, 0.95);
+  color: rgba(237, 238, 239, 0.95);
   font:
     14px/1 ui-monospace,
     SFMono-Regular,
@@ -1187,18 +1187,18 @@
 }
 .tr3b-toggle:hover,
 .tr3b-toggle:focus-visible {
-  border-color: rgba(127, 200, 255, 0.6);
-  background: rgba(66, 148, 211, 0.18);
+  border-color: rgba(59, 183, 149, 0.6);
+  background: rgba(59, 183, 149, 0.18);
   filter: grayscale(0.15) opacity(0.95);
   outline: none;
 }
 .tr3b-toggle[aria-pressed='true'] {
-  border-color: rgba(190, 220, 255, 0.75);
-  background: rgba(20, 23, 28, 0.9);
+  border-color: rgba(59, 183, 149, 0.75);
+  background: rgba(24, 25, 26, 0.9);
   /* Active: full-colour saucer with a soft halo. drop-shadow works on an emoji
      where text-shadow does not, so the glyph itself telegraphs the state
      rather than relying on the chrome alone. */
-  filter: drop-shadow(0 0 5px rgba(150, 210, 255, 0.9));
+  filter: drop-shadow(0 0 5px transparent);
 }
 .global-context-modes {
   display: grid;
@@ -1214,10 +1214,10 @@
   justify-content: center;
   gap: 6px;
   padding: 7px 8px;
-  border: 1px solid rgba(98, 181, 255, 0.28);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 6px;
-  color: #8fcfff;
-  background: rgba(42, 113, 171, 0.09);
+  color: #bdbebf;
+  background: rgba(153, 154, 155, 0.09);
   font: 8px/1.15 var(--font-mono);
   letter-spacing: 0.09em;
   cursor: pointer;
@@ -1227,12 +1227,12 @@
     background 0.15s ease,
     box-shadow 0.15s ease;
 }
-.context-mode-button .material-symbols-outlined {
+.context-mode-button .od-icon {
   font-size: 16px;
 }
 .context-mode-button:hover,
 .context-mode-button:focus-visible {
-  border-color: #79c2ff;
+  border-color: #3bb795;
   color: #fff;
   outline: none;
 }
@@ -1244,11 +1244,11 @@
 
 .context-mode-button.active {
   border-color: rgba(59, 183, 149, 0.75);
-  color: #eaffff;
+  color: #3bb795;
   background: rgba(59, 183, 149, 0.14);
   box-shadow:
-    inset 0 0 16px rgba(59, 183, 149, 0.08),
-    0 0 12px rgba(59, 183, 149, 0.12);
+    inset 0 0 16px transparent,
+    0 0 12px transparent;
 }
 .context-mode-button:disabled {
   opacity: 0.55;
@@ -1264,15 +1264,15 @@
   place-content: center;
   gap: 6px;
   padding: 12px;
-  border: 1px dashed rgba(98, 181, 255, 0.2);
+  border: 1px dashed rgba(153, 154, 155, 0.2);
   border-radius: 7px;
-  color: rgba(190, 230, 230, 0.5);
+  color: rgba(189, 190, 191, 0.5);
   text-align: center;
   font: 8px/1.45 var(--font-mono);
   letter-spacing: 0.1em;
 }
 .context-mode-standby strong {
-  color: #8fcfff;
+  color: #bdbebf;
   font-size: 9px;
   letter-spacing: 0.16em;
 }
@@ -1289,17 +1289,17 @@
 .panel-layer-toggle {
   min-width: 54px;
   padding: 4px 7px;
-  border: 1px solid rgba(98, 181, 255, 0.3);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 5px;
-  color: #8fcfff;
-  background: rgba(42, 113, 171, 0.12);
+  color: #bdbebf;
+  background: rgba(153, 154, 155, 0.12);
   font: 7px/1.1 var(--font-mono);
   letter-spacing: 0.1em;
   cursor: pointer;
 }
 .panel-layer-toggle:hover,
 .panel-layer-toggle:focus-visible {
-  border-color: #79c2ff;
+  border-color: #3bb795;
   color: #fff;
   outline: none;
 }
@@ -1307,7 +1307,7 @@
   border-color: rgba(59, 183, 149, 0.7);
   color: #fff;
   background: rgba(59, 183, 149, 0.14);
-  box-shadow: 0 0 12px rgba(59, 183, 149, 0.14);
+  box-shadow: 0 0 12px transparent;
 }
 .panel-layer-toggle:disabled {
   opacity: 0.45;
@@ -1330,7 +1330,7 @@
   font-size: 8px;
   box-shadow: none;
 }
-#global-context-panel #cockpit-entry .material-symbols-outlined {
+#global-context-panel #cockpit-entry .od-icon {
   font-size: 15px;
 }
 #global-context-panel #cockpit-entry kbd {

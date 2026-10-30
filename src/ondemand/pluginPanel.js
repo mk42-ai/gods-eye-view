@@ -16,13 +16,47 @@ export const PLUGIN_DOCK_ID = 'ondemand-plugin-dock';
 export const STORAGE_KEY = 'ondemand.pluginSelection';
 
 /**
- * Return uppercase badge text for a plugin entry's state.
+ * Derive display key and sentence-case label for a plugin entry's state.
+ * Exactly ONE clear state per plugin.
+ *
+ * @param {object|null|undefined} entry
+ * @returns {{ key: 'ready'|'unverified'|'checking'|'unavailable'|'error', label: string }}
+ */
+export function displayStateFor(entry) {
+  if (!entry) {
+    return { key: 'unverified', label: 'Not verified' };
+  }
+  const state = entry.state;
+  if (state === 'ready') {
+    return { key: 'ready', label: 'Ready' };
+  }
+  if (
+    state === 'installing' ||
+    state === 'authenticating' ||
+    state === 'invoking'
+  ) {
+    return { key: 'checking', label: 'Checking…' };
+  }
+  if (
+    entry.availability === 'inactive' ||
+    (state === 'failed' && entry.error?.code === 'inactive_on_account')
+  ) {
+    return { key: 'unavailable', label: 'Unavailable' };
+  }
+  if (state === 'failed') {
+    return { key: 'error', label: 'Error' };
+  }
+  return { key: 'unverified', label: 'Not verified' };
+}
+
+/**
+ * Return display badge label for a plugin entry's state.
+ * Kept for backward compatibility.
  * @param {object} entry
  * @returns {string}
  */
 export function badgeTextFor(entry) {
-  const state = entry?.state || 'discovered';
-  return String(state).toUpperCase();
+  return displayStateFor(entry).label;
 }
 
 /**
@@ -155,9 +189,12 @@ export function createPluginPanel(deps = {}) {
     if (!listElement) return;
     listElement.replaceChildren();
 
-    const readyCount = plugins.filter((p) => p.state === 'ready').length;
+    const readyCount = plugins.filter(
+      (p) => displayStateFor(p).key === 'ready',
+    ).length;
+    const totalCount = plugins.length;
     if (summaryCountElement) {
-      summaryCountElement.textContent = `${readyCount} ready`;
+      summaryCountElement.textContent = `${readyCount} of ${totalCount} ready`;
     }
 
     for (const entry of plugins) {
@@ -178,6 +215,7 @@ export function createPluginPanel(deps = {}) {
         attrs: {
           type: 'checkbox',
           'data-plugin-id': pluginIdentifier,
+          'aria-label': `Use ${entry.name} in answers`,
         },
       });
       toggle.checked = isChecked;
@@ -209,29 +247,53 @@ export function createPluginPanel(deps = {}) {
       metaWrap.append(nameEl, providerEl);
       main.appendChild(metaWrap);
 
-      // Actions: state badge + VERIFY button
+      // Actions: status chip + ONE row action button
       const actions = el(document, 'div', { className: 'od-plugin__actions' });
+      const display = displayStateFor(entry);
       const stateEl = el(document, 'span', {
         className: 'od-plugin__state',
-        text: badgeTextFor(entry),
-        attrs: { 'data-state': entry.state || 'discovered' },
+        text: display.label,
+        attrs: { 'data-state': display.key },
       });
       actions.appendChild(stateEl);
 
-      // Only show verify button for plugin-kind (not tool routes)
-      if (entry.kind !== 'ondemand-tool') {
+      // Single action button:
+      // unverified → 'Verify'
+      // error → 'Retry'
+      // ready → 'Re-check'
+      // checking → disabled with 'Checking…'
+      // unavailable → no button at all
+      // Tool-kind rows (entry.kind === 'ondemand-tool') keep no button as today
+      if (entry.kind !== 'ondemand-tool' && display.key !== 'unavailable') {
+        let actionLabel = 'Verify';
+        let isDisabled = false;
+
+        if (display.key === 'unverified') {
+          actionLabel = 'Verify';
+        } else if (display.key === 'error') {
+          actionLabel = 'Retry';
+        } else if (display.key === 'ready') {
+          actionLabel = 'Re-check';
+        } else if (display.key === 'checking') {
+          actionLabel = 'Checking…';
+          isDisabled = true;
+        }
+
         const verifyBtn = el(document, 'button', {
           className: 'od-plugin__verify',
-          text: 'VERIFY',
+          text: actionLabel,
           attrs: {
             type: 'button',
             'data-plugin-name': entry.name,
           },
         });
+        if (isDisabled) {
+          verifyBtn.disabled = true;
+        }
 
         verifyBtn.addEventListener('click', async () => {
           verifyBtn.disabled = true;
-          verifyBtn.textContent = 'VERIFYING…';
+          verifyBtn.textContent = 'Checking…';
           try {
             const res = await fetchImpl(`${apiBase}/plugins/verify`, {
               method: 'POST',
@@ -333,24 +395,29 @@ export function createPluginPanel(deps = {}) {
       className: 'od-plugins__details',
       attrs: { open: 'true' },
     });
+    details.open = true;
 
     const summary = el(document, 'summary', {
       className: 'od-plugins__summary',
-      text: 'PLUGINS',
+      text: 'Plugins',
+    });
+    summary.addEventListener('click', (e) => {
+      e.preventDefault();
     });
 
     summaryCountElement = el(document, 'span', {
       className: 'od-plugins__summary-count',
-      text: '0 ready',
+      text: '0 of 0 ready',
+      attrs: { 'aria-live': 'polite' },
     });
     summary.appendChild(summaryCountElement);
     details.appendChild(summary);
 
     const header = el(document, 'div', { className: 'od-plugins__header' });
-    const headerTitle = el(document, 'span', { text: 'CAPABILITIES' });
+    const headerTitle = el(document, 'span', { text: 'Capabilities' });
     refreshButton = el(document, 'button', {
       className: 'od-plugins__refresh-btn',
-      text: 'REFRESH',
+      text: 'Refresh',
       attrs: { type: 'button' },
     });
     refreshButton.addEventListener('click', () => refresh());

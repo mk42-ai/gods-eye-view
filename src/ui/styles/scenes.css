@@ -96,21 +96,21 @@
 #left-panel-stack > [data-panel-id]:not(.collapsed) .panel-divider {
   background: linear-gradient(
     90deg,
-    rgb(59 183 149 / 28%),
-    rgba(59, 183, 149, 0.18) 58%,
+    rgba(128, 129, 130, 0.18),
+    rgba(128, 129, 130, 0.18) 58%,
     transparent
   );
-  box-shadow: 0 0 7px rgba(59, 183, 149, 0.22);
+  box-shadow: 0 0 7px transparent;
 }
 
 #right-context-rail [data-panel-id]:not(.collapsed) .panel-divider {
   background: linear-gradient(
     90deg,
-    rgb(59 183 149 / 28%),
-    rgba(59, 183, 149, 0.18) 58%,
+    rgba(128, 129, 130, 0.18),
+    rgba(128, 129, 130, 0.18) 58%,
     transparent
   );
-  box-shadow: 0 0 7px rgba(59, 183, 149, 0.22);
+  box-shadow: 0 0 7px transparent;
 }
 
 #scene-panel .panel-glow {
@@ -118,7 +118,7 @@
   inset: -18px;
   background: radial-gradient(
     ellipse at center,
-    rgba(59, 183, 149, 0.16) 0%,
+    rgba(128, 129, 130, 0.16) 0%,
     transparent 65%
   );
   filter: blur(16px);
@@ -297,8 +297,8 @@
 }
 
 .scene-shot-btn.scene-shot-danger:hover {
-  color: #ff7e7e;
-  border-color: #ff7e7e;
+  color: #e5605a;
+  border-color: #e5605a;
 }
 
 .scene-btn:hover:not(:disabled) {
@@ -313,9 +313,9 @@
 }
 
 .scene-btn-danger:hover:not(:disabled) {
-  color: #ff7272;
-  border-color: #ff7272;
-  background: rgba(255, 88, 88, 0.15);
+  color: #e5605a;
+  border-color: #e5605a;
+  background: rgba(229, 96, 90, 0.15);
 }
 
 .scene-progress {
@@ -333,10 +333,10 @@
   height: 100%;
   background: linear-gradient(
     90deg,
-    rgba(59, 183, 149, 0.2),
-    rgba(59, 183, 149, 0.75)
+    rgba(128, 129, 130, 0.18),
+    rgba(128, 129, 130, 0.18)
   );
-  color: #d5f7ff;
+  color: #edeeef;
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 1px;
@@ -345,7 +345,7 @@
   justify-content: flex-end;
   padding-right: 6px;
   transition: width 100ms linear;
-  text-shadow: 0 0 6px rgba(59, 183, 149, 0.6);
+  text-shadow: 0 0 6px transparent;
 }
 
 #scene-status {
@@ -370,12 +370,12 @@
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 2px;
-  color: #bff4ff;
+  color: #edeeef;
   background: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(59, 183, 149, 0.36);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 999px;
   padding: 6px 14px;
-  text-shadow: 0 0 8px rgba(59, 183, 149, 0.55);
+  text-shadow: 0 0 8px transparent;
   pointer-events: none;
 }
 

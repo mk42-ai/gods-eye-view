@@ -5,7 +5,7 @@
   min-height: 0;
   margin-top: 10px;
   padding-top: 10px;
-  border-top: 1px solid rgba(65, 220, 231, 0.16);
+  border-top: 1px solid rgba(153, 154, 155, 0.16);
 }
 .radio-panel-inner {
   position: relative;
@@ -14,12 +14,12 @@
   flex-direction: column;
   gap: 9px;
   padding: 10px;
-  border: 1px solid rgba(65, 220, 231, 0.18);
+  border: 1px solid rgba(153, 154, 155, 0.18);
   border-radius: 8px;
   background: rgba(2, 15, 20, 0.42);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
   scrollbar-width: thin;
-  scrollbar-color: rgba(59, 183, 149, 0.46) rgba(255, 255, 255, 0.06);
+  scrollbar-color: rgba(153, 154, 155, 0.12) rgba(255, 255, 255, 0.06);
 }
 #radio-panel .panel-header {
   margin-bottom: 0;
@@ -30,7 +30,7 @@
   letter-spacing: 0.12em;
 }
 .radio-layer-state.active {
-  color: #65f7ff;
+  color: #3bb795;
 }
 .radio-directory-row {
   display: grid;
@@ -51,23 +51,23 @@
 #radio-filter {
   min-width: 0;
   padding: 7px 24px 7px 8px;
-  border: 1px solid rgba(65, 220, 231, 0.28);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 5px;
-  color: #c5faff;
-  background: rgba(5, 24, 31, 0.88);
+  color: #edeeef;
+  background: rgba(18, 19, 20, 0.88);
   font: 9px/1.2 var(--font-mono);
 }
 .radio-station-card {
   display: grid;
   gap: 4px;
   padding: 10px;
-  border: 1px solid rgba(65, 220, 231, 0.18);
+  border: 1px solid rgba(153, 154, 155, 0.18);
   border-radius: 7px;
   background: rgba(2, 15, 20, 0.48);
   overflow-wrap: anywhere;
 }
 .radio-station-card strong {
-  color: #e8feff;
+  color: #edeeef;
   font: 11px/1.25 var(--font-mono);
   letter-spacing: 0.05em;
 }
@@ -76,7 +76,7 @@
   font: 8px/1.35 var(--font-mono);
 }
 #radio-station-tags {
-  color: #72dce6;
+  color: #bdbebf;
 }
 .radio-tuner {
   display: grid;
@@ -86,14 +86,14 @@
   gap: 5px;
   padding: 8px;
   overflow: hidden;
-  border: 1px solid rgba(65, 220, 231, 0.22);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 7px;
   background: linear-gradient(
     180deg,
     rgba(1, 9, 13, 0.92),
-    rgba(4, 24, 30, 0.72)
+    rgba(128, 129, 130, 0.18)
   );
-  box-shadow: inset 0 0 18px rgba(59, 183, 149, 0.045);
+  box-shadow: inset 0 0 18px transparent;
 }
 .radio-tuner[hidden] {
   display: none;
@@ -103,13 +103,13 @@
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  color: #6daeb5;
+  color: #bdbebf;
   font: 7px/1.2 var(--font-mono);
   letter-spacing: 0.1em;
 }
 #radio-tuner-value {
   min-width: 0;
-  color: #a8f7ff;
+  color: #bdbebf;
   overflow: hidden;
   text-align: right;
   text-overflow: ellipsis;
@@ -123,20 +123,20 @@
   height: 51px;
   overflow: hidden;
   contain: paint;
-  border-block: 1px solid rgba(72, 225, 237, 0.3);
+  border-block: 1px solid rgba(153, 154, 155, 0.22);
   background:
     linear-gradient(
       180deg,
       transparent 23px,
-      rgba(65, 220, 231, 0.8) 24px,
+      rgba(148, 149, 150, 0.18) 24px,
       transparent 25px,
       transparent 28px,
-      rgba(65, 220, 231, 0.6) 29px,
+      rgba(148, 149, 150, 0.18) 29px,
       transparent 30px
     ),
     radial-gradient(
       ellipse at center,
-      rgba(39, 177, 191, 0.12),
+      rgba(128, 129, 130, 0.12),
       transparent 70%
     );
 }
@@ -144,9 +144,9 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  color: #58cbd6;
+  color: #bdbebf;
   font: 9px/1 var(--font-mono);
-  text-shadow: 0 0 7px rgba(65, 220, 231, 0.5);
+  text-shadow: 0 0 7px transparent;
   pointer-events: none;
 }
 .radio-tuner-tick {
@@ -154,16 +154,16 @@
   top: 6px;
   bottom: 0;
   min-width: 1px;
-  border-left: 1px solid rgba(85, 224, 235, 0.38);
-  color: #58cbd6;
+  border-left: 1px solid rgba(153, 154, 155, 0.22);
+  color: #bdbebf;
   padding-left: 3px;
   white-space: nowrap;
   transform: translateX(-50%);
   transition: left 80ms linear;
 }
 .radio-tuner-tick.is-current {
-  border-left-color: rgba(168, 247, 255, 0.9);
-  color: #a8f7ff;
+  border-left-color: rgba(59, 183, 149, 0.9);
+  color: #3bb795;
 }
 .radio-tuner-needle {
   position: absolute;
@@ -173,10 +173,10 @@
   left: calc(7px + (100% - 14px) * var(--radio-tuner-ratio, 0));
   width: 3px;
   border-radius: 1px;
-  background: #ff6f4f;
+  background: #a7a8a9;
   box-shadow:
-    0 0 4px #ff6f4f,
-    0 0 10px rgba(255, 77, 50, 0.65);
+    0 0 4px transparent,
+    0 0 10px transparent;
   pointer-events: none;
   transform: translateX(-50%);
   transition: left 0.18s ease-out;
@@ -228,21 +228,21 @@
   box-shadow: none;
 }
 .radio-tuner.is-static .radio-tuner-dial {
-  box-shadow: inset 0 0 14px rgba(255, 111, 79, 0.1);
+  box-shadow: inset 0 0 14px transparent;
 }
 .radio-tuner.is-static #radio-tuner-station {
-  color: #ff9b7e;
+  color: #b8b9ba;
 }
 .radio-tuner-readout span:first-child {
   min-width: 0;
-  color: #7fe6ef;
+  color: #bdbebf;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .radio-tuner-readout span:last-child {
   flex: 0 0 auto;
-  color: #517f84;
+  color: #bdbebf;
 }
 .radio-transport {
   display: grid;
@@ -252,17 +252,17 @@
 .radio-transport button {
   min-height: 30px;
   padding: 6px 3px;
-  border: 1px solid rgba(65, 220, 231, 0.28);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 5px;
-  color: #8feaf2;
-  background: rgba(14, 69, 78, 0.14);
+  color: #bdbebf;
+  background: rgba(46, 47, 48, 0.14);
   font: 8px/1 var(--font-mono);
   letter-spacing: 0.06em;
   cursor: pointer;
 }
 .radio-transport button:hover:not(:disabled),
 .radio-transport button:focus-visible:not(:disabled) {
-  border-color: #65f7ff;
+  border-color: #3bb795;
   color: #fff;
   outline: none;
 }
@@ -273,9 +273,9 @@
 }
 #radio-play-btn.active {
   color: #fff;
-  border-color: rgba(101, 247, 255, 0.8);
-  background: rgba(65, 220, 231, 0.18);
-  box-shadow: 0 0 12px rgba(65, 220, 231, 0.12);
+  border-color: rgba(59, 183, 149, 0.8);
+  background: rgba(59, 183, 149, 0.18);
+  box-shadow: 0 0 12px transparent;
 }
 .radio-volume-row {
   display: grid;
@@ -291,11 +291,11 @@
 }
 .radio-playback-state {
   min-height: 12px;
-  color: #79d7df;
+  color: #bdbebf;
   font: 8px/1.35 var(--font-mono);
 }
 .radio-playback-state.error {
-  color: #ff9d8f;
+  color: #e5605a;
 }
 .radio-links {
   display: flex;
@@ -304,7 +304,7 @@
   gap: 5px 10px;
 }
 .radio-links a {
-  color: #64cbd5;
+  color: #3bb795;
   font: 7px/1.3 var(--font-mono);
   letter-spacing: 0.06em;
   text-decoration: none;
@@ -315,7 +315,7 @@
 }
 .radio-privacy {
   margin: 0;
-  color: rgba(190, 230, 230, 0.48);
+  color: rgba(189, 190, 191, 0.48);
   font: 7px/1.4 var(--font-mono);
 }
 #military-awareness-panel {
@@ -324,7 +324,7 @@
   overflow: auto;
   box-sizing: border-box;
   padding: 2px 1px 0;
-  color: #dceeff;
+  color: #edeeef;
   background: transparent;
   border: 0;
   font:
@@ -348,11 +348,11 @@
   margin: 0 0 8px;
 }
 .military-awareness-controls button {
-  border: 1px solid rgba(98, 181, 255, 0.34);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 4px;
   padding: 4px 3px;
-  color: #a9d9ff;
-  background: rgba(42, 113, 171, 0.12);
+  color: #bdbebf;
+  background: rgba(153, 154, 155, 0.12);
   font:
     9px/1.2 ui-monospace,
     SFMono-Regular,
@@ -364,13 +364,13 @@
 .military-awareness-controls button:hover,
 .military-awareness-controls button:focus-visible {
   color: #fff;
-  border-color: rgba(127, 200, 255, 0.85);
-  background: rgba(66, 148, 211, 0.24);
+  border-color: rgba(59, 183, 149, 0.85);
+  background: rgba(59, 183, 149, 0.24);
   outline: none;
 }
 .military-awareness-controls button:disabled {
-  color: #627181;
-  border-color: rgba(98, 181, 255, 0.12);
+  color: #bdbebf;
+  border-color: rgba(153, 154, 155, 0.12);
   background: transparent;
   cursor: default;
 }
@@ -383,14 +383,14 @@
   justify-content: space-between;
 }
 .military-awareness-row b {
-  color: #7fc8ff;
+  color: #bdbebf;
 }
 .military-awareness-row.unknown b {
-  color: #8fcfff;
+  color: #bdbebf;
 }
 .military-awareness-row small,
 .military-awareness-note {
-  color: #a9b7c7;
+  color: #bdbebf;
 }
 .military-awareness-row ul {
   margin: 4px 0 0;
@@ -407,7 +407,7 @@
   width: 100%;
   border: 0;
   padding: 1px 0;
-  color: #dceeff;
+  color: #edeeef;
   background: transparent;
   font: inherit;
   text-align: left;
@@ -421,13 +421,13 @@
 .military-awareness-target:focus-visible {
   color: #fff;
   outline: none;
-  text-shadow: 0 0 8px rgba(114, 202, 255, 0.85);
+  text-shadow: 0 0 8px transparent;
 }
 .military-awareness-target:focus-visible {
-  box-shadow: inset 0 -1px 0 #7fc8ff;
+  box-shadow: inset 0 -1px 0 transparent;
 }
 .military-awareness-target span {
-  color: #7fc8ff;
+  color: #bdbebf;
   white-space: nowrap;
 }
 .military-awareness-note {
@@ -438,25 +438,25 @@
   display: grid;
   gap: 7px;
   padding: 12px 4px 4px;
-  border-top: 1px solid rgba(98, 181, 255, 0.16);
+  border-top: 1px solid rgba(153, 154, 155, 0.16);
 }
 .military-awareness-standby strong {
-  color: #79c2ff;
+  color: #bdbebf;
   font-size: 10px;
   letter-spacing: 0.1em;
 }
 .military-awareness-standby span {
-  color: #8192a6;
+  color: #bdbebf;
   font-size: 9px;
   letter-spacing: 0.05em;
 }
 .military-awareness-standby button {
   justify-self: start;
   padding: 4px 12px;
-  border: 1px solid rgba(98, 181, 255, 0.34);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 4px;
-  color: #a9d9ff;
-  background: rgba(42, 113, 171, 0.12);
+  color: #bdbebf;
+  background: rgba(153, 154, 155, 0.12);
   font:
     9px/1.2 ui-monospace,
     SFMono-Regular,
@@ -480,14 +480,14 @@
   --compass-rotation: 0deg;
   position: absolute;
   box-sizing: border-box;
-  border: 1px solid rgba(111, 196, 255, 0.2);
-  outline: 1px dashed rgba(111, 196, 255, 0.28);
+  border: 1px solid rgba(153, 154, 155, 0.2);
+  outline: 1px dashed rgba(153, 154, 155, 0.22);
   outline-offset: -5px;
   border-radius: 50%;
   box-shadow:
-    inset 0 0 0 5px rgba(34, 128, 196, 0.018),
-    inset 0 0 24px rgba(34, 128, 196, 0.035),
-    0 0 14px rgba(34, 128, 196, 0.05);
+    inset 0 0 0 5px transparent,
+    inset 0 0 24px transparent,
+    0 0 14px transparent;
 }
 .military-awareness-compass-ring::before {
   content: '';
@@ -498,9 +498,9 @@
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-bottom: 8px solid rgba(127, 200, 255, 0.88);
+  border-bottom: 8px solid rgba(153, 154, 155, 0.22);
   transform: translateX(-50%);
-  filter: drop-shadow(0 0 5px rgba(87, 184, 255, 0.7));
+  filter: drop-shadow(0 0 5px transparent);
 }
 .military-awareness-compass-ring::after {
   content: '';
@@ -509,7 +509,7 @@
   border-radius: 50%;
   background: repeating-conic-gradient(
     from 0deg,
-    rgba(125, 205, 255, 0.38) 0deg 0.7deg,
+    rgba(190, 191, 192, 0.18) 0deg 0.7deg,
     transparent 0.7deg 15deg
   );
   -webkit-mask: radial-gradient(
@@ -531,20 +531,20 @@
 .military-awareness-compass-heading {
   position: absolute;
   transform: translate(-50%, -50%);
-  color: rgba(156, 213, 255, 0.7);
+  color: rgba(189, 190, 191, 0.7);
   font:
     9px/1 ui-monospace,
     SFMono-Regular,
     Menlo,
     monospace;
   letter-spacing: 0.08em;
-  text-shadow: 0 0 7px rgba(53, 161, 235, 0.55);
+  text-shadow: 0 0 7px transparent;
 }
 .military-awareness-compass-label.cardinal-n {
-  color: rgba(255, 188, 87, 0.92);
+  color: rgba(189, 190, 191, 0.92);
 }
 .military-awareness-compass-heading {
-  color: rgba(190, 225, 249, 0.76);
+  color: rgba(237, 238, 239, 0.76);
   font-size: 8px;
 }
 .military-awareness-direction-marker {
@@ -563,11 +563,11 @@
   top: 50%;
   display: inline-grid;
   place-items: center;
-  color: #74dbff;
+  color: #bdbebf;
   font: 23px/1 sans-serif;
   transform-origin: 50% 50%;
-  filter: drop-shadow(0 0 5px rgba(87, 223, 255, 0.9))
-    drop-shadow(0 0 13px rgba(87, 223, 255, 0.35));
+  filter: drop-shadow(0 0 5px transparent)
+    drop-shadow(0 0 13px transparent);
 }
 .military-awareness-direction-arrow .od-icon {
   display: block;
@@ -578,9 +578,9 @@
   left: 50%;
   top: 50%;
   padding: 3px 6px;
-  border: 1px solid rgba(116, 219, 255, 0.24);
+  border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 3px;
-  color: #bceeff;
+  color: #edeeef;
   background: rgba(5, 12, 20, 0.68);
   font:
     8px/1.3 ui-monospace,
@@ -589,14 +589,14 @@
     monospace;
   text-align: center;
   white-space: pre;
-  text-shadow: 0 0 5px rgba(116, 219, 255, 0.38);
+  text-shadow: 0 0 5px transparent;
 }
 
 .data-toggle-row.gev-voice-focus {
-  background: rgba(92, 255, 198, 0.1);
+  background: rgba(153, 154, 155, 0.1);
   box-shadow:
-    inset 0 0 0 1px rgba(92, 255, 198, 0.72),
-    0 0 18px rgba(92, 255, 198, 0.18);
+    inset 0 0 0 1px transparent,
+    0 0 18px transparent;
 }
 
 .data-toggle-top {
@@ -702,30 +702,30 @@
   color: var(--accent);
   border-color: var(--accent);
   background: var(--accent-dim);
-  box-shadow: 0 0 10px rgba(59, 183, 149, 0.15);
+  box-shadow: 0 0 10px transparent;
 }
 
 .data-toggle-btn.active.feed-stale,
 .data-toggle-btn.active.feed-partial,
 .data-toggle-btn.active.feed-fallback {
-  color: #ffd27a;
-  border-color: rgba(255, 190, 82, 0.75);
-  background: rgba(255, 174, 51, 0.1);
-  box-shadow: 0 0 10px rgba(255, 174, 51, 0.12);
+  color: #bdbebf;
+  border-color: rgba(153, 154, 155, 0.22);
+  background: rgba(153, 154, 155, 0.1);
+  box-shadow: 0 0 10px transparent;
 }
 
 .data-toggle-btn.active.feed-degraded {
-  color: #ffad72;
-  border-color: rgba(255, 137, 72, 0.78);
-  background: rgba(255, 112, 48, 0.1);
-  box-shadow: 0 0 10px rgba(255, 112, 48, 0.12);
+  color: #bdbebf;
+  border-color: rgba(153, 154, 155, 0.22);
+  background: rgba(153, 154, 155, 0.1);
+  box-shadow: 0 0 10px transparent;
 }
 
 .data-toggle-btn.active.feed-unavailable {
-  color: #ff8585;
-  border-color: rgba(255, 92, 92, 0.78);
-  background: rgba(255, 60, 60, 0.1);
-  box-shadow: 0 0 10px rgba(255, 60, 60, 0.12);
+  color: #b8b9ba;
+  border-color: rgba(174, 175, 176, 0.78);
+  background: rgba(158, 159, 160, 0.1);
+  box-shadow: 0 0 10px transparent;
 }
 
 .data-toggle-meta {
@@ -798,9 +798,9 @@
 }
 
 .data-toggle-chip.chip-error {
-  color: #ff8585;
-  border-color: rgba(255, 92, 92, 0.6);
-  background: rgba(255, 60, 60, 0.08);
+  color: #e5605a;
+  border-color: rgba(229, 96, 90, 0.6);
+  background: rgba(229, 96, 90, 0.08);
 }
 
 .data-toggle-legend-item {
