@@ -1,5 +1,11 @@
 /* Preserve component and responsive rule order in one stylesheet entry. */
+/* Brand tokens first (single source of truth, docs/brand/BRAND_SOURCE.md). */
+@import './src/brand/tokens.css';
+/* Cycle 21 single-accent UI tokens (CSS variables for colour, spacing, type). */
+@import './src/brand/design-tokens.css';
 @import './src/ui/styles/foundation.css';
+/* Inline Lucide icon contract (docs/brand/ICON_SOURCE.md) — before the components that size it. */
+@import './src/ui/styles/icons.css';
 @import './src/ui/styles/controls.css';
 @import './src/ui/styles/location.css';
 @import './src/ui/styles/status.css';
@@ -17,5 +23,19 @@
 @import './src/ui/styles/command-dock-trays.css';
 @import './src/ui/styles/command-dock-sliding.css';
 @import './src/ui/styles/voice-cost.css';
+@import './src/ui/styles/voice-ondemand.css';
 @import './src/ui/styles/first-run.css';
 @import './src/ui/styles/provider-settings.css';
+@import './src/ui/styles/ondemand-chat.css';
+@import './src/ui/styles/plugin-panel.css';
+@import './src/ui/styles/incidents.css';
+@import './src/ui/styles/scene-videos.css';
+@import './src/ui/styles/scene-evidence.css';
+@import './src/ui/styles/scene-footage.css';
+@import './src/ui/styles/marina-workstation.css';
+@import './src/ui/styles/marina-mobile.css';
+/* Cycle 21 cleanup layers — must stay LAST: one-colour overrides, calm launch, walkthrough. */
+@import './src/ui/styles/ui-clean.css';
+@import './src/ui/styles/calm-launch.css';
+@import './src/ui/styles/walkthrough.css';
+@import './src/ui/styles/composer-evidence.css';

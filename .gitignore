@@ -12,3 +12,11 @@ output/
 3d-models/
 pinokio/ENVIRONMENT
 pinokio/.installed
+.vercel
+.env.*.local
+.env.production.local
+.env.local
+# Local secrets (cycle 20): any dotenv variant except the committed example
+.env.*
+!.env.example
+*.secret.env

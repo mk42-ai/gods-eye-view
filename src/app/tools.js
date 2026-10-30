@@ -1,8 +1,18 @@
 import { SceneDirector } from '../scenes/director.js';
+import { createAoiScenePolicy } from '../scenes/aoiScenePolicy.js';
+import { getUaeAoiIndex } from '../aoi/uaeInterest.js';
+import { resolveIncidentGate } from '../aoi/sceneGate.js';
+import { installIncidentScenes } from '../incidents/ui/index.js';
+import { installSceneVideos } from '../sceneVideos/index.js';
+import { installSceneEvidence } from '../sceneEvidence/index.js';
+import { installSceneFootage } from '../sceneFootage/index.js';
 import { initAnnotations } from '../annotations/index.js';
 import { initDrawTool } from '../annotations/drawTool.js';
-import { initGevVoiceCommands } from '../voice/gevRealtime.js';
+import { createGevActionRunner } from '../voice/gevActions.js';
 import { installScopeMask, destroyScopeMask } from '../scopeMask.js';
+import { installEntityChat } from '../ondemand/entityChat.js';
+import { installMiniChat } from '../ondemand/miniChat.js';
+import { installPluginPanel } from '../ondemand/pluginPanel.js';
 import {
   installRenderGovernor,
   getRenderGovernorDiagnostics,
@@ -32,6 +42,15 @@ export function createApplicationTools({
     dataPacks: sceneDataPacks,
     isMapStackAvailable: (id) =>
       mapStackController?.isStackAvailable(id) === true,
+    // The broad interest map is context only. Playback is restricted by the
+    // editable, strictly UAE scene allowlist; foreign scenes stay in storage.
+    aoiPolicy: createAoiScenePolicy({
+      membership(lat, lon) {
+        const context = getUaeAoiIndex().membership(lat, lon);
+        const gate = resolveIncidentGate('', { lat, lon });
+        return { ...context, inside: gate.allowed, aoi_ids: gate.aoiIds, reason: gate.reason };
+      },
+    }),
   });
   dataManager.layers
     .get('bhote-koshi-2026')
@@ -48,7 +67,7 @@ export function createApplicationTools({
     if (window.__gevAnnotations === annotations) delete window.__gevAnnotations;
     annotations.destroy();
   });
-  // DISPLAY ▸ Draw: the same whiteboard, drawn by hand. It claims the pointer
+  // DISPLAY > Draw: the same whiteboard, drawn by hand. It claims the pointer
   // while a session is open, so its teardown belongs to the application
   // lifetime rather than to whoever last pressed the button.
   const drawTool = initDrawTool({ viewer, annotations });
@@ -118,12 +137,45 @@ export function createApplicationTools({
   defer(() => {
     if (window.__godsEyeView === debug) delete window.__godsEyeView;
   });
-  const voiceCommands = initGevVoiceCommands({
+  // ASK ONDEMAND — per-entity mini chatbot on a selected aircraft / vessel /
+  // satellite (src/ondemand/entityChat.js, docs/ENTITY_CHAT.md). Follows the
+  // tracking layers' selection lanes; tears itself down on the app signal.
+  // `__godsEyeView.entityChat.openFirstVisible('aircraft')` drives it headless.
+  debug.entityChat = installEntityChat({ viewer, dataManager, signal });
+  // ASK ONDEMAND for every other object type (earthquake, fire, traffic,
+  // regional brief, HUD summary, provider badge, graph node/edge, …) on the
+  // server-key-only /api/ondemand/v2 foundation (src/ondemand/miniChat.js).
+  // Any widget opens it with `gev:ask-object` or createAskOnDemandButton().
+  debug.miniChat = installMiniChat({ signal });
+  // PLUGINS panel (src/ondemand/pluginPanel.js): honest lifecycle badges from
+  // GET /api/ondemand/v2/plugins and per-turn plugin selection consumed by the
+  // mini chat (`getPluginIds`) and the voice pipeline. Mounted after the mini
+  // chat so it can dock into the panel's header slot.
+  debug.pluginPanel = installPluginPanel({ signal });
+  // AOI incident scenes (2026-10-22): live incident ledger → scenes, map
+  // markers + popovers with ASK ONDEMAND, AOI layer toggles + legend, and the
+  // bottom "Type an incident…" composer (src/incidents/ui/*).
+  debug.incidentScenes = installIncidentScenes({
+    viewer,
+    sceneDirector,
+    signal,
+  });
+  // Scene video evidence (2026-10-23): the composer submit also fans out to
+  // YouTube / TikTok / Instagram through OnDemand plugins and streams clips
+  // into the side rail with LIVE / RECENT / ARCHIVAL labels (src/sceneVideos/*).
+  debug.sceneVideos = installSceneVideos({ viewer, signal });
+  // Scene evidence (2026-10-24): BUILD SCENE fans out to every configured
+  // public source in parallel and streams ranked, labelled cards, signals,
+  // source status and a summary into one panel (src/sceneEvidence/*).
+  debug.sceneEvidence = installSceneEvidence({ viewer, signal });
+  // Scene footage (2026-10-26): Snapchat Spotlight clips for the selected scene
+  // via POST /api/scenes/:locationId/footage/snapchat (src/sceneFootage/*).
+  debug.sceneFootage = installSceneFootage({ viewer, signal });
+  const runner = createGevActionRunner({
     ...voice,
     floorServices: operations.surface.groundFloor,
     annotationResolver: operations.annotationResolver,
     searchNavigation: operations.searchAndFlyTo,
-    signal,
     placeSearch,
     viewer,
     styleManager,
@@ -131,8 +183,14 @@ export function createApplicationTools({
     sceneDirector,
     annotations,
   });
+  const voiceCommands = {
+    runner,
+    protocol: 'ondemand-voice',
+    stop() {},
+  };
+  window.__gevVoiceCommands = voiceCommands;
   defer(() => {
-    voiceCommands.stop({ removeUi: true });
+    voiceCommands.stop();
     if (window.__gevVoiceCommands === voiceCommands)
       delete window.__gevVoiceCommands;
   });

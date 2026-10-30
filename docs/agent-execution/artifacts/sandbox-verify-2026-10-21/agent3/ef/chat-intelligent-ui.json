@@ -1,0 +1,275 @@
+{
+  "startedAt": "2026-10-21T08:03:33.230Z",
+  "endedAt": "2026-10-21T08:03:57.639Z",
+  "baseUrl": "https://sb-72vtzc1c6cf8.vercel.run",
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "byViewport": {
+      "1440x900": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0
+      },
+      "390x844": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "id": "E",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "history_messages_present_before_switch",
+          "pass": true,
+          "detail": "Found 2 prior messages in transcript"
+        },
+        {
+          "name": "session_isolated_for_different_object",
+          "pass": true,
+          "detail": "Isolated transcript: containsEarthquake=false, msgs=0"
+        }
+      ],
+      "durationMs": 7314,
+      "screenshot": "E-1440x900.png",
+      "startedAt": "2026-10-21T08:03:38.512Z",
+      "endedAt": "2026-10-21T08:03:45.826Z"
+    },
+    {
+      "id": "F",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "active_plugins_cap_and_id_regex",
+          "pass": true,
+          "detail": "activePlugins=10/10, validPluginIds=33/33"
+        },
+        {
+          "name": "plugin_panel_lifecycle_states",
+          "pass": true,
+          "detail": "present, 32 badges, allValid=true"
+        },
+        {
+          "name": "plugins_api_probe",
+          "pass": true,
+          "detail": "probe result: 200 mounted (obj)"
+        }
+      ],
+      "durationMs": 401,
+      "screenshot": "F-1440x900.png",
+      "startedAt": "2026-10-21T08:03:47.291Z",
+      "endedAt": "2026-10-21T08:03:47.692Z"
+    },
+    {
+      "id": "E",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "history_messages_present_before_switch",
+          "pass": true,
+          "detail": "Found 4 prior messages in transcript"
+        },
+        {
+          "name": "session_isolated_for_different_object",
+          "pass": true,
+          "detail": "Isolated transcript: containsEarthquake=false, msgs=0"
+        }
+      ],
+      "durationMs": 3978,
+      "screenshot": "E-390x844.png",
+      "startedAt": "2026-10-21T08:03:52.517Z",
+      "endedAt": "2026-10-21T08:03:56.495Z"
+    },
+    {
+      "id": "F",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "active_plugins_cap_and_id_regex",
+          "pass": true,
+          "detail": "activePlugins=10/10, validPluginIds=33/33"
+        },
+        {
+          "name": "plugin_panel_lifecycle_states",
+          "pass": true,
+          "detail": "present, 32 badges, allValid=true"
+        },
+        {
+          "name": "plugins_api_probe",
+          "pass": true,
+          "detail": "probe result: 200 mounted (obj)"
+        }
+      ],
+      "durationMs": 79,
+      "screenshot": "F-390x844.png",
+      "startedAt": "2026-10-21T08:03:57.204Z",
+      "endedAt": "2026-10-21T08:03:57.283Z"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:03:36.532Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:03:39.850Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:03:45.836Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:03:50.373Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:03:56.520Z"
+    }
+  ],
+  "failedRequests": [
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T08:03:36.531Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T08:03:36.587Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtsahf-a5dd4054&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "atUtc": "2026-10-21T08:03:39.849Z"
+    },
+    {
+      "status": 0,
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T08:03:43.121Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtsahf-a5dd4054&objectContextKey=trafficLayer%3Atraffic-austin-live&limit=20&sort=asc",
+      "atUtc": "2026-10-21T08:03:45.835Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T08:03:50.372Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T08:03:50.411Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtsahf-a5dd4054&objectContextKey=trafficLayer%3Atraffic-austin-live&limit=20&sort=asc",
+      "atUtc": "2026-10-21T08:03:56.520Z"
+    }
+  ],
+  "ondemandCalls": [
+    {
+      "atUtc": "2026-10-21T08:03:36.532Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 184,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:39.849Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtsahf-a5dd4054&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 404,
+      "ms": 14,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:40.629Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 762,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:45.835Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtsahf-a5dd4054&objectContextKey=trafficLayer%3Atraffic-austin-live&limit=20&sort=asc",
+      "status": 404,
+      "ms": 22,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:45.980Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 2859,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:50.374Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 117,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:52.771Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtsahf-a5dd4054&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 200,
+      "ms": 238,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:52.876Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 325,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:54.621Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 2855,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:56.520Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtsahf-a5dd4054&objectContextKey=trafficLayer%3Atraffic-austin-live&limit=20&sort=asc",
+      "status": 404,
+      "ms": 32,
+      "keySource": "server"
+    }
+  ]
+}

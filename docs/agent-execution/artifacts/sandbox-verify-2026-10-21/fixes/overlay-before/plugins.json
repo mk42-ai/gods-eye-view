@@ -1,0 +1,1053 @@
+{
+  "startedAt": "2026-10-21T08:21:34.810Z",
+  "baseUrl": "https://sb-72vtzc1c6cf8.vercel.run",
+  "viewports": {
+    "1440x900": {
+      "initialBadgesCount": 32,
+      "initialBadgesSample": [
+        {
+          "pluginId": "plugin-1722260873",
+          "name": "perplexity_research",
+          "state": "ready",
+          "text": "READY"
+        },
+        {
+          "pluginId": "plugin-1713924030",
+          "name": "internet_web_search",
+          "state": "ready",
+          "text": "READY"
+        },
+        {
+          "pluginId": "plugin-1741871229",
+          "name": "gpt_search",
+          "state": "ready",
+          "text": "READY"
+        },
+        {
+          "pluginId": "plugin-1751872652",
+          "name": "x_search",
+          "state": "ready",
+          "text": "READY"
+        },
+        {
+          "pluginId": "plugin-1785777296",
+          "name": "x_mcp_connector",
+          "state": "failed",
+          "text": "FAILED"
+        }
+      ],
+      "websearchClickResult": {
+        "clicked": true,
+        "textImmediatelyAfterClick": "VERIFYING…",
+        "disabledImmediatelyAfterClick": true
+      },
+      "websearchFinalState": {
+        "state": "ready",
+        "text": "READY",
+        "timing": "14m ago",
+        "latency": "6075ms"
+      },
+      "xmcpFinalState": {
+        "state": "failed",
+        "text": "FAILED",
+        "errorText": "This research source is currently inactive on the OnDemand account."
+      },
+      "summaryCount": "10 ready",
+      "transitions": [
+        {
+          "type": "childList",
+          "pluginId": "plugin-1722260873",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 6729.300000011921
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1713924030",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 6729.300000011921
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1741871229",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 6729.300000011921
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1751872652",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 6729.300000011921
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1785777296",
+          "to": "failed",
+          "text": "FAILED",
+          "timestamp": 6729.300000011921
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1716372717",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 6729.300000011921
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1716164040",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1785987361",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1784356219",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1748003575",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1718116202",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "earthquake_search",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "list_satellites_in_scene",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "satellite_passes",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "flights_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "flight_by_icao24",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "military_flights_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "vessels_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "vessel_by_mmsi",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "traffic_flow_at_point",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "road_network_status",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.400000035763
+        },
+        {
+          "type": "childList",
+          "pluginId": "fire_detection_search",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "osm_features_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "geocode_place",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "bike_share_status_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "transit_vehicles_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "regional_brief",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "terrain_height_at",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "cameras_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "military_installations_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "radio_stations_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "rocket_launches_recent",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 6729.5
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1722260873",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1713924030",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1741871229",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1751872652",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1785777296",
+          "to": "failed",
+          "text": "FAILED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1716372717",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1716164040",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1785987361",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1784356219",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1748003575",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1718116202",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "earthquake_search",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "list_satellites_in_scene",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "satellite_passes",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "flights_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "flight_by_icao24",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "military_flights_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "vessels_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "vessel_by_mmsi",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "traffic_flow_at_point",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "road_network_status",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "fire_detection_search",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "osm_features_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "geocode_place",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "bike_share_status_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "transit_vehicles_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "regional_brief",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.100000023842
+        },
+        {
+          "type": "childList",
+          "pluginId": "terrain_height_at",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.199999988079
+        },
+        {
+          "type": "childList",
+          "pluginId": "cameras_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.199999988079
+        },
+        {
+          "type": "childList",
+          "pluginId": "military_installations_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.199999988079
+        },
+        {
+          "type": "childList",
+          "pluginId": "radio_stations_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.199999988079
+        },
+        {
+          "type": "childList",
+          "pluginId": "rocket_launches_recent",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 10116.199999988079
+        }
+      ],
+      "isolation": {
+        "seededEarthquakeMsgs": 2,
+        "alertIsolation": {
+          "msgs": 0,
+          "hasEmptyState": false,
+          "emptyStateText": "",
+          "containsEarthquake": false,
+          "fullTextLength": 38
+        },
+        "earthquakeRestored": {
+          "msgs": 2,
+          "containsOriginalQuestion": true
+        },
+        "isolated": true
+      },
+      "screenshots": {
+        "initial": "check-plugins-initial-1440x900.png",
+        "ready": "check-plugins-ready-1440x900.png",
+        "failed": "check-plugins-failed-1440x900.png",
+        "isolation": "check-isolation-1440x900.png"
+      }
+    },
+    "390x844": {
+      "initialBadgesCount": 32,
+      "initialBadgesSample": [
+        {
+          "pluginId": "plugin-1722260873",
+          "name": "perplexity_research",
+          "state": "ready",
+          "text": "READY"
+        },
+        {
+          "pluginId": "plugin-1713924030",
+          "name": "internet_web_search",
+          "state": "ready",
+          "text": "READY"
+        },
+        {
+          "pluginId": "plugin-1741871229",
+          "name": "gpt_search",
+          "state": "ready",
+          "text": "READY"
+        },
+        {
+          "pluginId": "plugin-1751872652",
+          "name": "x_search",
+          "state": "ready",
+          "text": "READY"
+        },
+        {
+          "pluginId": "plugin-1785777296",
+          "name": "x_mcp_connector",
+          "state": "failed",
+          "text": "FAILED"
+        }
+      ],
+      "websearchClickResult": {
+        "clicked": true,
+        "textImmediatelyAfterClick": "VERIFYING…",
+        "disabledImmediatelyAfterClick": true
+      },
+      "websearchFinalState": {
+        "state": "ready",
+        "text": "READY",
+        "timing": "just now",
+        "latency": "4526ms"
+      },
+      "xmcpFinalState": {
+        "state": "failed",
+        "text": "FAILED",
+        "errorText": "This research source is currently inactive on the OnDemand account."
+      },
+      "summaryCount": "10 ready",
+      "transitions": [
+        {
+          "type": "childList",
+          "pluginId": "plugin-1722260873",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4217.899999976158
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1713924030",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4217.899999976158
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1741871229",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4217.899999976158
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1751872652",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4217.899999976158
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1785777296",
+          "to": "failed",
+          "text": "FAILED",
+          "timestamp": 4217.899999976158
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1716372717",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4217.899999976158
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1716164040",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4217.899999976158
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1785987361",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4217.899999976158
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1784356219",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4218
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1748003575",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4218
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1718116202",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4218
+        },
+        {
+          "type": "childList",
+          "pluginId": "earthquake_search",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218
+        },
+        {
+          "type": "childList",
+          "pluginId": "list_satellites_in_scene",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218
+        },
+        {
+          "type": "childList",
+          "pluginId": "satellite_passes",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218
+        },
+        {
+          "type": "childList",
+          "pluginId": "flights_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218
+        },
+        {
+          "type": "childList",
+          "pluginId": "flight_by_icao24",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218
+        },
+        {
+          "type": "childList",
+          "pluginId": "military_flights_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218
+        },
+        {
+          "type": "childList",
+          "pluginId": "vessels_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218
+        },
+        {
+          "type": "childList",
+          "pluginId": "vessel_by_mmsi",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "traffic_flow_at_point",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "road_network_status",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "fire_detection_search",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "osm_features_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "geocode_place",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "bike_share_status_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "transit_vehicles_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "regional_brief",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "terrain_height_at",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "cameras_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "military_installations_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "radio_stations_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "rocket_launches_recent",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4218.099999964237
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1722260873",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1713924030",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1741871229",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1751872652",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1785777296",
+          "to": "failed",
+          "text": "FAILED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1716372717",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1716164040",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1785987361",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1784356219",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1748003575",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "plugin-1718116202",
+          "to": "ready",
+          "text": "READY",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "earthquake_search",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "list_satellites_in_scene",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "satellite_passes",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "flights_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "flight_by_icao24",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "military_flights_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "vessels_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "vessel_by_mmsi",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "traffic_flow_at_point",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "road_network_status",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "fire_detection_search",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "osm_features_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "geocode_place",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "bike_share_status_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "transit_vehicles_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "regional_brief",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "terrain_height_at",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "cameras_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "military_installations_in_bbox",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "radio_stations_near",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        },
+        {
+          "type": "childList",
+          "pluginId": "rocket_launches_recent",
+          "to": "discovered",
+          "text": "DISCOVERED",
+          "timestamp": 4354
+        }
+      ],
+      "isolation": {
+        "seededEarthquakeMsgs": 2,
+        "alertIsolation": {
+          "msgs": 0,
+          "hasEmptyState": false,
+          "emptyStateText": "",
+          "containsEarthquake": false,
+          "fullTextLength": 38
+        },
+        "earthquakeRestored": {
+          "msgs": 2,
+          "containsOriginalQuestion": true
+        },
+        "isolated": true
+      },
+      "screenshots": {
+        "initial": "check-plugins-initial-390x844.png",
+        "ready": "check-plugins-ready-390x844.png",
+        "failed": "check-plugins-failed-390x844.png",
+        "isolation": "check-isolation-390x844.png"
+      }
+    }
+  },
+  "endedAt": "2026-10-21T08:22:05.393Z"
+}

@@ -14,8 +14,8 @@ export default defineConfig(({ mode }) => {
   }
   return createBrowserViteConfig({
     plugins: [...localProviderPlugins(), apiNotFoundPlugin()],
-    googleApiKey: process.env.GOOGLE_MAPS_API_KEY,
-    cesiumToken: process.env.CESIUM_ION_TOKEN,
+    googleApiKey: process.env.VITE_GOOGLE_MAPS_API_KEY,
+    cesiumToken: process.env.VITE_CESIUM_ION_TOKEN,
     host: process.env.HOST,
     port: process.env.PORT,
   });

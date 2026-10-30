@@ -172,7 +172,7 @@ async function installDeterministicDevEndpoints(page) {
       await request.continue();
       return;
     }
-    if (url.pathname === '/api/openai/hud-summary') {
+    if (url.pathname === '/api/ondemand/v2/summaries/hud') {
       await request.respond({
         status: 200,
         contentType: 'application/json',

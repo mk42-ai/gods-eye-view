@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Chat-canvas embed harness — OnDemand Intelligence Workstation</title>
+    <!--
+      QA harness that MIRRORS an OnDemand chat-canvas embed. It is NOT the real
+      OnDemand host. Query parameters:
+        src=<url>        app URL to frame (default: same-origin "/?welcome=0")
+        sandbox=<list>   iframe sandbox tokens (default: allow-scripts allow-same-origin allow-forms allow-popups)
+                         sandbox=none removes the attribute entirely
+        allow=<policy>   iframe allow attribute (default: restrictive, NO microphone)
+                         allow=mic grants microphone; allow=none omits the attribute
+        chrome=0         hide the host chat chrome (header strip + fake chat column)
+      The host also posts a benign message into the frame and records every
+      message the frame posts back, so postMessage interception is observable.
+    -->
+    <style>
+      html, body { margin: 0; height: 100%; background: #0e1116; color: #d9e1ea; font: 12px/1.4 ui-sans-serif, system-ui, sans-serif; }
+      body { display: grid; grid-template-rows: 32px 1fr; }
+      #host-bar { display: flex; align-items: center; gap: 10px; padding: 0 10px; border-bottom: 1px solid #263040; background: #131922; white-space: nowrap; overflow: hidden; }
+      #host-bar b { color: #7fd1b9; }
+      #host-status { color: #8a97a8; overflow: hidden; text-overflow: ellipsis; }
+      #canvas-wrap { position: relative; min-height: 0; padding: 8px; box-sizing: border-box; }
+      #canvas-card { position: relative; height: 100%; border: 1px solid #263040; border-radius: 10px; overflow: hidden; background: #000; }
+      iframe { display: block; width: 100%; height: 100%; border: 0; }
+      body.no-chrome { grid-template-rows: 0 1fr; }
+      body.no-chrome #host-bar { display: none; }
+      body.no-chrome #canvas-wrap { padding: 0; }
+      body.no-chrome #canvas-card { border: 0; border-radius: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="host-bar"><b>CANVAS</b><span id="host-status">loading…</span></div>
+    <div id="canvas-wrap"><div id="canvas-card"></div></div>
+    <script>
+      (() => {
+        const params = new URLSearchParams(location.search);
+        const DEFAULT_SANDBOX = 'allow-scripts allow-same-origin allow-forms allow-popups';
+        const RESTRICTIVE_ALLOW = "microphone 'none'; camera 'none'; geolocation 'none'; clipboard-write 'none'; fullscreen 'none'";
+        const src = params.get('src') || '/?welcome=0';
+        const sandbox = params.get('sandbox') ?? DEFAULT_SANDBOX;
+        const allowParam = params.get('allow') || 'restrictive';
+        const allow = allowParam === 'mic' ? 'microphone *; autoplay *' : allowParam === 'none' ? null : RESTRICTIVE_ALLOW;
+        if (params.get('chrome') === '0') document.body.classList.add('no-chrome');
+        const frame = document.createElement('iframe');
+        frame.id = 'canvas-frame';
+        frame.title = 'OnDemand Intelligence Workstation (chat-canvas embed)';
+        if (sandbox !== 'none') frame.setAttribute('sandbox', sandbox);
+        if (allow) frame.setAttribute('allow', allow);
+        frame.src = src;
+        document.getElementById('canvas-card').appendChild(frame);
+        const messages = [];
+        window.__harness = { src, sandbox, allow, messages, loadedUtc: null };
+        document.body.dataset.harnessSandbox = sandbox;
+        document.body.dataset.harnessAllow = allow || '';
+        window.addEventListener('message', (event) => {
+          if (event.source !== frame.contentWindow) return;
+          let data;
+          try { data = JSON.parse(JSON.stringify(event.data)); } catch { data = String(event.data); }
+          messages.push({ utc: new Date().toISOString(), origin: event.origin, data });
+          document.body.dataset.harnessMessages = String(messages.length);
+        });
+        frame.addEventListener('load', () => {
+          window.__harness.loadedUtc = new Date().toISOString();
+          document.body.dataset.harnessLoaded = 'true';
+          document.getElementById('host-status').textContent =
+            `framed ${src} · sandbox="${sandbox}" · allow="${allow || '(none)'}" · loaded ${window.__harness.loadedUtc}`;
+          // A host-style message the app must ignore without side effects.
+          try { frame.contentWindow.postMessage({ type: 'host:canvas-ready', from: 'embed-canvas-harness' }, '*'); } catch {}
+        });
+      })();
+    </script>
+  </body>
+</html>

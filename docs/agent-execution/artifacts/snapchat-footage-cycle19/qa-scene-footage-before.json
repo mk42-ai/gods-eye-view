@@ -1,0 +1,111 @@
+{
+ "startedUtc": "2026-10-27T01:06:31.548Z",
+ "url": "http://localhost:4311",
+ "label": "before",
+ "mode": "before",
+ "host": "MIRRORED chat-canvas harness served SAME-ORIGIN from the app (local http baseline only)",
+ "driver": "Puppeteer (repo devDependency) driving /usr/bin/chromium",
+ "runs": [
+  {
+   "id": "before-1440x900",
+   "viewport": "1440x900",
+   "startedUtc": "2026-10-27T01:06:31.868Z",
+   "checks": [
+    {
+     "utc": "2026-10-27T01:06:32.840Z",
+     "name": "cross-origin-iframe-found",
+     "ok": true,
+     "detail": {
+      "hostOrigin": "https://canvas.on-demand.io"
+     }
+    },
+    {
+     "utc": "2026-10-27T01:07:01.717Z",
+     "name": "before: pending feedback",
+     "ok": true,
+     "detail": {
+      "pendingMs": 2440
+     }
+    },
+    {
+     "utc": "2026-10-27T01:07:26.724Z",
+     "name": "before: no Snapchat footage panel exists (baseline)",
+     "ok": true,
+     "detail": {
+      "hasPanel": false
+     }
+    },
+    {
+     "utc": "2026-10-27T01:07:26.968Z",
+     "name": "no uncaught page errors",
+     "ok": true,
+     "detail": []
+    }
+   ],
+   "stages": [],
+   "network": [],
+   "pageErrors": [],
+   "screenshots": [
+    "before-idle-1440x900.png",
+    "before-marina-30s-1440x900.png"
+   ],
+   "locations": {},
+   "endedUtc": "2026-10-27T01:07:26.968Z"
+  },
+  {
+   "id": "before-375x739",
+   "viewport": "375x739",
+   "startedUtc": "2026-10-27T01:07:26.980Z",
+   "checks": [
+    {
+     "utc": "2026-10-27T01:07:27.850Z",
+     "name": "cross-origin-iframe-found",
+     "ok": true,
+     "detail": {
+      "hostOrigin": "https://canvas.on-demand.io"
+     }
+    },
+    {
+     "utc": "2026-10-27T01:07:40.036Z",
+     "name": "before: pending feedback",
+     "ok": true,
+     "detail": {
+      "pendingMs": 1552
+     }
+    },
+    {
+     "utc": "2026-10-27T01:08:05.040Z",
+     "name": "before: no Snapchat footage panel exists (baseline)",
+     "ok": true,
+     "detail": {
+      "hasPanel": false
+     }
+    },
+    {
+     "utc": "2026-10-27T01:08:05.115Z",
+     "name": "no uncaught page errors",
+     "ok": true,
+     "detail": []
+    }
+   ],
+   "stages": [],
+   "network": [],
+   "pageErrors": [],
+   "screenshots": [
+    "before-idle-375x739.png",
+    "before-marina-30s-375x739.png"
+   ],
+   "locations": {},
+   "endedUtc": "2026-10-27T01:08:05.116Z"
+  }
+ ],
+ "passed": 8,
+ "failed": 0,
+ "failures": [],
+ "keyScan": {
+  "checked": 0,
+  "hits": 0,
+  "enabled": false
+ },
+ "endedUtc": "2026-10-27T01:08:05.124Z"
+}

@@ -1,0 +1,22 @@
+ts=2026-10-21T09:33:33Z
+HTTP/2 200 
+date: Wed, 21 Oct 2026 09:33:34 GMT
+content-type: application/json; charset=utf-8
+content-length: 337
+cache-control: no-store
+x-ondemand-key-source: server
+server: Vercel
+x-vercel-id: iad1::vmrzh-1792575214022-a391de57b603
+strict-transport-security: max-age=63072000
+x-vercel-internal-path-type: sandbox
+x-vercel-internal-metadata-state: origin_stale
+x-vercel-internal-cache-level: unknown
+x-vercel-internal-project-id: u
+x-vercel-internal-owner-id: u
+x-vercel-internal-deployment-id: u
+x-vercel-internal-proxy-pool: green
+x-vercel-internal-request-cpu-ms: 1
+x-vercel-internal-proxy-cpu-load: 44
+x-vercel-internal-timing: vcoe_from_proxy=11
+
+http_code=200 time_total=0.087825

@@ -2,7 +2,9 @@ import { makeRateLimiter } from '../../../src/sources/rateLimit.js';
 export { makeRateLimiter } from '../../../src/sources/rateLimit.js';
 
 /**
- * Opt-in per-IP rate limiter for the cost-bearing API proxies (OpenAI / Google).
+ * Opt-in per-IP rate limiter for the cost-bearing API proxies (Google Places;
+ * the OnDemand routes have their own per-user limiter in
+ * server/ondemand/foundation/guards.js).
  * DEFAULT IS UNLIMITED: when the env var is unset, `0`, or non-numeric, this
  * returns `null` and the caller skips the check entirely — a runtime no-op that
  * preserves the original behavior. Only a positive integer N enables a fixed

@@ -1,4 +1,6 @@
-import { initFirstRunExperience } from '../firstRunExperience.js';
+// Cycle 21: the four-card first-launch modal is replaced by the calm launch +
+// Driver.js walkthrough (src/ui/guidedLaunch.js); the call site is unchanged.
+import { initGuidedLaunch as initFirstRunExperience } from '../ui/guidedLaunch.js';
 
 /** Reveal welcome controls only after restoration and the loading transition. */
 export function startApplicationChrome({

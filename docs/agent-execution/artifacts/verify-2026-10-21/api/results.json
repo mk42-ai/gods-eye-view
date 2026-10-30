@@ -1,0 +1,448 @@
+{
+  "agent": 3,
+  "urlUsed": "https://ondemand-eand-spatial-qrli9v1uy-schoolhack-web-team.vercel.app",
+  "startedUtc": "2026-10-21T06:00:44.303Z",
+  "finishedUtc": "2026-10-21T06:04:05.520Z",
+  "checks": [
+    {
+      "id": "S1-01",
+      "name": "GET /api/ondemand/v2/health status 200 healthy",
+      "result": "PASS",
+      "evidence": "HTTP 200, body: {\"ok\":true,\"configured\":true,\"conversationBackend\":\"memory\",\"contracts\":33,\"activePlugins\":10,\"defaultEndpointId\":\"predefined-gpt-6-luna\",\"workflowId\":{\"configured\":true,\"source\":\"ONDEMAND_SPATIAL_WORKFLOW_ID\",\"valid\":true},\"guards\":{\"rateLimitPerMinute\":60,\"userHeaderRequired\":false,\"promptInjectionFencing\":true},\"keySource\":\"server\"}",
+      "screenshot": "",
+      "utc": "2026-10-21T06:00:44.537Z"
+    },
+    {
+      "id": "S1-02",
+      "name": "GET /api/ondemand/v2/voice/health status 200",
+      "result": "PASS",
+      "evidence": "HTTP 200, body: {\"ok\":true,\"configured\":true,\"voiceFlowId\":{\"resolvedVia\":\"ONDEMAND_VOICE_WORKFLOW_ID\"},\"services\":[\"speech_to_text\",\"text_to_speech\"],\"realtimeTransport\":\"turn-based (OnDemand exposes no realtime audio API)\"}",
+      "screenshot": "",
+      "utc": "2026-10-21T06:00:44.571Z"
+    },
+    {
+      "id": "S1-03",
+      "name": "GET /api/voice/health alias status 200",
+      "result": "PASS",
+      "evidence": "HTTP 200, body: {\"ok\":true,\"configured\":true,\"voiceFlowId\":{\"resolvedVia\":\"ONDEMAND_VOICE_WORKFLOW_ID\"},\"services\":[\"speech_to_text\",\"text_to_speech\"],\"realtimeTransport\":\"turn-based (OnDemand exposes no realtime audio API)\"}",
+      "screenshot": "",
+      "utc": "2026-10-21T06:00:44.604Z"
+    },
+    {
+      "id": "S1-04",
+      "name": "GET /api/ondemand/v2/contracts count 33 (11 plugin, 21 tool, 1 workflow)",
+      "result": "PASS",
+      "evidence": "HTTP 200, total=33, breakdown={\"ondemand-plugin\":11,\"ondemand-tool\":21,\"ondemand-workflow\":1}",
+      "screenshot": "",
+      "utc": "2026-10-21T06:00:44.660Z"
+    },
+    {
+      "id": "S1-05",
+      "name": "GET /api/ondemand/v2/plugins states valid and none ready with null verifiedAt",
+      "result": "PASS",
+      "evidence": "HTTP 200, count=32, allValid=true, noneNullVerified=true",
+      "screenshot": "",
+      "utc": "2026-10-21T06:00:44.746Z"
+    },
+    {
+      "id": "S1-06",
+      "name": "GET /api/health legacy route status 404 (UNSUPPORTED)",
+      "result": "UNSUPPORTED",
+      "evidence": "HTTP 404; route does not exist: health lives at /api/ondemand/v2/health",
+      "screenshot": "",
+      "utc": "2026-10-21T06:00:44.778Z"
+    },
+    {
+      "id": "S1-07",
+      "name": "GET /site.webmanifest status 200",
+      "result": "PASS",
+      "evidence": "HTTP 200",
+      "screenshot": "",
+      "utc": "2026-10-21T06:00:44.810Z"
+    },
+    {
+      "id": "S1-08",
+      "name": "GET /assets/brand/favicon.ico status 200 and image/x-icon content-type",
+      "result": "PASS",
+      "evidence": "HTTP 200, Content-Type: image/vnd.microsoft.icon",
+      "screenshot": "",
+      "utc": "2026-10-21T06:00:44.853Z"
+    },
+    {
+      "id": "S1-09",
+      "name": "GET /api/realtime/token returns 404 retired OpenAI path (PASS)",
+      "result": "PASS",
+      "evidence": "HTTP 404 (expected 404 retired OpenAI realtime path)",
+      "screenshot": "",
+      "utc": "2026-10-21T06:00:44.899Z"
+    },
+    {
+      "id": "S2-01",
+      "name": "Direct platform session creation (POST /chat/v1/sessions)",
+      "result": "PASS",
+      "evidence": "HTTP 201, sessionId: 6ad8550d7bb80aa7c2d97ddb",
+      "screenshot": "",
+      "utc": "2026-10-21T06:00:45.154Z"
+    },
+    {
+      "id": "S2-02",
+      "name": "Direct platform SSE query stream read manually",
+      "result": "PASS",
+      "evidence": "HTTP 200, events=93, counts={\"heartbeat\":10,\"planning_thinking\":17,\"planning_output\":17,\"step_thinking\":16,\"step_output\":19,\"fulfillment\":12,\"metricsLog\":1,\"message\":1}, firstByte=3521ms, firstToken=28622ms, total=30887ms, messageId=6ad8550d7bb80aa7c2d97ddc",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:16.041Z"
+    },
+    {
+      "id": "S2-03",
+      "name": "Proxy POST /api/ondemand/v2/chat streaming and provenance validation",
+      "result": "PASS",
+      "evidence": "HTTP 200, events=21, counts={\"session\":1,\"message\":17,\"heartbeat\":1,\"provenance\":1,\"done\":1}, keySource=server, confidenceBasis=inferred",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:20.605Z"
+    },
+    {
+      "id": "S2-04",
+      "name": "GET /api/ondemand/v2/messages persistence (>= 2 messages)",
+      "result": "PASS",
+      "evidence": "HTTP 200, messages count=2, sessionId=6ad8552c0bb93a15a0dd3d7a",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:25.709Z"
+    },
+    {
+      "id": "S2-05",
+      "name": "POST /api/ondemand/v2/chat authz rejection (403 user_mismatch)",
+      "result": "PASS",
+      "evidence": "HTTP 403, body: {\"error\":\"user_mismatch\"}",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:25.741Z"
+    },
+    {
+      "id": "S2-06",
+      "name": "Session isolation across 3 concurrent users (3 distinct sessionIds)",
+      "result": "PASS",
+      "evidence": "SessionIds: 6ad855367bb80aa7c2d97df1, 6ad855367bb80aa7c2d97df2, 6ad85536f922b50dc6673870 (distinct count=3)",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:31.015Z"
+    },
+    {
+      "id": "S3-01",
+      "name": "GET /automation/api/workflow/{id} details & active state",
+      "result": "PASS",
+      "evidence": "HTTP 200, isActive=true, triggerType=webhook, webhookKeys=[\"auth\"]",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:31.299Z"
+    },
+    {
+      "id": "S3-02",
+      "name": "Execute workflow via API (POST /automation/api/workflow/{id}/execute)",
+      "result": "PASS",
+      "evidence": "HTTP 200, executionID=6ad8553b5e60695bc4d0563a",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:31.544Z"
+    },
+    {
+      "id": "S3-03",
+      "name": "Poll workflow execution to terminal state",
+      "result": "PASS",
+      "evidence": "Terminal status=success, duration=9601ms, statusesSeen=[\"executing\",\"success\"]",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:41.145Z"
+    },
+    {
+      "id": "S3-04",
+      "name": "Fetch workflow logs and node outputs",
+      "result": "PASS",
+      "evidence": "Logs count=11, node outputs keys=[analyzer-0,trigger,voice_agent_answer,voice_turn_input], snippet=\"{payload}\"",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:41.442Z"
+    },
+    {
+      "id": "S3-05",
+      "name": "Platform workflow log stream endpoints probe (404 UNSUPPORTED)",
+      "result": "UNSUPPORTED",
+      "evidence": "/logs/stream HTTP 404, /stream HTTP 404 (no log streaming endpoint)",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:41.738Z"
+    },
+    {
+      "id": "S3-06",
+      "name": "Proxy workflow execute route (POST /api/ondemand/v2/workflows/execute)",
+      "result": "PASS",
+      "evidence": "HTTP 202, executionID=6ad855465e60695bc4d05640, streamPath=/api/ondemand/v2/workflows/executions/6ad855465e60695bc4d05640/stream",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:42.083Z"
+    },
+    {
+      "id": "S4-01",
+      "name": "Text to speech execution (POST /services/.../execute/text_to_speech)",
+      "result": "PASS",
+      "evidence": "HTTP 200, audio host=airevprod.blob.core.windows.net, bytes=57984, contentType=application/octet-stream",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:45.785Z"
+    },
+    {
+      "id": "S4-02",
+      "name": "Speech to text execution and token overlap (>= 60%)",
+      "result": "PASS",
+      "evidence": "HTTP 200, transcript=\"On-demand intelligence workstation verification cycle four.\", overlap=100%, matched=[ondemand,intelligence,workstation,verification,cycle,four]",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:46.285Z"
+    },
+    {
+      "id": "S4-03",
+      "name": "Deployed voice route POST /api/ondemand/v2/voice/turn with transcript",
+      "result": "PASS",
+      "evidence": "HTTP 200, events=30, counts={\"turn\":1,\"session\":1,\"delta\":25,\"answer\":1,\"tts\":1,\"done\":1}, ttsHost=airevprod.blob.core.windows.net, metrics={\"sttMs\":0,\"chatMs\":6609,\"ttsMs\":1599,\"totalMs\":8441}",
+      "screenshot": "",
+      "utc": "2026-10-21T06:01:54.782Z"
+    },
+    {
+      "id": "S4-04",
+      "name": "Full STT->chat->TTS via deployed voice route with audioUrl",
+      "result": "PASS",
+      "evidence": "HTTP 200, transcript=\"On-demand intelligence workstation verification cycle four.\", counts={\"turn\":1,\"transcript\":1,\"session\":1,\"delta\":20,\"answer\":1,\"tts\":1,\"done\":1}, metrics={\"sttMs\":313,\"chatMs\":5830,\"ttsMs\":1780,\"totalMs\":8092}",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:03.017Z"
+    },
+    {
+      "id": "S5-01",
+      "name": "Tool route earthquake_search",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:03.759Z"
+    },
+    {
+      "id": "S5-02",
+      "name": "Tool route list_satellites_in_scene",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:03.817Z"
+    },
+    {
+      "id": "S5-03",
+      "name": "Tool route satellite_passes",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:03.853Z"
+    },
+    {
+      "id": "S5-04",
+      "name": "Tool route flights_in_bbox",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=degraded, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:04.270Z"
+    },
+    {
+      "id": "S5-05",
+      "name": "Tool route flight_by_icao24",
+      "result": "EXPECTED-DEGRADED",
+      "evidence": "HTTP 404, ok=false, provider.status=live, error.code=not_found",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:04.566Z"
+    },
+    {
+      "id": "S5-06",
+      "name": "Tool route military_flights_in_bbox",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:04.749Z"
+    },
+    {
+      "id": "S5-07",
+      "name": "Tool route vessels_in_bbox",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=degraded, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:04.796Z"
+    },
+    {
+      "id": "S5-08",
+      "name": "Tool route vessel_by_mmsi",
+      "result": "EXPECTED-DEGRADED",
+      "evidence": "HTTP 404, ok=false, provider.status=degraded, error.code=not_found",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:04.829Z"
+    },
+    {
+      "id": "S5-09",
+      "name": "Tool route traffic_flow_at_point",
+      "result": "EXPECTED-DEGRADED",
+      "evidence": "HTTP 503, ok=false, provider.status=unavailable, error.code=not_configured",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:04.869Z"
+    },
+    {
+      "id": "S5-10",
+      "name": "Tool route road_network_status",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=degraded, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:04.918Z"
+    },
+    {
+      "id": "S5-11",
+      "name": "Tool route fire_detection_search",
+      "result": "EXPECTED-DEGRADED",
+      "evidence": "HTTP 503, ok=false, provider.status=unavailable, error.code=not_configured",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:04.960Z"
+    },
+    {
+      "id": "S5-12",
+      "name": "Tool route osm_features_near",
+      "result": "EXPECTED-DEGRADED",
+      "evidence": "HTTP 502, ok=false, provider.status=none, error.code=upstream_unavailable",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:44.992Z"
+    },
+    {
+      "id": "S5-13",
+      "name": "Tool route geocode_place",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:45.221Z"
+    },
+    {
+      "id": "S5-14",
+      "name": "Tool route bike_share_status_near",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:45.440Z"
+    },
+    {
+      "id": "S5-15",
+      "name": "Tool route transit_vehicles_in_bbox",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:45.575Z"
+    },
+    {
+      "id": "S5-16",
+      "name": "Tool route regional_brief",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:45.612Z"
+    },
+    {
+      "id": "S5-17",
+      "name": "Tool route terrain_height_at",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:45.644Z"
+    },
+    {
+      "id": "S5-18",
+      "name": "Tool route cameras_in_bbox",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:02:45.687Z"
+    },
+    {
+      "id": "S5-19",
+      "name": "Tool route military_installations_in_bbox",
+      "result": "EXPECTED-DEGRADED",
+      "evidence": "HTTP 503, ok=false, provider.status=degraded, error.code=upstream_unavailable",
+      "screenshot": "",
+      "utc": "2026-10-21T06:03:25.745Z"
+    },
+    {
+      "id": "S5-20",
+      "name": "Tool route radio_stations_near",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:03:25.857Z"
+    },
+    {
+      "id": "S5-21",
+      "name": "Tool route rocket_launches_recent",
+      "result": "PASS",
+      "evidence": "HTTP 200, ok=true, provider.status=live, error.code=none",
+      "screenshot": "",
+      "utc": "2026-10-21T06:03:25.894Z"
+    },
+    {
+      "id": "S5-22",
+      "name": "In-process tool invoker (earthquake_search and geocode_place)",
+      "result": "PASS",
+      "evidence": "earthquake_search ok=true (count=2), geocode_place ok=true (results=true)",
+      "screenshot": "",
+      "utc": "2026-10-21T06:03:26.243Z"
+    },
+    {
+      "id": "S5-23",
+      "name": "Investigation endpoint POST /api/ondemand/v2/investigate with in-process tool execution",
+      "result": "PASS",
+      "evidence": "HTTP 200, sources count=2 [internet_web_search:ok:19293ms, earthquake_search:ok:453ms], earthquake_search ok=true",
+      "screenshot": "",
+      "utc": "2026-10-21T06:04:03.760Z"
+    },
+    {
+      "id": "S5-24",
+      "name": "Verification of 11 plugin contracts via /api/ondemand/v2/plugins/verify",
+      "result": "PASS",
+      "evidence": "HTTP 200, verified 11 plugins [perplexity_research:ready(4794ms), internet_web_search:ready(4139ms), gpt_search:ready(5513ms), x_search:ready(4296ms), x_mcp_connector:failed, tiktok_scraper:ready(4672ms), instagram_user_info:ready(6700ms), instagram_professional:ready(7659ms), youtube_captions:ready(4639ms), reddit_posts:ready(4759ms), linkedin_search:ready(4364ms)], x_mcp_connector error=inactive_on_account",
+      "screenshot": "",
+      "utc": "2026-10-21T06:04:03.815Z"
+    },
+    {
+      "id": "S6-01",
+      "name": "L1 Plugin creation via programmatic API (expected 500/524 limit)",
+      "result": "PASS",
+      "evidence": "POST /plugin/v1 HTTP 500; MCP tool ondemandmcp__plugin_v1_plugin_create returned empty output; GET /plugin/v1/list total=0",
+      "screenshot": "",
+      "utc": "2026-10-21T06:04:04.327Z"
+    },
+    {
+      "id": "S6-02",
+      "name": "L1 OpenAPI Spec inventory (17 specs pending dashboard registration)",
+      "result": "PASS",
+      "evidence": "Found 17 openapi.json documents under docs/plugins/*/openapi.json; all 17 pending dashboard registration",
+      "screenshot": "",
+      "utc": "2026-10-21T06:04:04.329Z"
+    },
+    {
+      "id": "S6-03",
+      "name": "L2 Webhook URL not exposed in workflow trigger object",
+      "result": "PASS",
+      "evidence": "GET /automation/api/workflow/6ad8160ab28e35aa11d85632 trigger.webhook contains only [auth], no webhook URL",
+      "screenshot": "",
+      "utc": "2026-10-21T06:04:04.329Z"
+    },
+    {
+      "id": "S6-04",
+      "name": "L3 Content-policy 403 on literal probe phrases",
+      "result": "PASS",
+      "evidence": "Phrase 1 HTTP 403 (content_policy_violation); Phrase 2 HTTP 403 (content_policy_violation)",
+      "screenshot": "",
+      "utc": "2026-10-21T06:04:04.782Z"
+    },
+    {
+      "id": "S6-05",
+      "name": "L4 Vercel project repo link and environment keys presence",
+      "result": "PASS",
+      "evidence": "Repo: mk42-ai/ondemand-eand-spatial (main), env count=21, TOMTOM_API_KEY=false, NASA_FIRMS_MAP_KEY=false, ONDEMAND_VOICE_WORKFLOW_ID=true, ONDEMAND_API_KEY=true",
+      "screenshot": "",
+      "utc": "2026-10-21T06:04:05.217Z"
+    },
+    {
+      "id": "S6-06",
+      "name": "L5 Vercel deployment status inspection",
+      "result": "PASS",
+      "evidence": "HTTP 200, readyState=READY, url=ondemand-eand-spatial-qrli9v1uy-schoolhack-web-team.vercel.app, commitSha=d44264fddfc4d561c3ad5f9fd0cf7d38a530cfda, inspector=https://vercel.com/schoolhack-web-team/ondemand-eand-spatial/7K9b62NbSgmdF4Rd5FfAu3cAHVP8",
+      "screenshot": "",
+      "utc": "2026-10-21T06:04:05.520Z"
+    }
+  ]
+}

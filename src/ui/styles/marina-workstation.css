@@ -1,0 +1,372 @@
+/* Shared evidence markers are anchored to real map coordinates, not a screenshot. */
+.scene-anchor-label { position: fixed; z-index: 40; pointer-events: none; transform: translate(-50%, -190%); max-width: 200px; padding: 4px 8px; border: 1px solid rgba(153, 154, 155, 0.22); border-radius: 5px; color: #edeeef; background: rgba(31, 32, 33, 0.91); font: 600 11px/1.3 system-ui, sans-serif; text-align: center; }
+.scene-anchor-label.external { color: #bdbebf; border-color: rgba(153, 154, 155, 0.22); }
+.scene-anchor-label[hidden] { display: none; }
+.scene-provenance { font: 11px/1.35 system-ui, sans-serif; color: #bdbebf; overflow-wrap: anywhere; }
+.scene-provenance__source { margin-left: 6px; color: #bdbebf; }
+#scene-library-active p { margin: 3px 0; }
+#scene-active-keyframe { margin: 5px 0; color: #3bb795; font: 11px/1.35 system-ui, sans-serif; }
+/* Desktop workstation. Imported after the legacy panels; mobile owns <=700px.
+ * Reserve a shared corridor above the command dock for the incident composer.
+ * No Cesium/attribution rules and no global stacking-layer overrides here.
+ */
+@media (min-width: 701px) {
+  :root {
+    --workstation-sidebar-width: 320px;
+    --workstation-composer-bottom: calc(max(16px, 2vh) + 4.75rem);
+    --workstation-bottom-reserve: calc(
+      var(--workstation-composer-bottom) +
+      max(80px, var(--incident-composer-height, 80px)) + 12px
+    );
+  }
+
+  /* Bound the actual fixed surface, not just its input. Results scroll inside
+   * this surface; the existing measured composer-height reserves its space. */
+  #incident-composer {
+    position: fixed;
+    inset-inline: auto;
+    left: 50%;
+    bottom: var(--workstation-composer-bottom);
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    inline-size: min(640px, calc(100vw - 32px));
+    max-inline-size: calc(100vw - 32px);
+    min-inline-size: 0;
+    min-width: 0;
+    max-block-size: min(340px, calc(100dvh - 200px));
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding: 8px 10px;
+    border-color: rgba(153, 154, 155, 0.22);
+    background: rgba(18, 19, 20, 0.96);
+    border-radius: 10px;
+    font-size: 12px;
+  }
+
+  #incident-composer *,
+  #left-panel-stack *,
+  :is(#od-plugin-panel, #ondemand-plugin-panel, #ondemand-plugin-dock, .od-plugins, .od-plugin) * {
+    box-sizing: border-box;
+    min-width: 0;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  #incident-composer .incident-composer__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  #incident-composer :is(input, textarea) { inline-size: 100%; }
+  #incident-composer .incident-composer__submit { white-space: normal; }
+  #incident-composer .incident-composer__chips { flex-wrap: wrap; }
+  #incident-composer :is(.incident-composer__chip, .incident-composer__result) {
+    overflow-wrap: anywhere;
+  }
+  #incident-composer .incident-composer__result {
+    max-block-size: min(24dvh, 190px);
+    overflow: auto;
+  }
+
+  /* The sidebar is a bounded, transparent host; only its actual panels and
+   * tabs take pointer events. Inline runtime allocation cannot push it below
+   * the command corridor. Native hidden/collapsed states remain meaningful. */
+  #left-panel-stack {
+    top: 96px;
+    bottom: var(--workstation-bottom-reserve);
+    left: 16px;
+    right: auto;
+    width: var(--workstation-sidebar-width);
+    max-inline-size: calc(100vw - 32px);
+    min-width: 0;
+    height: auto;
+    max-height: max(0px, calc(100dvh - 96px - var(--workstation-bottom-reserve)));
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transform: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(153, 154, 155, 0.12) transparent;
+    pointer-events: none;
+  }
+
+  #left-panel-stack > * {
+    min-height: 0;
+    min-width: 0;
+    max-inline-size: 100%;
+    pointer-events: auto;
+  }
+
+  #left-panel-stack > .workstation-sidebar-tabs { order: -2; }
+  #left-panel-stack > #scene-panel { order: -1; }
+
+  #left-panel-stack > :is(#scene-panel, #data-panel, #cctv-panel, #global-context-panel) {
+    --panel-expanded-width: var(--workstation-sidebar-width);
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+
+  #left-panel-stack > :is(#scene-panel, #data-panel, #cctv-panel):not(.collapsed),
+  #left-panel-stack.layout-tail > :is(#scene-panel, #data-panel, #cctv-panel):not(.collapsed) {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    height: auto;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  #left-panel-stack > [hidden] { display: none !important; }
+
+  #left-panel-stack :is(.scene-panel-inner, .data-panel-inner, .cctv-panel-inner) {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+    padding: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
+    border-color: rgba(153, 154, 155, 0.22);
+    background: rgba(20, 21, 22, 0.95);
+    border-radius: 10px;
+  }
+
+  #left-panel-stack .panel-header { gap: 8px; }
+  #left-panel-stack .panel-title {
+    font-size: 11px;
+    line-height: 1.4;
+    letter-spacing: 0.07em;
+    overflow-wrap: anywhere;
+  }
+  #left-panel-stack :is(button, select, input) {
+    max-width: 100%;
+    font-size: 11px;
+    line-height: 1.35;
+  }
+  #left-panel-stack button { min-height: 28px; }
+
+  .workstation-sidebar-tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 0 0 auto;
+    padding: 4px;
+    background: rgba(18, 19, 20, 0.96);
+    border: 1px solid rgba(153, 154, 155, 0.22);
+    border-radius: 10px;
+  }
+  .workstation-sidebar-tabs__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    flex: 1 1 auto;
+    gap: 4px;
+  }
+  .workstation-sidebar-tabs__tab {
+    appearance: none;
+    padding: 8px 10px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: transparent;
+    color: #bdbebf;
+    font: 600 12px/1.3 var(--font-sans, system-ui, sans-serif);
+    cursor: pointer;
+  }
+  .workstation-sidebar-tabs__tab[aria-selected='true'] {
+    color: #3bb795;
+    background: rgba(59, 183, 149, 0.18);
+    border-color: rgba(59, 183, 149, 0.48);
+  }
+  .workstation-sidebar-tabs__tab:hover { background: rgba(59, 183, 149, 0.12); }
+  #left-panel-stack :is(button, input, select, summary):focus-visible,
+  #incident-composer :is(button, input, textarea):focus-visible {
+    outline: 2px solid #3bb795;
+    outline-offset: 2px;
+  }
+
+  /* Active scene first; the name/save grid never inherits min-content width. */
+  #scene-panel .scene-library {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    gap: 7px;
+    margin-bottom: 10px;
+    font: 12px/1.45 var(--font-sans, system-ui, sans-serif);
+    overflow-wrap: anywhere;
+  }
+  .scene-library__heading { order: 0; margin: 0; font-size: 12px; color: #edeeef; }
+  .scene-library__active {
+    order: 1;
+    padding: 9px;
+    background: rgba(59, 183, 149, 0.07);
+    border: 1px solid rgba(59, 183, 149, 0.2);
+    border-radius: 7px;
+  }
+  .scene-library__active p { margin: 2px 0; }
+  .scene-library__active-title { color: #3bb795; font-weight: 600; }
+  :is(.scene-library__meta, .scene-library__location, .scene-library__provenance,
+      .scene-library__empty, .scene-library__status) { color: #bdbebf; font-size: 11px; }
+  .scene-library__form {
+    order: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px 7px;
+    margin: 0;
+  }
+  .scene-library__form .scene-library__label { grid-column: 1 / -1; }
+  .scene-library > .scene-library__label { order: 3; }
+  .scene-library__saved { order: 4; }
+  .scene-library__status { order: 5; margin: 0; }
+  .scene-library__label { color: #bdbebf; font-size: 11px; }
+  #scene-panel :is(.scene-library__name, .scene-library__saved) {
+    width: 100%;
+    min-width: 0;
+    min-height: 32px;
+    padding: 6px 8px;
+    color: #edeeef;
+    background: #1e1f20;
+    border: 1px solid rgba(153, 154, 155, 0.22);
+    border-radius: 6px;
+  }
+  .scene-library__save {
+    padding: 6px 9px;
+    border: 1px solid rgba(153, 154, 155, 0.22);
+    border-radius: 6px;
+    color: #edeeef;
+    background: rgba(153, 154, 155, 0.12);
+    white-space: normal;
+    cursor: pointer;
+  }
+  .scene-library__save:disabled { opacity: 0.5; cursor: default; }
+  #scene-panel .scene-controls { flex-wrap: wrap; gap: 6px; }
+  #scene-panel .scene-btn { min-width: 0; flex: 1 1 72px; white-space: normal; }
+  #scene-panel .scene-shot-list { min-height: 0; max-height: 180px; flex: 0 1 auto; }
+  #scene-panel :is(.scene-shot-top, .scene-shot-actions) { flex-wrap: wrap; gap: 5px; }
+  #scene-panel :is(.scene-shot-label, .scene-shot-meta, #scene-status) {
+    overflow-wrap: anywhere;
+    letter-spacing: 0.02em;
+  }
+
+  /* Native details are closed unless the user opens them; never hide the
+   * disclosure itself or override an intentional [open] state. */
+  #scene-panel :is(.scene-advanced-tools, .scene-library__advanced) {
+    flex: 0 0 auto;
+    margin-top: 8px;
+    border-top: 1px solid rgba(153, 154, 155, 0.18);
+    padding-top: 8px;
+  }
+  #scene-panel :is(.scene-advanced-tools, .scene-library__advanced) > summary {
+    color: #bdbebf;
+    cursor: pointer;
+    padding: 5px 0;
+    font-size: 11px;
+  }
+  #scene-panel details:is(.scene-advanced-tools, .scene-library__advanced):not([open]) > :not(summary) {
+    display: none;
+  }
+
+  #incident-playback {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 6px;
+  }
+  #incident-playback > :nth-child(-n + 4) { grid-row: 1; }
+  #incident-playback :is(button, select) { width: 100%; padding: 5px 4px; }
+  #incident-playback .incident-playback__scrub {
+    grid-column: 1 / 4;
+    grid-row: 2;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+  #incident-playback .incident-playback__clock {
+    grid-column: 4;
+    grid-row: 2;
+    justify-self: end;
+    font-size: 10px;
+    letter-spacing: 0;
+  }
+  #scene-panel .incident-aoi-toggles { gap: 6px 10px; }
+
+  /* Both the legacy floating dock and the named panel are bounded. Never
+   * reposition a panel embedded inside chat: only the floating dock moves.
+   * Existing chat-dependent right offsets and z-index contracts are kept. */
+  :is(#od-plugin-panel, #ondemand-plugin-panel, #ondemand-plugin-dock, .od-plugins, .od-plugin) {
+    box-sizing: border-box;
+    min-width: 0;
+    min-inline-size: 0;
+    max-inline-size: min(340px, calc(100vw - 24px));
+    max-block-size: max(0px, calc(100dvh - 96px - var(--workstation-bottom-reserve)));
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #ondemand-plugin-dock {
+    width: min(340px, calc(100vw - 24px));
+    bottom: var(--workstation-bottom-reserve);
+  }
+  :is(#od-plugin-panel, #ondemand-plugin-panel, #ondemand-plugin-dock, .od-plugins, .od-plugin)
+    :is(.od-plugins__header, .od-plugins__summary, .od-plugin__actions, .od-plugin__sub) {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  :is(#od-plugin-panel, #ondemand-plugin-panel, #ondemand-plugin-dock, .od-plugins, .od-plugin)
+    :is(.od-plugins__details, .od-plugins__list, .od-plugin__row) {
+    width: 100%;
+  }
+  :is(#od-plugin-panel, #ondemand-plugin-panel, #ondemand-plugin-dock, .od-plugins, .od-plugin)
+    .od-plugins__list { max-height: 100%; overflow: auto; }
+  :is(#od-plugin-panel, #ondemand-plugin-panel, #ondemand-plugin-dock, .od-plugins, .od-plugin)
+    .od-plugin__main {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+  }
+  :is(#od-plugin-panel, #ondemand-plugin-panel, #ondemand-plugin-dock, .od-plugins, .od-plugin)
+    .od-plugin__actions { grid-column: 2; justify-content: flex-start; }
+  :is(.od-plugin__name, .od-plugin__provider, .od-plugin__preview, .od-plugin__error) {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+  .od-plugin__state { white-space: normal; font-size: 9px; }
+  .od-plugin__state[data-state='ready'] { color: #5bbf7f; }
+
+  /* Reduce only theatrical scaffolding, preserving live status, recording,
+   * summary, AIS, coordinates and the summary's actionable Ask button. */
+  #intel-hud,
+  #intel-hud :is(.hud-corner, .hud-content, .hud-summary-wrap, .hud-top-bar, .hud-bottom-bar) {
+    pointer-events: none;
+  }
+  #intel-hud :is(button, a, input, select, textarea, [role='button']) { pointer-events: auto; }
+  #intel-hud :is(.hud-bracket, .hud-edge, .hud-classification, .hud-system, .hud-orbital,
+    .hud-top-bar-left, .hud-top-bar-right) { display: none; }
+  #intel-hud :is(.hud-content, .hud-mode, .hud-rec, .hud-summary, .hud-ais-vessel) {
+    font-size: 11px;
+    line-height: 1.45;
+    letter-spacing: 0.025em;
+    text-shadow: none;
+  }
+  #intel-hud .hud-mode { font-size: 12px; }
+  #intel-hud .hud-corner { padding: 5px 7px; }
+  #intel-hud .hud-top-left {
+    top: 96px;
+    left: calc(var(--workstation-sidebar-width) + 32px);
+    max-width: min(280px, calc(100vw - var(--workstation-sidebar-width) - 48px));
+  }
+  #intel-hud .hud-top-right { top: 156px; right: 16px; max-width: 210px; }
+  #intel-hud :is(.hud-summary-wrap, .hud-ais-vessel) { max-width: 100%; }
+  #intel-hud .hud-bottom-left { left: calc(var(--workstation-sidebar-width) + 32px); }
+  #intel-hud :is(.hud-bottom-left, .hud-bottom-right) { bottom: 28px; max-width: 240px; }
+  #intel-hud .hud-bottom-right { right: 16px; }
+}

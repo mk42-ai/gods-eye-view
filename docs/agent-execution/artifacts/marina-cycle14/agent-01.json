@@ -1,0 +1,60 @@
+{
+  "agent": "Agent 1 of 20",
+  "startedUtc": "2026-10-24T01:48:19Z",
+  "finishedUtc": "2026-10-24T01:48:39Z",
+  "role": "Workspace/runtime reproduction; read-only baseline risk inspection",
+  "ownership": {
+    "writeOnly": "/tmp/gev-agent-01.json",
+    "applicationFiles": "read-only; no modifications",
+    "browser": "not used",
+    "git": "no operations"
+  },
+  "status": "complete_static_audit; live behavior not reproduced",
+  "findings": [
+    {
+      "severity": "high",
+      "finding": "Local Node is v22.23.3; package requires Node >=24.14 <25 or >=26 <27. Prior tests explicitly omit two Node-24 allocation files. A Node-22 pass is not supported-runtime coverage.",
+      "evidence": [
+        "package.json:17-19",
+        "docs/agent-execution/MASTER_STATE.md:281"
+      ],
+      "recommendation": "Coordinator should use the declared Node runtime for final install/build/tests and explicitly run the previously omitted allocation tests."
+    },
+    {
+      "severity": "high",
+      "finding": "Startup paths differ: default dev is Vite, while serverless preview serves built dist and dynamically invokes API files. Its default port is 3000, but checkpoint preview publishes 5173.",
+      "evidence": [
+        "package.json:37-50",
+        "vite.config.js:1-3",
+        "server/serverless/dev-server.mjs:5-19",
+        "server/serverless/dev-server.mjs:26-29",
+        "server/serverless/dev-server.mjs:52",
+        "docs/agent-execution/MASTER_STATE.md:279"
+      ],
+      "recommendation": "Preserve the active startup mode and explicit published port; rebuild dist before emulator restart. Test API routing as well as root HTTP status."
+    },
+    {
+      "severity": "high",
+      "finding": "Local .env declares no ONDEMAND_API_KEY; checkpoint says the runtime-only secret was transported then removed. Root rendering therefore cannot prove authenticated backend readiness after recreation.",
+      "evidence": [
+        ".env:1-21 (variable names inspected only)",
+        "docs/agent-execution/MASTER_STATE.md:279"
+      ],
+      "recommendation": "Coordinator must preserve approved runtime-secret injection, without copying secrets into artifacts, and verify configured health after restart."
+    },
+    {
+      "severity": "medium",
+      "finding": "Latest checkpoint is not fully passing: 94/96 browser assertions, 6/8 UI cases; two mobile failures and incomplete full-suite/desktop playback evidence remain.",
+      "evidence": [
+        "docs/agent-execution/MASTER_STATE.md:281-287"
+      ],
+      "recommendation": "Retain these failures as baseline acceptance gaps; prioritize plugin-dock descendant overflow/min-size, then rerun affected mobile cases and desktop playback."
+    }
+  ],
+  "dependencyNotes": [
+    "No application execution, install, build, tests, network requests, browsers, or git operations performed.",
+    "Existing preview URL is checkpoint metadata only, not independently verified.",
+    "rg is unavailable in this workspace; use grep for coordinator diagnostics.",
+    "Coordinate runtime, secret-injection, UI, and test owners before changing startup behavior; preserve uncommitted work."
+  ]
+}

@@ -1,8 +1,8 @@
 {
-  "name": "gods-eye-view",
+  "name": "ondemand-spatial",
   "private": true,
   "version": "0.1.1",
-  "description": "A real-time intelligence console for planet Earth \u2014 photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/CCTV, and hands-free voice control. Runs in a browser.",
+  "description": "OnDemand Spatial — a real-time spatial intelligence console for planet Earth: photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/fires/CCTV and OnDemand-powered analysis. Runs in a browser and on Vercel serverless functions.",
   "type": "module",
   "license": "MIT",
   "author": "Bilawal Sidhu",
@@ -28,7 +28,6 @@
     "ais",
     "satellites",
     "voice-control",
-    "openai-realtime",
     "visualization"
   ],
   "scripts": {
@@ -38,23 +37,40 @@
     "dev": "vite",
     "dev:secure": "./scripts/dev-secure.sh",
     "opensky:import": "./scripts/opensky-import-client.sh",
+    "prebuild": "node scripts/refresh-celestrak-snapshot.mjs --skip-if-fresh 6",
     "build": "vite build",
     "preview": "vite preview",
     "test": "node scripts/run-unit-tests.mjs",
+    "test:serverless": "node --test server/serverless/*.test.mjs",
+    "test:ondemand": "node --test server/ondemand/*.test.mjs",
+    "test:foundation": "node --test server/ondemand/foundation/*.test.mjs",
+    "test:scene-evidence": "node --test server/scene-evidence/*.test.mjs server/scene-videos/*.test.mjs server/scene-footage/*.test.mjs",
+    "ondemand:foundation:live": "node scripts/ondemand-foundation-live.mjs",
+    "ondemand:contract": "node scripts/ondemand-contract-test.mjs",
+    "dev:serverless": "node server/serverless/dev-server.mjs",
+    "start:serverless": "npm run build && node server/serverless/dev-server.mjs",
     "test:track": "node scripts/track-regression.mjs",
     "qa:map-source-tray": "node scripts/qa-map-source-tray.mjs",
-    "check:boundaries": "node scripts/check-import-directions.mjs && node scripts/check-package-boundaries.mjs",
-    "qa:transit": "node scripts/qa-transit.mjs"
+    "check:boundaries": "node scripts/check-import-directions.mjs && node scripts/check-package-boundaries.mjs && node scripts/check-brand-marks.mjs",
+    "check:secrets": "node scripts/check-no-secrets.mjs",
+    "qa:transit": "node scripts/qa-transit.mjs",
+    "qa:chat": "node scripts/qa-chat-harness.mjs",
+    "test:scene-footage": "node --test server/scene-footage/*.test.mjs",
+    "check:secrets:dist": "node scripts/check-no-secrets.mjs --dist"
   },
   "dependencies": {
     "@mapbox/vector-tile": "^3.0.0",
     "cesium": "^1.124.0",
+    "driver.js": "1.10.2",
     "egm96-universal": "^1.1.1",
+    "lucide": "1.65.0",
     "mgrs": "^2.1.0",
     "pbf": "^5.1.2",
-    "satellite.js": "^6.0.2"
+    "satellite.js": "^6.0.2",
+    "simple-icons": "^16.36.0"
   },
   "devDependencies": {
+    "lucide-static": "1.47.0",
     "prettier": "3.9.6",
     "puppeteer": "^25.10.0",
     "sharp": "^0.35.4",
@@ -113,9 +129,6 @@
     "./server/providers/regional": {
       "node": "./server/providers/regional.js"
     },
-    "./server/providers/openai": {
-      "node": "./server/providers/openai.js"
-    },
     "./server/standalone/key-setup": {
       "node": "./server/standalone/key-setup.js"
     },
@@ -172,11 +185,6 @@
     "./maps/terrain": "./src/maps/terrain.js",
     "./maps/3d": "./src/maps/google3d.js",
     "./maps/defaults": "./src/maps/defaultSources.js",
-    "./voice/controller": "./src/voice/realtimeController.js",
-    "./voice/control": "./src/voice/control.js",
-    "./voice/realtime-backend": "./src/voice/realtimeBackend.js",
-    "./voice/commands": "./src/voice/commands.js",
-    "./voice/cost": "./src/voice/voiceCost.js",
     "./application/scene": "./src/app/scene.js",
     "./application/controls": "./src/app/controls.js",
     "./application/data": "./src/app/data.js",
@@ -214,9 +222,6 @@
     "./sources/cctv-types": "./src/sources/cctvTypes.js",
     "./sources/regional": "./src/data/regionalModel.js",
     "./voice/action-schemas": "./src/voice/actionSchemas.js",
-    "./voice/session": "./src/voice/session.js",
-    "./voice/session-controls": "./src/voice/sessionCommands.js",
-    "./voice/realtime-session": "./src/voice/realtimeSession.js",
     "./layers/alpr/source": "./src/layers/alpr/source.js",
     "./layers/bikeshare/source": "./src/layers/bikeshare/source.js",
     "./layers/cctv/source": "./src/layers/cctv/source.js",

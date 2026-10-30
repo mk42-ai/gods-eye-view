@@ -1,0 +1,263 @@
+{
+  "agent": 19,
+  "scope": "read-only deployment/security review",
+  "root": "/home/appuser/work/6692b763e851d28a036ab30e/6ad9daa8a32a07124b4a9356/gods-eye-view",
+  "started_at_utc": "2026-10-24T01:54:07.070537+00:00",
+  "checks_at_utc": "2026-10-24T01:54:34.362556+00:00",
+  "node_version": "v22.23.3",
+  "source_secret_check": {
+    "command": "node scripts/check-no-secrets.mjs",
+    "started_at_utc": "2026-10-24T01:54:34.367921+00:00",
+    "finished_at_utc": "2026-10-24T01:54:35.282927+00:00",
+    "returncode": 0,
+    "stdout": "check-no-secrets: scanned 1743 text files under src, public, api, server, scripts, tools, docs, config, build, index.html, package.json, README.md, CHANGELOG.md, SECURITY.md, TESTING.md, DATA_SOURCES.md, .env.example, vercel.json, vite.config.js\n\u2713 no key material in the source tree\n",
+    "stderr": ""
+  },
+  "sandbox": {
+    "id": "sbx_gvBKmP4qburZYYp7g3EAD8wBWtxw",
+    "url": "https://sb-2nei6kyp3xva.vercel.run",
+    "port": 5173
+  },
+  "http_checks": [
+    {
+      "method": "GET",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/api/health",
+      "started_at_utc": "2026-10-24T01:54:35.282982+00:00",
+      "finished_at_utc": "2026-10-24T01:54:35.385030+00:00",
+      "status_code": 200,
+      "headers": {
+        "content-type": "application/json; charset=utf-8",
+        "cache-control": "no-store",
+        "strict-transport-security": "max-age=63072000",
+        "server": "Vercel"
+      },
+      "missing_security_headers": [
+        "content-security-policy",
+        "x-frame-options",
+        "x-content-type-options",
+        "referrer-policy",
+        "permissions-policy"
+      ],
+      "json_top_level_keys": [
+        "activePlugins",
+        "configured",
+        "contracts",
+        "conversationBackend",
+        "defaultEndpointId",
+        "guards",
+        "keySource",
+        "ok",
+        "workflowId"
+      ],
+      "public_status_fields": {
+        "ok": true,
+        "configured": true
+      }
+    },
+    {
+      "method": "HEAD",
+      "url": "https://sb-2nei6kyp3xva.vercel.run/",
+      "started_at_utc": "2026-10-24T01:54:35.385114+00:00",
+      "finished_at_utc": "2026-10-24T01:54:35.714979+00:00",
+      "status_code": 200,
+      "headers": {
+        "content-type": "text/html; charset=utf-8",
+        "cache-control": "public, max-age=0, must-revalidate",
+        "strict-transport-security": "max-age=63072000",
+        "server": "Vercel"
+      },
+      "missing_security_headers": [
+        "content-security-policy",
+        "x-frame-options",
+        "x-content-type-options",
+        "referrer-policy",
+        "permissions-policy"
+      ]
+    }
+  ],
+  "env_names_only": [
+    "ASK_ENABLED",
+    "ASK_THE_DEAL_ALLOWED_ORIGIN",
+    "CI",
+    "GODS_EYE_FLOW_VERSION",
+    "HOST",
+    "ONDEMAND_ALLOW_CLIENT_KEY",
+    "ONDEMAND_API_BASE",
+    "ONDEMAND_BASE_URL",
+    "ONDEMAND_ENDPOINT_ID",
+    "ONDEMAND_FULFILLMENT_ENDPOINT_ID",
+    "ONDEMAND_REASONING_ENDPOINT_ID",
+    "ONDEMAND_REASONING_MODE",
+    "ONDEMAND_SELFTEST_TOKEN",
+    "ONDEMAND_SPATIAL_FLOW_VERSION",
+    "ONDEMAND_SPATIAL_WORKFLOW_ID",
+    "ONDEMAND_VOICE_WORKFLOW_ID",
+    "PORT",
+    "PRODUCT_NAME",
+    "PUPPETEER_SKIP_DOWNLOAD",
+    "SERVERLESS_MODE",
+    "VITE_SERVERLESS_MODE"
+  ],
+  "example_names_missing_from_env": [
+    "AISSTREAM_API_KEY",
+    "CESIUM_ION_TOKEN",
+    "GOOGLE_MAPS_API_KEY",
+    "GOOGLE_MAPS_SERVER_API_KEY",
+    "LL2_API_TOKEN",
+    "ONDEMAND_API_KEY",
+    "ONDEMAND_REQUEST_TIMEOUT_MS",
+    "ONDEMAND_SPATIAL_AGENT_ID",
+    "ONDEMAND_SPATIAL_TOOL_ID",
+    "OPENSKY_AUTH_MODE",
+    "OPENSKY_CLIENT_ID",
+    "OPENSKY_CLIENT_SECRET",
+    "TOMTOM_API_KEY",
+    "VITE_AIS_LIVE_API_URL",
+    "VITE_AIS_LIVE_LABEL_MAX_ROWS",
+    "VITE_AIS_LIVE_MAX_ROWS"
+  ],
+  "package": {
+    "name": "ondemand-spatial",
+    "version": "0.1.1",
+    "private": true,
+    "engines": {
+      "node": ">=24.14.0 <25 || >=26 <27"
+    },
+    "scripts": {
+      "doctor": "node scripts/setup-doctor.mjs",
+      "format": "node scripts/format.mjs --write",
+      "format:check": "node scripts/format.mjs --check",
+      "dev": "vite",
+      "dev:secure": "./scripts/dev-secure.sh",
+      "opensky:import": "./scripts/opensky-import-client.sh",
+      "prebuild": "node scripts/refresh-celestrak-snapshot.mjs --skip-if-fresh 6",
+      "build": "vite build",
+      "preview": "vite preview",
+      "test": "node scripts/run-unit-tests.mjs",
+      "test:serverless": "node --test server/serverless/*.test.mjs",
+      "test:ondemand": "node --test server/ondemand/*.test.mjs",
+      "test:foundation": "node --test server/ondemand/foundation/*.test.mjs",
+      "ondemand:foundation:live": "node scripts/ondemand-foundation-live.mjs",
+      "ondemand:contract": "node scripts/ondemand-contract-test.mjs",
+      "dev:serverless": "node server/serverless/dev-server.mjs",
+      "start:serverless": "npm run build && node server/serverless/dev-server.mjs",
+      "test:track": "node scripts/track-regression.mjs",
+      "qa:map-source-tray": "node scripts/qa-map-source-tray.mjs",
+      "check:boundaries": "node scripts/check-import-directions.mjs && node scripts/check-package-boundaries.mjs && node scripts/check-brand-marks.mjs",
+      "check:secrets": "node scripts/check-no-secrets.mjs",
+      "qa:transit": "node scripts/qa-transit.mjs",
+      "qa:chat": "node scripts/qa-chat-harness.mjs"
+    },
+    "dependencies": {
+      "@mapbox/vector-tile": "^3.0.0",
+      "cesium": "^1.124.0",
+      "egm96-universal": "^1.1.1",
+      "mgrs": "^2.1.0",
+      "pbf": "^5.1.2",
+      "satellite.js": "^6.0.2"
+    },
+    "devDependencies": {
+      "lucide-static": "1.47.0",
+      "prettier": "3.9.6",
+      "puppeteer": "^25.10.0",
+      "sharp": "^0.35.4",
+      "vite": "^6.0.0",
+      "vite-plugin-cesium": "^1.2.23",
+      "ws": "^8.21.0"
+    }
+  },
+  "lock": {
+    "lockfileVersion": 3,
+    "selected_versions": {
+      "vite": "6.4.3",
+      "vite-plugin-cesium": "1.2.23",
+      "cesium": "1.138.0",
+      "puppeteer": "25.10.0",
+      "ws": "8.21.3",
+      "sharp": "0.35.4"
+    }
+  },
+  "root_paths": {
+    "package.json": true,
+    "package-lock.json": true,
+    "vercel.json": true,
+    "index.html": true,
+    "api/route.js": false,
+    "api/[...route].js": true,
+    "server/standalone/vite.config.js": true,
+    "dist/index.html": true,
+    "src/registry/capabilities.json": true
+  },
+  "completed_at_utc": "2026-10-24T01:54:49.999350+00:00",
+  "status": "completed_with_config_and_security_caveats",
+  "summary": "Source secret scan passed; permitted live probes passed. No application files or sandbox state changed.",
+  "findings": [
+    {
+      "severity": "high",
+      "id": "global-framing",
+      "evidence": "2026-10-24T01:54:35Z live HEAD / and GET /api/health: no Content-Security-Policy, X-Frame-Options, X-Content-Type-Options, Referrer-Policy or Permissions-Policy. HSTS present. vercel.json only defines asset cache headers. server/standalone/key-setup.js:80-82 frame-protects its JSON response, not the containing SPA document.",
+      "action": "Add global framing policy appropriate to intended embedding (CSP frame-ancestors; X-Frame-Options when compatible), nosniff, Referrer-Policy and least-privilege Permissions-Policy in both deployment and dev-preview serving paths; re-HEAD root after coordinator applies changes."
+    },
+    {
+      "severity": "medium",
+      "id": "engine-parity",
+      "evidence": "package.json requires Node >=24.14.0 <25 or >=26 <27; review-shell node --version is v22.23.3. Live sandbox Node version was not queried.",
+      "action": "Use a declared supported Node version for install/build/server and document sandbox runtime parity, or adjust engines only after compatibility tests. Health 200 is not production-build proof."
+    },
+    {
+      "severity": "medium",
+      "id": "configuration-restart",
+      "evidence": "ONDEMAND_API_KEY name is absent from app-root .env; live /api/health reports configured=true, ok=true. Values and process credentials were not read.",
+      "action": "Coordinator must preserve the existing app-owned running-server credential internally before restart as planned. Do not copy platform credentials into source or the downloadable .env. Verify configured=true again after restart."
+    },
+    {
+      "severity": "medium",
+      "id": "caller-auth-caveat",
+      "evidence": "Server-side key use and client override controls protect credential handling, not automatically caller identity. Only health/root were probed; paid-route authorization was not exercised.",
+      "action": "Before public exposure, confirm trusted signed caller authentication/authorization and durable rate limits for paid chat, workflow and voice endpoints. A caller-supplied user header and same-origin checks alone are not authentication."
+    },
+    {
+      "severity": "low",
+      "id": "optional-provider-config",
+      "evidence": "Several .env.example provider names are absent from .env; see example_names_missing_from_env. Absence alone is not a startup failure: providers/config contain defaults, empty-key guards and registration-pack fallbacks.",
+      "action": "Document intentionally disabled/degraded providers; provision only required app-owned provider keys through approved secret management, never this platform's credentials."
+    },
+    {
+      "severity": "low",
+      "id": "public-build-token-policy",
+      "evidence": "build/vite.js:33-36 explicitly serializes GOOGLE_MAPS_API_KEY and CESIUM_ION_TOKEN into browser defines. The usual VITE_ prefix restriction is intentionally bypassed for those names.",
+      "action": "Treat these as browser-public credentials with referrer/domain and API restrictions; use separate server-only credentials for privileged operations. Keep ONDEMAND_API_KEY out of browser define/import graphs."
+    }
+  ],
+  "positive_controls": [
+    "Source-only node scripts/check-no-secrets.mjs passed (exact stdout/stderr retained).",
+    "Legacy browser key override is off by default; only explicit ONDEMAND_ALLOW_CLIENT_KEY enables it (server/ondemand/client.js:59-86). Configured flag value was intentionally not read.",
+    "Foundation proxy documents server-only credential handling; normal credential-less handlers have not_configured responses instead of inventing credentials.",
+    "Selftest requires configured ONDEMAND_SELFTEST_TOKEN plus matching x-selftest-token and fails closed with 404; comparison uses fixed-length SHA-256 digests and timingSafeEqual (api/ondemand/selftest.js:47-52,122-132). No token value read or request sent.",
+    "Credential JSON/no-store responses and Vite .env/.env.*/key/certificate/.git deny rules exist in source.",
+    "App root is self-contained: package.json, lockfile, vercel.json, index.html, server code, API catchall and browser dist entry present; root Vite config reexports existing standalone config without restructuring."
+  ],
+  "deployment_paths": {
+    "vercel_output": "dist",
+    "vercel_build_command": "npm run build",
+    "vercel_install_command": "PUPPETEER_SKIP_DOWNLOAD=1 npm ci",
+    "api_rewrite": "/api/:__gev_api_path* -> /api/route",
+    "routing_caveat": "No literal api/route.js exists; api/[...route].js exists and can catch the rewritten path. Vercel adapter reconstructs the original request. Do not classify as confirmed broken routing from file absence alone. Production routing/bundling was not exercised.",
+    "packaging_caveat": "api/*.js includeFiles names config/**, data/** and CCTV height assets. Confirm src/registry/capabilities.json remains traced into deployed functions because fallback registration IDs depend on it."
+  },
+  "env_defaults_review": {
+    "method": "Only .env assignment names were collected, never values; source defaults read statically, never imported runtime config.",
+    "server_key": "ONDEMAND_API_KEY has an empty/no-key fallback; not_configured guard exists.",
+    "aliases": "ONDEMAND_BASE_URL/ONDEMAND_API_BASE and endpoint names reconcile canonical-first; GODS_EYE_FLOW_VERSION precedes ONDEMAND_SPATIAL_FLOW_VERSION. These names appear in .env, but their actual values and consistency were deliberately not examined.",
+    "registration_ids": "ONDEMAND_SPATIAL_AGENT_ID and ONDEMAND_SPATIAL_TOOL_ID may fall back to src/registry/capabilities.json; missing names are not necessarily missing capabilities.",
+    "not_every_reference_is_required": "Vite DEV and platform VERCEL are injected signals; provider tuning variables are largely optional. Do not fill every absent name blindly."
+  },
+  "limitations": [
+    "No process credential reads, environment value inspection, application edits, dependency installation, git operations, browser use, sandbox restart or deployment.",
+    "Exactly two HTTP requests: GET /api/health and HEAD /. No other endpoint or method probed; no paid upstream operation requested by this reviewer.",
+    "Source scan excludes dist unless --dist; existing dist was not scanned. Regex scanner excludes some files, binaries and files >=20 MB and is not proof that all secrets are absent.",
+    "No dependency vulnerability audit, clean install, production build, runtime auth attack test or Vercel function-bundle verification performed.",
+    "Root/health header observations prove only the responses tested. Live app and current working tree parity was not established.",
+    "rg was unavailable; read-only Python inspection was used instead. No repeated failing command or tool installation."
+  ]
+}

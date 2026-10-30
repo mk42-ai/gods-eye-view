@@ -30,7 +30,7 @@ import { ShellFeedback } from './shellFeedback.js';
 import { runCctvLayerEnableTransition } from '../cctvFocusPolicy.js';
 
 /**
- * Central UI orchestrator for the God's Eye View application.
+ * Central UI orchestrator for the OnDemand Spatial application.
  *
  * Responsibilities:
  * - Visual controls and presets backed by the VisualEffects controller.
@@ -888,6 +888,7 @@ export class StyleManager extends ShellFacade {
         _cctvCalibSaveBtn: this._cctvCalibSaveBtn,
         _cctvCoverageBtn: this._cctvCoverageBtn,
         _cctvEnableBtn: this._cctvEnableBtn,
+        _cctvAskBtn: this._cctvAskBtn,
         _cctvFocusBtn: this._cctvFocusBtn,
         _cctvFrame: this._cctvFrame,
         _cctvFrameWrap: this._cctvFrameWrap,

@@ -1,0 +1,280 @@
+{
+  "agent": 4,
+  "urlUsed": "https://ondemand-eand-spatial-qrli9v1uy-schoolhack-web-team.vercel.app",
+  "startedUtc": "2026-10-21T05:33:22.089Z",
+  "finishedUtc": "2026-10-21T06:17:43.300Z",
+  "checks": [
+    {
+      "id": "sc-A-1440x900",
+      "name": "Scenario A [1440x900]: app_boots, title_contains_product_name, no_legacy_brand_terms, brand_mark_present, foundation_health_200, foundation_contracts_min_13",
+      "result": "PASS",
+      "evidence": "6/6 checks passed in 1019ms. Details: app_boots=true (Loading screen hidden or globe canvas active); title_contains_product_name=true (document.title=\"OnDemand Intelligence Workstation\"); no_legacy_brand_terms=true (No forbidden terms visible); brand_mark_present=true (Found 2 [data-brand-mark] element(s)); foundation_health_200=true (status 200, ok=true, keySource=server); foundation_contracts_min_13=true (status 200, 33 contracts)",
+      "screenshot": "ag/A-1440x900.jpg",
+      "utc": "2026-10-21T05:33:27.864Z"
+    },
+    {
+      "id": "sc-B-1440x900",
+      "name": "Scenario B [1440x900]: mini_chat_opens_earthquake, status_streaming_and_stop_visible, assistant_message_and_settle, key_source_server_header, no_client_api_key_in_localstorage",
+      "result": "PASS",
+      "evidence": "5/5 checks passed in 5661ms. Details: mini_chat_opens_earthquake=true (Mini chat opened with data-open=\"true\"); status_streaming_and_stop_visible=true (streamingStatusSeen=true, stopButtonSeen=true); assistant_message_and_settle=true (settled within 90s, assistant message chars: 132); key_source_server_header=true (x-ondemand-key-source header: \"server\"); no_client_api_key_in_localstorage=true (localStorage ondemand.apiKey is null)",
+      "screenshot": "ag/B-1440x900.jpg",
+      "utc": "2026-10-21T05:33:33.892Z"
+    },
+    {
+      "id": "sc-C-1440x900",
+      "name": "Scenario C [1440x900]: citations_query_completed, citations_or_honest_state",
+      "result": "PASS",
+      "evidence": "2/2 checks passed in 5644ms. Details: citations_query_completed=true (Turn completed within 90s); citations_or_honest_state=true (links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null)",
+      "screenshot": "ag/C-1440x900.jpg",
+      "utc": "2026-10-21T05:33:40.378Z"
+    },
+    {
+      "id": "sc-D-1440x900",
+      "name": "Scenario D [1440x900]: desktop_no_hud_brand_mark_overlap, close_button_sets_closed, reopen_restores_transcript",
+      "result": "PASS",
+      "evidence": "3/3 checks passed in 10ms. Details: desktop_no_hud_brand_mark_overlap=true (overlap=false, checked against 2 brand mark(s)); close_button_sets_closed=true (Mini chat closed (data-open=\"false\")); reopen_restores_transcript=true (Transcript replayed 4 messages upon reopen (expected >= 2))",
+      "screenshot": "ag/D-1440x900.jpg",
+      "utc": "2026-10-21T05:33:40.508Z"
+    },
+    {
+      "id": "sc-E-1440x900",
+      "name": "Scenario E [1440x900]: history_messages_present_before_switch, session_isolated_for_different_object",
+      "result": "PASS",
+      "evidence": "2/2 checks passed in 6ms. Details: history_messages_present_before_switch=true (Found 4 prior messages in transcript); session_isolated_for_different_object=true (Isolated transcript: containsEarthquake=false, msgs=0)",
+      "screenshot": "ag/E-1440x900.jpg",
+      "utc": "2026-10-21T05:33:40.639Z"
+    },
+    {
+      "id": "sc-F-1440x900",
+      "name": "Scenario F [1440x900]: active_plugins_cap_and_id_regex, plugin_panel_lifecycle_states, plugins_api_probe",
+      "result": "PASS",
+      "evidence": "3/3 checks passed in 134ms. Details: active_plugins_cap_and_id_regex=true (activePlugins=10/10, validPluginIds=33/33); plugin_panel_lifecycle_states=true (present, 32 badges, allValid=true); plugins_api_probe=true (probe result: 200 mounted (obj))",
+      "screenshot": "ag/F-1440x900.jpg",
+      "utc": "2026-10-21T05:33:41.044Z"
+    },
+    {
+      "id": "sc-G-1440x900",
+      "name": "Scenario G [1440x900]: synthetic_502_error_ui, retry_recovery_turn_success, globe_and_hud_interactive_stability",
+      "result": "PASS",
+      "evidence": "3/3 checks passed in 7634ms. Details: synthetic_502_error_ui=true (Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable); retry_recovery_turn_success=true (Recovered turn completed (status READY)); globe_and_hud_interactive_stability=true (canvasPresent=true, titleBarPresent=true, controlsResponsive=true)",
+      "screenshot": "ag/G-1440x900.jpg",
+      "utc": "2026-10-21T05:33:48.797Z"
+    },
+    {
+      "id": "sc-A-390x844",
+      "name": "Scenario A [390x844]: app_boots, title_contains_product_name, no_legacy_brand_terms, brand_mark_present, foundation_health_200, foundation_contracts_min_13",
+      "result": "PASS",
+      "evidence": "6/6 checks passed in 179ms. Details: app_boots=true (Loading screen hidden or globe canvas active); title_contains_product_name=true (document.title=\"OnDemand Intelligence Workstation\"); no_legacy_brand_terms=true (No forbidden terms visible); brand_mark_present=true (Found 2 [data-brand-mark] element(s)); foundation_health_200=true (status 200, ok=true, keySource=server); foundation_contracts_min_13=true (status 200, 33 contracts)",
+      "screenshot": "ag/A-390x844.jpg",
+      "utc": "2026-10-21T05:33:53.094Z"
+    },
+    {
+      "id": "sc-B-390x844",
+      "name": "Scenario B [390x844]: mini_chat_opens_earthquake, status_streaming_and_stop_visible, assistant_message_and_settle, key_source_server_header, no_client_api_key_in_localstorage",
+      "result": "PASS",
+      "evidence": "5/5 checks passed in 10993ms. Details: mini_chat_opens_earthquake=true (Mini chat opened with data-open=\"true\"); status_streaming_and_stop_visible=true (streamingStatusSeen=true, stopButtonSeen=true); assistant_message_and_settle=true (settled within 90s, assistant message chars: 749); key_source_server_header=true (x-ondemand-key-source header: \"server\"); no_client_api_key_in_localstorage=true (localStorage ondemand.apiKey is null)",
+      "screenshot": "ag/B-390x844.jpg",
+      "utc": "2026-10-21T05:34:04.845Z"
+    },
+    {
+      "id": "sc-C-390x844",
+      "name": "Scenario C [390x844]: citations_query_completed, citations_or_honest_state",
+      "result": "PASS",
+      "evidence": "2/2 checks passed in 5803ms. Details: citations_query_completed=true (Turn completed within 90s); citations_or_honest_state=true (links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null)",
+      "screenshot": "ag/C-390x844.jpg",
+      "utc": "2026-10-21T05:34:10.827Z"
+    },
+    {
+      "id": "sc-D-390x844",
+      "name": "Scenario D [390x844]: mobile_viewport_fit_and_input_visible, close_button_sets_closed, reopen_restores_transcript",
+      "result": "PASS",
+      "evidence": "3/3 checks passed in 12ms. Details: mobile_viewport_fit_and_input_visible=true (fitsViewport=true, inputVisible=true, noHScroll=true); close_button_sets_closed=true (Mini chat closed (data-open=\"false\")); reopen_restores_transcript=true (Transcript replayed 10 messages upon reopen (expected >= 2))",
+      "screenshot": "ag/D-390x844.jpg",
+      "utc": "2026-10-21T05:34:10.970Z"
+    },
+    {
+      "id": "sc-E-390x844",
+      "name": "Scenario E [390x844]: history_messages_present_before_switch, session_isolated_for_different_object",
+      "result": "PASS",
+      "evidence": "2/2 checks passed in 15ms. Details: history_messages_present_before_switch=true (Found 10 prior messages in transcript); session_isolated_for_different_object=true (Isolated transcript: containsEarthquake=false, msgs=0)",
+      "screenshot": "ag/E-390x844.jpg",
+      "utc": "2026-10-21T05:34:11.069Z"
+    },
+    {
+      "id": "sc-F-390x844",
+      "name": "Scenario F [390x844]: active_plugins_cap_and_id_regex, plugin_panel_lifecycle_states, plugins_api_probe",
+      "result": "PASS",
+      "evidence": "3/3 checks passed in 142ms. Details: active_plugins_cap_and_id_regex=true (activePlugins=10/10, validPluginIds=33/33); plugin_panel_lifecycle_states=true (present, 32 badges, allValid=true); plugins_api_probe=true (probe result: 200 mounted (obj))",
+      "screenshot": "ag/F-390x844.jpg",
+      "utc": "2026-10-21T05:34:11.474Z"
+    },
+    {
+      "id": "sc-G-390x844",
+      "name": "Scenario G [390x844]: synthetic_502_error_ui, retry_recovery_turn_success, globe_and_hud_interactive_stability",
+      "result": "PASS",
+      "evidence": "3/3 checks passed in 7663ms. Details: synthetic_502_error_ui=true (Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable); retry_recovery_turn_success=true (Recovered turn completed (status READY)); globe_and_hud_interactive_stability=true (canvasPresent=true, titleBarPresent=true, controlsResponsive=true)",
+      "screenshot": "ag/G-390x844.jpg",
+      "utc": "2026-10-21T05:34:19.244Z"
+    },
+    {
+      "id": "perf-p1-1440x900",
+      "name": "rAF Coalescing [1440x900]",
+      "result": "PASS",
+      "evidence": "deltaEvents=57 (literal \"event: delta\"=0, turnTokens=57), rafCalls=36, mutationBatches=3, ratio=19, medianIntervalMs=2543.05ms. Coalescing confirmed (deltas > 1 and mutationBatches <= deltas).",
+      "screenshot": "perf-p1-1440x900.jpg",
+      "utc": "2026-10-21T06:16:16.190Z"
+    },
+    {
+      "id": "perf-p2-1440x900",
+      "name": "List Virtualization [1440x900]",
+      "result": "PASS",
+      "evidence": "initial: activityInMemory=0, rowsRendered=0; after 3 stress turns: activityInMemory=0 (expected <=200), rowsRendered=0 (expected <=6).",
+      "screenshot": "perf-p1-1440x900.jpg",
+      "utc": "2026-10-21T06:16:16.190Z"
+    },
+    {
+      "id": "perf-p3-1440x900",
+      "name": "Scroll Anchoring & Follow-up Pinning [1440x900]",
+      "result": "FAIL",
+      "evidence": "Streaming anchoring held: minScrollTop=0, maxScrollTop=0 (samples=25, <=40px: true). Follow-up scroll state: scrollHeight=904, scrollTop=0, clientHeight=420, diff=484px (<40: false). FAIL: transcript remained anchored at scrollTop=0 on follow-up because userScrolledUp is not reset on composer submit in src/ondemand/miniChat.js:661, 767.",
+      "screenshot": "perf-p3-1440x900.jpg",
+      "utc": "2026-10-21T06:16:16.190Z"
+    },
+    {
+      "id": "perf-p1-390x844",
+      "name": "rAF Coalescing [390x844]",
+      "result": "PASS",
+      "evidence": "deltaEvents=34 (literal \"event: delta\"=0, turnTokens=34), rafCalls=84, mutationBatches=6, ratio=5.667, medianIntervalMs=511.8ms. Coalescing confirmed (deltas > 1 and mutationBatches <= deltas).",
+      "screenshot": "perf-p1-390x844.jpg",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "perf-p2-390x844",
+      "name": "List Virtualization [390x844]",
+      "result": "PASS",
+      "evidence": "initial: activityInMemory=0, rowsRendered=0; after 3 stress turns: activityInMemory=0 (expected <=200), rowsRendered=0 (expected <=6).",
+      "screenshot": "perf-p1-390x844.jpg",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "perf-p3-390x844",
+      "name": "Scroll Anchoring & Follow-up Pinning [390x844]",
+      "result": "FAIL",
+      "evidence": "Streaming anchoring held: minScrollTop=0, maxScrollTop=0 (samples=22, <=40px: true). Follow-up scroll state: scrollHeight=1841, scrollTop=0, clientHeight=434, diff=1407px (<40: false). FAIL: transcript remained anchored at scrollTop=0 on follow-up because userScrolledUp is not reset on composer submit in src/ondemand/miniChat.js:661, 767.",
+      "screenshot": "perf-p3-390x844.jpg",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s1-fallbacks",
+      "name": "Built bundle check for /fallbacks",
+      "result": "PASS",
+      "evidence": "Scanned dist/assets/*.js and dist/index.html. Zero occurrences of /fallbacks. Exactly 1 harmless English console log in CCTV layer (keeping catalog fallbacks).",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s1-setinterval",
+      "name": "Built bundle check for setInterval near progress",
+      "result": "PASS",
+      "evidence": "1 hit found in dist/assets/index-BLGPMGkc.js corresponding to PlaybackClock in src/director/clock.js (real camera director shot playback). Zero simulated timers; src/loadingFeedback.js renders real prewarm progress.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s1-fakepatterns",
+      "name": "Built bundle check for fake/mock content patterns",
+      "result": "PASS",
+      "evidence": "Grep for fakeProgress|simulateProgress|mockProgress|fakeCitation|fake_plugin|mockPlugin|MOCK_|mockResponse|lorem ipsum|TODO: fake returned 0 hits in dist/.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s1-openaikeys",
+      "name": "Built bundle check for OpenAI / ElevenLabs keys and endpoints",
+      "result": "PASS",
+      "evidence": "Grep for api.openai.com|realtime/token|elevenlabs returned 0 hits. OPENAI_API_KEY appears solely as a provider name in keySetupCore descriptor for setup panel status probe.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s1-legacybrand",
+      "name": "Built bundle check for legacy brand terms God's Eye and GEV MIC",
+      "result": "PASS",
+      "evidence": "Grep for God's Eye and GEV MIC returned 0 hits in rendered bundle strings.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s1-asseturls",
+      "name": "Built bundle check for absolute asset URLs by directory",
+      "result": "PASS",
+      "evidence": "Extracted all absolute asset URLs: /assets/ (13 distinct), /brand/ (3 distinct), /models/ (8 distinct), /events/ (0), /cesium/ (0), root (4 distinct: /logo.svg, /pin.svg, /station_information.json, /station_status.json). Zero /fallbacks references.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s1-check-no-secrets",
+      "name": "Security check: check-no-secrets.mjs --dist",
+      "result": "PASS",
+      "evidence": "Scanned 1857 text files under src, public, api, server, scripts, tools, docs, config, build, dist. Result: ✓ no key material in the source tree + dist/.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s2-source-fallbacks",
+      "name": "Source audit for fallbacks in src, server, api, public",
+      "result": "PASS",
+      "evidence": "Searched src, server, api, public, index.html. Found 13 occurrences across 9 files, all classified as English words in comments or variable names (e.g. geoid fallbacks, catalog fallbacks, server provider fallback endpoints array). Zero path references to /fallbacks.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s2-source-mocks",
+      "name": "Source audit for mock/fake/simulate in ondemand, voice, foundation",
+      "result": "PASS",
+      "evidence": "Found 3 occurrences across src/ondemand/entityChat.js, src/voice/ondemand/audio.js, src/voice/ondemand/pipeline.js, all classified as JSDoc comments describing node:test unit test compatibility. Zero fake runtime content.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s2-source-openaikeys",
+      "name": "Source audit for api.openai.com, realtime/token, OPENAI_API_KEY",
+      "result": "PASS",
+      "evidence": "api.openai.com returned 0 hits; realtime/token returned 0 hits; OPENAI_API_KEY appears only in src/keySetupCore.mjs as a descriptor object in provider catalogue. 0 runtime key leaks or calls.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s3-network-fallbacks",
+      "name": "Runtime network check: zero URLs containing /fallbacks",
+      "result": "PASS",
+      "evidence": "Analyzed 258 recorded runtime requests during boot + chat + voice at 1440x900. Exactly 0 URLs contained /fallbacks.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s3-network-assets",
+      "name": "Runtime network check: same-origin static assets in allowed directories",
+      "result": "PASS",
+      "evidence": "15 static asset requests observed: /assets/ (5), /brand/ (4), /cesium/ (3), and 3 root icon SVGs (/pin.svg, /visual-presets.svg, /location.svg).",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s3-network-thirdparty",
+      "name": "Runtime network check: third-party hosts & no direct api.on-demand.io",
+      "result": "PASS",
+      "evidence": "Observed hosts: app origin (42), services.arcgisonline.com (142 satellite tiles), terrain.reearth.land (58 terrain tiles), Google fonts (5), airevprod.blob.core.windows.net (1). Direct api.on-demand.io requests from browser: 0 (server proxy architecture holds).",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    },
+    {
+      "id": "audit-s3-network-secretheaders",
+      "name": "Runtime network check: zero apikey or x-ondemand-key headers",
+      "result": "PASS",
+      "evidence": "Inspected request headers across all 258 network requests. Zero requests carried apikey or x-ondemand-key headers.",
+      "screenshot": "",
+      "utc": "2026-10-21T06:17:43.300Z"
+    }
+  ]
+}

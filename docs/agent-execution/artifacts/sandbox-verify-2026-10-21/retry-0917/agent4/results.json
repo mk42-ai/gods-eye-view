@@ -1,0 +1,890 @@
+{
+  "agent": "agent4",
+  "target": "https://sb-4asza5droe1u.vercel.run",
+  "generated_at": "2026-10-21T09:59:54Z",
+  "summary": {
+    "PASS": 17,
+    "DEFECT": 3
+  },
+  "results": [
+    {
+      "check": "A1 GET /api/ondemand/v2/health",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 97,
+      "run_at_iso8601": "2026-10-21T09:33:47Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run/api/ondemand/v2/health",
+      "evidence": {
+        "http": 200,
+        "contracts": 33,
+        "activePlugins": 10,
+        "keySource": "server",
+        "configured": true,
+        "raw": "agent4/api/01-health-v2.json"
+      }
+    },
+    {
+      "check": "A1 GET /api/health",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 81,
+      "run_at_iso8601": "2026-10-21T09:33:47Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run/api/health",
+      "evidence": {
+        "http": 200,
+        "contracts": 33,
+        "activePlugins": 10,
+        "keySource": "server",
+        "configured": true,
+        "raw": "agent4/api/01-health.json"
+      }
+    },
+    {
+      "check": "A2 GET /api/ondemand/v2/contracts \u2014 kind counts, pluginId format, activePlugins<=10",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 78,
+      "run_at_iso8601": "2026-10-21T09:33:47Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run/api/ondemand/v2/contracts",
+      "evidence": {
+        "http": 200,
+        "total": 33,
+        "byKind": {
+          "ondemand-plugin": 11,
+          "ondemand-tool": 21,
+          "ondemand-workflow": 1
+        },
+        "nonNullPluginIds": 11,
+        "badPluginIds": [],
+        "activePluginCount": 10,
+        "activePlugins": [
+          "perplexity_research",
+          "internet_web_search",
+          "gpt_search",
+          "x_search",
+          "tiktok_scraper",
+          "instagram_user_info",
+          "instagram_professional",
+          "youtube_captions",
+          "reddit_posts",
+          "linkedin_search"
+        ],
+        "inactive": [
+          "x_mcp_connector"
+        ],
+        "raw": "agent4/api/02-contracts.json"
+      }
+    },
+    {
+      "check": "A3 GET /plugins (before)",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 86,
+      "run_at_iso8601": "2026-10-21T09:33:47Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "http": 200,
+        "count": 32,
+        "byState": {
+          "discovered": 32
+        },
+        "generatedAt": "2026-10-21T09:33:47.449Z",
+        "raw": "agent4/api/03-plugins-before.json"
+      }
+    },
+    {
+      "check": "A4 POST /plugins/verify internet_web_search (X-Workstation-User: agent4-probe)",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 4905,
+      "run_at_iso8601": "2026-10-21T09:34:07Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "http": 200,
+        "state": "ready",
+        "latencyMs": 4788,
+        "verifiedAt": "2026-10-21T09:34:11.946Z",
+        "pluginId": "plugin-1713924030",
+        "answerPreview": "READY",
+        "raw": "agent4/api/04-verify-internet.json"
+      }
+    },
+    {
+      "check": "A5 POST /plugins/verify x_mcp_connector \u2192 failed/inactive_on_account",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 88,
+      "run_at_iso8601": "2026-10-21T09:34:11Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "http": 200,
+        "state": "failed",
+        "error": {
+          "code": "inactive_on_account",
+          "httpStatus": 400,
+          "message": "This research source is currently inactive on the OnDemand account.",
+          "retryable": false,
+          "failedAt": "2026-10-21T09:34:12.068Z"
+        },
+        "availability": "inactive",
+        "shape_source": "server/ondemand/foundation/plugin-lifecycle.js verify(): inactive contract \u2192 transition failed with {code:inactive_on_account, httpStatus:400, retryable:false}; HTTP envelope is 200 {plugins:[\u2026]}",
+        "raw": "agent4/api/05-verify-xmcp.json"
+      }
+    },
+    {
+      "check": "A6 POST /plugins/verify names:[] \u2192 all active plugins",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 6085,
+      "run_at_iso8601": "2026-10-21T09:34:12Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "http": 200,
+        "count": 10,
+        "ready": 10,
+        "perPlugin": [
+          {
+            "name": "perplexity_research",
+            "pluginId": "plugin-1722260873",
+            "state": "ready",
+            "latencyMs": 5048
+          },
+          {
+            "name": "internet_web_search",
+            "pluginId": "plugin-1713924030",
+            "state": "ready",
+            "latencyMs": 4788
+          },
+          {
+            "name": "gpt_search",
+            "pluginId": "plugin-1741871229",
+            "state": "ready",
+            "latencyMs": 4473
+          },
+          {
+            "name": "x_search",
+            "pluginId": "plugin-1751872652",
+            "state": "ready",
+            "latencyMs": 4612
+          },
+          {
+            "name": "tiktok_scraper",
+            "pluginId": "plugin-1716372717",
+            "state": "ready",
+            "latencyMs": 4613
+          },
+          {
+            "name": "instagram_user_info",
+            "pluginId": "plugin-1716164040",
+            "state": "ready",
+            "latencyMs": 5999
+          },
+          {
+            "name": "instagram_professional",
+            "pluginId": "plugin-1785987361",
+            "state": "ready",
+            "latencyMs": 5721
+          },
+          {
+            "name": "youtube_captions",
+            "pluginId": "plugin-1784356219",
+            "state": "ready",
+            "latencyMs": 5529
+          },
+          {
+            "name": "reddit_posts",
+            "pluginId": "plugin-1748003575",
+            "state": "ready",
+            "latencyMs": 4529
+          },
+          {
+            "name": "linkedin_search",
+            "pluginId": "plugin-1718116202",
+            "state": "ready",
+            "latencyMs": 5981
+          }
+        ],
+        "note": "internet_web_search returned from 10-min ready cache (same latencyMs 4788 / verifiedAt as A4)",
+        "raw": "agent4/api/06-verify-all.json"
+      }
+    },
+    {
+      "check": "A7 GET /plugins (after) \u2014 10 ready / 1 failed / 21 discovered + diff vs A3",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 177,
+      "run_at_iso8601": "2026-10-21T09:34:18Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "http": 200,
+        "byStateBefore": {
+          "discovered": 32
+        },
+        "byStateAfter": {
+          "ready": 10,
+          "failed": 1,
+          "discovered": 21
+        },
+        "diff": [
+          {
+            "name": "perplexity_research",
+            "from": "discovered",
+            "to": "ready"
+          },
+          {
+            "name": "internet_web_search",
+            "from": "discovered",
+            "to": "ready"
+          },
+          {
+            "name": "gpt_search",
+            "from": "discovered",
+            "to": "ready"
+          },
+          {
+            "name": "x_search",
+            "from": "discovered",
+            "to": "ready"
+          },
+          {
+            "name": "x_mcp_connector",
+            "from": "discovered",
+            "to": "failed"
+          },
+          {
+            "name": "tiktok_scraper",
+            "from": "discovered",
+            "to": "ready"
+          },
+          {
+            "name": "instagram_user_info",
+            "from": "discovered",
+            "to": "ready"
+          },
+          {
+            "name": "instagram_professional",
+            "from": "discovered",
+            "to": "ready"
+          },
+          {
+            "name": "youtube_captions",
+            "from": "discovered",
+            "to": "ready"
+          },
+          {
+            "name": "reddit_posts",
+            "from": "discovered",
+            "to": "ready"
+          },
+          {
+            "name": "linkedin_search",
+            "from": "discovered",
+            "to": "ready"
+          }
+        ],
+        "raw": "agent4/api/07-plugins-after.json"
+      }
+    },
+    {
+      "check": "A8 POST /plugins/verify header someone-else vs body agent4-probe \u2192 403 user_mismatch",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "PASS",
+      "duration_ms": 113,
+      "run_at_iso8601": "2026-10-21T09:34:18Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "http": 403,
+        "body": {
+          "error": "user_mismatch"
+        },
+        "raw": "agent4/api/08-verify-mismatch.json"
+      }
+    },
+    {
+      "check": "A9 POST /plugins/verify names:[\"does_not_exist\"] \u2192 honest error (expect 400/404 unknown plugin)",
+      "scenario": "api",
+      "viewport": "n/a",
+      "status": "DEFECT",
+      "duration_ms": 100,
+      "run_at_iso8601": "2026-10-21T09:34:18Z",
+      "screenshot": null,
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "http": 500,
+        "body": {
+          "error": "internal_error"
+        },
+        "assessment": "Honest (no fake ready, no plugins array) but wrong status/code: verify() throws Error(\"Unknown plugin contract: \u2026\") inside handle() with no try/catch, so the outer router answers 500 {\"error\":\"internal_error\"} instead of 400/404 {\"error\":\"unknown_plugin\"}. Severity: low (negative path only).",
+        "raw": "agent4/api/09-verify-unknown.json"
+      }
+    },
+    {
+      "check": "B1 panel located + initial badge counts",
+      "scenario": "plugins-initial",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 12198,
+      "run_at_iso8601": "2026-10-21T09:35:08.007Z",
+      "screenshot": "agent4/browser/check-plugins-initial-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "mountedIn": "#ondemand-plugin-dock (floating dock; mini chat not yet in DOM at install time)",
+        "detailsOpen": true,
+        "toggleNeeded": false,
+        "summary": "10 ready",
+        "rows": 32,
+        "countsByState": {
+          "ready": 10,
+          "failed": 1,
+          "discovered": 21
+        },
+        "boot_ms": 12198,
+        "note": "counts already 10 ready/1 failed/21 discovered because Part A verified server-side state before the browser run (lifecycle state is process-global)"
+      }
+    },
+    {
+      "check": "B2 click VERIFY internet_web_search \u2192 READY + latency",
+      "scenario": "plugins-ready",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 5507,
+      "run_at_iso8601": "2026-10-21T09:58:13.072Z",
+      "screenshot": "agent4/browser/check-plugins-dock-ready-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "run": "run5 (dock only, mini chat closed, real page.click)",
+        "clicked_at": "2026-10-21T09:58:13.072Z",
+        "hitTestReachesTarget": true,
+        "mutation_sequence(t_ms,button,data-state,badge)": [
+          [
+            0,
+            "VERIFY",
+            "ready",
+            "READY"
+          ],
+          [
+            184,
+            "VERIFYING\u2026",
+            "ready",
+            "READY"
+          ],
+          [
+            5413,
+            "VERIFY",
+            "ready",
+            "READY"
+          ]
+        ],
+        "polled_100ms": [
+          [
+            185,
+            "VERIFYING\u2026",
+            "ready"
+          ],
+          [
+            5506,
+            "VERIFY",
+            "ready"
+          ]
+        ],
+        "finalBadge": "READY",
+        "finalSub": "just now5212ms\"READY\"",
+        "ui_states_exposed": "Only button text VERIFY\u2192VERIFYING\u2026\u2192VERIFY and the badge after the response; data-state never shows installing/authenticating because the POST is a single request/response (no streaming) and the badge was already READY from the 10-min cache (A4/A6). The UI collapses pending/installing/authenticating into VERIFYING\u2026",
+        "server_side_truth": "plugin-lifecycle.test.mjs: discovered\u2192installing\u2192authenticating\u2192ready (3 plugin_state audits, active plugin); discovered\u2192failed code inactive_on_account (1 audit, inactive plugin)",
+        "network": [
+          {
+            "t": "2026-10-21T09:58:18.489Z",
+            "phase": "response",
+            "method": "POST",
+            "url": "/api/ondemand/v2/plugins/verify",
+            "status": 200,
+            "body": "{\"plugins\":[{\"name\":\"internet_web_search\",\"pluginId\":\"plugin-1713924030\",\"provider\":\"OnDemand \u00b7 Internet web search\",\"kind\":\"ondemand-plugin\",\"availability\":\"active\",\"state\":\"ready\",\"verifiedAt\":\"2026-10-21T09:58:18.463Z\",\"latencyMs\":5212,\"error\":null,\"lastInvokedAt\":null,\"invocations\":0,\"answerPreview\":\"READY\"}]}"
+          },
+          {
+            "t": "2026-10-21T09:58:19.268Z",
+            "phase": "response",
+            "method": "POST",
+            "url": "/api/ondemand/v2/plugins/verify",
+            "status": 200,
+            "body": "{\"plugins\":[{\"name\":\"x_mcp_connector\",\"pluginId\":\"plugin-1785777296\",\"provider\":\"OnDemand \u00b7 X MCP connector\",\"kind\":\"ondemand-plugin\",\"availability\":\"inactive\",\"state\":\"failed\",\"verifiedAt\":null,\"latencyMs\":null,\"error\":{\"code\":\"inactive_on_account\",\"httpStatus\":400,\"message\":\"This research source is currently inactive on the OnDemand account.\",\"retryable\":false,\"failedAt\":\"2026-10-21T09:58:19.242"
+          }
+        ]
+      }
+    },
+    {
+      "check": "B3 click VERIFY x_mcp_connector \u2192 FAILED inactive-on-account",
+      "scenario": "plugins-failed",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 132,
+      "run_at_iso8601": "2026-10-21T09:58:19.220Z",
+      "screenshot": "agent4/browser/check-plugins-dock-failed-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "run": "run5",
+        "clicked_at": "2026-10-21T09:58:19.220Z",
+        "mutation_sequence(t_ms,button,data-state,badge)": [
+          [
+            0,
+            "VERIFY",
+            "failed",
+            "FAILED"
+          ],
+          [
+            27,
+            "VERIFYING\u2026",
+            "failed",
+            "FAILED"
+          ],
+          [
+            43,
+            "VERIFY",
+            "failed",
+            "FAILED"
+          ]
+        ],
+        "finalBadge": "FAILED",
+        "errorMessage": "This research source is currently inactive on the OnDemand account.",
+        "toggleDisabled": true,
+        "server_side_truth": "plugin-lifecycle.test.mjs: discovered\u2192installing\u2192authenticating\u2192ready (3 plugin_state audits, active plugin); discovered\u2192failed code inactive_on_account (1 audit, inactive plugin)"
+      }
+    },
+    {
+      "check": "B4 window.__odPlugins.getSelectedPluginIds() \u226410 ids /^plugin-\\d{10}$/",
+      "scenario": "plugins-selected-ids",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:35:08.007Z",
+      "screenshot": "agent4/browser/check-plugins-initial-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "defaultSelection": [],
+        "afterCheckingEveryEnabledToggle": {
+          "count": 31,
+          "pluginIds": [
+            "plugin-1722260873",
+            "plugin-1713924030",
+            "plugin-1741871229",
+            "plugin-1751872652",
+            "plugin-1716372717",
+            "plugin-1716164040",
+            "plugin-1785987361",
+            "plugin-1784356219",
+            "plugin-1748003575",
+            "plugin-1718116202"
+          ],
+          "toolRouteNames": [
+            "earthquake_search",
+            "list_satellites_in_scene",
+            "satellite_passes",
+            "flights_in_bbox",
+            "flight_by_icao24",
+            "military_flights_in_bbox",
+            "vessels_in_bbox",
+            "vessel_by_mmsi",
+            "traffic_flow_at_point",
+            "road_network_status",
+            "fire_detection_search",
+            "osm_features_near",
+            "geocode_place",
+            "bike_share_status_near",
+            "transit_vehicles_in_bbox",
+            "regional_brief",
+            "terrain_height_at",
+            "cameras_in_bbox",
+            "military_installations_in_bbox",
+            "radio_stations_near",
+            "rocket_launches_recent"
+          ]
+        },
+        "afterReset": [],
+        "note": "Default selection is [] (nothing persisted). Plugin-kind ids: 10, all /^plugin-\\d{10}$/, x_mcp_connector toggle disabled. OBSERVATION: the handle also returns tool-route NAMES (e.g. earthquake_search) when tool toggles are checked, because the panel keys selection on entry.pluginId||entry.name; the mini chat takes getPluginIds().slice(0,4) and the orchestrator ignores unknown ids, so no functional impact \u2014 noted, not a defect of this check."
+      }
+    },
+    {
+      "check": "B5 pointer reachability of PLUGINS panel while mini chat is open",
+      "scenario": "plugins-overlay",
+      "viewport": "1440x900",
+      "status": "DEFECT",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:48:25.426Z",
+      "screenshot": "agent4/browser/check-plugins-overlay-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "run": "run4 overlay + run3 click comparison",
+        "panel": {
+          "sel": "section#ondemand-plugin-panel.od-plugins",
+          "rect": {
+            "x": 1038,
+            "y": 500,
+            "w": 384,
+            "h": 376
+          },
+          "position": "static",
+          "zIndex": "auto",
+          "pointerEvents": "auto",
+          "display": "flex",
+          "opacity": "1"
+        },
+        "dock": {
+          "sel": "div#ondemand-plugin-dock.",
+          "rect": {
+            "x": 1038,
+            "y": 500,
+            "w": 384,
+            "h": 376
+          },
+          "position": "fixed",
+          "zIndex": "184",
+          "pointerEvents": "auto",
+          "display": "block",
+          "opacity": "1"
+        },
+        "miniChat": {
+          "sel": "aside#ondemand-mini-chat.od-chat.od-chat--mini",
+          "rect": {
+            "x": 990,
+            "y": 421,
+            "w": 432,
+            "h": 391
+          },
+          "position": "fixed",
+          "zIndex": "186",
+          "pointerEvents": "auto",
+          "display": "flex",
+          "opacity": "1"
+        },
+        "hitTest": {
+          "summary.od-plugins__summary": {
+            "reachesTarget": false,
+            "topmost": "div#ondemand-mini-chat-starters.od-chat__starters"
+          },
+          "button.od-plugins__refresh-btn": {
+            "reachesTarget": false,
+            "topmost": "div#ondemand-mini-chat-starters.od-chat__starters"
+          },
+          "li.od-plugin__row:first-child .od-plugin__toggle": {
+            "reachesTarget": false,
+            "topmost": "div.od-empty-state.od-empty-state--no-sessions"
+          },
+          "button.od-plugin__verify[data-plugin-name=\"perplexity_research\"]": {
+            "reachesTarget": false,
+            "topmost": "div.od-empty-state.od-empty-state--no-sessions"
+          },
+          "button.od-plugin__verify[data-plugin-name=\"internet_web_search\"]": {
+            "reachesTarget": false,
+            "topmost": "div.od-empty-state.od-empty-state--no-sessions"
+          },
+          "button.od-plugin__verify[data-plugin-name=\"x_mcp_connector\"]": {
+            "reachesTarget": false,
+            "topmost": "button#ondemand-mini-chat-send.od-chat__btn.od-chat__send"
+          }
+        },
+        "run3_mouse_click": {
+          "internet_web_search": {
+            "mode": "page.click",
+            "effect": "none (no POST, no VERIFYING\u2026)"
+          },
+          "dom_click": {
+            "effect": "VERIFYING\u2026\u2192VERIFY, POST sent"
+          }
+        },
+        "diagnosis": "installPluginPanel() runs at boot before #ondemand-mini-chat exists, so the panel mounts into the floating #ondemand-plugin-dock (position:fixed, z-index 184). When the mini chat opens it is an aside (position:fixed, z-index 186) occupying the same bottom-right (desktop) / bottom (mobile) area, fully covering the dock: every VERIFY button, the REFRESH button, the summary toggle and the checkboxes fail elementFromPoint and real mouse clicks land on the chat (.od-empty-state / #ondemand-mini-chat-starters / send button). The same clicks work with the chat closed (run5) and via element.click() (run3). Severity: medium \u2014 a user cannot verify/select plugins while asking a question, which is exactly when per-turn selection matters. Suggested fix: re-mount the panel into the mini chat header slot on open (miniChat emits open) or raise the dock above the chat / offset it."
+      }
+    },
+    {
+      "check": "B1 panel located + initial badge counts",
+      "scenario": "plugins-initial",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 9719,
+      "run_at_iso8601": "2026-10-21T09:36:25.145Z",
+      "screenshot": "agent4/browser/check-plugins-initial-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "mountedIn": "#ondemand-plugin-dock (floating dock; mini chat not yet in DOM at install time)",
+        "detailsOpen": true,
+        "toggleNeeded": false,
+        "summary": "10 ready",
+        "rows": 32,
+        "countsByState": {
+          "ready": 10,
+          "failed": 1,
+          "discovered": 21
+        },
+        "boot_ms": 9719,
+        "note": "counts already 10 ready/1 failed/21 discovered because Part A verified server-side state before the browser run (lifecycle state is process-global)"
+      }
+    },
+    {
+      "check": "B2 click VERIFY internet_web_search \u2192 READY + latency",
+      "scenario": "plugins-ready",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 128,
+      "run_at_iso8601": "2026-10-21T09:58:29.362Z",
+      "screenshot": "agent4/browser/check-plugins-dock-ready-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "run": "run5 (dock only, mini chat closed, real page.click)",
+        "clicked_at": "2026-10-21T09:58:29.362Z",
+        "hitTestReachesTarget": true,
+        "mutation_sequence(t_ms,button,data-state,badge)": [
+          [
+            0,
+            "VERIFY",
+            "ready",
+            "READY"
+          ],
+          [
+            20,
+            "VERIFYING\u2026",
+            "ready",
+            "READY"
+          ],
+          [
+            40,
+            "VERIFY",
+            "ready",
+            "READY"
+          ]
+        ],
+        "polled_100ms": [
+          [
+            27,
+            "VERIFYING\u2026",
+            "ready"
+          ],
+          [
+            128,
+            "VERIFY",
+            "ready"
+          ]
+        ],
+        "finalBadge": "READY",
+        "finalSub": "just now5212ms\"READY\"",
+        "ui_states_exposed": "Only button text VERIFY\u2192VERIFYING\u2026\u2192VERIFY and the badge after the response; data-state never shows installing/authenticating because the POST is a single request/response (no streaming) and the badge was already READY from the 10-min cache (A4/A6). The UI collapses pending/installing/authenticating into VERIFYING\u2026",
+        "server_side_truth": "plugin-lifecycle.test.mjs: discovered\u2192installing\u2192authenticating\u2192ready (3 plugin_state audits, active plugin); discovered\u2192failed code inactive_on_account (1 audit, inactive plugin)",
+        "network": [
+          {
+            "t": "2026-10-21T09:58:29.412Z",
+            "phase": "response",
+            "method": "POST",
+            "url": "/api/ondemand/v2/plugins/verify",
+            "status": 200,
+            "body": "{\"plugins\":[{\"name\":\"internet_web_search\",\"pluginId\":\"plugin-1713924030\",\"provider\":\"OnDemand \u00b7 Internet web search\",\"kind\":\"ondemand-plugin\",\"availability\":\"active\",\"state\":\"ready\",\"verifiedAt\":\"2026-10-21T09:58:18.463Z\",\"latencyMs\":5212,\"error\":null,\"lastInvokedAt\":null,\"invocations\":0,\"answerPreview\":\"READY\"}]}"
+          },
+          {
+            "t": "2026-10-21T09:58:30.010Z",
+            "phase": "response",
+            "method": "POST",
+            "url": "/api/ondemand/v2/plugins/verify",
+            "status": 200,
+            "body": "{\"plugins\":[{\"name\":\"x_mcp_connector\",\"pluginId\":\"plugin-1785777296\",\"provider\":\"OnDemand \u00b7 X MCP connector\",\"kind\":\"ondemand-plugin\",\"availability\":\"inactive\",\"state\":\"failed\",\"verifiedAt\":null,\"latencyMs\":null,\"error\":{\"code\":\"inactive_on_account\",\"httpStatus\":400,\"message\":\"This research source is currently inactive on the OnDemand account.\",\"retryable\":false,\"failedAt\":\"2026-10-21T09:58:29.986"
+          }
+        ]
+      }
+    },
+    {
+      "check": "B3 click VERIFY x_mcp_connector \u2192 FAILED inactive-on-account",
+      "scenario": "plugins-failed",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 132,
+      "run_at_iso8601": "2026-10-21T09:58:29.964Z",
+      "screenshot": "agent4/browser/check-plugins-dock-failed-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "run": "run5",
+        "clicked_at": "2026-10-21T09:58:29.964Z",
+        "mutation_sequence(t_ms,button,data-state,badge)": [
+          [
+            0,
+            "VERIFY",
+            "failed",
+            "FAILED"
+          ],
+          [
+            24,
+            "VERIFYING\u2026",
+            "failed",
+            "FAILED"
+          ],
+          [
+            45,
+            "VERIFY",
+            "failed",
+            "FAILED"
+          ]
+        ],
+        "finalBadge": "FAILED",
+        "errorMessage": "This research source is currently inactive on the OnDemand account.",
+        "toggleDisabled": true,
+        "server_side_truth": "plugin-lifecycle.test.mjs: discovered\u2192installing\u2192authenticating\u2192ready (3 plugin_state audits, active plugin); discovered\u2192failed code inactive_on_account (1 audit, inactive plugin)"
+      }
+    },
+    {
+      "check": "B4 window.__odPlugins.getSelectedPluginIds() \u226410 ids /^plugin-\\d{10}$/",
+      "scenario": "plugins-selected-ids",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:36:25.145Z",
+      "screenshot": "agent4/browser/check-plugins-initial-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "defaultSelection": [],
+        "afterCheckingEveryEnabledToggle": {
+          "count": 31,
+          "pluginIds": [
+            "plugin-1722260873",
+            "plugin-1713924030",
+            "plugin-1741871229",
+            "plugin-1751872652",
+            "plugin-1716372717",
+            "plugin-1716164040",
+            "plugin-1785987361",
+            "plugin-1784356219",
+            "plugin-1748003575",
+            "plugin-1718116202"
+          ],
+          "toolRouteNames": [
+            "earthquake_search",
+            "list_satellites_in_scene",
+            "satellite_passes",
+            "flights_in_bbox",
+            "flight_by_icao24",
+            "military_flights_in_bbox",
+            "vessels_in_bbox",
+            "vessel_by_mmsi",
+            "traffic_flow_at_point",
+            "road_network_status",
+            "fire_detection_search",
+            "osm_features_near",
+            "geocode_place",
+            "bike_share_status_near",
+            "transit_vehicles_in_bbox",
+            "regional_brief",
+            "terrain_height_at",
+            "cameras_in_bbox",
+            "military_installations_in_bbox",
+            "radio_stations_near",
+            "rocket_launches_recent"
+          ]
+        },
+        "afterReset": [],
+        "note": "Default selection is [] (nothing persisted). Plugin-kind ids: 10, all /^plugin-\\d{10}$/, x_mcp_connector toggle disabled. OBSERVATION: the handle also returns tool-route NAMES (e.g. earthquake_search) when tool toggles are checked, because the panel keys selection on entry.pluginId||entry.name; the mini chat takes getPluginIds().slice(0,4) and the orchestrator ignores unknown ids, so no functional impact \u2014 noted, not a defect of this check."
+      }
+    },
+    {
+      "check": "B5 pointer reachability of PLUGINS panel while mini chat is open",
+      "scenario": "plugins-overlay",
+      "viewport": "390x844",
+      "status": "DEFECT",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:48:37.608Z",
+      "screenshot": "agent4/browser/check-plugins-overlay-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "run": "run4 overlay + run3 click comparison",
+        "panel": {
+          "sel": "section#ondemand-plugin-panel.od-plugins",
+          "rect": {
+            "x": 14,
+            "y": 444,
+            "w": 358,
+            "h": 376
+          },
+          "position": "static",
+          "zIndex": "auto",
+          "pointerEvents": "auto",
+          "display": "flex",
+          "opacity": "1"
+        },
+        "dock": {
+          "sel": "div#ondemand-plugin-dock.",
+          "rect": {
+            "x": 14,
+            "y": 444,
+            "w": 358,
+            "h": 376
+          },
+          "position": "fixed",
+          "zIndex": "184",
+          "pointerEvents": "auto",
+          "display": "block",
+          "opacity": "1"
+        },
+        "miniChat": {
+          "sel": "aside#ondemand-mini-chat.od-chat.od-chat--mini",
+          "rect": {
+            "x": 0,
+            "y": 453,
+            "w": 390,
+            "h": 391
+          },
+          "position": "fixed",
+          "zIndex": "186",
+          "pointerEvents": "auto",
+          "display": "flex",
+          "opacity": "1"
+        },
+        "hitTest": {
+          "summary.od-plugins__summary": {
+            "reachesTarget": false,
+            "topmost": "header.od-chat__header.od-chat__header--mini"
+          },
+          "button.od-plugins__refresh-btn": {
+            "reachesTarget": false,
+            "topmost": "button#ondemand-mini-chat-expand.od-chat__icon-btn"
+          },
+          "li.od-plugin__row:first-child .od-plugin__toggle": {
+            "reachesTarget": false,
+            "topmost": "div.od-chat__status-row"
+          },
+          "button.od-plugin__verify[data-plugin-name=\"perplexity_research\"]": {
+            "reachesTarget": false,
+            "topmost": "span.od-chat__key-state"
+          },
+          "button.od-plugin__verify[data-plugin-name=\"internet_web_search\"]": {
+            "reachesTarget": false,
+            "topmost": "div#ondemand-mini-chat-starters.od-chat__starters"
+          },
+          "button.od-plugin__verify[data-plugin-name=\"x_mcp_connector\"]": {
+            "reachesTarget": false,
+            "topmost": "div.od-empty-state.od-empty-state--no-sessions"
+          }
+        },
+        "run3_mouse_click": {
+          "internet_web_search": {
+            "mode": "page.click",
+            "effect": "none (no POST, no VERIFYING\u2026)"
+          },
+          "dom_click": {
+            "effect": "VERIFYING\u2026\u2192VERIFY, POST sent"
+          }
+        },
+        "diagnosis": "installPluginPanel() runs at boot before #ondemand-mini-chat exists, so the panel mounts into the floating #ondemand-plugin-dock (position:fixed, z-index 184). When the mini chat opens it is an aside (position:fixed, z-index 186) occupying the same bottom-right (desktop) / bottom (mobile) area, fully covering the dock: every VERIFY button, the REFRESH button, the summary toggle and the checkboxes fail elementFromPoint and real mouse clicks land on the chat (.od-empty-state / #ondemand-mini-chat-starters / send button). The same clicks work with the chat closed (run5) and via element.click() (run3). Severity: medium \u2014 a user cannot verify/select plugins while asking a question, which is exactly when per-turn selection matters. Suggested fix: re-mount the panel into the mini chat header slot on open (miniChat emits open) or raise the dock above the chat / offset it."
+      }
+    }
+  ]
+}

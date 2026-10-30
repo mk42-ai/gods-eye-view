@@ -1,0 +1,213 @@
+{
+  "agent": 6,
+  "task": "Dubai Marina geocoding/AOI and strict pure scene gate implementation",
+  "started_utc": "2026-10-24T01:48:54Z",
+  "ended_utc": "2026-10-24T01:49:58.255754Z",
+  "status": "complete",
+  "files_created": [
+    "config/aoi/scene-aois.json",
+    "src/aoi/sceneGate.js",
+    "src/aoi/sceneGate.test.mjs"
+  ],
+  "api": "resolveIncidentGate(text, {lat, lon|lng}) -> {allowed, aoiId, reason, code, ...}",
+  "marina": {
+    "lat": 25.0786415,
+    "lon": 55.1352524,
+    "osm_type": "relation",
+    "osm_id": 11912728,
+    "observed_candidate": {
+      "place_id": 45668895,
+      "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+      "osm_type": "relation",
+      "osm_id": 11912728,
+      "lat": "25.0786415",
+      "lon": "55.1352524",
+      "category": "landuse",
+      "type": "residential",
+      "place_rank": 24,
+      "importance": 0.46579012336862585,
+      "addresstype": "suburb",
+      "name": "مرسى دبي",
+      "display_name": "مرسى دبي, دبي, الإمارات العربية المتحدة",
+      "address": {
+        "suburb": "مرسى دبي",
+        "state": "دبي",
+        "ISO3166-2-lvl4": "AE-DU",
+        "country": "الإمارات العربية المتحدة",
+        "country_code": "ae"
+      },
+      "boundingbox": [
+        "25.0642641",
+        "25.0950669",
+        "55.1235844",
+        "55.1551429"
+      ]
+    },
+    "source_url": "https://nominatim.openstreetmap.org/search?q=Dubai+Marina%2C+Dubai%2C+United+Arab+Emirates&format=jsonv2&limit=3&addressdetails=1",
+    "feature_url": "https://www.openstreetmap.org/relation/11912728",
+    "observed_utc": "2026-10-24T01:49:10.669805+00:00",
+    "radius_km": 5,
+    "boundary_type": "explicit planning boundary; not official"
+  },
+  "existing_preview_observation": {
+    "source_url": "https://sb-2nei6kyp3xva.vercel.run/api/ondemand/v2/incidents/locate",
+    "request": {
+      "text": "Dubai Marina",
+      "externalUserId": "marina-validation"
+    },
+    "requested_utc": "2026-10-24T01:49:04.627797+00:00",
+    "status": 200,
+    "body": {
+      "text": "Dubai Marina",
+      "extraction": {
+        "originalText": "Dubai Marina",
+        "place": "Dubai Marina",
+        "intent": "incident_search",
+        "radiusKm": 5,
+        "windowHours": 72
+      },
+      "candidates": [
+        {
+          "name": "Dubai",
+          "lat": 25.2048,
+          "lon": 55.2708,
+          "country": "AE",
+          "confidence": 0.87,
+          "source": "gazetteer",
+          "verified": true,
+          "aoi_membership": {
+            "inside": true,
+            "aoi_ids": [
+              "uae-gulf-waters"
+            ],
+            "nearest": {
+              "id": "uae-gulf-waters",
+              "name": "UAE territorial waters (Arabian Gulf)",
+              "km": 0
+            }
+          },
+          "reason": "IN_AOI: UAE territorial waters (Arabian Gulf)"
+        }
+      ],
+      "steps": [
+        {
+          "step": "gazetteer",
+          "candidates": 1
+        }
+      ],
+      "status": "resolved"
+    },
+    "observed_utc": "2026-10-24T01:49:04.744093+00:00",
+    "assessment": "HTTP 200 resolved to Dubai city, not Dubai Marina. Rejected this candidate as Marina evidence; independent OSM neighbourhood relation used instead.",
+    "distance_from_marina_km": 19.569
+  },
+  "sources": [
+    {
+      "url": "https://nominatim.openstreetmap.org/search?q=Dubai+Marina%2C+Dubai%2C+United+Arab+Emirates&format=jsonv2&limit=3&addressdetails=1",
+      "observed_utc": "2026-10-24T01:49:10.669805+00:00",
+      "status": 200,
+      "features": [
+        {
+          "osm_type": "relation",
+          "osm_id": 11912728,
+          "lat": "25.0786415",
+          "lon": "55.1352524"
+        },
+        {
+          "osm_type": "way",
+          "osm_id": 1012455049,
+          "lat": "25.0782990",
+          "lon": "55.1408820"
+        }
+      ]
+    },
+    {
+      "url": "https://nominatim.openstreetmap.org/search?country=United+Arab+Emirates&format=jsonv2&limit=1&polygon_geojson=1",
+      "observed_utc": "2026-10-24T01:49:12.131825+00:00",
+      "status": 200,
+      "features": [
+        {
+          "osm_type": "relation",
+          "osm_id": 307763,
+          "lat": "24.0002488",
+          "lon": "53.9994829"
+        }
+      ]
+    },
+    {
+      "url": "https://nominatim.openstreetmap.org/search?country=Oman&format=jsonv2&limit=1&polygon_geojson=1",
+      "observed_utc": "2026-10-24T01:49:13.647454+00:00",
+      "status": 200,
+      "features": [
+        {
+          "osm_type": "relation",
+          "osm_id": 305138,
+          "lat": "21.0000287",
+          "lon": "57.0036901"
+        }
+      ]
+    },
+    {
+      "url": "https://nominatim.openstreetmap.org/search?country=Iran&format=jsonv2&limit=1&polygon_geojson=1",
+      "observed_utc": "2026-10-24T01:49:15.465513+00:00",
+      "status": 200,
+      "features": [
+        {
+          "osm_type": "relation",
+          "osm_id": 304938,
+          "lat": "32.6475314",
+          "lon": "54.5643516"
+        }
+      ]
+    },
+    {
+      "url": "https://nominatim.openstreetmap.org/search?q=Jebel+Ali+Port%2C+Dubai%2C+United+Arab+Emirates&format=jsonv2&limit=1&addressdetails=1",
+      "observed_utc": "2026-10-24T01:49:48.607487Z",
+      "status": 200,
+      "features": [
+        {
+          "osm_type": "node",
+          "osm_id": 4545361722,
+          "lat": "24.9804578",
+          "lon": "55.0598883"
+        }
+      ]
+    }
+  ],
+  "policy": {
+    "generous_bbox": [
+      51.3,
+      22.5,
+      56.65,
+      26.25
+    ],
+    "bbox_fallback": "Requires positive UAE OSM mask, not rectangle alone",
+    "foreign_masks": [
+      "Iran",
+      "Oman, including enclaves"
+    ],
+    "exception": "Only explicit bounded UAE border zones may cross into Oman; assets cannot bypass foreign masks",
+    "foreign_presence": "Yemen and Somalia presence nodes intentionally excluded",
+    "coordinates": "Strict finite numeric WGS84; missing/null/strings/out-of-range/conflicting aliases fail closed",
+    "text": "Descriptive only; no keyword or override bypass",
+    "network": "Gate is pure, no runtime network or browser provider calls"
+  },
+  "tests": {
+    "command": "node --test src/aoi/sceneGate.test.mjs src/aoi/membership.test.mjs src/incidents/model.test.mjs",
+    "exit_code": 0,
+    "tests": 84,
+    "pass": 84,
+    "fail": 0,
+    "tap_path": "/tmp/gev-agent-06-tests.tap"
+  },
+  "integration_notes": [
+    "Export sceneAoiConfig and resolveIncidentGate from src/aoi/sceneGate.js. The scene gate has deliberately not been wired into routes/UI because they are outside this agent's exclusive files.",
+    "Apply this gate after location resolution; do not treat broad interest membership or caller override as scene authorization.",
+    "Dubai Marina gazetteer entry in scene-aois.json is independent of unchanged uae-interest.json; locate route still requires integration if its Dubai city fallback is to change."
+  ],
+  "limitations": [
+    "OSM boundaries are observed community geographic data, not legal sovereignty determinations.",
+    "Ghuwaifat retains existing explicitly unverified context anchor with narrowed 15 km planning radius; no claim of new survey verification.",
+    "Country masks retain full observed coordinates (about 1.6 MB JSON); no lossy simplification that could admit foreign enclaves."
+  ]
+}

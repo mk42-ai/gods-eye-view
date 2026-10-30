@@ -1,0 +1,318 @@
+{
+  "startedAt": "2026-10-21T08:28:42.240Z",
+  "endedAt": "2026-10-21T08:29:50.853Z",
+  "baseUrl": "https://sb-72vtzc1c6cf8.vercel.run",
+  "viewports": {
+    "1440x900": {
+      "viewport": "1440x900",
+      "startedAt": "2026-10-21T08:28:42.241Z",
+      "endedAt": "2026-10-21T08:29:18.318Z",
+      "checks": {
+        "a_app_shell": {
+          "timestamp": "2026-10-21T08:28:52.455Z",
+          "pass": true,
+          "titleBarPresent": true,
+          "titleBarInnerText": "OnDemand Intelligence Workstation\n\nSPATIAL INTELLIGENCE CONSOLE",
+          "canvasPresent": true,
+          "railLayerControls": "#data-toggles, .panel-collapse-btn, #clear-selected-layers",
+          "dataManagerTruthy": true,
+          "hasPageErrors": false,
+          "pageError": null
+        },
+        "b_failure_state": {
+          "timestamp": "2026-10-21T08:28:53.874Z",
+          "pass": true,
+          "elementAppeared": ".od-chat__msg--error; #ondemand-mini-chat-status containing FAILED; .od-empty-state--source-unavailable",
+          "statusText": "TURN FAILED",
+          "retryAffordanceExists": false,
+          "retryButtonText": null,
+          "screenshot": "check-failure-1440x900.png"
+        },
+        "c_cancel_state": {
+          "timestamp": "2026-10-21T08:28:58.182Z",
+          "pass": true,
+          "statusText": "CANCELLED",
+          "noFurtherTextArrivedFor3s": true,
+          "screenshot": "check-cancel-1440x900.png"
+        },
+        "d_retry_recovery": {
+          "timestamp": "2026-10-21T08:29:06.771Z",
+          "pass": true,
+          "settled": true,
+          "keySourceHeader": "server",
+          "assistantCharCount": 386,
+          "screenshot": "check-recovery-1440x900.png"
+        },
+        "e_session_isolation": {
+          "timestamp": "2026-10-21T08:29:08.276Z",
+          "pass": true,
+          "alertMessageCount": 0,
+          "alertEmptyState": "No prior investigation for this object",
+          "alertContainsFire": false,
+          "fireReopenedMessageCount": 4,
+          "screenshot": "check-isolation-1440x900.png"
+        },
+        "f_hard_reload": {
+          "timestamp": "2026-10-21T08:29:18.317Z",
+          "pass": true,
+          "restoredMessageCount": 4,
+          "screenshot": "check-reload-persist-1440x900.png"
+        },
+        "g_globe_interactive": {
+          "timestamp": "2026-10-21T08:29:18.318Z",
+          "pass": true,
+          "canvasPresent": true,
+          "titleBarPresent": true,
+          "finiteCoords": true,
+          "cameraCartographic": {
+            "longitude": -1.7055811236094107,
+            "latitude": 0.5285048961256548,
+            "height": 600.0000000008789
+          }
+        }
+      },
+      "consoleErrors": [
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 ()",
+          "atUtc": "2026-10-21T08:28:45.082Z"
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 ()",
+          "atUtc": "2026-10-21T08:28:52.498Z"
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+          "atUtc": "2026-10-21T08:28:52.514Z"
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 ()",
+          "atUtc": "2026-10-21T08:29:06.812Z"
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 ()",
+          "atUtc": "2026-10-21T08:29:09.300Z"
+        }
+      ],
+      "failedRequests": [
+        {
+          "status": 404,
+          "method": "GET",
+          "url": "/api/setup/status",
+          "atUtc": "2026-10-21T08:28:45.081Z"
+        },
+        {
+          "status": 0,
+          "method": "GET",
+          "url": "/api/setup/status",
+          "errorText": "net::ERR_ABORTED",
+          "atUtc": "2026-10-21T08:28:45.089Z"
+        },
+        {
+          "status": 404,
+          "method": "GET",
+          "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhuomhh-32544488&objectContextKey=fire%3Aagent4-fail-1440x900&limit=20&sort=asc",
+          "atUtc": "2026-10-21T08:28:52.497Z"
+        },
+        {
+          "status": 502,
+          "method": "POST",
+          "url": "/api/ondemand/v2/chat",
+          "atUtc": "2026-10-21T08:28:52.514Z"
+        },
+        {
+          "status": 0,
+          "method": "POST",
+          "url": "/api/ondemand/v2/chat",
+          "errorText": "net::ERR_ABORTED",
+          "atUtc": "2026-10-21T08:28:54.110Z"
+        },
+        {
+          "status": 404,
+          "method": "GET",
+          "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhuomhh-32544488&objectContextKey=alert%3Aagent4-iso-1440x900&limit=20&sort=asc",
+          "atUtc": "2026-10-21T08:29:06.811Z"
+        },
+        {
+          "status": 404,
+          "method": "GET",
+          "url": "/api/setup/status",
+          "atUtc": "2026-10-21T08:29:09.299Z"
+        },
+        {
+          "status": 0,
+          "method": "GET",
+          "url": "/api/setup/status",
+          "errorText": "net::ERR_ABORTED",
+          "atUtc": "2026-10-21T08:29:09.315Z"
+        }
+      ]
+    },
+    "390x844": {
+      "viewport": "390x844",
+      "startedAt": "2026-10-21T08:29:18.331Z",
+      "endedAt": "2026-10-21T08:29:50.835Z",
+      "checks": {
+        "a_app_shell": {
+          "timestamp": "2026-10-21T08:29:26.343Z",
+          "pass": true,
+          "titleBarPresent": true,
+          "titleBarInnerText": "",
+          "canvasPresent": true,
+          "railLayerControls": "#data-toggles, .panel-collapse-btn, #clear-selected-layers",
+          "dataManagerTruthy": true,
+          "hasPageErrors": false,
+          "pageError": null
+        },
+        "b_failure_state": {
+          "timestamp": "2026-10-21T08:29:27.263Z",
+          "pass": true,
+          "elementAppeared": ".od-chat__msg--error; #ondemand-mini-chat-status containing FAILED; .od-empty-state--source-unavailable",
+          "statusText": "TURN FAILED",
+          "retryAffordanceExists": false,
+          "retryButtonText": null,
+          "screenshot": "check-failure-390x844.png"
+        },
+        "c_cancel_state": {
+          "timestamp": "2026-10-21T08:29:30.607Z",
+          "pass": true,
+          "statusText": "CANCELLED",
+          "noFurtherTextArrivedFor3s": true,
+          "screenshot": "check-cancel-390x844.png"
+        },
+        "d_retry_recovery": {
+          "timestamp": "2026-10-21T08:29:41.237Z",
+          "pass": true,
+          "settled": true,
+          "keySourceHeader": "server",
+          "assistantCharCount": 367,
+          "screenshot": "check-recovery-390x844.png"
+        },
+        "e_session_isolation": {
+          "timestamp": "2026-10-21T08:29:42.576Z",
+          "pass": true,
+          "alertMessageCount": 0,
+          "alertEmptyState": "No prior investigation for this object",
+          "alertContainsFire": false,
+          "fireReopenedMessageCount": 4,
+          "screenshot": "check-isolation-390x844.png"
+        },
+        "f_hard_reload": {
+          "timestamp": "2026-10-21T08:29:50.833Z",
+          "pass": true,
+          "restoredMessageCount": 4,
+          "screenshot": "check-reload-persist-390x844.png"
+        },
+        "g_globe_interactive": {
+          "timestamp": "2026-10-21T08:29:50.835Z",
+          "pass": true,
+          "canvasPresent": true,
+          "titleBarPresent": true,
+          "finiteCoords": true,
+          "cameraCartographic": {
+            "longitude": -1.7055811236094107,
+            "latitude": 0.5285048961256548,
+            "height": 600.0000000008789
+          }
+        }
+      },
+      "consoleErrors": [
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 ()",
+          "atUtc": "2026-10-21T08:29:19.906Z"
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 ()",
+          "atUtc": "2026-10-21T08:29:26.384Z"
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+          "atUtc": "2026-10-21T08:29:26.388Z"
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 ()",
+          "atUtc": "2026-10-21T08:29:41.266Z"
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 ()",
+          "atUtc": "2026-10-21T08:29:43.428Z"
+        }
+      ],
+      "failedRequests": [
+        {
+          "status": 404,
+          "method": "GET",
+          "url": "/api/setup/status",
+          "atUtc": "2026-10-21T08:29:19.905Z"
+        },
+        {
+          "status": 0,
+          "method": "GET",
+          "url": "/api/setup/status",
+          "errorText": "net::ERR_ABORTED",
+          "atUtc": "2026-10-21T08:29:19.957Z"
+        },
+        {
+          "status": 404,
+          "method": "GET",
+          "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhuomhh-32544488&objectContextKey=fire%3Aagent4-fail-390x844&limit=20&sort=asc",
+          "atUtc": "2026-10-21T08:29:26.384Z"
+        },
+        {
+          "status": 502,
+          "method": "POST",
+          "url": "/api/ondemand/v2/chat",
+          "atUtc": "2026-10-21T08:29:26.388Z"
+        },
+        {
+          "status": 0,
+          "method": "POST",
+          "url": "/api/ondemand/v2/chat",
+          "errorText": "net::ERR_ABORTED",
+          "atUtc": "2026-10-21T08:29:27.478Z"
+        },
+        {
+          "status": 404,
+          "method": "GET",
+          "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhuomhh-32544488&objectContextKey=alert%3Aagent4-iso-390x844&limit=20&sort=asc",
+          "atUtc": "2026-10-21T08:29:41.266Z"
+        },
+        {
+          "status": 404,
+          "method": "GET",
+          "url": "/api/setup/status",
+          "atUtc": "2026-10-21T08:29:43.427Z"
+        },
+        {
+          "status": 0,
+          "method": "GET",
+          "url": "/api/setup/status",
+          "errorText": "net::ERR_ABORTED",
+          "atUtc": "2026-10-21T08:29:43.469Z"
+        },
+        {
+          "status": 0,
+          "method": "POST",
+          "url": "/api/ondemand/v2/summaries/hud",
+          "errorText": "net::ERR_ABORTED",
+          "atUtc": "2026-10-21T08:29:50.045Z"
+        }
+      ]
+    }
+  },
+  "parity": {
+    "sameFailureUiElement": true,
+    "failureUiElementDesktop": ".od-chat__msg--error; #ondemand-mini-chat-status containing FAILED; .od-empty-state--source-unavailable",
+    "failureUiElementMobile": ".od-chat__msg--error; #ondemand-mini-chat-status containing FAILED; .od-empty-state--source-unavailable",
+    "sameRecoveryKeySource": true,
+    "recoveryKeySourceDesktop": "server",
+    "recoveryKeySourceMobile": "server",
+    "bothIsolated": true,
+    "isolationDesktopPass": true,
+    "isolationMobilePass": true,
+    "bothPersistedAfterReload": true,
+    "reloadPersistDesktopCount": 4,
+    "reloadPersistMobileCount": 4,
+    "retryAffordanceDesktopExists": false,
+    "retryAffordanceMobileExists": false
+  }
+}

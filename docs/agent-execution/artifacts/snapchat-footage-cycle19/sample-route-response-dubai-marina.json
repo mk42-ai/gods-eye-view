@@ -1,0 +1,165 @@
+{
+ "locationId": "snap-dubai-marina",
+ "requestId": "3895ec79-3c6a-4ee6-8ea7-8a33f8991285",
+ "plugin": {
+  "id": "plugin-1792945050",
+  "operation": "fetchSnapchatVideosByPlace"
+ },
+ "refresh": {
+  "defaultMs": 120000,
+  "minMs": 30000
+ },
+ "maxCoverageLevel": "district",
+ "state": "ok",
+ "error": null,
+ "clips": [
+  {
+   "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+   "sourcePlatform": "snapchat",
+   "mediaUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/qBbd4Y1e2W.mp4?se=2026-11-03T00%3A39%3A21Z&sig=<redacted>&ske=2026-11-03T00%3A39%3A21Z&skoid=f6fe3b05-8f6e-4558-96bd-b7f53ddd5066&sks=b&skt=2026-10-27T00%3A39%3A21Z&sktid=03628b8d-e6ad-4dd7-bca0-020e6a6cfdda&skv=2025-05-05&sp=r&sr=b&st=2026-10-27T00%3A53%3A08Z&sv=2025-05-05",
+   "embedUrl": null,
+   "thumbnail": null,
+   "sourceUrl": "https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+   "attribution": null,
+   "matchedPlaceName": "Dubai Marina",
+   "coverageLevel": "district",
+   "locationEvidence": "hashtag-match",
+   "locationEvidenceDetail": "hashtag #dubaimarina equals the place name \"Dubai Marina\"",
+   "captureTime": null,
+   "publicationTime": "2026-09-09T17:13:12.000Z",
+   "publicationTimeRaw": "September 9, 2026 at 5:13:12 PM",
+   "publicationTimezoneAssumption": "UTC",
+   "retrievalTime": "2026-10-27T00:57:53.922Z",
+   "isLive": false,
+   "liveConfirmedBy": null,
+   "mediaExpiresAt": "2026-11-03T00:39:21.000Z",
+   "mediaHash": "J8KrgotJ8lELAXFza9k/vw==",
+   "mediaVerified": true,
+   "durationMs": 16100,
+   "caption": "#dubaimarina",
+   "hashtags": [
+    "#dubaimarina"
+   ],
+   "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+   "metrics": {
+    "views": null,
+    "comments": 1,
+    "shares": 0
+   }
+  }
+ ],
+ "coverageLevel": "district",
+ "coverageLabel": "Dubai Marina",
+ "expanded": false,
+ "retrievalTime": "2026-10-27T00:57:53.922Z",
+ "lastCheckedAt": "2026-10-27T00:58:14.911Z",
+ "emptyReason": null,
+ "pluginNote": "Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.",
+ "ladder": [
+  {
+   "level": "district",
+   "label": "Dubai Marina",
+   "names": [
+    "Dubai Marina"
+   ],
+   "capped": false,
+   "queried": true,
+   "clips": 1
+  },
+  {
+   "level": "city",
+   "label": "Dubai",
+   "names": [
+    "Dubai"
+   ],
+   "capped": true,
+   "queried": false,
+   "clips": 0
+  }
+ ],
+ "rejected": [],
+ "upstream": [
+  {
+   "sessionId": "6adff712d8a7360a433b5b2e",
+   "messageId": "6adff712600b913b65aca721",
+   "status": "completed",
+   "ms": 20861,
+   "places": [
+    "Dubai Marina"
+   ]
+  }
+ ],
+ "cached": false,
+ "trace": [
+  {
+   "stage": "request_received",
+   "utc": "2026-10-27T00:57:53.918Z",
+   "lat": 25.0786415,
+   "lon": 55.1352524,
+   "placeName": "Dubai Marina",
+   "bbox": [
+    55.11,
+    25.06,
+    55.16,
+    25.1
+   ],
+   "fresh": true
+  },
+  {
+   "stage": "session_create",
+   "utc": "2026-10-27T00:57:53.923Z",
+   "pluginIds": [
+    "plugin-1792945050"
+   ],
+   "attempt": 1
+  },
+  {
+   "stage": "session_created",
+   "utc": "2026-10-27T00:57:54.340Z",
+   "sessionId": "6adff712d8a7360a433b5b2e",
+   "attempt": 1
+  },
+  {
+   "stage": "query_submit",
+   "utc": "2026-10-27T00:57:54.340Z",
+   "sessionId": "6adff712d8a7360a433b5b2e",
+   "pluginIds": [
+    "plugin-1792945050"
+   ],
+   "endpointId": "predefined-openai-gpt4.1-mini",
+   "responseMode": "sync",
+   "places": [
+    "Dubai Marina"
+   ],
+   "limit": 3,
+   "attempt": 1
+  },
+  {
+   "stage": "query_completed",
+   "utc": "2026-10-27T00:58:14.784Z",
+   "sessionId": "6adff712d8a7360a433b5b2e",
+   "messageId": "6adff712600b913b65aca721",
+   "status": "completed",
+   "ms": 20861,
+   "ragTimeSec": 13.66
+  },
+  {
+   "stage": "media_verified",
+   "utc": "2026-10-27T00:58:14.910Z",
+   "checked": 1,
+   "playable": 1,
+   "rejected": []
+  },
+  {
+   "stage": "schema_validated",
+   "utc": "2026-10-27T00:58:14.911Z",
+   "clips": 1,
+   "rejected": 0,
+   "coverageLevel": "district",
+   "expanded": false,
+   "media": [
+    "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/qBbd4Y1e2W.mp4"
+   ]
+  }
+ ]
+}
