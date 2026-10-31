@@ -188,6 +188,27 @@ export function createEventResearch({
     previousPlan,
     signal,
   }) {
+    const explicitFiction = /\b(?:fictional|hypothetical|generic)\b/i.test(
+      prompt,
+    );
+    const eventWords =
+      /\b(?:marathon|olympics?|world cup|grand prix|championship|inauguration|festival|summit|parade|concert|earthquake|flood|protest|incident)\b/i.test(
+        prompt,
+      );
+    const datedNamedEvent =
+      eventWords &&
+      (/\b(?:19|20)\d{2}\b/.test(prompt) ||
+        /\bdubai\s+marathon\b/i.test(prompt));
+    if (!eventWords || (explicitFiction && !datedNamedEvent)) {
+      return {
+        kind: 'generic',
+        status: 'generic',
+        citations: [],
+        provider: 'not-required',
+        verification:
+          'No factual event assertion requested; illustrative staging only.',
+      };
+    }
     const editionHint =
       /\b(?:19|20)\d{2}\b/.exec(`${prompt} ${selectedTime ?? ''}`)?.[0] ||
       previousPlan?.verification?.edition ||

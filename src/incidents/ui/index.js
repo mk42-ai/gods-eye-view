@@ -834,7 +834,7 @@ export function installIncidentScenes({
     client,
     buildResearchScene: true,
     structuredPlanning: true,
-    requestTimeoutMs: 115_000,
+    requestTimeoutMs: 240_000,
     buildScene: (incidents) => buildScenes(incidents)[0],
     createGeographicScene: async (request) => {
       const {
@@ -1062,7 +1062,7 @@ export function installIncidentScenes({
   const locationInput = doc.getElementById('location-search');
   const onLocationInput = () => {
     const text = String(locationInput?.value || '').trim();
-    if (!text || text === composer.input.value) return;
+    if (text === composer.input.value) return;
     refinementContext = null;
     composer.input.value = text;
     composer.input.dispatchEvent(new Event('input', { bubbles: true }));

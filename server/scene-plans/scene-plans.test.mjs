@@ -345,14 +345,37 @@ test('named event cannot be mislabeled generic to bypass research', async () => 
     { code: 'needs_clarification' },
   );
 });
-test('research deduplicates same prompt+edition+revision but isolates revisions', async () => {
+test('research deduplicates event lookups within a revision and skips clearly generic staging', async () => {
   const t = transportFixture(() =>
-    JSON.stringify({ kind: 'generic', status: 'generic', citations: [] }),
+    JSON.stringify({
+      kind: 'event',
+      status: 'verified',
+      eventName: 'Dubai Marathon',
+      edition: '2026',
+      locationName: 'Dubai',
+      citations: [
+        {
+          url: 'https://example.org/event',
+          excerpt:
+            'Dubai Marathon 2026 takes place in Dubai for this synthetic fixture.',
+        },
+      ],
+    }),
   );
-  const research = createEventResearch({ transport: t });
-  await Promise.all([research(constructBody()), research(constructBody())]);
+  const research = createEventResearch({
+    transport: t,
+    verifySource: async (c) => ({ ...c, verified: true }),
+  });
+  await research(constructBody());
+  assert.equal(t.calls.length, 0);
+  const input = {
+    ...constructBody(),
+    candidate: { ...candidate(), name: 'Dubai' },
+    prompt: 'Dubai Marathon 2026',
+  };
+  await Promise.all([research(input), research(input)]);
   assert.equal(t.calls.length, 1);
-  await research({ ...constructBody(), revision: 3 });
+  await research({ ...input, revision: 3 });
   assert.equal(t.calls.length, 2);
 });
 test('event research needs retrieved citation evidence and matching venue', async () => {

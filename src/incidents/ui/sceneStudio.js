@@ -277,6 +277,9 @@ export function createSceneStudio({
       : [];
     voiceInput.value = config.voiceId;
     modelInput.value = config.modelId;
+    audio.muted = Boolean(config.muted);
+    mute.textContent = audio.muted ? 'Unmute' : 'Mute';
+    mute.setAttribute('aria-pressed', String(audio.muted));
     description.textContent = describeConstructedScene(next);
     entities.replaceChildren();
     beats.replaceChildren();
@@ -475,6 +478,8 @@ export function createSceneStudio({
     audio.muted = !audio.muted;
     mute.textContent = audio.muted ? 'Unmute' : 'Mute';
     mute.setAttribute('aria-pressed', String(audio.muted));
+    config = { ...config, muted: audio.muted };
+    changed();
   });
   listen(audio, 'ended', () => {
     root.dataset.audioState = 'ended';

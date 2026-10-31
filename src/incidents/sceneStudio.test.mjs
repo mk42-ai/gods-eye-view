@@ -269,3 +269,18 @@ test('late audio.play completion cannot start an obsolete scene after replacemen
   assert.equal(plays, 0);
   ui.destroy();
 });
+
+test('mute preference is saved with narration config and restored on load', async () => {
+  const doc = mockDoc();
+  const ui = createSceneStudio({ document: doc });
+  ui.setScene(scene());
+  await doc.getElementById('scene-narration-mute').emit('click');
+  assert.equal(ui.getSnapshot().narrationConfig.muted, true);
+  const saved = {
+    ...scene(),
+    narrationConfig: ui.getSnapshot().narrationConfig,
+  };
+  ui.setScene(saved);
+  assert.equal(ui.getState().audio.muted, true);
+  ui.destroy();
+});
