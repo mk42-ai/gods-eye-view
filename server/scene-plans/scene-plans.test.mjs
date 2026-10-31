@@ -711,3 +711,33 @@ test('request AbortSignal reaches session and query HTTP requests', async () => 
   abort.abort();
   for (const signal of signals) assert.equal(signal.aborted, true);
 });
+
+test('a NOT a real incident disclaimer in an illustrative police scene is not an event claim', async () => {
+  const research = createEventResearch({
+    transport: {
+      createSession: () =>
+        assert.fail('generic training scene must not need event research'),
+    },
+  });
+  const result = await research({
+    ...constructBody(),
+    prompt:
+      'Location: Dubai Marina\nAn illustrative police training scene, NOT a real incident. Exactly 3 police officers stand beside 2 parked police vehicles.',
+  });
+  assert.equal(result.kind, 'generic');
+  assert.equal(result.provider, 'not-required');
+});
+test('negated-incident disclaimers cannot bypass a named dated marathon verification', async () => {
+  const t = transportFixture(() =>
+    JSON.stringify({ kind: 'generic', status: 'generic', citations: [] }),
+  );
+  await assert.rejects(
+    () =>
+      createEventResearch({ transport: t })({
+        ...constructBody(),
+        prompt:
+          'Fictional actors, NOT a real incident. Show Dubai Marathon 2024 at the real event venue.',
+      }),
+    { code: 'needs_clarification' },
+  );
+});

@@ -191,9 +191,15 @@ export function createEventResearch({
     const explicitFiction = /\b(?:fictional|hypothetical|generic)\b/i.test(
       prompt,
     );
+    // A safety disclaimer is not a factual event assertion. Keep named events
+    // and dates intact; remove only explicit negated incident/event phrases.
+    const assertedEventText = prompt.replace(
+      /\b(?:not|no|never)\s+(?:an?\s+)?(?:real|actual|reported|confirmed)\s+(?:incident|event)\b/gi,
+      ' ',
+    );
     const eventWords =
       /\b(?:marathon|olympics?|world cup|grand prix|championship|inauguration|festival|summit|parade|concert|earthquake|flood|protest|incident)\b/i.test(
-        prompt,
+        assertedEventText,
       );
     const datedNamedEvent =
       eventWords &&
@@ -247,11 +253,7 @@ export function createEventResearch({
       const explicitFiction = /\b(?:fictional|hypothetical|generic)\b/i.test(
         prompt,
       );
-      const eventIntent =
-        !explicitFiction &&
-        /\b(?:marathon|olympics?|world cup|grand prix|championship|inauguration|festival|summit|parade|concert|earthquake|flood|protest|incident)\b/i.test(
-          prompt,
-        );
+      const eventIntent = eventWords && (!explicitFiction || datedNamedEvent);
       if (!eventIntent && data.kind === 'generic' && data.status === 'generic')
         return {
           kind: 'generic',
