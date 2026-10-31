@@ -1,0 +1,579 @@
+{
+  "url": "https://ondemand-agent-5b0turvg0-schoolhack-web-team.vercel.app",
+  "ok": false,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-research-e2e-1440x900.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-5b0turvg0-schoolhack-web-team.vercel.app",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "expect-text",
+      "target": "ILLUSTRATIVE",
+      "ok": false,
+      "detail": "not present in rendered text"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "perimeter officers",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "expect-selector",
+      "target": "#scene-geometry-legend",
+      "ok": false,
+      "detail": "missing"
+    },
+    {
+      "kind": "eval",
+      "target": "/* Run as ui-validator --eval \"$(cat /tmp/qa-research-geometry-page.js)\".\n * Browser E2E verification script for scene composer geometry research workflow.\n * Sets window.__gevGeometryAudit and return",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevGeometryAudit?.finishedAtUtc||Date.now()-t>25000) r(true); else setTimeout(p,500)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__gevGeometryAudit?.ok",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__gevAuditSummary",
+      "ok": true,
+      "detail": "\"PASS idle-typing-multiline-zero-requests | PASS plain-enter-preserves-newline | PASS submit-icon-double-click-single-construct | PASS geometry-present | PASS build-button-single-native-button-with-ic"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK0:'+JSON.stringify(window.__gevGeometryAudit).slice(0,180)",
+      "ok": true,
+      "detail": "\"CHUNK0:{\\\"startedAtUtc\\\":\\\"2026-10-31T13:01:35.658Z\\\",\\\"tests\\\":{\\\"idle-typing-multiline-zero-requests\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"constructCalls\\\":0,\\\"locateCalls\\\":0,\\\"newNetworkEntries\\"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK1:'+JSON.stringify(window.__gevGeometryAudit).slice(180,360)",
+      "ok": true,
+      "detail": "\"CHUNK1:lain-enter-preserves-newline\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"enterDispatchedCount\\\":2,\\\"enterPreventedCount\\\":0,\\\"exactDraft\\\":true}},\\\"submit-icon-double-click-single-construct\\\":{\\\"st"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK2:'+JSON.stringify(window.__gevGeometryAudit).slice(360,540)",
+      "ok": true,
+      "detail": "\"CHUNK2:\\\":\\\"passed\\\",\\\"actual\\\":{\\\"constructCalls\\\":1,\\\"iconFound\\\":true}},\\\"geometry-present\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"present\\\":true,\\\"status\\\":\\\"partial\\\",\\\"pointsCount\\\":2,\\\"linesCou"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK3:'+JSON.stringify(window.__gevGeometryAudit).slice(540,720)",
+      "ok": true,
+      "detail": "\"CHUNK3:unt\\\":1,\\\"citationsCount\\\":7}},\\\"build-button-single-native-button-with-icon-child\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"type\\\":\\\"button\\\",\\\"iconInside\\\":true,\\\"pointerEvents\\\":\\\"none\\\"}},\\\"r"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK4:'+JSON.stringify(window.__gevGeometryAudit).slice(720,900)",
+      "ok": true,
+      "detail": "\"CHUNK4:ch-citations-and-drawn-geometry\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"citations\\\":7,\\\"points\\\":2,\\\"lines\\\":0,\\\"areas\\\":1,\\\"status\\\":\\\"partial\\\",\\\"legendSignature\\\":\\\"5b8ba98b\\\",\\\"stateSignatu"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK5:'+JSON.stringify(window.__gevGeometryAudit).slice(900,1080)",
+      "ok": true,
+      "detail": "\"CHUNK5:b\\\",\\\"entities\\\":6}},\\\"citations-and-legend-recorded\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"citationsCount\\\":1,\\\"legend\\\":{\\\"present\\\":true,\\\"text\\\":\\\"ILLUSTRATIVEResearch mapPartially grounde"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK6:'+JSON.stringify(window.__gevGeometryAudit).slice(1080,1260)",
+      "ok": true,
+      "detail": "\"CHUNK6:places could not be located)Recording window: Last 1 hour \\u00b7 0 in window, 0 outside, 3 undatedResearched route (road-snapped) (0)Researched location (2)Researched area / footprint (\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK7:'+JSON.stringify(window.__gevGeometryAudit).slice(1260,1440)",
+      "ok": true,
+      "detail": "\"CHUNK7:1)People / vehicles: Suggested / illustrative \\u2013 not verified deploymentNot located (not drawn): Pier 7; Cobblestone Boulevard; Marina Promenade (RTA bus stop); Jumeirah Lake Towers\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK8:'+JSON.stringify(window.__gevGeometryAudit).slice(1440,1620)",
+      "ok": true,
+      "detail": "\"CHUNK8: Metro Station; Sobha Realty Metro Station; DMCC Metro StationResearch sourcesDubai Marina - All You SHOULD Know Before Going (2026 Reviews)A guide to Dubai Marina | Visit DubaiHer\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK9:'+JSON.stringify(window.__gevGeometryAudit).slice(1620,1800)",
+      "ok": true,
+      "detail": "\"CHUNK9:e's Why Dubai Marina Walk Is So Popular | Visit DubaiDubai Marina Walk - All You SHOULD Know Before Going (2026 Reviews)Dubai Marina Walk - Guide to Dubai Marina WalkDubai Marina M\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK10:'+JSON.stringify(window.__gevGeometryAudit).slice(1800,1980)",
+      "ok": true,
+      "detail": "\"CHUNK10:all - All You SHOULD Know Before Going (2026 Reviews)Explore Dubai Marina Like Never BeforeGeometry \\u00a9 OpenStreetMap contributors (Nominatim / OSRM). Not live, not verified deployme\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK11:'+JSON.stringify(window.__gevGeometryAudit).slice(1980,2160)",
+      "ok": true,
+      "detail": "\"CHUNK11:nt, not an operational plan.\\\"}}},\\\"run2-research-citations-and-drawn-geometry\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"citations\\\":5,\\\"points\\\":3,\\\"lines\\\":1,\\\"areas\\\":2,\\\"status\\\":\\\"partial\\\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK12:'+JSON.stringify(window.__gevGeometryAudit).slice(2160,2340)",
+      "ok": true,
+      "detail": "\"CHUNK12:tCalls\\\":2}},\\\"geometry-differs-between-runs\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"sig1\\\":\\\"5b8ba98b|P:[25.072507,55.135848;25.076636,55.140219]|L:[]\\\",\\\"sig2\\\":\\\"1ac8d7b6|P:[25.117982,55.20"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK13:'+JSON.stringify(window.__gevGeometryAudit).slice(2340,2520)",
+      "ok": true,
+      "detail": "\"CHUNK13:25.197034,55.274133;25.219155,55.281875]|L:[55.281486,25.219362>55.134957,25.078865#500]\\\",\\\"run1Points\\\":2,\\\"run2Points\\\":3}},\\\"time-window-restyles-in-place-without-rebuild\\\":{\\\"status\\\":\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK14:'+JSON.stringify(window.__gevGeometryAudit).slice(2520,2700)",
+      "ok": true,
+      "detail": "\"CHUNK14:\\\"passed\\\",\\\"actual\\\":{\\\"rendersBefore\\\":2,\\\"rendersAfter\\\":2,\\\"restylesBefore\\\":0,\\\"restylesAfter\\\":1,\\\"windowLabelAfter\\\":\\\"Last 6 hours\\\",\\\"signatureBefore\\\":\\\"1ac8d7b6\\\",\\\"signatureAfter\\"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK15:'+JSON.stringify(window.__gevGeometryAudit).slice(2700,2880)",
+      "ok": true,
+      "detail": "\"CHUNK15:\\\"}},\\\"time-window-change-no-new-construct\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"noNewConstruct\\\":true,\\\"windowUpdated\\\":true,\\\"sceneIdPreserved\\\":true,\\\"callsBefore\\\":2,\\\"callsAfter\\\":2,\\\"t"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK16:'+JSON.stringify(window.__gevGeometryAudit).slice(2880,3060)",
+      "ok": true,
+      "detail": "\"CHUNK16:ow\\\":\\\"6\\\",\\\"observedWindowHours\\\":6,\\\"sceneIdBefore\\\":\\\"geo-scene-v1-%5B%22geographic-orbit%22%2C%22geocode_place%22%2C%22Sheikh%20Zayed%20Road%20(north)%2C%20Business%20Bay%2C%20Burj%20K\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK17:'+JSON.stringify(window.__gevGeometryAudit).slice(3060,3240)",
+      "ok": true,
+      "detail": "\"CHUNK17:halifa%2C%20Downtown%20Dubai%2C%20Dubai%2C%20Dubai%20Emirate%2C%20United%20Arab%20Emirates%22%2C25.2038869%2C55.2702759%5D-plan-3889f777f8f9e1a1\\\",\\\"sceneIdAfter\\\":\\\"geo-scene-v1-%5B%2\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK18:'+JSON.stringify(window.__gevGeometryAudit).slice(3240,3420)",
+      "ok": true,
+      "detail": "\"CHUNK18:2geographic-orbit%22%2C%22geocode_place%22%2C%22Sheikh%20Zayed%20Road%20(north)%2C%20Business%20Bay%2C%20Burj%20Khalifa%2C%20Downtown%20Dubai%2C%20Dubai%2C%20Dubai%20Emirate%2C%20U\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK19:'+JSON.stringify(window.__gevGeometryAudit).slice(3420,3600)",
+      "ok": true,
+      "detail": "\"CHUNK19:nited%20Arab%20Emirates%22%2C25.2038869%2C55.2702759%5D-plan-3889f777f8f9e1a1\\\"}},\\\"no-perimeter-officers\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"perimeterOfficersFound\\\":false}},\\\"illustrativ"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK20:'+JSON.stringify(window.__gevGeometryAudit).slice(3600,3780)",
+      "ok": true,
+      "detail": "\"CHUNK20:-disclosed\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"legendSaysIllustrative\\\":true,\\\"legendText\\\":\\\"ILLUSTRATIVEResearch mapPartially grounded (some places could not be located)Recording window:"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK21:'+JSON.stringify(window.__gevGeometryAudit).slice(3780,3960)",
+      "ok": true,
+      "detail": "\"CHUNK21:Last 6 hours \\u00b7 0 in window, 0 outside, 6 undatedResearched route (road-snapped) (1)Researched location (3)Researched area / footprint (2)People / vehicles: Suggested / illustrative\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK22:'+JSON.stringify(window.__gevGeometryAudit).slice(3960,4140)",
+      "ok": true,
+      "detail": "\"CHUNK22: \\u2013 not verified deploymentNot located (not drawn): Sheikh Zayed Road charity run route (hypothetical): World Trade Centre Roundabout, Dubai; World Trade Centre Roundabout (Trade Ce\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK23:'+JSON.stringify(window.__gevGeometryAudit).slice(4140,4320)",
+      "ok": true,
+      "detail": "\"CHUNK23:ntre junction)Research sourcesSheikh Zayed Road: E11, Districts & MetroFinal bridge of Dubai's World Trade Centre roundabout project to open on October 30 | Khaleej TimesDubai's Wo\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK24:'+JSON.stringify(window.__gevGeometryAudit).slice(4320,4500)",
+      "ok": true,
+      "detail": "\"CHUNK24:rld Trade Centre roundabout: Easier to exit after roadworks, drivers say | Khaleej TimesDubai's RTA announces major Trade Centre roundabout project - Dubai Eye 103.8Dubai World Tra\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK25:'+JSON.stringify(window.__gevGeometryAudit).slice(4500,4680)",
+      "ok": true,
+      "detail": "\"CHUNK25:de Centre - Tickets, opening hours and useful infoGeometry \\u00a9 OpenStreetMap contributors (Nominatim / OSRM). Not live, not verified deployment, not an operational plan.\\\",\\\"allMarkers\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK26:'+JSON.stringify(window.__gevGeometryAudit).slice(4680,4860)",
+      "ok": true,
+      "detail": "\"CHUNK26:Illustrative\\\":false,\\\"visibleMarkerCount\\\":0,\\\"visibleMarkerTexts\\\":[]}},\\\"all-e2e-geometry-tests-passed\\\":{\\\"status\\\":\\\"passed\\\",\\\"actual\\\":{\\\"totalTests\\\":13,\\\"passedCount\\\":13}}},\\\"runs\\\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK27:'+JSON.stringify(window.__gevGeometryAudit).slice(4860,5040)",
+      "ok": true,
+      "detail": "\"CHUNK27::1,\\\"prompt\\\":\\\"Location: Dubai Marina\\\\nHypothetical illustrative community gathering at Marina Walk and Dubai Marina Mall with spectators along the promenade.\\\\nCamera distance: 250 m\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK28:'+JSON.stringify(window.__gevGeometryAudit).slice(5040,5220)",
+      "ok": true,
+      "detail": "\"CHUNK28:etres; duration: 25 seconds.\\\",\\\"citationsCount\\\":1,\\\"sceneGeometry\\\":{\\\"status\\\":\\\"partial\\\",\\\"signature\\\":\\\"5b8ba98b\\\",\\\"windowLabel\\\":\\\"Last 1 hour\\\",\\\"renders\\\":1,\\\"restyles\\\":0,\\\"entitie"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK29:'+JSON.stringify(window.__gevGeometryAudit).slice(5220,5400)",
+      "ok": true,
+      "detail": "\"CHUNK29:s\\\":[{\\\"id\\\":\\\"f2\\\",\\\"label\\\":\\\"Marina Walk (Dubai Marina Walk)\\\",\\\"lat\\\":25.072507,\\\"lon\\\":55.135848,\\\"citationNumbers\\\":[3,4,5],\\\"timeState\\\":\\\"time-unknown\\\"},{\\\"id\\\":\\\"f3\\\",\\\"label\\\":\\\"Du"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK30:'+JSON.stringify(window.__gevGeometryAudit).slice(5400,5580)",
+      "ok": true,
+      "detail": "\"CHUNK30:\\\",\\\"lat\\\":25.076636,\\\"lon\\\":55.140219,\\\"citationNumbers\\\":[6,5],\\\"timeState\\\":\\\"time-unknown\\\"}],\\\"lines\\\":[],\\\"areas\\\":[{\\\"id\\\":\\\"f1\\\",\\\"label\\\":\\\"Dubai Marina (district)\\\",\\\"vertices\\\":46,"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK31:'+JSON.stringify(window.__gevGeometryAudit).slice(5580,5760)",
+      "ok": true,
+      "detail": "\"CHUNK31:rs\\\":[1,2],\\\"timeState\\\":\\\"time-unknown\\\"}],\\\"citations\\\":[{\\\"id\\\":\\\"c1\\\",\\\"number\\\":1,\\\"url\\\":\\\"https://www.tripadvisor.com/Attraction_Review-g295424-d12645264-Reviews-Dubai_Marina-Dubai_Emi"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK32:'+JSON.stringify(window.__gevGeometryAudit).slice(5760,5940)",
+      "ok": true,
+      "detail": "\"CHUNK32:of_Dubai.html\\\",\\\"title\\\":\\\"Dubai Marina - All You SHOULD Know Before Going (2026 Reviews)\\\"},{\\\"id\\\":\\\"c2\\\",\\\"number\\\":2,\\\"url\\\":\\\"https://www.visitdubai.com/en/explore-dubai/dubai-neighbour"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK33:'+JSON.stringify(window.__gevGeometryAudit).slice(5940,6120)",
+      "ok": true,
+      "detail": "\"CHUNK33:ds/dubai-marina\\\",\\\"title\\\":\\\"A guide to Dubai Marina | Visit Dubai\\\"},{\\\"id\\\":\\\"c3\\\",\\\"number\\\":3,\\\"url\\\":\\\"https://www.visitdubai.com/en/places-to-visit/marina-walk\\\",\\\"title\\\":\\\"Here's Why"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK34:'+JSON.stringify(window.__gevGeometryAudit).slice(6120,6300)",
+      "ok": true,
+      "detail": "\"CHUNK34:Marina Walk Is So Popular | Visit Dubai\\\"},{\\\"id\\\":\\\"c4\\\",\\\"number\\\":4,\\\"url\\\":\\\"https://www.tripadvisor.com/Attraction_Review-g295424-d19878507-Reviews-Dubai_Marina_Walk-Dubai_Emirate_of_Du\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK35:'+JSON.stringify(window.__gevGeometryAudit).slice(6300,6480)",
+      "ok": true,
+      "detail": "\"CHUNK35:bai.html\\\",\\\"title\\\":\\\"Dubai Marina Walk - All You SHOULD Know Before Going (2026 Reviews)\\\"},{\\\"id\\\":\\\"c5\\\",\\\"number\\\":5,\\\"url\\\":\\\"https://focus.hidubai.com/guide-to-dubai-marina-walk/\\\",\\\"t"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK36:'+JSON.stringify(window.__gevGeometryAudit).slice(6480,6660)",
+      "ok": true,
+      "detail": "\"CHUNK36::\\\"Dubai Marina Walk - Guide to Dubai Marina Walk\\\"},{\\\"id\\\":\\\"c6\\\",\\\"number\\\":6,\\\"url\\\":\\\"https://www.tripadvisor.com/Attraction_Review-g295424-d2015889-Reviews-or370-Dubai_Marina_Mall-Dubai"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK37:'+JSON.stringify(window.__gevGeometryAudit).slice(6660,6840)",
+      "ok": true,
+      "detail": "\"CHUNK37:_Emirate_of_Dubai.html\\\",\\\"title\\\":\\\"Dubai Marina Mall - All You SHOULD Know Before Going (2026 Reviews)\\\"},{\\\"id\\\":\\\"c7\\\",\\\"number\\\":7,\\\"url\\\":\\\"https://travel.earth/explore-dubai-marina/amp"
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK38:'+JSON.stringify(window.__gevGeometryAudit).slice(6840,7020)",
+      "ok": true,
+      "detail": "\"CHUNK38:\\\"title\\\":\\\"Explore Dubai Marina Like Never Before\\\"}],\\\"legendVisible\\\":true,\\\"sceneId\\\":\\\"geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%\""
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK39:'+JSON.stringify(window.__gevGeometryAudit).slice(7020,7200)",
+      "ok": true,
+      "detail": "\"CHUNK39:2C55.1352524%5D-plan-2fc553b3c35bbca9\\\",\\\"selectedTime\\\":{\\\"windowHours\\\":1,\\\"timeMode\\\":\\\"recent\\\"}},\\\"legend\\\":{\\\"present\\\":true,\\\"text\\\":\\\"ILLUSTRATIVEResearch mapPartially grounded (some "
+    },
+    {
+      "kind": "eval",
+      "target": "'CHUNK40:'+JSON.stringify(window.__gevGeometryAudit).slice(7200,7380)",
+      "ok": true,
+      "detail": "\"CHUNK40:s could not be located)Recording window: Last 1 hour \\u00b7 0 in window, 0 outside, 3 undatedResearched route (road-snapped) (0)Researched location (2)Researched area / footprint (1)Peo\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=353 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-5b0turvg0-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "pageErrors": [],
+  "failedRequests": [
+    "Fetch: net::ERR_ABORTED https://ondemand-agent-5b0turvg0-schoolhack-web-team.vercel.app/api/setup/status",
+    "Fetch: net::ERR_ABORTED https://ondemand-agent-5b0turvg0-schoolhack-web-team.vercel.app/api/ondemand/v2/scene/evidence"
+  ],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation",
+  "textLength": 353
+}

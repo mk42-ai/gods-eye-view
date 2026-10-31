@@ -1,0 +1,15 @@
+# Subtest: the transfer flight supersedes any flight in progress and keeps the operator heading
+# Subtest: fires frame wider than vessels — a fire is read by its surroundings
+# Subtest: every framing is a real oblique standoff, not a nadir or an inside-out sphere
+# Subtest: unknown kinds and missing viewers issue no flight
+# tests 4695
+# suites 55
+# pass 4694
+# fail 0
+# cancelled 0
+# skipped 1
+# todo 0
+# duration_ms 57654.696501
+2026-10-31T12:37:50Z
+2026-10-31T12:38:49Z
+2026-10-31T12:41:19Z
