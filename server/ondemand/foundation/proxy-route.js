@@ -79,6 +79,7 @@ import { createVoiceTurnHandler } from './voice-route.js';
 import { createIncidentRoutes } from '../../incidents/routes.js';
 import { createSceneVideoRoutes } from '../../scene-videos/routes.js';
 import { createSceneEvidenceRoutes } from '../../scene-evidence/routes.js';
+import { createScenePlanMiddleware } from '../../scene-plans/index.js';
 
 export const FOUNDATION_MOUNT = '/api/ondemand/v2';
 const KEY_SOURCE_HEADER = 'X-OnDemand-Key-Source';
@@ -569,6 +570,7 @@ export function createFoundationHandler(deps = {}) {
       });
     return sceneEvidenceRoutes;
   };
+  let scenePlanRoutes = null;
   return async function foundationHandler(req, res) {
     if (rejectCrossOrigin(req, res)) return;
     res.setHeader(KEY_SOURCE_HEADER, 'server'); // the client key is never used here
@@ -621,7 +623,9 @@ export function createFoundationHandler(deps = {}) {
         sendJson(res, 200, {
           ok: true,
           configured: isConfigured(),
-          ...(process.env.BUILD_REFERENCE ? { buildReference: process.env.BUILD_REFERENCE } : {}),
+          ...(process.env.BUILD_REFERENCE
+            ? { buildReference: process.env.BUILD_REFERENCE }
+            : {}),
           conversationBackend: store.backend,
           contracts: contractRegistry.size(),
           activePlugins: contractRegistry.activePluginIds().length,
@@ -750,6 +754,19 @@ export function createFoundationHandler(deps = {}) {
           audit,
         });
         if (await voice(req, res, { path, method })) return;
+      }
+      if (path === '/scene-plans' || path.startsWith('/scene-plans/')) {
+        scenePlanRoutes ||= createScenePlanMiddleware(
+          deps.scenePlanOptions || {},
+        );
+        const originalUrl = req.url;
+        req.url = req.url.replace(/^\/scene-plans/, '') || '/';
+        try {
+          await scenePlanRoutes(req, res);
+        } finally {
+          req.url = originalUrl;
+        }
+        return;
       }
       if (path.startsWith('/incidents')) {
         if (

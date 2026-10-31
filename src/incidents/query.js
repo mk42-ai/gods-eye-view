@@ -1,6 +1,7 @@
 /** Shared, deterministic intent/place extraction. No provider calls or coordinates. */
 
-export const CONVERSATIONAL_HINT = 'Type a place in the UAE — e.g. "Dubai Marina" or "Burj Khalifa incidents".';
+export const CONVERSATIONAL_HINT =
+  'Type a place in the UAE — e.g. "Dubai Marina" or "Burj Khalifa incidents".';
 
 function isCoordinates(text) {
   return /^\s*[+-]?\d+(?:\.\d+)?\s*[, ]\s*[+-]?\d+(?:\.\d+)?\s*$/.test(text);
@@ -65,7 +66,8 @@ const CONVERSATIONAL_EXACT = new Set([
   'pls',
 ]);
 
-const CONVERSATIONAL_PHRASE = /^(?:hi|hello|hey|heya|howdy|hola|yo|sup|thanks?|thank you|good (?:morning|afternoon|evening|night|day)|bye|goodbye)\b(?:\s+(?:there|friend|mate|bot|assistant|everyone|all))?$/i;
+const CONVERSATIONAL_PHRASE =
+  /^(?:hi|hello|hey|heya|howdy|hola|yo|sup|thanks?|thank you|good (?:morning|afternoon|evening|night|day)|bye|goodbye)\b(?:\s+(?:there|friend|mate|bot|assistant|everyone|all))?$/i;
 
 /** Check whether a query is conversational/greeting/non-place rather than a geographic target. */
 export function isConversationalQuery(text) {
@@ -76,7 +78,11 @@ export function isConversationalQuery(text) {
   const letters = (raw.match(/[\p{L}]/gu) || []).length;
   if (letters < 2) return true;
 
-  const clean = raw.toLowerCase().replace(/[^\p{L}\p{N}\s]+/gu, ' ').trim().replace(/\s+/g, ' ');
+  const clean = raw
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]+/gu, ' ')
+    .trim()
+    .replace(/\s+/g, ' ');
   if (CONVERSATIONAL_EXACT.has(clean)) return true;
   if (CONVERSATIONAL_PHRASE.test(clean)) return true;
 
@@ -117,15 +123,20 @@ export function stripTrailingNoise(str) {
 
   const originalTrimmed = String(str || '').trim();
   const noiseStripped = current !== originalTrimmed;
-  const strippedNoise = noiseStripped ? originalTrimmed.slice(current.length).trim() : undefined;
+  const strippedNoise = noiseStripped
+    ? originalTrimmed.slice(current.length).trim()
+    : undefined;
 
   return { clean: current, noiseStripped, strippedNoise };
 }
 
-export function parseIncidentQuery(value, { defaultIntent = 'incident_search' } = {}) {
+export function parseIncidentQuery(
+  value,
+  { defaultIntent = 'incident_search' } = {},
+) {
   const text = String(value || '')
     .trim()
-    .slice(0, 500);
+    .slice(0, 6000);
 
   const noise = stripTrailingNoise(text);
   const cleanText = noise.clean;
@@ -136,7 +147,8 @@ export function parseIncidentQuery(value, { defaultIntent = 'incident_search' } 
     /\b(?:build|generate|create)\s+(?:(?:a|an|the)\s+)?((?:(?!\b(?:scene|of|for|at|near|around|in|off)\b)[\w-]+\s+){0,8})scene\b/i,
   );
   const explicitScene =
-    Boolean(sceneCommand) || /\b(?:rebuild|reconstruct|replay)\b/i.test(cleanText);
+    Boolean(sceneCommand) ||
+    /\b(?:rebuild|reconstruct|replay)\b/i.test(cleanText);
   let sceneStyle = sceneCommand?.[1].trim().toLowerCase() || undefined;
   const asksSearch =
     /\b(?:check|search|find|look\s+for|are\s+there|is\s+there|any\s+incidents?|what\s+happened)\b/i.test(
@@ -163,7 +175,10 @@ export function parseIncidentQuery(value, { defaultIntent = 'incident_search' } 
       styleSuffix[1],
     )
   ) {
-    sceneStyle = styleSuffix[1].replace(/\s+scene$/i, '').trim().toLowerCase();
+    sceneStyle = styleSuffix[1]
+      .replace(/\s+scene$/i, '')
+      .trim()
+      .toLowerCase();
     place = place.slice(0, styleSuffix.index);
   }
   // Strip time windows before locating connectors: in "X in the last 24
@@ -192,7 +207,9 @@ export function parseIncidentQuery(value, { defaultIntent = 'incident_search' } 
   // request, while explicit incident questions still search. Other callers keep
   // their historical search default; no coordinates or incident are invented.
   const intent =
-    explicitScene || (!asksSearch && (describesEvent || sceneStyle || defaultIntent === 'build_scene'))
+    explicitScene ||
+    (!asksSearch &&
+      (describesEvent || sceneStyle || defaultIntent === 'build_scene'))
       ? 'build_scene'
       : 'incident_search';
   const hours = cleanText.match(

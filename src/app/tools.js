@@ -48,7 +48,12 @@ export function createApplicationTools({
       membership(lat, lon) {
         const context = getUaeAoiIndex().membership(lat, lon);
         const gate = resolveIncidentGate('', { lat, lon });
-        return { ...context, inside: gate.allowed, aoi_ids: gate.aoiIds, reason: gate.reason };
+        return {
+          ...context,
+          inside: gate.allowed,
+          aoi_ids: gate.aoiIds,
+          reason: gate.reason,
+        };
       },
     }),
   });
@@ -158,6 +163,7 @@ export function createApplicationTools({
   debug.incidentScenes = installIncidentScenes({
     viewer,
     sceneDirector,
+    dataManager,
     signal,
   });
   // Scene video evidence (2026-10-23): the composer submit also fans out to

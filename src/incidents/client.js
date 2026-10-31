@@ -15,6 +15,23 @@ export const INCIDENT_EVENTS = Object.freeze({
   sceneBuilt: 'gev:incident-scene-built',
 });
 
+/** Keep long prompt instructions out of the geocoder, without losing a named
+ * supported landmark that appears later in the prompt. Full text still goes to the LLM. */
+export function locationQueryForPrompt(value) {
+  const text = String(value || '')
+    .trim()
+    .slice(0, 6000);
+  const explicit = text.match(/^\s*(?:location|place)\s*:\s*([^\r\n]+)/im);
+  if (explicit) return explicit[1].trim();
+  const known = [
+    ...text.matchAll(
+      /\b(?:Burj Khalifa|Umm[\s-]+Suq(?:eim|aim)|Dubai Marina)\b/gi,
+    ),
+  ].map((m) => m[0]);
+  if (new Set(known.map((s) => s.toLowerCase())).size === 1) return known[0];
+  return text.split(/\r?\n/)[0];
+}
+
 export function createIncidentClient({
   fetch: fetchImpl = globalThis.fetch?.bind(globalThis),
   storage = globalThis.localStorage,
@@ -27,8 +44,8 @@ export function createIncidentClient({
     'X-Workstation-User': externalUserId,
     'X-Workstation-Workspace': workspace,
   });
-  async function call(path, init = {}) {
-    const res = await fetchImpl(`${base}${path}`, {
+  async function call(path, init = {}, prefix = base) {
+    const res = await fetchImpl(`${prefix}${path}`, {
       ...init,
       headers: { ...headers(), ...(init.headers || {}) },
     });
@@ -40,9 +57,17 @@ export function createIncidentClient({
     }
     if (!res.ok) {
       // Platform errors may nest {error:{code,message}}; never show "[object Object]".
-      const nested = body?.error && typeof body.error === 'object' ? body.error.message || body.error.code : null;
+      const nested =
+        body?.error && typeof body.error === 'object'
+          ? body.error.message || body.error.code
+          : null;
       const err = new Error(
-        String(nested || (typeof body?.error === 'string' ? body.error : '') || body?.message || `HTTP ${res.status}`),
+        String(
+          nested ||
+            (typeof body?.error === 'string' ? body.error : '') ||
+            body?.message ||
+            `HTTP ${res.status}`,
+        ),
       );
       err.status = res.status;
       err.body = body;
@@ -60,10 +85,35 @@ export function createIncidentClient({
         `/list?aoi=${encodeURIComponent(aoi)}&externalUserId=${encodeURIComponent(externalUserId)}`,
       ),
     aoi: () => call('/aoi'),
+    constructScene: (payload, { signal } = {}) =>
+      call(
+        '/scene-plans/construct',
+        {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          signal,
+        },
+        V2_BASE,
+      ),
+    narrateScene: (payload, { signal } = {}) =>
+      call(
+        '/scene-plans/narration',
+        {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          signal,
+        },
+        V2_BASE,
+      ),
     locate: (text, { signal } = {}) =>
       call('/locate', {
         method: 'POST',
-        body: JSON.stringify({ text, externalUserId }),
+        // A multiline scene prompt uses its first line as the location query;
+        // the complete prompt is sent unchanged to the scene planner later.
+        body: JSON.stringify({
+          text: locationQueryForPrompt(text),
+          externalUserId,
+        }),
         signal,
       }),
     search: (text, candidate, { signal } = {}) =>
@@ -90,7 +140,7 @@ export const COMPOSER_STEPS = Object.freeze([
   { id: 'building', label: 'building scene' },
 ]);
 
-const SAME_PLACE_KM = 15;
+const SAME_PLACE_KM = 0.25;
 function nearKm(a, b) {
   const rad = Math.PI / 180;
   const dLat = (b.lat - a.lat) * rad;

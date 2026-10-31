@@ -27,7 +27,12 @@ import { createIncidentOverlay } from './overlay.js';
 import { setIconContent } from '../../ui/icons/layerIcon.js';
 import { createIncidentComposer } from './composer.js';
 import { ASK_OBJECT_EVENT } from '../../ondemand/miniChat.js';
-import { buildGeographicScene, createGeographicSceneStore } from '../../scenes/geographicScene.js';
+import {
+  buildPlannedScene,
+  createGeographicSceneStore,
+} from '../../scenes/geographicScene.js';
+import { createSceneStudio } from './sceneStudio.js';
+import { createSceneCamera } from './sceneCamera.js';
 import { resolveIncidentGate } from '../../aoi/sceneGate.js';
 import { createSceneLibrary } from './sceneLibrary.js';
 import { installIncidentDiagnostics } from './diagnostics.js';
@@ -53,6 +58,7 @@ function el(doc, tag, { id, className, text, attrs } = {}) {
 export function installIncidentScenes({
   viewer,
   sceneDirector,
+  dataManager,
   signal,
   document: doc = globalThis.document,
   window: win = globalThis.window,
@@ -61,11 +67,17 @@ export function installIncidentScenes({
 } = {}) {
   if (!doc || !viewer || !sceneDirector) return null;
   const client = createIncidentClient({ fetch: fetchImpl, storage });
-  const geographicStore = createGeographicSceneStore(storage || win.localStorage);
+  const geographicStore = createGeographicSceneStore(
+    storage || win.localStorage,
+  );
   const geographicOverlay = createGeographicOverlay(viewer, { document: doc });
   let activeGeographicScene = null;
   let sceneLibrary = null;
   let sidebar = null;
+  let studio = null;
+  let sceneCamera = null;
+  let removeCameraSubscription = null;
+  let refinementContext = null;
   const overlay = createIncidentOverlay(viewer, {
     onPick: (incident) => openPopover(incident),
   });
@@ -169,7 +181,11 @@ export function installIncidentScenes({
     text: '0.0s / 0.0s',
   });
   playback.append(playBtn, pauseBtn, prevBtn, nextBtn, scrub, clock);
-  const keyframeCaption = el(doc, 'p', { id: 'scene-active-keyframe', text: 'Select or build a scene', attrs: { 'aria-live': 'polite' } });
+  const keyframeCaption = el(doc, 'p', {
+    id: 'scene-active-keyframe',
+    text: 'Select or build a scene',
+    attrs: { 'aria-live': 'polite' },
+  });
 
   // AOI toggles
   const toggles = el(doc, 'div', {
@@ -205,7 +221,14 @@ export function installIncidentScenes({
   });
   panel.append(header, playback, keyframeCaption, toggles, legend, hiddenNote);
   host.appendChild(panel);
-  const diagnostics = installIncidentDiagnostics({ document: doc, panel, toggles, legend, hiddenNote, dataPanel: doc.getElementById('data-panel') });
+  const diagnostics = installIncidentDiagnostics({
+    document: doc,
+    panel,
+    toggles,
+    legend,
+    hiddenNote,
+    dataPanel: doc.getElementById('data-panel'),
+  });
 
   // ---------------------------------------------------------------- popover
   const popover = el(doc, 'aside', {
@@ -365,7 +388,13 @@ export function installIncidentScenes({
   function playScene(sceneId, { fly = true } = {}) {
     const scene = state.scenes.find((s) => s.id === sceneId);
     const point = scene?.anchor || scene?.keyframes?.[0];
-    if (!scene || !point || !resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon }).allowed) return Promise.resolve({ started: false, reason: 'outside-uae-aoi' });
+    if (
+      !scene ||
+      !point ||
+      !resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon })
+        .allowed
+    )
+      return Promise.resolve({ started: false, reason: 'outside-uae-aoi' });
     selectedSceneId = sceneId;
     viewer.useDefaultRenderLoop = true;
     viewer.scene.requestRender();
@@ -417,10 +446,20 @@ export function installIncidentScenes({
       scrub.value = String(Math.round((snap.sceneProgress || 0) * 1000));
     clock.textContent = `${(snap.sceneElapsedSec || 0).toFixed(1)}s / ${(snap.sceneDurationSec || 0).toFixed(1)}s${snap.running ? '' : ' · paused'}`;
     const active = sceneDirector._getSelectedScene?.();
-    const frame = active?.shots?.find((shot) => shot.id === sceneDirector._selectedShotId);
-    keyframeCaption.textContent = frame ? frame.title : 'Select or build a scene';
-    const pauseLabel = !snap.running && sceneDirector.paused ? 'Resume' : 'Pause';
-    setIconContent(pauseBtn, pauseLabel === 'Resume' ? 'play' : 'pause', { text: pauseLabel }, doc);
+    const frame = active?.shots?.find(
+      (shot) => shot.id === sceneDirector._selectedShotId,
+    );
+    keyframeCaption.textContent = frame
+      ? frame.title
+      : 'Select or build a scene';
+    const pauseLabel =
+      !snap.running && sceneDirector.paused ? 'Resume' : 'Pause';
+    setIconContent(
+      pauseBtn,
+      pauseLabel === 'Resume' ? 'play' : 'pause',
+      { text: pauseLabel },
+      doc,
+    );
     pauseBtn.setAttribute('aria-label', `${pauseLabel} scene`);
     panel.dataset.playback = snap.running
       ? 'playing'
@@ -429,6 +468,8 @@ export function installIncidentScenes({
         : 'idle';
     // Mirror the transport state onto the AOI composer's Play button (Play or Pause).
     composerRef?.setPlaybackState?.(panel.dataset.playback);
+    if (activeGeographicScene?.id === sceneDirector._selectedSceneId)
+      geographicOverlay.setTime?.(snap.sceneElapsedSec || 0);
   });
 
   // ---------------------------------------------------------------- toggles
@@ -466,16 +507,24 @@ export function installIncidentScenes({
     const saved = geographicStore.list();
     state.scenes = [...saved, ...incoming].filter((scene) => {
       const point = scene.anchor || scene.keyframes?.[0];
-      return point && resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon }).allowed;
+      return (
+        point &&
+        resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon })
+          .allowed
+      );
     });
     state.rejected = payload.rejected || { count: 0, items: [] };
     state.perAoi = payload.per_aoi || {};
     state.groups = payload.aoi_groups || state.groups;
     overlay.setIncidents(state.incidents);
-    sceneDirector.syncIncidentScenes(state.scenes.filter((scene) => !scene.geographic));
-    for (const savedScene of saved) sceneDirector.addIncidentScene(savedScene, { select: false });
+    sceneDirector.syncIncidentScenes(
+      state.scenes.filter((scene) => !scene.geographic),
+    );
+    for (const savedScene of saved)
+      sceneDirector.addIncidentScene(savedScene, { select: false });
     sceneLibrary?.renderSaved(saved);
-    if (!activeGeographicScene && saved[0]) activateGeographic(saved[0], { saved: true });
+    if (!activeGeographicScene && saved[0])
+      activateGeographic(saved[0], { saved: true });
     const hidden = sceneDirector.hiddenScenes?.() || [];
     counts.textContent = `${state.incidents.length} incidents · ${state.scenes.length} scenes · ${state.rejected.count} out of AOI`;
     counts.title = Object.entries(state.perAoi)
@@ -538,62 +587,245 @@ export function installIncidentScenes({
   // explicitly named/saved by the operator, never ingested as reported events.
   // Scene evidence (2026-10-24): every in-AOI scene opens its evidence panel.
   // Saved scenes reopen from the local evidence cache with no provider calls.
+  function assertCurrent(request = {}) {
+    if (
+      signal?.aborted ||
+      request.signal?.aborted ||
+      (request.revision !== undefined &&
+        request.revision !== composerRef?.state.promptRevision) ||
+      (request.generation !== undefined &&
+        request.generation !== composerRef?.state.generation)
+    )
+      throw new DOMException('Scene request superseded', 'AbortError');
+  }
+  function captureSceneSnapshot(scene) {
+    const p = viewer.camera?.positionCartographic;
+    const view =
+      p && Number.isFinite(p.latitude)
+        ? {
+            lat: (p.latitude * 180) / Math.PI,
+            lon: (p.longitude * 180) / Math.PI,
+            alt: p.height,
+            heading:
+              (((viewer.camera.heading || 0) * 180) / Math.PI + 360) % 360,
+            pitch: ((viewer.camera.pitch || 0) * 180) / Math.PI,
+            roll: ((viewer.camera.roll || 0) * 180) / Math.PI,
+          }
+        : scene.cameraState;
+    const selected = sceneCamera?.getState()?.selected;
+    return {
+      ...scene,
+      ...(studio?.getSnapshot() || {}),
+      hashSnapshot: win.location?.hash || '',
+      cameraSelection: selected
+        ? { mode: 'cctv', id: selected.id }
+        : { mode: 'plan' },
+      ...(view ? { cameraState: view } : {}),
+      updatedAt: new Date().toISOString(),
+    };
+  }
   const evidenceScopeByScene = new Map();
-  function openEvidence(scene, { text, preferCache = false, selectedTime = {} } = {}) {
-    if (selectedTime.windowHours || selectedTime.timeMode) evidenceScopeByScene.set(scene.id, selectedTime);
-    selectedTime = evidenceScopeByScene.get(scene.id) || { windowHours: Number(doc.getElementById('incident-composer-window')?.value) || 1, timeMode: 'recent' };
+  function openEvidence(
+    scene,
+    { text, preferCache = false, selectedTime = {} } = {},
+  ) {
+    if (selectedTime.windowHours || selectedTime.timeMode)
+      evidenceScopeByScene.set(scene.id, selectedTime);
+    selectedTime = evidenceScopeByScene.get(scene.id) || {
+      windowHours:
+        Number(doc.getElementById('incident-composer-window')?.value) || 1,
+      timeMode: 'recent',
+    };
     const a = scene?.anchor;
     if (!a || !Number.isFinite(a.lat) || !Number.isFinite(a.lon)) return;
     win.dispatchEvent?.(
       new CustomEvent('gev:scene-evidence', {
-        detail: { text: text || a.name || scene.title, place: a.name || undefined, lat: a.lat, lon: a.lon, sceneId: scene.id, windowHours: selectedTime.windowHours || 1, ...selectedTime, preferCache },
+        detail: {
+          text: text || scene.refinedPrompt || a.name || scene.title,
+          place: a.name || undefined,
+          lat: a.lat,
+          lon: a.lon,
+          sceneId: scene.id,
+          windowHours: selectedTime.windowHours || 1,
+          ...selectedTime,
+          preferCache,
+          promptDerived: true,
+          constructed: true,
+          promptRevision: composerRef?.state.promptRevision,
+          allowedPlatforms: ['youtube', 'tiktok', 'instagram'],
+        },
       }),
     );
   }
-  function activateGeographic(scene, { saved = false, focus = true, evidenceText, reopen = false, selectedTime = {}, research = true } = {}) {
+  async function activateGeographic(
+    scene,
+    {
+      saved = false,
+      focus = true,
+      evidenceText,
+      reopen = false,
+      selectedTime = {},
+      research = true,
+      request = {},
+    } = {},
+  ) {
+    assertCurrent(request);
     const gate = resolveIncidentGate(scene.title, scene.anchor);
-    if (!gate.allowed) throw new Error('Outside UAE AOI — external context only');
-    if (research) openEvidence(scene, { text: evidenceText, preferCache: reopen, selectedTime });
+    if (!gate.allowed)
+      throw new Error('Outside UAE AOI — external context only');
     activeGeographicScene = scene;
     const added = sceneDirector.addIncidentScene(scene, { select: true });
     if (!added.added) throw new Error(added.reason || 'Scene was not accepted');
     selectedSceneId = scene.id;
-    state.scenes = [scene, ...state.scenes.filter((item) => item.id !== scene.id)];
+    state.scenes = [
+      scene,
+      ...state.scenes.filter((item) => item.id !== scene.id),
+    ];
     sceneLibrary?.setScene(scene, { saved });
     sceneLibrary?.element.setAttribute('data-scene-id', scene.id);
     geographicOverlay.setScene(scene);
-    for (const button of [playBtn, pauseBtn, prevBtn, nextBtn]) button.disabled = false;
+    for (const button of [playBtn, pauseBtn, prevBtn, nextBtn])
+      button.disabled = false;
     scrub.disabled = false;
     panel.dataset.activeScene = scene.id;
     panel.dataset.playable = 'true';
     // Phones: the drawer and the footage sheet share the top band; keep the
     // drawer closed after a build so the footage (and every icon) stays visible.
-    if (!win.matchMedia?.('(max-width: 700px)')?.matches) sidebar?.selectTab('scenes');
-    if (focus) {
+    if (!win.matchMedia?.('(max-width: 700px)')?.matches)
+      sidebar?.selectTab('scenes');
+    if (reopen) {
+      composerRef?.restorePrompt(
+        scene.refinedPrompt || scene.originalPrompt || scene.anchor?.name || '',
+        { selectedTime: scene.selectedTime },
+      );
+      composerRef?.attachStoredScene(scene);
+      const savedHash =
+        typeof scene.hashSnapshot === 'string'
+          ? scene.hashSnapshot
+          : '#' + new URLSearchParams(scene.hashSnapshot || {}).toString();
+      if (savedHash.startsWith('#') && savedHash.length > 1) {
+        win.history.replaceState(null, '', savedHash);
+        win.dispatchEvent(new Event('hashchange'));
+      }
+    }
+    if (focus && !reopen) {
       viewer.useDefaultRenderLoop = true;
       viewer.scene.requestRender();
       const first = sceneDirector._getSelectedScene?.()?.shots?.[0];
-      if (first) void sceneDirector.loadShot(scene.id, first.id, { flyDuration: 1.8 });
+      if (first)
+        await sceneDirector.loadShot(scene.id, first.id, { flyDuration: 1.8 });
     }
+    assertCurrent(reopen ? {} : request);
+    studio?.setScene(scene);
+    sceneCamera?.setScene(scene);
+    if (research)
+      openEvidence(scene, {
+        text: evidenceText,
+        preferCache: reopen,
+        selectedTime: scene.selectedTime || selectedTime,
+      });
     return scene;
   }
   sceneLibrary = createSceneLibrary({
-    document: doc, window: win, sceneDirector, storage: geographicStore,
-    onSelect: (scene) => activateGeographic(scene, { saved: true, reopen: true }),
+    document: doc,
+    window: win,
+    sceneDirector,
+    storage: geographicStore,
+    onSelect: async (scene) => {
+      composerRef?.cancel();
+      viewer.camera?.cancelFlight?.();
+      sceneDirector.stopScene('Loading saved scene');
+      const request = {
+        revision: composerRef?.state.promptRevision,
+        generation: composerRef?.state.generation,
+      };
+      await sceneDirector._waitForRunIdle();
+      assertCurrent(request);
+      return activateGeographic(scene, { saved: true, reopen: true });
+    },
     onSave: (scene) => {
-      const saved = geographicStore.save({ ...scene, updatedAt: new Date().toISOString() });
+      const saved = geographicStore.save(captureSceneSnapshot(scene));
       if (!saved.saved) throw new Error(saved.reason || 'Storage unavailable');
       // Let the library finish its own save transaction before rerendering it;
       // setScene() here would invalidate its generation and erase confirmation.
       activeGeographicScene = saved.scene;
-      state.scenes = [saved.scene, ...state.scenes.filter((item) => item.id !== saved.scene.id)];
+      state.scenes = [
+        saved.scene,
+        ...state.scenes.filter((item) => item.id !== saved.scene.id),
+      ];
       sceneDirector.addIncidentScene(saved.scene, { select: true });
       return saved.scene;
     },
   });
+  studio = createSceneStudio({
+    document: doc,
+    window: win,
+    onRefine: async ({ text: refinement, scene, chat }) => {
+      const prompt = `${scene.refinedPrompt || scene.originalPrompt || scene.anchor.name}\nRefinement: ${refinement}`;
+      refinementContext = { prompt, scene, chat };
+      composerRef.restorePrompt(prompt, { selectedTime: scene.selectedTime });
+      return composerRef.submit(prompt);
+    },
+    onNarration: async (scene, settings, { signal: audioSignal } = {}) => {
+      if (scene.id !== activeGeographicScene?.id || !scene.plan)
+        throw new Error('Only the current completed scene can be narrated.');
+      const revision = composerRef.state.promptRevision;
+      const config = {
+        voiceId: settings.voiceId,
+        modelId: settings.modelId,
+        stability: settings.stability,
+        similarityBoost:
+          settings.similarity_boost ?? settings.similarityBoost ?? 0.75,
+        speed: settings.speed,
+        style: settings.style,
+        useSpeakerBoost:
+          settings.use_speaker_boost ?? settings.useSpeakerBoost ?? true,
+      };
+      const result = await client.narrateScene(
+        { plan: scene.plan, config, revision },
+        { signal: audioSignal },
+      );
+      if (
+        scene.id !== activeGeographicScene?.id ||
+        revision !== composerRef.state.promptRevision ||
+        audioSignal?.aborted
+      )
+        throw new DOMException('Obsolete narration', 'AbortError');
+      return result;
+    },
+    onStateChange: (extra) => {
+      if (activeGeographicScene) Object.assign(activeGeographicScene, extra);
+    },
+    onPlay: (scene) => {
+      void playScene(scene.id, { fly: false });
+    },
+    onPause: () => {
+      if (sceneDirector.running) sceneDirector.pauseScene();
+    },
+  });
+  sceneCamera = createSceneCamera({ document: doc });
+  studio.cameraHost.append(sceneCamera.element);
+  sceneLibrary.element.append(studio.element);
+  const cameraLayer = dataManager?.layers?.get?.('cctv')?.module;
+  if (cameraLayer?.subscribe)
+    removeCameraSubscription = cameraLayer.subscribe((snapshot) => {
+      // Raw catalog records are not upgraded to verified coverage/permissions.
+      sceneCamera.updateCameras(snapshot?.cameras || []);
+    });
+  const onPromptStarted = () => {
+    viewer.camera?.cancelFlight?.();
+    if (sceneDirector.running || sceneDirector.paused)
+      sceneDirector.stopScene('Prompt changed');
+    studio.invalidate();
+    sceneCamera.setScene(null);
+  };
+  win.addEventListener('gev:incident-command-started', onPromptStarted);
+  win.addEventListener('gev:incident-command-cancelled', onPromptStarted);
+  win.__gevSceneStudio = studio;
   // Cycle 21 calm launch: the Scenes drawer starts CLOSED; the Scenes tab opens it.
   sidebar = sceneLibrary.installSidebar({ expanded: false });
-  for (const button of [playBtn, pauseBtn, prevBtn, nextBtn]) button.disabled = true;
+  for (const button of [playBtn, pauseBtn, prevBtn, nextBtn])
+    button.disabled = true;
   scrub.disabled = true;
 
   // ---------------------------------------------------------------- composer
@@ -601,62 +833,160 @@ export function installIncidentScenes({
     document: doc,
     client,
     buildResearchScene: true,
+    structuredPlanning: true,
+    requestTimeoutMs: 115_000,
     buildScene: (incidents) => buildScenes(incidents)[0],
-    createGeographicScene: ({ candidate, extraction, text, signal: requestSignal }) => {
-      if (requestSignal?.aborted) throw new DOMException('Cancelled', 'AbortError');
+    createGeographicScene: async (request) => {
+      const {
+        candidate,
+        extraction,
+        text,
+        signal: requestSignal,
+        revision,
+      } = request;
+      assertCurrent(request);
       const gate = resolveIncidentGate(text, candidate);
-      if (!gate.allowed) throw new Error('Outside UAE AOI — external context only');
-      const scene = buildGeographicScene({ candidate: { ...candidate, aoi_membership: { inside: true, aoi_ids: gate.aoiIds } }, extraction, text, now: new Date() });
-      return geographicStore.load(scene.id) || scene;
+      if (!gate.allowed)
+        throw new Error('Outside UAE AOI — external context only');
+      const refinement =
+        refinementContext?.prompt === text ? refinementContext : null;
+      const result = await client.constructScene(
+        {
+          prompt: text,
+          candidate: {
+            name: candidate.name,
+            lat: candidate.lat,
+            lon: candidate.lon,
+            verified: candidate.verified === true,
+            source: candidate.source,
+            sourceUrl: candidate.sourceUrl,
+          },
+          ...(refinement?.scene?.plan
+            ? { previousPlan: refinement.scene.plan }
+            : {}),
+          selectedTime:
+            extraction.timeMode === 'historical'
+              ? extraction.windowStart
+              : extraction.windowHours,
+          revision,
+        },
+        { signal: requestSignal },
+      );
+      assertCurrent(request);
+      if (!result.ok || !result.plan)
+        throw new Error('No validated scene plan was returned.');
+      const scene = buildPlannedScene({
+        plan: result.plan,
+        candidate: {
+          ...candidate,
+          aoi_membership: { inside: true, aoi_ids: gate.aoiIds },
+        },
+        text,
+        originalPrompt: refinement?.scene?.originalPrompt || text,
+        selectedTime: {
+          windowHours: extraction.windowHours,
+          timeMode: extraction.timeMode,
+          windowStart: extraction.windowStart,
+          windowEnd: extraction.windowEnd,
+        },
+        now: new Date(),
+      });
+      if (refinement) {
+        scene.chat = [
+          ...refinement.chat,
+          {
+            role: 'assistant',
+            text: 'Refinement applied to the actual scene through the validated construction pipeline.',
+          },
+        ];
+        scene.narrationConfig =
+          refinement.scene.narrationConfig || scene.narrationConfig;
+      }
+      return scene;
     },
-    onExternal: ({ candidate }) => {
+    onTimeChange: async (request) => {
+      assertCurrent(request);
+      const { scene, selectedTime, text } = request;
+      if (!scene || scene.id !== activeGeographicScene?.id) return;
+      Object.assign(scene, {
+        selectedTime,
+        updatedAt: new Date().toISOString(),
+      });
+      activeGeographicScene = scene;
+      sceneLibrary.setScene(scene, { saved: false });
+      // Update evidence for the same entities/camera plan, without an LLM or geocoder rebuild.
+      openEvidence(scene, { text, selectedTime });
+      return { updated: true, sceneId: scene.id };
+    },
+    onExternal: (request) => {
+      assertCurrent(request);
+      const { candidate } = request;
+      studio.setScene(null);
+      sceneCamera.setScene(null);
       sceneDirector.stopScene('External context only');
       activeGeographicScene = null;
       selectedSceneId = null;
       sceneLibrary.setScene(null);
       sceneLibrary.element.removeAttribute('data-scene-id');
-      for (const button of [playBtn, pauseBtn, prevBtn, nextBtn]) button.disabled = true;
+      for (const button of [playBtn, pauseBtn, prevBtn, nextBtn])
+        button.disabled = true;
       scrub.disabled = true;
       panel.dataset.playable = 'false';
       delete panel.dataset.activeScene;
       geographicOverlay.setExternal(candidate);
-      overlay.flyTo(candidate.lat, candidate.lon, { altitude: 14000, duration: 1.6 });
+      overlay.flyTo(candidate.lat, candidate.lon, {
+        altitude: 14000,
+        duration: 1.6,
+      });
     },
     onPlaybackControl: ({ action }) => {
-      if (action === 'pause' && sceneDirector.running) return sceneDirector.pauseScene();
-      if (action === 'resume' && sceneDirector.paused) return sceneDirector.resumeScene();
+      if (action === 'pause' && sceneDirector.running)
+        return sceneDirector.pauseScene();
+      if (action === 'resume' && sceneDirector.paused)
+        return sceneDirector.resumeScene();
       return null;
     },
-    onUnresolved: () => {
-      // The AOI box is UAE-scoped: an unresolved request still leaves the boot
-      // (Austin) view for the UAE overview instead of appearing to do nothing.
-      overlay.flyTo(24.45, 54.6, { altitude: 650000, duration: 1.6 });
-    },
-    onLocated: ({ candidate, extraction }) => {
-      overlay.flyTo(candidate.lat, candidate.lon, {
-        altitude: 8500,
-        duration: 1.8,
-      });
-      // Scoped incident search: open the evidence panel for the located place
-      // (the legacy /scene/videos rail stays reachable via gev:scene-videos).
-      win.dispatchEvent?.(
-        new CustomEvent('gev:scene-evidence', {
-          detail: { text: extraction.originalText, place: candidate.name, lat: candidate.lat, lon: candidate.lon, windowHours: extraction.windowHours || 72 },
-        }),
+    onUnresolved: (request) => {
+      assertCurrent(request);
+      studio.setStatus(
+        'Location could not be verified. No scene, camera, narration or social footage was substituted.',
       );
     },
-    onScene: async ({ scene, incident, override, play = false, text, selectedTime = {}, signal: requestSignal }) => {
-      if (requestSignal?.aborted) return;
+    onLocated: (request) => {
+      assertCurrent(request);
+      // Geocoding alone is not a successfully constructed scene. No camera
+      // flight or social lookup is dispatched at this stage.
+    },
+    onScene: async (request) => {
+      const {
+        scene,
+        incident,
+        override,
+        play = false,
+        text,
+        selectedTime = {},
+        signal: requestSignal,
+      } = request;
+      assertCurrent(request);
       if (!play && (sceneDirector.running || sceneDirector.paused)) {
         // LOAD is rejected while a previous playback owns the camera. Wait for
         // its real cancellation cleanup before selecting/flying to the new AOI.
         sceneDirector.stopScene('Rebuilding the AOI scene');
         await sceneDirector._waitForRunIdle();
-        if (requestSignal?.aborted) return;
+        assertCurrent(request);
         sceneDirector._paused = null;
       }
       if (scene.geographic) {
-        activateGeographic(scene, { saved: Boolean(geographicStore.load(scene.id)), focus: !play, evidenceText: text, selectedTime, research: !play });
+        if (!play)
+          await activateGeographic(scene, {
+            saved: Boolean(geographicStore.load(scene.id)),
+            focus: true,
+            evidenceText: text,
+            selectedTime,
+            research: true,
+            request,
+          });
+        assertCurrent(request);
         // Return the run (root-cause fix, cycle 23): a fire-and-forget start let
         // the composer reset Play to idle in 0 ms, and the next press was then
         // rejected by the director as 'already-running'.
@@ -664,14 +994,35 @@ export function installIncidentScenes({
         return;
       }
       const point = scene.anchor || scene.keyframes?.[0];
-      if (!point || !resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon }).allowed) throw new Error('Outside UAE AOI — external context only');
+      if (
+        !point ||
+        !resolveIncidentGate(scene.title, { lat: point.lat, lon: point.lon })
+          .allowed
+      )
+        throw new Error('Outside UAE AOI — external context only');
       const sceneWithFlags = scene;
-      if (!play && text) win.dispatchEvent?.(new CustomEvent('gev:scene-evidence', { detail: { text, lat: point.lat, lon: point.lon, sceneId: scene.id, windowHours: selectedTime.windowHours || 1, ...selectedTime } }));
       const added = sceneDirector.addIncidentScene(sceneWithFlags, {
         override,
         select: true,
       });
       if (!added.added) throw new Error(added.reason || 'scene rejected');
+      assertCurrent(request);
+      if (!play && text)
+        win.dispatchEvent?.(
+          new CustomEvent('gev:scene-evidence', {
+            detail: {
+              text,
+              lat: point.lat,
+              lon: point.lon,
+              sceneId: scene.id,
+              windowHours: selectedTime.windowHours || 1,
+              ...selectedTime,
+              promptDerived: true,
+              constructed: true,
+              promptRevision: request.revision,
+            },
+          }),
+        );
       if (incident) {
         state.incidents = [
           incident,
@@ -696,13 +1047,27 @@ export function installIncidentScenes({
         }),
       );
       selectedSceneId = scene.id;
-      for (const button of [playBtn, pauseBtn, prevBtn, nextBtn]) button.disabled = false;
+      for (const button of [playBtn, pauseBtn, prevBtn, nextBtn])
+        button.disabled = false;
       scrub.disabled = false;
       if (play) return startedPlayback(playScene(scene.id));
-      else if (scene.keyframes?.[0]) overlay.flyTo(scene.keyframes[0].lat, scene.keyframes[0].lon, { altitude: 7000, duration: 1.6 });
+      else if (scene.keyframes?.[0])
+        overlay.flyTo(scene.keyframes[0].lat, scene.keyframes[0].lon, {
+          altitude: 7000,
+          duration: 1.6,
+        });
     },
   }));
   (doc.body || doc.documentElement).appendChild(composer.element);
+  const locationInput = doc.getElementById('location-search');
+  const onLocationInput = () => {
+    const text = String(locationInput?.value || '').trim();
+    if (!text || text === composer.input.value) return;
+    refinementContext = null;
+    composer.input.value = text;
+    composer.input.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+  locationInput?.addEventListener('input', onLocationInput);
 
   // Close the popover on Escape.
   const onKey = (event) => {
@@ -730,11 +1095,28 @@ export function installIncidentScenes({
       hidden: sceneDirector.hiddenScenes?.() || [],
       sceneTitles: sceneDirector.listScenes().map((s) => s.title),
       activeGeographicScene: activeGeographicScene?.id || null,
-      geographicSaved: geographicStore.list().map((scene) => ({ id: scene.id, title: scene.title, anchor: scene.anchor })),
+      geographicSaved: geographicStore.list().map((scene) => ({
+        id: scene.id,
+        title: scene.title,
+        anchor: scene.anchor,
+      })),
       geographicOverlay: geographicOverlay.getState(),
+      structuredScene: activeGeographicScene,
+      studio: studio.getState(),
+      sceneCamera: sceneCamera.getState(),
     }),
     destroy() {
       unsubscribeClock?.();
+      removeCameraSubscription?.();
+      locationInput?.removeEventListener('input', onLocationInput);
+      win.removeEventListener('gev:incident-command-started', onPromptStarted);
+      win.removeEventListener(
+        'gev:incident-command-cancelled',
+        onPromptStarted,
+      );
+      studio.destroy();
+      sceneCamera.destroy();
+      if (win.__gevSceneStudio === studio) delete win.__gevSceneStudio;
       doc.removeEventListener('keydown', onKey);
       composer.destroy();
       diagnostics.destroy();

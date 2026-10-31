@@ -28,7 +28,10 @@ function createPins(viewer) {
     set(items, selectedId) {
       source.entities.removeAll();
       const located = items.filter(
-        (i) => i.eligible === true && Number.isFinite(i.geo?.lat) && Number.isFinite(i.geo?.lon),
+        (i) =>
+          i.eligible === true &&
+          Number.isFinite(i.geo?.lat) &&
+          Number.isFinite(i.geo?.lon),
       );
       // Approximate (place/text) items share the AOI centre: fan them on a ring
       // so each stays clickable — the ring itself signals "approximate".
@@ -151,6 +154,8 @@ export function installSceneEvidence({
   const onEvent = (event) => {
     const d = event?.detail || {};
     if (!d.text && !d.place) return;
+    // Prompt-derived evidence is permitted only after the current scene commits.
+    if (d.promptDerived && d.constructed !== true) return;
     const request = {
       text: d.text || d.place,
       place: d.place,
@@ -158,12 +163,23 @@ export function installSceneEvidence({
       lon: Number.isFinite(d.lon) ? d.lon : d.anchor?.lon,
       radiusKm: d.radiusKm || 5,
       windowHours: d.windowHours || 1,
-      timeMode: d.timeMode || 'recent', windowStart: d.windowStart, windowEnd: d.windowEnd,
+      timeMode: d.timeMode || 'recent',
+      windowStart: d.windowStart,
+      windowEnd: d.windowEnd,
       sceneId: d.sceneId,
+      ...(d.promptDerived
+        ? {
+            allowedPlatforms: ['youtube', 'tiktok', 'instagram'],
+            promptRevision: d.promptRevision,
+          }
+        : {}),
       fresh: !d.preferCache,
     };
     mountChip();
-    void panel.open(request, { preferCache: Boolean(d.preferCache), reveal: Boolean(d.reveal) });
+    void panel.open(request, {
+      preferCache: Boolean(d.preferCache),
+      reveal: Boolean(d.reveal),
+    });
   };
   win?.addEventListener?.(SCENE_EVIDENCE_EVENT, onEvent);
   const onCancel = () => panel.close();
@@ -178,7 +194,8 @@ export function installSceneEvidence({
     );
     if (shared)
       setTimeout(
-        () => void panel.open({ ...shared, text: shared.place }, { reveal: true }),
+        () =>
+          void panel.open({ ...shared, text: shared.place }, { reveal: true }),
         1500,
       );
   } catch {
@@ -205,8 +222,22 @@ export function installSceneEvidence({
         window: s.window,
         totals: s.totals,
         transport: s.transport,
-        candidateRecords: s.candidates.map((x) => ({ id: x.id, url: x.url, mediaType: x.mediaType, publishedAt: x.publishedAt, recordedAt: x.recordedAt, retrievedAt: x.retrievedAt, source: x.source, geo: x.geo, qualification: x.qualification })),
-        rejections: s.candidates.map((x) => ({ id: x.id, platform: x.platform, reasons: x.qualification?.reasons })),
+        candidateRecords: s.candidates.map((x) => ({
+          id: x.id,
+          url: x.url,
+          mediaType: x.mediaType,
+          publishedAt: x.publishedAt,
+          recordedAt: x.recordedAt,
+          retrievedAt: x.retrievedAt,
+          source: x.source,
+          geo: x.geo,
+          qualification: x.qualification,
+        })),
+        rejections: s.candidates.map((x) => ({
+          id: x.id,
+          platform: x.platform,
+          reasons: x.qualification?.reasons,
+        })),
         signals: s.signals.length,
         sources: s.sources.map((x) => ({
           name: x.name,

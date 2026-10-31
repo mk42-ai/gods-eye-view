@@ -12,7 +12,6 @@ import { createSceneVideoRail } from './rail.js';
 import { PLATFORM_SHORT } from './labels.js';
 import { governorRequestRender } from '../renderGovernor.js';
 
-
 export const SCENE_VIDEOS_EVENT = 'gev:scene-videos';
 const TIER_COLOR = { LIVE: '#ff3b3b', RECENT: '#ffb020', ARCHIVAL: '#9aa4b2' };
 
@@ -102,12 +101,18 @@ export function installSceneVideos({
   // capture phase: runs before the composer's own handler clears the input
   doc.addEventListener('submit', onSubmit, true);
   const onEvent = (event) => {
-    const prompt = event?.detail?.prompt;
-    if (prompt) void rail.start(prompt, { anchor: event.detail.anchor });
+    const detail = event?.detail || {};
+    if (detail.promptDerived && detail.constructed !== true) return;
+    const prompt = detail.prompt;
+    if (prompt) void rail.start(prompt, { anchor: detail.anchor });
   };
   win?.addEventListener?.(SCENE_VIDEOS_EVENT, onEvent);
-  const onCancel = () => rail.cancel();
+  const onCancel = () => {
+    rail.cancel();
+    rail.element.hidden = true;
+  };
   win?.addEventListener?.('gev:incident-command-cancelled', onCancel);
+  win?.addEventListener?.('gev:incident-command-started', onCancel);
 
   const api = {
     rail,
@@ -125,6 +130,7 @@ export function installSceneVideos({
       doc.removeEventListener('submit', onSubmit, true);
       win?.removeEventListener?.(SCENE_VIDEOS_EVENT, onEvent);
       win?.removeEventListener?.('gev:incident-command-cancelled', onCancel);
+      win?.removeEventListener?.('gev:incident-command-started', onCancel);
       rail.destroy();
       if (pins && viewer?.dataSources?.remove)
         viewer.dataSources.remove(pins.source, true);

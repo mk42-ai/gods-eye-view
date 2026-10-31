@@ -37,16 +37,34 @@ export function shotTimings(keyframes, totalSec = INCIDENT_SCENE_DURATION_SEC) {
 // directly above it points the viewport several kilometres past the AOI.
 export function geographicCameraPose(kf) {
   const rad = Math.PI / 180;
-  const alt = Number.isFinite(kf.altitudeM) ? kf.altitudeM : altitudeForZoom(kf.zoom, kf.lat);
+  const alt = Number.isFinite(kf.altitudeM)
+    ? kf.altitudeM
+    : altitudeForZoom(kf.zoom, kf.lat);
   const pitch = kf.pitch ?? -45;
   const heading = kf.bearing || 0;
-  const distance = alt / Math.tan(Math.max(1, Math.min(90, Math.abs(pitch))) * rad);
+  const distance =
+    alt / Math.tan(Math.max(1, Math.min(90, Math.abs(pitch))) * rad);
   const angle = distance / 6371008.8;
   const lat = kf.lat * rad;
   const bearing = (heading + 180) * rad;
-  const nextLat = Math.asin(Math.sin(lat) * Math.cos(angle) + Math.cos(lat) * Math.sin(angle) * Math.cos(bearing));
-  const nextLon = kf.lon * rad + Math.atan2(Math.sin(bearing) * Math.sin(angle) * Math.cos(lat), Math.cos(angle) - Math.sin(lat) * Math.sin(nextLat));
-  return { lat: nextLat / rad, lon: ((nextLon / rad + 540) % 360) - 180, alt, heading, pitch, roll: 0 };
+  const nextLat = Math.asin(
+    Math.sin(lat) * Math.cos(angle) +
+      Math.cos(lat) * Math.sin(angle) * Math.cos(bearing),
+  );
+  const nextLon =
+    kf.lon * rad +
+    Math.atan2(
+      Math.sin(bearing) * Math.sin(angle) * Math.cos(lat),
+      Math.cos(angle) - Math.sin(lat) * Math.sin(nextLat),
+    );
+  return {
+    lat: nextLat / rad,
+    lon: ((nextLon / rad + 540) % 360) - 180,
+    alt,
+    heading,
+    pitch,
+    roll: 0,
+  };
 }
 
 function sceneLayers() {
@@ -62,22 +80,48 @@ function sceneLayers() {
 export function incidentSceneToProjectScene(incidentScene, options = {}) {
   if (!incidentScene?.keyframes?.length)
     throw new Error('incident scene needs keyframes');
-  const timings = shotTimings(incidentScene.keyframes, incidentScene.durationSec || INCIDENT_SCENE_DURATION_SEC);
-  const shots = incidentScene.keyframes.map((kf, i) =>
+  const planned = Boolean(incidentScene.plan && incidentScene.version === 2);
+  const frames = planned
+    ? incidentScene.keyframes.slice(0, -1)
+    : incidentScene.keyframes;
+  const timings = planned
+    ? frames.map((frame, index) => {
+        const span =
+          incidentScene.keyframes[index + 1].timeOffsetSec -
+          frame.timeOffsetSec;
+        if (!(span >= 0.2))
+          throw new Error(
+            'Structured scene beats must allow at least 0.2 seconds per shot',
+          );
+        const durationSec = Math.min(
+          span,
+          Math.max(0.2, Math.min(2.5, span * 0.25)),
+        );
+        return { durationSec, holdSec: span - durationSec };
+      })
+    : shotTimings(
+        frames,
+        incidentScene.durationSec || INCIDENT_SCENE_DURATION_SEC,
+      );
+  const shots = frames.map((kf, i) =>
     normalizeShot(
       {
         id: uid('shot'),
         title: kf.label || `Keyframe ${i + 1}`,
         durationSec: timings[i].durationSec,
         holdSec: timings[i].holdSec,
-        camera: incidentScene.geographic ? geographicCameraPose(kf) : {
-          lat: kf.lat,
-          lon: kf.lon,
-          alt: Number.isFinite(kf.altitudeM) ? kf.altitudeM : altitudeForZoom(kf.zoom, kf.lat),
-          heading: kf.bearing || 0,
-          pitch: kf.pitch ?? -45,
-          roll: 0,
-        },
+        camera: incidentScene.geographic
+          ? geographicCameraPose(kf)
+          : {
+              lat: kf.lat,
+              lon: kf.lon,
+              alt: Number.isFinite(kf.altitudeM)
+                ? kf.altitudeM
+                : altitudeForZoom(kf.zoom, kf.lat),
+              heading: kf.bearing || 0,
+              pitch: kf.pitch ?? -45,
+              roll: 0,
+            },
         visual: {
           style: options.visualStyle || 'normal',
           hud: { visible: true, variant: 'tactical' },

@@ -2,7 +2,7 @@
   "name": "ondemand-spatial",
   "private": true,
   "version": "0.1.1",
-  "description": "OnDemand Spatial — a real-time spatial intelligence console for planet Earth: photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/fires/CCTV and OnDemand-powered analysis. Runs in a browser and on Vercel serverless functions.",
+  "description": "OnDemand Spatial \u2014 a real-time spatial intelligence console for planet Earth: photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/fires/CCTV and OnDemand-powered analysis. Runs in a browser and on Vercel serverless functions.",
   "type": "module",
   "license": "MIT",
   "author": "Bilawal Sidhu",
@@ -13,9 +13,6 @@
   },
   "bugs": {
     "url": "https://github.com/bilawalsidhu/gods-eye-view/issues"
-  },
-  "engines": {
-    "node": ">=24.14.0 <25 || >=26 <27"
   },
   "keywords": [
     "cesium",

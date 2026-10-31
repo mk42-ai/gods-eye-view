@@ -565,7 +565,8 @@
       "lon": 55.2741329,
       "country": "AE",
       "verified": true,
-      "source": "OpenStreetMap way 446646206 via Nominatim, observed 2026-10-24 (ODbL)"
+      "source": "OpenStreetMap way 446646206 via Nominatim, observed 2026-10-24 (ODbL)",
+      "sourceUrl": "https://www.openstreetmap.org/way/446646206"
     },
     {
       "name": "Tehran",

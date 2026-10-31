@@ -1,4 +1,9 @@
-import { validPoint, qualifyRecording, resolveEvidenceWindow, EVIDENCE_POLICY_VERSION } from './qualification.js';
+import {
+  validPoint,
+  qualifyRecording,
+  resolveEvidenceWindow,
+  EVIDENCE_POLICY_VERSION,
+} from './qualification.js';
 /**
  * Scene evidence — pure core shared by the server pipeline
  * (server/scene-evidence/*) and the browser panel (src/sceneEvidence/panel.js).
@@ -126,9 +131,21 @@ const X_RE =
 export function parsePostUrl(url) {
   const s = String(url || '');
   let host;
-  try { const u = new URL(s); if (u.protocol !== 'https:' || u.username || u.password || u.port) return null; host = u.hostname.toLowerCase(); } catch { return null; }
+  try {
+    const u = new URL(s);
+    if (u.protocol !== 'https:' || u.username || u.password || u.port)
+      return null;
+    host = u.hostname.toLowerCase();
+  } catch {
+    return null;
+  }
   let m = s.match(YT_RE);
-  if (m && ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'].includes(host))
+  if (
+    m &&
+    ['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be'].includes(
+      host,
+    )
+  )
     return {
       platform: 'youtube',
       id: m[1],
@@ -163,7 +180,10 @@ export function parsePostUrl(url) {
     };
   }
   m = s.match(X_RE);
-  if (m && ['x.com', 'www.x.com', 'twitter.com', 'www.twitter.com'].includes(host))
+  if (
+    m &&
+    ['x.com', 'www.x.com', 'twitter.com', 'www.twitter.com'].includes(host)
+  )
     return {
       platform: 'x',
       id: m[2],
@@ -308,47 +328,79 @@ export function buildEvidenceItem(raw, ctx = {}) {
   const parsed = parsePostUrl(raw?.url);
   if (!parsed) return null;
   const now = ctx.now || new Date();
-  const qualification = qualifyRecording(raw, { ...ctx, window: ctx.window || resolveEvidenceWindow(ctx, now), now });
-  const sourceBacked = raw.evidence?.kind === 'provider-record' && raw.evidence?.verified === true;
+  const qualification = qualifyRecording(raw, {
+    ...ctx,
+    window: ctx.window || resolveEvidenceWindow(ctx, now),
+    now,
+  });
+  const sourceBacked =
+    raw.evidence?.kind === 'provider-record' && raw.evidence?.verified === true;
   const publishedAt = sourceBacked ? toIso(raw.publishedAt) : null;
   const dateSource = publishedAt ? 'api' : null;
   const geo = scoreGeo({
-    coords: sourceBacked && qualification.measurement?.precision === 'exact'
-      ? { lat: qualification.measurement.lat, lon: qualification.measurement.lon } : null,
+    coords:
+      sourceBacked && qualification.measurement?.precision === 'exact'
+        ? {
+            lat: qualification.measurement.lat,
+            lon: qualification.measurement.lon,
+          }
+        : null,
     placeTag: sourceBacked ? raw.placeTag : null,
     text: `${raw.title || ''} ${raw.snippet || ''}`,
-    place: ctx.place, aliases: ctx.aliases,
+    place: ctx.place,
+    aliases: ctx.aliases,
   });
   return {
     id: `${parsed.platform}:${parsed.id}`,
     kind: sourceBacked && raw.mediaType === 'video' ? 'video' : parsed.kind,
     mediaType: sourceBacked ? raw.mediaType || 'unknown' : 'unverified',
-    platform: parsed.platform, url: parsed.url,
+    platform: parsed.platform,
+    url: parsed.url,
     embedUrl: qualification.eligible ? parsed.embedUrl : null,
     title: clip(raw.title || raw.snippet || parsed.url, 220),
     snippet: clip(raw.snippet, 280),
-    author: publicProfile(sourceBacked ? raw.author || {} : {}, sourceBacked ? raw.author?.source || raw.authorSource || '' : ''),
-    publishedAt, dateSource, dateConfidence: sourceBacked && publishedAt ? 1 : 0,
+    author: publicProfile(
+      sourceBacked ? raw.author || {} : {},
+      sourceBacked ? raw.author?.source || raw.authorSource || '' : '',
+    ),
+    publishedAt,
+    dateSource,
+    dateConfidence: sourceBacked && publishedAt ? 1 : 0,
     recordedAt: qualification.recordedAt,
     retrievedAt: toIso(now),
     recordingTimeSource: qualification.recordingTimeSource,
     recordingTimePrecision: qualification.recordingTimePrecision,
     publicationClaim: sourceBacked ? null : toIso(raw.publishedAt),
     freshness: qualification.freshness,
-    ageHours: qualification.recordedAt ? Math.max(0, (new Date(now) - Date.parse(qualification.recordedAt)) / 3600000) : null,
+    ageHours: qualification.recordedAt
+      ? Math.max(
+          0,
+          (new Date(now) - Date.parse(qualification.recordedAt)) / 3600000,
+        )
+      : null,
     undated: !qualification.recordedAt,
     inWindow: qualification.eligible,
-    eligible: qualification.eligible, qualification,
+    eligible: qualification.eligible,
+    qualification,
     mediaLocation: sourceBacked ? raw.mediaLocation || null : null,
     distanceKm: qualification.measurement?.distanceKm ?? null,
     distanceMethod: qualification.measurement?.method ?? null,
     geo,
     source: {
-      id: clip(raw.sourceId, 60), name: clip(raw.sourceName, 90), via: clip(raw.via, 120),
-      query: clip(raw.query, 240), at: toIso(now),
-      verified: sourceBacked, verification: sourceBacked ? 'provider-record' : 'discovery-only',
+      id: clip(raw.sourceId, 60),
+      name: clip(raw.sourceName, 90),
+      via: clip(raw.via, 120),
+      query: clip(raw.query, 240),
+      at: toIso(now),
+      verified: sourceBacked,
+      verification: sourceBacked ? 'provider-record' : 'discovery-only',
     },
-    provenance: { kind: sourceBacked ? 'provider-record' : 'mediated-discovery-answer', policy: EVIDENCE_POLICY_VERSION, pluginId: clip(raw.pluginId, 80), operation: clip(raw.operation, 80) },
+    provenance: {
+      kind: sourceBacked ? 'provider-record' : 'mediated-discovery-answer',
+      policy: EVIDENCE_POLICY_VERSION,
+      pluginId: clip(raw.pluginId, 80),
+      operation: clip(raw.operation, 80),
+    },
     cachePolicy: parsed.platform === 'instagram' ? 'ids-only' : 'full',
   };
 }
@@ -445,13 +497,39 @@ export function filterEvidence(
 export function refreshFreshness(items, now = new Date(), request = {}) {
   const window = resolveEvidenceWindow(request, now);
   return items.map((it) => {
-    if (!it.qualification) return { ...it, ...classifyFreshness(it.publishedAt, now) };
+    if (!it.qualification)
+      return { ...it, ...classifyFreshness(it.publishedAt, now) };
     // A cache cannot extend an old recording's eligibility or establish live status.
     const time = Date.parse(it.recordedAt || '');
-    const eligible = it.eligible === true && Number.isFinite(time) && time >= Date.parse(window.startUtc) && time < Date.parse(window.endUtc);
-    return { ...it, eligible, inWindow: eligible, embedUrl: eligible ? it.embedUrl : null,
-      freshness: eligible ? (window.mode === 'historical' ? 'HISTORICAL' : 'RECENT') : 'UNVERIFIED',
-      qualification: { ...it.qualification, eligible, window, reasons: eligible ? [] : [...new Set([...it.qualification.reasons, 'cache_requires_revalidation'])] } };
+    const eligible =
+      it.eligible === true &&
+      Number.isFinite(time) &&
+      time >= Date.parse(window.startUtc) &&
+      time < Date.parse(window.endUtc);
+    return {
+      ...it,
+      eligible,
+      inWindow: eligible,
+      embedUrl: eligible ? it.embedUrl : null,
+      freshness: eligible
+        ? window.mode === 'historical'
+          ? 'HISTORICAL'
+          : 'RECENT'
+        : 'UNVERIFIED',
+      qualification: {
+        ...it.qualification,
+        eligible,
+        window,
+        reasons: eligible
+          ? []
+          : [
+              ...new Set([
+                ...it.qualification.reasons,
+                'cache_requires_revalidation',
+              ]),
+            ],
+      },
+    };
   });
 }
 
@@ -501,7 +579,12 @@ export function evidenceKey({
   lat,
   lon,
   radiusKm = 5,
-  windowHours = 1, text, timeMode = 'recent', windowStart, windowEnd,
+  windowHours = 1,
+  text,
+  timeMode = 'recent',
+  windowStart,
+  windowEnd,
+  allowedPlatforms,
 } = {}) {
   const loc =
     Number.isFinite(lat) && Number.isFinite(lon)
@@ -511,8 +594,13 @@ export function evidenceKey({
     ? `scene:${sceneId}`
     : `place:${normalizeText(place).replace(/ /g, '-').slice(0, 60)}`;
   const scope = `${timeMode}|${windowStart || ''}|${windowEnd || ''}`;
-  const query = normalizeText(text || place || '').replace(/ /g, '-').slice(0, 160);
-  return `${base}|${loc}|r${radiusKm}|w${windowHours}|q:${query}|${scope}|${EVIDENCE_POLICY_VERSION}`;
+  const query = normalizeText(text || place || '')
+    .replace(/ /g, '-')
+    .slice(0, 160);
+  const platformScope = Array.isArray(allowedPlatforms)
+    ? `|platforms:${[...new Set(allowedPlatforms)].sort().join(',')}`
+    : '';
+  return `${base}|${loc}|r${radiusKm}|w${windowHours}|q:${query}|${scope}|${EVIDENCE_POLICY_VERSION}${platformScope}`;
 }
 
 /** Normalise a news/incident signal. */
@@ -553,12 +641,22 @@ export function buildSignal(raw, ctx = {}) {
 }
 
 /** Deterministic evidence summary (the no-LLM fallback). */
-export function deterministicSummary({ place, items = [], candidates = [], signals = [], sources = [] } = {}) {
+export function deterministicSummary({
+  place,
+  items = [],
+  candidates = [],
+  signals = [],
+  sources = [],
+} = {}) {
   const eligible = items.filter((x) => x.eligible === true).length;
-  const blocked = sources.filter((s) => !['ok', 'empty', 'running'].includes(s.state)).length;
+  const blocked = sources.filter(
+    (s) => !['ok', 'empty', 'running'].includes(s.state),
+  ).length;
   const lines = [
     `${eligible} source-verified video(s) for ${place || 'the AOI'}; ${candidates.length} unverified candidate(s) kept separately.`,
-    eligible ? 'Only footage with source-backed recording location and time is admitted.' : 'No verified recent footage. Publication, retrieval, captions and model answers do not prove recording place or time.',
+    eligible
+      ? 'Only footage with source-backed recording location and time is admitted.'
+      : 'No verified recent footage. Publication, retrieval, captions and model answers do not prove recording place or time.',
     `${signals.length} unverified context reference(s); ${blocked} unavailable/restricted source(s). No conclusion about whether an incident occurred.`,
   ];
   return { text: lines.join(' '), engine: 'deterministic-policy', lines };

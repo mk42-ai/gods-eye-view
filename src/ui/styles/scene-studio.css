@@ -1,0 +1,163 @@
+/* Existing workstation surfaces, extended for authored scene evidence. */
+#incident-composer textarea.incident-composer__input {
+  box-sizing: border-box;
+  flex: 1 1 240px;
+  width: 100%;
+  min-width: 0;
+  min-height: 58px;
+  max-height: 180px;
+  resize: vertical;
+  padding: 10px 12px;
+  line-height: 1.4;
+  font: inherit;
+  color: var(--text-primary, #e5e7eb);
+  background: var(--panel-bg, #111827);
+  border: 1px solid var(--border-color, #334155);
+  border-radius: 7px;
+  white-space: pre-wrap;
+}
+#incident-composer .incident-composer__row {
+  align-items: center;
+}
+.scene-studio {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 12px 0;
+  color: #e5e7eb;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.scene-studio[hidden] {
+  display: none;
+}
+.scene-studio h2 {
+  font-size: 15px;
+  margin: 6px 0;
+}
+.scene-studio h3 {
+  font-size: 13px;
+  margin: 14px 0 7px;
+}
+.scene-studio__notice {
+  color: #a8b7c7;
+  border-left: 2px solid var(--accent, #38bdf8);
+  padding-left: 8px;
+  font-size: 11px;
+}
+.scene-studio__status {
+  color: #bfd9ef;
+  padding: 7px 0;
+}
+.scene-studio__description {
+  margin: 8px 0;
+}
+.scene-studio__entities,
+.scene-studio__beats {
+  padding-left: 18px;
+  margin: 6px 0;
+}
+.scene-studio__entities li,
+.scene-studio__beats li {
+  margin-bottom: 5px;
+}
+.scene-studio__sources {
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+.scene-studio a {
+  color: #7dd3fc;
+}
+.scene-studio__chat,
+.scene-studio__narration,
+.scene-studio__camera-host {
+  border-top: 1px solid #334155;
+  margin-top: 14px;
+  padding-top: 4px;
+}
+.scene-studio__chat-log {
+  max-height: 210px;
+  overflow-y: auto;
+}
+.scene-studio__message {
+  padding: 8px;
+  background: #152131;
+  border-radius: 6px;
+}
+.scene-studio__message--user {
+  border-left: 2px solid #7dd3fc;
+}
+.scene-studio button,
+.scene-studio input,
+.scene-studio textarea,
+.scene-studio select {
+  box-sizing: border-box;
+  max-width: 100%;
+  font: inherit;
+  color: #e5e7eb;
+  background: #142131;
+  border: 1px solid #40546b;
+  border-radius: 5px;
+  padding: 7px 9px;
+}
+.scene-studio button {
+  min-height: 34px;
+  cursor: pointer;
+  margin: 3px 3px 3px 0;
+}
+.scene-studio button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.scene-studio button:focus-visible,
+.scene-studio textarea:focus-visible,
+.scene-studio input:focus-visible,
+.scene-studio select:focus-visible {
+  outline: 2px solid #7dd3fc;
+  outline-offset: 2px;
+}
+.scene-studio__chat-input {
+  display: block;
+  width: 100%;
+  min-height: 70px;
+  resize: vertical;
+}
+.scene-studio__narration label {
+  display: block;
+  margin-top: 7px;
+  color: #cbd5e1;
+}
+.scene-studio__narration input,
+.scene-studio__narration select {
+  width: 100%;
+}
+.scene-studio audio {
+  width: 100%;
+  height: 36px;
+  margin-top: 9px;
+}
+.scene-camera {
+  font-size: 12px;
+}
+.scene-camera__status,
+.scene-camera__notice {
+  color: #cbd5e1;
+}
+@media (max-width: 700px) {
+  #incident-composer textarea.incident-composer__input {
+    min-height: 62px;
+    flex-basis: 100%;
+    font-size: 14px;
+  }
+  #incident-composer .incident-composer__row {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  #incident-composer .incident-composer__icon {
+    display: none;
+  }
+  .scene-studio {
+    font-size: 12px;
+  }
+}

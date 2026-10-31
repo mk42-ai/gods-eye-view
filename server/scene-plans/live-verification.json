@@ -1,0 +1,124 @@
+{
+  "checkedAt": "2026-10-31T03:51:10.618Z",
+  "kind": "live-generic-construct",
+  "ok": true,
+  "plan": {
+    "version": 1,
+    "title": "Illustrative Walkers and Organizer at Trocadéro",
+    "illustrative": true,
+    "durationSec": 12,
+    "location": {
+      "name": "Trocadéro, Place du Trocadéro et du 11 Novembre 1918, Chaillot, Paris 16e Arrondissement, Paris, Île-de-France, France métropolitaine, 75116, France",
+      "lat": 48.863045,
+      "lon": 2.2871938,
+      "sourceUrl": "https://www.openstreetmap.org/node/4058783101"
+    },
+    "camera": {
+      "distanceM": 36,
+      "heading": 45,
+      "pitch": -28,
+      "framing": "wide"
+    },
+    "entities": [
+      {
+        "id": "walkers",
+        "type": "person",
+        "label": "Three fictional walkers moving together",
+        "quantity": 3,
+        "position": {
+          "eastM": 5,
+          "northM": 3
+        },
+        "heading": 45
+      },
+      {
+        "id": "organizer",
+        "type": "organizer",
+        "label": "One fictional organizer gesturing toward the walkers",
+        "quantity": 1,
+        "position": {
+          "eastM": -4,
+          "northM": 2
+        },
+        "heading": 90
+      }
+    ],
+    "relationships": [
+      {
+        "from": "organizer",
+        "to": "walkers",
+        "relation": "stands nearby and gestures toward"
+      }
+    ],
+    "beats": [
+      {
+        "atSec": 0,
+        "title": "Wide view of the staged group",
+        "narration": "A wide illustrative view shows three fictional walkers grouped together and one fictional organizer nearby. The organizer gestures toward the walkers as they begin moving; these positions and actions are invented staging, not verified event facts.",
+        "entityIds": ["walkers", "organizer"],
+        "camera": {
+          "distanceM": 36,
+          "heading": 45,
+          "pitch": -28,
+          "framing": "wide"
+        }
+      },
+      {
+        "atSec": 6,
+        "title": "Walkers move past the organizer",
+        "narration": "The three staged walkers continue forward together while the organizer remains beside their path and turns toward them. The camera holds all four fictional figures in view; no event or route is being represented as factual.",
+        "entityIds": ["walkers", "organizer"],
+        "camera": {
+          "distanceM": 25,
+          "heading": 55,
+          "pitch": -24,
+          "framing": "wide"
+        }
+      },
+      {
+        "atSec": 11,
+        "title": "Medium view of the group",
+        "narration": "The camera finishes in a medium shot of the three fictional walkers and the nearby organizer, who gives a small guiding gesture. The scene is generic illustrative staging at the supplied location, not a depiction of a verified event.",
+        "entityIds": ["walkers", "organizer"],
+        "camera": {
+          "distanceM": 16,
+          "heading": 60,
+          "pitch": -20,
+          "framing": "medium"
+        }
+      }
+    ],
+    "citations": [
+      {
+        "url": "https://www.openstreetmap.org/node/4058783101",
+        "title": "Geocoder: OpenStreetMap Nominatim"
+      }
+    ],
+    "verification": {
+      "status": "location_verified",
+      "locationSource": "OpenStreetMap Nominatim",
+      "checkedAt": "2026-10-31T03:51:00.698Z",
+      "limitations": [
+        "All actors, placements, counts, camera motions and scene beats are illustrative staging, not observed facts.",
+        "The geocoded anchor is not a surveyed event route or an exact start/finish point."
+      ]
+    }
+  },
+  "revision": "live-generic-1",
+  "requestId": "b429e6fc-a940-4f6e-9c99-5a10236819a4",
+  "research": {
+    "kind": "generic",
+    "status": "generic",
+    "citations": [],
+    "provider": "OnDemand · Perplexity",
+    "sessionId": "6ae565968901bb29007d4e65",
+    "messageId": "6ae565968901bb29007d4e66"
+  },
+  "provenance": {
+    "provider": "OnDemand",
+    "sessionId": "6ae565a55b0d14e147a2b420",
+    "messageId": "6ae565a58901bb29007d4e6f",
+    "validated": true,
+    "attempts": 1
+  }
+}

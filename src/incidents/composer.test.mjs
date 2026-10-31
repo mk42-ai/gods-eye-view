@@ -4,6 +4,7 @@ import {
   createIncidentComposer,
   COMPOSER_ID,
   COMPOSER_PLACEHOLDER,
+  unresolvedPromptTokens,
 } from './ui/composer.js';
 import {
   planFromCandidates,
@@ -215,7 +216,7 @@ describe('incidentFromText / chat context', () => {
 });
 
 describe('composer state machine', () => {
-  test('renders the fixed input with the placeholder and submit', () => {
+  test('renders an editable multiline prompt with an illustrative placeholder and submit', () => {
     const doc = makeDoc();
     const composer = createIncidentComposer({
       document: doc,
@@ -223,7 +224,15 @@ describe('composer state machine', () => {
     });
     assert.equal(composer.element.id, COMPOSER_ID);
     assert.equal(composer.input.placeholder, COMPOSER_PLACEHOLDER);
-    assert.equal(composer.input.placeholder, 'Type an incident…');
+    assert.equal(composer.input.tagName, 'TEXTAREA');
+    assert.equal(composer.input.disabled, false);
+    assert.equal(composer.input.rows, 2);
+    assert.match(composer.input.placeholder, /Burj Khalifa/);
+    assert.match(composer.input.placeholder, /\n/);
+    assert.equal(
+      composer.input.getAttribute('aria-keyshortcuts'),
+      'Control+Enter Meta+Enter',
+    );
     assert.equal(composer.element.getAttribute('data-state'), 'idle');
   });
 
@@ -680,19 +689,17 @@ describe('geographic composer integration', () => {
     assertNoPlay(composer);
   });
 
-  test('missing geographic callback fails explicitly instead of fabricating an incident', async () => {
+  test('missing geographic callback retains the legacy standalone geographic builder', async () => {
     const client = fakeClient({ candidates: [MARINA] });
     const composer = createIncidentComposer({ document: makeDoc(), client });
-    assert.equal(await composer.submit(MARINA_QUERY), null);
-    assert.match(
-      composer.element.text(),
-      /Geographic scene creation is unavailable/,
-    );
+    const result = await composer.submit(MARINA_QUERY);
+    assert.equal(result.scene.geographic, true);
+    assert.equal(result.scene.anchor.name, 'Dubai Marina');
     assert.equal(
       client.calls.filter(([method]) => method === 'ingest').length,
       0,
     );
-    assertNoPlay(composer);
+    assert.ok(button(composer, 'play'));
   });
 
   test('verified candidate reaches both onLocated and incident search without ingest', async () => {
@@ -1053,7 +1060,10 @@ describe('Cancel / Retry and superseded asynchronous results', () => {
       assert.equal(button(composer, 'submit').disabled, false);
       assert.equal(calls[1].signal.aborted, false);
       assert.equal(composer.state.lastSearch, null);
-      assert.equal(composer.state.text, 'check for incidents near Burj Khalifa');
+      assert.equal(
+        composer.state.text,
+        'check for incidents near Burj Khalifa',
+      );
       assert.deepEqual(composer.state.candidates, [BURJ]);
       assert.doesNotMatch(
         composer.element.text(),
@@ -1107,19 +1117,34 @@ describe('Cancel / Retry and superseded asynchronous results', () => {
 
 // Cycle 15: exact AOI box regressions. Fixtures here are not live-provider proof.
 describe('AOI BUILD SCENE intent, bounded work and native rebuilds', () => {
-  const ABU_DHABI = { ...MARINA, name: 'Abu Dhabi', lat: 24.4539, lon: 54.3773 };
+  const ABU_DHABI = {
+    ...MARINA,
+    name: 'Abu Dhabi',
+    lat: 24.4539,
+    lon: 54.3773,
+  };
   test('bare locations build geographic scenes despite a legacy locate search intent', async () => {
     const rendered = [];
     const client = {
       locate: async (text) => ({
-        extraction: { originalText: text, place: text, intent: 'incident_search' },
+        extraction: {
+          originalText: text,
+          place: text,
+          intent: 'incident_search',
+        },
         candidates: [text === 'Dubai Marina' ? MARINA : ABU_DHABI],
       }),
-      search: () => assert.fail('BUILD SCENE must not run research for a bare AOI'),
-      ingest: () => assert.fail('a geographic plan must not fabricate an incident'),
+      search: () =>
+        assert.fail('BUILD SCENE must not run research for a bare AOI'),
+      ingest: () =>
+        assert.fail('a geographic plan must not fabricate an incident'),
     };
-    const c = createIncidentComposer({ document: makeDoc(), client,
-      createGeographicScene: geographicScene, onScene: (p) => rendered.push(p.scene) });
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client,
+      createGeographicScene: geographicScene,
+      onScene: (p) => rendered.push(p.scene),
+    });
     for (const place of ['Dubai Marina', 'Abu Dhabi', 'Dubai Marina']) {
       const out = await c.submit(place);
       assert.equal(out.scene.anchor.name, place);
@@ -1134,11 +1159,18 @@ describe('AOI BUILD SCENE intent, bounded work and native rebuilds', () => {
   });
   test('explicit research still searches without generating an incident or geographic scene', async () => {
     let searches = 0;
-    const c = createIncidentComposer({ document: makeDoc(), client: {
-      locate: async () => ({ candidates: [MARINA] }),
-      search: async () => { searches += 1; return scopedResponse(); },
-      ingest: () => assert.fail('research must not ingest'),
-    }, createGeographicScene: () => assert.fail('research must not build') });
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: {
+        locate: async () => ({ candidates: [MARINA] }),
+        search: async () => {
+          searches += 1;
+          return scopedResponse();
+        },
+        ingest: () => assert.fail('research must not ingest'),
+      },
+      createGeographicScene: () => assert.fail('research must not build'),
+    });
     await c.submit('check for incidents near Dubai Marina');
     assert.equal(searches, 1);
     assert.equal(c.state.busy, false);
@@ -1146,17 +1178,33 @@ describe('AOI BUILD SCENE intent, bounded work and native rebuilds', () => {
     c.destroy();
   });
   test('edited native form submission supersedes pending work; duplicate text coalesces', async () => {
-    const old = deferred(), next = deferred();
+    const old = deferred(),
+      next = deferred();
     const calls = [];
-    const c = createIncidentComposer({ document: makeDoc(), client: {
-      locate: (text, { signal }) => { calls.push({ text, signal }); return calls.length === 1 ? old.promise : next.promise; },
-    }, createGeographicScene: geographicScene });
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: {
+        locate: (text, { signal }) => {
+          calls.push({ text, signal });
+          return calls.length === 1 ? old.promise : next.promise;
+        },
+      },
+      createGeographicScene: geographicScene,
+    });
     c.input.value = 'Dubai Marina';
     c.element.dispatch('submit');
     await tick();
-    assert.equal(button(c, 'submit').disabled, false, 'edited rebuild remains clickable');
+    assert.equal(
+      button(c, 'submit').disabled,
+      false,
+      'edited rebuild remains clickable',
+    );
     c.element.dispatch('submit');
-    assert.equal(calls.length, 1, 'same text does not duplicate a pending request');
+    assert.equal(
+      calls.length,
+      1,
+      'same text does not duplicate a pending request',
+    );
     c.input.value = 'Abu Dhabi';
     c.element.dispatch('submit');
     await tick();
@@ -1178,13 +1226,23 @@ describe('AOI BUILD SCENE intent, bounded work and native rebuilds', () => {
       const hold = deferred();
       let signal;
       let stalled = true;
-      const c = createIncidentComposer({ document: makeDoc(), requestTimeoutMs: 15,
-        client: { locate: (_text, options) => {
-          signal = options.signal;
-          return stage === 'locate' && stalled ? hold.promise : Promise.resolve({ candidates: [MARINA] });
-        } },
-        createGeographicScene: (p) => stage === 'geographic-build' && stalled ? hold.promise : geographicScene(p),
-        onScene: () => stage === 'render' && stalled ? hold.promise : undefined,
+      const c = createIncidentComposer({
+        document: makeDoc(),
+        requestTimeoutMs: 15,
+        client: {
+          locate: (_text, options) => {
+            signal = options.signal;
+            return stage === 'locate' && stalled
+              ? hold.promise
+              : Promise.resolve({ candidates: [MARINA] });
+          },
+        },
+        createGeographicScene: (p) =>
+          stage === 'geographic-build' && stalled
+            ? hold.promise
+            : geographicScene(p),
+        onScene: () =>
+          stage === 'render' && stalled ? hold.promise : undefined,
       });
       await c.submit('Dubai Marina');
       assert.equal(c.state.busy, false);
@@ -1195,7 +1253,11 @@ describe('AOI BUILD SCENE intent, bounded work and native rebuilds', () => {
       assert.equal(button(c, 'retry').disabled, false);
       assertNoPlay(c);
       const message = c.element.text();
-      hold.resolve(stage === 'locate' ? { candidates: [MARINA] } : geographicScene({ candidate: MARINA }));
+      hold.resolve(
+        stage === 'locate'
+          ? { candidates: [MARINA] }
+          : geographicScene({ candidate: MARINA }),
+      );
       await tick(30);
       assert.equal(c.element.text(), message);
       stalled = false;
@@ -1207,8 +1269,14 @@ describe('AOI BUILD SCENE intent, bounded work and native rebuilds', () => {
   }
   test('a thrown render failure releases controls and the next request succeeds', async () => {
     let fail = true;
-    const c = createIncidentComposer({ document: makeDoc(), client: { locate: async () => ({ candidates: [MARINA] }) },
-      createGeographicScene: geographicScene, onScene: () => { if (fail) throw new Error('fixture render failed'); } });
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: { locate: async () => ({ candidates: [MARINA] }) },
+      createGeographicScene: geographicScene,
+      onScene: () => {
+        if (fail) throw new Error('fixture render failed');
+      },
+    });
     await c.submit('Dubai Marina');
     assert.equal(c.state.busy, false);
     assert.equal(c.element.getAttribute('data-state'), 'error');
@@ -1225,7 +1293,13 @@ describe('cycle 16: embedded-host feedback guarantees', () => {
   test("'hi' shows a discreet local hint instantly and calls no provider", async () => {
     const client = fakeClient({ candidates: [] });
     let unresolved = 0;
-    const composer = createIncidentComposer({ document: makeDoc(), client, onUnresolved: () => { unresolved += 1; } });
+    const composer = createIncidentComposer({
+      document: makeDoc(),
+      client,
+      onUnresolved: () => {
+        unresolved += 1;
+      },
+    });
     const out = await composer.submit('hi');
     assert.equal(out.plan.kind, 'hint');
     assert.equal(client.calls.length, 0);
@@ -1235,25 +1309,44 @@ describe('cycle 16: embedded-host feedback guarantees', () => {
     assert.equal(unresolved, 0);
   });
   test('empty submit is never silent', async () => {
-    const composer = createIncidentComposer({ document: makeDoc(), client: fakeClient() });
+    const composer = createIncidentComposer({
+      document: makeDoc(),
+      client: fakeClient(),
+    });
     assert.equal(await composer.submit('   '), null);
     assert.equal(composer.element.getAttribute('data-state'), 'hint');
     assert.match(composer.element.text(), /Type a place in the UAE/);
   });
   test('a place request shows a pending spinner synchronously, before locate resolves', async () => {
     let release;
-    const client = { calls: [], locate: () => new Promise((resolve) => { release = resolve; }) };
+    const client = {
+      calls: [],
+      locate: () =>
+        new Promise((resolve) => {
+          release = resolve;
+        }),
+    };
     const composer = createIncidentComposer({ document: makeDoc(), client });
     const pendingRun = composer.submit('Dubai Marina r');
     assert.equal(composer.element.getAttribute('data-state'), 'busy');
     assert.match(composer.element.text(), /Locating “Dubai Marina”…/);
-    assert.equal(composer.element.find((n) => n.className === 'incident-composer__spinner').length, 1);
+    assert.equal(
+      composer.element.find((n) => n.className === 'incident-composer__spinner')
+        .length,
+      1,
+    );
     release({ candidates: [] });
     await pendingRun;
   });
   test('unresolved locate fires onUnresolved so the camera leaves the boot view', async () => {
     let unresolved = null;
-    const composer = createIncidentComposer({ document: makeDoc(), client: fakeClient({ candidates: [] }), onUnresolved: (info) => { unresolved = info; } });
+    const composer = createIncidentComposer({
+      document: makeDoc(),
+      client: fakeClient({ candidates: [] }),
+      onUnresolved: (info) => {
+        unresolved = info;
+      },
+    });
     await composer.submit('Atlantis Lost City');
     assert.equal(unresolved?.text, 'Atlantis Lost City');
     assert.equal(composer.element.getAttribute('data-state'), 'error');
@@ -1261,14 +1354,33 @@ describe('cycle 16: embedded-host feedback guarantees', () => {
   test('locate failure is a discreet retry notice; Retry resubmits the original text', async () => {
     const texts = [];
     let unresolved = 0;
-    const client = { async locate(text) { texts.push(text); if (texts.length === 1) throw new Error('HTTP 503 upstream'); return { candidates: [] }; } };
-    const composer = createIncidentComposer({ document: makeDoc(), client, onUnresolved: () => { unresolved += 1; } });
+    const client = {
+      async locate(text) {
+        texts.push(text);
+        if (texts.length === 1) throw new Error('HTTP 503 upstream');
+        return { candidates: [] };
+      },
+    };
+    const composer = createIncidentComposer({
+      document: makeDoc(),
+      client,
+      onUnresolved: () => {
+        unresolved += 1;
+      },
+    });
     await composer.submit('Dubai Marina');
-    const notice = composer.element.find((n) => n.dataset?.kind === 'retry-notice');
+    const notice = composer.element.find(
+      (n) => n.dataset?.kind === 'retry-notice',
+    );
     assert.equal(notice.length, 1);
-    assert.match(composer.element.text(), /Press Retry to resend “Dubai Marina”/);
+    assert.match(
+      composer.element.text(),
+      /Press Retry to resend “Dubai Marina”/,
+    );
     assert.equal(unresolved, 1);
-    const retry = composer.element.find((n) => n.id === 'incident-composer-retry')[0];
+    const retry = composer.element.find(
+      (n) => n.id === 'incident-composer-retry',
+    )[0];
     assert.equal(retry.hidden, false);
     composer.input.value = 'something else';
     retry.dispatch('click');
@@ -1277,32 +1389,55 @@ describe('cycle 16: embedded-host feedback guarantees', () => {
   });
 });
 
-
 test('production BUILD constructs a geographic scene for research text and carries recording scope', async () => {
-  const client = fakeClient({ candidates: [BURJ] }), delivered = [];
-  const composer = createIncidentComposer({ document: makeDoc(), client, buildResearchScene: true,
-    createGeographicScene: ({ candidate }) => ({ id: 'fixture-geographic', geographic: true, anchor: candidate }),
+  const client = fakeClient({ candidates: [BURJ] }),
+    delivered = [];
+  const composer = createIncidentComposer({
+    document: makeDoc(),
+    client,
+    buildResearchScene: true,
+    createGeographicScene: ({ candidate }) => ({
+      id: 'fixture-geographic',
+      geographic: true,
+      anchor: candidate,
+    }),
     onScene: async (payload) => delivered.push(payload),
   });
   await composer.submit('burj khalifa check if there is any incidents');
-  assert.equal(delivered.length, 1); assert.equal(delivered[0].selectedTime.windowHours, 1);
+  assert.equal(delivered.length, 1);
+  assert.equal(delivered[0].selectedTime.windowHours, 1);
   assert.equal(delivered[0].scene.geographic, true);
   assert.equal(client.calls.filter(([kind]) => kind === 'ingest').length, 0);
-  assert.ok(composer.element.find(n => n.id === 'incident-composer-play').length);
+  assert.ok(
+    composer.element.find((n) => n.id === 'incident-composer-play').length,
+  );
 });
 
 import { shortPlaceLabel, STEP_STATUS_TEXT } from './ui/composer.js';
 describe('cycle 22 composer status row', () => {
   test('shortPlaceLabel keeps only the first geocoder segment', () => {
-    assert.equal(shortPlaceLabel('American University Of Sharjah, Bobyan Street, Sharjah, United Arab Emirates'), 'American University of Sharjah');
+    assert.equal(
+      shortPlaceLabel(
+        'American University Of Sharjah, Bobyan Street, Sharjah, United Arab Emirates',
+      ),
+      'American University of Sharjah',
+    );
     assert.equal(shortPlaceLabel('Dubai Marina'), 'Dubai Marina');
     assert.equal(shortPlaceLabel(''), '');
   });
   test('one inline status label per step', () => {
-    assert.deepEqual(Object.keys(STEP_STATUS_TEXT), ['locating', 'verifying', 'building', 'searching']);
+    assert.deepEqual(Object.keys(STEP_STATUS_TEXT), [
+      'locating',
+      'verifying',
+      'building',
+      'searching',
+    ]);
   });
   test('built scene: short place + Play in one status row, never the long "Scene generated at" sentence', async () => {
-    const LONG = { ...MARINA, name: 'Dubai Marina, Marsa Dubai, Dubai, United Arab Emirates' };
+    const LONG = {
+      ...MARINA,
+      name: 'Dubai Marina, Marsa Dubai, Dubai, United Arab Emirates',
+    };
     const composer = createIncidentComposer({
       document: makeDoc(),
       client: fakeClient({ candidates: [LONG] }),
@@ -1312,12 +1447,22 @@ describe('cycle 22 composer status row', () => {
     await composer.submit(MARINA_QUERY);
     const text = composer.element.text();
     assert.doesNotMatch(text, /Scene generated at/);
-    const place = composer.element.find((n) => n.className === 'incident-composer__place')[0];
+    const place = composer.element.find(
+      (n) => n.className === 'incident-composer__place',
+    )[0];
     assert.equal(place.textContent, 'Dubai Marina');
     assert.equal(place.title, LONG.name);
-    const status = composer.element.find((n) => n.id === `${COMPOSER_ID}-status`)[0];
-    assert.ok(status.find((n) => n.id === `${COMPOSER_ID}-play`).length === 1, 'Play lives in the status row');
-    assert.ok(status.find((n) => n.id === `${COMPOSER_ID}-evidence-slot`).length === 1, 'evidence chip slot shares the row');
+    const status = composer.element.find(
+      (n) => n.id === `${COMPOSER_ID}-status`,
+    )[0];
+    assert.ok(
+      status.find((n) => n.id === `${COMPOSER_ID}-play`).length === 1,
+      'Play lives in the status row',
+    );
+    assert.ok(
+      status.find((n) => n.id === `${COMPOSER_ID}-evidence-slot`).length === 1,
+      'evidence chip slot shares the row',
+    );
   });
 });
 
@@ -1349,7 +1494,11 @@ describe('cycle 23: composer Play is a real transport control', () => {
     assert.match(play().getAttribute('aria-label'), /^Pause scene/);
     play().dispatch('click');
     await tick(5);
-    assert.deepEqual(controls, ['pause'], 'second press pauses instead of a rejected replay');
+    assert.deepEqual(
+      controls,
+      ['pause'],
+      'second press pauses instead of a rejected replay',
+    );
     composer.setPlaybackState('paused');
     assert.match(play().getAttribute('aria-label'), /^Resume scene/);
     play().dispatch('click');
@@ -1365,11 +1514,465 @@ describe('cycle 23: composer Play is a real transport control', () => {
       document: makeDoc(),
       client,
       createGeographicScene: async (input) => geographicScene(input),
-      onScene: async (payload) => (payload.play ? { started: false, reason: 'camera-unavailable' } : undefined),
+      onScene: async (payload) =>
+        payload.play
+          ? { started: false, reason: 'camera-unavailable' }
+          : undefined,
     });
     await composer.submit(MARINA_QUERY);
     button(composer, 'play').dispatch('click');
     await tick(20);
     assert.equal(composer.element.getAttribute('data-state'), 'error');
+  });
+});
+
+// Lifecycle fixtures are deterministic; these assertions do not claim live-provider evidence.
+function field(composer, id) {
+  const found = composer.element.find(
+    (n) => n.id === `incident-composer-${id}`,
+  );
+  assert.equal(found.length, 1);
+  return found[0];
+}
+function typePrompt(composer, text) {
+  composer.input.value = text;
+  composer.input.dispatch('input');
+}
+
+describe('prompt input lifecycle', () => {
+  test('typing an initial place acknowledges immediately and builds after 300 ms without touching hours', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const client = fakeClient({ candidates: [BURJ] });
+    const delivered = [];
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client,
+      createGeographicScene: geographicScene,
+      onScene: (p) => delivered.push(p),
+    });
+    typePrompt(c, 'Burj Khalifa');
+    assert.equal(c.element.getAttribute('data-state'), 'busy');
+    assert.equal(c.state.busy, true);
+    assert.match(c.element.text(), /Preparing your scene prompt/);
+    assert.equal(Number(c.element.dataset.promptRevision), 1);
+    assert.equal(client.calls.length, 0);
+    t.mock.timers.tick(299);
+    await tick();
+    assert.equal(client.calls.length, 0);
+    t.mock.timers.tick(1);
+    await tick(40);
+    assert.deepEqual(
+      client.calls.map(([kind]) => kind),
+      ['locate'],
+    );
+    assert.equal(delivered.length, 1);
+    assert.equal(c.state.lastScene.anchor.name, 'Burj Khalifa');
+    assert.equal(c.element.getAttribute('data-state'), 'done');
+    assert.equal(c.input.value, 'Burj Khalifa');
+    assert.equal(delivered[0].revision, c.state.promptRevision);
+    assert.equal(delivered[0].signal.aborted, false);
+    c.destroy();
+  });
+
+  test('an input event immediately aborts a pending locate, before debounce, and discards its late result', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const old = deferred(),
+      calls = [],
+      built = [];
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: {
+        locate(text, options) {
+          calls.push({ text, ...options });
+          return calls.length === 1
+            ? old.promise
+            : Promise.resolve({ candidates: [BURJ] });
+        },
+      },
+      createGeographicScene(p) {
+        built.push(p);
+        return geographicScene(p);
+      },
+    });
+    const first = c.submit('Dubai Marina');
+    const previous = c.state.promptRevision;
+    typePrompt(c, 'Burj Khalifa');
+    assert.equal(
+      calls[0].signal.aborted,
+      true,
+      'abort occurs in input handler, not at timer expiry',
+    );
+    assert.ok(c.state.promptRevision > previous);
+    assert.equal(calls.length, 1);
+    old.resolve({ candidates: [MARINA] });
+    assert.equal(await first, null);
+    assert.equal(c.element.getAttribute('data-state'), 'busy');
+    assert.deepEqual(c.state.candidates, []);
+    assert.equal(built.length, 0);
+    t.mock.timers.tick(300);
+    await tick(40);
+    assert.equal(calls.length, 2);
+    assert.equal(built.length, 1);
+    assert.equal(c.state.lastScene.anchor.name, 'Burj Khalifa');
+    c.destroy();
+  });
+
+  test('bursts debounce to the latest text and Cancel also cancels a not-yet-started request', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const client = fakeClient({ candidates: [MARINA] });
+    const c = createIncidentComposer({ document: makeDoc(), client });
+    typePrompt(c, 'Burj');
+    t.mock.timers.tick(200);
+    typePrompt(c, 'Dubai Marina');
+    t.mock.timers.tick(299);
+    await tick();
+    assert.equal(client.calls.length, 0);
+    assert.equal(c.cancel(), true);
+    t.mock.timers.tick(1000);
+    await tick();
+    assert.equal(client.calls.length, 0);
+    assert.equal(c.element.getAttribute('data-state'), 'cancelled');
+    button(c, 'retry').dispatch('click');
+    await tick(40);
+    assert.equal(client.calls[0][1], 'Dubai Marina');
+    assert.equal(c.element.getAttribute('data-state'), 'done');
+    c.destroy();
+  });
+
+  for (const modifier of ['ctrlKey', 'metaKey']) {
+    test(`Enter remains a newline; ${modifier}+Enter flushes one multiline submission`, async (t) => {
+      t.mock.timers.enable({ apis: ['setTimeout'] });
+      const client = fakeClient({ candidates: [BURJ] });
+      const c = createIncidentComposer({ document: makeDoc(), client });
+      const text =
+        'Create a slow aerial scene around Burj Khalifa.\nShow the surrounding skyline.';
+      typePrompt(c, text);
+      let prevented = 0;
+      c.input.dispatch('keydown', {
+        key: 'Enter',
+        preventDefault() {
+          prevented++;
+        },
+      });
+      assert.equal(prevented, 0);
+      assert.equal(client.calls.length, 0);
+      c.input.dispatch('keydown', {
+        key: 'Enter',
+        [modifier]: true,
+        preventDefault() {
+          prevented++;
+        },
+      });
+      await tick(40);
+      assert.equal(prevented, 1);
+      assert.equal(client.calls[0][1], text);
+      assert.equal(c.input.value, text);
+      t.mock.timers.tick(500);
+      await tick();
+      assert.equal(
+        client.calls.length,
+        1,
+        'keyboard submission cleared the debounce',
+      );
+      c.destroy();
+    });
+  }
+
+  test('unresolved template slots never reach a provider through typing or explicit submit', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const client = fakeClient();
+    const c = createIncidentComposer({ document: makeDoc(), client });
+    for (const slot of ['{{location}}', '[LOCATION]', '<location>']) {
+      const text = `Create an aerial scene around ${slot}`;
+      assert.deepEqual(unresolvedPromptTokens(text), [slot]);
+      typePrompt(c, text);
+      assert.equal(c.element.getAttribute('data-state'), 'unresolved');
+      assert.match(c.element.text(), /Replace the prompt placeholders/);
+      assert.equal(c.state.busy, false);
+      t.mock.timers.tick(400);
+      const result = await c.submit(text);
+      assert.equal(result.plan.kind, 'unresolved');
+      assert.deepEqual(result.plan.placeholders, [slot]);
+    }
+    assert.equal(client.calls.length, 0);
+    assertNoPlay(c);
+    c.destroy();
+  });
+
+  test('clearing the prompt or replacing it with a greeting invalidates old work without another request', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const wait = deferred();
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: { locate: () => wait.promise },
+    });
+    const first = c.submit('Dubai Marina');
+    const signal = c.state.abort.signal;
+    typePrompt(c, '');
+    assert.equal(signal.aborted, true);
+    assert.equal(c.state.busy, false);
+    assert.equal(c.element.getAttribute('data-state'), 'hint');
+    typePrompt(c, 'hi');
+    assert.equal(c.element.getAttribute('data-state'), 'hint');
+    t.mock.timers.tick(500);
+    wait.resolve({ candidates: [MARINA] });
+    assert.equal(await first, null);
+    assertNoPlay(c);
+    c.destroy();
+  });
+
+  test('restorePrompt cancels pending work and restores multiline text and scope without generating', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const client = fakeClient({ candidates: [BURJ] });
+    const c = createIncidentComposer({ document: makeDoc(), client });
+    typePrompt(c, 'Burj Khalifa');
+    const revision = c.state.promptRevision;
+    const text = 'Dubai Marina\nA slow waterfront orbit';
+    c.restorePrompt(text, {
+      selectedTime: { windowHours: 6, timeMode: 'recent' },
+    });
+    t.mock.timers.tick(1000);
+    await tick();
+    assert.equal(c.input.value, text);
+    assert.equal(field(c, 'window').value, '6');
+    assert.equal(c.element.getAttribute('data-state'), 'idle');
+    assert.ok(c.state.promptRevision > revision);
+    assert.equal(client.calls.length, 0);
+    c.destroy();
+  });
+
+  test('destroy clears the debounce as well as aborting requests', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const client = fakeClient();
+    const c = createIncidentComposer({ document: makeDoc(), client });
+    typePrompt(c, 'Burj Khalifa');
+    c.destroy();
+    t.mock.timers.tick(1000);
+    await tick();
+    assert.equal(client.calls.length, 0);
+    assert.equal(await c.submit('Dubai Marina'), null);
+  });
+});
+
+describe('async adapter ownership and recording-window isolation', () => {
+  test('all scene adapters get signal/revision and an injected planner rejection never uses the legacy fallback', async () => {
+    const client = fakeClient({ candidates: [MARINA] });
+    let request;
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client,
+      createGeographicScene(p) {
+        request = p;
+        return Promise.reject(new Error('validated plan rejected'));
+      },
+      onScene() {
+        assert.fail('rejected planner cannot play a fixed scene');
+      },
+    });
+    assert.equal(await c.submit(MARINA_QUERY), null);
+    assert.equal(request.revision, c.state.promptRevision);
+    assert.equal(request.generation, c.state.generation);
+    assert.equal(request.signal, c.state.abort.signal);
+    assert.match(c.element.text(), /validated plan rejected/);
+    assert.equal(c.element.getAttribute('data-state'), 'error');
+    assertNoPlay(c);
+    c.destroy();
+  });
+
+  test('stale onLocated completion cannot start search after a newer input', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const gate = deferred(),
+      calls = [],
+      client = fakeClient({ candidates: [MARINA] });
+    client.search = () => assert.fail('stale onLocated must not start search');
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client,
+      onLocated(p) {
+        calls.push(p);
+        return gate.promise;
+      },
+    });
+    const first = c.submit('check for incidents near Dubai Marina');
+    await tick(20);
+    assert.equal(calls.length, 1);
+    typePrompt(c, 'Burj Khalifa');
+    assert.equal(calls[0].signal.aborted, true);
+    assert.ok(calls[0].revision < c.state.promptRevision);
+    gate.resolve();
+    assert.equal(await first, null);
+    assert.equal(c.element.getAttribute('data-state'), 'busy');
+    c.destroy();
+  });
+
+  for (const stalled of ['planner', 'apply', 'play']) {
+    test(`a stale ${stalled} callback finishing out of order cannot replace the newer scene`, async () => {
+      const gate = deferred(),
+        captured = [];
+      const client = {
+        locate: async (text) => ({
+          candidates: [text === 'Dubai Marina' ? MARINA : BURJ],
+        }),
+      };
+      const c = createIncidentComposer({
+        document: makeDoc(),
+        client,
+        createGeographicScene(p) {
+          if (stalled === 'planner' && p.text === 'Dubai Marina') {
+            captured.push(p);
+            return gate.promise;
+          }
+          return geographicScene(p);
+        },
+        onScene(p) {
+          if (
+            p.text === 'Dubai Marina' &&
+            ((stalled === 'apply' && !p.play) || (stalled === 'play' && p.play))
+          ) {
+            captured.push(p);
+            return gate.promise;
+          }
+        },
+      });
+      let first = c.submit('Dubai Marina');
+      if (stalled === 'play') {
+        await first;
+        button(c, 'play').dispatch('click');
+      }
+      await tick(20);
+      assert.equal(captured.length, 1);
+      const next = await c.submit('Burj Khalifa');
+      assert.equal(captured[0].signal.aborted, true);
+      assert.ok(captured[0].revision < c.state.promptRevision);
+      gate.resolve(
+        stalled === 'planner'
+          ? geographicScene({ candidate: MARINA })
+          : { started: true },
+      );
+      if (stalled !== 'play') assert.equal(await first, null);
+      await tick(20);
+      assert.equal(c.state.lastScene, next.scene);
+      assert.equal(c.element.getAttribute('data-state'), 'done');
+      assert.match(
+        button(c, 'play').getAttribute('aria-label'),
+        /Burj Khalifa/,
+      );
+      c.destroy();
+    });
+  }
+
+  test('hours without a scene do not locate/build; existing-scene updates use only the injected callback', async () => {
+    const client = fakeClient({ candidates: [BURJ] }),
+      updates = [],
+      built = [];
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client,
+      createGeographicScene(p) {
+        built.push(p);
+        return geographicScene(p);
+      },
+      onTimeChange(p) {
+        updates.push(p);
+      },
+    });
+    c.input.value = 'Burj Khalifa';
+    field(c, 'window').value = '6';
+    field(c, 'window').dispatch('change');
+    await tick(20);
+    assert.equal(client.calls.length, 0);
+    assert.equal(c.element.getAttribute('data-state'), 'idle');
+    const out = await c.submit(c.input.value);
+    field(c, 'window').value = '24';
+    field(c, 'window').dispatch('change');
+    await tick(40);
+    assert.equal(client.calls.length, 1);
+    assert.equal(built.length, 1);
+    assert.equal(updates.length, 1);
+    assert.equal(updates[0].scene, out.scene);
+    assert.equal(updates[0].selectedTime.windowHours, 24);
+    assert.equal(updates[0].text, 'Burj Khalifa');
+    assert.equal(updates[0].signal.aborted, false);
+    assert.equal(updates[0].revision, c.state.promptRevision);
+    assert.equal(c.state.lastScene, out.scene);
+    assert.equal(c.state.extraction.windowHours, 24);
+    assert.equal(c.element.getAttribute('data-state'), 'done');
+    c.destroy();
+  });
+
+  test('historical ranges validate locally and preserve scene identity', async () => {
+    const updates = [];
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: fakeClient({ candidates: [BURJ] }),
+      onTimeChange: (p) => updates.push(p),
+    });
+    const out = await c.submit('Burj Khalifa');
+    field(c, 'window').value = 'historical';
+    field(c, 'window').dispatch('change');
+    await tick();
+    assert.equal(updates.length, 0);
+    assert.equal(c.element.getAttribute('data-state'), 'error');
+    field(c, 'from').value = '2020-01-01T00:00';
+    field(c, 'to').value = '2020-01-02T00:00';
+    field(c, 'to').dispatch('change');
+    await tick(40);
+    assert.equal(updates.length, 1);
+    assert.deepEqual(updates[0].selectedTime, {
+      timeMode: 'historical',
+      windowHours: 1,
+      windowStart: '2020-01-01T00:00:00Z',
+      windowEnd: '2020-01-02T00:00:00Z',
+    });
+    assert.equal(c.state.lastScene, out.scene);
+    c.destroy();
+  });
+
+  test('time updates have independent abort ownership and stale completions cannot repaint a newer prompt', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const waits = [deferred(), deferred()],
+      updates = [];
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: fakeClient({ candidates: [BURJ] }),
+      onTimeChange(p) {
+        const index = updates.length;
+        updates.push(p);
+        return waits[index].promise;
+      },
+    });
+    await c.submit('Burj Khalifa');
+    field(c, 'window').value = '6';
+    field(c, 'window').dispatch('change');
+    field(c, 'window').value = '24';
+    field(c, 'window').dispatch('change');
+    assert.equal(updates[0].signal.aborted, true);
+    assert.equal(updates[1].signal.aborted, false);
+    waits[1].resolve();
+    await tick(40);
+    assert.equal(c.state.extraction.windowHours, 24);
+    typePrompt(c, 'Dubai Marina');
+    assert.equal(updates[1].signal.aborted, true);
+    waits[0].resolve();
+    await tick(40);
+    assert.equal(c.element.getAttribute('data-state'), 'busy');
+    assert.equal(c.state.lastScene, null);
+    assert.equal(c.state.text, 'Dubai Marina');
+    c.destroy();
+  });
+
+  test('changing hours during debounce preserves the pending prompt, never starts it early', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const client = fakeClient({ candidates: [BURJ] });
+    const c = createIncidentComposer({ document: makeDoc(), client });
+    typePrompt(c, 'Burj Khalifa');
+    field(c, 'window').value = '6';
+    field(c, 'window').dispatch('change');
+    assert.equal(client.calls.length, 0);
+    t.mock.timers.tick(300);
+    await tick(40);
+    assert.equal(client.calls.length, 1);
+    assert.equal(c.state.extraction.windowHours, 6);
+    c.destroy();
   });
 });

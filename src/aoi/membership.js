@@ -250,6 +250,7 @@ export function createAoiIndex(config, { groups } = {}) {
       verified: entry.verified !== false,
       confidence: Math.round(score * 100) / 100,
       source: 'gazetteer',
+      ...(entry.sourceUrl ? { sourceUrl: entry.sourceUrl } : {}),
     }));
   }
 

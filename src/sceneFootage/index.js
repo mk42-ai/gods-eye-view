@@ -40,11 +40,16 @@ export function installSceneFootage({
   });
   (doc.body || doc.documentElement).appendChild(panel.element);
   const triggers = [];
+  let promptDerivedActive = false;
   controller.subscribe((st) =>
     doc.body?.classList?.toggle('sfp-open', Boolean(st.scene)),
   );
 
   function open(detail, trigger) {
+    // A prompt scene uses only its scoped YouTube/TikTok/Instagram evidence.
+    // Moving its camera must not silently start unrelated Snapchat discovery.
+    if (promptDerivedActive && !['explicit', 'api'].includes(trigger))
+      return null;
     const lat = Number.isFinite(detail?.lat) ? detail.lat : detail?.anchor?.lat;
     const lon = Number.isFinite(detail?.lon) ? detail.lon : detail?.anchor?.lon;
     if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
@@ -91,17 +96,34 @@ export function installSceneFootage({
     return controller.open(scene, { trigger, force: Boolean(detail.force) });
   }
 
-  const onEvidence = (e) =>
-    void open(
-      e?.detail || {},
-      e?.detail?.preferCache ? 'scene-reopen' : 'scene-open',
-    );
-  const onExplicit = (e) =>
+  const onPromptStart = () => {
+    promptDerivedActive = true;
+    controller.close();
+  };
+  const onEvidence = (e) => {
+    if (e?.detail?.promptDerived) {
+      onPromptStart();
+      return;
+    }
+    if (!promptDerivedActive)
+      void open(
+        e?.detail || {},
+        e?.detail?.preferCache ? 'scene-reopen' : 'scene-open',
+      );
+  };
+  const onExplicit = (e) => {
+    promptDerivedActive = false;
     void open(e?.detail || {}, e?.detail?.trigger || 'explicit');
-  const onExternal = () => controller.close();
+  };
+  const onExternal = () => {
+    promptDerivedActive = true;
+    controller.close();
+  };
   win?.addEventListener?.('gev:scene-evidence', onEvidence);
   win?.addEventListener?.(SCENE_FOOTAGE_EVENT, onExplicit);
   win?.addEventListener?.('gev:incident-external', onExternal);
+  win?.addEventListener?.('gev:incident-command-started', onPromptStart);
+  win?.addEventListener?.('gev:incident-command-cancelled', onPromptStart);
 
   let handler = null,
     removeMoveEnd = null,
@@ -171,6 +193,7 @@ export function installSceneFootage({
       const s = controller.state;
       return {
         phase: s.phase,
+        promptDerivedSuppressed: promptDerivedActive,
         locationId: s.locationId,
         generation: s.generation,
         selectedId: s.selectedId,
@@ -199,6 +222,11 @@ export function installSceneFootage({
       win?.removeEventListener?.('gev:scene-evidence', onEvidence);
       win?.removeEventListener?.(SCENE_FOOTAGE_EVENT, onExplicit);
       win?.removeEventListener?.('gev:incident-external', onExternal);
+      win?.removeEventListener?.('gev:incident-command-started', onPromptStart);
+      win?.removeEventListener?.(
+        'gev:incident-command-cancelled',
+        onPromptStart,
+      );
       handler?.destroy?.();
       removeMoveEnd?.();
       clearTimeout(moveTimer);

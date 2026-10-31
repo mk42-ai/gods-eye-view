@@ -6,7 +6,7 @@
   "framework": null,
   "functions": {
     "api/*.js": {
-      "maxDuration": 60,
+      "maxDuration": 300,
       "includeFiles": "{config/**,data/**,src/data/local_data/cctv_ground_heights/**}"
     },
     "api/ondemand/*.js": {
