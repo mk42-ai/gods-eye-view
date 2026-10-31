@@ -10,6 +10,14 @@ const SCHEMA = 'gev-geographic-scene';
 const EARTH_RADIUS_M = 6371008.8;
 const MAX_SCENES = 100;
 const MAX_STORAGE_CHARS = 1_000_000;
+const PRECISIONS = Object.freeze([
+  'exact',
+  'address',
+  'research-sourced',
+  'district',
+  'city',
+  'estimate',
+]);
 
 /**
  * @typedef {Object} GeographicCandidate
@@ -148,12 +156,19 @@ function destination(lat, lon, distanceM, bearing) {
 export function buildGeographicScene(input = {}) {
   if (input.plan != null) return buildPlannedScene(input);
   const { candidate, now = 0 } = input;
+  // A server-resolved anchor (research + OpenStreetMap, possibly approximate)
+  // is accepted ONLY for structured plans (input.resolvedAnchor), and is
+  // labelled as such in provenance; the legacy builder still needs a verified
+  // geocoder candidate.
+  const resolved =
+    input.resolvedAnchor === true && candidate?.resolvedBy === 'scene-planner';
   if (
     !candidate ||
-    (candidate.verified !== true && candidate.validated !== true) ||
-    candidate.verified === false ||
-    candidate.validated === false ||
-    candidate.source === 'ondemand-entity-extraction'
+    (!resolved &&
+      ((candidate.verified !== true && candidate.validated !== true) ||
+        candidate.verified === false ||
+        candidate.validated === false ||
+        candidate.source === 'ondemand-entity-extraction'))
   )
     throw new TypeError('a verified geocoder candidate is required');
   if (!coordinate(candidate.lat, 90) || !coordinate(candidate.lon, 180))
@@ -247,10 +262,19 @@ export function buildGeographicScene(input = {}) {
     aoiRadiusM: 1200,
     confidence: 'unverified',
     provenance: {
-      kind: 'geocoder',
+      kind: resolved ? 'resolved-location' : 'geocoder',
       source,
       confidence: locationConfidence,
-      verified: true,
+      verified: resolved ? candidate.approximate !== true : true,
+      ...(resolved
+        ? {
+            resolvedBy: 'scene-planner',
+            approximate: candidate.approximate === true,
+            ...(PRECISIONS.includes(candidate.precision)
+              ? { precision: candidate.precision }
+              : {}),
+          }
+        : {}),
       incidentConfirmed: false,
       ...(typeof candidate.sourceUrl === 'string' &&
       /^https:\/\/(www\.)?(openstreetmap\.org|nominatim\.openstreetmap\.org)\//.test(
@@ -425,6 +449,7 @@ export function buildPlannedScene({
   originalPrompt,
   selectedTime = null,
   geometry = null,
+  locationResolution = null,
   now = 0,
 } = {}) {
   const plan = validatedPlan(inputPlan);
@@ -432,7 +457,11 @@ export function buildPlannedScene({
     geometry == null
       ? null
       : validateSceneGeometry(geometry, { anchor: plan.location });
-  const base = buildGeographicScene({ candidate, now });
+  const base = buildGeographicScene({
+    candidate,
+    now,
+    resolvedAnchor: candidate?.resolvedBy === 'scene-planner',
+  });
   if (
     plan.location.name !== base.anchor.name ||
     (plan.location.sourceUrl &&
@@ -548,7 +577,9 @@ export function buildPlannedScene({
     illustrative: true,
     anchor: { ...base.anchor },
     summary:
-      'Illustrative staging on a verified geographic anchor; not a confirmed incident. ' +
+      (base.provenance.approximate
+        ? 'Illustrative staging on an APPROXIMATE researched location; not a confirmed incident. '
+        : 'Illustrative staging on a verified geographic anchor; not a confirmed incident. ') +
       'People, vehicles, barriers, relationships and narration are authored illustrations, not observed facts.',
     aoiRadiusM: Math.max(
       100,
@@ -572,6 +603,11 @@ export function buildPlannedScene({
     narrationConfig: { enabled: false },
     // Research-grounded map geometry (validated); null = none researched.
     geometry: groundedGeometry,
+    // How the anchor was resolved (precision, confidence, sources, branches).
+    locationResolution:
+      locationResolution == null
+        ? null
+        : locationResolutionSnapshot(locationResolution),
   };
 }
 
@@ -715,13 +751,85 @@ const SESSION_FIELDS = [
   'hashSnapshot',
   'narrationConfig',
   'geometry',
+  'locationResolution',
 ];
+/** Bounded, validated copy of the server's location-resolution record. */
+function locationResolutionSnapshot(raw) {
+  const v = cloneData(raw);
+  if (!v || typeof v !== 'object' || Array.isArray(v))
+    throw new TypeError('invalid location resolution');
+  const num = (x, lim) =>
+    x === null || x === undefined
+      ? null
+      : coordinate(x, lim)
+        ? x
+        : (() => {
+            throw new TypeError('invalid location resolution coordinate');
+          })();
+  const out = {
+    method: label(v.method, 80) || 'unknown',
+    precision: PRECISIONS.includes(v.precision) ? v.precision : 'estimate',
+    precisionText: label(v.precisionText, 200),
+    approximate: v.approximate === true,
+    confidence:
+      typeof v.confidence === 'number' && v.confidence >= 0 && v.confidence <= 1
+        ? v.confidence
+        : 0,
+    name: label(v.name, 300),
+    lat: num(v.lat, 90),
+    lon: num(v.lon, 180),
+    geocoder: label(v.geocoder, 200),
+    sourceCount: Number.isInteger(v.sourceCount)
+      ? Math.min(v.sourceCount, 99)
+      : 0,
+  };
+  for (const key of ['address', 'matchedName', 'city'])
+    if (typeof v[key] === 'string') out[key] = label(v[key], 300);
+  if (typeof v.geocoderUrl === 'string')
+    out.geocoderUrl = safeUrl(v.geocoderUrl);
+  out.citations = citations(
+    (Array.isArray(v.citations) ? v.citations : [])
+      .slice(0, 12)
+      .map((c) => ({
+        url: c.url,
+        ...(c.title ? { title: String(c.title).slice(0, 300) } : {}),
+      })),
+  );
+  out.alternatives = (Array.isArray(v.alternatives) ? v.alternatives : [])
+    .slice(0, 6)
+    .map((a) => ({
+      name: label(a?.name, 300),
+      lat: num(a?.lat, 90),
+      lon: num(a?.lon, 180),
+      precision: PRECISIONS.includes(a?.precision) ? a.precision : null,
+      confidence:
+        typeof a?.confidence === 'number' &&
+        a.confidence >= 0 &&
+        a.confidence <= 1
+          ? a.confidence
+          : 0,
+      ...(typeof a?.address === 'string'
+        ? { address: label(a.address, 300) }
+        : {}),
+      citations: citations(
+        (Array.isArray(a?.citations) ? a.citations : [])
+          .slice(0, 3)
+          .map((c) => ({
+            url: c.url,
+            ...(c.title ? { title: String(c.title).slice(0, 300) } : {}),
+          })),
+      ),
+    }));
+  return out;
+}
 function sessionSnapshot(raw) {
   const out = {};
   for (const field of SESSION_FIELDS) {
     if (!Object.hasOwn(raw, field)) continue;
     const value = raw[field];
-    if (field === 'geometry')
+    if (field === 'locationResolution')
+      out[field] = value == null ? null : locationResolutionSnapshot(value);
+    else if (field === 'geometry')
       out[field] =
         value == null
           ? null
@@ -976,6 +1084,13 @@ function snapshot(raw, { stored = false } = {}) {
       aoi: raw.aoi,
       sourceUrl: raw.provenance?.sourceUrl,
       observedAt: raw.provenance?.observedAt,
+      ...(raw.provenance?.resolvedBy === 'scene-planner'
+        ? {
+            resolvedBy: 'scene-planner',
+            approximate: raw.provenance.approximate === true,
+            precision: raw.provenance.precision,
+          }
+        : {}),
     },
     text: raw.refinedPrompt,
     originalPrompt: raw.originalPrompt,

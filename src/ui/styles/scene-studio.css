@@ -208,6 +208,39 @@
 .scene-geometry-legend__status {
   color: #9fe7de;
 }
+.scene-location-badge {
+  margin: 6px 0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(79, 209, 197, 0.45);
+  background: rgba(79, 209, 197, 0.08);
+}
+.scene-location-badge--approximate {
+  border-color: rgba(255, 207, 138, 0.7);
+  background: rgba(255, 207, 138, 0.1);
+}
+.scene-location-badge__title {
+  display: block;
+  font-size: 12px;
+  color: #e8f5f3;
+}
+.scene-location-badge--approximate .scene-location-badge__title {
+  color: #ffcf8a;
+}
+.scene-location-badge__detail,
+.scene-location-badge__alt-head,
+.scene-location-badge__alternatives {
+  margin: 3px 0 0;
+  font-size: 11px;
+  color: #c9d6d9;
+  overflow-wrap: anywhere;
+}
+.scene-location-badge__alt-head {
+  color: #9fb1b5;
+}
+.scene-location-badge__alternatives {
+  padding-left: 16px;
+}
 .scene-geometry-legend[data-status='empty'] .scene-geometry-legend__status,
 .scene-geometry-legend[data-status='unavailable']
   .scene-geometry-legend__status {

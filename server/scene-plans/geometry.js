@@ -22,8 +22,11 @@ import {
 import { validatePublicUrl } from '../../src/scenes/structuredPlan.js';
 import { parseProviderJson } from './transport.js';
 import { PERPLEXITY_PLUGIN_ID } from './research.js';
+import { namesMatch } from './location.js';
 
 const NOMINATIM = 'https://nominatim.openstreetmap.org/search';
+const NOMINATIM_LOOKUP = 'https://nominatim.openstreetmap.org/lookup';
+const PHOTON = 'https://photon.komoot.io/api/';
 const OSRM = 'https://routing.openstreetmap.de/routed-car/route/v1/driving';
 const UA = {
   'User-Agent':
@@ -124,13 +127,92 @@ export function createGeometryResearch({
   transport,
   fetchImpl = (...args) => globalThis.fetch(...args),
   nominatimSpacingMs = 1100,
+  usePhoton = true,
   now = Date.now,
   ttlMs = 600000,
   maxEntries = 48,
 } = {}) {
   const cache = new Map();
 
-  async function geocode(query, anchor, { polygon = false, signal } = {}) {
+  /**
+   * Photon (OpenStreetMap) fallback for names Nominatim's exact matcher misses
+   * (transliteration drift such as Fotouh ↔ Foutouh). Only a hit whose name
+   * matches the query's distinctive words is accepted; polygons are fetched by
+   * OSM id from Nominatim lookup.
+   */
+  async function photonGeocode(
+    query,
+    anchor,
+    { polygon = false, signal } = {},
+  ) {
+    const params = new URLSearchParams({
+      q: query.slice(0, 200),
+      limit: '5',
+      lat: String(anchor.lat),
+      lon: String(anchor.lon),
+    });
+    const data = await getJson(fetchImpl, `${PHOTON}?${params}`, { signal });
+    const head = query.split(',')[0];
+    const f = (Array.isArray(data?.features) ? data.features : []).find((x) => {
+      const [lon, lat] = x?.geometry?.coordinates || [];
+      return (
+        Number.isFinite(lat) &&
+        Number.isFinite(lon) &&
+        haversineKm(anchor, { lat, lon }) <= MAX_FEATURE_DISTANCE_KM &&
+        // Symmetric: the hit must not be a different place that merely
+        // contains the query words (e.g. "Mercedes-Benz Airport Road").
+        namesMatch(x?.properties?.name || '', head) &&
+        namesMatch(head, x?.properties?.name || '')
+      );
+    });
+    if (!f) return null;
+    const [lon, lat] = f.geometry.coordinates;
+    const type = { N: 'node', W: 'way', R: 'relation' }[f.properties.osm_type];
+    const hit = {
+      lat: String(lat),
+      lon: String(lon),
+      name: f.properties.name,
+      ...(type ? { osm_type: type, osm_id: f.properties.osm_id } : {}),
+    };
+    if (polygon && type && type !== 'node') {
+      try {
+        const rows = await paced(
+          () =>
+            getJson(
+              fetchImpl,
+              `${NOMINATIM_LOOKUP}?${new URLSearchParams({ osm_ids: `${f.properties.osm_type}${f.properties.osm_id}`, format: 'jsonv2', polygon_geojson: '1', polygon_threshold: '0.0002' })}`,
+              { signal },
+            ),
+          nominatimSpacingMs,
+        );
+        if (Array.isArray(rows) && rows[0]?.geojson)
+          hit.geojson = rows[0].geojson;
+      } catch {
+        /* point only */
+      }
+    }
+    return { lat, lon, hit, provider: 'OpenStreetMap Photon (komoot)' };
+  }
+
+  async function geocode(query, anchor, options = {}) {
+    const found = await nominatimGeocode(query, anchor, options).catch(
+      (error) => {
+        if (options.signal?.aborted) throw error;
+        return null;
+      },
+    );
+    if (found || !usePhoton) return found;
+    return photonGeocode(query, anchor, options).catch((error) => {
+      if (options.signal?.aborted) throw error;
+      return null;
+    });
+  }
+
+  async function nominatimGeocode(
+    query,
+    anchor,
+    { polygon = false, signal } = {},
+  ) {
     const d = 0.6;
     const params = new URLSearchParams({
       format: 'jsonv2',
@@ -334,7 +416,7 @@ export function createGeometryResearch({
           continue;
         }
         const provenance = {
-          source: 'OpenStreetMap Nominatim geocoder',
+          source: hit.provider || 'OpenStreetMap Nominatim geocoder',
           ...(osmUrl(hit.hit) ? { url: osmUrl(hit.hit) } : {}),
           licence: OSM_LICENCE,
           query,
@@ -412,12 +494,7 @@ export function createGeometryResearch({
     );
   }
 
-  return async function researchGeometry({
-    prompt,
-    candidate,
-    selectedTime,
-    signal,
-  }) {
+  async function researchGeometry({ prompt, candidate, selectedTime, signal }) {
     const anchor = { lat: candidate.lat, lon: candidate.lon };
     const key = createHash('sha256')
       .update(
@@ -443,6 +520,7 @@ export function createGeometryResearch({
           signal,
           fulfillmentPrompt:
             'You are a geographic research assistant. Ground claims in the Perplexity tool; return strict JSON only; never output coordinates.',
+          timeoutMs: 170000,
         },
       );
       return ground(parseProviderJson(response.answer), anchor, { signal });
@@ -455,7 +533,12 @@ export function createGeometryResearch({
       if (cache.get(key)?.promise === promise) cache.delete(key);
       throw error;
     }
-  };
+  }
+  // Ground features an earlier research step already returned (the unified
+  // location-research JSON), without a second Perplexity round-trip.
+  researchGeometry.ground = (data, anchor, options) =>
+    ground(data, anchor, options);
+  return researchGeometry;
 }
 
 /** Explicit, non-fabricated state when research could not run. */

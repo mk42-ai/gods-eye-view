@@ -135,9 +135,13 @@ export function createChatTransport({
         fulfillmentOnly = false,
         fulfillmentPrompt,
         signal,
+        endpointId: endpointOverride,
+        reasoningEffort,
+        timeoutMs,
       } = {},
     ) {
-      const endpointId = getSettings().fulfillmentEndpointId;
+      const endpointId =
+        endpointOverride || getSettings().fulfillmentEndpointId;
       if (!endpointId)
         throw new SceneServiceError(
           503,
@@ -152,12 +156,18 @@ export function createChatTransport({
           responseMode: 'sync',
           pluginIds,
           fulfillmentOnly,
+          ...(reasoningEffort ? { reasoningEffort } : {}),
           modelConfigs: {
             temperature: 0.2,
             ...(fulfillmentPrompt ? { fulfillmentPrompt } : {}),
           },
         },
         signal,
+        // Perplexity RAG alone can take 60–110 s; research callers may extend
+        // the per-request bound (still inside the 300 s function limit).
+        Number.isFinite(timeoutMs) && timeoutMs > 0
+          ? Math.min(timeoutMs, 200000)
+          : undefined,
       );
       let data = result?.data;
       const messageId = data?.messageId;
@@ -242,6 +252,8 @@ export function createChatTransport({
         );
       return {
         answer: data.answer,
+        endpointId,
+        ...(reasoningEffort ? { reasoningEffort } : {}),
         sessionId: session.id,
         messageId:
           typeof data.messageId === 'string'

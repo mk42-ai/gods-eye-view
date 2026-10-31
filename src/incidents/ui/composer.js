@@ -735,6 +735,25 @@ export function createIncidentComposer({
     }
     if (!scene) throw new Error('No scene could be built from this request.');
     checkCurrent(run);
+    // Server-resolved (research-first) anchors replace the location hint for
+    // display; an unchanged verified candidate is passed through untouched.
+    if (
+      scene.anchor &&
+      Number.isFinite(scene.anchor.lat) &&
+      Number.isFinite(scene.anchor.lon) &&
+      (scene.anchor.lat !== candidate.lat ||
+        scene.anchor.lon !== candidate.lon ||
+        scene.anchor.name !== candidate.name)
+    )
+      candidate = {
+        ...candidate,
+        name: scene.anchor.name || candidate.name,
+        lat: scene.anchor.lat,
+        lon: scene.anchor.lon,
+        ...(scene.locationResolution
+          ? { approximate: scene.locationResolution.approximate === true }
+          : {}),
+      };
     const payload = {
       scene,
       incident: inserted,
@@ -977,6 +996,44 @@ export function createIncidentComposer({
     return null;
   }
 
+  /**
+   * Research-first planning: a place prompt ALWAYS builds. Unverified,
+   * ambiguous or missing locate results become a location HINT that the server
+   * resolves (Perplexity research + OSM name/address/area fallbacks); the
+   * server returns alternatives/branches instead of blocking on a picker.
+   */
+  function researchFirstPlan(plan, candidates, parsed, text) {
+    if (plan.kind === 'single' && plan.candidate.verified === true) return plan;
+    if (plan.kind === 'out-of-aoi' && plan.candidate.verified === true)
+      return plan;
+    const sorted = [...candidates].sort(
+      (a, b) =>
+        Number(b.verified === true) - Number(a.verified === true) ||
+        (b.confidence || 0) - (a.confidence || 0),
+    );
+    const best = sorted[0];
+    const hint = best
+      ? {
+          ...best,
+          verified: false,
+          hintOnly: true,
+          aoi_membership: {
+            inside: true,
+            aoi_ids: best.aoi_membership?.aoi_ids || [],
+          },
+        }
+      : {
+          name: String(parsed?.place || text)
+            .split(/\r?\n/)[0]
+            .slice(0, 200),
+          verified: false,
+          hintOnly: true,
+          source: 'prompt',
+          aoi_membership: { inside: true, aoi_ids: [] },
+        };
+    return { kind: 'single', candidate: hint, researchFirst: true };
+  }
+
   async function submitText(
     text,
     {
@@ -1128,9 +1185,20 @@ export function createIncidentComposer({
         try {
           state.extraction = run.extraction = parsed;
           step('locating', 'active', run);
-          const located = await bounded(run, () =>
-            client.locate(trimmed, { signal: run.signal }),
-          );
+          // Structured scene planning resolves locations server-side (research +
+          // OpenStreetMap fallbacks), so a failed/empty locate never blocks a build.
+          const researchFirst =
+            structuredPlanning && typeof createGeographicScene === 'function';
+          let located;
+          try {
+            located = await bounded(run, () =>
+              client.locate(trimmed, { signal: run.signal }),
+            );
+          } catch (error) {
+            if (!researchFirst || !current(run) || run.signal?.aborted)
+              throw error;
+            located = { status: 'unavailable', candidates: [], steps: [] };
+          }
           checkCurrent(run);
           // Geocoding supplies coordinates, not the form's intent. An older server
           // may classify a bare AOI as a search; retain the explicit BUILD default.
@@ -1139,7 +1207,9 @@ export function createIncidentComposer({
             ...run.extraction,
           };
           state.candidates = located?.candidates || [];
-          const plan = planFromCandidates(state.candidates);
+          let plan = planFromCandidates(state.candidates);
+          if (researchFirst)
+            plan = researchFirstPlan(plan, state.candidates, parsed, trimmed);
           state.lastPlan = plan;
           step('locating', plan.kind === 'none' ? 'error' : 'done', run);
           let outcome = null;

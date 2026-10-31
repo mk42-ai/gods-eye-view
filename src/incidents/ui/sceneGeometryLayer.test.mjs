@@ -319,3 +319,49 @@ test('staging labels are short; police/security markers use the suggested/illust
   assert.match(runner, /^ILLUSTRATIVE · runners in the lead pack/);
   assert.ok(runner.length <= 44);
 });
+
+test('approximate location badge shows confidence, source count and other branches; survives a window restyle', (t) => {
+  const { layer, document } = setup(t);
+  layer.setScene({
+    ...scene(),
+    locationResolution: {
+      approximate: true,
+      precision: 'address',
+      precisionText: 'researched address / host building (OpenStreetMap)',
+      confidence: 0.78,
+      sourceCount: 3,
+      name: "Kane's Boxing Academy — AD City",
+      matchedName: 'Foutouh al Khair Centre',
+      address: 'Fotouh Al Khair Shopping Centre, Abu Dhabi',
+      alternatives: [
+        {
+          name: "Kane's Boxing Academy — Al Raha Branch",
+          lat: 24.439,
+          lon: 54.574,
+          precision: 'address',
+          confidence: 0.66,
+          citations: [],
+        },
+      ],
+    },
+  });
+  const legend = document.getElementById('scene-geometry-legend');
+  assert.match(
+    legend.text(),
+    /Approximate location – confidence 78%, based on 3 sources/,
+  );
+  assert.match(legend.text(), /Al Raha Branch/);
+  assert.match(legend.text(), /Fotouh Al Khair Shopping Centre/);
+  const state = layer.getState();
+  assert.equal(state.location.approximate, true);
+  assert.equal(state.location.alternatives, 1);
+  layer.setTimeWindow({ windowHours: 6 });
+  assert.match(legend.text(), /Approximate location/);
+  assert.equal(
+    layer.getState().renders,
+    1,
+    'no geometry rebuild for a window change',
+  );
+  layer.clear();
+  assert.equal(layer.getState().location, null);
+});

@@ -2115,3 +2115,133 @@ describe('explicit-only admission regression battery', () => {
     c.destroy();
   });
 });
+
+describe('research-first structured planning (any place prompt always builds)', () => {
+  const KANES = "Kane's Boxing Gym Abu Dhabi";
+  const resolvedScene = (input) => ({
+    id: `scene-${input.candidate.name}`,
+    geographic: true,
+    title: 'Illustrative scene',
+    anchor: {
+      name: "Kane's Boxing Academy — AD City",
+      lat: 24.485,
+      lon: 54.3586,
+    },
+    locationResolution: {
+      approximate: true,
+      precision: 'address',
+      confidence: 0.78,
+    },
+    keyframes: [
+      { lat: 24.485, lon: 54.3586, zoom: 14, bearing: 0, pitch: -50, time: 0 },
+    ],
+  });
+  for (const [label, locate] of [
+    [
+      'unverified model-extracted candidate',
+      async () => ({
+        status: 'resolved',
+        candidates: [
+          {
+            name: "Kane's Boxing Gym, Abu Dhabi",
+            lat: 24.4539,
+            lon: 54.3773,
+            confidence: 0.4,
+            source: 'ondemand-entity-extraction',
+            verified: false,
+            aoi_membership: { inside: true, aoi_ids: ['uae-scene-bbox'] },
+          },
+        ],
+      }),
+    ],
+    [
+      'ambiguous unverified candidates (no picker)',
+      async () => ({
+        status: 'resolved',
+        candidates: [
+          {
+            name: 'Abu Dhabi',
+            lat: 24.454,
+            lon: 54.377,
+            confidence: 0.6,
+            source: 'ondemand-entity-extraction',
+            verified: false,
+            aoi_membership: { inside: true, aoi_ids: [] },
+          },
+          {
+            name: 'Abu Dhabi Emirate',
+            lat: 24.299,
+            lon: 54.697,
+            confidence: 0.2,
+            source: 'ondemand-entity-extraction',
+            verified: false,
+            aoi_membership: { inside: true, aoi_ids: [] },
+          },
+        ],
+      }),
+    ],
+    ['empty locate result', async () => ({ status: 'empty', candidates: [] })],
+    [
+      'locate transport failure',
+      async () => {
+        throw new Error('HTTP 502');
+      },
+    ],
+  ]) {
+    test(`${label} → hint sent to the planner and the scene builds`, async () => {
+      const client = fakeClient();
+      client.locate = locate;
+      const built = [];
+      const played = [];
+      const composer = createIncidentComposer({
+        document: makeDoc(),
+        client,
+        structuredPlanning: true,
+        buildResearchScene: true,
+        createGeographicScene: async (input) => {
+          built.push(input);
+          return resolvedScene(input);
+        },
+        onScene: async (payload) => played.push(payload),
+      });
+      const result = await composer.submit(KANES);
+      assert.equal(built.length, 1, 'planner invoked exactly once');
+      assert.equal(
+        built[0].candidate.verified,
+        false,
+        'hint is never upgraded to verified',
+      );
+      assert.equal(built[0].candidate.hintOnly, true);
+      assert.equal(result.plan.kind, 'single');
+      assert.equal(result.plan.researchFirst, true);
+      assert.equal(composer.element.getAttribute('data-state'), 'done');
+      assert.equal(played.length, 1);
+      assert.equal(
+        played[0].candidate.name,
+        "Kane's Boxing Academy — AD City",
+        'resolved anchor is displayed',
+      );
+      assert.equal(played[0].candidate.approximate, true);
+      assert.doesNotMatch(
+        composer.element.text(),
+        /verified, attributed geocoder candidate is required/,
+      );
+    });
+  }
+  test('a verified geocoder candidate is still passed through unchanged', async () => {
+    const client = fakeClient({ candidates: [MARINA] });
+    const built = [];
+    const composer = createIncidentComposer({
+      document: makeDoc(),
+      client,
+      structuredPlanning: true,
+      createGeographicScene: async (input) => {
+        built.push(input);
+        return geographicScene(input);
+      },
+      onScene: async () => {},
+    });
+    await composer.submit(MARINA_QUERY);
+    assert.equal(built[0].candidate, MARINA);
+  });
+});

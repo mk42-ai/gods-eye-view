@@ -12,6 +12,14 @@
   font-size: 10px;
   color: #bdbebf;
 }
+.scene-snapchat-controls:not([open]) {
+  display: block;
+}
+.scene-snapchat-controls__summary {
+  flex-basis: 100%;
+  cursor: pointer;
+  color: #9fa0a1;
+}
 .scene-snapchat-controls label {
   flex: 1 1 230px;
   min-width: 0;

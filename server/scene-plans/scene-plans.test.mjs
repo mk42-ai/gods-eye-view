@@ -227,12 +227,26 @@ test('key order does not change semantic validity', async () => {
     true,
   );
 });
-test('candidate rejects unverified, coerced, unbounded and secret data', () => {
+test('candidate hint: unverified hints are accepted as non-verified; coerced, unbounded and secret data are rejected', () => {
+  const unverified = validateCandidate({ ...candidate(), verified: false });
+  assert.equal(unverified.verified, false);
+  const extracted = validateCandidate({
+    name: "Kane's Boxing Gym, Abu Dhabi",
+    lat: 24.4539,
+    lon: 54.3773,
+    verified: true,
+    source: 'ondemand-entity-extraction',
+    sourceUrl: null,
+  });
+  assert.equal(extracted.verified, false, 'model extraction is never verified');
+  assert.equal(validateCandidate({ name: 'Somewhere' }).verified, false);
+  assert.equal(validateCandidate(null), null);
+  assert.equal(validateCandidate(candidate()).verified, true);
   for (const edit of [
-    (c) => (c.verified = false),
     (c) => (c.lat = '25'),
     (c) => (c.lon = 181),
-    (c) => (c.source = ''),
+    (c) => (c.source = 42),
+    (c) => delete c.lon,
     (c) => (c.sourceUrl = 'http://127.0.0.1'),
     (c) => (c.apiKey = 'never-accepted'),
   ]) {

@@ -98,7 +98,9 @@ export const SCENE_PLAN_SCHEMA = Object.freeze({
     citations: { type: 'array', maxItems: 40, items: citationSchema },
     verification: record(
       {
-        status: { enum: ['location_verified', 'event_verified'] },
+        status: {
+          enum: ['location_verified', 'location_approximate', 'event_verified'],
+        },
         locationSource: string(200),
         checkedAt: string(40),
         eventName: string(200),

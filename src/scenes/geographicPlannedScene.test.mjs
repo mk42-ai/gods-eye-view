@@ -414,3 +414,86 @@ test('optional undefined time controls are omitted, binary data and class instan
     'invalid-scene',
   );
 });
+
+test('server-resolved APPROXIMATE anchor builds, is labelled, and round-trips with its location resolution', () => {
+  const resolvedCandidate = {
+    name: "Kane's Boxing Academy — AD City",
+    lat: 24.4850018,
+    lon: 54.3586369,
+    verified: true,
+    resolvedBy: 'scene-planner',
+    approximate: true,
+    precision: 'address',
+    confidence: 0.78,
+    source: 'openstreetmap',
+    sourceUrl: 'https://www.openstreetmap.org/way/27374404',
+  };
+  const plan = fixture();
+  plan.location = {
+    name: resolvedCandidate.name,
+    lat: resolvedCandidate.lat,
+    lon: resolvedCandidate.lon,
+    sourceUrl: resolvedCandidate.sourceUrl,
+  };
+  plan.verification.status = 'location_approximate';
+  const locationResolution = {
+    method: 'perplexity-research+osm',
+    precision: 'address',
+    precisionText: 'researched address / host building (OpenStreetMap)',
+    approximate: true,
+    confidence: 0.78,
+    name: resolvedCandidate.name,
+    lat: resolvedCandidate.lat,
+    lon: resolvedCandidate.lon,
+    geocoder: 'OpenStreetMap Photon (komoot)',
+    geocoderUrl: resolvedCandidate.sourceUrl,
+    sourceCount: 2,
+    citations: [
+      {
+        url: 'https://privilee.ae/insider/now-on-privilee-kane-s-boxing-academy',
+        title: 'Privilee',
+      },
+    ],
+    alternatives: [
+      {
+        name: "Kane's Boxing Academy — Al Raha Branch",
+        lat: 24.439,
+        lon: 54.574,
+        precision: 'address',
+        confidence: 0.66,
+        citations: [],
+      },
+    ],
+  };
+  const scene = make({
+    plan,
+    candidate: resolvedCandidate,
+    locationResolution,
+  });
+  assert.equal(scene.provenance.kind, 'resolved-location');
+  assert.equal(scene.provenance.approximate, true);
+  assert.equal(
+    scene.provenance.verified,
+    false,
+    'approximate anchors are not labelled verified',
+  );
+  assert.match(scene.summary, /APPROXIMATE/);
+  assert.equal(scene.locationResolution.alternatives.length, 1);
+  const store = createGeographicSceneStore(memory());
+  const saved = store.save(scene);
+  assert.equal(saved.saved, true);
+  const loaded = store.load(scene.id);
+  assert.equal(loaded.locationResolution.approximate, true);
+  assert.equal(loaded.provenance.approximate, true);
+  // The legacy (non-planned) builder still refuses unverified candidates.
+  assert.throws(() =>
+    buildGeographicScene({
+      candidate: {
+        ...resolvedCandidate,
+        verified: false,
+        resolvedBy: undefined,
+      },
+      now,
+    }),
+  );
+});

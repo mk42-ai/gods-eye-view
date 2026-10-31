@@ -58,6 +58,57 @@ export function createSceneGeometryLayer(
   let geometry = null;
   let spec = null;
   let selectedTime = null;
+  let resolution = null;
+  /** Location precision badge: APPROXIMATE with confidence/sources, plus alternatives. */
+  function locationBadge() {
+    if (!resolution) return null;
+    const box = el(
+      'section',
+      `scene-location-badge scene-location-badge--${resolution.approximate ? 'approximate' : 'exact'}`,
+    );
+    box.id = 'scene-location-badge';
+    box.dataset.approximate = String(resolution.approximate === true);
+    box.dataset.precision = resolution.precision || '';
+    const pct = Math.round((resolution.confidence || 0) * 100);
+    const n = resolution.sourceCount || 0;
+    box.append(
+      el(
+        'strong',
+        'scene-location-badge__title',
+        resolution.approximate
+          ? `Approximate location – confidence ${pct}%, based on ${n} source${n === 1 ? '' : 's'}`
+          : `Location matched – confidence ${pct}%`,
+      ),
+      el(
+        'p',
+        'scene-location-badge__detail',
+        `${resolution.name} · ${resolution.precisionText || resolution.precision}${resolution.matchedName ? ` (“${resolution.matchedName}”)` : ''}${resolution.address ? ` · researched address: ${resolution.address}` : ''}`,
+      ),
+    );
+    const alts = (resolution.alternatives || []).filter((a) => a.name);
+    if (alts.length) {
+      const list = el('ul', 'scene-location-badge__alternatives');
+      list.id = 'scene-location-alternatives';
+      for (const a of alts) {
+        const li = el(
+          'li',
+          '',
+          `${a.name}${Number.isFinite(a.lat) ? ` · ${a.precision || 'located'}${a.confidence ? ` ${Math.round(a.confidence * 100)}%` : ''}` : ' · not located'}`,
+        );
+        if (a.citations?.[0]?.url) li.title = a.citations[0].url;
+        list.append(li);
+      }
+      box.append(
+        el(
+          'p',
+          'scene-location-badge__alt-head',
+          'Other branches / candidates',
+        ),
+        list,
+      );
+    }
+    return box;
+  }
   let destroyed = false;
   let renders = 0;
   let restyles = 0;
@@ -281,7 +332,14 @@ export function createSceneGeometryLayer(
       el('span', '', `People / vehicles: ${SUGGESTED_MARKER_LABEL}`),
     );
     keys.append(staged);
-    legend.replaceChildren(head, status, window, keys);
+    const badge = locationBadge();
+    legend.replaceChildren(
+      head,
+      ...(badge ? [badge] : []),
+      status,
+      window,
+      keys,
+    );
     if (geometry.message)
       legend.append(
         el('p', 'scene-geometry-legend__message', geometry.message),
@@ -380,6 +438,7 @@ export function createSceneGeometryLayer(
       if (destroyed) return;
       geometry = scene?.geometry || null;
       selectedTime = scene?.selectedTime || null;
+      resolution = scene?.locationResolution || null;
       build();
     },
     /** Restyle for a new recording window. Never rebuilds or re-fetches geometry. */
@@ -403,6 +462,7 @@ export function createSceneGeometryLayer(
     },
     clear() {
       geometry = null;
+      resolution = null;
       build();
     },
     getState() {
@@ -444,6 +504,19 @@ export function createSceneGeometryLayer(
           title: c.title || null,
         })),
         legendVisible: !legend.hidden,
+        location: resolution
+          ? {
+              approximate: resolution.approximate === true,
+              precision: resolution.precision,
+              confidence: resolution.confidence,
+              name: resolution.name,
+              alternatives: (resolution.alternatives || []).length,
+              badgeVisible: Boolean(
+                legend.querySelector?.('#scene-location-badge') &&
+                !legend.hidden,
+              ),
+            }
+          : null,
       };
     },
     destroy() {

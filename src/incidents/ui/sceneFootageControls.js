@@ -53,9 +53,19 @@ export function createSceneFootageControls({
   window: win = globalThis.window,
 } = {}) {
   let currentScene = null;
-  const root = doc.createElement('div');
+  // Snapchat discovery is OPTIONAL and fully separate from scene building:
+  // collapsed by default, never consulted by Build scene, and its strict
+  // bounds filter only Snapchat results.
+  const root = doc.createElement('details');
   root.className = 'scene-snapchat-controls';
-  root.setAttribute('aria-label', 'Explicit Snapchat discovery');
+  root.id = 'scene-snapchat-controls';
+  root.setAttribute('aria-label', 'Optional Snapchat discovery');
+  root.setAttribute('data-affects-scene-build', 'false');
+  root.open = false;
+  const summary = doc.createElement('summary');
+  summary.className = 'scene-snapchat-controls__summary';
+  summary.textContent =
+    'Optional · Snapchat discovery (separate from scene build)';
   const label = doc.createElement('label');
   label.textContent = 'Snapchat scope ';
   label.htmlFor = 'scene-snapchat-scope';
@@ -88,8 +98,8 @@ export function createSceneFootageControls({
   function describe() {
     note.textContent =
       scope.value === 'place-mentions'
-        ? 'Unverified place mentions: no capture-time or distance claim. Changing this option does not search.'
-        : 'Strict bounds reject unknown capture time or coordinates. The current Spotlight provider may return no qualifying records.';
+        ? 'Unverified place mentions: no capture-time or distance claim. Changing this option does not search and never affects scene building.'
+        : 'Strict bounds apply only to Snapchat results (they reject clips with unknown capture time or coordinates) and never affect scene building. The current Spotlight provider may return no qualifying records.';
   }
   function search() {
     if (button.disabled) return;
@@ -102,7 +112,7 @@ export function createSceneFootageControls({
   scope.addEventListener('change', describe);
   button.addEventListener('click', search);
   label.appendChild(scope);
-  root.append(label, button, note);
+  root.append(summary, label, button, note);
   describe();
   return {
     element: root,

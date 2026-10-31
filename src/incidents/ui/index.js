@@ -854,21 +854,30 @@ export function installIncidentScenes({
         revision,
       } = request;
       assertCurrent(request);
-      const gate = resolveIncidentGate(text, candidate);
-      if (!gate.allowed)
-        throw new Error('Outside UAE AOI — external context only');
+      // A verified geocoder hint must be inside the scene AOI. Unverified or
+      // missing hints are resolved server-side; the RESOLVED anchor is gated below.
+      const hasHintCoords =
+        Number.isFinite(candidate?.lat) && Number.isFinite(candidate?.lon);
+      if (candidate?.verified === true) {
+        const gate = resolveIncidentGate(text, candidate);
+        if (!gate.allowed)
+          throw new Error('Outside UAE AOI — external context only');
+      }
       const refinement =
         refinementContext?.prompt === text ? refinementContext : null;
       const result = await client.constructScene(
         {
           prompt: text,
           candidate: {
-            name: candidate.name,
-            lat: candidate.lat,
-            lon: candidate.lon,
-            verified: candidate.verified === true,
-            source: candidate.source,
-            sourceUrl: candidate.sourceUrl,
+            name: String(candidate?.name || text).slice(0, 300),
+            ...(hasHintCoords
+              ? { lat: candidate.lat, lon: candidate.lon }
+              : {}),
+            verified: candidate?.verified === true,
+            ...(candidate?.source
+              ? { source: String(candidate.source).slice(0, 200) }
+              : {}),
+            ...(candidate?.sourceUrl ? { sourceUrl: candidate.sourceUrl } : {}),
           },
           ...(refinement?.scene?.plan
             ? { previousPlan: refinement.scene.plan }
@@ -885,15 +894,39 @@ export function installIncidentScenes({
       assertCurrent(request);
       if (!result.ok || !result.plan)
         throw new Error('No validated scene plan was returned.');
+      const resolvedAnchor = result.plan.location;
+      const gate = resolveIncidentGate(text, resolvedAnchor);
+      if (!gate.allowed)
+        throw new Error(
+          `Resolved location ${resolvedAnchor.name} is outside the UAE scene AOI — external context only`,
+        );
+      const resolution = result.locationResolution || null;
       const scene = buildPlannedScene({
         plan: result.plan,
         candidate: {
-          ...candidate,
+          name: resolvedAnchor.name,
+          lat: resolvedAnchor.lat,
+          lon: resolvedAnchor.lon,
+          verified: true,
+          resolvedBy: 'scene-planner',
+          approximate: resolution?.approximate === true,
+          precision: resolution?.precision,
+          confidence: resolution?.confidence,
+          source:
+            String(
+              result.anchor?.source || candidate?.source || 'scene-planner',
+            )
+              .replace(/[^a-z0-9_-]/gi, '-')
+              .slice(0, 80) || 'scene-planner',
+          ...(resolvedAnchor.sourceUrl
+            ? { sourceUrl: resolvedAnchor.sourceUrl }
+            : {}),
           aoi_membership: { inside: true, aoi_ids: gate.aoiIds },
         },
         text,
         originalPrompt: refinement?.scene?.originalPrompt || text,
         geometry: result.geometry || null,
+        locationResolution: resolution,
         selectedTime: {
           windowHours: extraction.windowHours,
           timeMode: extraction.timeMode,
