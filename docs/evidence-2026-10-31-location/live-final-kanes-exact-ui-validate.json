@@ -1,0 +1,75 @@
+{
+  "url": "https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/final-kanes-exact-1440x900.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#incident-composer-input",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "verified, attributed geocoder candidate is required",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__qaRun = (async () => {\n  const PROMPT = window.__QA_PROMPT || \"Kane's Boxing Gym Abu Dhabi\";\n  const wait = (ms) => new Promise((r) => setTimeout(r, ms));\n  for (let i = 0; i < 240 && !(windo",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__qaResult||Date.now()-t>165000) r(true); else setTimeout(p,1000)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__qaResult||Date.now()-t>165000) r(true); else setTimeout(p,1000)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "(function(){const r=window.__qaResult; return r ? (r.ok ? JSON.stringify(r) : false) : false})()",
+      "ok": true,
+      "detail": "\"{\\\"prompt\\\":\\\"Kane's Boxing Gym Abu Dhabi\\\",\\\"startedAtUtc\\\":\\\"2026-10-31T16:06:51.091Z\\\",\\\"calls\\\":1,\\\"callsAfterTyping\\\":0,\\\"candidateSent\\\":{\\\"name\\\":\\\"Abu Dhabi\\\",\\\"lat\\\":24.4539,\\\"lon\\\":54.3773,\\\"verified\\\":false,\\\"source\\\":\\\"ondemand-entity-extraction\\\"},\\\"elapsedSec\\\":134,\\\"formState\\\":\\\"done\\\",\\\"geometry\\\":{\\\"status\\\":\\\"grounded\\\",\\\"points\\\":2,\\\"lines\\\":0,\\\"areas\\\":0,\\\"citations\\\":3,\\\"legendVisible\\\":true},\\\"pointLabels\\\":[\\\"Approx. Kane's Boxing Academy (AD City)\\\",\\\"Fotouh Al Khair Shopping Centre\\\"],\\\"citationUrls\\\":[\\\"https://privilee.ae/insider/now-on-privilee-kane-s-boxing-academy\\\",\\\"https://gymfinder.ae/en/i/2189-kanes-boxing-academy/\\\",\\\"https://www.mindbodyonline.com/explore/locations/kane-s-boxing-academy-ad-city\\\"],\\\"location\\\":{\\\"name\\\":\\\"Kane's Boxing Academy (AD City)\\\",\\\"lat\\\":24.4850018,\\\"lon\\\":54.3586369,\\\"sourceUrl\\\":\\\"https://www.openstreetmap.org/way/27374404\\\"},\\\"locationResolution\\\":{\\\"precision\\\":\\\"address\\\",\\\"approximate\\\":true,\\\"confidence\\\":0.78,\\\"method\\\":\\\"perplexity-research+osm\\\",\\\"alternatives\\\":[]},\\\"model\\\":{\\\"endpointId\\\":\\\"predefined-gpt-6.1-sol\\\",\\\"reasoningEffort\\\":\\\"medium\\\",\\\"requested\\\":\\\"GPT 6.1 Ultra Fast \\u00b7 medium reasoning\\\"},\\\"badgeText\\\":\\\"Approximate location \\u2013 confidence 78%, based on 3 sources\\\\n\\\\nKane's Boxing Academy (AD City) \\u00b7 researched address / host building (OpenStreetMap) (\\u201cFoutouh al Khair Centre\\u201d) \\u00b7 researched address: Fotouh Al Khair Shopping Centre, Abu Dhabi, United Arab Emirates\\\",\\\"resultText\\\":\\\"Build scene\\\\nRecording window (UTC)\\\\nLast hour\\\\nLast 6 hours\\\\nLast 24 hours\\\\nLast 72 hours\\\\nLast 7 days\\\\nHistorical interval\\\\nDraft only \\u00b7 Build scene or Ctrl/Cmd+Enter\\\\nPlay\\\\n\\\\nScene ready\\\\nKane's Boxing Academy (AD City)\\\\n\\\\nEvidence \\u00b7 searching\\u2026 \\u00b7 0 verified\\\\nOptional \\u00b7 Snapchat discovery (separate from scene build)\\\",\\\"ok\\\":true,\\\"finishedAtUtc\\\":\\\"2026-10-31T16:09:06.076Z\\\"}\""
+    },
+    {
+      "kind": "eval",
+      "target": "(async()=>{const api=window.__gevIncidents;const g0=api.getState().sceneGeometry;let calls=0;const o=api.client.constructScene;api.client.constructScene=async(...a)=>{calls++;return o.apply(api.client",
+      "ok": true,
+      "detail": "\"{\\\"calls\\\":0,\\\"rendersBefore\\\":1,\\\"rendersAfter\\\":1,\\\"restylesBefore\\\":0,\\\"restylesAfter\\\":1,\\\"window\\\":\\\"Last 6 hours\\\",\\\"sameScene\\\":true,\\\"badge\\\":{\\\"approximate\\\":true,\\\"precision\\\":\\\"address\\\",\\\"confidence\\\":0.78,\\\"name\\\":\\\"Kane's Boxing Academy (AD City)\\\",\\\"alternatives\\\":0,\\\"badgeVisible\\\":true}}\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=369 chars, bodyHeight=900px"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "pageErrors": [],
+  "failedRequests": [
+    "Fetch: net::ERR_ABORTED https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app/api/setup/status",
+    "Fetch: net::ERR_ABORTED https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app/api/ondemand/v2/scene/evidence"
+  ],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation",
+  "textLength": 369
+}

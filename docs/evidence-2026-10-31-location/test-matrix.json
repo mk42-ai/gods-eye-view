@@ -1,0 +1,31 @@
+{
+  "generatedAtUtc": "2026-10-31T16:16:00Z",
+  "repository": "mk42-ai/gods-eye-view",
+  "branch": "feat/scene-video-evidence",
+  "baseCommit": "bf9d347",
+  "previewUrl": "https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app",
+  "deploymentId": "dpl_4cHyhFAaizTqX9KrHczZo3pPUMbC",
+  "modelUsed": { "requested": "GPT 6.1 Ultra Fast, medium reasoning", "endpointId": "predefined-gpt-6.1-sol", "reasoningEffort": "medium", "reason": "endpointId predefined-gpt-6.1-ultra-fast rejected as invalid by OnDemand; registry has gpt-6.1-sol and gpt-6.1-terra only; sol measured faster (5.0-6.5 s vs 8.6-10.1 s fulfilment on the same JSON task)" },
+  "checks": [
+    { "id": "baseline-before-kanes-prompt", "status": "failed-as-expected", "utc": "2026-10-31T14:36:39Z", "detail": "Old preview 5b0turvg0: locate returned only unverified ondemand-entity-extraction candidates (Abu Dhabi 60%, Abu Dhabi Emirate 20%); composer stopped on a picker, 0 construct calls, no scene" },
+    { "id": "baseline-before-construct-400", "status": "failed-as-expected", "utc": "2026-10-31T14:39:48Z", "detail": "POST /scene-plans/construct with the unverified candidate → HTTP 400 'A verified, attributed geocoder candidate is required.'" },
+    { "id": "frontend-unit-tests", "status": "passed", "utc": "2026-10-31T15:42:10Z/15:43:20Z", "detail": "4,702 tests: 4,701 pass, 0 fail, 1 skipped (Node 24 allocation budget on Node 22); mocked providers" },
+    { "id": "backend-tests", "status": "passed", "utc": "2026-10-31T15:43:20Z", "detail": "671 pass, 0 fail (re-run 671/671 after timeout change); mocked transport/OSM" },
+    { "id": "new-unit-name-variations", "status": "passed", "detail": "server/scene-plans/location.test.mjs: Kanes/Kane's, Gym→Academy/Club, branch stripping, Fotouh↔Foutouh" },
+    { "id": "new-unit-approximate-fallback", "status": "passed", "detail": "address (approximate), exact venue, city-centroid, OSM-only fallback when research fails, labelled estimate, 422 only when nothing at all is known" },
+    { "id": "new-unit-snapchat-non-blocking", "status": "passed", "detail": "Snapchat controls are a collapsed <details data-affects-scene-build=false>; strict copy says it applies only to Snapchat results; composer tests prove unverified/ambiguous/empty/failed locate still builds" },
+    { "id": "check-boundaries-and-secrets", "status": "passed" },
+    { "id": "production-build", "status": "passed", "utc": "2026-10-31T16:04:55Z", "detail": "vite build via node node_modules/vite/bin/vite.js (node_modules/.bin links absent in restored workspace)" },
+    { "id": "deploy-1", "status": "passed", "utc": "2026-10-31T15:44:17Z", "deploymentId": "dpl_C1C7FsWCgvtPQYt4n1UzrcVAuRQB" },
+    { "id": "live-deploy1-burj-geometry", "status": "failed", "detail": "Burj Khalifa scene built but geometry 'unavailable (provider_unavailable)': Perplexity RAG exceeded the 110 s per-request bound. Fixed by allowing research requests up to 160-170 s within the 300 s function limit" },
+    { "id": "deploy-2", "status": "passed", "utc": "2026-10-31T16:05:04Z", "deploymentId": "dpl_4cHyhFAaizTqX9KrHczZo3pPUMbC" },
+    { "id": "live-kanes-exact-prompt", "status": "passed", "utc": "2026-10-31T16:06:51Z", "actual": { "prompt": "Kane's Boxing Gym Abu Dhabi", "callsAfterTyping": 0, "constructCalls": 1, "state": "done", "elapsedSec": 134, "anchor": "Kane's Boxing Academy (AD City) 24.4850018,54.3586369 (OSM way 27374404 Foutouh al Khair Centre)", "precision": "address", "approximate": true, "confidence": 0.78, "points": 2, "citations": 3, "badge": "Approximate location – confidence 78%, based on 3 sources" } },
+    { "id": "live-kanes-lowercase-prompt", "status": "passed", "utc": "2026-10-31T16:09:37Z", "actual": { "prompt": "kanes boxing gym abu dhabi", "constructCalls": 1, "state": "done", "elapsedSec": 117, "points": 3, "citations": 4, "alternatives": ["Kanes Boxing Academy - Al Raha Branch @ 24.4343542,54.433048"] } },
+    { "id": "live-time-window-restyle-no-request", "status": "passed", "actual": { "constructCalls": 0, "renders": "1→1", "restyles": "0→1", "window": "Last 6 hours", "sameScene": true, "badgeStillVisible": true } },
+    { "id": "live-burj-khalifa-mobile-390", "status": "passed", "utc": "2026-10-31T16:12:01Z", "actual": { "callsAfterPaste": 0, "calls": 1, "state": "done", "geometry": "grounded", "points": 1, "areas": 1, "citations": 2, "noHorizontalOverflow": true } },
+    { "id": "live-routes-lines-for-kanes", "status": "not-achieved", "detail": "Research named Airport Road but no OSM road geometry matched 'Airport Road, Abu Dhabi' (Photon only returned shops/offices named after it, which are rejected); so the Kane's scene draws dots only, no lines. Nothing was invented." },
+    { "id": "al-raha-branch-coordinates", "status": "qualified", "detail": "Al Raha branch dot placed at the OSM match for its researched address; across runs research gave 'Al Raha Mall' (24.4390,54.5741) or 'Al Raha' (24.4344,54.4330) — both labelled approximate" },
+    { "id": "pr-creation", "status": "see-report" },
+    { "id": "elevenlabs-27-hash-keys-save-reload-live", "status": "not-run", "detail": "unchanged this turn" }
+  ]
+}

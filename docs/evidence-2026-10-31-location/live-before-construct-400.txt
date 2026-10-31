@@ -1,0 +1,2 @@
+{"ok":false,"error":{"code":"invalid_request","message":"A verified, attributed geocoder candidate is required."}}
+HTTP 400
