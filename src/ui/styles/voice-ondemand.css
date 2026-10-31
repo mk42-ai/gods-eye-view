@@ -27,7 +27,9 @@
   color: var(--text-primary);
   font-family: var(--font-mono);
   transform: none;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .od-voice-heading {
@@ -84,7 +86,11 @@
   width: 2.35rem;
   height: 2.35rem;
   padding: 0;
-  background: radial-gradient(circle at 50% 40%, rgba(128, 129, 130, 0.18), rgba(128, 129, 130, 0.18) 70%);
+  background: radial-gradient(
+    circle at 50% 40%,
+    rgba(128, 129, 130, 0.18),
+    rgba(128, 129, 130, 0.18) 70%
+  );
   border: 1px solid rgba(153, 154, 155, 0.22);
   border-radius: 50%;
   color: var(--text-primary);
@@ -257,4 +263,15 @@
     --od-voice-width: 9.5rem;
     margin-left: 0.15rem;
   }
+}
+
+#od-voice-control [hidden] {
+  display: none !important;
+}
+#od-voice-use-draft {
+  min-height: 24px;
+  height: auto;
+  padding: 4px;
+  font-size: 10px;
+  white-space: normal;
 }

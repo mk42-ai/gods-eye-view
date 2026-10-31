@@ -73,6 +73,74 @@ export function validateFootageRequest(locationId, body) {
     if (!Number.isFinite(t)) return { error: 'invalid_client_time' };
     clientTimeIso = new Date(t).toISOString();
   }
+  const rawRadius = body.radius ?? body.radius_km;
+  if (
+    rawRadius !== undefined &&
+    rawRadius !== null &&
+    (typeof rawRadius !== 'number' ||
+      !Number.isFinite(rawRadius) ||
+      rawRadius <= 0 ||
+      rawRadius > 100)
+  )
+    return { error: 'invalid_radius' };
+  const radius = rawRadius ?? null;
+  if (body.strictBounds !== undefined && typeof body.strictBounds !== 'boolean')
+    return { error: 'invalid_strict_bounds' };
+  const strictBounds = body.strictBounds === true;
+  let timeWindow = null;
+  const tw =
+    body.timeWindow ??
+    (body.windowHours !== undefined ? { windowHours: body.windowHours } : null);
+  if (tw !== null) {
+    if (
+      typeof tw !== 'object' ||
+      Array.isArray(tw) ||
+      Object.keys(tw).some(
+        (k) =>
+          ![
+            'windowHours',
+            'windowStart',
+            'windowEnd',
+            'strictCaptureTime',
+          ].includes(k),
+      )
+    )
+      return { error: 'invalid_recording_window' };
+    const wObj = {};
+    if (tw.windowHours !== undefined) {
+      if (
+        typeof tw.windowHours !== 'number' ||
+        !Number.isFinite(tw.windowHours) ||
+        tw.windowHours <= 0 ||
+        tw.windowHours > 8784
+      )
+        return { error: 'invalid_recording_window' };
+      wObj.windowHours = tw.windowHours;
+    }
+    if (tw.windowStart !== undefined || tw.windowEnd !== undefined) {
+      const start = Date.parse(tw.windowStart || '');
+      const end = Date.parse(tw.windowEnd || '');
+      if (
+        !Number.isFinite(start) ||
+        !Number.isFinite(end) ||
+        end <= start ||
+        end > Date.now()
+      )
+        return { error: 'invalid_recording_window' };
+      wObj.windowStart = new Date(start).toISOString();
+      wObj.windowEnd = new Date(end).toISOString();
+    }
+    if (!wObj.windowHours && !wObj.windowStart)
+      return { error: 'invalid_recording_window' };
+    if (
+      tw.strictCaptureTime !== undefined &&
+      typeof tw.strictCaptureTime !== 'boolean'
+    )
+      return { error: 'invalid_recording_window' };
+    wObj.strictCaptureTime = true;
+    timeWindow = wObj;
+  }
+  const trigger = body.trigger ? String(body.trigger).slice(0, 40) : null;
   return {
     value: {
       locationId,
@@ -82,6 +150,10 @@ export function validateFootageRequest(locationId, body) {
       bbox,
       clientTimeIso,
       fresh: body.fresh === true,
+      ...(radius ? { radius } : {}),
+      ...(strictBounds ? { strictBounds: true } : {}),
+      ...(timeWindow ? { timeWindow } : {}),
+      ...(trigger ? { trigger } : {}),
     },
   };
 }
@@ -167,6 +239,15 @@ export function createSceneFootageRoutes(deps = {}) {
       plugin: { id: c.pluginId, operation: SNAPCHAT_OPERATION },
       refresh: { defaultMs: c.defaultRefreshMs, minMs: c.minRefreshMs },
       maxCoverageLevel: c.maxCoverageLevel,
+      capabilities: {
+        paginationSupported: false,
+        batchSupported: false,
+        geotagSupported: false,
+        captureTimeSupported: false,
+        directCoordinatesSupported: false,
+        spotlightTextSearchOnly: true,
+        undocumentedEndpointsUsed: false,
+      },
     };
     if (!configured()) {
       stamp('credentials_required');
@@ -178,7 +259,10 @@ export function createSceneFootageRoutes(deps = {}) {
       });
       return true;
     }
-    const cacheKey = `${scene.locationId}|${scene.placeName.toLowerCase()}|${c.maxCoverageLevel}`;
+    const twKey = scene.timeWindow
+      ? `${scene.timeWindow.windowHours || ''}_${scene.timeWindow.windowStart || ''}_${scene.timeWindow.windowEnd || ''}_${scene.timeWindow.strictCaptureTime ? '1' : '0'}`
+      : '';
+    const cacheKey = `${scene.locationId}|${scene.placeName.toLowerCase()}|${c.maxCoverageLevel}|${scene.radius || ''}|${scene.strictBounds ? '1' : '0'}|${twKey}`;
     if (!scene.fresh) {
       const hit = cache.get(cacheKey, c.cacheTtlMs);
       if (hit) {
@@ -211,7 +295,9 @@ export function createSceneFootageRoutes(deps = {}) {
           sleep: deps.sleep,
           cfg: c,
           now,
-          signal: controller.signal,
+          // A coalesced job has its own bounded lifetime. One disconnect must not
+          // cancel another subscriber's identical explicit lookup. No provider-cancel claim.
+          signal: AbortSignal.timeout(250000),
           trace: stamp,
           verify: verifier
             ? async (clips, signal) => {
@@ -249,6 +335,13 @@ export function createSceneFootageRoutes(deps = {}) {
         rejected: result.rejected.slice(0, 40),
         upstream: result.upstream,
         cached: false,
+        accounting: result.accounting || null,
+        capabilities: result.capabilities || base.capabilities,
+        bounds: result.bounds || {
+          radius: scene.radius || null,
+          strictBounds: Boolean(scene.strictBounds),
+          timeWindow: scene.timeWindow || null,
+        },
       };
       stamp('schema_validated', {
         clips: payload.clips.length,
@@ -298,6 +391,17 @@ export function createSceneFootageRoutes(deps = {}) {
           state,
           error: code,
           clips: [],
+          accounting: error.footageAccounting || {
+            returnedCount: 0,
+            uniqueCount: 0,
+            matchingCount: 0,
+            rejectedCount: 0,
+            queriesCount: 0,
+            pagesCount: 0,
+            attemptsCount: 0,
+            partial: false,
+            truncated: false,
+          },
           trace,
         });
     } finally {

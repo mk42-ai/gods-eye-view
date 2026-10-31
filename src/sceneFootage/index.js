@@ -30,9 +30,16 @@ export function installSceneFootage({
   signal,
   document: doc = globalThis.document,
   window: win = globalThis.window,
+  fetch: fetchImpl,
 } = {}) {
   if (!doc) return null;
-  const controller = createFootageController({ document: doc });
+  const controller = createFootageController({
+    document: doc,
+    defaultRefreshMs: 0,
+    fetch: fetchImpl,
+  });
+  // Cost guard: refresh is opt-in, never an implicit background source search.
+  controller.setRefreshMs(0);
   const panel = createSceneFootagePanel({
     document: doc,
     controller,
@@ -48,17 +55,34 @@ export function installSceneFootage({
   function open(detail, trigger) {
     // A prompt scene uses only its scoped YouTube/TikTok/Instagram evidence.
     // Moving its camera must not silently start unrelated Snapchat discovery.
-    if (promptDerivedActive && !['explicit', 'api'].includes(trigger))
+    if (
+      promptDerivedActive &&
+      !['explicit', 'api'].includes(trigger) &&
+      !detail?.standby
+    )
       return null;
-    const lat = Number.isFinite(detail?.lat) ? detail.lat : detail?.anchor?.lat;
-    const lon = Number.isFinite(detail?.lon) ? detail.lon : detail?.anchor?.lon;
+    const lat = Number.isFinite(detail?.lat)
+      ? detail.lat
+      : Number.isFinite(detail?.anchor?.lat)
+        ? detail.anchor.lat
+        : controller.state.scene?.lat;
+    const lon = Number.isFinite(detail?.lon)
+      ? detail.lon
+      : Number.isFinite(detail?.anchor?.lon)
+        ? detail.anchor.lon
+        : controller.state.scene?.lon;
     if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
     if (!resolveIncidentGate('', { lat, lon }).allowed) return null;
     // Narrowest configured place named by the operator's own words or the
     // geocoder's candidate name. A long geocoder
     // label ("Corniche Beach - Phase 2, …, Abu Dhabi …") must not widen the
     // scene to the whole city when the operator typed "Abu Dhabi Corniche".
-    const rawPlace = String(detail.place || detail.placeName || '')
+    const rawPlace = String(
+      detail.place ||
+        detail.placeName ||
+        controller.state.scene?.placeName ||
+        '',
+    )
       .trim()
       .slice(0, 80);
     // Named places (operator text, geocoder label) win over the coordinate;
@@ -80,12 +104,29 @@ export function installSceneFootage({
       haversineKm(cur, { lat, lon }) < (trigger === 'camera-move' ? 3 : 0.5)
     )
       return null;
+    const radius = Number.isFinite(Number(detail.radius ?? detail.radius_km))
+      ? Number(detail.radius ?? detail.radius_km)
+      : null;
+    const timeWindow =
+      detail.timeWindow ||
+      (Number.isFinite(Number(detail.windowHours))
+        ? {
+            windowHours: Number(detail.windowHours),
+            windowStart: detail.windowStart || null,
+            windowEnd: detail.windowEnd || null,
+            strictCaptureTime: Boolean(detail.strictCaptureTime),
+          }
+        : null);
+    const strictBounds = Boolean(detail.strictBounds);
     const scene = {
       lat,
       lon,
       placeName,
       bbox: Array.isArray(detail.bbox) ? detail.bbox : null,
       label: detail.text || placeName,
+      ...(radius ? { radius } : {}),
+      ...(timeWindow ? { timeWindow } : {}),
+      ...(strictBounds ? { strictBounds: true } : {}),
     };
     scene.locationId = detail.locationId || locationIdFor(scene);
     triggers.push({
@@ -93,27 +134,93 @@ export function installSceneFootage({
       trigger,
       locationId: scene.locationId,
     });
-    return controller.open(scene, { trigger, force: Boolean(detail.force) });
+    return controller.open(scene, {
+      trigger,
+      force: Boolean(detail.force),
+      standby: Boolean(detail.standby),
+      radius,
+      timeWindow,
+      strictBounds,
+    });
   }
 
-  const onPromptStart = () => {
+  const onPromptStart = (sceneInfo = null) => {
     promptDerivedActive = true;
-    controller.close();
+    if (sceneInfo) {
+      void controller.open(sceneInfo, {
+        trigger: 'prompt-derived',
+        standby: true,
+        force: true,
+      });
+    } else {
+      controller.close();
+    }
   };
   const onEvidence = (e) => {
-    if (e?.detail?.promptDerived) {
+    const detail = e?.detail || {};
+    if (detail.promptDerived) {
+      const lat = Number.isFinite(detail?.lat)
+        ? detail.lat
+        : detail?.anchor?.lat;
+      const lon = Number.isFinite(detail?.lon)
+        ? detail.lon
+        : detail?.anchor?.lon;
+      if (
+        Number.isFinite(lat) &&
+        Number.isFinite(lon) &&
+        resolveIncidentGate('', { lat, lon }).allowed
+      ) {
+        const rawPlace = String(detail.place || detail.placeName || '')
+          .trim()
+          .slice(0, 80);
+        const placeName =
+          (
+            narrowestPlace([
+              findPlaceByName(detail.text),
+              findPlaceByName(rawPlace),
+            ]) || placeForPoint(lat, lon)
+          )?.names?.[0] ||
+          rawPlace ||
+          null;
+        const scene = {
+          lat,
+          lon,
+          placeName,
+          bbox: Array.isArray(detail.bbox) ? detail.bbox : null,
+          label: detail.text || placeName,
+          locationId:
+            detail.locationId || locationIdFor({ lat, lon, placeName }),
+          radius: 1,
+          strictBounds: true,
+          timeWindow:
+            detail.timeMode === 'historical'
+              ? {
+                  windowStart: detail.windowStart,
+                  windowEnd: detail.windowEnd,
+                  strictCaptureTime: true,
+                }
+              : {
+                  windowHours: Number(detail.windowHours) || 1,
+                  strictCaptureTime: true,
+                },
+        };
+        onPromptStart(scene);
+        return;
+      }
       onPromptStart();
       return;
     }
     if (!promptDerivedActive)
-      void open(
-        e?.detail || {},
-        e?.detail?.preferCache ? 'scene-reopen' : 'scene-open',
-      );
+      void open(detail, detail?.preferCache ? 'scene-reopen' : 'scene-open');
   };
   const onExplicit = (e) => {
-    promptDerivedActive = false;
-    void open(e?.detail || {}, e?.detail?.trigger || 'explicit');
+    // Keep this explicit scope protected from later marker/camera-triggered queries.
+    promptDerivedActive = true;
+    const detail = e?.detail || {};
+    void open(
+      { ...detail, force: true, standby: false },
+      detail.trigger || 'explicit',
+    );
   };
   const onExternal = () => {
     promptDerivedActive = true;
@@ -122,8 +229,9 @@ export function installSceneFootage({
   win?.addEventListener?.('gev:scene-evidence', onEvidence);
   win?.addEventListener?.(SCENE_FOOTAGE_EVENT, onExplicit);
   win?.addEventListener?.('gev:incident-external', onExternal);
-  win?.addEventListener?.('gev:incident-command-started', onPromptStart);
-  win?.addEventListener?.('gev:incident-command-cancelled', onPromptStart);
+  const onPromptEvent = () => onPromptStart();
+  win?.addEventListener?.('gev:incident-command-started', onPromptEvent);
+  win?.addEventListener?.('gev:incident-command-cancelled', onPromptEvent);
 
   let handler = null,
     removeMoveEnd = null,
@@ -189,11 +297,27 @@ export function installSceneFootage({
     controller,
     panel,
     open: (d, t = 'api') => open(d, t),
+    discover: (opts = {}) => {
+      const s = controller.state.scene;
+      if (!s) return null;
+      promptDerivedActive = true;
+      return open(
+        {
+          ...s,
+          ...opts,
+          force: true,
+          standby: false,
+        },
+        opts.trigger || 'explicit',
+      );
+    },
     getState: () => {
       const s = controller.state;
       return {
         phase: s.phase,
+        scene: s.scene,
         promptDerivedSuppressed: promptDerivedActive,
+        standby: Boolean(s.standby),
         locationId: s.locationId,
         generation: s.generation,
         selectedId: s.selectedId,
@@ -216,16 +340,19 @@ export function installSceneFootage({
         requestId: s.requestId,
         triggers: triggers.slice(-30),
         discarded: s.history.filter((h) => h.discarded).length,
+        accounting: s.accounting,
+        capabilities: s.capabilities,
+        bounds: s.bounds,
       };
     },
     destroy() {
       win?.removeEventListener?.('gev:scene-evidence', onEvidence);
       win?.removeEventListener?.(SCENE_FOOTAGE_EVENT, onExplicit);
       win?.removeEventListener?.('gev:incident-external', onExternal);
-      win?.removeEventListener?.('gev:incident-command-started', onPromptStart);
+      win?.removeEventListener?.('gev:incident-command-started', onPromptEvent);
       win?.removeEventListener?.(
         'gev:incident-command-cancelled',
-        onPromptStart,
+        onPromptEvent,
       );
       handler?.destroy?.();
       removeMoveEnd?.();

@@ -288,7 +288,21 @@ export function createOnDemandClient(options = {}) {
         });
       } catch (err) {
         link.cleanup();
-        try { init.onResponse?.({ method, path: new URL(url).pathname.replace(/\/sessions\/[^/]+\//, '/sessions/:sessionId/'), status: init.signal?.aborted ? 499 : 504, ms: Date.now() - started, attempt: attempt + 1, utc: new Date().toISOString() }); } catch { /* transport diagnostics only */ }
+        try {
+          init.onResponse?.({
+            method,
+            path: new URL(url).pathname.replace(
+              /\/sessions\/[^/]+\//,
+              '/sessions/:sessionId/',
+            ),
+            status: init.signal?.aborted ? 499 : 504,
+            ms: Date.now() - started,
+            attempt: attempt + 1,
+            utc: new Date().toISOString(),
+          });
+        } catch {
+          /* transport diagnostics only */
+        }
         if (init.signal?.aborted) throw new OnDemandAbortError('aborted');
         if (link.timedOut()) {
           lastErr = new OnDemandAbortError('timeout');
@@ -311,7 +325,21 @@ export function createOnDemandClient(options = {}) {
       }
       const ms = Date.now() - started;
       // Transport-only correlation for scene verification, never request bodies or auth.
-      try { init.onResponse?.({ method, path: new URL(url).pathname.replace(/\/sessions\/[^/]+\//, '/sessions/:sessionId/'), status: res.status, ms, attempt: attempt + 1, utc: new Date().toISOString() }); } catch { /* observability cannot fail the request */ }
+      try {
+        init.onResponse?.({
+          method,
+          path: new URL(url).pathname.replace(
+            /\/sessions\/[^/]+\//,
+            '/sessions/:sessionId/',
+          ),
+          status: res.status,
+          ms,
+          attempt: attempt + 1,
+          utc: new Date().toISOString(),
+        });
+      } catch {
+        /* observability cannot fail the request */
+      }
       if (res.ok) {
         log(`[ondemand] ${method} ${redactUrl(url)} ${res.status} ${ms}ms`);
         return res;
@@ -384,13 +412,26 @@ export function createOnDemandClient(options = {}) {
       for (let i = 0; i < maxPages; i += 1) {
         const page = await sessions.list({ ...q, cursor }, opts);
         for (const s of page.data) yield s;
-        cursor = page.pagination?.nextCursor || page.pagination?.cursor;
+        cursor =
+          page.pagination?.next ||
+          page.pagination?.nextCursor ||
+          page.pagination?.cursor;
         if (!cursor || page.data.length === 0) break;
       }
     },
     async get(sessionId, opts = {}) {
       validateObjectId(sessionId, 'sessionId');
       const out = await json(`${urls().chat}/sessions/${sessionId}`, opts);
+      return out?.data;
+    },
+    /** Documented single-message status polling; no query is re-submitted. */
+    async message(sessionId, messageId, opts = {}) {
+      validateObjectId(sessionId, 'sessionId');
+      validateObjectId(messageId, 'messageId');
+      const out = await json(
+        `${urls().chat}/sessions/${sessionId}/messages/${messageId}`,
+        opts,
+      );
       return out?.data;
     },
     /** @param {{limit?:number, cursor?:string, sort?:'asc'|'desc'}} [q] */

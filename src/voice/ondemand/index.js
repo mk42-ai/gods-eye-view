@@ -105,6 +105,40 @@ function readSceneName(sceneDirector) {
 }
 
 /**
+ * Update composer draft from intentional voice interaction without generating or hijacking focus.
+ * @param {Document} doc
+ * @param {string} text
+ * @param {{ intentional?: boolean }} [options]
+ * @returns {boolean} whether draft was updated
+ */
+export function setComposerDraftFromVoice(
+  doc = globalThis.document,
+  text = '',
+  { intentional = false } = {},
+) {
+  const input = doc?.getElementById?.('incident-composer-input');
+  if (!input || !intentional) return false;
+  const active = doc?.activeElement;
+  // Guard: Never hijack typing/focus if operator is actively focused in input/textarea
+  if (
+    active &&
+    (active === input ||
+      active.isContentEditable ||
+      active.tagName === 'INPUT' ||
+      active.tagName === 'TEXTAREA')
+  ) {
+    return false;
+  }
+  // Guard: Never overwrite newer typed drafts
+  const current = String(input.value || '');
+  const next = String(text || '').slice(0, 6000);
+  if (!next.trim() || (current && current !== next)) return false;
+  input.value = next;
+  input.dispatchEvent?.(new Event('input', { bubbles: true }));
+  return true;
+}
+
+/**
  * @param {{ components?: object, doc?: Document, win?: Window, transport?: object,
  *           recorder?: object, player?: object, pipelineOptions?: object }} [options]
  */
@@ -189,13 +223,19 @@ export function installOndemandVoice({
   });
 
   const ui = createOdVoiceUi({ doc });
-  const unbind = bindOdVoiceUi(ui, pipeline, { doc });
+  const unbind = bindOdVoiceUi(ui, pipeline, {
+    doc,
+    onUseDraft: (text) =>
+      setComposerDraftFromVoice(doc, text, { intentional: true }),
+  });
 
   const api = {
     pipeline,
     ui,
     press: () => pipeline.press(),
     submitText: (text, options) => pipeline.submitText(text, options),
+    setComposerDraft: (text, options) =>
+      setComposerDraftFromVoice(doc, text, options),
     cancel: () => pipeline.cancel(),
     getState: () => pipeline.getState(),
     getDetail: () => pipeline.getDetail(),

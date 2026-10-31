@@ -1793,6 +1793,8 @@
       "src/incidents/client.js",
       "src/incidents/ui/overlay.js",
       "src/incidents/ui/composer.js",
+      "src/incidents/ui/draftOwnership.js",
+      "src/incidents/ui/sceneFootageControls.js",
       "src/incidents/ui/index.js",
       "src/sceneVideos/evidence.js",
       "src/sceneVideos/labels.js",

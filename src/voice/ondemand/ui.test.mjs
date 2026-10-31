@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createOdVoiceUi, bindOdVoiceUi, placeBesideGevMic } from './ui.js';
-import { installOndemandVoice } from './index.js';
+import { installOndemandVoice, setComposerDraftFromVoice } from './index.js';
 
 /** Minimal element good enough for ui.js (no innerHTML parsing: the template markup is pre-built). */
 function el(doc, tag, { id = '', className = '' } = {}) {
@@ -346,3 +346,65 @@ test('installOndemandVoice wires plugin selection from win.__odPlugins to transp
   }
 });
 
+test('intentional transcript draft use cannot overwrite typed text or submit', () => {
+  let inputs = 0;
+  const input = {
+    value: '',
+    dispatchEvent() {
+      inputs++;
+    },
+  };
+  const doc = { activeElement: null, getElementById: () => input };
+  assert.equal(setComposerDraftFromVoice(doc, 'Burj Khalifa'), false);
+  assert.equal(inputs, 0);
+  assert.equal(
+    setComposerDraftFromVoice(doc, 'Burj Khalifa\nThree people', {
+      intentional: true,
+    }),
+    true,
+  );
+  assert.equal(input.value, 'Burj Khalifa\nThree people');
+  assert.equal(inputs, 1);
+  assert.equal(
+    setComposerDraftFromVoice(doc, 'Overwrite typed draft', {
+      intentional: true,
+    }),
+    false,
+  );
+  assert.equal(inputs, 1);
+  input.value = '';
+  doc.activeElement = input;
+  assert.equal(
+    setComposerDraftFromVoice(doc, 'Voice text', { intentional: true }),
+    false,
+  );
+  assert.equal(inputs, 1);
+});
+
+test('transcripts only render until an explicit Use draft click; new listening clears stale transcript actions', () => {
+  const { doc } = makeDoc();
+  const ui = createOdVoiceUi({ doc });
+  const pipeline = fakePipeline();
+  const accepted = [];
+  pipeline.cancel = () => {};
+  const unbind = bindOdVoiceUi(ui, pipeline, {
+    doc,
+    onUseDraft: (text) => {
+      accepted.push(text);
+      return true;
+    },
+  });
+  pipeline.emit({ type: 'transcript', text: 'Burj Khalifa\nThree people' });
+  pipeline.emit({
+    type: 'transcript-ready',
+    text: 'Burj Khalifa\nThree people',
+  });
+  assert.equal(accepted.length, 0);
+  assert.equal(ui.buttonLabel.textContent, 'Send transcript');
+  assert.equal(ui.useDraft.hidden, false);
+  ui.useDraft.click();
+  assert.deepEqual(accepted, ['Burj Khalifa\nThree people']);
+  pipeline.emit({ type: 'state', state: 'listening' });
+  assert.equal(ui.useDraft.hidden, true);
+  unbind();
+});

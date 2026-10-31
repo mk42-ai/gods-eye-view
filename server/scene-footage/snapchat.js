@@ -262,6 +262,22 @@ export const PluginResponseSchema = z
   .passthrough();
 
 const iso = z.string().datetime({ offset: false });
+
+export const PROVIDER_CAPABILITIES = Object.freeze({
+  paginationSupported: false,
+  batchSupported: false,
+  multiPlaceInputSupported: true,
+  chatBatchApiVerified: false,
+  rawToolResponsesExposed: false,
+  capabilityBasis:
+    'Observed configured Spotlight operation; no verified cursor/chat-batch contract.',
+  geotagSupported: false,
+  captureTimeSupported: false,
+  directCoordinatesSupported: false,
+  spotlightTextSearchOnly: true,
+  undocumentedEndpointsUsed: false,
+});
+
 /** The application's validated footage clip schema (strict: unknown keys reject). */
 export const FootageClipSchema = z
   .object({
@@ -293,6 +309,15 @@ export const FootageClipSchema = z
     metrics: z
       .object({ views: count, comments: count, shares: count })
       .strict(),
+    uncertainty: z
+      .object({
+        captureTime: z.string(),
+        location: z.string(),
+      })
+      .optional(),
+    temporalMatch: z.string().optional(),
+    sourceType: z.literal('social-footage').optional(),
+    withinPublicationWindow: z.boolean().optional(),
   })
   .strict()
   .refine((c) => Boolean(c.mediaUrl || c.embedUrl), {
@@ -364,7 +389,13 @@ export function locationEvidenceFor(video, names, result = null) {
  */
 export function normalizePluginResponse(
   raw,
-  { step, retrievalTime, now = new Date() },
+  {
+    step,
+    retrievalTime,
+    now = new Date(),
+    timeWindow = null,
+    strictLocation = false,
+  },
 ) {
   const out = { clips: [], rejected: [], results: [], note: null };
   const parsed = PluginResponseSchema.safeParse(raw);
@@ -457,6 +488,57 @@ export function normalizePluginResponse(
           : video.uploadDateMs === null || video.uploadDateMs === undefined
             ? null
             : String(video.uploadDateMs);
+      const publicationTime = parsePublicationTime(video.uploadDateMs, now);
+      // This configured provider has no capture timestamp or verified geotag.
+      // A public text match is NEVER evidence that a hard recording/geo bound is met.
+      if (
+        timeWindow &&
+        (timeWindow.strictCaptureTime ||
+          timeWindow.windowHours ||
+          timeWindow.windowStart ||
+          timeWindow.windowEnd)
+      ) {
+        out.rejected.push({
+          storyId: video.storyId,
+          reason: 'capture-time-unknown',
+          detail:
+            'Upload/publication time cannot satisfy a recording-time window.',
+        });
+        continue;
+      }
+      if (strictLocation) {
+        out.rejected.push({
+          storyId: video.storyId,
+          reason: 'verified-location-unknown',
+          detail:
+            'A caption/place mention cannot satisfy exact radius/bbox bounds.',
+        });
+        continue;
+      }
+      let withinPublicationWindow = true;
+      if (timeWindow && publicationTime) {
+        const pubMs = Date.parse(publicationTime);
+        if (Number.isFinite(pubMs)) {
+          if (
+            timeWindow.windowHours &&
+            pubMs < now.getTime() - Number(timeWindow.windowHours) * 3600_000
+          ) {
+            withinPublicationWindow = false;
+          }
+          if (
+            timeWindow.windowStart &&
+            pubMs < Date.parse(timeWindow.windowStart)
+          ) {
+            withinPublicationWindow = false;
+          }
+          if (
+            timeWindow.windowEnd &&
+            pubMs > Date.parse(timeWindow.windowEnd)
+          ) {
+            withinPublicationWindow = false;
+          }
+        }
+      }
       const clip = {
         id: `snap-${video.storyId}`,
         sourcePlatform: 'snapchat',
@@ -475,7 +557,7 @@ export function normalizePluginResponse(
         locationEvidence: loc.evidence,
         locationEvidenceDetail: loc.detail.slice(0, 200),
         captureTime: null,
-        publicationTime: parsePublicationTime(video.uploadDateMs, now),
+        publicationTime,
         publicationTimeRaw: raw,
         publicationTimezoneAssumption: 'UTC',
         retrievalTime,
@@ -496,6 +578,16 @@ export function normalizePluginResponse(
           comments: video.commentCount ?? null,
           shares: video.shareCount ?? null,
         },
+        uncertainty: {
+          captureTime: 'unknown (provider returns upload date only)',
+          location:
+            loc.evidence === 'geotag' ? 'exact' : 'approximate (text match)',
+        },
+        temporalMatch: timeWindow?.strictCaptureTime
+          ? 'unverified-capture-time'
+          : 'publication-time-only',
+        sourceType: 'social-footage',
+        ...(timeWindow ? { withinPublicationWindow } : {}),
       };
       const checked = FootageClipSchema.safeParse(clip);
       if (!checked.success) {
@@ -553,6 +645,21 @@ export function dedupeClips(clips) {
 export const byRecency = (a, b) =>
   (Date.parse(b.publicationTime || 0) || 0) -
   (Date.parse(a.publicationTime || 0) || 0);
+
+/** Rank text-query granularity then publication date; this is NOT measured geographic proximity. */
+export function rankClips(clips, { targetLevel = 'landmark' } = {}) {
+  const levelRank = (lvl) => {
+    const idx = COVERAGE_LEVELS.indexOf(lvl);
+    return idx >= 0 ? idx : 99;
+  };
+  return [...clips].sort((a, b) => {
+    const lvlDiff = levelRank(a.coverageLevel) - levelRank(b.coverageLevel);
+    if (lvlDiff !== 0) return lvlDiff;
+    const timeA = Date.parse(a.publicationTime || 0) || 0;
+    const timeB = Date.parse(b.publicationTime || 0) || 0;
+    return timeB - timeA;
+  });
+}
 
 /** Compose the plugin query: verbatim instruction + structured scene context + the exact call. */
 export function buildQuery({ scene, step, limit, pluginId }) {
@@ -636,10 +743,10 @@ export async function withBackoff(
       if (signal?.aborted || attempt >= attempts || !isRetryable(error))
         throw error;
       const retryAfter = Number(error?.meta?.retryAfterMs) || 0;
-      const delay = Math.min(
-        20_000,
-        Math.max(
-          retryAfter,
+      const delay = Math.max(
+        retryAfter,
+        Math.min(
+          20_000,
           Math.round(baseMs * 2 ** (attempt - 1) * (0.5 + random() / 2)),
         ),
       );
@@ -661,6 +768,9 @@ export async function withBackoff(
  * fewer than minClips relevant clips, query every remaining level up to the
  * cap in ONE further plugin call and keep the narrowest level that produced
  * clips. At most two upstream queries per retrieval.
+ *
+ * Propagates strict bounds and radius limits, ensuring no silent widening
+ * past requested boundaries. Computes end-to-end accounting metrics.
  */
 export async function retrieveSnapchatFootage(scene, deps) {
   const {
@@ -671,20 +781,46 @@ export async function retrieveSnapchatFootage(scene, deps) {
     verify,
     trace = () => {},
   } = deps;
-  const ladder = buildLadder(scene, { maxCoverageLevel: cfg.maxCoverageLevel });
+  const ladder = buildLadder(scene, {
+    maxCoverageLevel: cfg.maxCoverageLevel,
+    strictBounds: Boolean(scene.strictBounds || scene.bbox),
+    radiusKm: scene.radius,
+  });
   const queryable = ladder.filter((s) => !s.capped);
+  const rawSourceIds = new Set();
+  const accounting = {
+    returnedCount: 0,
+    uniqueCount: 0,
+    matchingCount: 0,
+    rejectedCount: 0,
+    queriesCount: 0,
+    logicalQueriesCount: 0,
+    pollsCount: 0,
+    pagesCount: 0, // increment only after a real provider result set is returned
+    attemptsCount: 0,
+    partial: false,
+    truncated: false,
+  };
   const report = {
     ladder: ladder.map((s) => ({
       level: s.level,
       label: s.label,
       names: s.names,
       capped: s.capped,
+      ...(s.cappedReason ? { cappedReason: s.cappedReason } : {}),
       queried: false,
       clips: 0,
     })),
     rejected: [],
     upstream: [],
     pluginNote: null,
+    accounting,
+    capabilities: PROVIDER_CAPABILITIES,
+    bounds: {
+      radius: scene.radius || null,
+      strictBounds: Boolean(scene.strictBounds),
+      timeWindow: scene.timeWindow || null,
+    },
   };
   if (!queryable.length)
     return {
@@ -694,10 +830,13 @@ export async function retrieveSnapchatFootage(scene, deps) {
       coverageLabel: null,
       expanded: false,
       status: 'empty',
-      emptyReason: 'no-place-name-for-location',
+      emptyReason: scene.strictBounds
+        ? 'no-place-within-strict-bounds'
+        : 'no-place-name-for-location',
     };
   const retrievalTime = now().toISOString();
-  const runStep = async (stepNames, levelSteps) => {
+  const executeStep = async (stepNames, levelSteps) => {
+    accounting.logicalQueriesCount += 1;
     const step = {
       level: levelSteps[0].level,
       names: stepNames,
@@ -712,6 +851,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
     const t0 = Date.now();
     const res = await withBackoff(
       async (attempt) => {
+        accounting.attemptsCount += 1;
         trace('session_create', { pluginIds: [cfg.pluginId], attempt });
         const session = await client.sessions.create(
           { externalUserId: 'gev-scene-footage', pluginIds: [cfg.pluginId] },
@@ -727,6 +867,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
           limit: cfg.resultLimit,
           attempt,
         });
+        accounting.queriesCount += 1;
         const out = await client.query.sync(
           session.id,
           {
@@ -748,17 +889,70 @@ export async function retrieveSnapchatFootage(scene, deps) {
       },
     );
     const session = { id: res._sessionId };
-    const data = res?.data || res || {};
+    let data = res?.data || res || {};
+    if (data.sessionId && data.sessionId !== session.id)
+      throw Object.assign(new Error('plugin_session_identity_mismatch'), {
+        status: 502,
+      });
+    const messageId = data.messageId;
+    let polls = 0;
+    while (data.status === 'processing') {
+      if (
+        !messageId ||
+        typeof client.sessions.message !== 'function' ||
+        polls >= 20
+      )
+        throw Object.assign(
+          new Error('plugin_status_polling_unavailable_or_deadline'),
+          { status: 504 },
+        );
+      if (signal?.aborted)
+        throw Object.assign(new Error('aborted'), { status: 499 });
+      await (deps.sleep
+        ? deps.sleep(750)
+        : new Promise((resolve, reject) => {
+            const timer = setTimeout(done, 750);
+            function done() {
+              signal?.removeEventListener('abort', cancelled);
+              resolve();
+            }
+            function cancelled() {
+              clearTimeout(timer);
+              signal?.removeEventListener('abort', cancelled);
+              reject(Object.assign(new Error('aborted'), { status: 499 }));
+            }
+            signal?.addEventListener('abort', cancelled, { once: true });
+          }));
+      if (signal?.aborted)
+        throw Object.assign(new Error('aborted'), { status: 499 });
+      data = await client.sessions.message(session.id, messageId, {
+        signal,
+        timeoutMs: 10000,
+      });
+      polls++;
+      accounting.pollsCount++;
+      if (
+        (data?.id && data.id !== messageId) ||
+        (data?.sessionId && data.sessionId !== session.id)
+      )
+        throw Object.assign(new Error('plugin_message_identity_mismatch'), {
+          status: 502,
+        });
+      if (!['processing', 'completed', 'failed'].includes(data?.status))
+        throw Object.assign(new Error('plugin_message_status_invalid'), {
+          status: 502,
+        });
+    }
     trace('query_completed', {
       sessionId: session?.id,
-      messageId: data.messageId,
+      messageId: data.messageId || messageId,
       status: data.status,
       ms: Date.now() - t0,
       ragTimeSec: data.metrics?.ragTimeSec,
     });
     report.upstream.push({
       sessionId: session?.id || null,
-      messageId: data.messageId || null,
+      messageId: data.messageId || messageId || null,
       status: data.status || null,
       ms: Date.now() - t0,
       places: stepNames,
@@ -768,11 +962,36 @@ export async function retrieveSnapchatFootage(scene, deps) {
         status: 502,
       });
     const json = extractPluginJson(data.answer);
-    if (!json) {
-      report.rejected.push({ reason: 'no-plugin-json-in-answer' });
-      return null;
+    if (!json || !PluginResponseSchema.safeParse(json).success) {
+      throw Object.assign(
+        new Error('plugin_source_records_missing_or_invalid'),
+        { status: 502 },
+      );
+    }
+    accounting.pagesCount += 1;
+    for (const r of json.results || []) {
+      const vids = Array.isArray(r.videos) ? r.videos.length : 0;
+      accounting.returnedCount += vids;
+      for (const video of r.videos || []) {
+        if (typeof video?.storyId === 'string') rawSourceIds.add(video.storyId);
+      }
+      accounting.uniqueCount = rawSourceIds.size;
+      if (vids >= (cfg.resultLimit || 3)) {
+        accounting.truncated = true;
+      }
     }
     return json;
+  };
+  const runStep = async (...args) => {
+    try {
+      return await executeStep(...args);
+    } catch (error) {
+      error.footageAccounting = {
+        ...accounting,
+        partial: accounting.returnedCount > 0,
+      };
+      throw error;
+    }
   };
   const evaluate = (json, levelSteps) => {
     const byLevel = [];
@@ -781,6 +1000,10 @@ export async function retrieveSnapchatFootage(scene, deps) {
         step: s,
         retrievalTime,
         now: now(),
+        timeWindow: scene.timeWindow,
+        strictLocation: Boolean(
+          scene.radius || scene.bbox || scene.strictBounds,
+        ),
       });
       if (n.note) report.pluginNote = n.note;
       byLevel.push({ step: s, ...n });
@@ -796,7 +1019,16 @@ export async function retrieveSnapchatFootage(scene, deps) {
   let lastFinish = { candidates: 0, verified: 0 };
   const finish = async (s, clips) => {
     let verified = clips;
-    if (verify) verified = await verify(clips, signal);
+    if (verify) {
+      verified = await verify(clips, signal);
+      const usableIds = new Set(verified.map((c) => c.id));
+      for (const clip of clips)
+        if (!usableIds.has(clip.id))
+          report.rejected.push({
+            storyId: clip.storyId,
+            reason: 'media-unavailable',
+          });
+    }
     lastFinish = { candidates: clips.length, verified: verified.length };
     const { kept, dropped } = dedupeClips(verified);
     for (const id of dropped)
@@ -804,8 +1036,12 @@ export async function retrieveSnapchatFootage(scene, deps) {
         storyId: id.replace(/^snap-/, ''),
         reason: 'duplicate',
       });
-    kept.sort(byRecency);
-    return kept;
+    const ranked = rankClips(kept, { targetLevel: s.level });
+    accounting.matchingCount = Math.max(
+      accounting.matchingCount,
+      ranked.length,
+    );
+    return ranked;
   };
 
   // Cycle 20: the fulfillment model transcribes the plugin JSON and has been
@@ -841,9 +1077,14 @@ export async function retrieveSnapchatFootage(scene, deps) {
     if (clips.length >= cfg.minClips) picked = { step: first, clips };
     else if (clips.length) picked = { step: first, clips, partial: true };
   }
-  // 2) wider levels, one batched call
+  // 2) wider levels, one batched call — only if not strictBounds and wider queryable exists
   const wider = queryable.slice(1);
-  if ((!picked || picked.partial) && wider.length) {
+  if (
+    !scene.strictBounds &&
+    !scene.bbox &&
+    (!picked || picked.partial) &&
+    wider.length
+  ) {
     const json2 = await runStep(
       wider.flatMap((s) => s.names),
       wider,
@@ -857,12 +1098,26 @@ export async function retrieveSnapchatFootage(scene, deps) {
           clips.length;
         if (!picked && clips.length) picked = { step: b.step, clips };
         else if (picked?.partial && clips.length) {
-          const merged = dedupeClips([...picked.clips, ...clips]).kept;
+          const merged = rankClips(
+            dedupeClips([...picked.clips, ...clips]).kept,
+            {
+              targetLevel: first.level,
+            },
+          );
           picked = { step: b.step, clips: merged, mixed: true };
         }
       }
     }
   }
+  accounting.rejectedCount = report.rejected.length;
+  accounting.matchingCount = picked?.clips.length || 0;
+  accounting.partial = Boolean(
+    picked?.partial ||
+    (picked?.clips.length &&
+      report.rejected.some((r) =>
+        ['plugin-item-error', 'media-unavailable'].includes(r.reason),
+      )),
+  );
   if (!picked)
     return {
       ...report,
@@ -878,7 +1133,9 @@ export async function retrieveSnapchatFootage(scene, deps) {
       retrievalTime,
       emptyReason: report.rejected.some((r) => r.reason === 'plugin-item-error')
         ? 'plugin-media-download-failed'
-        : 'no-relevant-clips',
+        : scene.strictBounds
+          ? 'no-clips-within-strict-bounds'
+          : 'no-relevant-clips',
     };
   return {
     ...report,

@@ -30,6 +30,8 @@ const EVIDENCE_LABEL = {
   unknown: 'unknown',
 };
 const STATE_MESSAGE = {
+  standby:
+    'Snapchat footage available for this scene. Click Discover to search.',
   empty: 'No relevant Snapchat footage found for this area',
   plugin_error: 'Snapchat plugin error — the footage request failed.',
   credentials_required:
@@ -62,14 +64,24 @@ export function createSceneFootagePanel({
   const root = el(doc, 'section', {
     id: FOOTAGE_PANEL_ID,
     className: 'sfp',
-    attrs: { 'aria-label': 'Snapchat scene footage', 'data-phase': 'idle' },
+    attrs: {
+      'aria-label': 'Snapchat scene footage',
+      'data-phase': 'idle',
+      'data-snapchat-discovery': 'panel',
+      'data-footage-source': 'snapchat-spotlight',
+      'data-source-type': 'social-footage',
+    },
   });
   root.hidden = true;
   const head = el(doc, 'div', { className: 'sfp__head' });
   const title = el(doc, 'span', {
     className: 'sfp__title',
   });
-  const snapLogo = createPlatformLogo('snapchat', { size: 14, className: 'sfp__title-logo' }, doc);
+  const snapLogo = createPlatformLogo(
+    'snapchat',
+    { size: 14, className: 'sfp__title-logo' },
+    doc,
+  );
   if (snapLogo) {
     title.append(snapLogo, doc.createTextNode(' '));
   }
@@ -77,7 +89,11 @@ export function createSceneFootagePanel({
   const collapseBtn = el(doc, 'button', {
     id: `${FOOTAGE_PANEL_ID}-collapse`,
     className: 'sfp__btn',
-    attrs: { type: 'button', 'aria-expanded': 'true', 'aria-label': 'Hide footage' },
+    attrs: {
+      type: 'button',
+      'aria-expanded': 'true',
+      'aria-label': 'Hide footage',
+    },
   });
   setIconContent(collapseBtn, 'chevron-up', {}, doc);
   const closeBtn = el(doc, 'button', {
@@ -104,7 +120,11 @@ export function createSceneFootagePanel({
   const status = el(doc, 'div', {
     id: `${FOOTAGE_PANEL_ID}-status`,
     className: 'sfp__status',
-    attrs: { role: 'status', 'aria-live': 'polite' },
+    attrs: {
+      role: 'status',
+      'aria-live': 'polite',
+      'data-snapchat-discovery': 'status',
+    },
   });
   const player = el(doc, 'div', {
     id: `${FOOTAGE_PANEL_ID}-player`,
@@ -117,12 +137,32 @@ export function createSceneFootagePanel({
   const list = el(doc, 'div', {
     id: `${FOOTAGE_PANEL_ID}-clips`,
     className: 'sfp__clips',
-    attrs: { role: 'listbox', 'aria-label': 'Footage clips' },
+    attrs: {
+      role: 'listbox',
+      'aria-label': 'Footage clips',
+      'data-snapchat-discovery': 'clips',
+    },
   });
-  const foot = el(doc, 'div', { className: 'sfp__foot' });
+  const foot = el(doc, 'div', {
+    className: 'sfp__foot',
+    attrs: { 'data-snapchat-discovery': 'controls' },
+  });
   const checked = el(doc, 'span', {
     id: `${FOOTAGE_PANEL_ID}-checked`,
     className: 'sfp__checked',
+  });
+  const discoverBtn = el(doc, 'button', {
+    id: `${FOOTAGE_PANEL_ID}-discover`,
+    className: 'sfp__btn sfp__btn--discover',
+    attrs: {
+      type: 'button',
+      'data-snapchat-discovery': 'discover-btn',
+      'aria-label': 'Discover Snapchat footage for current scene',
+    },
+  });
+  setIconContent(discoverBtn, 'search', { text: 'Discover' }, doc);
+  discoverBtn.addEventListener('click', () => {
+    void controller.discover();
   });
   const refreshSel = el(doc, 'select', {
     id: `${FOOTAGE_PANEL_ID}-refresh`,
@@ -132,13 +172,13 @@ export function createSceneFootagePanel({
   const checkBtn = el(doc, 'button', {
     id: `${FOOTAGE_PANEL_ID}-check`,
     className: 'sfp__btn',
-    attrs: { type: 'button' },
+    attrs: { type: 'button', 'data-snapchat-discovery': 'check-btn' },
   });
   setIconContent(checkBtn, 'refresh-cw', { text: 'Check now' }, doc);
-  foot.append(checked, refreshSel, checkBtn);
+  foot.append(checked, discoverBtn, refreshSel, checkBtn);
   const disclaimer = el(doc, 'p', {
     className: 'sfp__disclaimer',
-    text: 'Snapchat Spotlight clips matched by caption/hashtag text for the place name — not geotagged Snap Map footage. Capture time and author handle are not provided by the plugin. Nothing here is live unless the source confirms it.',
+    text: 'Snapchat Spotlight clips matched by caption/hashtag text for the place name — not geotagged Snap Map footage. Capture time and author handle are not provided by the plugin. Upload dates are interpreted as UTC (a timezone assumption). Place mentions are not measured proximity; the operation exposes no pagination or verified capture history. Nothing here is live unless the source confirms it.',
   });
   body.append(
     sceneLine,
@@ -285,7 +325,7 @@ export function createSceneFootagePanel({
           attrs: { 'aria-hidden': 'true' },
         }),
         doc.createTextNode(
-          `Searching Snapchat for footage near ${s.placeName || fmtCoord(s)}…`,
+          `Searching public Snapchat place-name mentions for ${s.placeName || fmtCoord(s)}…`,
         ),
       );
     } else if (STATE_MESSAGE[st.phase]) {
@@ -316,6 +356,17 @@ export function createSceneFootagePanel({
           `${st.clips.length} clip${st.clips.length === 1 ? '' : 's'}${st.lastAdded ? ` · +${st.lastAdded} new on last refresh` : ''}`,
         ),
       );
+    if (
+      (st.bounds?.timeWindow || st.bounds?.strictBounds || st.bounds?.radius) &&
+      st.phase !== 'loading'
+    ) {
+      status.append(
+        el(doc, 'small', {
+          className: 'sfp__ladder',
+          text: ' Strict recording/geographic bounds apply. This Spotlight operation supplies no verified capture time or coordinates; unknown records do not qualify.',
+        }),
+      );
+    }
     if (st.phase === 'plugin_error' && st.error)
       status.append(
         el(doc, 'small', {
@@ -337,8 +388,14 @@ export function createSceneFootagePanel({
       const attrSpan = el(doc, 'span');
       const attrLogo = createPlatformLogo('snapchat', { size: 14 }, doc);
       if (attrLogo) attrSpan.append(attrLogo, doc.createTextNode(' '));
-      const uploadTimeStr = clip.publicationTime ? ` · ${formatAgo(clip.publicationTime, t)}` : '';
-      attrSpan.append(doc.createTextNode(`Source: Snapchat Spotlight${uploadTimeStr} · ${clip.attribution ? `@${clip.attribution}` : 'author handle not returned'}`));
+      const uploadTimeStr = clip.publicationTime
+        ? ` · ${formatAgo(clip.publicationTime, t)}`
+        : '';
+      attrSpan.append(
+        doc.createTextNode(
+          `Source: Snapchat Spotlight${uploadTimeStr} · ${clip.attribution ? `@${clip.attribution}` : 'author handle not returned'}`,
+        ),
+      );
       attr.append(attrSpan);
       if (clip.sourceUrl) {
         attr.append(doc.createTextNode(' · '));
@@ -391,6 +448,9 @@ export function createSceneFootagePanel({
             'aria-selected': String(c.id === st.selectedId),
             'data-clip-id': c.id,
             'data-location-id': st.locationId,
+            'data-snapchat-discovery': 'clip',
+            'data-footage-source': 'snapchat-spotlight',
+            'data-source-type': 'social-footage',
           },
         });
         b.append(
@@ -410,13 +470,24 @@ export function createSceneFootagePanel({
       }),
     );
     list.hidden = st.clips.length === 0;
+    const isStandby = st.phase === 'standby';
+    discoverBtn.hidden = false;
+    discoverBtn.disabled = loading || Boolean(st.refreshing);
+    checkBtn.hidden = isStandby;
+    refreshSel.hidden = isStandby;
+    const acct = st.accounting
+      ? `${st.accounting.returnedCount} returned · ${st.accounting.uniqueCount} unique IDs · ${st.accounting.matchingCount} matching · ${st.accounting.queriesCount} queries / ${st.accounting.attemptsCount} attempts · ${st.accounting.pagesCount} result sets${st.accounting.partial ? ' · partial' : ''}${st.accounting.truncated ? ' · limit reached; more may exist' : ''}`
+      : '';
     const retrieved = st.retrievalTime
       ? `retrieved ${formatAgo(st.retrievalTime, t)}${st.cached ? ' (server cache)' : ''}`
       : '';
     const last = st.lastCheckedAt
       ? `last checked ${new Date(st.lastCheckedAt).toISOString().slice(11, 19)} UTC (${formatAgo(st.lastCheckedAt, t)})`
-      : 'not checked yet';
+      : isStandby
+        ? 'ready for discovery'
+        : 'not checked yet';
     checked.textContent = [
+      acct,
       retrieved,
       last,
       st.paused

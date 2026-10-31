@@ -1,8 +1,8 @@
 /**
  * src/voice/ondemand/pipeline.js — the OnDemand voice turn state machine.
  *
- *   idle → listening → transcribing → thinking → speaking → idle
- *                                              ↘ error (reason) → idle on next press
+ *   idle → listening → transcribing → explicit transcript confirmation → thinking → speaking → idle
+ *   A manual Send is already confirmation. Silence/cap are capture stops, never command submission.
  *
  * STREAMING TURN-BASED by design: the live OnDemand public API exposes no
  * client-facing realtime/advanced-voice WebSocket or WebRTC surface
@@ -16,8 +16,8 @@
  * optional per-browser API key: the transport attaches it at the fetch
  * boundary and nothing here reads storage.
  *
- * Barge-in: a button press (or the recorder's monitor hearing sustained
- * speech) while `speaking` stops playback immediately, abandons the turn's
+ * Barge-in: only an explicit button press while `speaking` stops playback
+ * immediately and abandons the turn's
  * pending work — including an in-flight workflow poll (AbortController) —
  * and starts a fresh `listening` turn.
  */
@@ -370,6 +370,18 @@ export function createVoicePipeline({
     }
     turn.transcript = transcript;
     turn.audioUrl = audioUrl;
+    if (reason !== 'manual') {
+      // Silence and the safety cap may stop capture, but cannot submit a command.
+      turn.awaitingTranscriptConfirmation = true;
+      turn._transcriptEmitted = true;
+      emit({ type: 'transcript', text: transcript, turn: turn.id });
+      setState(
+        'idle',
+        'Transcript ready — press Send transcript, or explicitly use it as a draft.',
+      );
+      emit({ type: 'transcript-ready', text: transcript, turn: turn.id });
+      return turn;
+    }
     await runTurn(turn);
     return turn;
   }
@@ -670,19 +682,7 @@ export function createVoicePipeline({
     if (ttsAudioUrl) {
       setState('speaking', 'Speaking…');
       stopMonitor();
-      if (typeof recorder.monitor === 'function') {
-        try {
-          monitor = await recorder.monitor({
-            onSpeech: () => {
-              if (activeTurn === turn && state === 'speaking') {
-                void bargeIn('voice');
-              }
-            },
-          });
-        } catch {
-          monitor = null;
-        }
-      }
+      // Passive microphone barge-in is disabled; only an explicit button starts capture.
       if (signal.aborted || activeTurn !== turn) {
         stopMonitor();
         return;
@@ -871,18 +871,7 @@ export function createVoicePipeline({
     const signal = turn.controller.signal;
     setState('speaking', reason ? `Speaking (local) — ${reason}` : 'Speaking…');
     stopMonitor();
-    if (typeof recorder.monitor === 'function') {
-      try {
-        monitor = await recorder.monitor({
-          onSpeech: () => {
-            if (activeTurn === turn && state === 'speaking')
-              void bargeIn('voice');
-          },
-        });
-      } catch {
-        monitor = null;
-      }
-    }
+    // Do not reopen the microphone while playing a response or while the user types.
     if (signal.aborted || activeTurn !== turn) {
       stopMonitor();
       return;
@@ -912,7 +901,7 @@ export function createVoicePipeline({
 
   async function bargeIn(origin = 'button') {
     const turn = activeTurn;
-    if (!turn || state !== 'speaking') return null;
+    if (!turn || state !== 'speaking' || origin !== 'button') return null;
     turn.metrics.bargeIn = origin;
     emit({ type: 'barge-in', origin, turn: turn.id });
     player.stop();
@@ -945,6 +934,12 @@ export function createVoicePipeline({
     switch (state) {
       case 'idle':
       case 'error':
+        if (activeTurn?.awaitingTranscriptConfirmation) {
+          const turn = activeTurn;
+          turn.awaitingTranscriptConfirmation = false;
+          void runTurn(turn);
+          return 'send';
+        }
         await startListening('button');
         return 'listen';
       case 'listening':

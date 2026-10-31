@@ -98,10 +98,18 @@ export function locationIdFor({ lat, lon, placeName } = {}) {
  * for (by name) or, failing that, the narrowest configured place containing
  * the coordinate (or bbox centre), then follows `parent` links. Levels wider
  * than maxCoverageLevel are reported as `capped` and never queried.
+ *
+ * If strictBounds is true or radiusKm is provided, steps outside the requested
+ * geographic boundary are capped with an explicit cappedReason.
  */
 export function buildLadder(
   { lat, lon, placeName, bbox } = {},
-  { maxCoverageLevel = 'district', places = PLACES } = {},
+  {
+    maxCoverageLevel = 'district',
+    places = PLACES,
+    strictBounds = false,
+    radiusKm = null,
+  } = {},
 ) {
   const byId =
     places === PLACES ? BY_ID : new Map(places.map((p) => [p.id, p]));
@@ -125,17 +133,40 @@ export function buildLadder(
       source: 'requested-name',
     });
   }
+  let stepIndex = 0;
   while (start && !seen.has(start.id)) {
     seen.add(start.id);
+    let capped = levelIndex(start.level) > cap;
+    let cappedReason = capped ? 'max-coverage-level' : null;
+
+    if (!capped && strictBounds && stepIndex > 0) {
+      capped = true;
+      cappedReason = 'strict-bounds';
+    } else if (
+      !capped &&
+      Number.isFinite(radiusKm) &&
+      radiusKm > 0 &&
+      point &&
+      start.center
+    ) {
+      const dist = haversineKm(point, start.center);
+      if (dist + (Number(start.radius_km) || 0) > radiusKm) {
+        capped = true;
+        cappedReason = 'beyond-requested-radius';
+      }
+    }
+
     steps.push({
       level: start.level,
       placeId: start.id,
       names: [...start.names],
       label: start.names[0],
-      capped: levelIndex(start.level) > cap,
+      capped,
+      ...(cappedReason ? { cappedReason } : {}),
       source: start.source,
     });
     start = start.parent ? byId.get(start.parent) : null;
+    stepIndex += 1;
   }
   return steps;
 }

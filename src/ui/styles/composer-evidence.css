@@ -13,6 +13,38 @@
       long names ellipsize with a tooltip, sections collapsed by default.
    ========================================================================== */
 
+/* Submission actions are compact, secondary, and never defeat native hidden.
+ * Lucide button layout previously overrode the user-agent [hidden] rule. */
+#incident-composer [hidden] {
+  display: none !important;
+}
+#incident-composer .incident-composer__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+  order: 3;
+}
+#incident-composer
+  .incident-composer__actions:not(:has(> button:not([hidden]))) {
+  display: none;
+}
+#incident-composer :is(.incident-composer__cancel, .incident-composer__retry) {
+  flex: 0 0 auto;
+  min-height: 28px !important;
+  padding: 4px 8px !important;
+  color: var(--ui-text-secondary, #b7b9bc) !important;
+  background: transparent !important;
+  border: 1px solid var(--ui-border, #3d4248) !important;
+  font-size: 11px !important;
+  width: auto !important;
+}
+#incident-composer .incident-composer__shortcut-hint {
+  font-size: 10px;
+  color: #b7b9bc;
+}
+
 /* ---------- shared: words never break mid-word ---------- */
 #incident-composer,
 #incident-composer *,
@@ -70,7 +102,10 @@
   min-width: 0;
   margin-top: 6px;
 }
-#incident-composer .incident-composer__status:has(> .incident-composer__result[hidden]):not(:has(.sev-chip:not([hidden]))) {
+#incident-composer
+  .incident-composer__status:has(> .incident-composer__result[hidden]):not(
+    :has(.sev-chip:not([hidden]))
+  ) {
   display: none;
 }
 #incident-composer .incident-composer__status > .incident-composer__result {
@@ -84,7 +119,8 @@
   min-width: 0;
   margin-left: auto;
 }
-#incident-composer .incident-composer__evidence-slot:not(:has(.sev-chip:not([hidden]))) {
+#incident-composer
+  .incident-composer__evidence-slot:not(:has(.sev-chip:not([hidden]))) {
   display: none;
 }
 #incident-composer .incident-composer__message {
@@ -393,7 +429,9 @@ body .sev[data-open='true']:not([hidden]) {
 .sev .sev__section[open] {
   padding-bottom: 10px;
 }
-.sev .sev__diagnostics :is(.sev__scope, .sev__timing, .sev__diff, .sev__limits) {
+.sev
+  .sev__diagnostics
+  :is(.sev__scope, .sev__timing, .sev__diff, .sev__limits) {
   display: block;
   margin: 0 0 6px;
   font: 400 11px/1.45 var(--ui-font-sans, 'Inter', system-ui, sans-serif);
@@ -414,12 +452,20 @@ body .sev[data-open='true']:not([hidden]) {
 .sev .sev__source {
   grid-template-columns: 7rem minmax(0, 1fr) auto;
 }
-.sev :is(.sev-card__meta, .sev__source-note, .sev-card__rejection, .sev-card__src) {
+.sev
+  :is(
+    .sev-card__meta,
+    .sev__source-note,
+    .sev-card__rejection,
+    .sev-card__src
+  ) {
   overflow-wrap: break-word !important;
 }
 
 /* ---------- telemetry / bleed: nothing shows through or under the drawer ---------- */
-body.sev-open #intel-hud :is(.hud-top-right, .hud-bottom-right, .hud-right-edge) {
+body.sev-open
+  #intel-hud
+  :is(.hud-top-right, .hud-bottom-right, .hud-right-edge) {
   visibility: hidden !important;
 }
 body.sev-open #scene-video-rail {
@@ -432,7 +478,9 @@ body.sev-open #scene-video-rail {
   body #incident-composer {
     bottom: calc(var(--command-dock-clearance, 96px) + 12px) !important;
     margin-bottom: 0 !important;
-    max-block-size: calc(100dvh - var(--command-dock-clearance, 96px) - 12px - 120px);
+    max-block-size: calc(
+      100dvh - var(--command-dock-clearance, 96px) - 12px - 120px
+    );
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -443,15 +491,22 @@ body.sev-open #scene-video-rail {
   }
   /* The legacy sidebar reserve keys off this variable: follow the new anchor. */
   :root {
-    --workstation-composer-bottom: calc(var(--command-dock-clearance, 96px) + 12px);
+    --workstation-composer-bottom: calc(
+      var(--command-dock-clearance, 96px) + 12px
+    );
   }
   /* The drawer ends above the composer, so the two never share pixels. */
   .sev,
   body .sev {
-    bottom: calc(var(--command-dock-clearance, 96px) + 12px + var(--incident-composer-height, 96px) + 12px);
+    bottom: calc(
+      var(--command-dock-clearance, 96px) + 12px +
+        var(--incident-composer-height, 96px) + 12px
+    );
   }
   /* While typing, dock trays never pop open over the composer. */
-  body:has(#incident-composer:focus-within) #command-dock .dock-popover-content {
+  body:has(#incident-composer:focus-within)
+    #command-dock
+    .dock-popover-content {
     display: none !important;
   }
 }
@@ -495,7 +550,10 @@ body.sev-open #scene-video-rail {
   }
   /* Footage top sheet ends above the command dock (dock sits above the composer). */
   .sfp {
-    max-height: calc(100dvh - max(8px, env(safe-area-inset-top, 0px)) - 60px - var(--command-dock-clearance, 200px) - 10px) !important;
+    max-height: calc(
+      100dvh - max(8px, env(safe-area-inset-top, 0px)) - 60px -
+        var(--command-dock-clearance, 200px) - 10px
+    ) !important;
   }
   .sev .sev__head::before {
     content: '';
@@ -573,7 +631,9 @@ body.sev-open #scene-video-rail {
   justify-content: center;
   gap: 6px;
 }
-#incident-composer :is(.incident-composer__submit, .incident-composer__play) > svg.od-icon {
+#incident-composer
+  :is(.incident-composer__submit, .incident-composer__play)
+  > svg.od-icon {
   --od-icon-size: 15px;
   flex: 0 0 auto;
 }
@@ -617,7 +677,9 @@ body.sev-open #scene-video-rail {
   vertical-align: -3px;
 }
 #command-dock :is(#location-bar, #control-panel):hover svg.dock-label-svg,
-#command-dock :is(#location-bar, #control-panel).dock-pinned svg.dock-label-svg {
+#command-dock
+  :is(#location-bar, #control-panel).dock-pinned
+  svg.dock-label-svg {
   color: var(--ui-accent, #3bb795);
 }
 .od-voice-btn svg.od-voice-mic {
@@ -645,7 +707,8 @@ body.sev-open #scene-video-rail {
   body .sfp {
     left: calc(var(--workstation-sidebar-width, 320px) + 32px);
     max-height: calc(
-      100dvh - 96px - var(--command-dock-clearance, 96px) - var(--incident-composer-height, 96px) - 36px
+      100dvh - 96px - var(--command-dock-clearance, 96px) -
+        var(--incident-composer-height, 96px) - 36px
     );
   }
   /* Telemetry top-left (with ASK) moves past the footage column while it is open. */
@@ -662,15 +725,23 @@ body.sev-open #scene-video-rail {
 @media (max-width: 700px) {
   .sfp,
   body .sfp {
-    top: calc(var(--marina-mobile-top, 68px) + var(--marina-mobile-drawer-bar, 54px) + 8px) !important;
+    top: calc(
+      var(--marina-mobile-top, 68px) + var(--marina-mobile-drawer-bar, 54px) +
+        8px
+    ) !important;
     max-height: calc(
-      100dvh - var(--marina-mobile-top, 68px) - var(--marina-mobile-drawer-bar, 54px) - 8px -
+      100dvh - var(--marina-mobile-top, 68px) -
+        var(--marina-mobile-drawer-bar, 54px) - 8px -
         var(--command-dock-clearance, 200px) - 10px
     ) !important;
   }
   /* An open Scenes/Layers drawer owns the top band; the footage sheet waits
    * (its video keeps playing) and returns when the drawer closes. */
-  body:has(#left-panel-stack > :is(#scene-panel, #data-panel):not([hidden]):not(.collapsed)) .sfp {
+  body:has(
+      #left-panel-stack
+        > :is(#scene-panel, #data-panel):not([hidden]):not(.collapsed)
+    )
+    .sfp {
     display: none !important;
   }
   .workstation-sidebar-tabs__tab,
@@ -683,7 +754,12 @@ body.sev-open #scene-video-rail {
 /* Phones: an open Scenes/Layers drawer covers the telemetry band, so the
  * top-left telemetry (and its ASK button) steps back until it closes. */
 @media (max-width: 700px) {
-  body:has(#left-panel-stack > :is(#scene-panel, #data-panel):not([hidden]):not(.collapsed)) #intel-hud .hud-top-left {
+  body:has(
+      #left-panel-stack
+        > :is(#scene-panel, #data-panel):not([hidden]):not(.collapsed)
+    )
+    #intel-hud
+    .hud-top-left {
     visibility: hidden !important;
   }
 }

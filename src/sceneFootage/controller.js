@@ -154,6 +154,10 @@ export function createFootageController({
     trigger: null,
     history: [],
     userRefresh: false,
+    accounting: null,
+    capabilities: null,
+    bounds: null,
+    standby: false,
   });
   let state = initial();
   const emit = () => {
@@ -173,7 +177,7 @@ export function createFootageController({
   function schedule() {
     clearTimer(timer);
     timer = null;
-    if (destroyed || !state.scene || !state.refreshMs) return;
+    if (destroyed || !state.scene || state.standby || !state.refreshMs) return;
     timer = setTimer(
       () => {
         if (hidden()) {
@@ -204,7 +208,7 @@ export function createFootageController({
     reason = null,
   } = {}) {
     const scene = state.scene;
-    if (!scene) return null;
+    if (!scene || state.standby) return null;
     const run = generation;
     abort?.abort();
     const ctl = new AbortController();
@@ -219,6 +223,12 @@ export function createFootageController({
       bbox: scene.bbox || null,
       clientTimeIso: new Date(now()).toISOString(),
       fresh: fresh || refresh,
+      ...(state.bounds?.radius ? { radius: state.bounds.radius } : {}),
+      ...(state.bounds?.strictBounds ? { strictBounds: true } : {}),
+      ...(state.bounds?.timeWindow
+        ? { timeWindow: state.bounds.timeWindow }
+        : {}),
+      ...(state.bounds?.trigger ? { trigger: state.bounds.trigger } : {}),
     };
     let res, json;
     try {
@@ -267,6 +277,9 @@ export function createFootageController({
       requestId: json.requestId,
       trace: json.trace || [],
       ladder: json.ladder || state.ladder,
+      accounting: json.accounting || null,
+      capabilities: json.capabilities || null,
+      bounds: json.bounds || state.bounds,
     };
     if (!res.ok || (json.state !== 'ok' && json.state !== 'empty')) {
       const st = json.state || 'plugin_error';
@@ -311,6 +324,10 @@ export function createFootageController({
       lastAdded: merged.added,
       error: null,
       message: reason === 'expired' ? 'Media link refreshed.' : null,
+      accounting: json.accounting || null,
+      capabilities: json.capabilities || null,
+      bounds: json.bounds || state.bounds,
+      standby: false,
     });
     schedule();
     return json;
@@ -325,7 +342,17 @@ export function createFootageController({
       return () => listeners.delete(fn);
     },
     /** Open (or re-open) a scene. Same locationId + same generation → no-op unless force. */
-    open(scene, { trigger = 'api', force = false } = {}) {
+    open(
+      scene,
+      {
+        trigger = 'api',
+        force = false,
+        standby = false,
+        radius = null,
+        timeWindow = null,
+        strictBounds = false,
+      } = {},
+    ) {
       if (
         destroyed ||
         !scene ||
@@ -345,6 +372,13 @@ export function createFootageController({
       abort?.abort();
       clearTimer(timer);
       timer = null;
+      const bounds = {
+        radius: Number.isFinite(Number(radius))
+          ? Number(radius)
+          : scene.radius || null,
+        strictBounds: Boolean(strictBounds || scene.strictBounds),
+        timeWindow: timeWindow || scene.timeWindow || null,
+      };
       state = {
         ...initial(),
         refreshMs: state.refreshMs,
@@ -355,9 +389,38 @@ export function createFootageController({
         generation,
         trigger,
         requestedLabel: scene.placeName || null,
+        phase: standby ? 'standby' : 'idle',
+        standby: Boolean(standby),
+        bounds,
+        message: standby
+          ? 'Snapchat discovery available for this scene.'
+          : null,
       };
       emit();
+      if (standby) return Promise.resolve(state);
       return request();
+    },
+    /** Explicit discovery: exit standby or re-query with explicit bounds */
+    discover(options = {}) {
+      if (!state.scene) return null;
+      const mergedBounds = {
+        radius:
+          options.radius !== undefined ? options.radius : state.bounds?.radius,
+        timeWindow:
+          options.timeWindow !== undefined
+            ? options.timeWindow
+            : state.bounds?.timeWindow,
+        strictBounds:
+          options.strictBounds !== undefined
+            ? Boolean(options.strictBounds)
+            : Boolean(state.bounds?.strictBounds),
+      };
+      return api.open(state.scene, {
+        trigger: options.trigger || 'explicit',
+        force: true,
+        standby: false,
+        ...mergedBounds,
+      });
     },
     refresh() {
       return request({ refresh: true });

@@ -282,7 +282,7 @@ test('STATES / LIMITS are the documented ones', () => {
   assert.equal(LIMITS.workflowTimeoutMs, 90_000);
 });
 
-test('full turn: press → listening → silence → transcribing → thinking → speaking → idle; local intent before network; workflow triggered; MapActions dispatched', async () => {
+test('full turn waits for explicit transcript confirmation after silence, then retains voice actions', async () => {
   const h = harness();
   assert.equal(h.pipeline.getState(), 'idle');
   const action = await h.pipeline.press();
@@ -295,7 +295,15 @@ test('full turn: press → listening → silence → transcribing → thinking �
   );
 
   h.recorder.speech();
-  h.recorder.silence(); // ≈1.2 s of quiet after speech → send
+  h.recorder.silence(); // silence stops capture, but never submits a command
+  await flush(12);
+  assert.equal(h.pipeline.getState(), 'idle');
+  assert.equal(h.layerCalls.length, 0);
+  assert.equal(
+    h.transport.calls.some((c) => c[0] === 'chatStream'),
+    false,
+  );
+  await h.pipeline.press();
   await flush(12);
   // the answer is now being spoken; finish playback
   assert.equal(h.pipeline.getState(), 'speaking');
@@ -306,6 +314,7 @@ test('full turn: press → listening → silence → transcribing → thinking �
     'listening',
     'listening',
     'transcribing',
+    'idle', // explicit transcript confirmation gate
     'thinking', // local fast path
     'thinking', // route
     'speaking',
@@ -362,8 +371,12 @@ test('full turn: press → listening → silence → transcribing → thinking �
     voice: 'alloy',
   });
   assert.equal(h.player.plays.length, 1);
-  assert.equal(h.recorder.monitors, 1, 'barge-in monitor armed while speaking');
-  assert.equal(h.recorder.monitorStopped, 1);
+  assert.equal(
+    h.recorder.monitors,
+    0,
+    'no passive microphone restart during playback',
+  );
+  assert.equal(h.recorder.monitorStopped, 0);
 
   // the workflow poll is still pending after the spoken answer — let it finish
   const wfEvents = () =>
@@ -408,6 +421,9 @@ test('barge-in: press while speaking stops playback, abandons the pending workfl
   await h.pipeline.press();
   h.recorder.silence();
   await flush(12);
+  assert.equal(h.pipeline.getState(), 'idle');
+  await h.pipeline.press();
+  await flush(12);
   assert.equal(h.pipeline.getState(), 'speaking');
   assert.equal(h.transport.workflowSignal.aborted, false);
 
@@ -429,16 +445,23 @@ test('barge-in: press while speaking stops playback, abandons the pending workfl
     h.events.some((e) => e.type === 'workflow' && e.phase === 'abandoned'),
   );
 
-  // the monitor hearing speech during playback is the other barge-in trigger
+  // Ambient speech may NOT restart listening; an explicit button can still barge in.
   h.recorder.silence();
   await flush(12);
+  assert.equal(h.pipeline.getState(), 'idle');
+  await h.pipeline.press();
+  await flush(12);
   assert.equal(h.pipeline.getState(), 'speaking');
-  h.recorder.monitorSpeech();
+  h.recorder.monitorSpeech?.();
   await flush(4);
+  assert.equal(h.pipeline.getState(), 'speaking');
+  await h.pipeline.bargeIn('voice');
+  assert.equal(h.pipeline.getState(), 'speaking');
+  await h.pipeline.press();
   assert.equal(h.pipeline.getState(), 'listening');
   assert.equal(h.recorder.starts, 3);
   assert.ok(
-    h.events.some((e) => e.type === 'barge-in' && e.origin === 'voice'),
+    h.events.some((e) => e.type === 'barge-in' && e.origin === 'button'),
   );
 });
 
@@ -448,6 +471,13 @@ test('12 s utterance cap: without a silence verdict the pipeline stops listening
   h.timers.fire(12_000);
   await flush(12);
   assert.equal(h.recorder.stopped, 1);
+  assert.equal(h.pipeline.getState(), 'idle');
+  assert.equal(
+    h.transport.calls.some((c) => c[0] === 'chatStream'),
+    false,
+  );
+  await h.pipeline.press();
+  await flush(12);
   h.player.finish();
   await flush(4);
   const metrics = h.events.find((e) => e.type === 'metrics').metrics;
@@ -680,6 +710,8 @@ test('key handling: the x-ondemand-key header goes out only when a key is stored
   });
   await withKey.pipeline.press();
   withKey.recorder.silence();
+  await flush(16);
+  await withKey.pipeline.press();
   await flush(16);
   withKey.player.finish();
   await flush(6);

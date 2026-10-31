@@ -1540,7 +1540,7 @@ function typePrompt(composer, text) {
 }
 
 describe('prompt input lifecycle', () => {
-  test('typing an initial place acknowledges immediately and builds after 300 ms without touching hours', async (t) => {
+  test('typing and long pauses never build; only explicit submission initiates the initial scene', async (t) => {
     t.mock.timers.enable({ apis: ['setTimeout'] });
     const client = fakeClient({ candidates: [BURJ] });
     const delivered = [];
@@ -1551,16 +1551,18 @@ describe('prompt input lifecycle', () => {
       onScene: (p) => delivered.push(p),
     });
     typePrompt(c, 'Burj Khalifa');
-    assert.equal(c.element.getAttribute('data-state'), 'busy');
-    assert.equal(c.state.busy, true);
-    assert.match(c.element.text(), /Preparing your scene prompt/);
+    assert.equal(c.element.getAttribute('data-state'), 'idle');
+    assert.equal(c.state.busy, false);
+    assert.equal(c.element.dataset.submissionMode, 'explicit');
     assert.equal(Number(c.element.dataset.promptRevision), 1);
     assert.equal(client.calls.length, 0);
     t.mock.timers.tick(299);
     await tick();
     assert.equal(client.calls.length, 0);
-    t.mock.timers.tick(1);
+    t.mock.timers.tick(5001);
     await tick(40);
+    assert.equal(client.calls.length, 0, 'no timer may initiate generation');
+    await c.submit(c.input.value);
     assert.deepEqual(
       client.calls.map(([kind]) => kind),
       ['locate'],
@@ -1606,18 +1608,20 @@ describe('prompt input lifecycle', () => {
     assert.equal(calls.length, 1);
     old.resolve({ candidates: [MARINA] });
     assert.equal(await first, null);
-    assert.equal(c.element.getAttribute('data-state'), 'busy');
+    assert.equal(c.element.getAttribute('data-state'), 'idle');
     assert.deepEqual(c.state.candidates, []);
     assert.equal(built.length, 0);
-    t.mock.timers.tick(300);
+    t.mock.timers.tick(3000);
     await tick(40);
+    assert.equal(calls.length, 1, 'edited text has no automatic request');
+    await c.submit(c.input.value);
     assert.equal(calls.length, 2);
     assert.equal(built.length, 1);
     assert.equal(c.state.lastScene.anchor.name, 'Burj Khalifa');
     c.destroy();
   });
 
-  test('bursts debounce to the latest text and Cancel also cancels a not-yet-started request', async (t) => {
+  test('draft bursts queue no work; cancel/retry are explicit actions on a submission', async (t) => {
     t.mock.timers.enable({ apis: ['setTimeout'] });
     const client = fakeClient({ candidates: [MARINA] });
     const c = createIncidentComposer({ document: makeDoc(), client });
@@ -1627,14 +1631,18 @@ describe('prompt input lifecycle', () => {
     t.mock.timers.tick(299);
     await tick();
     assert.equal(client.calls.length, 0);
-    assert.equal(c.cancel(), true);
+    assert.equal(c.cancel(), false, 'an idle draft is not a queued request');
     t.mock.timers.tick(1000);
     await tick();
     assert.equal(client.calls.length, 0);
+    const first = c.submit(c.input.value);
+    assert.equal(c.cancel(), true);
+    assert.equal(await first, null);
     assert.equal(c.element.getAttribute('data-state'), 'cancelled');
     button(c, 'retry').dispatch('click');
     await tick(40);
     assert.equal(client.calls[0][1], 'Dubai Marina');
+    assert.equal(client.calls.length, 2);
     assert.equal(c.element.getAttribute('data-state'), 'done');
     c.destroy();
   });
@@ -1672,7 +1680,7 @@ describe('prompt input lifecycle', () => {
       assert.equal(
         client.calls.length,
         1,
-        'keyboard submission cleared the debounce',
+        'keyboard submission was the only admission; no timer duplicates it',
       );
       c.destroy();
     });
@@ -1801,7 +1809,7 @@ describe('async adapter ownership and recording-window isolation', () => {
     assert.ok(calls[0].revision < c.state.promptRevision);
     gate.resolve();
     assert.equal(await first, null);
-    assert.equal(c.element.getAttribute('data-state'), 'busy');
+    assert.equal(c.element.getAttribute('data-state'), 'idle');
     c.destroy();
   });
 
@@ -1955,13 +1963,13 @@ describe('async adapter ownership and recording-window isolation', () => {
     assert.equal(updates[1].signal.aborted, true);
     waits[0].resolve();
     await tick(40);
-    assert.equal(c.element.getAttribute('data-state'), 'busy');
+    assert.equal(c.element.getAttribute('data-state'), 'idle');
     assert.equal(c.state.lastScene, null);
     assert.equal(c.state.text, 'Dubai Marina');
     c.destroy();
   });
 
-  test('changing hours during debounce preserves the pending prompt, never starts it early', async (t) => {
+  test('changing hours while drafting never starts construction, including after the former debounce', async (t) => {
     t.mock.timers.enable({ apis: ['setTimeout'] });
     const client = fakeClient({ candidates: [BURJ] });
     const c = createIncidentComposer({ document: makeDoc(), client });
@@ -1969,10 +1977,141 @@ describe('async adapter ownership and recording-window isolation', () => {
     field(c, 'window').value = '6';
     field(c, 'window').dispatch('change');
     assert.equal(client.calls.length, 0);
-    t.mock.timers.tick(300);
+    t.mock.timers.tick(3000);
     await tick(40);
+    assert.equal(client.calls.length, 0);
+    await c.submit(c.input.value);
     assert.equal(client.calls.length, 1);
     assert.equal(c.state.extraction.windowHours, 6);
+    c.destroy();
+  });
+});
+
+// Current explicit-only contract. All providers below are mocks, never live proof.
+describe('explicit-only admission regression battery', () => {
+  test('slow typing, paste, IME and modified/repeated Enter never initiate a request', async (t) => {
+    t.mock.timers.enable({ apis: ['setTimeout'] });
+    const client = fakeClient({ candidates: [BURJ] });
+    const c = createIncidentComposer({ document: makeDoc(), client });
+    for (const value of [
+      'B',
+      'Burj',
+      'Burj Khalifa',
+      'Burj Khalifa\nThree people',
+    ]) {
+      typePrompt(c, value);
+      t.mock.timers.tick(650);
+      await tick();
+    }
+    c.input.dispatch('paste');
+    t.mock.timers.tick(1000);
+    await tick();
+    c.input.dispatch('compositionstart');
+    c.element.dispatch('submit');
+    c.input.dispatch('keydown', {
+      key: 'Enter',
+      ctrlKey: true,
+      isComposing: true,
+    });
+    c.input.dispatch('keydown', { key: 'Enter', ctrlKey: true, keyCode: 229 });
+    c.input.dispatch('compositionend');
+    for (const extra of [
+      { shiftKey: true },
+      { ctrlKey: true, altKey: true },
+      { metaKey: true, shiftKey: true },
+      { ctrlKey: true, repeat: true },
+    ])
+      c.input.dispatch('keydown', { key: 'Enter', ...extra });
+    t.mock.timers.tick(5000);
+    await tick(20);
+    assert.equal(client.calls.length, 0);
+    assert.equal(c.input.value, 'Burj Khalifa\nThree people');
+    c.input.dispatch('keydown', { key: 'Enter', ctrlKey: true });
+    await tick(40);
+    assert.equal(client.calls.length, 1);
+    c.destroy();
+  });
+  test('overlapping button/form/keyboard actions synchronously admit exactly one request', async () => {
+    const wait = deferred();
+    const calls = [];
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: {
+        locate(text, options) {
+          calls.push({ text, ...options });
+          return wait.promise;
+        },
+      },
+    });
+    c.input.value = 'Burj Khalifa';
+    c.element.dispatch('submit');
+    c.element.dispatch('submit');
+    c.input.dispatch('keydown', { key: 'Enter', metaKey: true });
+    assert.equal(calls.length, 1);
+    wait.resolve({ candidates: [BURJ] });
+    await tick(40);
+    assert.equal(c.state.busy, false);
+    c.destroy();
+  });
+  test('cancel, late completion and retry retain an immutable prompt/time snapshot and the newer draft', async () => {
+    const wait = deferred();
+    const calls = [];
+    const applied = [];
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: {
+        locate(text, options) {
+          calls.push({ text, ...options });
+          return calls.length === 1
+            ? wait.promise
+            : Promise.resolve({ candidates: [BURJ] });
+        },
+      },
+      onScene: (p) => applied.push(p),
+    });
+    const original = 'Burj Khalifa\nOriginal submitted draft';
+    c.input.value = original;
+    field(c, 'window').value = '6';
+    const first = c.submit(original);
+    assert.equal(c.cancel(), true);
+    assert.equal(c.input.value, original);
+    typePrompt(c, 'Dubai Marina\nA newer unsent draft');
+    field(c, 'window').value = '24';
+    assert.equal(button(c, 'retry').hidden, false);
+    button(c, 'retry').dispatch('click');
+    await tick(40);
+    assert.equal(calls[1].text, original);
+    assert.equal(applied[0].selectedTime.windowHours, 6);
+    assert.equal(c.input.value, 'Dubai Marina\nA newer unsent draft');
+    wait.resolve({ candidates: [MARINA] });
+    assert.equal(await first, null);
+    await tick();
+    assert.equal(applied.length, 1);
+    assert.equal(c.state.lastScene.anchor.name, BURJ.name);
+    c.destroy();
+  });
+  test('voice/programmatic origins cannot submit or overwrite a typed draft', async () => {
+    const doc = makeDoc();
+    const client = fakeClient();
+    const c = createIncidentComposer({ document: doc, client });
+    c.input.value = 'My typed draft';
+    await c.submit('Voice replacement', {
+      origin: 'voice',
+      intentionalVoice: true,
+    });
+    await c.submit('Programmatic replacement', { origin: 'programmatic' });
+    assert.equal(c.input.value, 'My typed draft');
+    assert.equal(client.calls.length, 0);
+    c.input.value = '';
+    doc.activeElement = null;
+    await c.submit('Burj Khalifa\nVoice draft', { origin: 'voice' });
+    assert.equal(c.input.value, '');
+    await c.submit('Burj Khalifa\nVoice draft', {
+      origin: 'voice',
+      intentionalVoice: true,
+    });
+    assert.equal(c.input.value, 'Burj Khalifa\nVoice draft');
+    assert.equal(client.calls.length, 0);
     c.destroy();
   });
 });

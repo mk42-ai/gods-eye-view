@@ -1,3 +1,55 @@
+/* Explicit access remains visible even when the source results panel is closed.
+ * Scope changes edit settings only; they never submit or search. */
+.scene-snapchat-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 8px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(153, 154, 155, 0.15);
+  min-width: 0;
+  font-size: 10px;
+  color: #bdbebf;
+}
+.scene-snapchat-controls label {
+  flex: 1 1 230px;
+  min-width: 0;
+}
+.scene-snapchat-controls select {
+  max-width: 100%;
+  color: #edeeef;
+  background: #191a1b;
+  border: 1px solid rgba(153, 154, 155, 0.22);
+  border-radius: 5px;
+  padding: 4px;
+  font: inherit;
+}
+.scene-snapchat-controls__note {
+  flex-basis: 100%;
+  line-height: 1.35;
+}
+@media (max-width: 700px) {
+  .scene-snapchat-controls {
+    order: 4;
+    flex: 0 0 auto;
+  }
+  .scene-snapchat-controls label {
+    flex-basis: 100%;
+  }
+  .scene-snapchat-controls select {
+    width: 100%;
+    min-height: 32px;
+    font-size: 11px;
+  }
+  .scene-snapchat-controls button {
+    min-height: 36px;
+  }
+  .scene-snapchat-controls__note {
+    font-size: 10px;
+  }
+}
+
 /* Scene footage panel (src/sceneFootage/panel.js). Desktop: left column over the
  * layer stack; mobile: top sheet. Never covers the bottom AOI composer. */
 .sfp {

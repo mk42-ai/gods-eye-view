@@ -26,6 +26,8 @@ import {
 import { createIncidentOverlay } from './overlay.js';
 import { setIconContent } from '../../ui/icons/layerIcon.js';
 import { createIncidentComposer } from './composer.js';
+import { canMirrorLocationDraft } from './draftOwnership.js';
+import { createSceneFootageControls } from './sceneFootageControls.js';
 import { ASK_OBJECT_EVENT } from '../../ondemand/miniChat.js';
 import {
   buildPlannedScene,
@@ -76,6 +78,7 @@ export function installIncidentScenes({
   let sidebar = null;
   let studio = null;
   let sceneCamera = null;
+  let sceneFootageControls = null;
   let removeCameraSubscription = null;
   let refinementContext = null;
   const overlay = createIncidentOverlay(viewer, {
@@ -718,6 +721,7 @@ export function installIncidentScenes({
     assertCurrent(reopen ? {} : request);
     studio?.setScene(scene);
     sceneCamera?.setScene(scene);
+    sceneFootageControls?.setScene(scene);
     if (research)
       openEvidence(scene, {
         text: evidenceText,
@@ -818,6 +822,7 @@ export function installIncidentScenes({
       sceneDirector.stopScene('Prompt changed');
     studio.invalidate();
     sceneCamera.setScene(null);
+    sceneFootageControls?.setScene(null);
   };
   win.addEventListener('gev:incident-command-started', onPromptStarted);
   win.addEventListener('gev:incident-command-cancelled', onPromptStarted);
@@ -923,6 +928,7 @@ export function installIncidentScenes({
       const { candidate } = request;
       studio.setScene(null);
       sceneCamera.setScene(null);
+      sceneFootageControls?.setScene(null);
       sceneDirector.stopScene('External context only');
       activeGeographicScene = null;
       selectedSceneId = null;
@@ -1058,13 +1064,29 @@ export function installIncidentScenes({
         });
     },
   }));
+  sceneFootageControls = createSceneFootageControls({
+    document: doc,
+    window: win,
+  });
+  composer.element.appendChild(sceneFootageControls.element);
   (doc.body || doc.documentElement).appendChild(composer.element);
   const locationInput = doc.getElementById('location-search');
+  let lastMirroredLocation = '';
   const onLocationInput = () => {
-    const text = String(locationInput?.value || '').trim();
+    const text = String(locationInput?.value || '');
     if (text === composer.input.value) return;
+    if (
+      !canMirrorLocationDraft({
+        draft: composer.input.value,
+        lastMirrored: lastMirroredLocation,
+        composerFocused: doc.activeElement === composer.input,
+      })
+    )
+      return;
     refinementContext = null;
+    lastMirroredLocation = text;
     composer.input.value = text;
+    // Updating a draft is deliberately NOT a submit, including programmatic updates.
     composer.input.dispatchEvent(new Event('input', { bubbles: true }));
   };
   locationInput?.addEventListener('input', onLocationInput);
@@ -1116,6 +1138,7 @@ export function installIncidentScenes({
       );
       studio.destroy();
       sceneCamera.destroy();
+      sceneFootageControls?.destroy();
       if (win.__gevSceneStudio === studio) delete win.__gevSceneStudio;
       doc.removeEventListener('keydown', onKey);
       composer.destroy();

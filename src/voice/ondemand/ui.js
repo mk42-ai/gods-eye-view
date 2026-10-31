@@ -64,6 +64,15 @@ export function createOdVoiceUi({ doc = globalThis.document } = {}) {
   if (!root.dataset.route) root.dataset.route = 'auto';
   root.setAttribute('aria-label', 'OnDemand voice');
   if (!root.querySelector('#od-voice-button')) root.innerHTML = OD_VOICE_MARKUP;
+  if (!root.querySelector('#od-voice-use-draft')) {
+    const useDraft = doc.createElement('button');
+    useDraft.id = 'od-voice-use-draft';
+    useDraft.type = 'button';
+    useDraft.className = 'od-voice-route';
+    useDraft.textContent = 'Use transcript as scene draft';
+    useDraft.hidden = true;
+    root.appendChild(useDraft);
+  }
   placeBesideGevMic(root, doc);
   const q = (selector) => root.querySelector(selector);
   return {
@@ -76,6 +85,7 @@ export function createOdVoiceUi({ doc = globalThis.document } = {}) {
     transcript: q('#od-voice-transcript'),
     answer: q('#od-voice-answer'),
     workflow: q('#od-voice-workflow'),
+    useDraft: q('#od-voice-use-draft'),
   };
 }
 
@@ -117,7 +127,7 @@ function ms(value) {
 export function bindOdVoiceUi(
   ui,
   pipeline,
-  { doc = globalThis.document } = {},
+  { doc = globalThis.document, onUseDraft } = {},
 ) {
   const {
     root,
@@ -129,7 +139,9 @@ export function bindOdVoiceUi(
     transcript,
     answer,
     workflow,
+    useDraft,
   } = ui;
+  let latestTranscript = '';
   const busyStates = new Set([
     'listening',
     'transcribing',
@@ -159,7 +171,8 @@ export function bindOdVoiceUi(
 
   const render = (state, text) => {
     root.dataset.state = state;
-    if (status) status.textContent = state.charAt(0).toUpperCase() + state.slice(1);
+    if (status)
+      status.textContent = state.charAt(0).toUpperCase() + state.slice(1);
     if (detail) {
       detail.textContent = truncate(
         text || (state === 'idle' ? 'Ready' : ''),
@@ -172,7 +185,10 @@ export function bindOdVoiceUi(
       button.dataset.state = state;
     }
     if (buttonLabel) buttonLabel.textContent = labels[state] || 'Talk';
+    if (state !== 'idle') delete root.dataset.awaitingTranscript;
     if (state === 'listening') {
+      latestTranscript = '';
+      if (useDraft) useDraft.hidden = true;
       if (transcript) transcript.textContent = '';
       if (answer) answer.textContent = '';
       if (workflow) workflow.textContent = '';
@@ -188,7 +204,13 @@ export function bindOdVoiceUi(
       case 'mode':
         setRoute(event.mode);
         break;
+      case 'transcript-ready':
+        if (buttonLabel) buttonLabel.textContent = 'Send transcript';
+        root.dataset.awaitingTranscript = 'true';
+        break;
       case 'transcript':
+        latestTranscript = String(event.text || '');
+        if (useDraft) useDraft.hidden = !latestTranscript.trim();
         // Speaker direction as an inline chevron icon, never a text glyph.
         if (transcript)
           setIconContent(
@@ -285,8 +307,20 @@ export function bindOdVoiceUi(
       ROUTE_ORDER[(ROUTE_ORDER.indexOf(current) + 1) % ROUTE_ORDER.length];
     pipeline.setMode(next);
   };
+  const onDraft = () => {
+    const accepted = Boolean(onUseDraft?.(latestTranscript));
+    if (accepted)
+      pipeline.cancel(
+        'Transcript copied as an unsent draft. Build scene explicitly.',
+      );
+    if (detail)
+      detail.textContent = accepted
+        ? 'Unsent scene draft updated. Press Build scene when ready.'
+        : 'Your typed draft is protected. Clear it before explicitly using a transcript.';
+  };
   button?.addEventListener('click', onPress);
   route?.addEventListener('click', onRoute);
+  useDraft?.addEventListener('click', onDraft);
 
   // The GEV MIC control is injected at runtime after this control may have
   // been created from the template; keep our slot right beside it.
@@ -301,6 +335,7 @@ export function bindOdVoiceUi(
     unsubscribe();
     button?.removeEventListener('click', onPress);
     route?.removeEventListener('click', onRoute);
+    useDraft?.removeEventListener('click', onDraft);
     observer?.disconnect();
   };
 }

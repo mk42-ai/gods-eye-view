@@ -34,11 +34,34 @@ export function parseProviderJson(answer) {
   }
 }
 
+function pausePolling(ms, signal) {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted)
+      return reject(new DOMException('Request cancelled', 'AbortError'));
+    const finish = () => {
+      signal?.removeEventListener('abort', abort);
+      resolve();
+    };
+    const timer = setTimeout(finish, ms);
+    const abort = () => {
+      clearTimeout(timer);
+      signal?.removeEventListener('abort', abort);
+      reject(new DOMException('Request cancelled', 'AbortError'));
+    };
+    signal?.addEventListener('abort', abort, { once: true });
+  });
+}
+
 export function createChatTransport({
   fetchImpl = ondemandFetch,
   getSettings = () => config,
+  pollIntervalMs = 750,
+  pollTimeoutMs = 30000,
+  maxPolls = 12,
+  sleep = pausePolling,
+  now = () => Date.now(),
 } = {}) {
-  async function request(path, body, signal) {
+  async function request(path, body, signal, timeoutMs = 110000) {
     const settings = getSettings();
     if (!settings.apiKey)
       throw new SceneServiceError(
@@ -53,10 +76,10 @@ export function createChatTransport({
         {
           method: body === undefined ? 'GET' : 'POST',
           ...(body === undefined ? {} : { body }),
-          timeoutMs: 110000,
+          timeoutMs,
           signal: signal
-            ? AbortSignal.any([signal, AbortSignal.timeout(110000)])
-            : AbortSignal.timeout(110000),
+            ? AbortSignal.any([signal, AbortSignal.timeout(timeoutMs)])
+            : AbortSignal.timeout(timeoutMs),
         },
       );
     } catch (e) {
@@ -136,12 +159,70 @@ export function createChatTransport({
         },
         signal,
       );
-      const data = result?.data;
-      if (data?.status === 'processing')
+      let data = result?.data;
+      const messageId = data?.messageId;
+      const validId = (id) =>
+        typeof id === 'string' && /^[A-Za-z0-9_-]{1,128}$/.test(id);
+      const deadline = now() + Math.max(0, Math.min(60000, pollTimeoutMs));
+      let polls = 0;
+      while (data?.status === 'processing') {
+        if (!validId(messageId))
+          throw new SceneServiceError(
+            503,
+            'provider_pending',
+            'The provider is processing but returned no valid message identifier for status polling.',
+          );
+        if (data.sessionId && data.sessionId !== session.id)
+          throw new SceneServiceError(
+            502,
+            'provider_session_mismatch',
+            'The processing response did not match this scene session.',
+          );
+        if (polls >= Math.max(0, Math.min(30, maxPolls)) || now() >= deadline)
+          throw new SceneServiceError(
+            504,
+            'provider_poll_timeout',
+            'The provider is still processing after the bounded status checks. No query was resubmitted.',
+            { polls },
+          );
+        await sleep(
+          Math.min(Math.max(0, pollIntervalMs), Math.max(0, deadline - now())),
+          signal,
+        );
+        if (signal?.aborted)
+          throw new DOMException('Request cancelled', 'AbortError');
+        const status = await request(
+          `/chat/v1/sessions/${encodeURIComponent(session.id)}/messages/${encodeURIComponent(messageId)}`,
+          undefined,
+          signal,
+          Math.max(1, Math.floor(deadline - now())),
+        );
+        polls++;
+        data = status?.data;
+        if (
+          !data ||
+          !['processing', 'completed', 'failed'].includes(data.status)
+        )
+          throw new SceneServiceError(
+            502,
+            'provider_status_invalid',
+            'The status endpoint returned no supported terminal/processing status.',
+          );
+        if (
+          (data?.id && data.id !== messageId) ||
+          (data?.messageId && data.messageId !== messageId)
+        )
+          throw new SceneServiceError(
+            502,
+            'provider_message_mismatch',
+            'The status response did not match the submitted message.',
+          );
+      }
+      if (data?.status && !['completed', 'failed'].includes(data.status))
         throw new SceneServiceError(
-          503,
-          'provider_pending',
-          'The scene provider is still processing; no completed output is available.',
+          502,
+          'provider_status_invalid',
+          'The provider returned an unsupported message status.',
         );
       if (
         data?.status === 'failed' ||
@@ -162,7 +243,12 @@ export function createChatTransport({
       return {
         answer: data.answer,
         sessionId: session.id,
-        messageId: typeof data.messageId === 'string' ? data.messageId : null,
+        messageId:
+          typeof data.messageId === 'string'
+            ? data.messageId
+            : validId(messageId)
+              ? messageId
+              : null,
       };
     },
     async media(session, pluginId, { signal } = {}) {
