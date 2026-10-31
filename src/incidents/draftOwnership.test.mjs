@@ -33,3 +33,9 @@ test('a focused typed draft cannot be overwritten even if it equals the previous
     false,
   );
 });
+test("a focused EMPTY composer is the operator's draft; location input never seeds it mid-typing", () => {
+  assert.equal(
+    canMirrorLocationDraft({ draft: '', composerFocused: true }),
+    false,
+  );
+});

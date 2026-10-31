@@ -246,7 +246,15 @@ test('renders every planned quantity as real Cesium geometry at supplied coordin
   for (const p of scene.placements) {
     const entity = source.entities.getById(`planned-${p.id}`);
     assert.ok(entity);
-    assert.match(entity.name, /Illustrative/);
+    assert.match(
+      entity.name,
+      ['police', 'police_vehicle'].includes(p.type)
+        ? /^Suggested \/ illustrative – not verified deployment/
+        : /Illustrative/,
+    );
+    assert.equal(entity.label.showBackground.getValue(), false);
+    assert.match(entity.label.text.getValue(), /^ILLUSTRATIVE · /);
+    assert.ok(entity.label.text.getValue().length <= 72);
     assert.equal(entity.properties.illustrative.getValue(), true);
     assert.equal(entity.properties.incidentConfirmed.getValue(), false);
     const point = Cesium.Cartographic.fromCartesian(entity.position.getValue());
@@ -257,7 +265,10 @@ test('renders every planned quantity as real Cesium geometry at supplied coordin
       assert.ok(source.entities.getById(`planned-${p.id}-head`).ellipsoid);
     } else assert.ok(entity.box);
   }
-  assert.equal(source.entities.values.length, 17); // anchor + 2 targets + path + 9 bodies + 4 heads
+  // anchor + 9 bodies + 4 heads; camera targets/path are no longer drawn as map dots/lines
+  assert.equal(source.entities.values.length, 14);
+  assert.equal(source.entities.getById('geographic-camera-orbit'), undefined);
+  assert.equal(source.entities.getById('geographic-camera-0'), undefined);
   assert.match(
     document.getElementById('scene-anchor-label').textContent,
     /ILLUSTRATIVE STAGING/,
@@ -279,9 +290,14 @@ test('beat updates highlight only authored focus; seeking clamps safely and does
   assert.equal(car.label.show.getValue(), true);
   assert.equal(runner.cylinder.material.getValue().color.alpha, 0.4);
   assert.ok(Cesium.Cartesian3.equals(before, runner.position.getValue()));
-  assert.match(
+  // Beat titles no longer render as a strip over the imagery.
+  assert.doesNotMatch(
     document.getElementById('scene-anchor-label').textContent,
     /Vehicles/,
+  );
+  assert.equal(
+    document.getElementById('scene-anchor-label').dataset.beatTitle,
+    'Vehicles',
   );
   overlay.setTime(999);
   assert.equal(overlay.getState().timeSec, 12);
@@ -301,7 +317,7 @@ test('external context and legacy selection remove all authored actors; destroy 
   delete legacy.placements;
   delete legacy.plan;
   state.overlay.setScene(legacy);
-  assert.equal(state.source.entities.values.length, 4);
+  assert.equal(state.source.entities.values.length, 1);
   assert.equal(state.overlay.getState().illustrative, false);
   state.overlay.destroy();
   assert.equal(state.listeners.size, 0);

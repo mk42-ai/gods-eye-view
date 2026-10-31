@@ -1825,7 +1825,9 @@
       "src/scenes/structuredPlan.js",
       "src/scenes/cameraCoverage.js",
       "src/incidents/ui/sceneCamera.js",
-      "src/incidents/ui/sceneStudio.js"
+      "src/incidents/ui/sceneStudio.js",
+      "src/scenes/sceneGeometry.js",
+      "src/incidents/ui/sceneGeometryLayer.js"
     ],
     "external": [
       "@mapbox/vector-tile",

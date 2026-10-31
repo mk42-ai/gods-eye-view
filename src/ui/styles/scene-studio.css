@@ -161,3 +161,135 @@
     font-size: 12px;
   }
 }
+
+/* Research-grounded scene map legend (2026-10-31). Sits in the left gutter,
+ * never across the imagery centre; collapses to a compact sheet on phones. */
+.scene-geometry-legend {
+  position: fixed;
+  left: 12px;
+  top: 76px;
+  z-index: 38;
+  width: min(300px, calc(100vw - 24px));
+  max-height: min(46vh, 420px);
+  overflow: auto;
+  padding: 10px 12px;
+  border: 1px solid rgba(79, 209, 197, 0.35);
+  border-radius: 10px;
+  background: rgba(8, 20, 27, 0.9);
+  color: #e6eef0;
+  font:
+    12px/1.4 system-ui,
+    sans-serif;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+}
+.scene-geometry-legend[hidden],
+.scene-geometry-tooltip[hidden] {
+  display: none;
+}
+.scene-geometry-legend__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.scene-geometry-legend__badge {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #f6c453;
+  color: #10161a;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.scene-geometry-legend__title {
+  font-weight: 600;
+}
+.scene-geometry-legend p {
+  margin: 6px 0 0;
+}
+.scene-geometry-legend__status {
+  color: #9fe7de;
+}
+.scene-geometry-legend[data-status='empty'] .scene-geometry-legend__status,
+.scene-geometry-legend[data-status='unavailable']
+  .scene-geometry-legend__status {
+  color: #ffcf8a;
+}
+.scene-geometry-legend__window,
+.scene-geometry-legend__note,
+.scene-geometry-legend__unresolved {
+  color: #b7c4c8;
+  font-size: 11px;
+}
+.scene-geometry-legend__keys {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 3px;
+}
+.scene-geometry-legend__key {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.scene-geometry-legend__swatch {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 5px;
+  border-radius: 3px;
+}
+.scene-geometry-legend__key--point .scene-geometry-legend__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.scene-geometry-legend__key--area .scene-geometry-legend__swatch {
+  height: 10px;
+  opacity: 0.7;
+}
+.scene-geometry-legend__swatch--staged {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: #5091ea;
+}
+.scene-geometry-legend__sources {
+  font-weight: 600;
+}
+.scene-geometry-legend__citations {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+.scene-geometry-legend__citations a {
+  color: #9fd5ff;
+  overflow-wrap: anywhere;
+}
+.scene-geometry-tooltip {
+  position: fixed;
+  z-index: 60;
+  max-width: 320px;
+  padding: 7px 9px;
+  border-radius: 7px;
+  background: rgba(8, 20, 27, 0.95);
+  border: 1px solid rgba(246, 196, 83, 0.4);
+  color: #edf3f4;
+  font:
+    11px/1.4 system-ui,
+    sans-serif;
+  white-space: pre-line;
+  pointer-events: none;
+}
+@media (max-width: 700px) {
+  .scene-geometry-legend {
+    top: auto;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    bottom: calc(var(--incident-composer-height, 96px) + 72px);
+    max-height: 22vh;
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+  .scene-geometry-legend__note {
+    display: none;
+  }
+}

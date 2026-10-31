@@ -1,6 +1,18 @@
 /** Real map entities for authored geography and non-playable external context. */
 import * as Cesium from 'cesium';
 import { governorRequestRender } from '../../renderGovernor.js';
+import { SUGGESTED_MARKER_LABEL } from '../../scenes/sceneGeometry.js';
+
+const SECURITY_TYPES = new Set(['police', 'police_vehicle']);
+/** Short, clearly-illustrative map label. Long model prose never becomes a map bar. */
+export function stagingLabel(placement) {
+  if (SECURITY_TYPES.has(placement.type))
+    return `ILLUSTRATIVE · ${SUGGESTED_MARKER_LABEL}`;
+  const text = String(placement.label || placement.type)
+    .replace(/^\s*illustrative[\s:·-]*/i, '')
+    .trim();
+  return `ILLUSTRATIVE · ${text.length > 28 ? `${text.slice(0, 27)}…` : text}`;
+}
 
 export function createGeographicOverlay(
   viewer,
@@ -47,7 +59,10 @@ export function createGeographicOverlay(
     const line = ['start_line', 'finish_line'].includes(placement.type);
     const color = colorFor(placement.type);
     const height = human ? 0.9 : vehicle ? 0.8 : line ? 0.04 : 0.55;
-    const name = `Illustrative ${placement.label} (${placement.index + 1})`;
+    const suggested = SECURITY_TYPES.has(placement.type);
+    const name = suggested
+      ? `${SUGGESTED_MARKER_LABEL} (${placement.index + 1})`
+      : `Illustrative ${placement.label} (${placement.index + 1})`;
     const base = {
       id: `planned-${placement.id}`,
       name,
@@ -64,26 +79,32 @@ export function createGeographicOverlay(
           0,
         ),
       ),
-      description:
-        'Illustrative authored staging, not an observed person, vehicle or confirmed incident.',
+      description: suggested
+        ? `${SUGGESTED_MARKER_LABEL}. Illustrative staging only; not an observed person or vehicle and not an operational plan.`
+        : 'Illustrative authored staging, not an observed person, vehicle or confirmed incident.',
       properties: {
         illustrative: true,
+        suggested,
         incidentConfirmed: false,
         entityId: placement.entityId,
         type: placement.type,
         actorIndex: placement.index,
       },
+      // No background box: a long label with a filled background rendered as
+      // an opaque bar over the imagery. Outlined text stays legible and small.
       label: {
-        text: `ILLUSTRATIVE · ${placement.label}`,
+        text: stagingLabel(placement),
         show: placement.index === 0,
-        font: '11px sans-serif',
+        font: '600 11px system-ui, sans-serif',
         fillColor: color,
-        showBackground: true,
-        backgroundColor:
-          Cesium.Color.fromCssColorString('#10232d').withAlpha(0.9),
+        outlineColor: Cesium.Color.fromCssColorString('#06141b'),
+        outlineWidth: 3,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        showBackground: false,
         pixelOffset: new Cesium.Cartesian2(0, -32),
         heightReference: relativeHeight,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        translucencyByDistance: new Cesium.NearFarScalar(1500, 1, 6000, 0),
       },
     };
     if (human)
@@ -162,7 +183,8 @@ export function createGeographicOverlay(
         actor.entity.label.show = actor.labelled && active;
     }
     if (activeScene.plan)
-      label.textContent = `ILLUSTRATIVE STAGING · ${activeScene.anchor.name}${beat ? ` · ${beat.title}` : ''}`;
+      label.textContent = `ILLUSTRATIVE STAGING · ${activeScene.anchor.name}`;
+    label.dataset.beatTitle = beat?.title || '';
     label.dataset.beatIndex = String(beatIndex);
     label.dataset.timeSec = String(timeSec);
     viewer.scene.requestRender();
@@ -244,35 +266,9 @@ export function createGeographicOverlay(
           : scene.anchor.name,
       );
       for (const placement of scene.placements || []) addActor(placement);
-      source.entities.add({
-        id: 'geographic-camera-orbit',
-        name: 'Illustrative camera targets, not a road or movement track',
-        polyline: {
-          positions: Cesium.Cartesian3.fromDegreesArray(
-            scene.keyframes.flatMap((frame) => [frame.lon, frame.lat]),
-          ),
-          width: 2,
-          clampToGround: true,
-          material: new Cesium.PolylineDashMaterialProperty({
-            color: Cesium.Color.fromCssColorString('#51d3c4').withAlpha(0.8),
-            dashLength: 14,
-          }),
-        },
-      });
-      scene.keyframes.forEach((frame, index) =>
-        source.entities.add({
-          id: `geographic-camera-${index}`,
-          name: `Camera view ${index + 1}: ${frame.label}`,
-          position: Cesium.Cartesian3.fromDegrees(frame.lon, frame.lat, 10),
-          point: {
-            pixelSize: 6,
-            color: Cesium.Color.fromCssColorString('#a1e7df'),
-            outlineColor: Cesium.Color.BLACK,
-            outlineWidth: 1,
-            disableDepthTestDistance: Number.POSITIVE_INFINITY,
-          },
-        }),
-      );
+      // Camera keyframes are NOT drawn on the map: the former dashed orbit line
+      // and its dots were camera targets that read as unresearched roads/points.
+      // Map lines and dots now come only from the research geometry layer.
       setTime(initialTime);
       update();
     },

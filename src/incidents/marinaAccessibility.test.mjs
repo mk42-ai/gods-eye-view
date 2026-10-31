@@ -250,10 +250,8 @@ test('composer preserves key defaults and handles only the actual form submit', 
   assert.equal(composer.input.maxLength, 6000);
   assert.ok(composer.input.getAttribute('aria-label'));
   assert.equal(composer.input.getAttribute('enterkeyhint'), 'enter');
-  assertNativeButton(
-    nodeById(composer.element, 'incident-composer-submit'),
-    'submit',
-  );
+  // type=button: no implicit form submission; the explicit click admits a build.
+  assertNativeButton(nodeById(composer.element, 'incident-composer-submit'));
   assertNativeButton(nodeById(composer.element, 'incident-composer-cancel'));
   assertNativeButton(nodeById(composer.element, 'incident-composer-retry'));
   let bubbled = 0;
@@ -661,3 +659,126 @@ test('Tab and modified arrows keep native defaults; Escape closes the panel and 
   assertTabState(fixture, 'scenes');
   assert.equal(toggle.getAttribute('aria-expanded'), 'true');
 });
+
+describe_build_button: {
+  test('Build scene is ONE native type=button whose icon is a child; an icon click submits exactly once', async (t) => {
+    const gate = deferred();
+    const calls = [];
+    const { composer, document } = composerFixture(t, {
+      client: {
+        locate(text) {
+          calls.push(text);
+          return gate.promise;
+        },
+      },
+    });
+    const button = nodeById(composer.element, 'incident-composer-submit');
+    assert.equal(button.tagName, 'BUTTON');
+    assert.equal(button.type, 'button', 'no implicit form submission path');
+    assert.equal(
+      composer.element.find(
+        (n) => n.tagName === 'BUTTON' && n.type === 'submit',
+      ).length,
+      0,
+      'the form has no submit-type button, so Enter in any field cannot submit it',
+    );
+    // This DOM stand-in cannot create SVG, so setIconContent falls back to text;
+    // in a browser the svg is a child of the same button (verified live).
+    // Model that child here to prove a click on it reaches the one listener.
+    let icon = button.children[0];
+    if (!icon) {
+      icon = document.createElement('svg');
+      icon.className = 'od-icon';
+      button.append(icon);
+    }
+    assert.equal(icon.parentNode, button, 'icon is inside the single button');
+    composer.input.value = 'Location: Dubai Marina\nA community run.';
+    // A click on the icon bubbles to the single button listener.
+    icon.fire('click');
+    button.fire('click');
+    button.fire('click');
+    composer.element.fire('submit');
+    await flush();
+    assert.deepEqual(calls, ['Location: Dubai Marina\nA community run.']);
+    gate.resolve(located());
+    await flush();
+    assert.equal(
+      composer.input.value,
+      'Location: Dubai Marina\nA community run.',
+    );
+  });
+
+  test('typing a long multiline prompt, pauses, Enter and IME composition cause zero submits', async (t) => {
+    const calls = [];
+    const { composer } = composerFixture(t, {
+      client: {
+        locate(text) {
+          calls.push(text);
+          return new Promise(() => {});
+        },
+      },
+    });
+    const lines = [
+      'Location: Sheikh Zayed Road, Dubai',
+      'Illustrative route overview from Trade Centre to Dubai Marina',
+      'Show the researched road corridor and venue points',
+    ];
+    let value = '';
+    for (const line of lines) {
+      for (const ch of line) {
+        value += ch;
+        composer.input.value = value;
+        composer.input.fire('input', { inputType: 'insertText', data: ch });
+      }
+      const enter = composer.input.fire('keydown', { key: 'Enter' });
+      assert.equal(enter.defaultPrevented, false, 'plain Enter is a newline');
+      value += '\n';
+      composer.input.value = value;
+      composer.input.fire('input', { inputType: 'insertLineBreak' });
+    }
+    composer.input.fire('compositionstart');
+    composer.input.fire('keydown', {
+      key: 'Enter',
+      ctrlKey: true,
+      isComposing: true,
+    });
+    composer.input.fire('compositionend', { data: '' });
+    await new Promise((r) => setTimeout(r, 450));
+    await flush();
+    assert.equal(calls.length, 0);
+    assert.equal(
+      composer.input.value,
+      value,
+      'draft and caret source untouched',
+    );
+    const shortcut = composer.input.fire('keydown', {
+      key: 'Enter',
+      metaKey: true,
+    });
+    assert.equal(shortcut.defaultPrevented, true);
+    await flush();
+    assert.equal(
+      calls.length,
+      1,
+      'Cmd/Ctrl+Enter is the one keyboard shortcut',
+    );
+  });
+
+  test('Enter inside a historical date field never builds a scene', async (t) => {
+    const calls = [];
+    const { composer } = composerFixture(t, {
+      client: {
+        locate(text) {
+          calls.push(text);
+          return new Promise(() => {});
+        },
+      },
+    });
+    composer.input.value = 'Dubai Marina';
+    const start = nodeById(composer.element, 'incident-composer-from');
+    const event = start.fire('keydown', { key: 'Enter' });
+    assert.equal(event.defaultPrevented, true);
+    await flush();
+    assert.equal(calls.length, 0);
+  });
+}

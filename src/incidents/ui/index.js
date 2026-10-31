@@ -39,6 +39,7 @@ import { resolveIncidentGate } from '../../aoi/sceneGate.js';
 import { createSceneLibrary } from './sceneLibrary.js';
 import { installIncidentDiagnostics } from './diagnostics.js';
 import { createGeographicOverlay } from './geographicOverlay.js';
+import { createSceneGeometryLayer } from './sceneGeometryLayer.js';
 
 export const INCIDENT_PANEL_ID = 'incident-panel';
 export const INCIDENT_POPOVER_ID = 'incident-popover';
@@ -73,7 +74,9 @@ export function installIncidentScenes({
     storage || win.localStorage,
   );
   const geographicOverlay = createGeographicOverlay(viewer, { document: doc });
+  const geometryLayer = createSceneGeometryLayer(viewer, { document: doc });
   let activeGeographicScene = null;
+  let lastConstructGeometry = null;
   let sceneLibrary = null;
   let sidebar = null;
   let studio = null;
@@ -687,6 +690,7 @@ export function installIncidentScenes({
     sceneLibrary?.setScene(scene, { saved });
     sceneLibrary?.element.setAttribute('data-scene-id', scene.id);
     geographicOverlay.setScene(scene);
+    geometryLayer.setScene(scene);
     for (const button of [playBtn, pauseBtn, prevBtn, nextBtn])
       button.disabled = false;
     scrub.disabled = false;
@@ -877,6 +881,7 @@ export function installIncidentScenes({
         },
         { signal: requestSignal },
       );
+      lastConstructGeometry = result.geometry || null;
       assertCurrent(request);
       if (!result.ok || !result.plan)
         throw new Error('No validated scene plan was returned.');
@@ -888,6 +893,7 @@ export function installIncidentScenes({
         },
         text,
         originalPrompt: refinement?.scene?.originalPrompt || text,
+        geometry: result.geometry || null,
         selectedTime: {
           windowHours: extraction.windowHours,
           timeMode: extraction.timeMode,
@@ -919,6 +925,8 @@ export function installIncidentScenes({
       });
       activeGeographicScene = scene;
       sceneLibrary.setScene(scene, { saved: false });
+      // Re-style the existing research lines/dots for the new window; no rebuild.
+      geometryLayer.setTimeWindow(selectedTime);
       // Update evidence for the same entities/camera plan, without an LLM or geocoder rebuild.
       openEvidence(scene, { text, selectedTime });
       return { updated: true, sceneId: scene.id };
@@ -940,6 +948,7 @@ export function installIncidentScenes({
       panel.dataset.playable = 'false';
       delete panel.dataset.activeScene;
       geographicOverlay.setExternal(candidate);
+      geometryLayer.clear();
       overlay.flyTo(candidate.lat, candidate.lon, {
         altitude: 14000,
         duration: 1.6,
@@ -1124,6 +1133,14 @@ export function installIncidentScenes({
       })),
       geographicOverlay: geographicOverlay.getState(),
       structuredScene: activeGeographicScene,
+      sceneGeometry: activeGeographicScene
+        ? {
+            ...geometryLayer.getState(),
+            sceneId: activeGeographicScene.id,
+            selectedTime: activeGeographicScene.selectedTime || null,
+          }
+        : null,
+      lastConstructGeometryStatus: lastConstructGeometry?.status || null,
       studio: studio.getState(),
       sceneCamera: sceneCamera.getState(),
     }),
@@ -1145,6 +1162,7 @@ export function installIncidentScenes({
       diagnostics.destroy();
       sceneLibrary.destroy();
       geographicOverlay.destroy();
+      geometryLayer.destroy();
       popover.remove();
       panel.remove();
       overlay.destroy();

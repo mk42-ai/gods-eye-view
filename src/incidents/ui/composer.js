@@ -95,8 +95,12 @@ export function createIncidentComposer({
   input.setAttribute('aria-keyshortcuts', 'Control+Enter Meta+Enter');
   input.setAttribute('title', 'Press Ctrl+Enter or Cmd+Enter to build scene');
   input.maxLength = 6000;
+  // One native button owns the label AND the icon (the svg is a child with
+  // pointer-events:none), so a click/tap anywhere on it — icon included — is
+  // the same single, explicit action. type=button: the form never submits
+  // implicitly (e.g. Enter in a date field); the click handler admits a build.
   const submit = document.createElement('button');
-  submit.type = 'submit';
+  submit.type = 'button';
   submit.id = `${COMPOSER_ID}-submit`;
   submit.className = 'incident-composer__submit';
   submit.setAttribute('aria-label', 'Build scene');
@@ -1326,10 +1330,15 @@ export function createIncidentComposer({
   timeSelect.addEventListener('change', () => {
     void updateTime();
   });
-  for (const field of [historicalStart, historicalEnd])
+  for (const field of [historicalStart, historicalEnd]) {
     field.addEventListener('change', () => {
       void updateTime();
     });
+    // Enter in a date/time field edits the range; it never builds a scene.
+    field.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') event.preventDefault?.();
+    });
+  }
   cancelButton.addEventListener('click', cancelRequest);
   retry.addEventListener('click', () => {
     if (!state.busy && !destroyed) {
@@ -1346,10 +1355,23 @@ export function createIncidentComposer({
       }
     }
   });
+  // Explicit admission: one click/tap (pointer or keyboard activation) of the
+  // Build scene button. A same-tick repeat (double click, click + form submit)
+  // is coalesced by the synchronous admission owner inside submitText.
+  // Identical repeats while busy return the in-flight run (no second request);
+  // an edited prompt explicitly supersedes the pending one.
+  const explicitSubmit = (event) => {
+    event?.preventDefault?.();
+    if (composing || event?.isComposing || destroyed) return null;
+    return submitText(input.value, { origin: 'explicit' });
+  };
+  submit.addEventListener('click', (event) => {
+    void explicitSubmit(event);
+  });
+  // The form still owns accessible requestSubmit() calls (programmatic or AT);
+  // native implicit submission is impossible because no submit button exists.
   root.addEventListener('submit', (event) => {
-    event.preventDefault?.();
-    if (composing || event.isComposing) return;
-    void submitText(input.value, { origin: 'explicit' });
+    void explicitSubmit(event);
   });
   input.addEventListener('input', editPrompt);
   input.addEventListener('paste', () => {

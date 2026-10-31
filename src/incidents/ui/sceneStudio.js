@@ -1,3 +1,4 @@
+import { describeGeometry } from '../../scenes/sceneGeometry.js';
 /** Scene-aware controls. All descriptions are derived from the committed plan,
  * never from retrieved footage or an alleged real incident. */
 export const DEFAULT_NARRATION_CONFIG = Object.freeze({
@@ -27,7 +28,10 @@ export function describeConstructedScene(scene) {
   const beats = (plan.beats || [])
     .map((b) => `${b.atSec}s: ${b.title}`)
     .join('; ');
-  return `Illustrative staging, not a confirmed incident. ${plan.title}. Location: ${scene.anchor?.name || plan.location.name}. Duration: ${plan.durationSec} seconds. Entities: ${entities || 'none'}. Camera: ${plan.camera.framing}, ${plan.camera.distanceM} m distance, heading ${plan.camera.heading}°, pitch ${plan.camera.pitch}°. Timed beats: ${beats}.`;
+  const research = scene?.geometry
+    ? ` ${describeGeometry(scene.geometry)}`
+    : '';
+  return `Illustrative staging, not a confirmed incident. ${plan.title}. Location: ${scene.anchor?.name || plan.location.name}. Duration: ${plan.durationSec} seconds. Entities: ${entities || 'none'}. Camera: ${plan.camera.framing}, ${plan.camera.distanceM} m distance, heading ${plan.camera.heading}°, pitch ${plan.camera.pitch}°. Timed beats: ${beats}.${research}`;
 }
 export function measuredNarrationFit(duration, sceneDuration) {
   if (!(
@@ -300,9 +304,14 @@ export function createSceneStudio({
           `${b.atSec}s — ${b.title}${b.narration ? ': ' + b.narration : ''}`,
         ),
       );
-    for (const c of next.citations || plan?.citations || []) {
+    const seenSources = new Set();
+    for (const c of [
+      ...(next.citations || plan?.citations || []),
+      ...(next.geometry?.citations || []),
+    ]) {
       const href = safeLink(c.url);
-      if (!href) continue;
+      if (!href || seenSources.has(href)) continue;
+      seenSources.add(href);
       const a = el('a', '', c.title || c.url);
       a.href = href;
       a.target = '_blank';

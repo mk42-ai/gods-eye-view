@@ -1,5 +1,6 @@
 /** Pure scene construction. Authored staging is never evidence of an incident. */
 import { validateScenePlan } from './structuredPlan.js';
+import { validateSceneGeometry } from './sceneGeometry.js';
 
 export const PLANNED_SCENE_VERSION = 2;
 export const GEOGRAPHIC_SCENE_STORAGE_VERSION = 2;
@@ -423,9 +424,14 @@ export function buildPlannedScene({
   text = '',
   originalPrompt,
   selectedTime = null,
+  geometry = null,
   now = 0,
 } = {}) {
   const plan = validatedPlan(inputPlan);
+  const groundedGeometry =
+    geometry == null
+      ? null
+      : validateSceneGeometry(geometry, { anchor: plan.location });
   const base = buildGeographicScene({ candidate, now });
   if (
     plan.location.name !== base.anchor.name ||
@@ -564,6 +570,8 @@ export function buildPlannedScene({
     cameraState: cloneData(plan.camera),
     hashSnapshot: {},
     narrationConfig: { enabled: false },
+    // Research-grounded map geometry (validated); null = none researched.
+    geometry: groundedGeometry,
   };
 }
 
@@ -706,13 +714,21 @@ const SESSION_FIELDS = [
   'cameraState',
   'hashSnapshot',
   'narrationConfig',
+  'geometry',
 ];
 function sessionSnapshot(raw) {
   const out = {};
   for (const field of SESSION_FIELDS) {
     if (!Object.hasOwn(raw, field)) continue;
     const value = raw[field];
-    if (field === 'originalPrompt' || field === 'refinedPrompt')
+    if (field === 'geometry')
+      out[field] =
+        value == null
+          ? null
+          : validateSceneGeometry(cloneData(value), {
+              anchor: raw.anchor || raw.plan?.location,
+            });
+    else if (field === 'originalPrompt' || field === 'refinedPrompt')
       out[field] = safeText(value);
     else if (field === 'selectedTime') out[field] = savedTime(value);
     else if (field === 'citations') out[field] = citations(value);

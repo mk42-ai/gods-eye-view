@@ -5,6 +5,8 @@ export function canMirrorLocationDraft({
   composerFocused = false,
 } = {}) {
   const value = String(draft ?? '');
-  if (composerFocused && value !== '') return false;
+  // A focused composer belongs to the operator, even while empty: never seed it
+  // mid-typing (that would move the caret or replace the first keystrokes).
+  if (composerFocused) return false;
   return value === '' || value === String(lastMirrored ?? '');
 }
