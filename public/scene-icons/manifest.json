@@ -1,6 +1,6 @@
 {
-  "version": 3,
-  "generatedAt": "2026-11-01T13:12:57.658Z",
+  "version": 4,
+  "generatedAt": "2026-11-01T15:02:16.232Z",
   "keys": [
     {
       "key": "cone",
@@ -421,6 +421,146 @@
       },
       "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-3",
       "sha256": "6fb131fc7f4e0a581e6679b76f4419aaa9a059c20bbc8802ff5c8654a570b347"
+    },
+    {
+      "key": "barrier_crowd",
+      "png": "png/barrier_crowd.png",
+      "png2x": "png/barrier_crowd@2x.png",
+      "png4x": "png/barrier_crowd@4x.png",
+      "sprite": {
+        "x": 960,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/barrier_crowd.png",
+      "sha256": "20e17377fa2ece280668da94bf62743b206afe8737c9b33a1e77de5551db2a96"
+    },
+    {
+      "key": "cone_cluster",
+      "png": "png/cone_cluster.png",
+      "png2x": "png/cone_cluster@2x.png",
+      "png4x": "png/cone_cluster@4x.png",
+      "sprite": {
+        "x": 992,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/cone_cluster.png",
+      "sha256": "66f1a99736d49eb8c4bfdea5055458e77010b70df9746bd155be11bfb1354138"
+    },
+    {
+      "key": "crowd_spectators",
+      "png": "png/crowd_spectators.png",
+      "png2x": "png/crowd_spectators@2x.png",
+      "png4x": "png/crowd_spectators@4x.png",
+      "sprite": {
+        "x": 1024,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/crowd_spectators.png",
+      "sha256": "c628d27bab05536eafc109a6f3da0b4116fccc968a54a9aba40601f94a0d2f8b"
+    },
+    {
+      "key": "person_responder",
+      "png": "png/person_responder.png",
+      "png2x": "png/person_responder@2x.png",
+      "png4x": "png/person_responder@4x.png",
+      "sprite": {
+        "x": 1056,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/person_responder.png",
+      "sha256": "e702cee2b22b7b02dcd1b51a1b2b897e4f6830029cb2d88cf58b2ae431d40c55"
+    },
+    {
+      "key": "vehicle_city_bus",
+      "png": "png/vehicle_city_bus.png",
+      "png2x": "png/vehicle_city_bus@2x.png",
+      "png4x": "png/vehicle_city_bus@4x.png",
+      "sprite": {
+        "x": 1088,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/vehicle_city_bus.png",
+      "sha256": "6b71f5d7c28d690425c9de668151880589f0f5821a3fe63f6d892d1c619aa142"
+    },
+    {
+      "key": "vehicle_police_motorcycle",
+      "png": "png/vehicle_police_motorcycle.png",
+      "png2x": "png/vehicle_police_motorcycle@2x.png",
+      "png4x": "png/vehicle_police_motorcycle@4x.png",
+      "sprite": {
+        "x": 1120,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/vehicle_police_motorcycle.png",
+      "sha256": "c7c0e914bf6ceb1ec02024fd21ec58a177fdb564003add16abe8cb2e4e8e9c7b"
+    },
+    {
+      "key": "sensor_cctv_feed",
+      "png": "png/sensor_cctv_feed.png",
+      "png2x": "png/sensor_cctv_feed@2x.png",
+      "png4x": "png/sensor_cctv_feed@4x.png",
+      "sprite": {
+        "x": 1152,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/sensor_cctv_feed.png",
+      "sha256": "b13695cc14b092f49e559f72d5cf932b2fc0c3204eeab6311078f2344cc3f8de"
+    },
+    {
+      "key": "evidence_pin_verified",
+      "png": "png/evidence_pin_verified.png",
+      "png2x": "png/evidence_pin_verified@2x.png",
+      "png4x": "png/evidence_pin_verified@4x.png",
+      "sprite": {
+        "x": 1184,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/evidence_pin_verified.png",
+      "sha256": "d1c243cfc5dea7e9cb5372694e0fec308bf966b48b977c8fc1465ad5f2015b06"
+    },
+    {
+      "key": "marker_air_raid_impact_sim",
+      "png": "png/marker_air_raid_impact_sim.png",
+      "png2x": "png/marker_air_raid_impact_sim@2x.png",
+      "png4x": "png/marker_air_raid_impact_sim@4x.png",
+      "sprite": {
+        "x": 1216,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/marker_air_raid_impact_sim.png",
+      "sha256": "4c166004c6f701ca7d3d32a1d682359ca9255796f67c73a361108795f3c8bb6f"
+    },
+    {
+      "key": "vessel_marine_patrol",
+      "png": "png/vessel_marine_patrol.png",
+      "png2x": "png/vessel_marine_patrol@2x.png",
+      "png4x": "png/vessel_marine_patrol@4x.png",
+      "sprite": {
+        "x": 1248,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/vessel_marine_patrol.png",
+      "sha256": "5972d5b1c34523776b3594aafad6f6c17d5f506f63e7c7be718d8b32e2e0a4b7"
     }
   ]
 }

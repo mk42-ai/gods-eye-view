@@ -238,5 +238,85 @@
   "height": 32,
   "pixelRatio": 1,
   "sdf": false
+ },
+ "barrier_crowd": {
+  "x": 960,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "cone_cluster": {
+  "x": 992,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "crowd_spectators": {
+  "x": 1024,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "person_responder": {
+  "x": 1056,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_city_bus": {
+  "x": 1088,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_police_motorcycle": {
+  "x": 1120,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "sensor_cctv_feed": {
+  "x": 1152,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "evidence_pin_verified": {
+  "x": 1184,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "marker_air_raid_impact_sim": {
+  "x": 1216,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vessel_marine_patrol": {
+  "x": 1248,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
  }
 }

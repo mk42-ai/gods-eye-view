@@ -1,0 +1,13 @@
+captured 2026-11-01T15:26:55Z
+Browser-read env (import.meta.env in src):
+import.meta.env.DEV
+import.meta.env.VITE_
+import.meta.env.VITE_CESIUM_ION_TOKEN
+import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+Server env names read in files NEW/CHANGED this turn:
+env.SCENE_PLAN_ENDPOINT_ID
+Total distinct server env names read (server/api/build): 75
+.env declares 41 names (values redacted)
+Placeholder scan of .env values: 0 hits
+Platform credential scan of .env: 0 hits (must be 0; ONDEMAND_API_KEY is provisioned on the Vercel project, as on every prior deploy)
+New code this turn reads NO new env variable (Open-Meteo needs no key).

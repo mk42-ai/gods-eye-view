@@ -1,0 +1,1067 @@
+{
+ "fetchedAt": "2026-11-01T15:21:39.110713Z",
+ "count": 98,
+ "active": 29,
+ "endpoints": [
+  {
+   "endpoint_id": "byoi-c7f50d33-4dfa-4810-bcb0-924652020a36",
+   "endpoint_name": "gpt-oss-120b",
+   "model_id": "deepseek/deepseek-v4-flash-0731",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": null
+  },
+  {
+   "endpoint_id": "byoi-4a0c4918-677b-4100-abef-a5de809193fb",
+   "endpoint_name": "gemma4-e2b-c926-htp0",
+   "model_id": "gemma4-e2b-c926-htp0",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 128000,
+   "reasoning_efforts": null
+  },
+  {
+   "endpoint_id": "byoi-7d4daf60-35d9-4ecc-b65c-0eeb5c96d82a",
+   "endpoint_name": "deepseek-v4.1-flash-h100",
+   "model_id": "deepseek-ai/DeepSeek-V4.1-Flash-1017",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": null
+  },
+  {
+   "endpoint_id": "byom-35dc9378a949493",
+   "endpoint_name": "Japan",
+   "model_id": "",
+   "status": "deployed",
+   "streaming_supported": true,
+   "context_length": 131072,
+   "reasoning_efforts": null
+  },
+  {
+   "endpoint_id": "byom-515f649affa24c6",
+   "endpoint_name": "THA",
+   "model_id": "",
+   "status": "deployed",
+   "streaming_supported": true,
+   "context_length": 131072,
+   "reasoning_efforts": null
+  },
+  {
+   "endpoint_id": "predefined-openai-gpt4o",
+   "endpoint_name": "ondemand-gpt-4o",
+   "model_id": "gpt-4o",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 128000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-openai-gpt4o-mini",
+   "endpoint_name": "ondemand-gpt-4o-mini",
+   "model_id": "gpt-4o-mini",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 128000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-deepseek-v3",
+   "endpoint_name": "ondemand-deepseek-v3",
+   "model_id": "deepseek-chat",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 64000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-deepseek-r1",
+   "endpoint_name": "ondemand-deepseek-r1",
+   "model_id": "deepseek-reasoner",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 64000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-openai-gpto3-mini",
+   "endpoint_name": "ondemand-gpt-o3-mini",
+   "model_id": "o3-mini-2025-01-31",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-openai-gpt4.1",
+   "endpoint_name": "ondemand-gpt-4.1",
+   "model_id": "gpt-4.1-2025-04-14",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1047576,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-openai-gpt4.1-mini",
+   "endpoint_name": "ondemand-gpt-4.1-mini",
+   "model_id": "gpt-4.1-mini",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1047576,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-openai-gpt4.1-nano",
+   "endpoint_name": "ondemand-gpt-4.1-nano",
+   "model_id": "gpt-4.1-nano",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1047576,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-openai-gpto3",
+   "endpoint_name": "ondemand-gpt-o3",
+   "model_id": "o3-2025-04-16",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-deepseek-r1-distill-llama-70b",
+   "endpoint_name": "deepseek-r1-distill-llama-70b",
+   "model_id": "deepseek-r1-distill-llama-70b",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 65000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-gemini-2.5-pro-preview",
+   "endpoint_name": "gemini-2.5-pro-preview",
+   "model_id": "gemini-2.5-pro-preview-06-05",
+   "status": "inactive",
+   "streaming_supported": false,
+   "context_length": 1048576,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-openai-gpto4-mini",
+   "endpoint_name": "ondemand-gpt-o4-mini",
+   "model_id": "o4-mini-2025-04-16",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-gemini-2.5-flash",
+   "endpoint_name": "gemini-2.5-flash",
+   "model_id": "gemini-2.5-flash-preview-05-20",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-4-opus",
+   "endpoint_name": "claude-4-opus",
+   "model_id": "anthropic/claude-opus-4@20250514",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-4-sonnet",
+   "endpoint_name": "claude-4-sonnet",
+   "model_id": "anthropic/claude-sonnet-4@20250514",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-openai-o3-pro",
+   "endpoint_name": "ondemand-o3-pro",
+   "model_id": "o3-pro-2025-06-10",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-4-1-opus",
+   "endpoint_name": "claude-4-1-opus",
+   "model_id": "anthropic/claude-opus-4-1@20250805",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-deepseek-v3.1",
+   "endpoint_name": "ondemand-deepseek-v3.1",
+   "model_id": "deepseek-chat",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 128000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-k2-think",
+   "endpoint_name": "K2-Think",
+   "model_id": "LLM360/K2-Think",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 32768,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-xai-grok4-fast",
+   "endpoint_name": "ondemand-grok-4-fast",
+   "model_id": "grok-4-fast",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-xai-grok-code-fast-1",
+   "endpoint_name": "ondemand-grok-code-fast-1",
+   "model_id": "grok-code-fast-1",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 256000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-4-5-sonnet",
+   "endpoint_name": "claude-4-5-sonnet",
+   "model_id": "anthropic/claude-sonnet-4-5@20250929",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-5-5-haiku",
+   "endpoint_name": "claude-haiku-5-5",
+   "model_id": "anthropic/claude-haiku-5-5",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-kimi-k2-thinking",
+   "endpoint_name": "kimi-k2-thinking",
+   "model_id": "kimi-k2-thinking",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 256000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-4-5-opus",
+   "endpoint_name": "claude-4-5-opus",
+   "model_id": "anthropic/claude-opus-4-5@20251101",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-gemini-3-flash-preview",
+   "endpoint_name": "gemini-3-flash-preview",
+   "model_id": "gemini-3-flash-preview",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-xai-grok4.1-fast-reasoning",
+   "endpoint_name": "ondemand-grok-4.1-fast-reasoning",
+   "model_id": "grok-4-1-fast-reasoning",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 2000000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-glm-4.7",
+   "endpoint_name": " glm-4.7",
+   "model_id": "z-ai/glm-4.7",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-xai-grok4.1-fast",
+   "endpoint_name": "ondemand-grok-4.1-fast",
+   "model_id": "grok-4-1-fast-non-reasoning",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 2000000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-kimi-k2.5",
+   "endpoint_name": "kimi-k2.5",
+   "model_id": "moonshotai/kimi-k2.5",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 262144,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-4-6-opus",
+   "endpoint_name": "claude-4-6-opus",
+   "model_id": "anthropic/claude-opus-4-6",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-openai-gpt5-mini",
+   "endpoint_name": "ondemand-gpt-5-mini",
+   "model_id": "gpt-5-mini",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 128000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-glm-4.7-flash",
+   "endpoint_name": "glm-4.7-flash",
+   "model_id": "z-ai/glm-4.7-flash",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-glm-5",
+   "endpoint_name": "glm-5",
+   "model_id": "z-ai/glm-5",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 202752,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-minimax-minimax-m2.5",
+   "endpoint_name": "minimax/minimax-m2.5",
+   "model_id": "minimax/minimax-m2.5",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 196608,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-4-6-sonnet",
+   "endpoint_name": "claude-4-6-sonnet",
+   "model_id": "anthropic/claude-sonnet-4-6",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-openai-gpt5.4",
+   "endpoint_name": "ondemand-gpt-5.4",
+   "model_id": "gpt-5.4",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 400000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-z-ai/glm-5-turbo",
+   "endpoint_name": "glm-5-turbo",
+   "model_id": "z-ai/glm-5-turbo",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 202751,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-minimax-m2.7",
+   "endpoint_name": "minimax-m2.7",
+   "model_id": "minimax/minimax-m2.7",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 204800,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-deepseek-v3.2",
+   "endpoint_name": "deepseek-v3.2",
+   "model_id": "deepseek-chat",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 128000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-gemini-3.1-pro-preview",
+   "endpoint_name": "gemini-3.1",
+   "model_id": "gemini-3.1-pro-preview",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-openai-oss",
+   "endpoint_name": "gpt-oss-120b",
+   "model_id": "gpt-oss-120b",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 128000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-glm-5.1",
+   "endpoint_name": "glm-5.1",
+   "model_id": "z-ai/glm-5.1",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 200000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-4-8-opus",
+   "endpoint_name": "claude-4-8-opus",
+   "model_id": "anthropic/claude-opus-4-8",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-xai-grok4.2-non-reasoning",
+   "endpoint_name": "grok-4.2-non-reasoning",
+   "model_id": "grok-4.20-0309-non-reasoning",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-kimi-k2.6",
+   "endpoint_name": "kimi-k2.6",
+   "model_id": "moonshotai/kimi-k2.6",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 262000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-openai-gpt5.5",
+   "endpoint_name": "gpt-5.5",
+   "model_id": "gpt-5.5",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1050000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-deepseek-v4-pro",
+   "endpoint_name": "deepseek-v4-pro",
+   "model_id": "deepseek-v4-pro",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-xai-grok4-2-reasoning",
+   "endpoint_name": "grok-4.2-reasoning",
+   "model_id": "grok-4.20-0309-reasoning",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 2000000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-xai-grok4.3",
+   "endpoint_name": "ondemand-grok-4.3",
+   "model_id": "grok-4.3",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gemini-3.5-flash",
+   "endpoint_name": "gemini-3.5-flash",
+   "model_id": "gemini-3.5-flash",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-grok-build-0.1",
+   "endpoint_name": "ondemand-grok-build-0.1",
+   "model_id": "grok-build-0.1",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 256000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-fable-5",
+   "endpoint_name": "claude-fable-5",
+   "model_id": "anthropic/claude-fable-5",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-glm-5.2",
+   "endpoint_name": "glm-5.2",
+   "model_id": "z-ai/glm-5.2",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-minimax-m3",
+   "endpoint_name": "minimax-m3",
+   "model_id": "minimax/minimax-m3",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-fugu-ultra",
+   "endpoint_name": "fugu-ultra",
+   "model_id": "fugu-ultra",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-fugu",
+   "endpoint_name": "fugu",
+   "model_id": "fugu",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-claude-sonnet-5",
+   "endpoint_name": "claude-sonnet-5",
+   "model_id": "anthropic/claude-sonnet-5",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-xai-grok4.5",
+   "endpoint_name": "ondemand-grok-4.5",
+   "model_id": "grok-4.5",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 500000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gpt-5.6-luna",
+   "endpoint_name": "gpt-5.6-luna",
+   "model_id": "gpt-5.6-luna",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1050000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gpt-5.6-terra",
+   "endpoint_name": "gpt-5.6-terra",
+   "model_id": "gpt-5.6-terra",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1049991,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gpt-5.6-sol",
+   "endpoint_name": "gpt-5.6-sol",
+   "model_id": "gpt-5.6-sol",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1050000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-kimi-k3",
+   "endpoint_name": "kimi-k3",
+   "model_id": "kimi-k3",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gemini-3.6-flash",
+   "endpoint_name": "gemini-3.6-flash",
+   "model_id": "gemini-3.6-flash",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gemini-3.5-flash-lite",
+   "endpoint_name": "gemini-3.5-flash-lite",
+   "model_id": "gemini-3.5-flash-lite",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-claude-opus-5",
+   "endpoint_name": "claude-opus-5",
+   "model_id": "anthropic/claude-opus-5",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-kimi-k3-fast",
+   "endpoint_name": "kimi-k3-fast",
+   "model_id": "accounts/fireworks/routers/kimi-k3-fast",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-deepseek-v4-flash",
+   "endpoint_name": "deepseek-v4-flash-fast",
+   "model_id": "deepseek/deepseek-v4-flash-0731",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-qwen-3.8-max",
+   "endpoint_name": "qwen-3.8-max",
+   "model_id": "qwen/qwen3.8-max-0902",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-muse_spark_1.2",
+   "endpoint_name": "muse-spark-1.2",
+   "model_id": "meta/muse-spark-1.2",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 999999,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-xai-grok4.6",
+   "endpoint_name": "ondemand-grok-4.6",
+   "model_id": "grok-4.6",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 500000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gemini-3.7-flash",
+   "endpoint_name": "gemini-3.7-flash",
+   "model_id": "gemini-3.7-flash",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-qwen-3.7-max",
+   "endpoint_name": "qwen-3.7-max",
+   "model_id": "qwen/qwen3.7-max",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-stealth-ox-alpha",
+   "endpoint_name": "stealth-ox-alpha",
+   "model_id": "stealth/ox-alpha",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-deepseek-v4-flash-vision-exp",
+   "endpoint_name": "deepseek-v4-flash-vision-exp",
+   "model_id": "deepseek-v4-flash-vision-exp",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-glm-5.3-flash",
+   "endpoint_name": "glm-5.3-flash",
+   "model_id": "z-ai/glm-5.3-flash",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-glm-5.3",
+   "endpoint_name": "glm-5.3",
+   "model_id": "z-ai/glm-5.3",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": []
+  },
+  {
+   "endpoint_id": "predefined-claude-fable-5.1",
+   "endpoint_name": "claude-fable-5-1",
+   "model_id": "anthropic/claude-fable-5-1",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gemini-3.8-flash",
+   "endpoint_name": "gemini-3.8-flash",
+   "model_id": "gemini-3.8-flash",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-muse_spark_1.3",
+   "endpoint_name": "muse-spark-1.3",
+   "model_id": "meta/muse-spark-1.3",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gpt-6-astra",
+   "endpoint_name": "gpt-6-astra",
+   "model_id": "gpt-6-astra",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1050000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-deepseek-flash",
+   "endpoint_name": "deepseek-v4.1-flash",
+   "model_id": "deepseek-flash",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-cerebras-qwen-3.8-27b",
+   "endpoint_name": "cerebras-qwen-3.8",
+   "model_id": "qwen-3.8-27b",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 128000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-xai-grok4.7",
+   "endpoint_name": "ondemand-grok-4.7",
+   "model_id": "grok-4.7",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 500000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-claude-opus-5.5",
+   "endpoint_name": "claude-opus-5-5",
+   "model_id": "anthropic/claude-opus-5-5",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gpt-6-sol",
+   "endpoint_name": "gpt-6-sol",
+   "model_id": "gpt-6-sol",
+   "status": "inactive",
+   "streaming_supported": true,
+   "context_length": 1050000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gpt-6-luna",
+   "endpoint_name": "gpt-6-luna",
+   "model_id": "gpt-6-luna",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1050000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-claude-sonnet-5.5",
+   "endpoint_name": "claude-sonnet-5-5",
+   "model_id": "anthropic/claude-sonnet-5-5",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gpt-6.1-sol",
+   "endpoint_name": "gpt-6.1-sol",
+   "model_id": "gpt-6.1-sol",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1050000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-muse-wonder",
+   "endpoint_name": "meta/muse-wonder",
+   "model_id": "meta/muse-wonder",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gemini-4-argon",
+   "endpoint_name": "gemini-4-argon",
+   "model_id": "gemini-4-argon",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1048576,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-kimi-k3.1-pro",
+   "endpoint_name": "kimi-k3.1-pro",
+   "model_id": "kimi-k3.1-pro",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1000000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  },
+  {
+   "endpoint_id": "predefined-gpt-6.1-terra",
+   "endpoint_name": "gpt-6.1-terra",
+   "model_id": "gpt-6.1-terra",
+   "status": "active",
+   "streaming_supported": true,
+   "context_length": 1050000,
+   "reasoning_efforts": [
+    "low",
+    "medium",
+    "max"
+   ]
+  }
+ ]
+}

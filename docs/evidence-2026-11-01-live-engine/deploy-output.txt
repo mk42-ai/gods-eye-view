@@ -1,0 +1,27 @@
+2026-11-01T15:27:31Z
+deploying to Vercel; a cold build takes minutes...
+DEPLOYMENT_ID: dpl_HNVzCiNK39Mr4RaMh2jwPvuydk4Q
+PREVIEW_URL: https://ondemand-agent-rdsbsk66a-schoolhack-web-team.vercel.app
+exit 0
+2026-11-01T15:29:03Z
+
+deploy #2 2026-11-01T15:47:39Z (after live-QA fix: camera director interrupt scoring vs the ACTUAL current shot + paused/finished timeline yields; Q&A camera priority 100; qa harness truthful state detail)
+deploying to Vercel; a cold build takes minutes...
+DEPLOYMENT_ID: dpl_692QvTGXyHCJfdju6zuEN65wLFWP
+PREVIEW_URL: https://ondemand-agent-rlieiksoi-schoolhack-web-team.vercel.app
+exit 0
+2026-11-01T15:49:11Z
+
+deploy #3 2026-11-01T16:07:13Z (after live-QA Demo B fix: test road-closure sign placed on the route vertex nearest the origin + clamped to the 5 km bound; harness reports zod issues instead of a bare ZodError)
+deploying to Vercel; a cold build takes minutes...
+DEPLOYMENT_ID: dpl_3U2JPGnuf27JZagNRgJSujMAZ8Rm
+PREVIEW_URL: https://ondemand-agent-jn4m2xghr-schoolhack-web-team.vercel.app
+exit 0
+2026-11-01T16:08:43Z
+
+deploy #4 (final) 2026-11-01T16:55:06Z (Snapchat getState() now exposes server execution metrics; qa harness Demo E gated on a built scene + balanced scope)
+deploying to Vercel; a cold build takes minutes...
+DEPLOYMENT_ID: dpl_7qq4spST2e1W55hPSWuwVQqXmZ3o
+PREVIEW_URL: https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app
+exit 0
+2026-11-01T16:56:40Z

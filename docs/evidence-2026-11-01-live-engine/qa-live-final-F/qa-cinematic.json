@@ -1,0 +1,104 @@
+{
+  "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app",
+  "startedUtc": "2026-11-01T17:32:01.749Z",
+  "finishedUtc": "2026-11-01T17:32:57.236Z",
+  "summary": {
+    "passed": 1,
+    "failed": 0,
+    "blocked": 0,
+    "not_run": 0
+  },
+  "demos": [
+    {
+      "id": "F",
+      "viewport": "1440x900",
+      "status": "passed",
+      "reason": null,
+      "durationSec": 55,
+      "screenshots": [],
+      "metrics": {
+        "switchedTo": "predefined-gpt-6.1-sol"
+      },
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/setup/status",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "modelProof": {
+        "stateModel": {
+          "endpointId": "predefined-gpt-6.1-sol",
+          "modelId": "gpt-6.1-sol",
+          "provider": "openai",
+          "ttftMs": 3713,
+          "tokensPerSec": 127.01,
+          "outputTokens": 2201,
+          "visibleChars": 8521,
+          "visibleTokensEst": 2130,
+          "visibleTokensPerSecEst": 122.92,
+          "deltas": 2197,
+          "latencyMs": 21042
+        },
+        "modelSelectedEvent": null
+      },
+      "buildRunState": "succeeded",
+      "switchedModel": {
+        "endpointId": "predefined-gpt-6.1-sol",
+        "name": "gpt-6.1-sol",
+        "modelId": "gpt-6.1-sol",
+        "provider": "openai",
+        "status": "active",
+        "available": true,
+        "streaming": true,
+        "contextLength": 1050000,
+        "reasoningEfforts": [
+          "low",
+          "medium",
+          "max"
+        ],
+        "cerebras": false
+      },
+      "runStateDetail": {
+        "runState": "succeeded",
+        "stage": "D",
+        "sceneVersion": 20,
+        "error": null,
+        "model": {
+          "endpointId": "predefined-gpt-6.1-sol",
+          "modelId": "gpt-6.1-sol",
+          "provider": "openai",
+          "ttftMs": 3713,
+          "tokensPerSec": 127.01,
+          "outputTokens": 2201,
+          "visibleChars": 8521,
+          "visibleTokensEst": 2130,
+          "visibleTokensPerSecEst": 122.92,
+          "deltas": 2197,
+          "latencyMs": 21042
+        },
+        "invalid": [],
+        "entities": 11,
+        "tail": [
+          {
+            "event": "scene.ready",
+            "t": "2026-11-01T17:32:40.042Z",
+            "summary": "{\"runId\":\"c25446ae-8e4c-4668-b7af-1e0f228331db\",\"sceneId\":\"scene-c25446ae-8e4c-4668-b7af-1e0f228331db\",\"sceneVersion\":20,\"seq\":2222,\"entities\":11,\"shots\":4,\"beats\":4,\"t\":\"2026-11-01T17:32:40.042Z\",\"elapsedMs\":21049}"
+          },
+          {
+            "event": "run.completed",
+            "t": "2026-11-01T17:32:40.043Z",
+            "summary": "{\"runId\":\"c25446ae-8e4c-4668-b7af-1e0f228331db\",\"sceneId\":\"scene-c25446ae-8e4c-4668-b7af-1e0f228331db\",\"sceneVersion\":0,\"scene\":{\"schema\":\"gev-cinematic-scene\",\"schemaVersion\":1,\"sceneId\":\"scene-c25446ae-8e4c-4668-b7af-1e0f228331db\",\"sceneVersion\":0,\"runId\":\"c25446ae-8e4c-4668-b7af-1e0f228331db\",\"mode\":\"cinematic_simulation\",\"title\":\"Burj Khalifa: Illustrative Police Response\",\"origin\":{\"name\":\"Bu"
+          },
+          {
+            "event": "done",
+            "t": "2026-11-01T17:32:40.043Z",
+            "summary": "{\"result\":{\"ok\":true,\"plan\":{\"version\":1,\"title\":\"Burj Khalifa: Illustrative Police Response\",\"illustrative\":true,\"durationSec\":60,\"location\":{\"name\":\"Burj Khalifa\",\"lat\":25.1970336,\"lon\":55.2741329,\"sourceUrl\":\"https://www.openstreetmap.org/way/446646206\"},\"camera\":{\"distanceM\":700,\"heading\":25,\"pitch\":-55,\"framing\":\"medium\"},\"entities\":[{\"id\":\"car_drive\",\"type\":\"police_vehicle\",\"label\":\"HYPOTHET"
+          }
+        ]
+      }
+    }
+  ]
+}

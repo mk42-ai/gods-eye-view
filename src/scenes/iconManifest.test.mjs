@@ -17,15 +17,15 @@ function hasPngSignature(buffer) {
   return buffer.length >= 8 && buffer.subarray(0, 8).equals(PNG_MAGIC);
 }
 
-test('manifest.json exists, has version 3, valid timestamp, and keys array', () => {
+test('manifest.json exists, has version 4, valid timestamp, and keys array', () => {
   const manifestPath = path.join(PUBLIC_DIR, 'manifest.json');
   assert.ok(fs.existsSync(manifestPath), 'manifest.json must exist');
 
   const content = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   assert.equal(
     content.version,
-    3,
-    'manifest version must be 3 (v3 adds @4x + 14 cinematic keys)',
+    4,
+    'manifest version must be 4 (v4 adds batch B: 10 generated icons; v3 added @4x + 14 cinematic keys)',
   );
   assert.ok(content.generatedAt, 'generatedAt must be present');
   assert.ok(
@@ -34,8 +34,8 @@ test('manifest.json exists, has version 3, valid timestamp, and keys array', () 
   );
   assert.ok(Array.isArray(content.keys), 'keys must be an array');
   assert.ok(
-    content.keys.length >= 30,
-    `expected at least 30 keys (16 legacy + 10 new sprites + 4 alert states), got ${content.keys.length}`,
+    content.keys.length >= 40,
+    `expected at least 40 keys (16 legacy + 10 new sprites + 4 alert states + 10 batch B), got ${content.keys.length}`,
   );
 
   const requiredKeys = [

@@ -1128,7 +1128,8 @@ export function createScenePlanMiddleware(options = {}) {
         path === '/models/check' ||
         path === '/director/stream' ||
         path === '/qa' ||
-        path === '/patch/validate'
+        path === '/patch/validate' ||
+        path === '/intel/weather'
       ) {
         cinematicRoutes ||= createCinematicMiddleware({
           registry: service.runtime?.registry || undefined,

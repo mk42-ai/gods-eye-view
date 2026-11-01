@@ -346,6 +346,10 @@ export function installSceneFootage({
         accounting: s.accounting,
         capabilities: s.capabilities,
         bounds: s.bounds,
+        // Real execution metrics from server/scene-footage/metrics.js
+        // (attempted/succeeded/failed, returned/unique/duplicate/relevant,
+        // rate-limit state) — never estimated client-side.
+        metrics: s.metrics || null,
       };
     },
     destroy() {

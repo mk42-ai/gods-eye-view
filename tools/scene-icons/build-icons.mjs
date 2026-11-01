@@ -16,7 +16,7 @@
  *    - kept existing keys: police_unit, cctv_signal, staging_point, perimeter_unit, start_finish
  * 5. Exports 32px (<key>.png) and 64px (<key>@2x.png) to public/scene-icons/png/
  * 6. Generates sprite.png (1x), sprite@2x.png (2x), sprite.json, sprite@2x.json (MapLibre format)
- * 7. Writes public/scene-icons/manifest.json (version 2) with SHA-256 hashes.
+ * 7. Writes public/scene-icons/manifest.json (version 4: 40 keys incl. batch B) with SHA-256 hashes.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -131,6 +131,27 @@ const KEY_DEFINITIONS = [
     source: 'tools/scene-icons/sources/alert_states_sheet.png',
     quadrant: 3,
   },
+
+  // 2026-11-01 batch B — 10 generated icons (black #000000 background, teal/mint/white/navy palette)
+  { key: 'barrier_crowd', source: 'tools/scene-icons/sources/barrier_crowd.png' },
+  { key: 'cone_cluster', source: 'tools/scene-icons/sources/cone_cluster.png' },
+  { key: 'crowd_spectators', source: 'tools/scene-icons/sources/crowd_spectators.png' },
+  { key: 'person_responder', source: 'tools/scene-icons/sources/person_responder.png' },
+  { key: 'vehicle_city_bus', source: 'tools/scene-icons/sources/vehicle_city_bus.png' },
+  {
+    key: 'vehicle_police_motorcycle',
+    source: 'tools/scene-icons/sources/vehicle_police_motorcycle.png',
+  },
+  { key: 'sensor_cctv_feed', source: 'tools/scene-icons/sources/sensor_cctv_feed.png' },
+  {
+    key: 'evidence_pin_verified',
+    source: 'tools/scene-icons/sources/evidence_pin_verified.png',
+  },
+  {
+    key: 'marker_air_raid_impact_sim',
+    source: 'tools/scene-icons/sources/marker_air_raid_impact_sim.png',
+  },
+  { key: 'vessel_marine_patrol', source: 'tools/scene-icons/sources/vessel_marine_patrol.png' },
 ];
 
 function generateGenericSvg() {
@@ -406,7 +427,7 @@ export async function buildIcons() {
   );
 
   const manifest = {
-    version: 3,
+    version: 4,
     generatedAt: new Date().toISOString(),
     keys: manifestKeys,
   };
