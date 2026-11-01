@@ -24,6 +24,8 @@ import {
   withLocationFeatures,
   PRECISION_TEXT,
 } from './location.js';
+import { createSpecModel } from './specModel.js';
+import { createSceneEngine } from './engine.js';
 
 const GEOMETRY_BUDGET_MS = 180000;
 async function withGeometryBudget(promise, signal, budgetMs) {
@@ -209,6 +211,27 @@ export function createScenePlanService(options = {}) {
           ? createGeometryResearch({ transport, ...options.geometryOptions })
           : null;
   const geometryBudgetMs = options.geometryBudgetMs ?? GEOMETRY_BUDGET_MS;
+  // Two-tier staging: fast model → strict Scene Spec; deterministic engine →
+  // GeoJSON layers. Unit tests that inject a synthetic transport opt in with
+  // `staging: true` or inject their own {specModel, engine}.
+  const stagingEnabled =
+    options.staging === false
+      ? false
+      : options.staging === true ||
+        !options.transport ||
+        Boolean(options.specModel);
+  const specModel = stagingEnabled
+    ? (options.specModel ??
+      createSpecModel({
+        transport,
+        env: options.env,
+        ...options.specModelOptions,
+      }))
+    : null;
+  const engine = stagingEnabled
+    ? (options.engine ?? createSceneEngine(options.engineOptions || {}))
+    : null;
+  const stagingBudgetMs = options.stagingBudgetMs ?? 60000;
   // Research-first location resolution: used whenever the client hint is not a
   // verified, attributed geocoder result. Never a build prerequisite.
   const resolveLocation =
@@ -228,6 +251,16 @@ export function createScenePlanService(options = {}) {
       locationResolution:
         'perplexity-research + osm name/address/area fallback; verified geocoder not required',
       generatedStaging: 'illustrative',
+      staging: specModel
+        ? {
+            enabled: true,
+            tiers: specModel.config().tiers,
+            ultraFastEndpointExists: specModel.config().ultraFastEndpointExists,
+            ...(specModel.config().credentialRequest
+              ? { credentialRequest: specModel.config().credentialRequest }
+              : {}),
+          }
+        : { enabled: false },
       narration: {
         ...DEFAULT_NARRATION_CONFIG,
         requiresFreshProviderAudio: true,
@@ -268,6 +301,16 @@ export function createScenePlanService(options = {}) {
         inputError(
           'selectedTime must be a short date/time string or a finite nonnegative number.',
         );
+      // Tier 1 (fast model) starts immediately and in parallel with location
+      // research; it never blocks on the planner and always resolves (template).
+      const specStarted = Date.now();
+      const specPromise = specModel
+        ? specModel.classify(prompt, { signal }).catch((error) => {
+            if (signal?.aborted) throw error;
+            return null;
+          })
+        : Promise.resolve(null);
+      specPromise.catch(() => {});
       // Location: a verified, attributed geocoder hint is used as-is (exact).
       // Anything else (unverified, model-extracted or missing) is resolved by
       // Perplexity location research + OpenStreetMap matching with fallbacks.
@@ -354,6 +397,42 @@ export function createScenePlanService(options = {}) {
         if (signal?.aborted) throw error;
         return unavailableGeometry(error?.code || error?.message);
       });
+      // Tier 2 (deterministic engine): real OSM/OSRM data + Turf, bounded.
+      // Runs in parallel with the planner LLM below; awaited before returning.
+      let stagingError = null;
+      const stagingPromise = (async () => {
+        if (!engine) return null;
+        const classified = await specPromise;
+        if (!classified) return null;
+        const researchRoutes = (geometry?.features || [])
+          .filter((f) => f.kind === 'route')
+          .map((f) => ({ name: f.name, coordinates: f.geometry.coordinates }));
+        try {
+          return await Promise.race([
+            engine.stage({
+              spec: classified.spec,
+              anchor: { name: anchor.name, lat: anchor.lat, lon: anchor.lon },
+              researchRoutes,
+              signal,
+              model: classified.model,
+              specMs: classified.model.latencyMs ?? Date.now() - specStarted,
+            }),
+            new Promise((_, reject) =>
+              setTimeout(
+                () => reject(new Error('staging time budget exceeded')),
+                stagingBudgetMs,
+              ),
+            ),
+          ]);
+        } catch (error) {
+          if (signal?.aborted) throw error;
+          stagingError = String(
+            error?.code || error?.message || 'staging failed',
+          ).slice(0, 200);
+          return null;
+        }
+      })();
+      stagingPromise.catch(() => {});
       const checkedAt = new Date().toISOString();
       const approximate = resolution.approximate === true;
       const verification = {
@@ -451,10 +530,19 @@ export function createScenePlanService(options = {}) {
               'plan.verification',
               'must preserve authoritative verification exactly',
             );
+          const staging = await stagingPromise.catch((error) => {
+            if (signal?.aborted) throw error;
+            return null;
+          });
           return {
             ok: true,
             plan,
             ...(geometry ? { geometry } : {}),
+            ...(staging ? { staging } : {}),
+            ...(stagingError ? { stagingError } : {}),
+            ...(specModel?.config().credentialRequest
+              ? { credentialRequest: specModel.config().credentialRequest }
+              : {}),
             locationResolution: resolution,
             anchor: {
               name: anchor.name,

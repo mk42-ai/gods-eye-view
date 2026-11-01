@@ -1,4 +1,5 @@
 import { describeGeometry } from '../../scenes/sceneGeometry.js';
+import { createScenePanel } from './scenePanel.js';
 /** Scene-aware controls. All descriptions are derived from the committed plan,
  * never from retrieved footage or an alleged real incident. */
 export const DEFAULT_NARRATION_CONFIG = Object.freeze({
@@ -31,7 +32,10 @@ export function describeConstructedScene(scene) {
   const research = scene?.geometry
     ? ` ${describeGeometry(scene.geometry)}`
     : '';
-  return `Illustrative staging, not a confirmed incident. ${plan.title}. Location: ${scene.anchor?.name || plan.location.name}. Duration: ${plan.durationSec} seconds. Entities: ${entities || 'none'}. Camera: ${plan.camera.framing}, ${plan.camera.distanceM} m distance, heading ${plan.camera.heading}°, pitch ${plan.camera.pitch}°. Timed beats: ${beats}.${research}`;
+  const staged = scene?.staging
+    ? ` Deterministic staging (${scene.staging.spec.scenarioType}, built with ${scene.staging.model.provider === 'template' ? 'scenario template' : scene.staging.model.id} in ${Math.round(scene.staging.model.latencyMs || 0)} ms): ${scene.staging.summary || ''}`
+    : '';
+  return `Illustrative staging, not a confirmed incident. ${plan.title}. Location: ${scene.anchor?.name || plan.location.name}. Duration: ${plan.durationSec} seconds. Entities: ${entities || 'none'}. Camera: ${plan.camera.framing}, ${plan.camera.distanceM} m distance, heading ${plan.camera.heading}°, pitch ${plan.camera.pitch}°. Timed beats: ${beats}.${research}${staged}`;
 }
 export function measuredNarrationFit(duration, sceneDuration) {
   if (!(
@@ -101,13 +105,17 @@ export function createSceneStudio({
     'Constructed scene, chat, cameras and narration',
   );
   root.append(el('h2', 'scene-studio__heading', 'Constructed scene'));
-  root.append(
-    el(
-      'p',
-      'scene-studio__notice',
-      'Illustrative staging · not an asserted real incident',
-    ),
+  // Left-panel scene explanation (title, summary, scenario, location badge,
+  // elements, source chips, one caveat line, model line). Replaces stacked
+  // notices when a deterministic staging block is present.
+  const scenePanel = createScenePanel({ document: doc });
+  root.append(scenePanel.element);
+  const notice = el(
+    'p',
+    'scene-studio__notice',
+    'Illustrative staging · not an asserted real incident',
   );
+  root.append(notice);
   const status = el('p', 'scene-studio__status');
   status.id = 'scene-studio-status';
   status.setAttribute('role', 'status');
@@ -266,7 +274,10 @@ export function createSceneStudio({
     scene = next;
     root.hidden = !next;
     root.dataset.sceneId = next?.id || '';
-    if (!next) return;
+    if (!next) {
+      scenePanel.setScene(null);
+      return;
+    }
     const plan = planOf(next);
     config = { ...DEFAULT_NARRATION_CONFIG, ...(next.narrationConfig || {}) };
     history = Array.isArray(next.chat)
@@ -318,9 +329,14 @@ export function createSceneStudio({
       a.rel = 'noopener noreferrer';
       sources.append(a);
     }
-    status.textContent = plan
-      ? 'Current scene constructed and schema-validated. All generated entity placements are illustrative.'
-      : 'Legacy geographic scene; rebuild to construct an entity plan.';
+    scenePanel.setScene(next);
+    notice.hidden = Boolean(next.staging);
+    status.textContent = next.staging
+      ? ''
+      : plan
+        ? 'Current scene constructed and schema-validated. All generated entity placements are illustrative.'
+        : 'Legacy geographic scene; rebuild to construct an entity plan.';
+    status.hidden = !status.textContent;
     voiceStatus.textContent =
       'Narration is not generated yet. Playback and timing are verified only after real audio is loaded.';
     generate.disabled = !plan;
@@ -496,11 +512,13 @@ export function createSceneStudio({
   return {
     element: root,
     cameraHost,
+    panel: scenePanel,
     setScene,
     invalidate,
     getSnapshot: snapshot,
     getState: () => ({
       sceneId: scene?.id || null,
+      panel: scenePanel.getState(),
       revision: generation,
       hasPlan: Boolean(planOf(scene)),
       chat: history,
@@ -521,6 +539,7 @@ export function createSceneStudio({
       destroyed = true;
       invalidate();
       cleanups.forEach((f) => f());
+      scenePanel.destroy();
       root.remove();
     },
   };

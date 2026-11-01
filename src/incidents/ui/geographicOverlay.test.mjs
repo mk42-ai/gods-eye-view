@@ -253,7 +253,8 @@ test('renders every planned quantity as real Cesium geometry at supplied coordin
         : /Illustrative/,
     );
     assert.equal(entity.label.showBackground.getValue(), false);
-    assert.match(entity.label.text.getValue(), /^ILLUSTRATIVE · /);
+    // Labels are clean names: no per-label ILLUSTRATIVE prefix, no [n] tokens.
+    assert.doesNotMatch(entity.label.text.getValue(), /ILLUSTRATIVE|\[\d/);
     assert.ok(entity.label.text.getValue().length <= 72);
     assert.equal(entity.properties.illustrative.getValue(), true);
     assert.equal(entity.properties.incidentConfirmed.getValue(), false);
@@ -269,9 +270,9 @@ test('renders every planned quantity as real Cesium geometry at supplied coordin
   assert.equal(source.entities.values.length, 14);
   assert.equal(source.entities.getById('geographic-camera-orbit'), undefined);
   assert.equal(source.entities.getById('geographic-camera-0'), undefined);
-  assert.match(
+  assert.equal(
     document.getElementById('scene-anchor-label').textContent,
-    /ILLUSTRATIVE STAGING/,
+    scene.anchor.name,
   );
 });
 test('beat updates highlight only authored focus; seeking clamps safely and does not invent entity movement', (t) => {

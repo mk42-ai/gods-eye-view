@@ -1827,9 +1827,15 @@
       "src/incidents/ui/sceneCamera.js",
       "src/incidents/ui/sceneStudio.js",
       "src/scenes/sceneGeometry.js",
-      "src/incidents/ui/sceneGeometryLayer.js"
+      "src/incidents/ui/sceneGeometryLayer.js",
+      "src/scenes/sceneSpec.js",
+      "src/scenes/sceneTemplates.js",
+      "src/scenes/sceneStaging.js",
+      "src/incidents/ui/sceneStagingLayer.js",
+      "src/incidents/ui/scenePanel.js"
     ],
     "external": [
+      "zod",
       "@mapbox/vector-tile",
       "cesium",
       "egm96-universal",

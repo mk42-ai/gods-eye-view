@@ -4,14 +4,16 @@ import { governorRequestRender } from '../../renderGovernor.js';
 import { SUGGESTED_MARKER_LABEL } from '../../scenes/sceneGeometry.js';
 
 const SECURITY_TYPES = new Set(['police', 'police_vehicle']);
-/** Short, clearly-illustrative map label. Long model prose never becomes a map bar. */
+/** Short map label. Long model prose never becomes a map bar; the illustrative
+ * status is carried ONCE by the fixed badge/legend, not repeated per label, and
+ * police/security markers read "Suggested unit" (never an asserted deployment). */
 export function stagingLabel(placement) {
-  if (SECURITY_TYPES.has(placement.type))
-    return `ILLUSTRATIVE · ${SUGGESTED_MARKER_LABEL}`;
+  if (SECURITY_TYPES.has(placement.type)) return 'Suggested unit';
   const text = String(placement.label || placement.type)
     .replace(/^\s*illustrative[\s:·-]*/i, '')
+    .replace(/\[\s*\d+(?:\s*[,–-]\s*\d+)*\s*\]/g, '')
     .trim();
-  return `ILLUSTRATIVE · ${text.length > 28 ? `${text.slice(0, 27)}…` : text}`;
+  return text.length > 28 ? `${text.slice(0, 27)}…` : text;
 }
 
 export function createGeographicOverlay(
@@ -95,10 +97,10 @@ export function createGeographicOverlay(
       label: {
         text: stagingLabel(placement),
         show: placement.index === 0,
-        font: '600 11px system-ui, sans-serif',
+        font: '600 13px system-ui, sans-serif',
         fillColor: color,
-        outlineColor: Cesium.Color.fromCssColorString('#06141b'),
-        outlineWidth: 3,
+        outlineColor: Cesium.Color.fromCssColorString('#0B1220'),
+        outlineWidth: 4,
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         showBackground: false,
         pixelOffset: new Cesium.Cartesian2(0, -32),
@@ -182,8 +184,7 @@ export function createGeographicOverlay(
       if (actor.entity.label)
         actor.entity.label.show = actor.labelled && active;
     }
-    if (activeScene.plan)
-      label.textContent = `ILLUSTRATIVE STAGING · ${activeScene.anchor.name}`;
+    if (activeScene.plan) label.textContent = activeScene.anchor.name;
     label.dataset.beatTitle = beat?.title || '';
     label.dataset.beatIndex = String(beatIndex);
     label.dataset.timeSec = String(timeSec);
@@ -259,12 +260,9 @@ export function createGeographicOverlay(
   return {
     setScene(scene, { timeSec: initialTime = 0 } = {}) {
       activeScene = scene;
-      mark(
-        scene.anchor,
-        scene.plan
-          ? `ILLUSTRATIVE STAGING · ${scene.anchor.name}`
-          : scene.anchor.name,
-      );
+      // The anchor marker shows the place name only; "illustrative" is stated
+      // once by the fixed scene badge, not stacked on every map label.
+      mark(scene.anchor, scene.anchor.name);
       for (const placement of scene.placements || []) addActor(placement);
       // Camera keyframes are NOT drawn on the map: the former dashed orbit line
       // and its dots were camera targets that read as unresearched roads/points.

@@ -1,6 +1,7 @@
 /** Pure scene construction. Authored staging is never evidence of an incident. */
 import { validateScenePlan } from './structuredPlan.js';
 import { validateSceneGeometry } from './sceneGeometry.js';
+import { validateSceneStaging } from './sceneStaging.js';
 
 export const PLANNED_SCENE_VERSION = 2;
 export const GEOGRAPHIC_SCENE_STORAGE_VERSION = 2;
@@ -450,6 +451,7 @@ export function buildPlannedScene({
   selectedTime = null,
   geometry = null,
   locationResolution = null,
+  staging = null,
   now = 0,
 } = {}) {
   const plan = validatedPlan(inputPlan);
@@ -457,6 +459,9 @@ export function buildPlannedScene({
     geometry == null
       ? null
       : validateSceneGeometry(geometry, { anchor: plan.location });
+  // Deterministic engine output (Scene Spec + GeoJSON layers); null = none.
+  const validatedStaging =
+    staging == null ? null : validateSceneStaging(staging);
   const base = buildGeographicScene({
     candidate,
     now,
@@ -608,6 +613,7 @@ export function buildPlannedScene({
       locationResolution == null
         ? null
         : locationResolutionSnapshot(locationResolution),
+    staging: validatedStaging,
   };
 }
 
@@ -752,6 +758,7 @@ const SESSION_FIELDS = [
   'narrationConfig',
   'geometry',
   'locationResolution',
+  'staging',
 ];
 /** Bounded, validated copy of the server's location-resolution record. */
 function locationResolutionSnapshot(raw) {
@@ -788,12 +795,10 @@ function locationResolutionSnapshot(raw) {
   if (typeof v.geocoderUrl === 'string')
     out.geocoderUrl = safeUrl(v.geocoderUrl);
   out.citations = citations(
-    (Array.isArray(v.citations) ? v.citations : [])
-      .slice(0, 12)
-      .map((c) => ({
-        url: c.url,
-        ...(c.title ? { title: String(c.title).slice(0, 300) } : {}),
-      })),
+    (Array.isArray(v.citations) ? v.citations : []).slice(0, 12).map((c) => ({
+      url: c.url,
+      ...(c.title ? { title: String(c.title).slice(0, 300) } : {}),
+    })),
   );
   out.alternatives = (Array.isArray(v.alternatives) ? v.alternatives : [])
     .slice(0, 6)
@@ -836,7 +841,15 @@ function sessionSnapshot(raw) {
           : validateSceneGeometry(cloneData(value), {
               anchor: raw.anchor || raw.plan?.location,
             });
-    else if (field === 'originalPrompt' || field === 'refinedPrompt')
+    else if (field === 'staging') {
+      // Malformed saved staging is dropped (the scene still loads), never trusted.
+      try {
+        out[field] =
+          value == null ? null : validateSceneStaging(cloneData(value));
+      } catch {
+        out[field] = null;
+      }
+    } else if (field === 'originalPrompt' || field === 'refinedPrompt')
       out[field] = safeText(value);
     else if (field === 'selectedTime') out[field] = savedTime(value);
     else if (field === 'citations') out[field] = citations(value);

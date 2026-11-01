@@ -173,19 +173,20 @@ export function createSceneGeometryLayer(
         item.timeState === 'outside-window' ? 0.55 : 1,
       );
   }
+  // Map labels carry the clean feature name only: the single ILLUSTRATIVE badge
+  // and the numbered source chips live in the UI, never repeated per label.
   function addLabel(item, position, kind) {
-    const numbers = item.citationNumbers.length
-      ? ` [${item.citationNumbers.join(',')}]`
-      : '';
     const entity = source.entities.add({
       id: `${item.id}-label`,
       position,
       label: {
-        text: `ILLUSTRATIVE · ${short(item.label)}${numbers}`,
-        font: '600 12px system-ui, sans-serif',
+        text: short(
+          item.label.replace(/\[\s*\d+(?:\s*[,–-]\s*\d+)*\s*\]/g, '').trim(),
+        ),
+        font: '600 13px system-ui, sans-serif',
         fillColor: Cesium.Color.WHITE,
-        outlineColor: Cesium.Color.fromCssColorString('#06141b'),
-        outlineWidth: 3,
+        outlineColor: Cesium.Color.fromCssColorString('#0B1220'),
+        outlineWidth: 4,
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         showBackground: false,
         pixelOffset: new Cesium.Cartesian2(0, kind === 'point' ? -18 : 0),

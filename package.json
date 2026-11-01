@@ -2,7 +2,7 @@
   "name": "ondemand-spatial",
   "private": true,
   "version": "0.1.1",
-  "description": "OnDemand Spatial \u2014 a real-time spatial intelligence console for planet Earth: photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/fires/CCTV and OnDemand-powered analysis. Runs in a browser and on Vercel serverless functions.",
+  "description": "OnDemand Spatial — a real-time spatial intelligence console for planet Earth: photorealistic 3D globe, live aircraft/ships/satellites/earthquakes/fires/CCTV and OnDemand-powered analysis. Runs in a browser and on Vercel serverless functions.",
   "type": "module",
   "license": "MIT",
   "author": "Bilawal Sidhu",
@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@mapbox/vector-tile": "^3.0.0",
+    "@turf/turf": "^7.4.0",
     "cesium": "^1.124.0",
     "driver.js": "1.10.2",
     "egm96-universal": "^1.1.1",

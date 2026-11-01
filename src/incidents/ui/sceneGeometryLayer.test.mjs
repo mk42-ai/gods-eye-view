@@ -242,10 +242,9 @@ test('renders researched lines/dots as ground-clamped Cesium entities at exact c
     Cesium.HeightReference.CLAMP_TO_GROUND,
   );
   const label = source().entities.getById('f2-label');
-  assert.match(
-    label.label.text.getValue(),
-    /^ILLUSTRATIVE · Researched venue \[1\]$/,
-  );
+  // Clean map label: no ILLUSTRATIVE prefix and no [n] citation token.
+  assert.equal(label.label.text.getValue(), 'Researched venue');
+  assert.equal(label.label.outlineWidth.getValue(), 4);
   assert.equal(
     label.label.showBackground.getValue(),
     false,
@@ -310,14 +309,15 @@ test('staging labels are short; police/security markers use the suggested/illust
       type: 'police',
       label: 'Illustrative perimeter officers spaced along the barriers',
     }),
-    `ILLUSTRATIVE · ${SUGGESTED_MARKER_LABEL}`,
+    'Suggested unit',
   );
   const runner = stagingLabel({
     type: 'runner',
-    label: 'Illustrative runners in the lead pack heading north',
+    label: 'Illustrative runners in the lead pack heading north [1,2]',
   });
-  assert.match(runner, /^ILLUSTRATIVE · runners in the lead pack/);
-  assert.ok(runner.length <= 44);
+  assert.match(runner, /^runners in the lead pack/);
+  assert.doesNotMatch(runner, /ILLUSTRATIVE|\[/);
+  assert.ok(runner.length <= 28);
 });
 
 test('approximate location badge shows confidence, source count and other branches; survives a window restyle', (t) => {

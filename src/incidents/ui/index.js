@@ -40,6 +40,7 @@ import { createSceneLibrary } from './sceneLibrary.js';
 import { installIncidentDiagnostics } from './diagnostics.js';
 import { createGeographicOverlay } from './geographicOverlay.js';
 import { createSceneGeometryLayer } from './sceneGeometryLayer.js';
+import { createSceneStagingLayer } from './sceneStagingLayer.js';
 
 export const INCIDENT_PANEL_ID = 'incident-panel';
 export const INCIDENT_POPOVER_ID = 'incident-popover';
@@ -75,6 +76,8 @@ export function installIncidentScenes({
   );
   const geographicOverlay = createGeographicOverlay(viewer, { document: doc });
   const geometryLayer = createSceneGeometryLayer(viewer, { document: doc });
+  // Deterministic staging (cordons, routes, units, cones, icons, haloed labels).
+  const stagingLayer = createSceneStagingLayer(viewer, { document: doc });
   let activeGeographicScene = null;
   let lastConstructGeometry = null;
   let sceneLibrary = null;
@@ -691,6 +694,9 @@ export function installIncidentScenes({
     sceneLibrary?.element.setAttribute('data-scene-id', scene.id);
     geographicOverlay.setScene(scene);
     geometryLayer.setScene(scene);
+    stagingLayer.setScene(scene);
+    // Verified camera-discovery candidates become cctv_signal markers; nothing invented.
+    stagingLayer.setCameras(cameraCandidatesFor(scene));
     for (const button of [playBtn, pauseBtn, prevBtn, nextBtn])
       button.disabled = false;
     scrub.disabled = false;
@@ -812,6 +818,23 @@ export function installIncidentScenes({
     },
   });
   sceneCamera = createSceneCamera({ document: doc });
+  function cameraCandidatesFor(scene) {
+    if (!scene?.staging) return [];
+    const st = sceneCamera?.getState?.();
+    return (st?.candidates || [])
+      .filter((c) => c.usable && c.location)
+      .slice(0, 6)
+      .map((c) => ({
+        id: c.id,
+        name: c.name,
+        lat: c.location.lat,
+        lon: c.location.lon,
+        distanceM: c.distanceM,
+        status: c.status,
+        provider: c.provider,
+        usable: true,
+      }));
+  }
   studio.cameraHost.append(sceneCamera.element);
   sceneLibrary.element.append(studio.element);
   const cameraLayer = dataManager?.layers?.get?.('cctv')?.module;
@@ -819,6 +842,8 @@ export function installIncidentScenes({
     removeCameraSubscription = cameraLayer.subscribe((snapshot) => {
       // Raw catalog records are not upgraded to verified coverage/permissions.
       sceneCamera.updateCameras(snapshot?.cameras || []);
+      if (activeGeographicScene?.staging)
+        stagingLayer.setCameras(cameraCandidatesFor(activeGeographicScene));
     });
   const onPromptStarted = () => {
     viewer.camera?.cancelFlight?.();
@@ -927,6 +952,7 @@ export function installIncidentScenes({
         originalPrompt: refinement?.scene?.originalPrompt || text,
         geometry: result.geometry || null,
         locationResolution: resolution,
+        staging: result.staging || null,
         selectedTime: {
           windowHours: extraction.windowHours,
           timeMode: extraction.timeMode,
@@ -982,6 +1008,7 @@ export function installIncidentScenes({
       delete panel.dataset.activeScene;
       geographicOverlay.setExternal(candidate);
       geometryLayer.clear();
+      stagingLayer.clear();
       overlay.flyTo(candidate.lat, candidate.lon, {
         altitude: 14000,
         duration: 1.6,
@@ -1173,6 +1200,9 @@ export function installIncidentScenes({
             selectedTime: activeGeographicScene.selectedTime || null,
           }
         : null,
+      sceneStaging: activeGeographicScene
+        ? { ...stagingLayer.getState(), sceneId: activeGeographicScene.id }
+        : null,
       lastConstructGeometryStatus: lastConstructGeometry?.status || null,
       studio: studio.getState(),
       sceneCamera: sceneCamera.getState(),
@@ -1196,6 +1226,7 @@ export function installIncidentScenes({
       sceneLibrary.destroy();
       geographicOverlay.destroy();
       geometryLayer.destroy();
+      stagingLayer.destroy();
       popover.remove();
       panel.remove();
       overlay.destroy();

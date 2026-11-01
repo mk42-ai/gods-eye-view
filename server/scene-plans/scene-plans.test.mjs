@@ -755,3 +755,149 @@ test('negated-incident disclaimers cannot bypass a named dated marathon verifica
     { code: 'needs_clarification' },
   );
 });
+
+// ---- Two-tier staging integration (fast-model spec + deterministic engine) --
+test('construct attaches a validated staging block built from the spec model and engine, in parallel with the planner', async () => {
+  const t = transportFixture();
+  const specCalls = [];
+  const specModel = {
+    config: () => ({
+      tiers: ['fixture:fast', 'template'],
+      ultraFastEndpointExists: false,
+      credentialRequest: {
+        service: 'Cerebras',
+        fields: ['CEREBRAS_API_KEY'],
+        optional: true,
+      },
+    }),
+    classify: async (prompt) => {
+      specCalls.push(prompt);
+      return {
+        spec: {
+          scenarioType: 'police_raid',
+          focalEntity: { name: 'Dubai fixture venue', kind: 'venue' },
+          elements: [
+            { type: 'inner_cordon', params: { radius_m: 60 } },
+            { type: 'outer_cordon', params: { radius_m: 180 } },
+            { type: 'perimeter_unit', params: { count: 2 } },
+          ],
+          confidence: 0.9,
+        },
+        model: {
+          provider: 'ondemand',
+          id: 'fixture-fast',
+          latencyMs: 12,
+          attempts: [{ provider: 'ondemand', id: 'fixture-fast', ok: true, ms: 12 }],
+          repaired: false,
+          reasons: [],
+          fallback: null,
+        },
+      };
+    },
+  };
+  const engineCalls = [];
+  const engine = {
+    stage: async (input) => {
+      engineCalls.push(input);
+      const ring = [
+        [55.299, 25.199],
+        [55.301, 25.199],
+        [55.301, 25.201],
+        [55.299, 25.201],
+        [55.299, 25.199],
+      ];
+      return {
+        version: 1,
+        illustrative: true,
+        spec: input.spec,
+        anchor: input.anchor,
+        model: input.model,
+        timing: { specMs: input.specMs, geometryMs: 3, totalMs: 20 },
+        sources: { footprint: 'circle-fallback', roads: 'unavailable', routing: 'unavailable' },
+        unavailable: [{ element: 'cones', reason: 'fixture: no roads' }],
+        layers: {
+          areas: {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                geometry: { type: 'Polygon', coordinates: [ring] },
+                properties: {
+                  id: 'inner-cordon',
+                  element: 'inner_cordon',
+                  role: 'cordon',
+                  label: 'Inner cordon',
+                  priority: 90,
+                  color: '#14B8A6',
+                  lineStyle: 'cordon_inner',
+                  provenance: 'circle-buffer',
+                  illustrative: true,
+                },
+              },
+            ],
+          },
+          lines: { type: 'FeatureCollection', features: [] },
+          points: { type: 'FeatureCollection', features: [] },
+          labels: { type: 'FeatureCollection', features: [] },
+        },
+        badge: { text: 'ILLUSTRATIVE – suggested, not verified deployment', single: true },
+        legend: [],
+        summary: 'Police raid (illustrative) around Dubai fixture venue.',
+      };
+    },
+  };
+  const service = createScenePlanService({
+    transport: t,
+    research: generic,
+    specModel,
+    engine,
+  });
+  const health = service.health();
+  assert.equal(health.staging.enabled, true);
+  assert.equal(health.staging.ultraFastEndpointExists, false);
+  assert.equal(health.staging.credentialRequest.service, 'Cerebras');
+  const result = await service.construct(constructBody());
+  assert.equal(specCalls.length, 1);
+  assert.equal(engineCalls.length, 1);
+  assert.equal(engineCalls[0].anchor.name, 'Dubai fixture venue');
+  assert.equal(engineCalls[0].specMs, 12);
+  assert.equal(result.staging.spec.scenarioType, 'police_raid');
+  assert.equal(result.staging.model.id, 'fixture-fast');
+  assert.equal(result.staging.layers.areas.features[0].properties.id, 'inner-cordon');
+  assert.equal(result.staging.unavailable[0].element, 'cones');
+  assert.equal(result.credentialRequest.fields[0], 'CEREBRAS_API_KEY');
+  // The planner LLM output is unchanged by staging.
+  assert.equal(result.plan.entities[0].quantity, 3);
+});
+test('a staging failure never fails the scene: the plan is returned with stagingError', async () => {
+  const t = transportFixture();
+  const specModel = {
+    config: () => ({ tiers: ['template'], ultraFastEndpointExists: false, credentialRequest: null }),
+    classify: async () => ({
+      spec: {
+        scenarioType: 'observation',
+        focalEntity: { name: 'x', kind: 'unknown' },
+        elements: [{ type: 'cctv_signal', params: { count: 1 } }],
+        confidence: 0.3,
+      },
+      model: { provider: 'template', id: 't', latencyMs: 0, attempts: [], repaired: true, reasons: [], fallback: 'template' },
+    }),
+  };
+  const engine = {
+    stage: async () => {
+      throw new Error('overpass exploded');
+    },
+  };
+  const result = await createScenePlanService({ transport: t, research: generic, specModel, engine }).construct(constructBody());
+  assert.equal(result.ok, true);
+  assert.equal(result.staging, undefined);
+  assert.equal(result.stagingError, 'overpass exploded');
+  assert.equal(result.credentialRequest, undefined);
+});
+test('staging is off for synthetic transports unless requested; the legacy contract is untouched', async () => {
+  const t = transportFixture();
+  const result = await createScenePlanService({ transport: t, research: generic }).construct(constructBody());
+  assert.equal(result.staging, undefined);
+  assert.equal(result.stagingError, undefined);
+  assert.equal(createScenePlanService({ transport: t, research: generic }).health().staging.enabled, false);
+});
