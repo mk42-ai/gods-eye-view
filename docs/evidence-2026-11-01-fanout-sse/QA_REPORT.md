@@ -6,7 +6,7 @@
 |---|---|
 | Repository / branch | `mk42-ai/gods-eye-view` · `feat/scene-video-evidence` (edited in place) |
 | Base at start | `ca98807` = origin tip (07:06:30Z); ancestors preserved: `b698032`, `cca89df`, `f20fab6`, `5c56f4d`, `948b962` |
-| Code commit | `8c6f3a7` (pushed 11:12Z) · evidence commit follows (see §12) |
+| Commits | `8c6f3a7` code (pushed 11:12Z) · `b57de0a` evidence incl. this report (pushed 11:27Z) |
 | Pull request | GitHub answered `422 "A pull request already exists for mk42-ai:feat/scene-video-evidence."` → existing PR #4 (https://github.com/mk42-ai/gods-eye-view/pull/4) now carries these commits; no new PR URL exists |
 | Live preview (final) | https://ondemand-agent-4nv1jlmuy-schoolhack-web-team.vercel.app (`dpl_FwuDoiN3vit4m8iVjXbocf1h5Cdd`, deployed 10:46:09Z) |
 | Earlier preview this turn | https://ondemand-agent-hgrybwgt6-schoolhack-web-team.vercel.app (`dpl_6isgdz7F3A6apmUMwciiYzU2A8hM`, 09:57:16Z) |
@@ -145,4 +145,4 @@ Pre-existing work on the branch is untouched (a repo-wide `format --write` was r
 
 ## 12. Evidence commit
 
-The `docs/evidence-2026-11-01-fanout-sse/` directory (reports, JSON, timestamped screenshots, this file) is committed separately after this report is written; its hash is stated in the delivery message.
+The `docs/evidence-2026-11-01-fanout-sse/` directory (reports, JSON, timestamped screenshots, this file, `QA_REPORT.pdf`, `test-matrix.json`) is commit `b57de0a`, pushed to origin at 11:27Z.
