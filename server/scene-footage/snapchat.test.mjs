@@ -20,6 +20,7 @@ import {
   AGENT_INSTRUCTION,
   footageConfig,
   FootageClipSchema,
+  PluginVideoSchema,
   spotlightUrl,
   createMediaVerifier,
   SNAPCHAT_PLUGIN_ID_DEFAULT,
@@ -504,7 +505,11 @@ test('retrieve: empty narrow level → expands once within cap and discloses cov
   assert.equal(r.coverageLevel, 'city');
   assert.equal(r.coverageLabel, 'Dubai');
   const q2 = client.calls.filter((c) => c.kind === 'query')[1].input.query;
-  assert.ok(q2.includes('{"places":["Dubai Marina","Dubai"],"limit":3}'));
+  assert.ok(
+    q2.includes(
+      `{"places":["Dubai Marina","Dubai"],"limit":${CFG.resultLimit}}`,
+    ),
+  );
 });
 
 test('retrieve: cap respected → explicit empty result, never wider than configured', async () => {
@@ -670,7 +675,9 @@ test('route: ok path returns validated clips, trace with plugin id, never the ke
   const h = createSceneFootageRoutes({
     client,
     isConfigured: () => true,
-    config: { verifyMedia: false },
+    // fanoutMaxVariants: 1 → only the primary name, which the ladder already
+    // queried, so this legacy single-call contract stays observable.
+    config: { verifyMedia: false, fanoutMaxVariants: 1 },
     log: () => {},
     env: {},
   });
@@ -723,7 +730,7 @@ test('route: ok path returns validated clips, trace with plugin id, never the ke
     createSceneFootageRoutes({
       client: fakeClient([marinaResponse()], client.calls),
       isConfigured: () => true,
-      config: { verifyMedia: false },
+      config: { verifyMedia: false, fanoutMaxVariants: 1 },
       log: () => {},
       env: {},
     }),
@@ -842,7 +849,7 @@ test('route: concurrent identical requests coalesce into one plugin call', async
   const h = createSceneFootageRoutes({
     client,
     isConfigured: () => true,
-    config: { verifyMedia: false },
+    config: { verifyMedia: false, fanoutMaxVariants: 1 },
     log: () => {},
     env: {},
   });
@@ -1045,7 +1052,12 @@ test('retrieve: every candidate fails media verification → ONE fresh-session r
   };
   const stages = [];
   const r = await retrieveSnapchatFootage(
-    { locationId: 'snap-dubai-marina', lat: 25.0786415, lon: 55.1352524, placeName: 'Dubai Marina' },
+    {
+      locationId: 'snap-dubai-marina',
+      lat: 25.0786415,
+      lon: 55.1352524,
+      placeName: 'Dubai Marina',
+    },
     { client, cfg: CFG, now: () => NOW, verify, trace: (s) => stages.push(s) },
   );
   assert.equal(r.status, 'ok');
@@ -1055,9 +1067,18 @@ test('retrieve: every candidate fails media verification → ONE fresh-session r
 });
 
 test('retrieve: media retry is bounded to one extra call', async () => {
-  const client = fakeClient([marinaResponse(), marinaResponse(), marinaResponse()]);
+  const client = fakeClient([
+    marinaResponse(),
+    marinaResponse(),
+    marinaResponse(),
+  ]);
   const r = await retrieveSnapchatFootage(
-    { locationId: 'snap-dubai-marina', lat: 25.0786415, lon: 55.1352524, placeName: 'Dubai Marina' },
+    {
+      locationId: 'snap-dubai-marina',
+      lat: 25.0786415,
+      lon: 55.1352524,
+      placeName: 'Dubai Marina',
+    },
     { client, cfg: CFG, now: () => NOW, verify: async () => [] },
   );
   assert.equal(r.status, 'empty');
@@ -1065,20 +1086,319 @@ test('retrieve: media retry is bounded to one extra call', async () => {
 });
 
 test('dedupeClips drops near-identical re-uploads (same caption, same 1 s duration bucket) but keeps untitled clips apart', () => {
-  const a = { id: 'snap-aaaaaaaaaa', storyId: 'aaaaaaaaaa', caption: 'Burj Khalifa at night!! #dubai', durationMs: 14550 };
-  const b = { id: 'snap-bbbbbbbbbb', storyId: 'bbbbbbbbbb', caption: 'burj khalifa at night #Dubai', durationMs: 14700 };
-  const c = { id: 'snap-cccccccccc', storyId: 'cccccccccc', caption: '', durationMs: 14550 };
-  const d = { id: 'snap-dddddddddd', storyId: 'dddddddddd', caption: '', durationMs: 14550 };
-  const e = { id: 'snap-eeeeeeeeee', storyId: 'eeeeeeeeee', caption: 'Burj Khalifa at night #dubai', durationMs: 30000 };
+  const a = {
+    id: 'snap-aaaaaaaaaa',
+    storyId: 'aaaaaaaaaa',
+    caption: 'Burj Khalifa at night!! #dubai',
+    durationMs: 14550,
+  };
+  const b = {
+    id: 'snap-bbbbbbbbbb',
+    storyId: 'bbbbbbbbbb',
+    caption: 'burj khalifa at night #Dubai',
+    durationMs: 14700,
+  };
+  const c = {
+    id: 'snap-cccccccccc',
+    storyId: 'cccccccccc',
+    caption: '',
+    durationMs: 14550,
+  };
+  const d = {
+    id: 'snap-dddddddddd',
+    storyId: 'dddddddddd',
+    caption: '',
+    durationMs: 14550,
+  };
+  const e = {
+    id: 'snap-eeeeeeeeee',
+    storyId: 'eeeeeeeeee',
+    caption: 'Burj Khalifa at night #dubai',
+    durationMs: 30000,
+  };
   const { kept, dropped } = dedupeClips([a, b, c, d, e]);
-  assert.deepEqual(kept.map((x) => x.id), ['snap-aaaaaaaaaa', 'snap-cccccccccc', 'snap-dddddddddd', 'snap-eeeeeeeeee']);
+  assert.deepEqual(
+    kept.map((x) => x.id),
+    [
+      'snap-aaaaaaaaaa',
+      'snap-cccccccccc',
+      'snap-dddddddddd',
+      'snap-eeeeeeeeee',
+    ],
+  );
   assert.deepEqual(dropped, ['snap-bbbbbbbbbb']);
 });
 
 test('locationEvidenceFor: untitled clip accepted ONLY as plugin-text-match when the plugin asserted a clip-text-match for a requested name (cycle 20)', () => {
-  const r = { matchType: 'clip-text-match', matchedQuery: 'Downtown Dubai', place: 'Downtown Dubai' };
-  assert.equal(locationEvidenceFor({ description: null, hashtags: [] }, ['Downtown Dubai'], r).evidence, 'plugin-text-match');
-  assert.equal(locationEvidenceFor({ description: null, hashtags: [] }, ['Downtown Dubai'], null).evidence, 'unknown');
-  assert.equal(locationEvidenceFor({ description: 'random words', hashtags: [] }, ['Downtown Dubai'], r).evidence, 'unknown');
-  assert.equal(locationEvidenceFor({ description: null, hashtags: [] }, ['Dubai Marina'], r).evidence, 'unknown');
+  const r = {
+    matchType: 'clip-text-match',
+    matchedQuery: 'Downtown Dubai',
+    place: 'Downtown Dubai',
+  };
+  assert.equal(
+    locationEvidenceFor(
+      { description: null, hashtags: [] },
+      ['Downtown Dubai'],
+      r,
+    ).evidence,
+    'plugin-text-match',
+  );
+  assert.equal(
+    locationEvidenceFor(
+      { description: null, hashtags: [] },
+      ['Downtown Dubai'],
+      null,
+    ).evidence,
+    'unknown',
+  );
+  assert.equal(
+    locationEvidenceFor(
+      { description: 'random words', hashtags: [] },
+      ['Downtown Dubai'],
+      r,
+    ).evidence,
+    'unknown',
+  );
+  assert.equal(
+    locationEvidenceFor(
+      { description: null, hashtags: [] },
+      ['Dubai Marina'],
+      r,
+    ).evidence,
+    'unknown',
+  );
+});
+
+test('parsePublicationTime: accepts Sept, missing seconds, and ISO strings', () => {
+  assert.equal(
+    parsePublicationTime('Sept 9, 2026 at 5:13:12 PM', NOW),
+    '2026-09-09T17:13:12.000Z',
+  );
+  assert.equal(
+    parsePublicationTime('September 9, 2026 at 5:13 PM', NOW),
+    '2026-09-09T17:13:00.000Z',
+  );
+  assert.equal(
+    parsePublicationTime('2026-09-09T17:13:12Z', NOW),
+    '2026-09-09T17:13:12.000Z',
+  );
+  assert.equal(
+    parsePublicationTime('2026-09-09T17:13:12.114Z', NOW),
+    '2026-09-09T17:13:12.114Z',
+  );
+});
+
+test('PluginVideoSchema: coerces numeric strings, nulls, and stringified hashtags', () => {
+  const parsed = PluginVideoSchema.safeParse({
+    commentCount: '15',
+    viewCount: '100',
+    shareCount: null,
+    durationMs: '16100',
+    hashtags: '["#dubai", "#marina"]',
+    storageUrl: SAS('test1'),
+    storyId: 'story12345678',
+    uploadDateMs: 'September 9, 2026 at 5:13:12 PM',
+  });
+  assert.ok(parsed.success);
+  assert.equal(parsed.data.commentCount, 15);
+  assert.equal(parsed.data.viewCount, 100);
+  assert.equal(parsed.data.durationMs, 16100);
+  assert.deepEqual(parsed.data.hashtags, ['#dubai', '#marina']);
+});
+
+test('FootageClipSchema: accepts tier and defaults to candidate', () => {
+  const base = {
+    id: 'snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ',
+    sourcePlatform: 'snapchat',
+    tier: 'candidate',
+    mediaUrl: SAS('test'),
+    embedUrl: null,
+    thumbnail: null,
+    sourceUrl:
+      'https://www.snapchat.com/spotlight/W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ',
+    attribution: null,
+    matchedPlaceName: 'Dubai Marina',
+    coverageLevel: 'district',
+    locationEvidence: 'hashtag-match',
+    locationEvidenceDetail:
+      'hashtag #dubaimarina equals the place name "Dubai Marina"',
+    captureTime: null,
+    publicationTime: '2026-09-09T17:13:12.000Z',
+    publicationTimeRaw: 'September 9, 2026 at 5:13:12 PM',
+    publicationTimezoneAssumption: 'UTC',
+    retrievalTime: '2026-10-26T23:50:00.000Z',
+    isLive: false,
+    liveConfirmedBy: null,
+    mediaExpiresAt: '2026-11-02T15:21:45.000Z',
+    mediaHash: null,
+    mediaVerified: false,
+    durationMs: 16100,
+    caption: '#dubaimarina',
+    hashtags: ['#dubaimarina'],
+    storyId: 'W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ',
+    metrics: { views: null, comments: 1, shares: 0 },
+  };
+  assert.ok(FootageClipSchema.safeParse(base).success);
+  assert.ok(FootageClipSchema.safeParse({ ...base, tier: 'verified' }).success);
+  assert.equal(
+    FootageClipSchema.safeParse({ ...base, tier: 'invalid' }).success,
+    false,
+  );
+});
+
+test('validateFootageRequest accepts scope strict, balanced, wide, maps place-mentions, rejects invalid', () => {
+  const s = validateFootageRequest('loc', {
+    lat: 25,
+    lon: 55,
+    scope: 'strict',
+  });
+  assert.equal(s.value.scope, 'strict');
+  assert.equal(s.value.strictBounds, true);
+
+  const b = validateFootageRequest('loc', {
+    lat: 25,
+    lon: 55,
+    scope: 'balanced',
+  });
+  assert.equal(b.value.scope, 'balanced');
+
+  const w = validateFootageRequest('loc', { lat: 25, lon: 55, scope: 'wide' });
+  assert.equal(w.value.scope, 'wide');
+  assert.equal(w.value.radius, 5);
+
+  const pm = validateFootageRequest('loc', {
+    lat: 25,
+    lon: 55,
+    mode: 'place-mentions',
+  });
+  assert.equal(pm.value.scope, 'balanced');
+
+  const bad = validateFootageRequest('loc', {
+    lat: 25,
+    lon: 55,
+    scope: 'super-wide',
+  });
+  assert.equal(bad.error, 'invalid_scope');
+});
+
+test('route: response includes counts, variants, and tier on clips', async () => {
+  const client = fakeClient([marinaResponse()]);
+  const h = createSceneFootageRoutes({
+    client,
+    isConfigured: () => true,
+    config: { verifyMedia: false },
+    log: () => {},
+    env: {},
+  });
+  const { res, json } = await run(
+    h,
+    mockReq('/snap-dubai-marina/footage/snapchat', {
+      locationId: 'snap-dubai-marina',
+      lat: 25.0786415,
+      lon: 55.1352524,
+      placeName: 'Dubai Marina',
+    }),
+  );
+  assert.equal(res.statusCode, 200);
+  assert.equal(json.state, 'ok');
+  assert.equal(json.scope, 'balanced');
+  assert.ok(json.counts);
+  assert.equal(json.counts.verified, 0);
+  assert.equal(json.counts.candidate, 1);
+  assert.ok(Array.isArray(json.variants));
+  assert.equal(json.clips[0].tier, 'candidate');
+  assert.ok(json.capabilities.chatBatch);
+  assert.equal(json.capabilities.chatBatch.available, false);
+});
+
+test('retrieve: balanced scope fans out to name variants under bounded concurrency and merges unique clips', async () => {
+  const video = (storyId, tag) => ({
+    storyId,
+    storageUrl: `https://airevdev.blob.core.windows.net/on-demand-dev/x/agents/${storyId}.mp4?se=2026-11-08T00%3A05%3A06Z&sig=FAKEsig123`,
+    description: `#${tag}`,
+    hashtags: [`#${tag}`],
+    durationMs: 12000,
+    uploadDateMs: 'September 9, 2026 at 5:13:12 PM',
+    viewCount: null,
+    commentCount: 0,
+    shareCount: 0,
+  });
+  const byPlace = {
+    'Dubai Marina': [video('A'.repeat(12), 'dubaimarina')],
+    dubaimarina: [video('A'.repeat(12), 'dubaimarina')], // duplicate storyId
+    'مرسى دبي': [],
+    'Marina Walk': [video('B'.repeat(12), 'marinawalk')],
+  };
+  const calls = [];
+  let n = 0;
+  const client = {
+    sessions: {
+      create: async () => ({ id: `sess${++n}aaaaaaaaaaaaaaaaaaa` }),
+    },
+    query: {
+      sync: async (id, input) => {
+        const m = /"places":\[("[^"]+")\]/.exec(input.query);
+        const place = m ? JSON.parse(m[1]) : null;
+        calls.push(place);
+        const videos = byPlace[place] ?? [];
+        const json = {
+          limit: 25,
+          note: 'text matches',
+          results: [{ place, matchType: 'clip-text-match', matchedQuery: place, uploaded: videos.length, videos }],
+        };
+        return {
+          data: { sessionId: id, messageId: `m${n}`, status: 'completed', answer: '```json\n' + JSON.stringify(json) + '\n```' },
+        };
+      },
+    },
+  };
+  const r = await retrieveSnapchatFootage(
+    {
+      locationId: 'dubai-marina',
+      lat: 25.0805,
+      lon: 55.1403,
+      placeName: 'Dubai Marina',
+      text: 'Dubai Marina',
+      scope: 'balanced',
+      nearbyNames: ['Marina Walk'],
+      clientTimeIso: '2026-11-01T07:00:00.000Z',
+    },
+    { client, cfg: { ...CFG, fanoutMaxVariants: 6, fanoutConcurrency: 2 }, now: () => new Date('2026-11-01T07:00:00Z') },
+  );
+  assert.equal(r.status, 'ok');
+  assert.ok(calls.length >= 3, `expected ladder + fan-out calls, got ${calls.length}`);
+  assert.ok(r.fanout, 'fan-out report present');
+  assert.ok(r.fanout.variants.length >= 2);
+  // Duplicate storyId across variants counts once; Marina Walk adds one new clip.
+  const ids = r.clips.map((c) => c.storyId);
+  assert.deepEqual([...new Set(ids)].sort(), ids.sort());
+  assert.ok(ids.includes('B'.repeat(12)), 'fan-out clip merged');
+  assert.equal(r.counts.verified, 0, 'provider has no capture time/geo → never verified');
+  assert.equal(r.counts.candidate, r.clips.length);
+  assert.equal(r.counts.variantsTried, r.variants.length);
+  assert.ok(r.variants.some((v) => v.fanout === true));
+});
+
+test('retrieve: strict scope never fans out (legacy single ladder preserved)', async () => {
+  const calls = [];
+  const client = fakeClient([{ limit: 25, results: [] }, { limit: 25, results: [] }], calls);
+  const r = await retrieveSnapchatFootage(
+    {
+      locationId: 'dubai-marina',
+      lat: 25.0805,
+      lon: 55.1403,
+      placeName: 'Dubai Marina',
+      strictBounds: true,
+      radius: 1,
+      scope: 'strict',
+      timeWindow: { windowHours: 24, strictCaptureTime: true },
+      clientTimeIso: '2026-11-01T07:00:00.000Z',
+    },
+    { client, cfg: CFG, now: () => new Date('2026-11-01T07:00:00Z') },
+  );
+  assert.equal(r.fanout ?? null, null);
+  // Legacy strict ladder: at most the single narrow call (here the gazetteer
+  // step is beyond the 1 km radius, so nothing is queried at all).
+  assert.ok(calls.filter((c) => c.kind === 'query').length <= 1);
+  assert.equal(r.status, 'empty');
 });

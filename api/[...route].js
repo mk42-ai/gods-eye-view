@@ -15,6 +15,14 @@ import {
  * Connect-compatible router the local dev/preview server would have used —
  * see server/serverless/app.js and docs/SERVERLESS_LIMITATIONS.md.
  */
+/**
+ * Opt this function into response streaming on Vercel's Node runtime so the
+ * scene-plans SSE route (`/api/ondemand/v2/scene-plans/construct/stream`) and
+ * the foundation chat relay flush `res.write()` chunks as they are produced
+ * instead of being buffered until `res.end()`. Harmless for JSON routes.
+ */
+export const config = { supportsResponseStreaming: true };
+
 export default async function handler(req, res) {
   req.url = resolveRequestUrl(req);
   rehydrateBody(req);

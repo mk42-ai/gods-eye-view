@@ -350,12 +350,25 @@ export function createSceneFootagePanel({
           }),
         );
     } else if (st.message) status.append(doc.createTextNode(st.message));
-    else if (st.phase === 'ready')
+    else if (st.phase === 'ready') {
+      const vCount =
+        st.counts?.verified ??
+        st.clips.filter((c) => c.tier === 'verified').length;
+      const cCount =
+        st.counts?.candidate ??
+        st.clips.filter((c) => c.tier !== 'verified').length;
+      const kVariants =
+        st.counts?.variantsTried ??
+        (st.variants?.length ||
+          st.ladder?.filter((l) => l.queried)?.length ||
+          1);
+      const summaryText = `${vCount} verified · ${cCount} unverified candidate${cCount === 1 ? '' : 's'} · ${kVariants} variant${kVariants === 1 ? '' : 's'}`;
       status.append(
         doc.createTextNode(
-          `${st.clips.length} clip${st.clips.length === 1 ? '' : 's'}${st.lastAdded ? ` · +${st.lastAdded} new on last refresh` : ''}`,
+          `${summaryText}${st.lastAdded ? ` · +${st.lastAdded} new on last refresh` : ''}`,
         ),
       );
+    }
     if (
       (st.bounds?.timeWindow || st.bounds?.strictBounds || st.bounds?.radius) &&
       st.phase !== 'loading'
@@ -428,6 +441,16 @@ export function createSceneFootagePanel({
             attrs: { 'data-kind': k },
           }),
         );
+      times.append(
+        el(doc, 'span', {
+          className: `sfp__time sfp__time--${clip.tier || 'candidate'}`,
+          text:
+            clip.tier === 'verified'
+              ? 'verified footage'
+              : 'unverified candidate',
+          attrs: { 'data-kind': 'tier' },
+        }),
+      );
       const caption = el(doc, 'div', {
         className: 'sfp__caption',
         text: clip.caption || '(no caption)',
@@ -451,7 +474,12 @@ export function createSceneFootagePanel({
             'data-snapchat-discovery': 'clip',
             'data-footage-source': 'snapchat-spotlight',
             'data-source-type': 'social-footage',
+            'data-tier': c.tier || 'candidate',
           },
+        });
+        const badge = el(doc, 'span', {
+          className: `sfp__badge sfp__badge--${c.tier || 'candidate'}`,
+          text: c.tier === 'verified' ? 'verified' : 'unverified',
         });
         b.append(
           el(doc, 'b', { text: `#${i + 1}` }),
@@ -459,6 +487,7 @@ export function createSceneFootagePanel({
             className: 'sfp__clip-cap',
             text: c.caption || '(no caption)',
           }),
+          badge,
           el(doc, 'small', {
             text: c.publicationTime
               ? `published ${formatAgo(c.publicationTime, t)}`

@@ -157,6 +157,9 @@ export function createFootageController({
     accounting: null,
     capabilities: null,
     bounds: null,
+    counts: null,
+    variants: [],
+    scope: 'balanced',
     standby: false,
   });
   let state = initial();
@@ -223,6 +226,11 @@ export function createFootageController({
       bbox: scene.bbox || null,
       clientTimeIso: new Date(now()).toISOString(),
       fresh: fresh || refresh,
+      ...(state.bounds?.scope
+        ? { scope: state.bounds.scope }
+        : scene.scope
+          ? { scope: scene.scope }
+          : {}),
       ...(state.bounds?.radius ? { radius: state.bounds.radius } : {}),
       ...(state.bounds?.strictBounds ? { strictBounds: true } : {}),
       ...(state.bounds?.timeWindow
@@ -280,6 +288,9 @@ export function createFootageController({
       accounting: json.accounting || null,
       capabilities: json.capabilities || null,
       bounds: json.bounds || state.bounds,
+      counts: json.counts || null,
+      variants: json.variants || [],
+      scope: json.scope || state.scope || 'balanced',
     };
     if (!res.ok || (json.state !== 'ok' && json.state !== 'empty')) {
       const st = json.state || 'plugin_error';
@@ -351,6 +362,7 @@ export function createFootageController({
         radius = null,
         timeWindow = null,
         strictBounds = false,
+        scope = null,
       } = {},
     ) {
       if (
@@ -378,6 +390,7 @@ export function createFootageController({
           : scene.radius || null,
         strictBounds: Boolean(strictBounds || scene.strictBounds),
         timeWindow: timeWindow || scene.timeWindow || null,
+        ...(scope || scene.scope ? { scope: scope || scene.scope } : {}),
       };
       state = {
         ...initial(),
@@ -392,6 +405,7 @@ export function createFootageController({
         phase: standby ? 'standby' : 'idle',
         standby: Boolean(standby),
         bounds,
+        scope: bounds.scope,
         message: standby
           ? 'Snapchat discovery available for this scene.'
           : null,
@@ -414,6 +428,8 @@ export function createFootageController({
           options.strictBounds !== undefined
             ? Boolean(options.strictBounds)
             : Boolean(state.bounds?.strictBounds),
+        scope:
+          options.scope !== undefined ? options.scope : state.bounds?.scope,
       };
       return api.open(state.scene, {
         trigger: options.trigger || 'explicit',

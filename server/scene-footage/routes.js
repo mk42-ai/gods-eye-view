@@ -141,6 +141,24 @@ export function validateFootageRequest(locationId, body) {
     timeWindow = wObj;
   }
   const trigger = body.trigger ? String(body.trigger).slice(0, 40) : null;
+
+  let scope = 'balanced';
+  const rawScope = body.scope !== undefined ? body.scope : body.mode;
+  if (rawScope !== undefined && rawScope !== null) {
+    if (rawScope === 'place-mentions') {
+      scope = 'balanced';
+    } else if (['strict', 'balanced', 'wide'].includes(rawScope)) {
+      scope = rawScope;
+    } else {
+      return { error: 'invalid_scope' };
+    }
+  } else if (body.strictBounds === true) {
+    scope = 'strict';
+  }
+
+  const effectiveRadius = radius ?? (scope === 'wide' ? 5 : null);
+  const effectiveStrict = strictBounds || scope === 'strict';
+
   return {
     value: {
       locationId,
@@ -150,8 +168,9 @@ export function validateFootageRequest(locationId, body) {
       bbox,
       clientTimeIso,
       fresh: body.fresh === true,
-      ...(radius ? { radius } : {}),
-      ...(strictBounds ? { strictBounds: true } : {}),
+      scope,
+      ...(effectiveRadius ? { radius: effectiveRadius } : {}),
+      ...(effectiveStrict ? { strictBounds: true } : {}),
       ...(timeWindow ? { timeWindow } : {}),
       ...(trigger ? { trigger } : {}),
     },
@@ -239,6 +258,7 @@ export function createSceneFootageRoutes(deps = {}) {
       plugin: { id: c.pluginId, operation: SNAPCHAT_OPERATION },
       refresh: { defaultMs: c.defaultRefreshMs, minMs: c.minRefreshMs },
       maxCoverageLevel: c.maxCoverageLevel,
+      scope: scene.scope || 'balanced',
       capabilities: {
         paginationSupported: false,
         batchSupported: false,
@@ -247,6 +267,16 @@ export function createSceneFootageRoutes(deps = {}) {
         directCoordinatesSupported: false,
         spotlightTextSearchOnly: true,
         undocumentedEndpointsUsed: false,
+        chatBatchApiVerified:
+          'HTTP 405 method_not_allowed (POST /chat/v1/batches: Chat batch creation is currently unavailable)',
+        chatBatch: {
+          available: false,
+          status: 405,
+          body: JSON.stringify({
+            message: 'Chat batch creation is currently unavailable',
+            errorCode: 'method_not_allowed',
+          }),
+        },
       },
     };
     if (!configured()) {
@@ -262,7 +292,7 @@ export function createSceneFootageRoutes(deps = {}) {
     const twKey = scene.timeWindow
       ? `${scene.timeWindow.windowHours || ''}_${scene.timeWindow.windowStart || ''}_${scene.timeWindow.windowEnd || ''}_${scene.timeWindow.strictCaptureTime ? '1' : '0'}`
       : '';
-    const cacheKey = `${scene.locationId}|${scene.placeName.toLowerCase()}|${c.maxCoverageLevel}|${scene.radius || ''}|${scene.strictBounds ? '1' : '0'}|${twKey}`;
+    const cacheKey = `${scene.locationId}|${scene.placeName.toLowerCase()}|${c.maxCoverageLevel}|${scene.radius || ''}|${scene.strictBounds ? '1' : '0'}|${twKey}|${scene.scope || 'balanced'}`;
     if (!scene.fresh) {
       const hit = cache.get(cacheKey, c.cacheTtlMs);
       if (hit) {
@@ -336,12 +366,38 @@ export function createSceneFootageRoutes(deps = {}) {
         upstream: result.upstream,
         cached: false,
         accounting: result.accounting || null,
-        capabilities: result.capabilities || base.capabilities,
+        capabilities: {
+          ...(base.capabilities || {}),
+          ...(result.capabilities || {}),
+          chatBatch: result.capabilities?.chatBatch ||
+            base.capabilities?.chatBatch || {
+              available: false,
+              status: 405,
+              body: JSON.stringify({
+                message: 'Chat batch creation is currently unavailable',
+                errorCode: 'method_not_allowed',
+              }),
+            },
+        },
         bounds: result.bounds || {
           radius: scene.radius || null,
           strictBounds: Boolean(scene.strictBounds),
           timeWindow: scene.timeWindow || null,
+          scope: scene.scope || 'balanced',
         },
+        counts: result.counts || {
+          verified: (result.clips || []).filter((c) => c.tier === 'verified')
+            .length,
+          candidate: (result.clips || []).filter((c) => c.tier === 'candidate')
+            .length,
+          raw: result.accounting?.returnedCount || (result.clips || []).length,
+          unique: result.accounting?.uniqueCount || (result.clips || []).length,
+          variantsTried: result.variants?.length || 1,
+          truncatedVariants: result.accounting?.truncated ? 1 : 0,
+        },
+        variants: result.variants || [],
+        fanout: result.fanout || null,
+        scope: scene.scope || 'balanced',
       };
       stamp('schema_validated', {
         clips: payload.clips.length,
@@ -391,6 +447,16 @@ export function createSceneFootageRoutes(deps = {}) {
           state,
           error: code,
           clips: [],
+          counts: {
+            verified: 0,
+            candidate: 0,
+            raw: 0,
+            unique: 0,
+            variantsTried: 0,
+            truncatedVariants: 0,
+          },
+          variants: [],
+          scope: scene.scope || 'balanced',
           accounting: error.footageAccounting || {
             returnedCount: 0,
             uniqueCount: 0,

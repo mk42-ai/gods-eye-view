@@ -47,6 +47,12 @@ const ICON_SIZE = Object.freeze({
   crowd_zone: 26,
   start_finish: 28,
   egress: 24,
+  command_post: 28,
+  cctv: 24,
+  cordon_node: 22,
+  route_start: 26,
+  route_finish: 26,
+  generic: 20,
 });
 
 /**
@@ -102,6 +108,13 @@ export function createSceneStagingLayer(
   badge.hidden = true;
   doc.body.append(badge);
 
+  const tooltip = doc.createElement('div');
+  tooltip.id = 'scene-staging-tooltip';
+  tooltip.className = 'scene-staging-tooltip';
+  tooltip.setAttribute('role', 'tooltip');
+  tooltip.hidden = true;
+  doc.body.append(tooltip);
+
   let staging = null;
   let cameras = [];
   let destroyed = false;
@@ -109,6 +122,63 @@ export function createSceneStagingLayer(
   const labelEntities = [];
   const dark = Cesium.Color.fromCssColorString(STAGING_COLORS.navy);
   const css = (hex) => Cesium.Color.fromCssColorString(hex);
+
+  // Hover tooltips via Cesium ScreenSpaceEventHandler (MOUSE_MOVE -> scene.pick)
+  let hoverHandler = null;
+  const canvas = viewer.scene?.canvas || viewer.canvas;
+  if (canvas && typeof Cesium.ScreenSpaceEventHandler === 'function') {
+    hoverHandler = new Cesium.ScreenSpaceEventHandler(canvas);
+    hoverHandler.setInputAction((movement) => {
+      if (destroyed || !staging || !movement?.endPosition) {
+        tooltip.hidden = true;
+        return;
+      }
+      let picked = null;
+      try {
+        picked = viewer.scene?.pick?.(movement.endPosition);
+      } catch {
+        picked = null;
+      }
+      const entity = picked?.id;
+      const props = entity?.properties;
+      if (entity && props) {
+        const getProp = (k) =>
+          typeof props[k]?.getValue === 'function'
+            ? props[k].getValue(Cesium.JulianDate.now())
+            : props[k];
+
+        const elem = getProp('element');
+        if (elem) {
+          const conf = getProp('confidence');
+          const source = getProp('source');
+          const tier = getProp('evidenceTier');
+          const relevance = getProp('relevance');
+
+          const lines = [];
+          lines.push(`<strong>${String(elem).replace(/_/g, ' ')}</strong>`);
+          if (conf !== undefined && conf !== null) {
+            lines.push(`Confidence: ${Math.round(conf * 100)}%`);
+          }
+          if (source) {
+            lines.push(`Source: ${source}`);
+          }
+          if (tier) {
+            lines.push(`Evidence: ${tier}`);
+          }
+          if (relevance !== undefined && relevance !== null) {
+            lines.push(`Relevance: ${Math.round(relevance * 100)}%`);
+          }
+
+          tooltip.innerHTML = lines.join('<br/>');
+          tooltip.style.left = `${Math.round(movement.endPosition.x + 12)}px`;
+          tooltip.style.top = `${Math.round(movement.endPosition.y + 12)}px`;
+          tooltip.hidden = false;
+          return;
+        }
+      }
+      tooltip.hidden = true;
+    }, Cesium.ScreenSpaceEventType?.MOUSE_MOVE || 15);
+  }
 
   function render() {
     viewer.scene?.requestRender?.();
@@ -141,6 +211,10 @@ export function createSceneStagingLayer(
         element: p.element,
         role: p.role,
         stagingId: p.id,
+        confidence: p.confidence ?? null,
+        source: p.source ?? '',
+        evidenceTier: p.evidenceTier ?? '',
+        generic: p.generic ?? false,
       },
     });
     // Casing + core outline as separate polylines (Cesium polygons clamp outlines poorly).
@@ -241,6 +315,10 @@ export function createSceneStagingLayer(
         role: p.role,
         stagingId: p.id,
         lineStyle: p.lineStyle || '',
+        confidence: p.confidence ?? null,
+        source: p.source ?? '',
+        evidenceTier: p.evidenceTier ?? '',
+        generic: p.generic ?? false,
       },
     });
   }
@@ -285,6 +363,11 @@ export function createSceneStagingLayer(
         stagingId: p.id,
         icon: p.icon || '',
         priority: p.priority,
+        confidence: p.confidence ?? null,
+        source: p.source ?? '',
+        evidenceTier: p.evidenceTier ?? '',
+        generic: p.generic ?? false,
+        ...(p.relevance !== undefined ? { relevance: p.relevance } : {}),
         ...(p.status ? { status: p.status } : {}),
         ...(p.distanceM !== undefined ? { distanceM: p.distanceM } : {}),
       },
@@ -445,6 +528,7 @@ export function createSceneStagingLayer(
     },
     clear() {
       staging = null;
+      tooltip.hidden = true;
       build();
     },
     declutter,
@@ -487,6 +571,11 @@ export function createSceneStagingLayer(
     },
     destroy() {
       destroyed = true;
+      if (hoverHandler && typeof hoverHandler.destroy === 'function') {
+        hoverHandler.destroy();
+        hoverHandler = null;
+      }
+      tooltip.remove();
       viewer.scene?.postRender?.removeEventListener?.(onPostRender);
       badge.remove();
       if (!viewer.isDestroyed?.()) viewer.dataSources.remove(source, true);

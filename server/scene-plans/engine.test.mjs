@@ -481,3 +481,240 @@ test('createSceneEngine still builds a scene when Overpass is unavailable', asyn
   );
   assert.ok(staging.unavailable.some((u) => u.element === 'approach_route'));
 });
+
+test('engine renders dynamic intelligence elements (zones, markers, notes, timeline, generic)', () => {
+  const dynamicSpec = {
+    scenarioType: 'police_raid',
+    focalEntity: { name: 'Fixture Hotel', kind: 'building' },
+    elements: [
+      {
+        type: 'threat_zone',
+        radius_m: 80,
+        offset: { eastM: 100, northM: 50 },
+        confidence: 0.85,
+        source: 'Intelligence briefing',
+        label: 'Threat Alpha',
+      },
+      {
+        type: 'interest_zone',
+        radius_m: 120,
+        offset: { eastM: -150, northM: -100 },
+        confidence: 0.7,
+        label: 'Interest Bravo',
+      },
+      {
+        type: 'crowd_density_zone',
+        radius_m: 90,
+        offset: { eastM: 200, northM: -200 },
+        confidence: 0.6,
+      },
+      {
+        type: 'overwatch',
+        offset: { eastM: 250, northM: 250 },
+        confidence: 0.9,
+        label: 'Overwatch 1',
+      },
+      {
+        type: 'command_post',
+        offset: { eastM: -300, northM: 100 },
+        confidence: 0.95,
+        label: 'Tactical TOC',
+      },
+      {
+        type: 'cordon_node',
+        offset: { eastM: 50, northM: -150 },
+        confidence: 0.8,
+      },
+      {
+        type: 'cctv_pick',
+        offset: { eastM: 80, northM: 80 },
+        relevance: 0.9,
+        confidence: 0.75,
+        source: 'CAM-101',
+      },
+      {
+        type: 'intel_note',
+        offset: { eastM: 150, northM: 150 },
+        label: 'Suspect vehicle spotted',
+        evidenceTier: 'sourced',
+        citations: [{ url: 'https://news.org/incident', title: 'News report' }],
+      },
+      {
+        type: 'intel_note',
+        label: 'Background assessment note',
+        evidenceTier: 'inferred',
+      },
+      {
+        type: 'timeline_event',
+        atSec: 60,
+        title: 'Perimeter established',
+      },
+      {
+        type: 'drone_orbit',
+        offset: { eastM: 400, northM: -400 },
+        generic: true,
+        label: 'Drone coverage',
+      },
+    ],
+    confidence: 0.9,
+  };
+
+  const staged = stageFromData({
+    spec: dynamicSpec,
+    anchor: ANCHOR,
+    buildings: BUILDINGS,
+    roads: ROADS,
+  });
+
+  // 1. Zones
+  const threatArea = staged.areas.find(
+    (a) => a.properties.element === 'threat_zone',
+  );
+  assert.ok(threatArea);
+  assert.equal(threatArea.properties.color, '#F59E0B');
+  assert.equal(threatArea.properties.confidence, 0.85);
+  assert.equal(threatArea.properties.source, 'Intelligence briefing');
+
+  const interestArea = staged.areas.find(
+    (a) => a.properties.element === 'interest_zone',
+  );
+  assert.ok(interestArea);
+  assert.equal(interestArea.properties.color, '#14B8A6');
+
+  const crowdDensityArea = staged.areas.find(
+    (a) => a.properties.element === 'crowd_density_zone',
+  );
+  assert.ok(crowdDensityArea);
+  assert.equal(crowdDensityArea.properties.color, '#A7F3D0');
+
+  // 2. Point markers
+  const overwatchPt = staged.points.find(
+    (p) => p.properties.element === 'overwatch',
+  );
+  assert.ok(overwatchPt);
+  assert.equal(overwatchPt.properties.icon, 'command_post');
+  assert.equal(overwatchPt.properties.priority, 70);
+
+  const cpPt = staged.points.find(
+    (p) => p.properties.element === 'command_post',
+  );
+  assert.ok(cpPt);
+  assert.equal(cpPt.properties.icon, 'command_post');
+  assert.equal(cpPt.properties.priority, 70);
+
+  const cordonPt = staged.points.find(
+    (p) => p.properties.element === 'cordon_node',
+  );
+  assert.ok(cordonPt);
+  assert.equal(cordonPt.properties.icon, 'cordon_node');
+  assert.equal(cordonPt.properties.priority, 60);
+
+  const cctvPt = staged.points.find(
+    (p) => p.properties.element === 'cctv_pick',
+  );
+  assert.ok(cctvPt);
+  assert.equal(cctvPt.properties.icon, 'cctv');
+  assert.equal(cctvPt.properties.priority, 50);
+  assert.equal(cctvPt.properties.relevance, 0.9);
+
+  // 3. Generic unknown
+  const dronePt = staged.points.find(
+    (p) => p.properties.element === 'drone_orbit',
+  );
+  assert.ok(dronePt);
+  assert.equal(dronePt.properties.icon, 'generic');
+  assert.equal(dronePt.properties.generic, true);
+  assert.equal(dronePt.properties.priority, 40);
+
+  // 4. Notes: collected into notes[]
+  assert.equal(staged.notes.length, 2);
+  assert.equal(staged.notes[0].text, 'Suspect vehicle spotted');
+  assert.equal(staged.notes[0].evidenceTier, 'sourced');
+  assert.equal(staged.notes[0].citations[0].url, 'https://news.org/incident');
+  // Note with offset is in labels
+  assert.ok(staged.labels.some((l) => l.properties.element === 'intel_note'));
+  // Note without offset has no point feature
+  assert.ok(!staged.points.some((p) => p.properties.element === 'intel_note'));
+
+  // 5. Timeline: collected into timeline[]
+  assert.equal(staged.timeline.length, 1);
+  assert.equal(staged.timeline[0].atSec, 60);
+  assert.equal(staged.timeline[0].title, 'Perimeter established');
+
+  // 6. Output validates with validateSceneStaging
+  const fullStaging = {
+    version: 1,
+    illustrative: true,
+    spec: dynamicSpec,
+    anchor: ANCHOR,
+    model: {
+      provider: 'template',
+      id: 'test',
+      latencyMs: 10,
+      attempts: [],
+      repaired: false,
+    },
+    timing: { specMs: 1, geometryMs: 1, totalMs: 2 },
+    sources: {
+      footprint: 'osm-building',
+      roads: 'overpass',
+      routing: 'unavailable',
+    },
+    unavailable: [],
+    layers: {
+      areas: { type: 'FeatureCollection', features: staged.areas },
+      lines: { type: 'FeatureCollection', features: staged.lines },
+      points: { type: 'FeatureCollection', features: staged.points },
+      labels: { type: 'FeatureCollection', features: staged.labels },
+    },
+    badge: { text: STAGING_BADGE_TEXT, single: true },
+    legend: staged.legend,
+    summary: stagingSummary(dynamicSpec, ANCHOR, {}),
+    notes: staged.notes,
+    timeline: staged.timeline,
+  };
+  const validated = validateSceneStaging(fullStaging);
+  assert.equal(validated.version, 1);
+  assert.equal(validated.illustrative, true);
+  assert.equal(validated.notes.length, 2);
+  assert.equal(validated.timeline.length, 1);
+  assert.deepEqual(validateSceneStaging(validated), validated);
+});
+
+test('stageFromData renders a mixed spec deterministically (same input -> same output)', () => {
+  const spec = {
+    scenarioType: 'police_raid',
+    focalEntity: { name: 'Fixture Hotel', kind: 'building' },
+    elements: [
+      { type: 'inner_cordon', params: { radius_m: 80 } },
+      {
+        type: 'threat_zone',
+        radius_m: 90,
+        offset: { eastM: 100, northM: 50 },
+        label: 'Threat 1',
+      },
+      { type: 'command_post', offset: { eastM: -200, northM: 100 } },
+      {
+        type: 'drone_uav',
+        generic: true,
+        offset: { eastM: 300, northM: 300 },
+      },
+    ],
+    confidence: 0.9,
+  };
+  const a = stageFromData({
+    spec,
+    anchor: ANCHOR,
+    buildings: BUILDINGS,
+    roads: ROADS,
+    now: () => 1000,
+  });
+  const b = stageFromData({
+    spec,
+    anchor: ANCHOR,
+    buildings: BUILDINGS,
+    roads: ROADS,
+    now: () => 1000,
+  });
+  assert.deepEqual(a, b);
+});

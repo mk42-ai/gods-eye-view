@@ -901,3 +901,101 @@ test('staging is off for synthetic transports unless requested; the legacy contr
   assert.equal(result.stagingError, undefined);
   assert.equal(createScenePlanService({ transport: t, research: generic }).health().staging.enabled, false);
 });
+
+test('POST /construct/stream emits status→plan→element_added→narration_token→done in order with an injected fake engine/transport', async () => {
+  const t = transportFixture();
+  const specModel = {
+    config: () => ({ tiers: ['fixture:fast'], ultraFastEndpointExists: false, credentialRequest: null }),
+    classify: async () => ({
+      spec: { scenarioType: 'police_raid', focalEntity: { name: 'Dubai venue', kind: 'venue' }, elements: [], confidence: 0.9 },
+      model: { provider: 'ondemand', id: 'fixture-fast', latencyMs: 12, attempts: [], repaired: false, reasons: [], fallback: null },
+    }),
+  };
+  const ring = [
+    [55.299, 25.199],
+    [55.301, 25.199],
+    [55.301, 25.201],
+    [55.299, 25.201],
+    [55.299, 25.199],
+  ];
+  const engine = {
+    stage: async (input) => ({
+      version: 1,
+      illustrative: true,
+      spec: input.spec,
+      anchor: input.anchor,
+      model: input.model,
+      timing: { specMs: 12, geometryMs: 3, totalMs: 20 },
+      sources: { footprint: 'circle-fallback', roads: 'unavailable', routing: 'unavailable' },
+      unavailable: [],
+      layers: {
+        areas: {
+          type: 'FeatureCollection',
+          features: [
+            {
+              type: 'Feature',
+              geometry: { type: 'Polygon', coordinates: [ring] },
+              properties: { id: 'inner-cordon', element: 'inner_cordon', role: 'cordon' },
+            },
+          ],
+        },
+        lines: { type: 'FeatureCollection', features: [] },
+        points: { type: 'FeatureCollection', features: [] },
+        labels: { type: 'FeatureCollection', features: [] },
+      },
+    }),
+  };
+  const service = createScenePlanService({
+    transport: t,
+    research: generic,
+    specModel,
+    engine,
+  });
+  const middleware = createScenePlanMiddleware({ service });
+  const chunks = [];
+  const res = {
+    statusCode: 200,
+    headers: {},
+    setHeader(k, v) { this.headers[k.toLowerCase()] = v; },
+    flushHeaders() { this.headersSent = true; },
+    write(chunk) { chunks.push(chunk); return true; },
+    end() { this.ended = true; },
+  };
+  await middleware({
+    url: '/construct/stream',
+    method: 'POST',
+    body: constructBody(),
+    headers: {},
+  }, res);
+
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.headers['content-type'], 'text/event-stream; charset=utf-8');
+  assert.ok(chunks.length > 0);
+
+  const rawText = chunks.join('');
+  const eventMatches = [...rawText.matchAll(/id: ([^\n]+)\nevent: ([^\n]+)\ndata: ([^\n]+)\n\n/g)];
+  const events = eventMatches.map((m) => ({ id: m[1], event: m[2], data: JSON.parse(m[3]) }));
+
+  const eventTypes = events.map((e) => e.event);
+  assert.ok(eventTypes.includes('status'), 'must emit status');
+  assert.ok(eventTypes.includes('plan'), 'must emit plan');
+  assert.ok(eventTypes.includes('element_added'), 'must emit element_added');
+  assert.ok(eventTypes.includes('snap_batch_progress'), 'must emit snap_batch_progress');
+  assert.ok(eventTypes.includes('narration_token'), 'must emit narration_token');
+  assert.ok(eventTypes.includes('usage'), 'must emit usage');
+  assert.ok(eventTypes.includes('done'), 'must emit done');
+
+  const planIdx = eventTypes.indexOf('plan');
+  const elementIdx = eventTypes.indexOf('element_added');
+  const tokenIdx = eventTypes.indexOf('narration_token');
+  const doneIdx = eventTypes.indexOf('done');
+
+  assert.ok(planIdx < elementIdx, 'plan before element_added');
+  assert.ok(elementIdx < tokenIdx, 'element_added before narration_token');
+  assert.ok(tokenIdx < doneIdx, 'narration_token before done');
+
+  const doneEvent = events.find((e) => e.event === 'done');
+  assert.equal(doneEvent.data.result.ok, true);
+  assert.equal(doneEvent.data.result.plan.entities[0].quantity, 3);
+  assert.equal(doneEvent.data.result.staging.layers.areas.features[0].properties.id, 'inner-cordon');
+});

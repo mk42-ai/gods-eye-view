@@ -4,11 +4,17 @@ import {
   SceneSpecSchema,
   SCENE_SPEC_JSON_SCHEMA,
   SCENE_SPEC_STRICT_JSON_SCHEMA,
+  SCENE_SPEC_DYNAMIC_JSON_SCHEMA,
   SPEC_LIMITS,
+  ELEMENT_TYPES,
+  DYNAMIC_ELEMENT_TYPES,
   normalizeSceneSpecInput,
   parseSceneSpec,
+  parseDynamicSceneSpec,
   validateSceneSpec,
   sceneSpecSignature,
+  sanitizeString,
+  isValidCitationUrl,
   SceneSpecError,
 } from './sceneSpec.js';
 
@@ -288,4 +294,213 @@ test('provider shorthand is normalised: flattened params, repeated single elemen
       ['cones', {}],
     ],
   );
+});
+
+test('DYNAMIC_ELEMENT_TYPES contains all closed ELEMENT_TYPES plus new typed elements', () => {
+  for (const t of ELEMENT_TYPES) {
+    assert.ok(
+      DYNAMIC_ELEMENT_TYPES.includes(t),
+      `DYNAMIC_ELEMENT_TYPES missing ${t}`,
+    );
+  }
+  const newTypes = [
+    'threat_zone',
+    'interest_zone',
+    'overwatch',
+    'command_post',
+    'cordon_node',
+    'crowd_density_zone',
+    'cctv_pick',
+    'intel_note',
+    'timeline_event',
+  ];
+  for (const nt of newTypes) {
+    assert.ok(
+      DYNAMIC_ELEMENT_TYPES.includes(nt),
+      `DYNAMIC_ELEMENT_TYPES missing ${nt}`,
+    );
+  }
+});
+
+test('sanitizeString strips control chars, HTML tags, and [n] citation tokens', () => {
+  const dirty =
+    '<b>Target</b> [1] [2, 3] \u0000\u0007Perimeter <script>alert(1)</script> Note';
+  const clean = sanitizeString(dirty, 100);
+  assert.equal(clean, 'Target Perimeter Note');
+  assert.equal(sanitizeString('a'.repeat(60), 48).length, 48);
+});
+
+test('isValidCitationUrl validates http and https URLs up to 2000 chars', () => {
+  assert.equal(isValidCitationUrl('https://example.com/article'), true);
+  assert.equal(isValidCitationUrl('http://news.org/feed?id=123'), true);
+  assert.equal(isValidCitationUrl('ftp://example.com/data'), false);
+  assert.equal(isValidCitationUrl('javascript:alert(1)'), false);
+  assert.equal(isValidCitationUrl('not-a-url'), false);
+  assert.equal(isValidCitationUrl('https://' + 'a'.repeat(2001)), false);
+});
+
+test('parseDynamicSceneSpec accepts unknown element types and marks them generic: true', () => {
+  const raw = {
+    scenarioType: 'police_raid',
+    focalEntity: { name: 'Embassy Building', kind: 'building' },
+    elements: [
+      { type: 'threat_zone', radius_m: 150, confidence: 0.9 },
+      { type: 'sniper_nest', offset: { eastM: 100, northM: -50 } }, // unknown
+      { type: 'uav_orbit', label: 'Overhead drone' }, // unknown
+      { type: 'command_post', label: 'Tactical HQ' },
+    ],
+  };
+
+  const parsed = parseDynamicSceneSpec(raw);
+  assert.equal(
+    parsed.rejected.length,
+    0,
+    'unknown types should not be rejected',
+  );
+  assert.equal(parsed.spec.elements.length, 4);
+
+  const sniper = parsed.spec.elements.find((e) => e.type === 'sniper_nest');
+  assert.ok(sniper);
+  assert.equal(sniper.generic, true, 'unknown type must have generic: true');
+  assert.deepEqual(sniper.offset, { eastM: 100, northM: -50 });
+
+  const uav = parsed.spec.elements.find((e) => e.type === 'uav_orbit');
+  assert.ok(uav);
+  assert.equal(uav.generic, true, 'unknown type must have generic: true');
+  assert.equal(uav.label, 'Overhead drone');
+
+  const cp = parsed.spec.elements.find((e) => e.type === 'command_post');
+  assert.ok(cp);
+  assert.equal(cp.generic, undefined, 'known type must not be generic');
+  assert.equal(cp.label, 'Tactical HQ');
+});
+
+test('parseDynamicSceneSpec rejects ONLY structurally invalid entries in rejected[]', () => {
+  const raw = {
+    scenarioType: 'observation',
+    focalEntity: { name: 'Central Bank', kind: 'building' },
+    elements: [
+      'not-an-object',
+      12345,
+      { type: '' },
+      { missing_type: true },
+      { type: 'overwatch', offset: { eastM: 200, northM: 300 } },
+    ],
+  };
+
+  const parsed = parseDynamicSceneSpec(raw);
+  assert.equal(parsed.spec.elements.length, 1);
+  assert.equal(parsed.spec.elements[0].type, 'overwatch');
+  assert.equal(parsed.rejected.length, 4);
+  assert.equal(parsed.rejected[0].reason, 'not an object');
+  assert.equal(parsed.rejected[1].reason, 'not an object');
+  assert.equal(parsed.rejected[2].reason, 'missing element type');
+  assert.equal(parsed.rejected[3].reason, 'missing element type');
+});
+
+test('parseDynamicSceneSpec clamps offsets to ±5000m and to AOI bbox when provided', () => {
+  const raw = {
+    scenarioType: 'observation',
+    focalEntity: { name: 'Point Alpha', kind: 'landmark' },
+    elements: [
+      { type: 'overwatch', offset: { eastM: 8000, northM: -9000 } },
+      { type: 'command_post', offset: { eastM: 500, northM: 500 } },
+    ],
+  };
+
+  // Without bbox: clamps to ±5000
+  const unconstrained = parseDynamicSceneSpec(raw);
+  assert.deepEqual(unconstrained.spec.elements[0].offset, {
+    eastM: 5000,
+    northM: -5000,
+  });
+  assert.deepEqual(unconstrained.spec.elements[1].offset, {
+    eastM: 500,
+    northM: 500,
+  });
+
+  // With bbox: clamps to bbox bounds
+  const constrained = parseDynamicSceneSpec(raw, {
+    bbox: { minEastM: -200, maxEastM: 300, minNorthM: -400, maxNorthM: 400 },
+  });
+  assert.deepEqual(constrained.spec.elements[0].offset, {
+    eastM: 300,
+    northM: -400,
+  });
+  assert.deepEqual(constrained.spec.elements[1].offset, {
+    eastM: 300,
+    northM: 400,
+  });
+});
+
+test('parseDynamicSceneSpec enforces radius_m (5-5000), count (1-200), and label (48 chars)', () => {
+  const raw = {
+    scenarioType: 'crowd_event',
+    focalEntity: { name: 'Stadium', kind: 'venue' },
+    elements: [
+      {
+        type: 'crowd_density_zone',
+        radius_m: 2, // below 5
+        count: 500, // above 200
+        label:
+          'A very long descriptive label exceeding forty-eight characters total in length',
+      },
+      {
+        type: 'threat_zone',
+        radius_m: 9999, // above 5000
+        count: 0, // below 1
+      },
+    ],
+  };
+
+  const parsed = parseDynamicSceneSpec(raw);
+  assert.equal(parsed.spec.elements[0].radius_m, 5);
+  assert.equal(parsed.spec.elements[0].count, 200);
+  assert.ok(parsed.spec.elements[0].label.length <= 48);
+
+  assert.equal(parsed.spec.elements[1].radius_m, 5000);
+  assert.equal(parsed.spec.elements[1].count, 1);
+});
+
+test('parseDynamicSceneSpec validates cctv_pick relevance, intel_note citations, and timeline_events', () => {
+  const raw = {
+    scenarioType: 'police_raid',
+    focalEntity: { name: 'Safehouse', kind: 'building' },
+    elements: [
+      {
+        type: 'cctv_pick',
+        relevance: 1.5, // should clamp to 1.0
+        confidence: 0.85,
+        source: 'Traffic Cam <b>42</b> [1]',
+      },
+      {
+        type: 'intel_note',
+        evidenceTier: 'sourced',
+        citations: [
+          { url: 'https://news.org/raid', title: 'Local News [1]' },
+          { url: 'not-valid-url', title: 'Bad url' },
+        ],
+      },
+      {
+        type: 'timeline_event',
+        atSec: 120,
+        title: 'Tactical units deployed [2]',
+      },
+    ],
+  };
+
+  const parsed = parseDynamicSceneSpec(raw);
+  const cctv = parsed.spec.elements[0];
+  assert.equal(cctv.relevance, 1.0);
+  assert.equal(cctv.source, 'Traffic Cam 42');
+
+  const note = parsed.spec.elements[1];
+  assert.equal(note.evidenceTier, 'sourced');
+  assert.equal(note.citations.length, 1);
+  assert.equal(note.citations[0].url, 'https://news.org/raid');
+  assert.equal(note.citations[0].title, 'Local News');
+
+  const timeline = parsed.spec.elements[2];
+  assert.equal(timeline.atSec, 120);
+  assert.equal(timeline.title, 'Tactical units deployed');
 });

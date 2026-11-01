@@ -156,7 +156,7 @@ test('prose with an embedded JSON object is parsed', async () => {
   assert.deepEqual(result.spec, validSpec());
 });
 
-test('JSON with an unknown element is repaired and reported', async () => {
+test('JSON with an unknown element is accepted as generic: true and reported', async () => {
   const raw = validSpec();
   raw.elements.push({ type: 'sniper_nest', params: { count: 1 } });
   const { model } = harness({
@@ -167,9 +167,9 @@ test('JSON with an unknown element is repaired and reported', async () => {
   const result = await model.classify(RAID_PROMPT);
   assert.equal(result.model.attempts.length, 1);
   assert.equal(result.model.attempts[0].ok, true);
-  assert.equal(result.model.repaired, true);
-  assert.ok(result.model.reasons.some((r) => r.includes('dropped unknown')));
-  assert.ok(!result.spec.elements.some((e) => e.type === 'sniper_nest'));
+  const sniper = result.spec.elements.find((e) => e.type === 'sniper_nest');
+  assert.ok(sniper, 'unknown element sniper_nest is accepted');
+  assert.equal(sniper.generic, true, 'unknown element has generic: true');
   assert.equal(result.model.fallback, null);
 });
 
@@ -377,4 +377,34 @@ test('a 400 on the strict call falls to the non-strict fallback model', async ()
       ['qwen-3-235b-a22b-instruct-2507', true, undefined],
     ],
   );
+});
+
+test('a sparse dynamic spec is topped up with the scenario REQUIRED_ELEMENTS (live defect 2026-11-01: observation → zero markers)', async () => {
+  const answer = JSON.stringify({
+    scenarioType: 'observation',
+    focalEntity: { name: "Kane's Boxing Academy", kind: 'venue' },
+    elements: [{ type: 'interest_zone', params: { radius_m: 120 } }],
+    confidence: 0.6,
+  });
+  const model = createSpecModel({
+    env: {},
+    tiers: () => [
+      {
+        provider: 'test',
+        id: 'fake',
+        retries: 0,
+        run: async () => answer,
+      },
+    ],
+    log: () => {},
+  });
+  const { spec, model: info } = await model.classify(
+    'kanes boxing gym abu dhabi',
+  );
+  const types = spec.elements.map((e) => e.type);
+  assert.equal(types[0], 'interest_zone', 'model elements keep their order');
+  assert.ok(types.includes('cctv_signal'), 'required observation element added');
+  assert.ok(info.reasons.some((r) => /added missing cctv_signal/.test(r)));
+  assert.equal(info.repaired, true);
+  assert.equal(info.fallback, null, 'still the model, not the template');
 });

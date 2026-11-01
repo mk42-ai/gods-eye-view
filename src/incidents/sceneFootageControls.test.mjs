@@ -113,3 +113,19 @@ test('rendering, setting a scene and changing policy issue zero discovery events
   assert.equal(events.length, 1);
   control.destroy();
 });
+
+test('snapchatRequestForScene supports balanced (default) and wide scopes', () => {
+  const s = scene();
+  const balanced = snapchatRequestForScene(s, { mode: 'balanced' });
+  assert.equal(balanced.scope, 'balanced');
+  assert.equal(balanced.strictBounds, false);
+  assert.equal(balanced.timeWindow, null);
+  assert.match(balanced.scopeDisclosure, /unverified/);
+
+  const wide = snapchatRequestForScene(s, { mode: 'wide' });
+  assert.equal(wide.scope, 'wide');
+  assert.equal(wide.strictBounds, false);
+  assert.equal(wide.radius, 5);
+  assert.equal(wide.timeWindow.windowHours, 72 * 3);
+  assert.equal(wide.timeWindow.strictCaptureTime, false);
+});

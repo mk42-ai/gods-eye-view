@@ -23,6 +23,7 @@ import {
   buildLadder,
   normPlace as norm,
   compactPlace as compact,
+  UAE_TRANSLITERATIONS,
 } from '../../src/sceneFootage/places.js';
 
 export const SNAPCHAT_PLUGIN_ID_DEFAULT = 'plugin-1792945050';
@@ -33,6 +34,7 @@ export {
   placeForPoint,
   locationIdFor,
   buildLadder,
+  UAE_TRANSLITERATIONS,
 };
 export const LOCATION_EVIDENCE = Object.freeze([
   'geotag',
@@ -70,7 +72,7 @@ export function footageConfig(env = process.env) {
     maxCoverageLevel: COVERAGE_LEVELS.includes(maxLevel)
       ? maxLevel
       : 'district',
-    resultLimit: int(env.SNAPCHAT_RESULT_LIMIT, 3, 1, 10),
+    resultLimit: int(env.SNAPCHAT_RESULT_LIMIT, 25, 1, 50),
     minClips: int(env.SNAPCHAT_MIN_CLIPS, 1, 1, 10),
     cacheTtlMs: int(env.SNAPCHAT_CACHE_TTL_MS, 5 * 60_000, 0, 60 * 60_000),
     minRefreshMs: int(env.SNAPCHAT_MIN_REFRESH_MS, 30_000, 5_000, 30 * 60_000),
@@ -84,6 +86,10 @@ export function footageConfig(env = process.env) {
     maxAttempts: int(env.SNAPCHAT_MAX_ATTEMPTS, 3, 1, 5),
     backoffBaseMs: int(env.SNAPCHAT_BACKOFF_BASE_MS, 1_000, 0, 30_000),
     ratePerMinute: int(env.SNAPCHAT_RATE_LIMIT_PER_MIN, 12, 0, 600),
+    // Fan-out (balanced/wide scopes): name variants per scene and the bounded
+    // concurrency used for the extra variant calls (strict scope never fans out).
+    fanoutMaxVariants: int(env.SNAPCHAT_FANOUT_MAX_VARIANTS, 6, 1, 15),
+    fanoutConcurrency: int(env.SNAPCHAT_FANOUT_CONCURRENCY, 4, 1, 6),
     verifyMedia: !['0', 'false', 'off'].includes(
       String(env.SNAPCHAT_VERIFY_MEDIA ?? '1').toLowerCase(),
     ),
@@ -91,55 +97,86 @@ export function footageConfig(env = process.env) {
 }
 
 // ------------------------------------------------------------------ parsing
-const MONTHS = [
-  'january',
-  'february',
-  'march',
-  'april',
-  'may',
-  'june',
-  'july',
-  'august',
-  'september',
-  'october',
-  'november',
-  'december',
-];
+const MONTH_MAP = {
+  jan: 0,
+  january: 0,
+  feb: 1,
+  february: 1,
+  mar: 2,
+  march: 2,
+  apr: 3,
+  april: 3,
+  may: 4,
+  jun: 5,
+  june: 5,
+  jul: 6,
+  july: 6,
+  aug: 7,
+  august: 7,
+  sep: 8,
+  sept: 8,
+  september: 8,
+  oct: 9,
+  october: 9,
+  nov: 10,
+  november: 10,
+  dec: 11,
+  december: 11,
+};
+
 /**
  * Parse the plugin's `uploadDateMs` (despite its name a human-readable string,
  * e.g. "September 9, 2026 at 5:13:12 PM"). TIMEZONE ASSUMPTION: UTC — checked
  * against the public Spotlight page of story W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ,
  * whose JSON-LD datePublished is 2026-09-09T17:13:12.114Z for the plugin's
- * "September 9, 2026 at 5:13:12 PM" (2026-10-26). A numeric epoch-ms value is
- * also accepted. Anything else → null (never guessed).
+ * "September 9, 2026 at 5:13:12 PM" (2026-10-26).
+ * Accepts 'Sept', missing seconds, ISO strings, numeric strings, or epoch numbers.
+ * Anything else → null (never guessed).
  */
 export function parsePublicationTime(raw, now = new Date()) {
   if (raw === null || raw === undefined || raw === '') return null;
   let ms = null;
-  if (typeof raw === 'number' || /^\d{12,14}$/.test(String(raw)))
+  if (typeof raw === 'number' || /^\d{12,14}$/.test(String(raw))) {
     ms = Number(raw);
-  else {
-    const m = String(raw)
-      .trim()
-      .match(
-        /^([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})\s+at\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([AP]M)$/i,
+  } else {
+    const s = String(raw).trim();
+    if (
+      /^\d{4}-\d{2}-\d{2}(?:[T\s]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)?(?:Z|[+-]\d{2}(?::?\d{2})?)?$/i.test(
+        s,
+      )
+    ) {
+      const normalized =
+        s.includes('T') || s.includes('Z') || /[+-]\d{2}/.test(s)
+          ? s
+          : s.replace(' ', 'T') + 'Z';
+      const parsedIso = Date.parse(
+        normalized.endsWith('Z') || /[+-]\d{2}/.test(normalized)
+          ? normalized
+          : normalized + 'Z',
       );
-    if (!m) return null;
-    const month = MONTHS.indexOf(m[1].toLowerCase());
-    let hour = Number(m[4]);
-    if (month < 0 || hour < 1 || hour > 12) return null;
-    if (/pm/i.test(m[7]) && hour !== 12) hour += 12;
-    if (/am/i.test(m[7]) && hour === 12) hour = 0;
-    ms = Date.UTC(
-      Number(m[3]),
-      month,
-      Number(m[2]),
-      hour,
-      Number(m[5]),
-      Number(m[6] || 0),
-    );
-    const d = new Date(ms);
-    if (d.getUTCDate() !== Number(m[2])) return null; // e.g. February 31
+      if (Number.isFinite(parsedIso)) ms = parsedIso;
+    }
+    if (ms === null) {
+      const m = s.match(
+        /^([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})(?:\s+at)?\s+(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([AP]M)$/i,
+      );
+      if (!m) return null;
+      const month = MONTH_MAP[m[1].toLowerCase()];
+      let hour = Number(m[4]);
+      if (month === undefined || hour < 1 || hour > 12) return null;
+      if (/pm/i.test(m[7]) && hour !== 12) hour += 12;
+      if (/am/i.test(m[7]) && hour === 12) hour = 0;
+      ms = Date.UTC(
+        Number(m[3]),
+        month,
+        Number(m[2]),
+        hour,
+        Number(m[5]),
+        Number(m[6] || 0),
+      );
+      const d = new Date(ms);
+      if (d.getUTCDate() !== Number(m[2])) return null; // e.g. February 31
+    }
   }
   if (
     !Number.isFinite(ms) ||
@@ -223,16 +260,67 @@ export function extractPluginJson(answer) {
 }
 
 // ------------------------------------------------------------------ schemas
-const count = z.number().int().nonnegative().nullable().optional();
+const count = z.preprocess((v) => {
+  if (v === null || v === undefined || v === '') return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? Math.max(0, Math.round(n)) : v;
+}, z.number().int().nonnegative().nullable().optional());
+
+const coerceDuration = z.preprocess(
+  (v) => {
+    if (typeof v === 'string') {
+      const n = Number(v);
+      if (Number.isFinite(n)) return n;
+    }
+    return v;
+  },
+  z
+    .number()
+    .positive()
+    .max(15 * 60_000),
+);
+
+const coerceHashtags = z.preprocess(
+  (v) => {
+    if (v === null || v === undefined) return null;
+    if (Array.isArray(v)) return v.map(String);
+    if (typeof v === 'string') {
+      const trimmed = v.trim();
+      if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          if (Array.isArray(parsed)) return parsed.map(String);
+        } catch {}
+      }
+      if (trimmed.includes(',')) {
+        return trimmed
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
+      }
+      if (trimmed.includes('#')) {
+        const tags = trimmed.match(/#[^\s#]+/g);
+        if (tags) return tags;
+      }
+      return trimmed.split(/\s+/).filter(Boolean);
+    }
+    return v;
+  },
+  z.array(z.string().max(200)).max(60).nullable().optional(),
+);
+
+const coerceUploaded = z.preprocess((v) => {
+  if (v === null || v === undefined || v === '') return undefined;
+  const n = Number(v);
+  return Number.isFinite(n) ? Math.max(0, Math.round(n)) : v;
+}, z.number().int().nonnegative().optional());
+
 export const PluginVideoSchema = z
   .object({
     commentCount: count,
     description: z.string().max(5000).nullable().optional(),
-    durationMs: z
-      .number()
-      .positive()
-      .max(15 * 60_000),
-    hashtags: z.array(z.string().max(200)).max(60).nullable().optional(),
+    durationMs: coerceDuration,
+    hashtags: coerceHashtags,
     shareCount: count,
     storageUrl: z.string().url().max(4000),
     storyId: z.string().regex(/^[A-Za-z0-9_-]{8,200}$/),
@@ -248,14 +336,17 @@ export const PluginResultSchema = z
     place: z.string().min(1).max(200),
     matchType: z.string().max(80).optional(),
     matchedQuery: z.string().max(200).optional(),
-    uploaded: z.number().int().nonnegative().optional(),
+    uploaded: coerceUploaded,
     note: z.string().max(500).optional(),
     videos: z.array(z.unknown()).max(100),
   })
   .passthrough();
 export const PluginResponseSchema = z
   .object({
-    limit: z.number().int().optional(),
+    limit: z.preprocess(
+      (v) => (v !== undefined ? Number(v) : v),
+      z.number().int().optional(),
+    ),
     note: z.string().max(1000).optional(),
     results: z.array(PluginResultSchema).max(30),
   })
@@ -267,7 +358,8 @@ export const PROVIDER_CAPABILITIES = Object.freeze({
   paginationSupported: false,
   batchSupported: false,
   multiPlaceInputSupported: true,
-  chatBatchApiVerified: false,
+  chatBatchApiVerified:
+    'HTTP 405 method_not_allowed (POST /chat/v1/batches: Chat batch creation is currently unavailable)',
   rawToolResponsesExposed: false,
   capabilityBasis:
     'Observed configured Spotlight operation; no verified cursor/chat-batch contract.',
@@ -283,6 +375,7 @@ export const FootageClipSchema = z
   .object({
     id: z.string().regex(/^snap-[A-Za-z0-9_-]{8,200}$/),
     sourcePlatform: z.literal('snapchat'),
+    tier: z.enum(['verified', 'candidate']).default('candidate'),
     mediaUrl: z.string().url().nullable(),
     embedUrl: z.string().url().nullable(),
     thumbnail: z.string().url().nullable(),
@@ -395,6 +488,7 @@ export function normalizePluginResponse(
     now = new Date(),
     timeWindow = null,
     strictLocation = false,
+    scope = null,
   },
 ) {
   const out = { clips: [], rejected: [], results: [], note: null };
@@ -491,29 +585,35 @@ export function normalizePluginResponse(
       const publicationTime = parsePublicationTime(video.uploadDateMs, now);
       // This configured provider has no capture timestamp or verified geotag.
       // A public text match is NEVER evidence that a hard recording/geo bound is met.
-      if (
-        timeWindow &&
-        (timeWindow.strictCaptureTime ||
-          timeWindow.windowHours ||
-          timeWindow.windowStart ||
-          timeWindow.windowEnd)
-      ) {
-        out.rejected.push({
-          storyId: video.storyId,
-          reason: 'capture-time-unknown',
-          detail:
-            'Upload/publication time cannot satisfy a recording-time window.',
-        });
-        continue;
-      }
-      if (strictLocation) {
-        out.rejected.push({
-          storyId: video.storyId,
-          reason: 'verified-location-unknown',
-          detail:
-            'A caption/place mention cannot satisfy exact radius/bbox bounds.',
-        });
-        continue;
+      const isStrict =
+        scope === 'strict' ||
+        (scope === null &&
+          (strictLocation || Boolean(timeWindow?.strictCaptureTime)));
+      if (isStrict) {
+        if (
+          timeWindow &&
+          (timeWindow.strictCaptureTime ||
+            timeWindow.windowHours ||
+            timeWindow.windowStart ||
+            timeWindow.windowEnd)
+        ) {
+          out.rejected.push({
+            storyId: video.storyId,
+            reason: 'capture-time-unknown',
+            detail:
+              'Upload/publication time cannot satisfy a recording-time window.',
+          });
+          continue;
+        }
+        if (strictLocation) {
+          out.rejected.push({
+            storyId: video.storyId,
+            reason: 'verified-location-unknown',
+            detail:
+              'A caption/place mention cannot satisfy exact radius/bbox bounds.',
+          });
+          continue;
+        }
       }
       let withinPublicationWindow = true;
       if (timeWindow && publicationTime) {
@@ -542,6 +642,7 @@ export function normalizePluginResponse(
       const clip = {
         id: `snap-${video.storyId}`,
         sourcePlatform: 'snapchat',
+        tier: 'candidate',
         mediaUrl: video.storageUrl,
         embedUrl: null,
         thumbnail: null,
@@ -814,6 +915,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
     rejected: [],
     upstream: [],
     pluginNote: null,
+    fanout: null,
     accounting,
     capabilities: PROVIDER_CAPABILITIES,
     bounds: {
@@ -1004,6 +1106,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
         strictLocation: Boolean(
           scene.radius || scene.bbox || scene.strictBounds,
         ),
+        scope: scene.scope || null,
       });
       if (n.note) report.pluginNote = n.note;
       byLevel.push({ step: s, ...n });
@@ -1109,6 +1212,87 @@ export async function retrieveSnapchatFootage(scene, deps) {
       }
     }
   }
+  // 3) Fan-out (balanced / wide scopes only; strict keeps the legacy single
+  //    ladder so its "1 km + recording window" semantics are untouched).
+  //    Each variant is one documented plugin call (places:[variant], limit)
+  //    executed under bounded concurrency through runFanout(); results are
+  //    de-duplicated against what the ladder already returned.
+  const fanoutScope = scene.scope || (scene.strictBounds ? 'strict' : null);
+  if (
+    fanoutScope &&
+    fanoutScope !== 'strict' &&
+    !scene.bbox &&
+    deps.fanout !== false
+  ) {
+    const { expandPlaceVariants, runFanout } = await import('./fanout.js');
+    const queriedLabels = new Set(
+      report.ladder.filter((l) => l.queried).flatMap((l) => l.names.map(norm)),
+    );
+    const variants = expandPlaceVariants({
+      placeName: scene.placeName,
+      anchorName: scene.text,
+      lat: scene.lat,
+      lon: scene.lon,
+      nearbyNames: Array.isArray(scene.nearbyNames) ? scene.nearbyNames : [],
+      scope: fanoutScope,
+      maxVariants: cfg.fanoutMaxVariants ?? 6,
+    }).filter((v) => !queriedLabels.has(norm(v)));
+    if (variants.length) {
+      const fanStep = { level: first.level, names: variants, wider: true };
+      const fan = await runFanout({
+        variants,
+        limit: cfg.resultLimit,
+        concurrency: cfg.fanoutConcurrency ?? 4,
+        timeoutMs: cfg.queryTimeoutMs,
+        backoff: { attempts: 1, baseMs: cfg.backoffBaseMs ?? 1000 },
+        signal,
+        sleep: deps.sleep,
+        knownStoryIds: (picked?.clips || []).map((c) => c.storyId),
+        callOne: async (variant) => {
+          try {
+            return await executeStep(
+              [variant],
+              [{ ...first, names: [variant] }],
+            );
+          } catch (error) {
+            trace('fanout_variant_failed', {
+              variant,
+              error: String(error?.message || error).slice(0, 120),
+            });
+            throw error;
+          }
+        },
+      });
+      // Normalise the merged raw videos through the same validated clip pipeline.
+      const merged = {
+        limit: cfg.resultLimit,
+        results: [
+          { place: variants[0], matchedQuery: variants[0], videos: fan.clips },
+        ],
+      };
+      const [n] = evaluate(merged, [fanStep]);
+      const fanClips = await finish(fanStep, n.clips);
+      const known = new Set((picked?.clips || []).map((c) => c.id));
+      const fresh = fanClips.filter((c) => !known.has(c.id));
+      report.fanout = {
+        scope: fanoutScope,
+        variants: fan.variants,
+        raw: fan.counts.raw,
+        unique: fan.counts.unique,
+        added: fresh.length,
+        truncatedVariants: fan.counts.truncatedVariants,
+      };
+      if (fresh.length) {
+        const all = rankClips(
+          dedupeClips([...(picked?.clips || []), ...fresh]).kept,
+          { targetLevel: first.level },
+        );
+        picked = picked
+          ? { ...picked, clips: all, partial: false, mixed: true }
+          : { step: first, clips: all, mixed: true };
+      }
+    }
+  }
   accounting.rejectedCount = report.rejected.length;
   accounting.matchingCount = picked?.clips.length || 0;
   accounting.partial = Boolean(
@@ -1118,6 +1302,35 @@ export async function retrieveSnapchatFootage(scene, deps) {
         ['plugin-item-error', 'media-unavailable'].includes(r.reason),
       )),
   );
+  const finalClips = picked?.clips || [];
+  const verifiedCount = finalClips.filter((c) => c.tier === 'verified').length;
+  const candidateCount = finalClips.filter(
+    (c) => c.tier === 'candidate',
+  ).length;
+  const ladderVariants = report.ladder
+    .filter((l) => l.queried)
+    .map((l) => ({
+      variant: l.label,
+      raw: l.clips,
+      unique: l.clips,
+      ms: report.upstream.find((u) => u.places?.includes(l.label))?.ms || 0,
+      ...(l.clips >= (cfg.resultLimit || 25) ? { truncated: true } : {}),
+    }));
+  const fanoutVariants = (report.fanout?.variants || []).map((v) => ({
+    ...v,
+    fanout: true,
+  }));
+  report.variants = [...ladderVariants, ...fanoutVariants];
+  report.counts = {
+    verified: verifiedCount,
+    candidate: candidateCount,
+    raw: accounting.returnedCount,
+    unique: accounting.uniqueCount,
+    variantsTried: report.variants.length || 1,
+    truncatedVariants:
+      (accounting.truncated ? 1 : 0) + (report.fanout?.truncatedVariants || 0),
+  };
+
   if (!picked)
     return {
       ...report,

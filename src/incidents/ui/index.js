@@ -41,6 +41,23 @@ import { installIncidentDiagnostics } from './diagnostics.js';
 import { createGeographicOverlay } from './geographicOverlay.js';
 import { createSceneGeometryLayer } from './sceneGeometryLayer.js';
 import { createSceneStagingLayer } from './sceneStagingLayer.js';
+import { createSceneStreamLayer } from './sceneStreamLayer.js';
+
+/**
+ * Decide whether a failed SSE construct attempt may be retried over the JSON
+ * /construct route. Only transport-level failures qualify (older server
+ * without the stream route, a non-SSE answer, a cold instance that cannot
+ * resume, or a network drop with no HTTP status). Server-side scene errors
+ * (4xx/5xx with a code) and cancellations are surfaced unchanged so a bad
+ * prompt is never silently re-run.
+ */
+export function shouldFallBackToJsonConstruct(error) {
+  if (!error || error.name === 'AbortError') return false;
+  if (error.status === 404 || error.status === 405) return true;
+  if (error.code === 'non_sse_response' || error.code === 'resume_unavailable')
+    return true;
+  return error.status === undefined && !error.code;
+}
 
 export const INCIDENT_PANEL_ID = 'incident-panel';
 export const INCIDENT_POPOVER_ID = 'incident-popover';
@@ -78,6 +95,8 @@ export function installIncidentScenes({
   const geometryLayer = createSceneGeometryLayer(viewer, { document: doc });
   // Deterministic staging (cordons, routes, units, cones, icons, haloed labels).
   const stagingLayer = createSceneStagingLayer(viewer, { document: doc });
+  // Progressive SSE preview of staging elements (cleared once the final scene lands).
+  const streamLayer = createSceneStreamLayer(viewer);
   let activeGeographicScene = null;
   let lastConstructGeometry = null;
   let sceneLibrary = null;
@@ -694,6 +713,7 @@ export function installIncidentScenes({
     sceneLibrary?.element.setAttribute('data-scene-id', scene.id);
     geographicOverlay.setScene(scene);
     geometryLayer.setScene(scene);
+    streamLayer.clear();
     stagingLayer.setScene(scene);
     // Verified camera-discovery candidates become cctv_signal markers; nothing invented.
     stagingLayer.setCameras(cameraCandidatesFor(scene));
@@ -852,6 +872,7 @@ export function installIncidentScenes({
     studio.invalidate();
     sceneCamera.setScene(null);
     sceneFootageControls?.setScene(null);
+    streamLayer.clear();
   };
   win.addEventListener('gev:incident-command-started', onPromptStarted);
   win.addEventListener('gev:incident-command-cancelled', onPromptStarted);
@@ -861,6 +882,127 @@ export function installIncidentScenes({
   for (const button of [playBtn, pauseBtn, prevBtn, nextBtn])
     button.disabled = true;
   scrub.disabled = true;
+
+  // ------------------------------------------------- streaming construct
+  /**
+   * Build through the SSE route when available (typed events feed the
+   * composer's typewriter view and the progressive map preview); fall back to
+   * the JSON /construct route when the server is older, answers non-SSE, or
+   * cannot resume. Timings are measured client-side from real event arrival.
+   */
+  async function constructWithStream(payload, { signal } = {}) {
+    const streamEnabled =
+      typeof client.constructSceneStream === 'function' &&
+      win.__gevSceneStream !== false;
+    if (!streamEnabled) return client.constructScene(payload, { signal });
+    const view = composerRef?.streamView || null;
+    const started = performance.now();
+    const timings = {
+      ttftMs: null,
+      firstElementMs: null,
+      planMs: null,
+      doneMs: null,
+      tokens: 0,
+      tokensPerSec: null,
+      elements: 0,
+      transport: 'sse',
+    };
+    const requestId =
+      typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `req-${Date.now().toString(36)}`;
+    streamLayer.clear();
+    let lastEventId = null;
+    const onEvent = (evt) => {
+      if (evt?.id) lastEventId = evt.id;
+      const data = evt?.data || {};
+      const at = Math.round(performance.now() - started);
+      switch (evt?.event) {
+        case 'status':
+          view?.setStatus(data.stage, data.text);
+          if (data.stage) view?.setState('streaming');
+          break;
+        case 'thinking':
+          view?.setThinking(data.note);
+          break;
+        case 'plan':
+          if (timings.planMs == null) timings.planMs = at;
+          if (data.model?.id || data.model?.endpointId)
+            view?.setModel(data.model.id || data.model.endpointId);
+          break;
+        case 'element_added':
+          if (timings.firstElementMs == null) timings.firstElementMs = at;
+          timings.elements += 1;
+          try {
+            streamLayer.addElement(data);
+          } catch {
+            /* preview only */
+          }
+          break;
+        case 'narration_token':
+          if (timings.ttftMs == null) timings.ttftMs = at;
+          timings.tokens += 1;
+          view?.appendToken(
+            typeof data.token === 'string'
+              ? data.token
+              : String(data.token ?? ''),
+          );
+          break;
+        case 'usage':
+          if (Number.isFinite(data.tokensEstimated) && timings.ttftMs != null) {
+            const secs = Math.max(0.001, (at - timings.ttftMs) / 1000);
+            timings.tokensPerSec = Math.round(timings.tokens / secs);
+            view?.setTokensPerSec(timings.tokensPerSec);
+          }
+          break;
+        default:
+          break;
+      }
+    };
+    let result;
+    try {
+      result = await client.constructSceneStream(
+        { ...payload, requestId },
+        { signal, onEvent },
+      );
+    } catch (error) {
+      if (signal?.aborted || error?.name === 'AbortError') throw error;
+      if (!shouldFallBackToJsonConstruct(error)) throw error;
+      view?.setState('reconnecting');
+      timings.transport = `json-fallback:${error?.code || error?.status || error?.message || 'network'}`;
+      result = await client.constructScene(payload, { signal });
+    }
+    if (!result && lastEventId) {
+      // Stream ended without a done event (dropped connection): resume once.
+      view?.setState('reconnecting');
+      try {
+        result = await client.constructSceneStream(
+          { ...payload, requestId },
+          { signal, onEvent, lastEventId },
+        );
+      } catch (error) {
+        if (signal?.aborted || error?.name === 'AbortError') throw error;
+        timings.transport = `json-fallback-after-resume:${error?.code || error?.status || 'network'}`;
+        result = await client.constructScene(payload, { signal });
+      }
+    }
+    timings.doneMs = Math.round(performance.now() - started);
+    if (
+      timings.tokensPerSec == null &&
+      timings.tokens &&
+      timings.ttftMs != null
+    )
+      timings.tokensPerSec = Math.round(
+        timings.tokens /
+          Math.max(0.001, (timings.doneMs - timings.ttftMs) / 1000),
+      );
+    if (result && typeof result === 'object')
+      Object.defineProperty(result, '__streamTimings', {
+        value: timings,
+        enumerable: false,
+      });
+    return result;
+  }
 
   // ---------------------------------------------------------------- composer
   const composer = (composerRef = createIncidentComposer({
@@ -890,7 +1032,7 @@ export function installIncidentScenes({
       }
       const refinement =
         refinementContext?.prompt === text ? refinementContext : null;
-      const result = await client.constructScene(
+      const result = await constructWithStream(
         {
           prompt: text,
           candidate: {
@@ -919,6 +1061,7 @@ export function installIncidentScenes({
       assertCurrent(request);
       if (!result.ok || !result.plan)
         throw new Error('No validated scene plan was returned.');
+      const streamTimings = result.__streamTimings || null;
       const resolvedAnchor = result.plan.location;
       const gate = resolveIncidentGate(text, resolvedAnchor);
       if (!gate.allowed)
@@ -961,6 +1104,15 @@ export function installIncidentScenes({
         },
         now: new Date(),
       });
+      // Telemetry only: non-enumerable so the strict saved-scene allowlist
+      // (geographicScene.js snapshot) never sees an unknown field and
+      // save/restore keeps working byte-for-byte.
+      if (streamTimings)
+        Object.defineProperty(scene, 'streamTimings', {
+          value: streamTimings,
+          enumerable: false,
+          configurable: true,
+        });
       if (refinement) {
         scene.chat = [
           ...refinement.chat,
@@ -1008,6 +1160,7 @@ export function installIncidentScenes({
       delete panel.dataset.activeScene;
       geographicOverlay.setExternal(candidate);
       geometryLayer.clear();
+      streamLayer.clear();
       stagingLayer.clear();
       overlay.flyTo(candidate.lat, candidate.lon, {
         altitude: 14000,
@@ -1203,6 +1356,10 @@ export function installIncidentScenes({
       sceneStaging: activeGeographicScene
         ? { ...stagingLayer.getState(), sceneId: activeGeographicScene.id }
         : null,
+      sceneStream: {
+        count: streamLayer.getState().count,
+        timings: win.__gevLastStreamTimings || null,
+      },
       lastConstructGeometryStatus: lastConstructGeometry?.status || null,
       studio: studio.getState(),
       sceneCamera: sceneCamera.getState(),
@@ -1226,6 +1383,7 @@ export function installIncidentScenes({
       sceneLibrary.destroy();
       geographicOverlay.destroy();
       geometryLayer.destroy();
+      streamLayer.destroy();
       stagingLayer.destroy();
       popover.remove();
       panel.remove();

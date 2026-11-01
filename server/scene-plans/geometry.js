@@ -594,3 +594,15 @@ export function featureOffsets(geometry, anchor, maxM = 5000) {
   }
   return out;
 }
+
+/** Convert local east/north metre offsets from an anchor to [lon, lat] coordinates. */
+export function offsetToCoordinates(anchor, offset) {
+  const rad = Math.PI / 180;
+  const eastM = offset?.eastM || 0;
+  const northM = offset?.northM || 0;
+  const lat = anchor.lat + (northM / 6371008.8) * (180 / Math.PI);
+  const lon =
+    anchor.lon +
+    (eastM / (6371008.8 * Math.cos(anchor.lat * rad))) * (180 / Math.PI);
+  return [Math.round(lon * 1e6) / 1e6, Math.round(lat * 1e6) / 1e6];
+}

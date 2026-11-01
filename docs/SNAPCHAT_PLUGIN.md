@@ -6,14 +6,14 @@ ladder config `config/aoi/footage-places.json`, styles `src/ui/styles/scene-foot
 
 ## 1. Identity (discovered, not guessed)
 
-| field | value | how it was obtained |
-|---|---|---|
-| plugin name | `Snapchat video downloader` | account plugin search (`public/v1 suggest_plugins`, queries `snapchat`, `fetchSnapchatVideosByPlace`, `snapchat spotlight videos by place`) on 2026-10-26 — the only Snapchat result in all three queries |
-| **pluginId** | **`plugin-1792945050`** | same listing |
-| agentId | `agent-1792945050` | same listing |
-| identifier / type | `rest_api` / `chat` | same listing |
-| description (verbatim) | "It can download video from snachat by places name." | same listing |
-| operation | `fetchSnapchatVideosByPlace` | self-description returned by a live query through the plugin on 2026-10-26T23:43Z: "Operation: `fetchSnapchatVideosByPlace`; input schema: `places` (array of strings), `limit` (integer)." |
+| field                  | value                                                | how it was obtained                                                                                                                                                                                       |
+| ---------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| plugin name            | `Snapchat video downloader`                          | account plugin search (`public/v1 suggest_plugins`, queries `snapchat`, `fetchSnapchatVideosByPlace`, `snapchat spotlight videos by place`) on 2026-10-26 — the only Snapchat result in all three queries |
+| **pluginId**           | **`plugin-1792945050`**                              | same listing                                                                                                                                                                                              |
+| agentId                | `agent-1792945050`                                   | same listing                                                                                                                                                                                              |
+| identifier / type      | `rest_api` / `chat`                                  | same listing                                                                                                                                                                                              |
+| description (verbatim) | "It can download video from snachat by places name." | same listing                                                                                                                                                                                              |
+| operation              | `fetchSnapchatVideosByPlace`                         | self-description returned by a live query through the plugin on 2026-10-26T23:43Z: "Operation: `fetchSnapchatVideosByPlace`; input schema: `places` (array of strings), `limit` (integer)."               |
 
 The ID can be overridden with `SNAPCHAT_PLUGIN_ID` (validated `^plugin-\d{6,16}$`); the default is the discovered ID.
 
@@ -23,11 +23,11 @@ The ID can be overridden with `SNAPCHAT_PLUGIN_ID` (validated `^plugin-\d{6,16}$
 fetchSnapchatVideosByPlace({ places: string[], limit: integer })
 ```
 
-* **Explore / hashtag TEXT search by place name.** Results are Spotlight clips whose caption or hashtags mention the place name.
-* **Not geotagged Snap Map results.** The plugin's own `note` says so on every response:
+- **Explore / hashtag TEXT search by place name.** Results are Spotlight clips whose caption or hashtags mention the place name.
+- **Not geotagged Snap Map results.** The plugin's own `note` says so on every response:
   "Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos."
-* **No coordinate, radius or bounds input.** A map coordinate must first be translated to place names (section 5).
-* Several place names can be sent in one call; each yields one `results[]` row.
+- **No coordinate, radius or bounds input.** A map coordinate must first be translated to place names (section 5).
+- Several place names can be sent in one call; each yields one `results[]` row.
 
 ## 3. Response shape (raw, observed live)
 
@@ -63,13 +63,13 @@ No-match row: `{ "note": "No spotlight videos matching this place name were foun
 
 Per-item failure row (observed 2026-10-27T00:4xZ for Burj Khalifa, Downtown Dubai and the Dubai Marina clip): `{ "error": "Request failed with status code 500", "storyId": "W7_…" }` — the plugin found the match but failed to download/re-host it. The app treats this as a **plugin error**, never as "no footage" and never as a clip.
 
-| field | meaning / caveat |
-|---|---|
-| `storageUrl` | MP4 re-hosted on internal Azure Blob storage, read-only SAS URL; `se=` is the expiry (≈7 days after upload). `HEAD` returns `video/mp4`, `Accept-Ranges: bytes`, `Content-MD5`, `ETag`; `Access-Control-Allow-Origin: *`. Without the SAS the account answers `409 Public access is not permitted`. |
+| field          | meaning / caveat                                                                                                                                                                                                                                                                                                                                         |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storageUrl`   | MP4 re-hosted on internal Azure Blob storage, read-only SAS URL; `se=` is the expiry (≈7 days after upload). `HEAD` returns `video/mp4`, `Accept-Ranges: bytes`, `Content-MD5`, `ETag`; `Access-Control-Allow-Origin: *`. Without the SAS the account answers `409 Public access is not permitted`.                                                      |
 | `uploadDateMs` | **A human-readable string, not epoch ms** (e.g. `"September 9, 2026 at 5:13:12 PM"`). Parsed as **UTC**: the public Spotlight page of the Marina story carries JSON-LD `datePublished: 2026-09-09T17:13:12.114Z`, matching the plugin string exactly at UTC. A purely numeric value is also accepted as epoch ms. Unparseable → `publicationTime: null`. |
-| `storyId` | Spotlight story id. `https://www.snapchat.com/spotlight/<storyId>` returned HTTP 200 and redirected to the creator's public Spotlight page for that story (checked 2026-10-26), so it is used as `sourceUrl`. |
-| `viewCount` | nullable. |
-| absent | **author handle, thumbnail, geotag, capture time, live flag.** The app sets `attribution: null`, `thumbnail: null`, `captureTime: null`, `isLive: false` and never enriches them. |
+| `storyId`      | Spotlight story id. `https://www.snapchat.com/spotlight/<storyId>` returned HTTP 200 and redirected to the creator's public Spotlight page for that story (checked 2026-10-26), so it is used as `sourceUrl`.                                                                                                                                            |
+| `viewCount`    | nullable.                                                                                                                                                                                                                                                                                                                                                |
+| absent         | **author handle, thumbnail, geotag, capture time, live flag.** The app sets `attribution: null`, `thumbnail: null`, `captureTime: null`, `isLive: false` and never enriches them.                                                                                                                                                                        |
 
 ## 4. Transport (OnDemand Chat API, server-side only)
 
@@ -83,16 +83,16 @@ The `query` begins with the footage-retrieval agent instruction **verbatim** (co
 
 ### Timeouts, retries and rate limits
 
-| item | value |
-|---|---|
-| documented plugin execution timeout | 150 s (HTTP 504 `plugin_execution_timeout`) |
-| documented platform limit | 10,000 req/min per origin IP; free-plan RAG 100 calls/min |
-| observed latency | session create 0.4–0.6 s; query 12–42 s (median ≈ 17 s); RAG time 10–27 s |
-| app query timeout | `SNAPCHAT_QUERY_TIMEOUT_MS` (default 120 s) |
-| app retries | `SNAPCHAT_MAX_ATTEMPTS` (default 3) on 408/409/425/429/5xx/timeout, **fresh session each attempt**, exponential backoff with jitter from `SNAPCHAT_BACKOFF_BASE_MS` (1 s), `Retry-After` honoured, 20 s cap. Transport-level retries in the foundation client are disabled for this client because re-submitting into a busy session returns 409. |
-| app rate limit | `SNAPCHAT_RATE_LIMIT_PER_MIN` per client IP (default 12) → 429 + `Retry-After`; identical in-flight requests coalesce |
-| app cache | per `locationId` + place + cap, `SNAPCHAT_CACHE_TTL_MS` (default 5 min); entries are evicted early if any SAS link expires within 10 minutes; `fresh:true` bypasses |
-| UI refresh | server default `SNAPCHAT_DEFAULT_REFRESH_MS` (120 s), UI control clamped to `SNAPCHAT_MIN_REFRESH_MS` (30 s); pauses while `document.hidden` |
+| item                                | value                                                                                                                                                                                                                                                                                                                                             |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| documented plugin execution timeout | 150 s (HTTP 504 `plugin_execution_timeout`)                                                                                                                                                                                                                                                                                                       |
+| documented platform limit           | 10,000 req/min per origin IP; free-plan RAG 100 calls/min                                                                                                                                                                                                                                                                                         |
+| observed latency                    | session create 0.4–0.6 s; query 12–42 s (median ≈ 17 s); RAG time 10–27 s                                                                                                                                                                                                                                                                         |
+| app query timeout                   | `SNAPCHAT_QUERY_TIMEOUT_MS` (default 120 s)                                                                                                                                                                                                                                                                                                       |
+| app retries                         | `SNAPCHAT_MAX_ATTEMPTS` (default 3) on 408/409/425/429/5xx/timeout, **fresh session each attempt**, exponential backoff with jitter from `SNAPCHAT_BACKOFF_BASE_MS` (1 s), `Retry-After` honoured, 20 s cap. Transport-level retries in the foundation client are disabled for this client because re-submitting into a busy session returns 409. |
+| app rate limit                      | `SNAPCHAT_RATE_LIMIT_PER_MIN` per client IP (default 12) → 429 + `Retry-After`; identical in-flight requests coalesce                                                                                                                                                                                                                             |
+| app cache                           | per `locationId` + place + cap, `SNAPCHAT_CACHE_TTL_MS` (default 5 min); entries are evicted early if any SAS link expires within 10 minutes; `fresh:true` bypasses                                                                                                                                                                               |
+| UI refresh                          | server default `SNAPCHAT_DEFAULT_REFRESH_MS` (120 s), UI control clamped to `SNAPCHAT_MIN_REFRESH_MS` (30 s); pauses while `document.hidden`                                                                                                                                                                                                      |
 
 ## 5. Place-name ladder
 
@@ -110,17 +110,42 @@ Native `<video muted playsinline autoplay loop controls>` pointed directly at th
 
 ## 8. Limitations
 
-* Place-name / hashtag text matching only — not geotags; a clip may be filmed anywhere.
-* No coordinate or bounds input; coverage depends on the curated ladder names.
-* No capture time and no author handle in the plugin output.
-* Storage SAS URLs expire (≈7 days); cached responses are evicted before expiry.
-* Old content matches (e.g. a Burj Khalifa clip dated 2023 National Day, another dated 16 Nov 2025).
-* Promotional or irrelevant matches (restaurant promos for Downtown Dubai; `#jbrtvusa` meme channel for JBR).
-* Latency 12–42 s per query; the plugin intermittently fails per item with HTTP 500 and sessions can answer 409 when busy.
-* The OnDemand answer is model-mediated: the app validates the JSON it returns but cannot independently audit the raw plugin execution.
+- Place-name / hashtag text matching only — not geotags; a clip may be filmed anywhere.
+- No coordinate or bounds input; coverage depends on the curated ladder names.
+- No capture time and no author handle in the plugin output.
+- Storage SAS URLs expire (≈7 days); cached responses are evicted before expiry.
+- Old content matches (e.g. a Burj Khalifa clip dated 2023 National Day, another dated 16 Nov 2025).
+- Promotional or irrelevant matches (restaurant promos for Downtown Dubai; `#jbrtvusa` meme channel for JBR).
+- Latency 12–42 s per query; the plugin intermittently fails per item with HTTP 500 and sessions can answer 409 when busy.
+- The OnDemand answer is model-mediated: the app validates the JSON it returns but cannot independently audit the raw plugin execution.
 
 ## Cycle 20 additions (2026-10-27)
+
 - Key: server-only `server/ondemand/server-key.js`, persistent env (`keySource:"env:persistent"`); no temp file.
 - One fresh-session retry when every candidate fails media HEAD verification (model-transcribed `storageUrl` corruption observed live).
 - Near-identical re-upload dedupe (normalised caption ≥12 chars + 1 s duration bucket), server and client.
 - `plugin-text-match` evidence for untitled clips the plugin itself reported as a `clip-text-match` for the requested place (no caption/hashtags to re-check).
+
+## Phase A: Fan-Out Ingestion, Tiering, and Robust Parsing (2026-11-01)
+
+- **Limit and Cap**: Raised default result limit from 3 to 25 (`SNAPCHAT_RESULT_LIMIT`), env cap raised from 10 to 50.
+- **Fan-Out Module (`server/scene-footage/fanout.js`)**:
+  - `expandPlaceVariants`: generates up to N variants covering primary place name, ladder ancestors, hashtag forms (compact lowercase '#'-less), plural/singular + apostrophe/spelling variations, and well-known static EN→AR transliterations for UAE places (`UAE_TRANSLITERATIONS` in `src/sceneFootage/places.js`).
+  - `runFanout`: bounded concurrency pool (default 4), exponential backoff with full jitter, per-call timeouts (120 s), deduplication by `storyId` and SAS-independent storageUrl path, truncation detection (`raw === limit` → `truncated: true`), and per-variant error isolation.
+- **Chat Batch Client (`server/scene-footage/chat-batch.js`)**:
+  - Live API verified: `POST https://api.on-demand.io/chat/v1/batches` returns `HTTP 405 {"message":"Chat batch creation is currently unavailable","errorCode":"method_not_allowed"}`.
+  - The client probes this once, surfaces the exact status/body in `capabilities.chatBatch`, and seamlessly falls back to bounded concurrent direct sessions.
+- **Tiering (`verified` vs `candidate`)**:
+  - Every clip receives `tier: 'verified' | 'candidate'`. For this provider, capture time is null and direct coordinates are null, so clips are honestly tiered as `'candidate'`.
+  - Scopes:
+    - `strict`: preserves prior hard-gate behavior; clips with unverified capture-time or location are rejected.
+    - `balanced` (DEFAULT): unverified candidate clips are retained, rendered with an explicit "unverified" badge, and are fully playable.
+    - `wide`: searches wider 5 km radius, expands time window × 3, and includes transliterations.
+  - Response carries `counts: { verified, candidate, raw, unique, variantsTried, truncatedVariants }` and `variants[]` per-call performance metrics.
+- **Robust Parsing**:
+  - Numeric string coercion for `viewCount`, `commentCount`, `shareCount`, `durationMs`, and `uploaded`.
+  - Tolerates stringified JSON array or delimited list format for `hashtags`.
+  - Date parser accepts 4-letter month 'Sept', missing seconds (`at 5:13 PM`), ISO-8601 strings, and epoch integers.
+- **UI Updates**:
+  - `sceneFootageControls.js`: scope selector with 'balanced', 'strict', 'wide' (and legacy 'place-mentions' mapped to 'balanced').
+  - `panel.js`: displays `'N verified · M unverified candidates · K variants'`, tags candidate clips with visible unverified badge, and maintains explicit-trigger separation from scene building.

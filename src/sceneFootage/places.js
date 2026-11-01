@@ -12,6 +12,23 @@ export const COVERAGE_LEVELS = Object.freeze([
   'district',
   'city',
 ]);
+
+/**
+ * Static documented English → Arabic transliterations for UAE places.
+ * Provenance: 'static-transliteration'
+ */
+export const UAE_TRANSLITERATIONS = Object.freeze({
+  'dubai marina': 'مرسى دبي',
+  'burj al arab': 'برج العرب',
+  'burj khalifa': 'برج خليفة',
+  'downtown dubai': 'وسط مدينة دبي',
+  'palm jumeirah': 'نخلة جميرا',
+  'abu dhabi': 'أبوظبي',
+  'yas island': 'جزيرة ياس',
+  sharjah: 'الشارقة',
+  'al zahiyah': 'الزاهية',
+  jbr: 'جي بي آر',
+});
 export const normPlace = (s) =>
   String(s || '')
     .toLowerCase()

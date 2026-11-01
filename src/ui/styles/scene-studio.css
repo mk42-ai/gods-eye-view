@@ -340,7 +340,11 @@
   border-radius: 999px;
   background: rgba(11, 18, 32, 0.92);
   color: #a7f3d0;
-  font: 600 12px/1.4 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font:
+    600 12px/1.4 system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -359,7 +363,11 @@
   border-radius: 12px;
   background: #0b1220;
   color: #ffffff;
-  font: 400 14px/1.5 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font:
+    400 14px/1.5 system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
 }
 .scene-panel[hidden] {
   display: none;
@@ -504,4 +512,30 @@
   .scene-panel__elements {
     grid-template-columns: 1fr;
   }
+}
+
+/* Lightweight entity hover tooltip (Phase B dynamic intelligence DSL) */
+.scene-staging-tooltip {
+  position: fixed;
+  z-index: 60;
+  max-width: 320px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(11, 18, 32, 0.94);
+  border: 1px solid rgba(20, 184, 166, 0.45);
+  color: #ffffff;
+  font:
+    12px/1.4 system-ui,
+    -apple-system,
+    Segoe UI,
+    sans-serif;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+.scene-staging-tooltip[hidden] {
+  display: none;
+}
+.scene-staging-tooltip strong {
+  color: #14b8a6;
+  text-transform: capitalize;
 }

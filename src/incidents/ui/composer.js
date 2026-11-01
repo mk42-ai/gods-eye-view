@@ -11,6 +11,7 @@ import {
 import { parseIncidentQuery, CONVERSATIONAL_HINT } from '../query.js';
 import { buildGeographicScene } from '../../scenes/geographicScene.js';
 import { setIconContent } from '../../ui/icons/layerIcon.js';
+import { createStreamView } from './streamView.js';
 
 export const COMPOSER_ID = 'incident-composer';
 /** One inline status label per composer step (replaces the three pills). */
@@ -119,7 +120,8 @@ export function createIncidentComposer({
   const retry = document.createElement('button');
   retry.type = 'button';
   retry.id = `${COMPOSER_ID}-retry`;
-  retry.className = 'incident-composer__submit incident-composer__retry';
+  retry.className =
+    'incident-composer__submit incident-composer__retry composer-retry-pill';
   retry.setAttribute('aria-label', 'Retry the last request');
   retry.title = 'Retry the last request';
   setIconContent(retry, 'rotate-ccw', { text: 'Retry' }, document);
@@ -193,6 +195,11 @@ export function createIncidentComposer({
   evidenceSlot.id = `${COMPOSER_ID}-evidence-slot`;
   statusRow.append(result, evidenceSlot);
   root.append(row, timeRow, chips, statusRow, actions);
+
+  const streamView = createStreamView({
+    document,
+    window: document.defaultView || globalThis.window,
+  });
 
   const layoutHost = document.documentElement || document.body;
   const updateStackHeight = () => {
@@ -482,6 +489,10 @@ export function createIncidentComposer({
     markActive('cancelled');
     setChips(false);
     root.setAttribute('data-state', 'cancelled');
+    streamView.setState('error', 'Cancelled');
+    retry.className =
+      'incident-composer__submit incident-composer__retry composer-retry-pill';
+    retry.textContent = '⟳ Retry · Cancelled';
     retry.hidden = false;
     showResult(
       message(
@@ -524,7 +535,20 @@ export function createIncidentComposer({
       if (!current(run)) return;
     }
     markActive('error');
+    streamView.setState('error', error?.message);
     const detail = error?.message || String(error);
+    const shortReason =
+      String(detail)
+        .replace(
+          /^Locate failed:\s*|^Scene request failed:\s*|^Request failed:\s*/i,
+          '',
+        )
+        .split(/[:\n]/)[0]
+        .trim()
+        .slice(0, 24) || 'Request failed';
+    retry.className =
+      'incident-composer__submit incident-composer__retry composer-retry-pill';
+    retry.textContent = `⟳ Retry · ${shortReason}`;
     const text =
       run.stage === 'locating'
         ? `Locate failed: ${detail}`
@@ -613,6 +637,19 @@ export function createIncidentComposer({
     lastFailedSnapshot = null;
     retry.hidden = true;
     setChips(false, { done: true });
+    streamView.setState('complete');
+    streamView.flush();
+    if (payload.scene?.streamTimings) {
+      root.setAttribute(
+        'data-stream-timings',
+        JSON.stringify(payload.scene.streamTimings),
+      );
+      if (document.defaultView)
+        document.defaultView.__gevLastStreamTimings =
+          payload.scene.streamTimings;
+      if (typeof globalThis !== 'undefined')
+        globalThis.__gevLastStreamTimings = payload.scene.streamTimings;
+    }
     const fullName = String(payload.candidate.name || '');
     const wrap = document.createElement('div');
     wrap.className = 'incident-composer__done';
@@ -657,6 +694,16 @@ export function createIncidentComposer({
     }
     text.title = `${lead.textContent} at ${fullName}`;
     wrap.append(play, text);
+    // Keep the live-stream telemetry visible after completion (model · tok/s · elapsed).
+    if (payload.scene?.streamTimings && streamView.chip?.textContent) {
+      const chip = document.createElement('span');
+      chip.className = 'composer-stream-chip composer-stream-chip--done';
+      chip.id = `${COMPOSER_ID}-stream-chip`;
+      chip.textContent = streamView.chip.textContent;
+      chip.title =
+        'Streaming telemetry: tokens/s is an estimate from narration_token events';
+      wrap.append(chip);
+    }
     showResult(wrap);
   }
   async function playbackControl(action, payload, run) {
@@ -697,7 +744,12 @@ export function createIncidentComposer({
   async function build(candidate, run) {
     step('verifying', 'done', run);
     step('building', 'active', run);
-    showResult(pending(`Building scene · ${shortPlaceLabel(candidate.name)}…`));
+    streamView.setState('connecting');
+    streamView.setStatus(
+      'building',
+      `Building scene · ${shortPlaceLabel(candidate.name)}…`,
+    );
+    showResult(streamView.element);
     let scene,
       inserted = null,
       ingest = null,
@@ -1484,6 +1536,7 @@ export function createIncidentComposer({
     element: root,
     input,
     evidenceSlot,
+    streamView,
     setPlaybackState,
     submit: submitText,
     restorePrompt,
@@ -1497,6 +1550,7 @@ export function createIncidentComposer({
       invalidate();
       state.busy = false;
       admissionOwner = null;
+      streamView.destroy();
       resizeObserver?.disconnect();
       view?.removeEventListener?.('resize', updateDockClearance);
       layoutHost?.style?.removeProperty?.('--incident-composer-height');

@@ -4,7 +4,12 @@
  * saved-scene store and the explanation panel trust ONLY what passes
  * `validateSceneStaging`. See SCENE_ARCHITECTURE.md §4.
  */
-import { validateSceneSpec, ELEMENT_TYPES } from './sceneSpec.js';
+import {
+  validateSceneSpec,
+  ELEMENT_TYPES,
+  DYNAMIC_ELEMENT_TYPES,
+  parseDynamicSceneSpec,
+} from './sceneSpec.js';
 
 export const SCENE_STAGING_VERSION = 1;
 export const STAGING_BADGE_TEXT =
@@ -14,6 +19,7 @@ export const STAGING_COLORS = Object.freeze({
   teal: '#14B8A6',
   mint: '#A7F3D0',
   white: '#FFFFFF',
+  amber: '#F59E0B',
 });
 export const STAGING_ROLES = Object.freeze([
   'focal',
@@ -25,6 +31,9 @@ export const STAGING_ROLES = Object.freeze([
   'signal',
   'zone',
   'marker',
+  'overwatch',
+  'command',
+  'node',
 ]);
 export const LINE_STYLES = Object.freeze([
   'cordon_inner',
@@ -44,6 +53,12 @@ export const ICON_KEYS = Object.freeze([
   'crowd_zone',
   'start_finish',
   'egress',
+  'command_post',
+  'cctv',
+  'cordon_node',
+  'route_start',
+  'route_finish',
+  'generic',
 ]);
 export const PROVENANCES = Object.freeze([
   'osm-footprint-buffer',
@@ -55,15 +70,21 @@ export const PROVENANCES = Object.freeze([
   'camera-discovery',
   'anchor',
 ]);
-/** symbol-sort-key: focal > cordons > routes > units > cones. */
+/** symbol-sort-key: focal > cordons > zones > routes > command_post/overwatch > unit/checkpoint/cordon_node > cctv > generic > cones. */
 export const PRIORITY = Object.freeze({
   focal: 100,
   cordon: 90,
+  zone: 85,
   route: 80,
+  command_post: 70,
+  overwatch: 70,
   unit: 60,
-  zone: 55,
+  checkpoint: 60,
+  cordon_node: 60,
   marker: 55,
   signal: 50,
+  cctv: 50,
+  generic: 40,
   barrier: 20,
   cone: 10,
 });
@@ -142,6 +163,11 @@ function properties(p, path, kind) {
       'distanceM',
       'status',
       'source',
+      'confidence',
+      'evidenceTier',
+      'generic',
+      'relevance',
+      'atSec',
     ],
     [
       'id',
@@ -155,7 +181,12 @@ function properties(p, path, kind) {
   );
   const id = text(p.id, `${path}.id`, 80);
   if (!/^[a-z][a-z0-9_-]*$/.test(id)) fail(`${path}.id`, 'invalid identifier');
-  if (!ELEMENT_TYPES.includes(p.element) && p.element !== 'focal')
+  if (
+    !ELEMENT_TYPES.includes(p.element) &&
+    !DYNAMIC_ELEMENT_TYPES.includes(p.element) &&
+    p.element !== 'focal' &&
+    p.generic !== true
+  )
     fail(`${path}.element`, 'unknown element');
   if (!STAGING_ROLES.includes(p.role)) fail(`${path}.role`, 'unknown role');
   const out = {
@@ -214,6 +245,22 @@ function properties(p, path, kind) {
   }
   if (p.source !== undefined)
     out.source = text(p.source, `${path}.source`, 200);
+  if (p.confidence !== undefined)
+    out.confidence = finite(p.confidence, `${path}.confidence`, 0, 1);
+  if (p.evidenceTier !== undefined) {
+    if (!['sourced', 'inferred', 'generated'].includes(p.evidenceTier))
+      fail(`${path}.evidenceTier`, 'sourced|inferred|generated');
+    out.evidenceTier = p.evidenceTier;
+  }
+  if (p.generic !== undefined) {
+    if (typeof p.generic !== 'boolean')
+      fail(`${path}.generic`, 'must be boolean');
+    out.generic = p.generic;
+  }
+  if (p.relevance !== undefined)
+    out.relevance = finite(p.relevance, `${path}.relevance`, 0, 1);
+  if (p.atSec !== undefined)
+    out.atSec = finite(p.atSec, `${path}.atSec`, 0, 1e7);
   if (kind === 'label' && out.label === undefined)
     fail(`${path}.label`, 'labels need text');
   return out;
@@ -295,6 +342,8 @@ export function validateSceneStaging(raw) {
       'badge',
       'legend',
       'summary',
+      'notes',
+      'timeline',
     ],
     [
       'version',
@@ -313,7 +362,19 @@ export function validateSceneStaging(raw) {
   if (raw.version !== SCENE_STAGING_VERSION)
     fail(`${path}.version`, `must equal ${SCENE_STAGING_VERSION}`);
   if (raw.illustrative !== true) fail(`${path}.illustrative`, 'must be true');
-  const spec = validateSceneSpec(raw.spec);
+  let spec;
+  try {
+    spec = validateSceneSpec(raw.spec);
+  } catch {
+    const dyn = parseDynamicSceneSpec(raw.spec);
+    if (
+      !dyn.spec ||
+      !Array.isArray(dyn.spec.elements) ||
+      dyn.spec.elements.length === 0
+    )
+      fail(`${path}.spec`, 'spec must have at least one valid element');
+    spec = dyn.spec;
+  }
   keys(
     raw.anchor,
     `${path}.anchor`,
@@ -541,6 +602,76 @@ export function validateSceneStaging(raw) {
   };
   if (raw.summary !== undefined)
     out.summary = text(raw.summary, `${path}.summary`, 300);
+
+  if (raw.notes !== undefined) {
+    if (!Array.isArray(raw.notes) || raw.notes.length > 50)
+      fail(`${path}.notes`, 'array of at most 50');
+    out.notes = raw.notes.map((n, i) => {
+      const np = `${path}.notes[${i}]`;
+      if (!plain(n)) fail(np, 'must be a plain object');
+      const noteOut = {};
+      if (n.text !== undefined) noteOut.text = text(n.text, `${np}.text`, 300);
+      else if (n.label !== undefined)
+        noteOut.text = text(n.label, `${np}.label`, 300);
+      else if (n.title !== undefined)
+        noteOut.text = text(n.title, `${np}.title`, 300);
+      else noteOut.text = 'Intel note';
+
+      if (n.evidenceTier !== undefined) {
+        if (!['sourced', 'inferred', 'generated'].includes(n.evidenceTier))
+          fail(`${np}.evidenceTier`, 'sourced|inferred|generated');
+        noteOut.evidenceTier = n.evidenceTier;
+      } else {
+        noteOut.evidenceTier = 'inferred';
+      }
+
+      if (n.citations !== undefined) {
+        if (!Array.isArray(n.citations)) fail(`${np}.citations`, 'array');
+        noteOut.citations = n.citations.map((c, j) => {
+          const cp = `${np}.citations[${j}]`;
+          if (
+            !plain(c) ||
+            typeof c.url !== 'string' ||
+            !c.url.trim() ||
+            c.url.length > 2000
+          )
+            fail(cp, 'citation requires url <= 2000 chars');
+          return {
+            url: c.url.trim(),
+            ...(c.title ? { title: text(c.title, `${cp}.title`, 300) } : {}),
+          };
+        });
+      } else {
+        noteOut.citations = [];
+      }
+
+      if (n.confidence !== undefined)
+        noteOut.confidence = finite(n.confidence, `${np}.confidence`, 0, 1);
+      if (n.source !== undefined)
+        noteOut.source = text(n.source, `${np}.source`, 200);
+
+      return noteOut;
+    });
+  }
+
+  if (raw.timeline !== undefined) {
+    if (!Array.isArray(raw.timeline) || raw.timeline.length > 100)
+      fail(`${path}.timeline`, 'array of at most 100');
+    out.timeline = raw.timeline.map((t, i) => {
+      const tp = `${path}.timeline[${i}]`;
+      if (!plain(t)) fail(tp, 'must be a plain object');
+      const itemOut = {
+        atSec: finite(t.atSec ?? 0, `${tp}.atSec`, 0, 1e7),
+        title: text(t.title ?? t.label ?? 'Event', `${tp}.title`, 120),
+      };
+      if (t.confidence !== undefined)
+        itemOut.confidence = finite(t.confidence, `${tp}.confidence`, 0, 1);
+      if (t.source !== undefined)
+        itemOut.source = text(t.source, `${tp}.source`, 200);
+      return itemOut;
+    });
+  }
+
   return JSON.parse(JSON.stringify(out));
 }
 

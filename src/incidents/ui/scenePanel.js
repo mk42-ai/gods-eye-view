@@ -23,6 +23,16 @@ export const ELEMENT_LABELS = Object.freeze({
   crowd_zone: 'Crowd zones',
   route_line: 'Route corridor',
   start_finish: 'Start / finish',
+  threat_zone: 'Threat zones',
+  interest_zone: 'Interest zones',
+  crowd_density_zone: 'Crowd density zones',
+  overwatch: 'Overwatch positions',
+  command_post: 'Command posts',
+  cordon_node: 'Cordon nodes',
+  cctv_pick: 'CCTV cameras',
+  intel_note: 'Intel notes',
+  timeline_event: 'Timeline events',
+  generic: 'Generic markers',
 });
 export const ELEMENT_ICONS = Object.freeze({
   focal: null,
@@ -39,6 +49,16 @@ export const ELEMENT_ICONS = Object.freeze({
   crowd_zone: 'crowd_zone',
   route_line: 'start_finish',
   start_finish: 'start_finish',
+  threat_zone: 'checkpoint',
+  interest_zone: 'perimeter_unit',
+  crowd_density_zone: 'crowd_zone',
+  overwatch: 'command_post',
+  command_post: 'command_post',
+  cordon_node: 'cordon_node',
+  cctv_pick: 'cctv',
+  intel_note: null,
+  timeline_event: null,
+  generic: 'generic',
 });
 const CAVEAT =
   'Illustrative staging derived from OpenStreetMap data and a scenario template — not a verified deployment, operation or incident.';

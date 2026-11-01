@@ -1,13 +1,24 @@
 /** Explicit Snapchat access, independent from the automatic three-platform evidence lane. */
 export function snapchatRequestForScene(
   scene,
-  { mode = 'strict', now = () => new Date() } = {},
+  { mode = 'strict', scope = null, now = () => new Date() } = {},
 ) {
   const anchor = scene?.anchor;
   if (!anchor || !Number.isFinite(anchor.lat) || !Number.isFinite(anchor.lon))
     return null;
+
+  const rawScope = scope || mode;
+  let effectiveScope = 'strict';
+  if (rawScope === 'place-mentions' || rawScope === 'balanced') {
+    effectiveScope = 'balanced';
+  } else if (rawScope === 'wide') {
+    effectiveScope = 'wide';
+  } else if (rawScope === 'strict') {
+    effectiveScope = 'strict';
+  }
+
   const selected = scene.selectedTime || {};
-  if (mode !== 'place-mentions' && selected.timeMode === 'historical') {
+  if (effectiveScope === 'strict' && selected.timeMode === 'historical') {
     const start = Date.parse(selected.windowStart || '');
     const end = Date.parse(selected.windowEnd || '');
     if (
@@ -18,6 +29,60 @@ export function snapchatRequestForScene(
     )
       return null;
   }
+
+  if (effectiveScope === 'wide') {
+    let timeWindow = null;
+    if (selected.timeMode === 'historical') {
+      const s = Date.parse(selected.windowStart || '');
+      const e = Date.parse(selected.windowEnd || '');
+      if (Number.isFinite(s) && Number.isFinite(e) && e > s) {
+        const span = e - s;
+        timeWindow = {
+          windowStart: new Date(s - span * 2).toISOString(),
+          windowEnd: new Date(e).toISOString(),
+          strictCaptureTime: false,
+        };
+      }
+    } else {
+      timeWindow = {
+        windowHours: (Number(selected.windowHours) || 1) * 3,
+        strictCaptureTime: false,
+      };
+    }
+    return {
+      trigger: 'explicit',
+      lat: anchor.lat,
+      lon: anchor.lon,
+      placeName: anchor.name || scene.title || '',
+      text: anchor.name || scene.title || '',
+      sceneId: scene.id,
+      clientTimeIso: now().toISOString(),
+      scope: 'wide',
+      strictBounds: false,
+      radius: 5,
+      timeWindow,
+      scopeDisclosure:
+        'Wide search (5 km radius, window ×3, transliterations); capture time and location unverified.',
+    };
+  }
+
+  if (effectiveScope === 'balanced') {
+    return {
+      trigger: 'explicit',
+      lat: anchor.lat,
+      lon: anchor.lon,
+      placeName: anchor.name || scene.title || '',
+      text: anchor.name || scene.title || '',
+      sceneId: scene.id,
+      clientTimeIso: now().toISOString(),
+      scope: 'balanced',
+      strictBounds: false,
+      timeWindow: null,
+      scopeDisclosure:
+        'Public place-name mentions only; capture time and location are unverified.',
+    };
+  }
+
   const timeWindow =
     selected.timeMode === 'historical'
       ? {
@@ -37,14 +102,10 @@ export function snapchatRequestForScene(
     text: anchor.name || scene.title || '',
     sceneId: scene.id,
     clientTimeIso: now().toISOString(),
-    ...(mode === 'place-mentions'
-      ? {
-          strictBounds: false,
-          timeWindow: null,
-          scopeDisclosure:
-            'Public place-name mentions only; capture time and location are unverified.',
-        }
-      : { strictBounds: true, radius: 1, timeWindow }),
+    scope: 'strict',
+    strictBounds: true,
+    radius: 1,
+    timeWindow,
   };
 }
 
@@ -73,7 +134,9 @@ export function createSceneFootageControls({
   scope.id = 'scene-snapchat-scope';
   scope.setAttribute('aria-label', 'Snapchat matching policy');
   for (const [value, text] of [
+    ['balanced', 'Balanced · candidates shown + playable (unverified)'],
     ['strict', 'Strict · 1 km + selected UTC recording window'],
+    ['wide', 'Wide · 5 km radius, window ×3, transliterations'],
     ['place-mentions', 'Place mentions · time/location unverified'],
   ]) {
     const option = doc.createElement('option');
@@ -81,7 +144,7 @@ export function createSceneFootageControls({
     option.textContent = text;
     scope.appendChild(option);
   }
-  scope.value = 'strict';
+  scope.value = 'balanced';
   const button = doc.createElement('button');
   button.id = 'scene-snapchat-discover';
   button.type = 'button';
@@ -96,10 +159,16 @@ export function createSceneFootageControls({
   note.className = 'scene-snapchat-controls__note';
   note.setAttribute('role', 'status');
   function describe() {
-    note.textContent =
-      scope.value === 'place-mentions'
-        ? 'Unverified place mentions: no capture-time or distance claim. Changing this option does not search and never affects scene building.'
-        : 'Strict bounds apply only to Snapchat results (they reject clips with unknown capture time or coordinates) and never affect scene building. The current Spotlight provider may return no qualifying records.';
+    if (scope.value === 'strict') {
+      note.textContent =
+        'Strict bounds apply only to Snapchat results (they reject clips with unknown capture time or coordinates) and never affect scene building. The current Spotlight provider may return no qualifying records.';
+    } else if (scope.value === 'wide') {
+      note.textContent =
+        'Wide scope applies only to Snapchat results: a 5 km radius, a longer recording window and more name variants (incl. transliterations). Clips are unverified candidates; scope changes never affect scene building.';
+    } else {
+      note.textContent =
+        'Balanced scope applies only to Snapchat results: place-name mentions are shown as playable candidate clips labelled unverified (capture time and location unproven). Scope changes never affect scene building.';
+    }
   }
   function search() {
     if (button.disabled) return;

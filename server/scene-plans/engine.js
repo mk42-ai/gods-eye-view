@@ -30,7 +30,7 @@ import {
 import { SCENARIO_LABELS } from '../../src/scenes/sceneTemplates.js';
 import { createOsmClient } from './osm.js';
 
-const { teal, mint, white } = STAGING_COLORS;
+const { teal, mint, white, amber } = STAGING_COLORS;
 const BEARING = Object.freeze({
   N: 0,
   NE: 45,
@@ -131,7 +131,15 @@ export function stageFromData({
     legendCounts.set(key, cur);
   };
   const usedLabels = new Set();
-  const addLabel = (coord, text, element, role, priority, labelFor) => {
+  const addLabel = (
+    coord,
+    text,
+    element,
+    role,
+    priority,
+    labelFor,
+    extra = {},
+  ) => {
     const label = cleanMapLabel(text);
     const key = label.toLowerCase();
     if (!label || usedLabels.has(key)) return;
@@ -148,6 +156,7 @@ export function stageFromData({
           color: role === 'focal' ? white : mint,
           provenance: 'anchor',
           ...(labelFor ? { labelFor } : {}),
+          ...extra,
         },
       ),
     );
@@ -993,6 +1002,419 @@ export function stageFromData({
         'camera markers come only from verified camera discovery in the client; none are generated',
     });
 
+  // ---- Dynamic intelligence DSL elements -----------------------------------
+  const coordFromOffset = (offset, defaultBearing = 0, defaultDistM = 100) => {
+    if (
+      offset &&
+      (Number.isFinite(offset.eastM) || Number.isFinite(offset.northM))
+    ) {
+      const e = offset.eastM || 0;
+      const n = offset.northM || 0;
+      const dist = Math.hypot(e, n);
+      if (dist === 0) return [round6(anchor.lon), round6(anchor.lat)];
+      const b = ((Math.atan2(e, n) * 180) / Math.PI + 360) % 360;
+      const dest = turf.destination(center, km(dist), b, {
+        units: 'kilometers',
+      });
+      return rc([dest.geometry.coordinates])[0];
+    }
+    const dest = turf.destination(center, km(defaultDistM), defaultBearing, {
+      units: 'kilometers',
+    });
+    return rc([dest.geometry.coordinates])[0];
+  };
+
+  const notes = [];
+  const timeline = [];
+
+  // 1. threat_zone (#F59E0B amber)
+  const threatZones = all(spec, 'threat_zone');
+  threatZones.forEach((tz, i) => {
+    const r = tz.params?.radius_m ?? tz.radius_m ?? 120;
+    const c = coordFromOffset(tz.offset, (i * 90) % 360, innerR + 60);
+    const zone = turf.circle(turf.point(c), km(r), {
+      steps: 24,
+      units: 'kilometers',
+    });
+    areas.push(
+      feature(
+        { type: 'Polygon', coordinates: [rc(zone.geometry.coordinates[0])] },
+        {
+          id: `threat-zone-${i + 1}`,
+          element: 'threat_zone',
+          role: 'zone',
+          label: tz.label || `Threat zone ${i + 1}`,
+          priority: PRIORITY.zone,
+          color: amber,
+          provenance: 'circle-buffer',
+          confidence: tz.confidence ?? 0.5,
+          ...(tz.source ? { source: tz.source } : {}),
+          ...(tz.generic ? { generic: true } : {}),
+        },
+      ),
+    );
+    addLabel(
+      c,
+      tz.label || `Threat zone ${i + 1}`,
+      'threat_zone',
+      'zone',
+      PRIORITY.zone,
+      `threat-zone-${i + 1}`,
+    );
+    addLegend('threat_zone', `Threat zone (${Math.round(r)} m)`, 'area', amber);
+  });
+
+  // 2. interest_zone (#14B8A6 teal)
+  const interestZones = all(spec, 'interest_zone');
+  interestZones.forEach((iz, i) => {
+    const r = iz.params?.radius_m ?? iz.radius_m ?? 150;
+    const c = coordFromOffset(iz.offset, (45 + i * 90) % 360, outerR + 40);
+    const zone = turf.circle(turf.point(c), km(r), {
+      steps: 24,
+      units: 'kilometers',
+    });
+    areas.push(
+      feature(
+        { type: 'Polygon', coordinates: [rc(zone.geometry.coordinates[0])] },
+        {
+          id: `interest-zone-${i + 1}`,
+          element: 'interest_zone',
+          role: 'zone',
+          label: iz.label || `Interest zone ${i + 1}`,
+          priority: PRIORITY.zone,
+          color: teal,
+          provenance: 'circle-buffer',
+          confidence: iz.confidence ?? 0.5,
+          ...(iz.source ? { source: iz.source } : {}),
+          ...(iz.generic ? { generic: true } : {}),
+        },
+      ),
+    );
+    addLabel(
+      c,
+      iz.label || `Interest zone ${i + 1}`,
+      'interest_zone',
+      'zone',
+      PRIORITY.zone,
+      `interest-zone-${i + 1}`,
+    );
+    addLegend(
+      'interest_zone',
+      `Interest zone (${Math.round(r)} m)`,
+      'area',
+      teal,
+    );
+  });
+
+  // 3. crowd_density_zone (#A7F3D0 mint)
+  const crowdDensityZones = all(spec, 'crowd_density_zone');
+  crowdDensityZones.forEach((cdz, i) => {
+    const r = cdz.params?.radius_m ?? cdz.radius_m ?? 100;
+    const c = coordFromOffset(cdz.offset, (180 + i * 90) % 360, outerR + 60);
+    const zone = turf.circle(turf.point(c), km(r), {
+      steps: 24,
+      units: 'kilometers',
+    });
+    areas.push(
+      feature(
+        { type: 'Polygon', coordinates: [rc(zone.geometry.coordinates[0])] },
+        {
+          id: `crowd-density-zone-${i + 1}`,
+          element: 'crowd_density_zone',
+          role: 'zone',
+          label: cdz.label || `Crowd density zone ${i + 1}`,
+          priority: PRIORITY.zone,
+          color: mint,
+          provenance: 'circle-buffer',
+          confidence: cdz.confidence ?? 0.5,
+          ...(cdz.source ? { source: cdz.source } : {}),
+          ...(cdz.generic ? { generic: true } : {}),
+        },
+      ),
+    );
+    points.push(
+      feature(
+        { type: 'Point', coordinates: rc([c])[0] },
+        {
+          id: `crowd-density-marker-${i + 1}`,
+          element: 'crowd_density_zone',
+          role: 'zone',
+          priority: PRIORITY.zone,
+          color: mint,
+          icon: 'crowd_zone',
+          provenance: 'circle-buffer',
+          confidence: cdz.confidence ?? 0.5,
+          ...(cdz.source ? { source: cdz.source } : {}),
+          ...(cdz.generic ? { generic: true } : {}),
+        },
+      ),
+    );
+    addLabel(
+      c,
+      cdz.label || `Crowd density zone ${i + 1}`,
+      'crowd_density_zone',
+      'zone',
+      PRIORITY.zone,
+      `crowd-density-zone-${i + 1}`,
+    );
+    addLegend(
+      'crowd_density_zone',
+      `Crowd density zone (${Math.round(r)} m)`,
+      'area',
+      mint,
+    );
+  });
+
+  // 4. overwatch
+  const overwatches = all(spec, 'overwatch');
+  overwatches.forEach((ow, i) => {
+    const c = coordFromOffset(ow.offset, (30 + i * 120) % 360, outerR + 100);
+    points.push(
+      feature(
+        { type: 'Point', coordinates: rc([c])[0] },
+        {
+          id: `overwatch-${i + 1}`,
+          element: 'overwatch',
+          role: 'unit',
+          priority: PRIORITY.overwatch || 70,
+          color: mint,
+          icon: 'command_post',
+          provenance: ow.offset ? 'circle-buffer' : 'anchor',
+          confidence: ow.confidence ?? 0.5,
+          ...(ow.source ? { source: ow.source } : {}),
+          ...(ow.generic ? { generic: true } : {}),
+        },
+      ),
+    );
+    addLabel(
+      c,
+      ow.label || `Overwatch ${i + 1}`,
+      'overwatch',
+      'unit',
+      PRIORITY.overwatch || 70,
+      `overwatch-${i + 1}`,
+    );
+    addLegend('overwatch', 'Overwatch position', 'icon', mint, 'command_post');
+  });
+
+  // 5. command_post
+  const commandPosts = all(spec, 'command_post');
+  commandPosts.forEach((cp, i) => {
+    const b =
+      (cp.params?.direction ? BEARING[cp.params.direction] : 0) + i * 45;
+    const c = coordFromOffset(cp.offset, b, outerR + 120);
+    points.push(
+      feature(
+        { type: 'Point', coordinates: rc([c])[0] },
+        {
+          id: `command-post-${i + 1}`,
+          element: 'command_post',
+          role: 'unit',
+          priority: PRIORITY.command_post || 70,
+          color: mint,
+          icon: 'command_post',
+          provenance: cp.offset ? 'circle-buffer' : 'anchor',
+          confidence: cp.confidence ?? 0.5,
+          ...(cp.source ? { source: cp.source } : {}),
+          ...(cp.generic ? { generic: true } : {}),
+        },
+      ),
+    );
+    addLabel(
+      c,
+      cp.label || 'Command post',
+      'command_post',
+      'unit',
+      PRIORITY.command_post || 70,
+      `command-post-${i + 1}`,
+    );
+    addLegend('command_post', 'Command post', 'icon', mint, 'command_post');
+  });
+
+  // 6. cordon_node
+  const cordonNodes = all(spec, 'cordon_node');
+  cordonNodes.forEach((cn, i) => {
+    let c;
+    if (cn.offset) {
+      c = coordFromOffset(cn.offset);
+    } else if (perimeter) {
+      const ring = ringOf(perimeter);
+      c =
+        ring[
+          Math.floor(
+            ((i + 0.5) / Math.max(1, cordonNodes.length)) * (ring.length - 1),
+          )
+        ];
+    } else {
+      c = coordFromOffset(null, (i * 60) % 360, innerR);
+    }
+    points.push(
+      feature(
+        { type: 'Point', coordinates: rc([c])[0] },
+        {
+          id: `cordon-node-${i + 1}`,
+          element: 'cordon_node',
+          role: 'unit',
+          priority: PRIORITY.cordon_node || 60,
+          color: teal,
+          icon: 'cordon_node',
+          provenance: 'circle-buffer',
+          confidence: cn.confidence ?? 0.5,
+          ...(cn.source ? { source: cn.source } : {}),
+          ...(cn.generic ? { generic: true } : {}),
+        },
+      ),
+    );
+    if (cn.label) {
+      addLabel(
+        c,
+        cn.label,
+        'cordon_node',
+        'unit',
+        PRIORITY.cordon_node || 60,
+        `cordon-node-${i + 1}`,
+      );
+    }
+    addLegend('cordon_node', 'Cordon node', 'icon', teal, 'cordon_node');
+  });
+
+  // 7. cctv_pick
+  const cctvPicks = all(spec, 'cctv_pick');
+  cctvPicks.forEach((cp, i) => {
+    const c = coordFromOffset(cp.offset, (210 + i * 40) % 360, innerR + 30);
+    points.push(
+      feature(
+        { type: 'Point', coordinates: rc([c])[0] },
+        {
+          id: `cctv-pick-${i + 1}`,
+          element: 'cctv_pick',
+          role: 'signal',
+          priority: PRIORITY.cctv || 50,
+          color: mint,
+          icon: 'cctv',
+          provenance: cp.offset ? 'circle-buffer' : 'anchor',
+          confidence: cp.confidence ?? 0.5,
+          relevance: cp.relevance ?? 0.5,
+          ...(cp.source ? { source: cp.source } : {}),
+          ...(cp.generic ? { generic: true } : {}),
+        },
+      ),
+    );
+    if (cp.label) {
+      addLabel(
+        c,
+        cp.label,
+        'cctv_pick',
+        'signal',
+        PRIORITY.cctv || 50,
+        `cctv-pick-${i + 1}`,
+      );
+    }
+    addLegend('cctv_pick', 'CCTV camera selection', 'icon', mint, 'cctv');
+  });
+
+  // 8. intel_note
+  const intelNotes = all(spec, 'intel_note');
+  intelNotes.forEach((inNote, i) => {
+    notes.push({
+      text: inNote.label || inNote.title || 'Intel note',
+      evidenceTier: inNote.evidenceTier || 'inferred',
+      citations: inNote.citations || [],
+      confidence: inNote.confidence ?? 0.5,
+      ...(inNote.source ? { source: inNote.source } : {}),
+      ...(inNote.offset ? { offset: inNote.offset } : {}),
+    });
+    if (inNote.offset) {
+      const c = coordFromOffset(inNote.offset);
+      addLabel(
+        c,
+        inNote.label || 'Intel note',
+        'intel_note',
+        'marker',
+        45,
+        `intel-note-${i + 1}`,
+      );
+    }
+  });
+
+  // 9. timeline_event
+  const timelineEvents = all(spec, 'timeline_event');
+  timelineEvents.forEach((te, i) => {
+    timeline.push({
+      atSec: te.atSec ?? 0,
+      title: te.title || te.label || 'Timeline event',
+      confidence: te.confidence ?? 0.5,
+      ...(te.source ? { source: te.source } : {}),
+    });
+    if (te.offset && te.title) {
+      const c = coordFromOffset(te.offset);
+      addLabel(
+        c,
+        te.title,
+        'timeline_event',
+        'marker',
+        40,
+        `timeline-event-${i + 1}`,
+      );
+    }
+  });
+
+  // 10. generic unknown elements
+  const genericElements = spec.elements.filter(
+    (e) =>
+      e.generic === true &&
+      ![
+        'threat_zone',
+        'interest_zone',
+        'crowd_density_zone',
+        'overwatch',
+        'command_post',
+        'cordon_node',
+        'cctv_pick',
+        'intel_note',
+        'timeline_event',
+      ].includes(e.type),
+  );
+  genericElements.forEach((ge, i) => {
+    const c = coordFromOffset(ge.offset, (i * 72) % 360, outerR + 80);
+    points.push(
+      feature(
+        { type: 'Point', coordinates: rc([c])[0] },
+        {
+          id: `generic-${slug(ge.type)}-${i + 1}`,
+          element: ge.type,
+          role: 'marker',
+          priority: PRIORITY.generic || 40,
+          color: teal,
+          icon: 'generic',
+          generic: true,
+          provenance: ge.offset ? 'circle-buffer' : 'anchor',
+          confidence: ge.confidence ?? 0.5,
+          ...(ge.source ? { source: ge.source } : {}),
+          ...(ge.evidenceTier ? { evidenceTier: ge.evidenceTier } : {}),
+        },
+      ),
+    );
+    if (ge.label) {
+      addLabel(
+        c,
+        ge.label,
+        ge.type,
+        'marker',
+        PRIORITY.generic || 40,
+        `generic-${slug(ge.type)}-${i + 1}`,
+        { generic: true },
+      );
+    }
+    addLegend(
+      ge.type,
+      cleanMapLabel(ge.label || ge.type),
+      'icon',
+      teal,
+      'generic',
+    );
+  });
+
   // Route-line placement may have supplied cones/barriers after the cordon pass said none.
   for (const key of ['cones', 'barriers'])
     if (points.some((p) => p.properties.element === key)) {
@@ -1023,6 +1445,22 @@ export function stageFromData({
       ].includes(key)
     )
       entry.count = 1;
+    if (
+      [
+        'threat_zone',
+        'interest_zone',
+        'crowd_density_zone',
+        'overwatch',
+        'command_post',
+        'cordon_node',
+        'cctv_pick',
+      ].includes(key)
+    ) {
+      entry.count =
+        areas.filter((a) => a.properties.element === key).length ||
+        points.filter((p) => p.properties.element === key).length ||
+        1;
+    }
   }
   return {
     areas,
@@ -1031,6 +1469,8 @@ export function stageFromData({
     labels,
     unavailable,
     legend: [...legendCounts.values()],
+    notes,
+    timeline,
     footprintSource,
     accessPoints: accessPoints.length,
     closedSegments: closedSegments.length,
@@ -1055,6 +1495,34 @@ export function stagingSummary(spec, anchor, counts) {
   if (counts.barriers) parts.push(`${counts.barriers} barriers`);
   if (counts.route_line) parts.push('a routed course corridor');
   if (counts.crowd_zone) parts.push(`${counts.crowd_zone} crowd zones`);
+  if (counts.threat_zone)
+    parts.push(
+      `${counts.threat_zone} threat zone${counts.threat_zone === 1 ? '' : 's'}`,
+    );
+  if (counts.interest_zone)
+    parts.push(
+      `${counts.interest_zone} interest zone${counts.interest_zone === 1 ? '' : 's'}`,
+    );
+  if (counts.crowd_density_zone)
+    parts.push(
+      `${counts.crowd_density_zone} crowd density zone${counts.crowd_density_zone === 1 ? '' : 's'}`,
+    );
+  if (counts.overwatch)
+    parts.push(
+      `${counts.overwatch} overwatch position${counts.overwatch === 1 ? '' : 's'}`,
+    );
+  if (counts.command_post)
+    parts.push(
+      `${counts.command_post} command post${counts.command_post === 1 ? '' : 's'}`,
+    );
+  if (counts.cordon_node)
+    parts.push(
+      `${counts.cordon_node} cordon node${counts.cordon_node === 1 ? '' : 's'}`,
+    );
+  if (counts.cctv_pick)
+    parts.push(
+      `${counts.cctv_pick} CCTV camera${counts.cctv_pick === 1 ? '' : 's'}`,
+    );
   const place =
     String(anchor.name || '')
       .split(',')[0]
@@ -1340,6 +1808,8 @@ export function createSceneEngine({
       badge: { text: STAGING_BADGE_TEXT, single: true },
       legend: staged.legend,
       summary: stagingSummary(spec, anchor, counts),
+      ...(staged.notes?.length ? { notes: staged.notes } : {}),
+      ...(staged.timeline?.length ? { timeline: staged.timeline } : {}),
     };
     const staging = validateSceneStaging(raw);
     log({
