@@ -1,0 +1,10 @@
+2026-11-01T06:18:20Z
+# Subtest: a SKIPPED verdict must name its reason
+ok 3390 - a SKIPPED verdict must name its reason
+# tests 4762
+# pass 4761
+# fail 0
+# skipped 1
+[unit] SKIPPED 2 allocation microbenchmarks: budgets are calibrated for Node 24, running 22.23.4. Run under Node 24 (or set GEV_REQUIRE_ALLOCATION_GATE=1 to fail instead).
+exit 0
+2026-11-01T06:19:20Z

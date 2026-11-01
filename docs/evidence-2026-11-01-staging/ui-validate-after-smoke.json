@@ -1,0 +1,81 @@
+{
+  "url": "https://ondemand-agent-hw1klznal-schoolhack-web-team.vercel.app",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-smoke-1440x900.png",
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-smoke-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-hw1klznal-schoolhack-web-team.vercel.app",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#incident-composer-input",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "ILLUSTRATIVE \u00b7 ",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "Scene request failed",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "expect-selector",
+      "target": "#incident-composer-submit",
+      "ok": true,
+      "detail": "visible"
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelectorAll('#scene-illustrative-badge').length===1 && document.querySelector('#scene-illustrative-badge').hidden===true",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "!!document.querySelector('#scene-panel') && document.querySelector('#scene-panel').hidden===true",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "(async()=>{const r=await fetch('/api/ondemand/v2/scene-plans/health');const j=await r.json();return j.staging&&j.staging.enabled===true&&j.staging.ultraFastEndpointExists===false&&j.staging.tiers[0]==",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "(async()=>{const r=await fetch('/scene-icons/sprite.json');const j=await r.json();return Object.keys(j).length===10&&j.cone.width===48&&(await fetch('/scene-icons/png/police_unit.png')).ok})()",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=432 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-hw1klznal-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "pageErrors": [],
+  "failedRequests": [
+    "Fetch: net::ERR_ABORTED https://ondemand-agent-hw1klznal-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation",
+  "textLength": 432
+}

@@ -1,0 +1,306 @@
+[
+ {
+  "prompt": "police raid at Burj Al Arab",
+  "viewport": "1440x900",
+  "spec_ms": 2878,
+  "overpass_ms": 1111,
+  "routing_ms": 347,
+  "geometry_ms": 141,
+  "render_ms": 1472,
+  "engine_total_ms": 4482,
+  "wall_ms": 122491,
+  "model_used": "ondemand:predefined-cerebras-qwen-3.8-27b",
+  "scenario": "police_raid",
+  "layers": {
+   "areas": 3,
+   "lines": 4,
+   "points": 152,
+   "labels": 8
+  },
+  "labelOverlaps": 0,
+  "minLabelPx": 13,
+  "minHalo": 4,
+  "badgeCount": 1,
+  "illustrativeLabels": 0,
+  "citationTokenLabels": 0,
+  "locationBadge": "verified",
+  "built": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 2878 ms",
+  "consoleErrors": [],
+  "network": [
+   {
+    "url": "/api/setup/status",
+    "status": 404
+   }
+  ],
+  "pass": true,
+  "screenshot": "after-police-raid-at-burj-al-arab-1440x900.png"
+ },
+ {
+  "prompt": "kanes boxing gym abu dhabi police raid",
+  "viewport": "1440x900",
+  "spec_ms": 3421,
+  "overpass_ms": 1097,
+  "routing_ms": 348,
+  "geometry_ms": 96,
+  "render_ms": 1730,
+  "engine_total_ms": 4963,
+  "wall_ms": 93617,
+  "model_used": "ondemand:predefined-cerebras-qwen-3.8-27b",
+  "scenario": "police_raid",
+  "layers": {
+   "areas": 3,
+   "lines": 4,
+   "points": 246,
+   "labels": 8
+  },
+  "labelOverlaps": 0,
+  "minLabelPx": 13,
+  "minHalo": 4,
+  "badgeCount": 1,
+  "illustrativeLabels": 0,
+  "citationTokenLabels": 0,
+  "locationBadge": "approximate",
+  "built": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 3421 ms",
+  "consoleErrors": [],
+  "network": [
+   {
+    "url": "/api/setup/status",
+    "status": 404
+   },
+   {
+    "url": "/api/ondemand/v2/summaries/hud",
+    "status": 409
+   }
+  ],
+  "pass": true,
+  "screenshot": "after-kanes-boxing-gym-abu-dhabi-police-raid-1440x900.png"
+ },
+ {
+  "prompt": "im doing a raid in the dubai marina",
+  "viewport": "1440x900",
+  "spec_ms": 2609,
+  "overpass_ms": 2086,
+  "routing_ms": 0,
+  "geometry_ms": 84,
+  "render_ms": 2379,
+  "engine_total_ms": 4780,
+  "wall_ms": 84646,
+  "model_used": "ondemand:predefined-cerebras-qwen-3.8-27b",
+  "scenario": "police_raid",
+  "layers": {
+   "areas": 3,
+   "lines": 4,
+   "points": 246,
+   "labels": 8
+  },
+  "labelOverlaps": 0,
+  "minLabelPx": 13,
+  "minHalo": 4,
+  "badgeCount": 1,
+  "illustrativeLabels": 0,
+  "citationTokenLabels": 0,
+  "locationBadge": "verified",
+  "built": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 2609 ms",
+  "consoleErrors": [],
+  "network": [
+   {
+    "url": "/api/setup/status",
+    "status": 404
+   }
+  ],
+  "pass": true,
+  "screenshot": "after-im-doing-a-raid-in-the-dubai-marina-1440x900.png"
+ },
+ {
+  "prompt": "Dubai Run on Sheikh Zayed Road",
+  "viewport": "1440x900",
+  "spec_ms": 4074,
+  "overpass_ms": 1363,
+  "routing_ms": 0,
+  "geometry_ms": 20,
+  "render_ms": 957,
+  "engine_total_ms": 5458,
+  "wall_ms": 159814,
+  "model_used": "ondemand:predefined-cerebras-qwen-3.8-27b",
+  "scenario": "crowd_event",
+  "layers": {
+   "areas": 2,
+   "lines": 1,
+   "points": 82,
+   "labels": 3
+  },
+  "labelOverlaps": 0,
+  "minLabelPx": 13,
+  "minHalo": 4,
+  "badgeCount": 1,
+  "illustrativeLabels": 0,
+  "citationTokenLabels": 0,
+  "locationBadge": "approximate",
+  "built": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 4074 ms",
+  "consoleErrors": [],
+  "network": [
+   {
+    "url": "/api/setup/status",
+    "status": 404
+   }
+  ],
+  "pass": true,
+  "screenshot": "after-dubai-run-on-sheikh-zayed-road-1440x900.png"
+ },
+ {
+  "prompt": "police raid at Burj Al Arab",
+  "viewport": "390x844",
+  "spec_ms": 2736,
+  "overpass_ms": 1718,
+  "routing_ms": 0,
+  "geometry_ms": 59,
+  "render_ms": 1070,
+  "engine_total_ms": 4513,
+  "wall_ms": 119465,
+  "model_used": "ondemand:predefined-cerebras-qwen-3.8-27b",
+  "scenario": "police_raid",
+  "layers": {
+   "areas": 3,
+   "lines": 4,
+   "points": 152,
+   "labels": 8
+  },
+  "labelOverlaps": 0,
+  "minLabelPx": 13,
+  "minHalo": 4,
+  "badgeCount": 1,
+  "illustrativeLabels": 0,
+  "citationTokenLabels": 0,
+  "locationBadge": "verified",
+  "built": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 2736 ms",
+  "consoleErrors": [],
+  "network": [
+   {
+    "url": "/api/setup/status",
+    "status": 404
+   },
+   {
+    "url": "/api/ondemand/v2/summaries/hud",
+    "status": 409
+   }
+  ],
+  "pass": true,
+  "screenshot": "after-police-raid-at-burj-al-arab-390x844.png"
+ },
+ {
+  "prompt": "kanes boxing gym abu dhabi police raid",
+  "viewport": "390x844",
+  "spec_ms": 2824,
+  "overpass_ms": 1964,
+  "routing_ms": 118,
+  "geometry_ms": 77,
+  "render_ms": 1618,
+  "engine_total_ms": 4984,
+  "wall_ms": 96643,
+  "model_used": "ondemand:predefined-cerebras-qwen-3.8-27b",
+  "scenario": "police_raid",
+  "layers": {
+   "areas": 3,
+   "lines": 4,
+   "points": 246,
+   "labels": 8
+  },
+  "labelOverlaps": 0,
+  "minLabelPx": 13,
+  "minHalo": 4,
+  "badgeCount": 1,
+  "illustrativeLabels": 0,
+  "citationTokenLabels": 0,
+  "locationBadge": "approximate",
+  "built": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 2824 ms",
+  "consoleErrors": [],
+  "network": [
+   {
+    "url": "/api/setup/status",
+    "status": 404
+   }
+  ],
+  "pass": true,
+  "screenshot": "after-kanes-boxing-gym-abu-dhabi-police-raid-390x844.png"
+ },
+ {
+  "prompt": "im doing a raid in the dubai marina",
+  "viewport": "390x844",
+  "spec_ms": 3343,
+  "overpass_ms": 1134,
+  "routing_ms": 349,
+  "geometry_ms": 70,
+  "render_ms": 1199,
+  "engine_total_ms": 4897,
+  "wall_ms": 91147,
+  "model_used": "ondemand:predefined-cerebras-qwen-3.8-27b",
+  "scenario": "police_raid",
+  "layers": {
+   "areas": 3,
+   "lines": 4,
+   "points": 246,
+   "labels": 8
+  },
+  "labelOverlaps": 0,
+  "minLabelPx": 13,
+  "minHalo": 4,
+  "badgeCount": 1,
+  "illustrativeLabels": 0,
+  "citationTokenLabels": 0,
+  "locationBadge": "verified",
+  "built": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 3343 ms",
+  "consoleErrors": [],
+  "network": [
+   {
+    "url": "/api/setup/status",
+    "status": 404
+   },
+   {
+    "url": "/api/ondemand/v2/summaries/hud",
+    "status": 409
+   }
+  ],
+  "pass": true,
+  "screenshot": "after-im-doing-a-raid-in-the-dubai-marina-390x844.png"
+ },
+ {
+  "prompt": "Dubai Run on Sheikh Zayed Road",
+  "viewport": "390x844",
+  "spec_ms": 4403,
+  "overpass_ms": 3369,
+  "routing_ms": 0,
+  "geometry_ms": 2,
+  "render_ms": 2008,
+  "engine_total_ms": 7776,
+  "wall_ms": 156220,
+  "model_used": "ondemand:predefined-cerebras-qwen-3.8-27b",
+  "scenario": "crowd_event",
+  "layers": {
+   "areas": 2,
+   "lines": 1,
+   "points": 53,
+   "labels": 3
+  },
+  "labelOverlaps": 0,
+  "minLabelPx": 13,
+  "minHalo": 4,
+  "badgeCount": 1,
+  "illustrativeLabels": 0,
+  "citationTokenLabels": 0,
+  "locationBadge": "approximate",
+  "built": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 4403 ms",
+  "consoleErrors": [],
+  "network": [
+   {
+    "url": "/api/setup/status",
+    "status": 404
+   },
+   {
+    "url": "/api/ondemand/v2/summaries/hud",
+    "status": 409
+   }
+  ],
+  "pass": true,
+  "screenshot": "after-dubai-run-on-sheikh-zayed-road-390x844.png"
+ }
+]

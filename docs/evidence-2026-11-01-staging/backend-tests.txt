@@ -1,0 +1,8 @@
+2026-11-01T06:19:20Z
+command: env -u ON_DEMAND_API_KEY -u ONDEMAND_API_KEY -u OVERPASS_ENDPOINTS node --test server/**/*.test.mjs (unit runner strips these variables the same way)
+# tests 712
+# pass 712
+# fail 0
+# skipped 0
+exit 0
+2026-11-01T06:20:22Z
