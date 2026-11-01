@@ -1,0 +1,8 @@
+2026-11-01T10:43:00Z
+command: env -u ON_DEMAND_API_KEY -u ONDEMAND_API_KEY -u OVERPASS_ENDPOINTS node --test server/*/*.test.mjs server/*/*/*.test.mjs
+# tests 739
+# pass 739
+# fail 0
+# skipped 0
+exit 0
+2026-11-01T10:44:03Z

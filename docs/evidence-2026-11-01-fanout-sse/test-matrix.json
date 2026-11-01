@@ -1,0 +1,158 @@
+{
+ "generatedUtc": "2026-11-01T11:15:00Z",
+ "preview": "https://ondemand-agent-4nv1jlmuy-schoolhack-web-team.vercel.app",
+ "deploymentId": "dpl_FwuDoiN3vit4m8iVjXbocf1h5Cdd",
+ "commit": "8c6f3a7",
+ "checks": [
+  {
+   "check": "typing sends 0 construct requests",
+   "status": "passed",
+   "proof": "after2/qa-fanout-sse.json callsAfterTyping=0 \u00d77",
+   "utc": "2026-11-01T11:09Z"
+  },
+  {
+   "check": "exactly 1 /construct/stream per Build, 0 JSON fallback",
+   "status": "passed",
+   "proof": "after2 stream=1 json=0 \u00d77",
+   "utc": "2026-11-01T11:09Z"
+  },
+  {
+   "check": "im doing a raid in the dubai marina builds (1440,390)",
+   "status": "passed",
+   "proof": "after2/after-im-doing-a-raid-in-the-dubai-marina-*.png",
+   "utc": "2026-11-01T10:47:59Z"
+  },
+  {
+   "check": "Burj Al Arab police raid builds (1440,390)",
+   "status": "passed",
+   "proof": "after2/after-burj-al-arab-police-raid-*.png",
+   "utc": "2026-11-01T10:50:40Z"
+  },
+  {
+   "check": "kanes boxing gym abu dhabi (lowercase) builds with approximate badge",
+   "status": "passed",
+   "proof": "after2-kanes/after-kanes-boxing-gym-abu-dhabi-1440x900.png",
+   "utc": "2026-11-01T11:08:29Z"
+  },
+  {
+   "check": "Kanes Boxing Gym Abu Dhabi (exact) builds",
+   "status": "passed",
+   "proof": "after2/qa-fanout-sse.json (template fallback that run)",
+   "utc": "2026-11-01T11:02:00Z"
+  },
+  {
+   "check": "no 'verified, attributed geocoder candidate is required' failure",
+   "status": "passed",
+   "proof": "ui-validator forbid-text + 7 builds",
+   "utc": "2026-11-01T10:53Z"
+  },
+  {
+   "check": "SSE progressive rendering visible mid-stream",
+   "status": "passed",
+   "proof": "after2/mid-stream-*.png (4)",
+   "utc": "2026-11-01T10:47:44Z"
+  },
+  {
+   "check": "icons render at map positions from manifest",
+   "status": "passed",
+   "proof": "inspect.billboardImages / onScreenBillboards",
+   "utc": "2026-11-01T10:48Z"
+  },
+  {
+   "check": "Snapchat discovery shows increased counts (balanced)",
+   "status": "passed",
+   "proof": "Dubai Marina 1\u21923 variants; Kane's 0\u21924 candidates/5 variants",
+   "utc": "2026-11-01T11:09Z"
+  },
+  {
+   "check": "time window change \u2192 no new research request",
+   "status": "passed",
+   "proof": "networkAfterChange stream=0 json=0 locate=0",
+   "utc": "2026-11-01T10:48:05Z"
+  },
+  {
+   "check": "retry pill / cancel flow",
+   "status": "passed",
+   "proof": "after2/after-cancel-retry-1440x900.png",
+   "utc": "2026-11-01T10:49:06Z"
+  },
+  {
+   "check": "voice module idle/ready",
+   "status": "passed",
+   "proof": "#od-voice-status=Idle on all runs",
+   "utc": "2026-11-01T11:09Z"
+  },
+  {
+   "check": "saved-scene restore after reload",
+   "status": "passed",
+   "proof": "after2/after-restore-1440x900.png",
+   "utc": "2026-11-01T10:49Z"
+  },
+  {
+   "check": "mobile layout 390x844",
+   "status": "passed",
+   "proof": ".ui-proof/after-smoke-390x844.png + after2/*-390x844.png",
+   "utc": "2026-11-01T11:06Z"
+  },
+  {
+   "check": "frontend unit tests",
+   "status": "passed",
+   "proof": "4790 tests, 4789 pass, 0 fail, 1 skipped (Node-24 gate)",
+   "utc": "2026-11-01T10:43:00Z"
+  },
+  {
+   "check": "backend unit tests",
+   "status": "passed",
+   "proof": "739 pass, 0 fail",
+   "utc": "2026-11-01T10:44:03Z"
+  },
+  {
+   "check": "boundaries / secrets / format",
+   "status": "passed",
+   "proof": "checks.txt",
+   "utc": "2026-11-01T10:44:28Z"
+  },
+  {
+   "check": "production build",
+   "status": "passed",
+   "proof": "build.txt vite built in 7.9s",
+   "utc": "2026-11-01T10:44:42Z"
+  },
+  {
+   "check": "Chat Batch API",
+   "status": "blocked",
+   "proof": "POST /chat/v1/batches 405 'Chat batch creation is currently unavailable'",
+   "utc": "2026-11-01T07:37:58Z"
+  },
+  {
+   "check": "Snapchat verified tier > 0",
+   "status": "blocked",
+   "proof": "provider exposes no capture time/coordinates",
+   "utc": "2026-11-01T07:40:03Z"
+  },
+  {
+   "check": "Cerebras direct tier",
+   "status": "blocked",
+   "proof": "CEREBRAS_API_KEY not configured (optional credentialRequest)",
+   "utc": "2026-11-01T10:47Z"
+  },
+  {
+   "check": "ElevenLabs narration playback",
+   "status": "not run",
+   "proof": "billing-blocked in earlier turns; not re-tested this turn",
+   "utc": ""
+  },
+  {
+   "check": "live Graphs MCP chart",
+   "status": "failed",
+   "proof": "render_chart \u2192 HTTP 404 from viz pod (twice); charts embedded in PDF instead",
+   "utc": "2026-11-01T10:46Z"
+  },
+  {
+   "check": "SSE resume across cold serverless instances",
+   "status": "not run",
+   "proof": "per-instance ring only; falls back to JSON re-submit",
+   "utc": ""
+  }
+ ]
+}

@@ -1,0 +1,50 @@
+{
+ "capturedUtc": "2026-11-01T10:43Z",
+ "request": {
+  "placeName": "Dubai Marina",
+  "scope": "balanced",
+  "fresh": true
+ },
+ "state": "ok",
+ "counts": {
+  "verified": 0,
+  "candidate": 1,
+  "raw": 2,
+  "unique": 1,
+  "variantsTried": 3,
+  "truncatedVariants": 0
+ },
+ "variants": [
+  {
+   "variant": "Dubai Marina",
+   "raw": 1,
+   "unique": 1,
+   "ms": 23013
+  },
+  {
+   "variant": "dubaimarina",
+   "raw": 1,
+   "unique": 1,
+   "ms": 17089,
+   "fanout": true
+  },
+  {
+   "variant": "مرسى دبي",
+   "raw": 0,
+   "unique": 0,
+   "ms": 14900,
+   "fanout": true
+  }
+ ],
+ "fanout": null,
+ "clips": [
+  {
+   "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+   "tier": "candidate",
+   "caption": "#dubaimarina",
+   "publicationTime": "2026-09-09T17:13:12.000Z",
+   "captureTime": null,
+   "mediaUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/k32hcjqp73.mp4"
+  }
+ ]
+}

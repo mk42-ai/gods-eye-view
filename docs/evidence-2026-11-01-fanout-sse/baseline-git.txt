@@ -1,0 +1,11 @@
+captured 2026-11-01T07:06:30Z
+HEAD ca98807417cd6df5dd57d0fbf0a8381e80df886d branch feat/scene-video-evidence
+origin tip: ca98807417cd6df5dd57d0fbf0a8381e80df886d	refs/heads/feat/scene-video-evidence
+baseline branch on origin: 
+working tree dirty files: 1
+b698032 ancestor=yes
+cca89df ancestor=yes
+f20fab6 ancestor=yes
+5c56f4d ancestor=yes
+948b962 ancestor=yes
+ca98807 ancestor=yes

@@ -1,0 +1,1118 @@
+{
+  "url": "https://ondemand-agent-hgrybwgt6-schoolhack-web-team.vercel.app",
+  "startedUtc": "2026-11-01T10:06:46.768Z",
+  "prompts": [
+    {
+      "prompt": "im doing a raid in the dubai marina",
+      "viewport": "1440x900",
+      "startedUtc": "2026-11-01T10:06:52.990Z",
+      "booted": true,
+      "callsStream": 1,
+      "callsJson": 0,
+      "constructError": null,
+      "sseEvents": {
+        "status": 6,
+        "thinking": 3,
+        "plan": 1,
+        "element_added": 263,
+        "snap_batch_progress": 1,
+        "narration_token": 214,
+        "usage": 1,
+        "done": 1
+      },
+      "firstSeenMs": {
+        "status": 300,
+        "thinking": 300,
+        "plan": 4127,
+        "element_added": 102391,
+        "snap_batch_progress": 117561,
+        "narration_token": 117561,
+        "usage": 119328,
+        "done": 119339
+      },
+      "midStream": {
+        "atMs": 102401,
+        "displayedText": 0,
+        "previewEntities": 19
+      },
+      "callsAfterTyping": 0,
+      "submitUtc": "2026-11-01T10:06:54.956Z",
+      "totalWallMs": 122410,
+      "formState": "done",
+      "timedOut": false,
+      "streamTimings": {
+        "ttftMs": 117320,
+        "firstElementMs": 102150,
+        "planMs": 3886,
+        "doneMs": 119098,
+        "tokens": 214,
+        "tokensPerSec": 121,
+        "elements": 263,
+        "transport": "sse"
+      },
+      "dataStreamTimings": "{\"ttftMs\":117320,\"firstElementMs\":102150,\"planMs\":3886,\"doneMs\":119098,\"tokens\":214,\"tokensPerSec\":121,\"elements\":263,\"transport\":\"sse\"}",
+      "chipText": "predefined-cerebras-qwen-3.8-27b · ~121 tok/s (est.) · 122.2 s",
+      "typedText": 0,
+      "resultText": "Scene readydubai marina",
+      "errorText": null,
+      "retryText": " Retry",
+      "retryHidden": true,
+      "staging": {
+        "scenario": "police_raid",
+        "elementTypes": [
+          "inner_cordon",
+          "outer_cordon",
+          "approach_route",
+          "egress_route",
+          "staging_point",
+          "perimeter_unit",
+          "cones",
+          "barriers",
+          "cctv_signal"
+        ],
+        "model": {
+          "provider": "ondemand",
+          "id": "predefined-cerebras-qwen-3.8-27b",
+          "endpointId": "predefined-cerebras-qwen-3.8-27b",
+          "latencyMs": 3841
+        },
+        "timing": {
+          "specMs": 3841,
+          "overpassMs": 1052,
+          "routingMs": 345,
+          "geometryMs": 169,
+          "totalMs": 5411
+        },
+        "layerCounts": {
+          "areas": 3,
+          "lines": 4,
+          "points": 248,
+          "labels": 8
+        },
+        "icons": [
+          "cone",
+          "barrier",
+          "police_unit",
+          "staging_point",
+          "egress"
+        ],
+        "notes": 0,
+        "timeline": 0
+      },
+      "locationResolution": {
+        "method": "verified-geocoder",
+        "precision": "exact",
+        "approximate": false,
+        "confidence": 0.95,
+        "sourceCount": 0,
+        "name": "dubai marina"
+      },
+      "anchor": {
+        "name": "dubai marina",
+        "lat": 25.0786415,
+        "lon": 55.1352524,
+        "source": "geocode_place",
+        "sourceUrl": "https://nominatim.openstreetmap.org/search"
+      },
+      "verification": "location_verified",
+      "sceneStaging": {
+        "status": "staged",
+        "counts": {
+          "focal": 1,
+          "inner_cordon": 1,
+          "outer_cordon": 1,
+          "approach_route": 3,
+          "egress_route": 1,
+          "cones": 160,
+          "barriers": 80,
+          "perimeter_unit": 6,
+          "staging_point": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1
+      },
+      "sceneStreamPreviewCount": 0,
+      "network": {
+        "api": 5,
+        "stream": 1,
+        "constructJson": 0,
+        "snapchat": 0,
+        "locate": 1
+      },
+      "midStreamScreenshot": {
+        "file": "mid-stream-im-doing-a-raid-in-the-dubai-marina-1440x900.png",
+        "utc": "2026-11-01T10:08:40.679Z"
+      },
+      "inspect": {
+        "stagingBillboards": 248,
+        "billboardImages": {
+          "cone": 160,
+          "barrier": 80,
+          "police_unit": 6,
+          "staging_point": 1,
+          "egress": 1
+        },
+        "onScreenBillboards": 27,
+        "badgeCount": 1,
+        "badgeVisible": true,
+        "locationBadge": "Verified · 95% confidence",
+        "locationBadgeKind": "verified",
+        "legendItems": [
+          "inner_cordon",
+          "outer_cordon",
+          "approach_route",
+          "egress_route",
+          "staging_point",
+          "perimeter_unit",
+          "cones",
+          "barriers",
+          "cctv_signal"
+        ],
+        "builtLine": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 3841 ms",
+        "voiceStatus": "Idle",
+        "tooltipPresent": true
+      },
+      "screenshot": "after-im-doing-a-raid-in-the-dubai-marina-1440x900.png",
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404,
+          "utc": "2026-11-01T10:06:49.005Z"
+        }
+      ],
+      "failures": [],
+      "finishedUtc": "2026-11-01T10:09:02.860Z",
+      "timeWindow": {
+        "ok": true,
+        "selected": "6",
+        "sameScene": true,
+        "before": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22dubai%20marina%22%2C25.0786415%2C55.1352524%5D-plan-77338c6c3fc6177e",
+        "after": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22dubai%20marina%22%2C25.0786415%2C55.1352524%5D-plan-77338c6c3fc6177e",
+        "networkAfterChange": {
+          "api": 2,
+          "stream": 0,
+          "constructJson": 0,
+          "snapchat": 0,
+          "locate": 0
+        }
+      },
+      "snapchat": {
+        "scopeOptions": [
+          "balanced",
+          "strict",
+          "wide",
+          "place-mentions"
+        ],
+        "scopeDefault": "balanced",
+        "discoverDisabled": false,
+        "elapsedMs": 22462,
+        "status": "0 verified · 1 unverified candidate · 1 variant · +1 new on last refresh",
+        "clipCount": 2,
+        "unverifiedBadges": 0,
+        "panelText": " Snapchat footage\nScene: Dubai Marina (25.0786, 55.1353)\nMatched place: “Dubai Marina” · coverage: district\n0 verified · 1 unverified candidate · 1 variant · +1 new on last refresh\n Source: Snapchat Spotlight · 53d ago · author handle not returned · open original\npublished 53d ago (2026-09-09 17:13 UTC)\ncapture time unknown\nretrieved just now\nnot live\nunverified candidate\n#dubaimarina\nLocation evidence: hashtag text match — hashtag #dubaimarina equals the place name \"Dubai Marina\" · media link expires 2026-11-08 00:05 UTC\n#1\n#dubaimarina\nUNVERIFIED\npublished 53d ago\n1 returned · 1 unique IDs ·",
+        "network": {
+          "api": 1,
+          "stream": 0,
+          "constructJson": 0,
+          "snapchat": 1,
+          "locate": 0
+        }
+      },
+      "save": {
+        "saveStatus": "Could not save this scene. Please try again.",
+        "savedOptions": 0,
+        "storageNotice": "Saved in this browser only. Scenes are not synced or backed up; clearing site data removes them.",
+        "storageKey": [
+          "godsEyeView.sceneProject.v2",
+          "gev.sceneEvidence.v2"
+        ]
+      },
+      "restore": {
+        "savedOptions": 0,
+        "skipped": "no saved scene"
+      },
+      "cancelRetry": {
+        "steps": [],
+        "busyBeforeCancel": true,
+        "cancelVisible": true,
+        "stateAfterCancel": "cancelled",
+        "retryVisibleAfterCancel": true,
+        "retryTextAfterCancel": "⟳ Retry · Cancelled",
+        "retryClass": "incident-composer__submit incident-composer__retry composer-retry-pill",
+        "retryBox": {
+          "w": 142,
+          "h": 28
+        },
+        "noticeText": "Cancelled. Draft kept; late results are ignored. Upstream provider work may continue.",
+        "snapshotText": "im doing a raid in the dubai marina"
+      },
+      "result": "PASS"
+    },
+    {
+      "prompt": "Burj Al Arab police raid",
+      "viewport": "1440x900",
+      "startedUtc": "2026-11-01T10:10:00.755Z",
+      "booted": true,
+      "callsStream": 1,
+      "callsJson": 0,
+      "constructError": null,
+      "sseEvents": {
+        "status": 7,
+        "thinking": 4,
+        "plan": 1,
+        "element_added": 194,
+        "snap_batch_progress": 1,
+        "narration_token": 266,
+        "usage": 1,
+        "done": 1
+      },
+      "firstSeenMs": {
+        "status": 3236,
+        "thinking": 3236,
+        "plan": 6842,
+        "element_added": 118018,
+        "snap_batch_progress": 118068,
+        "narration_token": 118068,
+        "usage": 120210,
+        "done": 120211
+      },
+      "midStream": {
+        "atMs": 118035,
+        "displayedText": 0,
+        "previewEntities": 19
+      },
+      "callsAfterTyping": 0,
+      "submitUtc": "2026-11-01T10:10:02.495Z",
+      "totalWallMs": 124031,
+      "formState": "done",
+      "timedOut": false,
+      "streamTimings": {
+        "ttftMs": 114866,
+        "firstElementMs": 114816,
+        "planMs": 3640,
+        "doneMs": 117009,
+        "tokens": 266,
+        "tokensPerSec": 124,
+        "elements": 194,
+        "transport": "sse"
+      },
+      "dataStreamTimings": "{\"ttftMs\":114866,\"firstElementMs\":114816,\"planMs\":3640,\"doneMs\":117009,\"tokens\":266,\"tokensPerSec\":124,\"elements\":194,\"transport\":\"sse\"}",
+      "chipText": "predefined-cerebras-qwen-3.8-27b · ~124 tok/s (est.) · 119.8 s",
+      "typedText": 0,
+      "resultText": "Scene readyBurj Al Arab",
+      "errorText": null,
+      "retryText": " Retry",
+      "retryHidden": true,
+      "staging": {
+        "scenario": "police_raid",
+        "elementTypes": [
+          "inner_cordon",
+          "outer_cordon",
+          "approach_route",
+          "egress_route",
+          "staging_point",
+          "perimeter_unit",
+          "cones",
+          "barriers",
+          "cctv_signal"
+        ],
+        "model": {
+          "provider": "ondemand",
+          "id": "predefined-cerebras-qwen-3.8-27b",
+          "endpointId": "predefined-cerebras-qwen-3.8-27b",
+          "latencyMs": 3437
+        },
+        "timing": {
+          "specMs": 3437,
+          "overpassMs": 16136,
+          "routingMs": 346,
+          "geometryMs": 57,
+          "totalMs": 19977
+        },
+        "layerCounts": {
+          "areas": 3,
+          "lines": 4,
+          "points": 179,
+          "labels": 8
+        },
+        "icons": [
+          "cone",
+          "barrier",
+          "police_unit",
+          "perimeter_unit",
+          "staging_point",
+          "egress"
+        ],
+        "notes": 0,
+        "timeline": 0
+      },
+      "locationResolution": {
+        "method": "perplexity-research+osm",
+        "precision": "city",
+        "approximate": true,
+        "confidence": 0.3,
+        "sourceCount": 2,
+        "name": "Burj Al Arab"
+      },
+      "anchor": {
+        "name": "Burj Al Arab",
+        "lat": 25.0742823,
+        "lon": 55.1885624,
+        "source": "openstreetmap",
+        "sourceUrl": "https://www.openstreetmap.org/relation/4479752"
+      },
+      "verification": "location_approximate",
+      "sceneStaging": {
+        "status": "staged",
+        "counts": {
+          "focal": 1,
+          "inner_cordon": 1,
+          "outer_cordon": 1,
+          "approach_route": 3,
+          "egress_route": 1,
+          "cones": 85,
+          "barriers": 80,
+          "perimeter_unit": 12,
+          "staging_point": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1
+      },
+      "sceneStreamPreviewCount": 0,
+      "network": {
+        "api": 5,
+        "stream": 1,
+        "constructJson": 0,
+        "snapchat": 0,
+        "locate": 1
+      },
+      "midStreamScreenshot": {
+        "file": "mid-stream-burj-al-arab-police-raid-1440x900.png",
+        "utc": "2026-11-01T10:12:03.929Z"
+      },
+      "inspect": {
+        "stagingBillboards": 179,
+        "billboardImages": {
+          "cone": 85,
+          "barrier": 80,
+          "police_unit": 4,
+          "perimeter_unit": 8,
+          "staging_point": 1,
+          "egress": 1
+        },
+        "onScreenBillboards": 4,
+        "badgeCount": 1,
+        "badgeVisible": true,
+        "locationBadge": "Approximate · 30% confidence",
+        "locationBadgeKind": "approximate",
+        "legendItems": [
+          "inner_cordon",
+          "outer_cordon",
+          "approach_route",
+          "egress_route",
+          "staging_point",
+          "perimeter_unit",
+          "cones",
+          "barriers",
+          "cctv_signal"
+        ],
+        "builtLine": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 3437 ms",
+        "voiceStatus": "Idle",
+        "tooltipPresent": true
+      },
+      "screenshot": "after-burj-al-arab-police-raid-1440x900.png",
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404,
+          "utc": "2026-11-01T10:09:56.559Z"
+        }
+      ],
+      "failures": [],
+      "finishedUtc": "2026-11-01T10:12:11.203Z",
+      "result": "PASS"
+    },
+    {
+      "prompt": "kanes boxing gym abu dhabi",
+      "viewport": "1440x900",
+      "startedUtc": "2026-11-01T10:12:17.656Z",
+      "booted": true,
+      "callsStream": 1,
+      "callsJson": 0,
+      "constructError": null,
+      "sseEvents": {
+        "status": 7,
+        "thinking": 4,
+        "plan": 1,
+        "element_added": 4,
+        "snap_batch_progress": 1,
+        "narration_token": 191,
+        "usage": 1,
+        "done": 1
+      },
+      "firstSeenMs": {
+        "status": 8034,
+        "thinking": 8034,
+        "plan": 11130,
+        "element_added": 114994,
+        "snap_batch_progress": 128647,
+        "narration_token": 128647,
+        "usage": 130246,
+        "done": 130247
+      },
+      "midStream": null,
+      "callsAfterTyping": 0,
+      "submitUtc": "2026-11-01T10:12:19.321Z",
+      "totalWallMs": 133564,
+      "formState": "done",
+      "timedOut": false,
+      "streamTimings": {
+        "ttftMs": 120793,
+        "firstElementMs": 107140,
+        "planMs": 3276,
+        "doneMs": 122393,
+        "tokens": 191,
+        "tokensPerSec": 119,
+        "elements": 4,
+        "transport": "sse"
+      },
+      "dataStreamTimings": "{\"ttftMs\":120793,\"firstElementMs\":107140,\"planMs\":3276,\"doneMs\":122393,\"tokens\":191,\"tokensPerSec\":119,\"elements\":4,\"transport\":\"sse\"}",
+      "chipText": "predefined-cerebras-qwen-3.8-27b · ~119 tok/s (est.) · 125.0 s",
+      "typedText": 0,
+      "resultText": "Scene readyKane's Boxing Academy (AD City)",
+      "errorText": null,
+      "retryText": " Retry",
+      "retryHidden": true,
+      "staging": {
+        "scenario": "observation",
+        "elementTypes": [
+          "interest_zone"
+        ],
+        "model": {
+          "provider": "ondemand",
+          "id": "predefined-cerebras-qwen-3.8-27b",
+          "endpointId": "predefined-cerebras-qwen-3.8-27b",
+          "latencyMs": 3186
+        },
+        "timing": {
+          "specMs": 3186,
+          "overpassMs": 0,
+          "routingMs": 0,
+          "geometryMs": 1,
+          "totalMs": 3187
+        },
+        "layerCounts": {
+          "areas": 2,
+          "lines": 0,
+          "points": 0,
+          "labels": 2
+        },
+        "icons": [],
+        "notes": 0,
+        "timeline": 0
+      },
+      "locationResolution": {
+        "method": "perplexity-research+osm",
+        "precision": "address",
+        "approximate": true,
+        "confidence": 0.78,
+        "sourceCount": 3,
+        "name": "Kane's Boxing Academy (AD City)"
+      },
+      "anchor": {
+        "name": "Kane's Boxing Academy (AD City)",
+        "lat": 24.4850018,
+        "lon": 54.3586369,
+        "source": "openstreetmap",
+        "sourceUrl": "https://www.openstreetmap.org/way/27374404"
+      },
+      "verification": "location_approximate",
+      "sceneStaging": {
+        "status": "staged",
+        "counts": {
+          "focal": 1,
+          "interest_zone": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1
+      },
+      "sceneStreamPreviewCount": 0,
+      "network": {
+        "api": 6,
+        "stream": 1,
+        "constructJson": 0,
+        "snapchat": 0,
+        "locate": 1
+      },
+      "midStreamScreenshot": null,
+      "inspect": {
+        "stagingBillboards": 0,
+        "billboardImages": {},
+        "onScreenBillboards": 0,
+        "badgeCount": 1,
+        "badgeVisible": true,
+        "locationBadge": "Approximate · 78% confidence",
+        "locationBadgeKind": "approximate",
+        "legendItems": [
+          "interest_zone"
+        ],
+        "builtLine": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 3186 ms",
+        "voiceStatus": "Idle",
+        "tooltipPresent": true
+      },
+      "screenshot": "after-kanes-boxing-gym-abu-dhabi-1440x900.png",
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404,
+          "utc": "2026-11-01T10:12:12.611Z"
+        }
+      ],
+      "failures": [
+        "no staging billboards"
+      ],
+      "finishedUtc": "2026-11-01T10:17:50.939Z",
+      "result": "FAIL"
+    },
+    {
+      "prompt": "Kanes Boxing Gym Abu Dhabi",
+      "viewport": "1440x900",
+      "startedUtc": "2026-11-01T10:17:56.037Z",
+      "booted": true,
+      "callsStream": 1,
+      "callsJson": 0,
+      "constructError": null,
+      "sseEvents": {
+        "status": 7,
+        "thinking": 4,
+        "plan": 1,
+        "element_added": 4,
+        "snap_batch_progress": 1,
+        "narration_token": 277,
+        "usage": 1,
+        "done": 1
+      },
+      "firstSeenMs": {
+        "status": 3743,
+        "thinking": 3743,
+        "plan": 13322,
+        "element_added": 14438,
+        "snap_batch_progress": 19533,
+        "narration_token": 19533,
+        "usage": 21838,
+        "done": 21838
+      },
+      "midStream": null,
+      "callsAfterTyping": 0,
+      "submitUtc": "2026-11-01T10:17:57.596Z",
+      "totalWallMs": 25287,
+      "formState": "done",
+      "timedOut": false,
+      "streamTimings": {
+        "ttftMs": 15836,
+        "firstElementMs": 10741,
+        "planMs": 9625,
+        "doneMs": 18141,
+        "tokens": 277,
+        "tokensPerSec": 120,
+        "elements": 4,
+        "transport": "sse"
+      },
+      "dataStreamTimings": "{\"ttftMs\":15836,\"firstElementMs\":10741,\"planMs\":9625,\"doneMs\":18141,\"tokens\":277,\"tokensPerSec\":120,\"elements\":4,\"transport\":\"sse\"}",
+      "chipText": "scenario-template:observation · ~120 tok/s (est.) · 20.9 s",
+      "typedText": 0,
+      "resultText": "Scene readyKane's Boxing Academy (AD City)",
+      "errorText": null,
+      "retryText": " Retry",
+      "retryHidden": true,
+      "staging": {
+        "scenario": "observation",
+        "elementTypes": [
+          "cctv_signal",
+          "perimeter_unit",
+          "crowd_zone"
+        ],
+        "model": {
+          "provider": "template",
+          "id": "scenario-template:observation",
+          "latencyMs": 9588,
+          "fallback": "template"
+        },
+        "timing": {
+          "specMs": 9588,
+          "overpassMs": 1116,
+          "routingMs": 0,
+          "geometryMs": 1,
+          "totalMs": 10705
+        },
+        "layerCounts": {
+          "areas": 2,
+          "lines": 0,
+          "points": 1,
+          "labels": 1
+        },
+        "icons": [
+          "crowd_zone"
+        ],
+        "notes": 0,
+        "timeline": 0
+      },
+      "locationResolution": {
+        "method": "perplexity-research+osm",
+        "precision": "address",
+        "approximate": true,
+        "confidence": 0.78,
+        "sourceCount": 3,
+        "name": "Kane's Boxing Academy (AD City)"
+      },
+      "anchor": {
+        "name": "Kane's Boxing Academy (AD City)",
+        "lat": 24.4850018,
+        "lon": 54.3586369,
+        "source": "openstreetmap",
+        "sourceUrl": "https://www.openstreetmap.org/way/27374404"
+      },
+      "verification": "location_approximate",
+      "sceneStaging": {
+        "status": "staged",
+        "counts": {
+          "focal": 1,
+          "crowd_zone": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1
+      },
+      "sceneStreamPreviewCount": 0,
+      "network": {
+        "api": 6,
+        "stream": 1,
+        "constructJson": 0,
+        "snapchat": 0,
+        "locate": 1
+      },
+      "midStreamScreenshot": null,
+      "inspect": {
+        "stagingBillboards": 1,
+        "billboardImages": {
+          "crowd_zone": 1
+        },
+        "onScreenBillboards": 1,
+        "badgeCount": 1,
+        "badgeVisible": true,
+        "locationBadge": "Approximate · 78% confidence",
+        "locationBadgeKind": "approximate",
+        "legendItems": [
+          "cctv_signal",
+          "perimeter_unit",
+          "crowd_zone"
+        ],
+        "builtLine": "Built with scenario template (no model) in 9588 ms · fallback",
+        "voiceStatus": "Idle",
+        "tooltipPresent": true
+      },
+      "screenshot": "after-kanes-boxing-gym-abu-dhabi-1440x900.png",
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404,
+          "utc": "2026-11-01T10:17:51.743Z"
+        }
+      ],
+      "failures": [],
+      "finishedUtc": "2026-11-01T10:23:29.062Z",
+      "result": "PASS"
+    },
+    {
+      "prompt": "im doing a raid in the dubai marina",
+      "viewport": "390x844",
+      "startedUtc": "2026-11-01T10:23:34.218Z",
+      "booted": true,
+      "callsStream": 1,
+      "callsJson": 0,
+      "constructError": null,
+      "sseEvents": {
+        "status": 6,
+        "thinking": 3,
+        "plan": 1,
+        "element_added": 261,
+        "snap_batch_progress": 1,
+        "narration_token": 248,
+        "usage": 1,
+        "done": 1
+      },
+      "firstSeenMs": {
+        "status": 156,
+        "thinking": 157,
+        "plan": 2621,
+        "element_added": 77397,
+        "snap_batch_progress": 91572,
+        "narration_token": 91572,
+        "usage": 93606,
+        "done": 93611
+      },
+      "midStream": {
+        "atMs": 77406,
+        "displayedText": 0,
+        "previewEntities": 19
+      },
+      "callsAfterTyping": 0,
+      "submitUtc": "2026-11-01T10:23:36.091Z",
+      "totalWallMs": 95991,
+      "formState": "done",
+      "timedOut": false,
+      "streamTimings": {
+        "ttftMs": 91461,
+        "firstElementMs": 77286,
+        "planMs": 2510,
+        "doneMs": 93500,
+        "tokens": 248,
+        "tokensPerSec": 122,
+        "elements": 261,
+        "transport": "sse"
+      },
+      "dataStreamTimings": "{\"ttftMs\":91461,\"firstElementMs\":77286,\"planMs\":2510,\"doneMs\":93500,\"tokens\":248,\"tokensPerSec\":122,\"elements\":261,\"transport\":\"sse\"}",
+      "chipText": "predefined-cerebras-qwen-3.8-27b · ~122 tok/s (est.) · 95.9 s",
+      "typedText": 0,
+      "resultText": "Scene readydubai marina",
+      "errorText": null,
+      "retryText": " Retry",
+      "retryHidden": true,
+      "staging": {
+        "scenario": "police_raid",
+        "elementTypes": [
+          "inner_cordon",
+          "outer_cordon",
+          "approach_route",
+          "egress_route",
+          "staging_point",
+          "perimeter_unit",
+          "cones",
+          "barriers",
+          "cctv_signal"
+        ],
+        "model": {
+          "provider": "ondemand",
+          "id": "predefined-cerebras-qwen-3.8-27b",
+          "endpointId": "predefined-cerebras-qwen-3.8-27b",
+          "latencyMs": 2474
+        },
+        "timing": {
+          "specMs": 2474,
+          "overpassMs": 0,
+          "routingMs": 1,
+          "geometryMs": 94,
+          "totalMs": 2569
+        },
+        "layerCounts": {
+          "areas": 3,
+          "lines": 4,
+          "points": 246,
+          "labels": 8
+        },
+        "icons": [
+          "cone",
+          "barrier",
+          "police_unit",
+          "staging_point",
+          "egress"
+        ],
+        "notes": 0,
+        "timeline": 0
+      },
+      "locationResolution": {
+        "method": "verified-geocoder",
+        "precision": "exact",
+        "approximate": false,
+        "confidence": 0.95,
+        "sourceCount": 0,
+        "name": "dubai marina"
+      },
+      "anchor": {
+        "name": "dubai marina",
+        "lat": 25.0786415,
+        "lon": 55.1352524,
+        "source": "geocode_place",
+        "sourceUrl": "https://nominatim.openstreetmap.org/search"
+      },
+      "verification": "location_verified",
+      "sceneStaging": {
+        "status": "staged",
+        "counts": {
+          "focal": 1,
+          "inner_cordon": 1,
+          "outer_cordon": 1,
+          "approach_route": 3,
+          "egress_route": 1,
+          "cones": 160,
+          "barriers": 80,
+          "perimeter_unit": 4,
+          "staging_point": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1
+      },
+      "sceneStreamPreviewCount": 0,
+      "network": {
+        "api": 5,
+        "stream": 1,
+        "constructJson": 0,
+        "snapchat": 0,
+        "locate": 1
+      },
+      "midStreamScreenshot": {
+        "file": "mid-stream-im-doing-a-raid-in-the-dubai-marina-390x844.png",
+        "utc": "2026-11-01T10:24:55.113Z"
+      },
+      "inspect": {
+        "stagingBillboards": 246,
+        "billboardImages": {
+          "cone": 160,
+          "barrier": 80,
+          "police_unit": 4,
+          "staging_point": 1,
+          "egress": 1
+        },
+        "onScreenBillboards": 246,
+        "badgeCount": 1,
+        "badgeVisible": true,
+        "locationBadge": "Verified · 95% confidence",
+        "locationBadgeKind": "verified",
+        "legendItems": [
+          "inner_cordon",
+          "outer_cordon",
+          "approach_route",
+          "egress_route",
+          "staging_point",
+          "perimeter_unit",
+          "cones",
+          "barriers",
+          "cctv_signal"
+        ],
+        "builtLine": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 2474 ms",
+        "voiceStatus": "Idle",
+        "tooltipPresent": true
+      },
+      "screenshot": "after-im-doing-a-raid-in-the-dubai-marina-390x844.png",
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404,
+          "utc": "2026-11-01T10:23:30.011Z"
+        }
+      ],
+      "failures": [],
+      "finishedUtc": "2026-11-01T10:25:15.970Z",
+      "timeWindow": {
+        "ok": true,
+        "selected": "6",
+        "sameScene": true,
+        "before": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22dubai%20marina%22%2C25.0786415%2C55.1352524%5D-plan-ead91ad1bd251863",
+        "after": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22dubai%20marina%22%2C25.0786415%2C55.1352524%5D-plan-ead91ad1bd251863",
+        "networkAfterChange": {
+          "api": 1,
+          "stream": 0,
+          "constructJson": 0,
+          "snapchat": 0,
+          "locate": 0
+        }
+      },
+      "result": "PASS"
+    },
+    {
+      "prompt": "Burj Al Arab police raid",
+      "viewport": "390x844",
+      "startedUtc": "2026-11-01T10:25:28.234Z",
+      "booted": true,
+      "callsStream": 1,
+      "callsJson": 0,
+      "constructError": null,
+      "sseEvents": {
+        "status": 7,
+        "thinking": 4,
+        "plan": 1,
+        "element_added": 134,
+        "snap_batch_progress": 1,
+        "narration_token": 228,
+        "usage": 1,
+        "done": 1
+      },
+      "firstSeenMs": {
+        "status": 3911,
+        "thinking": 3911,
+        "plan": 7013,
+        "element_added": 70633,
+        "snap_batch_progress": 85314,
+        "narration_token": 85314,
+        "usage": 87130,
+        "done": 87138
+      },
+      "midStream": {
+        "atMs": 70645,
+        "displayedText": 0,
+        "previewEntities": 19
+      },
+      "callsAfterTyping": 0,
+      "submitUtc": "2026-11-01T10:25:29.758Z",
+      "totalWallMs": 90271,
+      "formState": "done",
+      "timedOut": false,
+      "streamTimings": {
+        "ttftMs": 81435,
+        "firstElementMs": 66754,
+        "planMs": 3134,
+        "doneMs": 83259,
+        "tokens": 228,
+        "tokensPerSec": 126,
+        "elements": 134,
+        "transport": "sse"
+      },
+      "dataStreamTimings": "{\"ttftMs\":81435,\"firstElementMs\":66754,\"planMs\":3134,\"doneMs\":83259,\"tokens\":228,\"tokensPerSec\":126,\"elements\":134,\"transport\":\"sse\"}",
+      "chipText": "predefined-cerebras-qwen-3.8-27b · ~126 tok/s (est.) · 86.0 s",
+      "typedText": 0,
+      "resultText": "Scene readyBurj Al Arab",
+      "errorText": null,
+      "retryText": " Retry",
+      "retryHidden": true,
+      "staging": {
+        "scenario": "police_raid",
+        "elementTypes": [
+          "inner_cordon",
+          "outer_cordon",
+          "approach_route",
+          "egress_route",
+          "staging_point",
+          "perimeter_unit",
+          "cones",
+          "barriers",
+          "cctv_signal"
+        ],
+        "model": {
+          "provider": "ondemand",
+          "id": "predefined-cerebras-qwen-3.8-27b",
+          "endpointId": "predefined-cerebras-qwen-3.8-27b",
+          "latencyMs": 3105
+        },
+        "timing": {
+          "specMs": 3105,
+          "overpassMs": 0,
+          "routingMs": 9,
+          "geometryMs": 51,
+          "totalMs": 3166
+        },
+        "layerCounts": {
+          "areas": 3,
+          "lines": 4,
+          "points": 119,
+          "labels": 8
+        },
+        "icons": [
+          "cone",
+          "barrier",
+          "police_unit",
+          "perimeter_unit",
+          "staging_point",
+          "egress"
+        ],
+        "notes": 0,
+        "timeline": 0
+      },
+      "locationResolution": {
+        "method": "perplexity-research+osm",
+        "precision": "exact",
+        "approximate": false,
+        "confidence": 0.94,
+        "sourceCount": 2,
+        "name": "Burj Al Arab"
+      },
+      "anchor": {
+        "name": "Burj Al Arab",
+        "lat": 25.1413271,
+        "lon": 55.1853967,
+        "source": "openstreetmap",
+        "sourceUrl": "https://www.openstreetmap.org/way/12700546"
+      },
+      "verification": "location_verified",
+      "sceneStaging": {
+        "status": "staged",
+        "counts": {
+          "focal": 1,
+          "inner_cordon": 1,
+          "outer_cordon": 1,
+          "approach_route": 3,
+          "egress_route": 1,
+          "cones": 60,
+          "barriers": 49,
+          "perimeter_unit": 8,
+          "staging_point": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1
+      },
+      "sceneStreamPreviewCount": 0,
+      "network": {
+        "api": 6,
+        "stream": 1,
+        "constructJson": 0,
+        "snapchat": 0,
+        "locate": 1
+      },
+      "midStreamScreenshot": {
+        "file": "mid-stream-burj-al-arab-police-raid-390x844.png",
+        "utc": "2026-11-01T10:26:41.916Z"
+      },
+      "inspect": {
+        "stagingBillboards": 119,
+        "billboardImages": {
+          "cone": 60,
+          "barrier": 49,
+          "police_unit": 3,
+          "perimeter_unit": 5,
+          "staging_point": 1,
+          "egress": 1
+        },
+        "onScreenBillboards": 110,
+        "badgeCount": 1,
+        "badgeVisible": true,
+        "locationBadge": "Verified · 94% confidence",
+        "locationBadgeKind": "verified",
+        "legendItems": [
+          "inner_cordon",
+          "outer_cordon",
+          "approach_route",
+          "egress_route",
+          "staging_point",
+          "perimeter_unit",
+          "cones",
+          "barriers",
+          "cctv_signal"
+        ],
+        "builtLine": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 3105 ms",
+        "voiceStatus": "Idle",
+        "tooltipPresent": true
+      },
+      "screenshot": "after-burj-al-arab-police-raid-390x844.png",
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404,
+          "utc": "2026-11-01T10:25:24.888Z"
+        }
+      ],
+      "failures": [],
+      "finishedUtc": "2026-11-01T10:27:03.417Z",
+      "result": "PASS"
+    }
+  ],
+  "extra": {},
+  "summary": {
+    "pass": 5,
+    "fail": 1
+  },
+  "finishedUtc": "2026-11-01T10:27:03.458Z"
+}

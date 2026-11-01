@@ -1,0 +1,25 @@
+local dev-server (server/serverless/dev-server.mjs, port 5178) — POST /api/ondemand/v2/scene-plans/construct/stream — captured 2026-11-01T09:51:00Z
+prompt: im doing a raid in the dubai marina
+event counts:
+      1 done
+    261 element_added
+    226 narration_token
+      1 plan
+      1 snap_batch_progress
+      7 status
+      4 thinking
+      1 usage
+first-seen (UTC wall clock):
+09:48:43.054 status
+09:48:46.566 plan
+09:50:30.005 element_added
+09:50:41.253 narration_token
+09:50:43.080 usage
+09:50:43.086 done
+heartbeat comments: 8
+sample narration_token data lines:
+09:50:41.254 data: {"token":"A ","index":0,"synthetic":true,"t":"2026-11-01T09:50:41.239Z","elapsedMs":118208}
+09:50:41.260 data: {"token":"wide, ","index":1,"synthetic":true,"t":"2026-11-01T09:50:41.247Z","elapsedMs":118216}
+09:50:41.265 data: {"token":"elev","index":2,"synthetic":true,"t":"2026-11-01T09:50:41.255Z","elapsedMs":118224}
+09:50:41.270 data: {"token":"ated","index":3,"synthetic":true,"t":"2026-11-01T09:50:41.263Z","elapsedMs":118232}
+09:50:41.275 data: {"token":" ","index":4,"synthetic":true,"t":"2026-11-01T09:50:41.271Z","elapsedMs":118240}
