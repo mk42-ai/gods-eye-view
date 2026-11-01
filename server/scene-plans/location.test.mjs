@@ -10,6 +10,7 @@ import {
   locationResearchPrompt,
   withBranch,
   trailingPlace,
+  stripScenarioTerms,
 } from './location.js';
 import { createScenePlanService } from './index.js';
 import { createSceneFootageControls } from '../../src/incidents/ui/sceneFootageControls.js';
@@ -621,4 +622,26 @@ test('Snapchat strict scope is optional, separate and cannot gate a build', () =
   nodes.find((n) => n.id === 'scene-snapchat-discover').emit('click');
   assert.equal(events.length, 0);
   control.destroy();
+});
+
+test('scenario vocabulary never becomes a geocoder query (live defect 2026-11-01: "police raid" matched a Mumbai locality)', () => {
+  assert.equal(
+    stripScenarioTerms('kanes boxing gym abu dhabi police raid'),
+    'kanes boxing gym abu dhabi',
+  );
+  assert.equal(
+    stripScenarioTerms('im doing a raid in the dubai marina'),
+    'dubai marina',
+  );
+  assert.equal(stripScenarioTerms('police raid at Burj Al Arab'), 'Burj Al Arab');
+  assert.deepEqual(
+    trailingPlace('kanes boxing gym abu dhabi police raid').slice(0, 1),
+    ['abu dhabi'],
+  );
+  assert.deepEqual(trailingPlace('im doing a raid in the dubai marina'), [
+    'dubai marina',
+    'marina',
+  ]);
+  for (const guess of trailingPlace('kanes boxing gym abu dhabi police raid'))
+    assert.doesNotMatch(guess, /police|raid/);
 });

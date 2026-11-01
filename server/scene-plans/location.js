@@ -408,15 +408,37 @@ ${LOCATION_RESEARCH_SCHEMA}
 INPUT ${JSON.stringify({ prompt: String(prompt).slice(0, 4000), locationHint: hint ? { name: hint.name, lat: hint.lat ?? null, lon: hint.lon ?? null, verified: false } : null, recordingWindow: selectedTime ?? null })}`;
 }
 
+/**
+ * Scenario vocabulary is never a place name: "kanes boxing gym abu dhabi police
+ * raid" must geocode "abu dhabi", not "police raid" (which once matched a
+ * "Railway Police" locality in Mumbai and pushed the scene outside the AOI).
+ */
+const SCENARIO_WORDS =
+  /\b(?:police|raid|raided|raiding|bust|swat|warrant|arrest|operation|cordon|perimeter|closure|closed|detour|motorcade|convoy|observation|observe|surveillance|cctv|camera|scene|build|illustrative|i'?m|im|we'?re|doing|planning|going|to|do|a|an|the|at|in|near|around|on|for|of|from)\b/gi;
+export function stripScenarioTerms(text) {
+  return clean(
+    String(text ?? '')
+      .replace(SCENARIO_WORDS, ' ')
+      .replace(/\s+/g, ' ')
+      .trim(),
+    300,
+  );
+}
+
 /** Place-name ladder hint from free text: last 1–3 words often name the city ("… abu dhabi"). */
 export function trailingPlace(text) {
-  const words = clean(String(text ?? '').split(/\r?\n/)[0], 300)
-    .replace(/^(?:location|place)\s*:\s*/i, '')
+  const words = stripScenarioTerms(
+    clean(String(text ?? '').split(/\r?\n/)[0], 300).replace(
+      /^(?:location|place)\s*:\s*/i,
+      '',
+    ),
+  )
     .split(/[\s,]+/)
     .filter(Boolean);
   const out = [];
   for (const n of [2, 3, 1])
-    if (words.length > n) out.push(words.slice(-n).join(' '));
+    if (words.length >= n && !out.includes(words.slice(-n).join(' ')))
+      out.push(words.slice(-n).join(' '));
   return out;
 }
 
@@ -576,17 +598,13 @@ export function createLocationResolver({
       limit: 5,
     });
     const want = tokens(city);
-    const hit =
-      hits.find(
-        (h) =>
-          PLACE_TYPES.has(h.type) &&
-          want.every(
-            (w) =>
-              tokens(h.displayName).includes(w) || tokens(h.name).includes(w),
-          ),
-      ) ||
-      hits.find((h) => PLACE_TYPES.has(h.type)) ||
-      null;
+    const matches = (h) =>
+      want.every(
+        (w) => tokens(h.displayName).includes(w) || tokens(h.name).includes(w),
+      );
+    // A city guess must match its own tokens: a loose "any place" fallback once
+    // turned a scenario phrase into an unrelated locality in another country.
+    const hit = hits.find((h) => PLACE_TYPES.has(h.type) && matches(h)) || null;
     return hit;
   }
 
@@ -741,12 +759,14 @@ export function createLocationResolver({
         features: [],
         citations: [],
       };
-      const promptPlace = clean(
+      const promptLine = clean(
         String(prompt)
           .split(/\r?\n/)[0]
           .replace(/^(?:location|place)\s*:\s*/i, ''),
         200,
       );
+      // Geocoder queries never carry scenario words ("police raid", "im doing a").
+      const promptPlace = stripScenarioTerms(promptLine) || promptLine;
       const countryCode = data.area?.countryCode || '';
       // City/area context: research area, else the first location's city, else the prompt's trailing words.
       let city =
