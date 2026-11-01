@@ -27,6 +27,14 @@ import {
 import { createSpecModel } from './specModel.js';
 import { createSceneEngine } from './engine.js';
 import { createSceneEventStream, tokenizeNarration } from './stream.js';
+import { createModelRegistry } from '../ondemand/runtime/model-registry.js';
+import { createSessionManager } from '../ondemand/runtime/sessions.js';
+import { createCinematicDirector } from './director.js';
+import { createSceneQa } from './qa.js';
+import { createCinematicMiddleware } from './cinematic-routes.js';
+import { legacyPlanFromCinematic } from './legacy-plan.js';
+import { RUNTIME_MODES } from '../../src/cinematic/events.js';
+import { applyScenePatch } from '../../src/cinematic/sceneSchema.js';
 
 const GEOMETRY_BUDGET_MS = 180000;
 async function withGeometryBudget(promise, signal, budgetMs) {
@@ -241,7 +249,37 @@ export function createScenePlanService(options = {}) {
       : typeof options.locationResolver === 'function'
         ? options.locationResolver
         : createLocationResolver({ transport, ...options.locationOptions });
+  // Live Cinematic Intelligence Engine (2026-11-01): the Cinematic Director
+  // streams a validated scene (NDJSON over OnDemand responseMode:'stream',
+  // Cerebras-first via the live model registry). It is the PRIMARY planner;
+  // the synchronous legacy planner LLM remains the fallback only when the
+  // director fails. Injected-transport unit tests keep the legacy path unless
+  // they pass `director`.
+  const runtime = {
+    registry: options.registry ?? null,
+    sessions: options.sessions ?? null,
+    director: options.director ?? null,
+    qa: options.qa ?? null,
+  };
+  const directorEnabled =
+    options.director === false
+      ? false
+      : Boolean(options.director) || !options.transport;
+  if (directorEnabled && !runtime.director) {
+    runtime.registry ||= createModelRegistry({ env: options.env });
+    runtime.sessions ||= createSessionManager();
+    runtime.director = createCinematicDirector({
+      registry: runtime.registry,
+      sessions: runtime.sessions,
+    });
+    runtime.qa ||= createSceneQa({
+      registry: runtime.registry,
+      sessions: runtime.sessions,
+    });
+  }
+  const directorBudgetMs = options.directorBudgetMs ?? 90000;
   return {
+    runtime,
     health: () => ({
       ok: true,
       service: 'scene-plans',
@@ -266,6 +304,18 @@ export function createScenePlanService(options = {}) {
         ...DEFAULT_NARRATION_CONFIG,
         requiresFreshProviderAudio: true,
       },
+      cinematic: {
+        enabled: Boolean(runtime.director),
+        transport: 'ondemand responseMode:stream (NDJSON director lines)',
+        modelRegistry: 'GET /config/v1/public/endpoints (live, cached 5 min)',
+        routes: [
+          '/models',
+          '/models/check',
+          '/director/stream',
+          '/qa',
+          '/patch/validate',
+        ],
+      },
     }),
     async construct(
       body,
@@ -279,7 +329,15 @@ export function createScenePlanService(options = {}) {
         'revision',
         'requestId',
         'lastEventId',
+        'endpointId',
+        'cinematic',
       ]);
+      if (
+        body.endpointId !== undefined &&
+        (typeof body.endpointId !== 'string' ||
+          !/^[A-Za-z0-9_.:/-]{1,120}$/.test(body.endpointId))
+      )
+        inputError('endpointId must be a short endpoint identifier.');
       if (
         typeof body.prompt !== 'string' ||
         body.prompt.trim().length < 3 ||
@@ -424,6 +482,115 @@ export function createScenePlanService(options = {}) {
         })();
       }
       geometryPromise.catch(() => {});
+      // ---- Cinematic Director (streamed, Cerebras-first) ------------------
+      // Runs BEFORE the legacy planner. Success → the legacy plan is DERIVED
+      // from the validated cinematic scene (no second LLM call). Failure →
+      // the legacy synchronous planner below runs unchanged.
+      let cinematic = null;
+      let cinematicError = null;
+      let directorPromise = Promise.resolve(null);
+      let directorEmitRef = null;
+      const directorSceneId = `scene-${clientRequestId || body.requestId || randomUUID()}`;
+      if (runtime.director && body.cinematic !== false) {
+        const directorStart = Date.now();
+        // Stage B starts the moment the anchor is known: the director does NOT
+        // wait for event research, Overpass or OSRM. Researched routes arrive
+        // later as Stage E enrichment patches (add_route, provenance research).
+        const researchedRoutes = [];
+        const sceneId = directorSceneId;
+        let directorSeq = 0;
+        let directorSceneVersion = 0;
+        const directorEmit = (event, data) => {
+          directorSeq += 1;
+          if (event === 'scene.patch' || event === 'scene.object.created')
+            directorSceneVersion += 1;
+          emit(event, {
+            runId: clientRequestId || body.requestId || sceneId,
+            sceneId,
+            sceneVersion: directorSceneVersion,
+            seq: directorSeq,
+            ...(data && typeof data === 'object' ? data : { value: data }),
+          });
+        };
+        directorEmitRef = directorEmit;
+        directorEmit('run.started', {
+          mode: RUNTIME_MODES.SIMULATION,
+          origin: {
+            name: anchor.name,
+            lat: anchor.lat,
+            lon: anchor.lon,
+            approximate: resolution.approximate === true,
+          },
+          title: prompt.slice(0, 120),
+        });
+        emit('status', {
+          stage: 'planning',
+          text: 'Cinematic Director streaming scene instructions',
+        });
+        directorPromise = (async () => {
+          try {
+            const directed = await Promise.race([
+              runtime.director.direct({
+                prompt,
+                origin: {
+                  name: anchor.name,
+                  lat: anchor.lat,
+                  lon: anchor.lon,
+                  approximate: resolution.approximate === true,
+                  ...(resolution.precision
+                    ? { precision: String(resolution.precision).slice(0, 40) }
+                    : {}),
+                  ...(Number.isFinite(resolution.confidence)
+                    ? { confidence: resolution.confidence }
+                    : {}),
+                  ...(anchor.sourceUrl ? { sourceUrl: anchor.sourceUrl } : {}),
+                },
+                researchedRoutes,
+                sceneId,
+                runId: clientRequestId || body.requestId || sceneId,
+                endpointId:
+                  typeof body.endpointId === 'string' && body.endpointId
+                    ? body.endpointId.slice(0, 120)
+                    : undefined,
+                signal,
+                emit: directorEmit,
+              }),
+              new Promise((_, reject) =>
+                setTimeout(
+                  () => reject(new Error('director time budget exceeded')),
+                  directorBudgetMs,
+                ),
+              ),
+            ]);
+            const scene = directed.scene;
+            cinematic = {
+              scene,
+              model: directed.model,
+              invalidLines: directed.invalidLines || [],
+              repairs: directed.repairs || 0,
+              assetSubstitutions: directed.assetSubstitutions || [],
+              directorMs: Date.now() - directorStart,
+            };
+            directorEmit('scene.ready', {
+              entities: scene.entities.length,
+              shots: scene.shots.length,
+              beats: scene.timeline.beats.length,
+            });
+          } catch (error) {
+            if (signal?.aborted) throw error;
+            cinematicError = {
+              code: String(error?.code || 'director_failed').slice(0, 80),
+              message: String(error?.message || 'director failed').slice(
+                0,
+                300,
+              ),
+            };
+            directorEmit('run.failed', cinematicError);
+          }
+          return cinematic;
+        })();
+        directorPromise.catch(() => {});
+      }
       const evidence = await research({
         prompt,
         candidate: anchor,
@@ -544,10 +711,193 @@ export function createScenePlanService(options = {}) {
         lon: anchor.lon,
         ...(anchor.sourceUrl ? { sourceUrl: anchor.sourceUrl } : {}),
       };
-      const session = await transport.createSession([], { signal });
       const groundedFeatures = geometry
         ? featureOffsets(geometry, location)
         : [];
+      // ---- Cinematic Director result (started right after the anchor) -----
+      await directorPromise;
+      // An EXPLICIT model choice that is not available is a hard failure: the
+      // legacy planner must not silently answer with a different model.
+      if (
+        !cinematic &&
+        cinematicError &&
+        typeof body.endpointId === 'string' &&
+        body.endpointId &&
+        cinematicError.code === 'model_unavailable'
+      )
+        throw new SceneServiceError(
+          400,
+          'model_unavailable',
+          cinematicError.message,
+          { endpointId: body.endpointId.slice(0, 120) },
+        );
+      if (cinematic && directorEmitRef) {
+        cinematic.scene = {
+          ...cinematic.scene,
+          provenance: {
+            ...cinematic.scene.provenance,
+            citations: citations.slice(0, 60),
+          },
+        };
+        // Stage E enrichment: researched routes (Perplexity + OSM/OSRM grounded)
+        // become real route lines in the cinematic scene via a validated patch.
+        const researchedRoutes = (geometry?.features || [])
+          .filter(
+            (f) => f.kind === 'route' && f.geometry?.coordinates?.length >= 2,
+          )
+          .slice(0, 6);
+        if (researchedRoutes.length) {
+          const patch = {
+            patchId: `patch-${randomUUID()}`,
+            sceneId: cinematic.scene.sceneId,
+            baseVersion: cinematic.scene.sceneVersion,
+            reason:
+              'Stage E enrichment: researched routes grounded on OpenStreetMap',
+            source: 'system',
+            ops: researchedRoutes.map((f, i) => ({
+              op: 'add_route',
+              route: {
+                id: `research-route-${i + 1}`,
+                label: String(f.name || `Researched route ${i + 1}`).slice(
+                  0,
+                  48,
+                ),
+                kind: 'race_route',
+                coordinates: f.geometry.coordinates
+                  .slice(0, 2000)
+                  .map(([lon, lat]) => [lon, lat]),
+                closed: false,
+                provenance: {
+                  kind: 'research',
+                  sourceRef: String(
+                    f.provenance?.source || f.source || 'osm',
+                  ).slice(0, 200),
+                  note: 'Perplexity research grounded on OpenStreetMap/OSRM',
+                },
+                uncertainty: 'approximate',
+              },
+            })),
+          };
+          try {
+            const applied = applyScenePatch(cinematic.scene, patch);
+            if (applied.applied.length) {
+              cinematic.scene = applied.scene;
+              directorEmitRef('scene.patch', { patch, stage: 'E' });
+            }
+          } catch {
+            /* enrichment is best-effort; the scene stays valid without it */
+          }
+        }
+      }
+      if (cinematic) {
+        // Derive the legacy plan deterministically; no second LLM round-trip.
+        let plan;
+        try {
+          plan = legacyPlanFromCinematic(cinematic.scene, {
+            location,
+            verification,
+            citations,
+          });
+        } catch (error) {
+          cinematicError = {
+            code: 'legacy_plan_derivation_failed',
+            message: String(error?.message || error).slice(0, 300),
+          };
+          cinematic = null;
+        }
+        if (plan) {
+          const staging = await stagingPromise.catch((error) => {
+            if (signal?.aborted) throw error;
+            return null;
+          });
+          emit('snap_batch_progress', {
+            available: false,
+            reason: 'snapchat discovery is explicit-only',
+          });
+          emit('status', {
+            stage: 'finalizing',
+            text: 'Finalizing cinematic scene',
+          });
+          const requestId = clientRequestId || body.requestId || randomUUID();
+          const finalResult = {
+            ok: true,
+            plan,
+            cinematic: cinematic.scene,
+            ...(geometry ? { geometry } : {}),
+            ...(staging ? { staging } : {}),
+            ...(stagingError ? { stagingError } : {}),
+            ...(specModel?.config().credentialRequest
+              ? { credentialRequest: specModel.config().credentialRequest }
+              : {}),
+            locationResolution: resolution,
+            anchor: {
+              name: anchor.name,
+              lat: anchor.lat,
+              lon: anchor.lon,
+              source: anchor.source,
+              ...(anchor.sourceUrl ? { sourceUrl: anchor.sourceUrl } : {}),
+            },
+            revision,
+            requestId,
+            research: evidence,
+            provenance: {
+              provider: 'OnDemand',
+              validated: true,
+              attempts: 1 + (cinematic.repairs || 0),
+              planner: 'cinematic-director',
+              model: {
+                endpointId: cinematic.model.endpointId,
+                modelId: cinematic.model.modelId,
+                provider: cinematic.model.provider,
+                ttftMs: cinematic.model.ttftMs,
+                tokensPerSec: cinematic.model.tokensPerSec,
+                outputTokens: cinematic.model.outputTokens,
+                visibleTokensPerSecEst: cinematic.model.visibleTokensPerSecEst,
+                latencyMs: cinematic.model.latencyMs,
+                requested: SCENE_PLAN_MODEL_DEFAULT.requested,
+              },
+              director: {
+                directorMs: cinematic.directorMs,
+                invalidLines: cinematic.invalidLines.length,
+                repairs: cinematic.repairs,
+                assetSubstitutions: cinematic.assetSubstitutions.length,
+              },
+              ...(locationProvenance
+                ? { locationResearch: locationProvenance }
+                : {}),
+            },
+          };
+          emit('usage', {
+            tokensEstimated: cinematic.model.outputTokens ?? null,
+            method: cinematic.model.outputTokens
+              ? 'provider publicMetrics.outputTokens'
+              : 'unavailable',
+            modelId: cinematic.model.endpointId,
+            plannerMs: cinematic.directorMs,
+          });
+          emit('run.completed', {
+            runId: requestId,
+            sceneId: cinematic.scene.sceneId,
+            sceneVersion: cinematic.scene.sceneVersion,
+            scene: cinematic.scene,
+            model: cinematic.model,
+            metrics: {
+              ttftMs: cinematic.model.ttftMs ?? null,
+              totalMs: cinematic.directorMs,
+              invalidLines: cinematic.invalidLines.length,
+              repairs: cinematic.repairs,
+            },
+          });
+          emit('done', { result: finalResult });
+          return finalResult;
+        }
+      }
+      // ---- Legacy synchronous planner (fallback) --------------------------
+      if (cinematicError)
+        emit('thinking', {
+          note: `Cinematic Director unavailable (${cinematicError.code}); using legacy planner`,
+        });
+      const session = await transport.createSession([], { signal });
       const context = {
         prompt,
         location,
@@ -670,6 +1020,8 @@ export function createScenePlanService(options = {}) {
               sessionId: result.sessionId,
               messageId: result.messageId,
               validated: true,
+              planner: 'legacy-sync',
+              ...(cinematicError ? { directorError: cinematicError } : {}),
               attempts: attempt + 1,
               model: {
                 endpointId: result.endpointId || model.endpointId,
@@ -750,6 +1102,7 @@ function send(res, status, body) {
 /** Connect/Node middleware; parent owns mounting at SCENE_PLAN_API_PATH. */
 export function createScenePlanMiddleware(options = {}) {
   const service = options.service ?? createScenePlanService(options);
+  let cinematicRoutes = null;
   return async (req, res) => {
     const controller = new AbortController();
     const disconnected = () => {
@@ -770,6 +1123,27 @@ export function createScenePlanMiddleware(options = {}) {
         );
       if (path === '/health' && req.method === 'GET')
         return send(res, 200, service.health());
+      if (
+        path === '/models' ||
+        path === '/models/check' ||
+        path === '/director/stream' ||
+        path === '/qa' ||
+        path === '/patch/validate'
+      ) {
+        cinematicRoutes ||= createCinematicMiddleware({
+          registry: service.runtime?.registry || undefined,
+          sessions: service.runtime?.sessions || undefined,
+          director: service.runtime?.director || undefined,
+          qa: service.runtime?.qa || undefined,
+        });
+        const original = req.url;
+        req.url = path;
+        try {
+          return await cinematicRoutes(req, res);
+        } finally {
+          req.url = original;
+        }
+      }
       if (
         !['/construct', '/construct/stream', '/narration', '/health'].includes(
           path,

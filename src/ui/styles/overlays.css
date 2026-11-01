@@ -315,7 +315,11 @@
   width: min(52vw, 720px);
   transform: translateX(-50%);
   border-color: rgba(255, 255, 255, 0.24);
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(128, 129, 130, 0.18));
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.56),
+    rgba(128, 129, 130, 0.18)
+  );
   box-shadow: 0 0 24px transparent;
 }
 

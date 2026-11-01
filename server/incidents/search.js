@@ -246,13 +246,18 @@ function searchFailure(error, phase, deadline) {
   // Only the HTTP error type establishes an upstream response status. In
   // particular, OnDemandAbortError's 499/504 are local synthetic statuses.
   if (
-    (error instanceof OnDemandHttpError || error?.name === 'OnDemandHttpError') &&
-    Number.isInteger(error.status) && error.status >= 400 && error.status <= 599
+    (error instanceof OnDemandHttpError ||
+      error?.name === 'OnDemandHttpError') &&
+    Number.isInteger(error.status) &&
+    error.status >= 400 &&
+    error.status <= 599
   ) {
     const traceId =
       typeof error.meta?.traceId === 'string'
-        ? text(redact(error.meta.traceId, config.apiKey), 128)
-            .replace(/[\u0000-\u001f\u007f]/g, '')
+        ? text(redact(error.meta.traceId, config.apiKey), 128).replace(
+            /[\u0000-\u001f\u007f]/g,
+            '',
+          )
         : '';
     return {
       ...details,
@@ -265,8 +270,10 @@ function searchFailure(error, phase, deadline) {
   }
   const reason = deadline.signal.aborted ? deadline.signal.reason : error;
   const timedOut =
-    error?.reason === 'timeout' || error?.name === 'TimeoutError' ||
-    reason?.reason === 'timeout' || reason?.name === 'TimeoutError';
+    error?.reason === 'timeout' ||
+    error?.name === 'TimeoutError' ||
+    reason?.reason === 'timeout' ||
+    reason?.name === 'TimeoutError';
   if (timedOut) {
     return {
       ...details,
@@ -277,8 +284,10 @@ function searchFailure(error, phase, deadline) {
     };
   }
   if (
-    deadline.signal.aborted || error instanceof OnDemandAbortError ||
-    error?.name === 'OnDemandAbortError' || error?.name === 'AbortError'
+    deadline.signal.aborted ||
+    error instanceof OnDemandAbortError ||
+    error?.name === 'OnDemandAbortError' ||
+    error?.name === 'AbortError'
   ) {
     return {
       ...details,
@@ -291,9 +300,11 @@ function searchFailure(error, phase, deadline) {
     ...details,
     error: text(redact(error?.message || 'search_failed', config.apiKey), 180),
     errorOrigin:
-      error?.name === 'ValidationError' ? 'local_validation' :
-      error?.name === 'OnDemandNotConfiguredError' ? 'local_configuration' :
-      'unknown',
+      error?.name === 'ValidationError'
+        ? 'local_validation'
+        : error?.name === 'OnDemandNotConfiguredError'
+          ? 'local_configuration'
+          : 'unknown',
   };
 }
 
@@ -303,12 +314,22 @@ function unavailableMessage(outputs) {
     reasons.push('the local time limit expired');
   if (outputs.some((o) => o.errorOrigin === 'local_cancel'))
     reasons.push('the caller cancelled the search');
-  const statuses = [...new Set(outputs
-    .filter((o) => o.errorOrigin === 'upstream_http')
-    .map((o) => o.upstreamStatus))].sort((a, b) => a - b);
-  if (statuses.length) reasons.push(`sources returned HTTP ${statuses.join(', ')}`);
-  if (outputs.some((o) => o.error === 'ondemand_not_configured' ||
-    o.errorOrigin === 'local_configuration'))
+  const statuses = [
+    ...new Set(
+      outputs
+        .filter((o) => o.errorOrigin === 'upstream_http')
+        .map((o) => o.upstreamStatus),
+    ),
+  ].sort((a, b) => a - b);
+  if (statuses.length)
+    reasons.push(`sources returned HTTP ${statuses.join(', ')}`);
+  if (
+    outputs.some(
+      (o) =>
+        o.error === 'ondemand_not_configured' ||
+        o.errorOrigin === 'local_configuration',
+    )
+  )
     reasons.push('source access is not configured');
   if (outputs.some((o) => o.error === 'inactive_source'))
     reasons.push('source access is inactive');
@@ -384,12 +405,18 @@ export async function searchIncidentsAt(
             deadline.signal.throwIfAborted();
             phase = 'parse_response';
             const result = parseSearchAnswer(response?.data?.answer);
-            const filtered = qualifyReports(result.incidents, scope, contract.name);
+            const filtered = qualifyReports(
+              result.incidents,
+              scope,
+              contract.name,
+            );
             return {
               ...source,
               ...filtered,
               status:
-                result.search_status === 'complete' ? 'ok' : result.search_status,
+                result.search_status === 'complete'
+                  ? 'ok'
+                  : result.search_status,
               note: text(result.note, 400),
               retrievedAtUtc: now().toISOString(),
               ...(result.search_status === 'unavailable'

@@ -126,5 +126,117 @@
   "height": 32,
   "pixelRatio": 1,
   "sdf": false
+ },
+ "vehicle_police_car": {
+  "x": 512,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_ambulance": {
+  "x": 544,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_fire_engine": {
+  "x": 576,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_civilian_sedan": {
+  "x": 608,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "aircraft_helicopter": {
+  "x": 640,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "aircraft_fixed_wing": {
+  "x": 672,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "person_runner": {
+  "x": 704,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "person_police_officer": {
+  "x": 736,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "signage_road_closed": {
+  "x": 768,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "effect_smoke_fire": {
+  "x": 800,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "alert_state_1": {
+  "x": 832,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "alert_state_2": {
+  "x": 864,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "alert_state_3": {
+  "x": 896,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "alert_state_4": {
+  "x": 928,
+  "y": 0,
+  "width": 32,
+  "height": 32,
+  "pixelRatio": 1,
+  "sdf": false
  }
 }

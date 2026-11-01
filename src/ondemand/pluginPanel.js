@@ -275,10 +275,16 @@ export function createPluginPanel(deps = {}) {
 
     if (chipLabelElement) {
       chipLabelElement.textContent = `Plugins · ${readyCount} ready`;
-      chipElement?.setAttribute?.('aria-label', `Plugins · ${readyCount} ready — open the plugins panel`);
+      chipElement?.setAttribute?.(
+        'aria-label',
+        `Plugins · ${readyCount} ready — open the plugins panel`,
+      );
     }
     if (chipDotElement) {
-      chipDotElement.setAttribute('data-state', readyCount > 0 ? 'ready' : 'idle');
+      chipDotElement.setAttribute(
+        'data-state',
+        readyCount > 0 ? 'ready' : 'idle',
+      );
     }
 
     for (const entry of plugins) {
@@ -439,7 +445,10 @@ export function createPluginPanel(deps = {}) {
       },
     });
     const chipIconElement = renderIcon(document, Puzzle);
-    chipIconElement.setAttribute?.('class', 'od-icon od-icon--puzzle od-plugins-chip__icon');
+    chipIconElement.setAttribute?.(
+      'class',
+      'od-icon od-icon--puzzle od-plugins-chip__icon',
+    );
 
     chipDotElement = el(document, 'span', {
       className: 'od-plugins-chip__dot',
@@ -479,7 +488,9 @@ export function createPluginPanel(deps = {}) {
     // Panel header
     const header = el(document, 'div', { className: 'od-plugins__header' });
 
-    const headerLeft = el(document, 'div', { className: 'od-plugins__header-left' });
+    const headerLeft = el(document, 'div', {
+      className: 'od-plugins__header-left',
+    });
     const headerTitle = el(document, 'span', {
       className: 'od-plugins__title',
       text: 'Plugins',

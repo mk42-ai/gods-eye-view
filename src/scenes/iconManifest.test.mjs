@@ -17,12 +17,16 @@ function hasPngSignature(buffer) {
   return buffer.length >= 8 && buffer.subarray(0, 8).equals(PNG_MAGIC);
 }
 
-test('manifest.json exists, has version 2, valid timestamp, and keys array', () => {
+test('manifest.json exists, has version 3, valid timestamp, and keys array', () => {
   const manifestPath = path.join(PUBLIC_DIR, 'manifest.json');
   assert.ok(fs.existsSync(manifestPath), 'manifest.json must exist');
 
   const content = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  assert.equal(content.version, 2, 'manifest version must be 2');
+  assert.equal(
+    content.version,
+    3,
+    'manifest version must be 3 (v3 adds @4x + 14 cinematic keys)',
+  );
   assert.ok(content.generatedAt, 'generatedAt must be present');
   assert.ok(
     !Number.isNaN(Date.parse(content.generatedAt)),
@@ -30,8 +34,8 @@ test('manifest.json exists, has version 2, valid timestamp, and keys array', () 
   );
   assert.ok(Array.isArray(content.keys), 'keys must be an array');
   assert.ok(
-    content.keys.length >= 16,
-    `expected at least 16 keys, got ${content.keys.length}`,
+    content.keys.length >= 30,
+    `expected at least 30 keys (16 legacy + 10 new sprites + 4 alert states), got ${content.keys.length}`,
   );
 
   const requiredKeys = [
@@ -51,6 +55,21 @@ test('manifest.json exists, has version 2, valid timestamp, and keys array', () 
     'route_start',
     'route_finish',
     'generic',
+    // 2026-11-01 cinematic batch
+    'vehicle_police_car',
+    'vehicle_ambulance',
+    'vehicle_fire_engine',
+    'vehicle_civilian_sedan',
+    'aircraft_helicopter',
+    'aircraft_fixed_wing',
+    'person_runner',
+    'person_police_officer',
+    'signage_road_closed',
+    'effect_smoke_fire',
+    'alert_state_1',
+    'alert_state_2',
+    'alert_state_3',
+    'alert_state_4',
   ];
 
   const presentKeys = content.keys.map((k) => k.key);

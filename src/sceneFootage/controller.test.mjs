@@ -707,9 +707,128 @@ test('places: narrowest of operator text / geocoder label / coordinate wins (Cor
 });
 
 test('mergeClips skips a near-identical re-upload on refresh (cycle 20)', () => {
-  const cur = [{ id: 'snap-a1', caption: 'Dubai Marina sunset walk', durationMs: 16100, publicationTime: '2026-09-09T17:13:12.000Z' }];
-  const inc = [{ id: 'snap-b2', caption: 'dubai marina — sunset walk!', durationMs: 16300, publicationTime: '2026-09-10T10:00:00.000Z' }];
+  const cur = [
+    {
+      id: 'snap-a1',
+      caption: 'Dubai Marina sunset walk',
+      durationMs: 16100,
+      publicationTime: '2026-09-09T17:13:12.000Z',
+    },
+  ];
+  const inc = [
+    {
+      id: 'snap-b2',
+      caption: 'dubai marina — sunset walk!',
+      durationMs: 16300,
+      publicationTime: '2026-09-10T10:00:00.000Z',
+    },
+  ];
   const { clips, added } = mergeClips(cur, inc, { selectedId: 'snap-a1' });
   assert.equal(added, 0);
-  assert.deepEqual(clips.map((c) => c.id), ['snap-a1']);
+  assert.deepEqual(
+    clips.map((c) => c.id),
+    ['snap-a1'],
+  );
+});
+
+test('panel: renders #scene-snapchat-metrics line with required format and unverified reason', async () => {
+  const doc = makeDoc();
+  const ctl = createFootageController({
+    now: () => NOW,
+    setTimer: () => 0,
+    clearTimer: () => {},
+    document: null,
+    fetch: async () =>
+      okRes({
+        state: 'ok',
+        locationId: 'snap-dubai-marina',
+        clips: [clip('AAAAAAAAAA', { tier: 'candidate' })],
+        counts: {
+          verified: 0,
+          candidate: 1,
+          raw: 4,
+          unique: 3,
+          variantsTried: 3,
+          truncatedVariants: 0,
+        },
+        metrics: {
+          requestsAttempted: 3,
+          requestsSucceeded: 3,
+          requestsFailed: 0,
+          results: 4,
+          unique: 3,
+          duplicates: 1,
+          relevant: 1,
+          batchState: 'unavailable (405)',
+          rateLimit: { state: 'ok' },
+        },
+      }),
+  });
+  const panel = createSceneFootagePanel({
+    document: doc,
+    controller: ctl,
+    now: () => NOW,
+    window: {},
+  });
+  await ctl.open({
+    lat: 25.0805,
+    lon: 55.1403,
+    placeName: 'Dubai Marina',
+  });
+
+  const metricsEl = find(
+    panel.element,
+    (n) => n.id === 'scene-snapchat-metrics',
+  );
+  assert.ok(metricsEl, '#scene-snapchat-metrics element exists in panel');
+  assert.equal(metricsEl.hidden, false);
+  assert.equal(
+    metricsEl.textContent,
+    'Requests 3 attempted · 3 ok · 0 failed · 4 results · 3 unique · 1 duplicates · 1 relevant · batch: unavailable (405) · rate limit: ok · unverified: no capture time / coordinates',
+  );
+});
+
+test('controller: calls injected onEvidencePatch when response carries patch', async () => {
+  const patchesReceived = [];
+  const fakePatch = {
+    patchId: 'patch-test-1',
+    sceneId: 'snap-dubai-marina',
+    baseVersion: 0,
+    source: 'intelligence',
+    ops: [
+      {
+        op: 'add_evidence',
+        evidence: { id: 'ev-1', source: 'snapchat', tier: 'candidate' },
+      },
+    ],
+    reason: 'Test',
+  };
+
+  const ctl = createFootageController({
+    now: () => NOW,
+    setTimer: () => 0,
+    clearTimer: () => {},
+    document: null,
+    onEvidencePatch: (patch, meta) => {
+      patchesReceived.push({ patch, meta });
+    },
+    fetch: async () =>
+      okRes({
+        state: 'ok',
+        locationId: 'snap-dubai-marina',
+        clips: [clip('AAAAAAAAAA')],
+        patch: fakePatch,
+        counts: { verified: 0, candidate: 1, raw: 1, unique: 1 },
+      }),
+  });
+
+  await ctl.open({
+    lat: 25.0805,
+    lon: 55.1403,
+    placeName: 'Dubai Marina',
+  });
+
+  assert.equal(patchesReceived.length, 1);
+  assert.equal(patchesReceived[0].patch.patchId, 'patch-test-1');
+  assert.equal(patchesReceived[0].meta.counts.unique, 1);
 });

@@ -205,7 +205,29 @@ export function createEventResearch({
       eventWords &&
       (/\b(?:19|20)\d{2}\b/.test(prompt) ||
         /\bdubai\s+marathon\b/i.test(prompt));
-    if (!eventWords || (explicitFiction && !datedNamedEvent)) {
+    // Cinematic Simulation intent (2026-11-01): "create / simulate / cinematic
+    // / visualisation / drill …" of a GENERIC event type ("a marathon", "a
+    // police response") is illustrative staging, not a factual claim about a
+    // real edition, so no Perplexity event lookup is needed — unless the
+    // prompt names a specific titled event (e.g. "Dubai Marathon", a year),
+    // which still goes through edition verification below.
+    const simulationIntent =
+      /\b(?:create|build|stage|simulate|simulation|cinematic|visuali[sz]ation|visuali[sz]e|illustrative|hypothetical|training|drill|exercise|mock|scenario)\b/i.test(
+        prompt,
+      );
+    const namedTitledEvent =
+      datedNamedEvent ||
+      /\b(?:dubai|abu\s+dhabi|sharjah|ras\s+al\s+khaimah|ajman|fujairah|umm\s+al\s+quwain|ras al khaimah)\s+(?:marathon|half\s+marathon|grand\s+prix|world\s+cup|championship|run|airshow|summit|expo)\b/i.test(
+        assertedEventText,
+      ) ||
+      /\b(?:standard\s+chartered|adnoc|rak)\s+(?:dubai\s+)?(?:marathon|half\s+marathon)\b/i.test(
+        assertedEventText,
+      );
+    if (
+      !eventWords ||
+      (explicitFiction && !datedNamedEvent) ||
+      (simulationIntent && !namedTitledEvent)
+    ) {
       return {
         kind: 'generic',
         status: 'generic',

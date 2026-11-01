@@ -311,7 +311,11 @@
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.09rem;
-  background: linear-gradient(180deg, rgba(162, 163, 164, 0.18), rgba(128, 129, 130, 0.18));
+  background: linear-gradient(
+    180deg,
+    rgba(162, 163, 164, 0.18),
+    rgba(128, 129, 130, 0.18)
+  );
   border: none;
   border-radius: 0.38rem;
   cursor: pointer;

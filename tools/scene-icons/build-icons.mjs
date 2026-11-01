@@ -67,6 +67,70 @@ const KEY_DEFINITIONS = [
 
   // Generated generic dot
   { key: 'generic', source: 'generated:generic' },
+
+  // 2026-11-01 batch — 10 new top-down sprites (1024², black keyed to alpha)
+  {
+    key: 'vehicle_police_car',
+    source: 'tools/scene-icons/sources/vehicle_police_car.png',
+  },
+  {
+    key: 'vehicle_ambulance',
+    source: 'tools/scene-icons/sources/vehicle_ambulance.png',
+  },
+  {
+    key: 'vehicle_fire_engine',
+    source: 'tools/scene-icons/sources/vehicle_fire_engine.png',
+  },
+  {
+    key: 'vehicle_civilian_sedan',
+    source: 'tools/scene-icons/sources/vehicle_civilian_sedan.png',
+  },
+  {
+    key: 'aircraft_helicopter',
+    source: 'tools/scene-icons/sources/aircraft_helicopter.png',
+  },
+  {
+    key: 'aircraft_fixed_wing',
+    source: 'tools/scene-icons/sources/aircraft_fixed_wing.png',
+  },
+  {
+    key: 'person_runner',
+    source: 'tools/scene-icons/sources/person_runner.png',
+  },
+  {
+    key: 'person_police_officer',
+    source: 'tools/scene-icons/sources/person_police_officer.png',
+  },
+  {
+    key: 'signage_road_closed',
+    source: 'tools/scene-icons/sources/signage_road_closed.png',
+  },
+  {
+    key: 'effect_smoke_fire',
+    source: 'tools/scene-icons/sources/effect_smoke_fire.png',
+  },
+  // 2×2 alert-state sheet → 4 quadrants (512² each). Quadrant order TL, TR, BL, BR
+  // = state_1 normal, state_2 warning, state_3 critical, state_4 verified.
+  {
+    key: 'alert_state_1',
+    source: 'tools/scene-icons/sources/alert_states_sheet.png',
+    quadrant: 0,
+  },
+  {
+    key: 'alert_state_2',
+    source: 'tools/scene-icons/sources/alert_states_sheet.png',
+    quadrant: 1,
+  },
+  {
+    key: 'alert_state_3',
+    source: 'tools/scene-icons/sources/alert_states_sheet.png',
+    quadrant: 2,
+  },
+  {
+    key: 'alert_state_4',
+    source: 'tools/scene-icons/sources/alert_states_sheet.png',
+    quadrant: 3,
+  },
 ];
 
 function generateGenericSvg() {
@@ -76,8 +140,23 @@ function generateGenericSvg() {
 </svg>`;
 }
 
-async function keyAndCropSource(sourceFilePath, transform = null) {
-  const img = sharp(sourceFilePath);
+async function keyAndCropSource(
+  sourceFilePath,
+  transform = null,
+  quadrant = null,
+) {
+  let img = sharp(sourceFilePath);
+  if (quadrant != null) {
+    const meta = await img.metadata();
+    const qw = Math.floor(meta.width / 2);
+    const qh = Math.floor(meta.height / 2);
+    img = img.extract({
+      left: (quadrant % 2) * qw,
+      top: Math.floor(quadrant / 2) * qh,
+      width: qw,
+      height: qh,
+    });
+  }
   const { data, info } = await img.raw().toBuffer({ resolveWithObject: true });
   const out = Buffer.alloc(info.width * info.height * 4);
   let minX = info.width;
@@ -146,15 +225,17 @@ async function keyAndCropSource(sourceFilePath, transform = null) {
   const squareBuffer = await pipeline.png().toBuffer();
   const p32 = await sharp(squareBuffer).resize(32, 32).png().toBuffer();
   const p64 = await sharp(squareBuffer).resize(64, 64).png().toBuffer();
+  const p128 = await sharp(squareBuffer).resize(128, 128).png().toBuffer();
 
-  return { p32, p64 };
+  return { p32, p64, p128 };
 }
 
 async function renderSvgIcon(svgFilePath) {
   const svgContent = fs.readFileSync(svgFilePath);
   const p32 = await sharp(svgContent).resize(32, 32).png().toBuffer();
   const p64 = await sharp(svgContent).resize(64, 64).png().toBuffer();
-  return { p32, p64 };
+  const p128 = await sharp(svgContent).resize(128, 128).png().toBuffer();
+  return { p32, p64, p128 };
 }
 
 export async function buildIcons() {
@@ -168,7 +249,7 @@ export async function buildIcons() {
   const processed = [];
 
   for (const def of KEY_DEFINITIONS) {
-    let p32, p64;
+    let p32, p64, p128;
     if (def.source === 'generated:generic') {
       p32 = await sharp(Buffer.from(genericSvg))
         .resize(32, 32)
@@ -178,23 +259,35 @@ export async function buildIcons() {
         .resize(64, 64)
         .png()
         .toBuffer();
+      p128 = await sharp(Buffer.from(genericSvg))
+        .resize(128, 128)
+        .png()
+        .toBuffer();
     } else if (def.source.endsWith('.svg')) {
       const fullPath = path.join(REPO_ROOT, def.source);
       const res = await renderSvgIcon(fullPath);
       p32 = res.p32;
       p64 = res.p64;
+      p128 = res.p128;
     } else {
       const fullPath = path.join(REPO_ROOT, def.source);
-      const res = await keyAndCropSource(fullPath, def.transform);
+      const res = await keyAndCropSource(
+        fullPath,
+        def.transform,
+        def.quadrant ?? null,
+      );
       p32 = res.p32;
       p64 = res.p64;
+      p128 = res.p128;
     }
 
-    // Write PNG files
+    // Write PNG files (1x 32 px, 2x 64 px, 4x 128 px)
     const pngPath = path.join(PNG_DIR, `${def.key}.png`);
     const png2xPath = path.join(PNG_DIR, `${def.key}@2x.png`);
+    const png4xPath = path.join(PNG_DIR, `${def.key}@4x.png`);
     fs.writeFileSync(pngPath, p32);
     fs.writeFileSync(png2xPath, p64);
+    fs.writeFileSync(png4xPath, p128);
 
     // If new key doesn't have an SVG, write one embedding the 64px PNG
     const svgPath = path.join(SVG_DIR, `${def.key}.svg`);
@@ -207,9 +300,11 @@ export async function buildIcons() {
     const sha256 = createHash('sha256').update(p32).digest('hex');
     processed.push({
       key: def.key,
-      source: def.source,
+      source:
+        def.source + (def.quadrant != null ? `#quadrant-${def.quadrant}` : ''),
       p32,
       p64,
+      p128,
       sha256,
     });
   }
@@ -260,6 +355,7 @@ export async function buildIcons() {
       key: item.key,
       png: `png/${item.key}.png`,
       png2x: `png/${item.key}@2x.png`,
+      png4x: `png/${item.key}@4x.png`,
       sprite: {
         x: x1x,
         y: y1x,
@@ -310,7 +406,7 @@ export async function buildIcons() {
   );
 
   const manifest = {
-    version: 2,
+    version: 3,
     generatedAt: new Date().toISOString(),
     keys: manifestKeys,
   };

@@ -393,7 +393,9 @@ export class SceneDirector {
     const selected = this._selectedSceneId;
     // User-authored geographic scenes are not live incident-ledger entries.
     // Refreshing optional feeds must never discard a saved waterfront orbit.
-    const keep = this._project.scenes.filter((scene) => !scene.incident || scene.incident.category === 'geographic');
+    const keep = this._project.scenes.filter(
+      (scene) => !scene.incident || scene.incident.category === 'geographic',
+    );
     const next = [];
     for (const incidentScene of incidentScenes) {
       const scene = incidentSceneToProjectScene(incidentScene);

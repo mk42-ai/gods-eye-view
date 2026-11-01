@@ -311,6 +311,9 @@ export function installSceneFootage({
         opts.trigger || 'explicit',
       );
     },
+    /** Cinematic runtime wiring (src/cinematic/*): evidence patches + context. */
+    setEvidencePatchHandler: (fn) => controller.setOnEvidencePatch(fn),
+    setPatchContext: (fn) => controller.setPatchContext(fn),
     getState: () => {
       const s = controller.state;
       return {

@@ -211,6 +211,7 @@ export async function runFanout({
   sleep = null,
   random = Math.random,
   knownStoryIds = [],
+  metrics = null,
 } = {}) {
   if (!Array.isArray(variants) || variants.length === 0) {
     return {
@@ -224,6 +225,7 @@ export async function runFanout({
         truncatedVariants: 0,
       },
       variants: [],
+      ...(metrics ? { metrics: metrics.snapshot() } : {}),
     };
   }
 
@@ -295,11 +297,26 @@ export async function runFanout({
         : timeoutCtl.signal;
 
       try {
+        if (metrics && !callOne?._handlesMetrics) {
+          metrics.start(`fanout:${variant}`);
+        }
         res = await callOne(variant, { signal: combinedSignal, limit });
+        if (metrics && !callOne?._handlesMetrics) {
+          metrics.success(`fanout:${variant}`);
+        }
         clearTimeout(timer);
         callError = null;
         break;
       } catch (err) {
+        if (metrics && !callOne?._handlesMetrics) {
+          metrics.failure(`fanout:${variant}`, {
+            status: err?.status,
+            error: err,
+          });
+          if (err?.status === 429) {
+            metrics.rateLimit({ state: 'throttled' });
+          }
+        }
         clearTimeout(timer);
         callError = err;
         if (signal?.aborted || attempt >= attempts || !isRetryable(err)) {
@@ -408,5 +425,6 @@ export async function runFanout({
       truncatedVariants: truncatedVariantCount,
     },
     variants: perVariantStats.filter(Boolean),
+    ...(metrics ? { metrics: metrics.snapshot() } : {}),
   };
 }

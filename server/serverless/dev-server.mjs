@@ -285,7 +285,10 @@ async function handleStatic(req, res, pathname) {
 const server = http.createServer((req, res) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Content-Security-Policy', "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://www.tiktok.com https://www.instagram.com https://platform.twitter.com https://syndication.twitter.com; frame-ancestors 'self' https://on-demand.io https://*.on-demand.io");
+  res.setHeader(
+    'Content-Security-Policy',
+    "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://www.tiktok.com https://www.instagram.com https://platform.twitter.com https://syndication.twitter.com; frame-ancestors 'self' https://on-demand.io https://*.on-demand.io",
+  );
   // Retain the existing iframe-embeddable policy; never weaken an existing
   // application authentication or CSP check just for a demonstration.
   const startedAt = Date.now();

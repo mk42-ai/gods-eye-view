@@ -19,50 +19,53 @@ export const WALKTHROUGH_STEPS = Object.freeze([
     id: 'aoi',
     element: '#incident-composer-input',
     title: 'Type a place',
-    description: 'Start here. Type a place in the UAE, such as Dubai Marina.'
+    description: 'Start here. Type a place in the UAE, such as Dubai Marina.',
   }),
   Object.freeze({
     id: 'window',
     element: '#incident-composer-window',
     title: 'Recording window',
-    description: 'Choose how far back to look for footage (UTC).'
+    description: 'Choose how far back to look for footage (UTC).',
   }),
   Object.freeze({
     id: 'build',
     element: '#incident-composer-submit',
     title: 'Build scene',
-    description: 'Frames the camera on the place and gathers footage.'
+    description: 'Frames the camera on the place and gathers footage.',
   }),
   Object.freeze({
     id: 'footage',
     element: '#scene-footage',
     title: 'Footage panel',
-    description: 'Pick a clip, check its source and upload time. Footage appears after a scene is built.'
+    description:
+      'Pick a clip, check its source and upload time. Footage appears after a scene is built.',
   }),
   Object.freeze({
     id: 'scenes',
     element: '#sidebar-scenes-tab',
     title: 'Scenes drawer',
-    description: 'Name and save a scene to reopen it later.'
+    description: 'Name and save a scene to reopen it later.',
   }),
   Object.freeze({
     id: 'plugins',
     element: '#od-plugins-chip',
     title: 'Plugins',
-    description: 'See which data plugins are ready and verify them in one go.'
+    description: 'See which data plugins are ready and verify them in one go.',
   }),
   Object.freeze({
     id: 'mic',
     element: '#od-voice-button',
     title: 'Mic',
-    description: 'Talk to the map instead of typing.'
-  })
+    description: 'Talk to the map instead of typing.',
+  }),
 ]);
 
 export function shouldAutoStart({ storage, location } = {}) {
   if (location && typeof location.search === 'string') {
     try {
-      const search = location.search.startsWith('?') ? location.search : `?${location.search}`;
+      const search = location.search.startsWith('?')
+        ? location.search
+        : `?${location.search}`;
       const params = new URLSearchParams(search);
       if (params.get('tour') === '1') {
         return true;
@@ -92,7 +95,12 @@ export function shouldAutoStart({ storage, location } = {}) {
 }
 
 export function setWalkthroughDismissed(dismissed, storage) {
-  const store = storage !== undefined ? storage : (typeof window !== 'undefined' ? window.localStorage : null);
+  const store =
+    storage !== undefined
+      ? storage
+      : typeof window !== 'undefined'
+        ? window.localStorage
+        : null;
   if (!store) return;
   try {
     if (dismissed) {
@@ -110,7 +118,12 @@ export function setWalkthroughDismissed(dismissed, storage) {
 }
 
 export function resolveSteps(steps, documentRef) {
-  const doc = documentRef !== undefined ? documentRef : (typeof document !== 'undefined' ? document : null);
+  const doc =
+    documentRef !== undefined
+      ? documentRef
+      : typeof document !== 'undefined'
+        ? document
+        : null;
   const stepList = steps || WALKTHROUGH_STEPS;
 
   return stepList.map((step) => {
@@ -141,25 +154,26 @@ export function resolveSteps(steps, documentRef) {
 
     const popover = {
       title: step.title,
-      description: step.description
+      description: step.description,
     };
 
     if (el && isVisible) {
       return {
         element: step.element,
-        popover
+        popover,
       };
     }
 
     return {
-      popover
+      popover,
     };
   });
 }
 
 // Driver.js (MIT) is code-split: its JS is fetched only when the tour runs.
 // Its 4 KB base stylesheet is bundled via src/ui/styles/walkthrough.css.
-const defaultLoadDriver = () => Promise.all([import('driver.js'), Promise.resolve({})]);
+const defaultLoadDriver = () =>
+  Promise.all([import('driver.js'), Promise.resolve({})]);
 
 let activeTourInstance = null;
 let activeTourPromise = null;
@@ -168,12 +182,13 @@ export async function startWalkthrough({
   document: docRef,
   window: winRef,
   storage: storageRef,
-  loadDriver = defaultLoadDriver
+  loadDriver = defaultLoadDriver,
 } = {}) {
   if (activeTourInstance) {
-    const isStillActive = typeof activeTourInstance.isActive === 'function'
-      ? activeTourInstance.isActive()
-      : true;
+    const isStillActive =
+      typeof activeTourInstance.isActive === 'function'
+        ? activeTourInstance.isActive()
+        : true;
     if (isStillActive) {
       return activeTourInstance;
     }
@@ -186,11 +201,22 @@ export async function startWalkthrough({
 
   activeTourPromise = (async () => {
     try {
-      const doc = docRef !== undefined ? docRef : (typeof document !== 'undefined' ? document : null);
-      const stor = storageRef !== undefined ? storageRef : (typeof window !== 'undefined' ? window.localStorage : null);
+      const doc =
+        docRef !== undefined
+          ? docRef
+          : typeof document !== 'undefined'
+            ? document
+            : null;
+      const stor =
+        storageRef !== undefined
+          ? storageRef
+          : typeof window !== 'undefined'
+            ? window.localStorage
+            : null;
 
       const [driverModule] = await loadDriver();
-      const driverFactory = driverModule?.driver || driverModule?.default || driverModule;
+      const driverFactory =
+        driverModule?.driver || driverModule?.default || driverModule;
       if (typeof driverFactory !== 'function') {
         throw new Error('driver.js failed to load a driver factory');
       }
@@ -241,7 +267,8 @@ export async function startWalkthrough({
           let isDismissed = false;
           try {
             if (stor && typeof stor.getItem === 'function') {
-              isDismissed = stor.getItem(WALKTHROUGH_STORAGE_KEY) === 'dismissed';
+              isDismissed =
+                stor.getItem(WALKTHROUGH_STORAGE_KEY) === 'dismissed';
             }
           } catch {
             isDismissed = false;
@@ -267,11 +294,20 @@ export async function startWalkthrough({
           skipBtn.setAttribute('data-tour-skip', '');
           skipBtn.textContent = 'Skip tour';
           skipBtn.addEventListener('click', () => {
-            if (driverInstance && typeof driverInstance.destroy === 'function') {
+            if (
+              driverInstance &&
+              typeof driverInstance.destroy === 'function'
+            ) {
               driverInstance.destroy();
-            } else if (hookOpts?.driver && typeof hookOpts.driver.destroy === 'function') {
+            } else if (
+              hookOpts?.driver &&
+              typeof hookOpts.driver.destroy === 'function'
+            ) {
               hookOpts.driver.destroy();
-            } else if (activeTourInstance && typeof activeTourInstance.destroy === 'function') {
+            } else if (
+              activeTourInstance &&
+              typeof activeTourInstance.destroy === 'function'
+            ) {
               activeTourInstance.destroy();
             }
           });
@@ -279,7 +315,10 @@ export async function startWalkthrough({
           if (typeof popover.footer.prepend === 'function') {
             popover.footer.prepend(label, skipBtn);
           } else if (typeof popover.footer.insertBefore === 'function') {
-            popover.footer.insertBefore(skipBtn, popover.footer.firstChild || null);
+            popover.footer.insertBefore(
+              skipBtn,
+              popover.footer.firstChild || null,
+            );
             popover.footer.insertBefore(label, skipBtn);
           } else if (typeof popover.footer.appendChild === 'function') {
             popover.footer.appendChild(label);
@@ -288,7 +327,7 @@ export async function startWalkthrough({
         },
         onDestroyed() {
           cleanup();
-        }
+        },
       };
 
       if (doc?.body) {
@@ -333,14 +372,26 @@ export function installWalkthrough({
   storage: storageRef,
   autoStartDelayMs = 1200,
   autoStart = true,
-  loadDriver: loadDriverFn
+  loadDriver: loadDriverFn,
 } = {}) {
-  const doc = docRef !== undefined ? docRef : (typeof document !== 'undefined' ? document : null);
-  const win = winRef !== undefined ? winRef : (typeof window !== 'undefined' ? window : null);
+  const doc =
+    docRef !== undefined
+      ? docRef
+      : typeof document !== 'undefined'
+        ? document
+        : null;
+  const win =
+    winRef !== undefined
+      ? winRef
+      : typeof window !== 'undefined'
+        ? window
+        : null;
   let stor = storageRef;
   if (stor === undefined) {
     try {
-      stor = win?.localStorage ?? (typeof window !== 'undefined' ? window.localStorage : null);
+      stor =
+        win?.localStorage ??
+        (typeof window !== 'undefined' ? window.localStorage : null);
     } catch {
       stor = null;
     }
@@ -351,7 +402,7 @@ export function installWalkthrough({
       document: doc,
       window: win,
       storage: stor,
-      loadDriver: loadDriverFn
+      loadDriver: loadDriverFn,
     });
   };
 
@@ -367,7 +418,9 @@ export function installWalkthrough({
     btn.setAttribute('title', 'Help · replay walkthrough');
 
     const svgNS = 'http://www.w3.org/2000/svg';
-    const svg = doc.createElementNS ? doc.createElementNS(svgNS, 'svg') : doc.createElement('svg');
+    const svg = doc.createElementNS
+      ? doc.createElementNS(svgNS, 'svg')
+      : doc.createElement('svg');
     svg.setAttribute('viewBox', '0 0 24 24');
     svg.setAttribute('width', '24');
     svg.setAttribute('height', '24');
@@ -380,7 +433,9 @@ export function installWalkthrough({
 
     if (Array.isArray(CircleHelp)) {
       for (const [tag, attrs] of CircleHelp) {
-        const child = doc.createElementNS ? doc.createElementNS(svgNS, tag) : doc.createElement(tag);
+        const child = doc.createElementNS
+          ? doc.createElementNS(svgNS, tag)
+          : doc.createElement(tag);
         if (attrs && typeof attrs === 'object') {
           for (const [key, val] of Object.entries(attrs)) {
             child.setAttribute(key, String(val));
@@ -403,10 +458,19 @@ export function installWalkthrough({
   }
 
   let timerId = null;
-  const setTimeoutFn = (win && typeof win.setTimeout === 'function') ? win.setTimeout.bind(win) : setTimeout;
-  const clearTimeoutFn = (win && typeof win.clearTimeout === 'function') ? win.clearTimeout.bind(win) : clearTimeout;
+  const setTimeoutFn =
+    win && typeof win.setTimeout === 'function'
+      ? win.setTimeout.bind(win)
+      : setTimeout;
+  const clearTimeoutFn =
+    win && typeof win.clearTimeout === 'function'
+      ? win.clearTimeout.bind(win)
+      : clearTimeout;
 
-  if (autoStart && shouldAutoStart({ storage: stor, location: win?.location })) {
+  if (
+    autoStart &&
+    shouldAutoStart({ storage: stor, location: win?.location })
+  ) {
     timerId = setTimeoutFn(() => {
       timerId = null;
       start();
@@ -430,7 +494,7 @@ export function installWalkthrough({
     win.__gevWalkthrough = {
       start,
       steps: WALKTHROUGH_STEPS,
-      isActive
+      isActive,
     };
   }
 
@@ -445,12 +509,18 @@ export function installWalkthrough({
       }
       if (typeof btn.remove === 'function') {
         btn.remove();
-      } else if (btn.parentNode && typeof btn.parentNode.removeChild === 'function') {
+      } else if (
+        btn.parentNode &&
+        typeof btn.parentNode.removeChild === 'function'
+      ) {
         btn.parentNode.removeChild(btn);
       }
       btn = null;
     }
-    if (activeTourInstance && typeof activeTourInstance.destroy === 'function') {
+    if (
+      activeTourInstance &&
+      typeof activeTourInstance.destroy === 'function'
+    ) {
       activeTourInstance.destroy();
     }
     if (win && win.__gevWalkthrough) {
@@ -460,6 +530,6 @@ export function installWalkthrough({
 
   return {
     start,
-    destroy
+    destroy,
   };
 }

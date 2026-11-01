@@ -34,15 +34,21 @@ export function installCalmLaunch({
   if (!body) return null;
   body.dataset.calmLaunch = 'true';
   if (hasShareState) markSceneReady(documentRef);
-  else if (body.dataset.sceneReady !== 'true') body.dataset.sceneReady = 'false';
+  else if (body.dataset.sceneReady !== 'true')
+    body.dataset.sceneReady = 'false';
   const onReady = () => markSceneReady(documentRef);
   for (const type of SCENE_READY_EVENTS) {
-    windowRef?.addEventListener?.(type, onReady, signal ? { signal } : undefined);
+    windowRef?.addEventListener?.(
+      type,
+      onReady,
+      signal ? { signal } : undefined,
+    );
   }
   return {
     isSceneReady: () => body.dataset.sceneReady === 'true',
     destroy() {
-      for (const type of SCENE_READY_EVENTS) windowRef?.removeEventListener?.(type, onReady);
+      for (const type of SCENE_READY_EVENTS)
+        windowRef?.removeEventListener?.(type, onReady);
     },
   };
 }

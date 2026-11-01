@@ -20,7 +20,10 @@ export function createBrowserViteConfig({
     ],
     ...(publicDir === undefined ? {} : { publicDir }),
     server: {
-      headers: { 'Content-Security-Policy': "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://www.tiktok.com https://www.instagram.com https://platform.twitter.com https://syndication.twitter.com; frame-ancestors 'self' https://on-demand.io https://*.on-demand.io" },
+      headers: {
+        'Content-Security-Policy':
+          "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://www.tiktok.com https://www.instagram.com https://platform.twitter.com https://syndication.twitter.com; frame-ancestors 'self' https://on-demand.io https://*.on-demand.io",
+      },
       hmr: false,
       host: host || 'localhost',
       port: parseInt(port, 10) || 4173,

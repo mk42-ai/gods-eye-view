@@ -487,15 +487,13 @@ export function geometryRenderSpec(
     } else {
       const ring = f.geometry.coordinates[0];
       const n = ring.length - 1;
-      const c = ring
-        .slice(0, n)
-        .reduce(
-          (acc, [lon, lat]) => ({
-            lon: acc.lon + lon / n,
-            lat: acc.lat + lat / n,
-          }),
-          { lon: 0, lat: 0 },
-        );
+      const c = ring.slice(0, n).reduce(
+        (acc, [lon, lat]) => ({
+          lon: acc.lon + lon / n,
+          lat: acc.lat + lat / n,
+        }),
+        { lon: 0, lat: 0 },
+      );
       spec.areas.push({
         ...base,
         ring: ring.map(([lon, lat]) => [lon, lat]),

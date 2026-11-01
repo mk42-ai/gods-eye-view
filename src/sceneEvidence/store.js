@@ -24,7 +24,11 @@ export function initialState(request = {}) {
       lat: request.lat,
       lon: request.lon,
       radiusKm: request.radiusKm,
-      windowHours: request.windowHours, text: request.text, timeMode: request.timeMode, windowStart: request.windowStart, windowEnd: request.windowEnd,
+      windowHours: request.windowHours,
+      text: request.text,
+      timeMode: request.timeMode,
+      windowStart: request.windowStart,
+      windowEnd: request.windowEnd,
     }),
     phase: 'idle', // idle | streaming | done | cached | error | timeout
     place: request.place || '',
@@ -66,7 +70,8 @@ function upsert(list, item) {
 
 /** Apply one SSE event. Returns a NEW state object. */
 export function applyEvent(state, event, data, nowMs = Date.now()) {
-  if (state.requestId && data?.requestId && data.requestId !== state.requestId) return state;
+  if (state.requestId && data?.requestId && data.requestId !== state.requestId)
+    return state;
   const s = { ...state };
   const since = () => (s.client.startedAt ? nowMs - s.client.startedAt : null);
   switch (event) {
@@ -95,7 +100,10 @@ export function applyEvent(state, event, data, nowMs = Date.now()) {
       break;
     }
     case 'item':
-      if (data.eligible !== true) { s.candidates = rankEvidence(upsert(s.candidates, data)); break; }
+      if (data.eligible !== true) {
+        s.candidates = rankEvidence(upsert(s.candidates, data));
+        break;
+      }
       s.items = rankEvidence(upsert(s.items, data));
       if (s.client.firstCardMs === null)
         s.client = { ...s.client, firstCardMs: since() };
@@ -116,7 +124,9 @@ export function applyEvent(state, event, data, nowMs = Date.now()) {
     case 'done':
     case 'cached':
       s.phase = event === 'cached' ? 'cached' : 'done';
-      s.items = rankEvidence(dedupeEvidence(data.items || s.items)).filter((x) => x.eligible === true);
+      s.items = rankEvidence(dedupeEvidence(data.items || s.items)).filter(
+        (x) => x.eligible === true,
+      );
       s.candidates = rankEvidence(data.candidates || s.candidates);
       s.totals = data.totals || s.totals;
       s.window = data.window || s.window;
@@ -234,7 +244,9 @@ export function encodeShare(request = {}) {
     a: Number.isFinite(request.lat) ? +request.lat.toFixed(5) : undefined,
     o: Number.isFinite(request.lon) ? +request.lon.toFixed(5) : undefined,
     w: Number.isFinite(request.windowHours) ? request.windowHours : undefined,
-    m: request.timeMode, b: request.windowStart, e: request.windowEnd,
+    m: request.timeMode,
+    b: request.windowStart,
+    e: request.windowEnd,
     s: request.sceneId ? String(request.sceneId).slice(0, 160) : undefined,
   };
   return encodeURIComponent(JSON.stringify(r));
@@ -257,7 +269,9 @@ export function decodeShare(param) {
       windowHours: Number.isFinite(Number(r.w))
         ? Math.max(1, Math.min(168, Number(r.w)))
         : 1,
-      ...(r.m === 'historical' ? { timeMode: 'historical', windowStart: r.b, windowEnd: r.e } : {}),
+      ...(r.m === 'historical'
+        ? { timeMode: 'historical', windowStart: r.b, windowEnd: r.e }
+        : {}),
       sceneId: typeof r.s === 'string' ? r.s.slice(0, 160) : undefined,
     };
   } catch {

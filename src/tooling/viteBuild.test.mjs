@@ -22,7 +22,10 @@ test('explicit build inputs preserve browser-only defines, plugin order and loop
   assert.ok(config.server.fs.deny.includes('.env.*'));
   // The dev/preview server must be embeddable (cycle 8): no X-Frame-Options and no
   // frame-ancestors 'none' on the document the browser loads.
-  assert.match(config.server.headers['Content-Security-Policy'], /frame-src 'self'/);
+  assert.match(
+    config.server.headers['Content-Security-Policy'],
+    /frame-src 'self'/,
+  );
   // …and the same holds for `vite preview` and for any header block a later
   // edit might add (2026-10-23: the stale X-Frame-Options assertion this test
   // used to carry is gone; this guards against it coming back).

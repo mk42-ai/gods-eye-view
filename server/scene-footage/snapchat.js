@@ -25,6 +25,7 @@ import {
   compactPlace as compact,
   UAE_TRANSLITERATIONS,
 } from '../../src/sceneFootage/places.js';
+import { createFootageMetrics } from './metrics.js';
 
 export const SNAPCHAT_PLUGIN_ID_DEFAULT = 'plugin-1792945050';
 export const SNAPCHAT_OPERATION = 'fetchSnapchatVideosByPlace';
@@ -35,6 +36,7 @@ export {
   locationIdFor,
   buildLadder,
   UAE_TRANSLITERATIONS,
+  createFootageMetrics,
 };
 export const LOCATION_EVIDENCE = Object.freeze([
   'geotag',
@@ -889,6 +891,14 @@ export async function retrieveSnapchatFootage(scene, deps) {
   });
   const queryable = ladder.filter((s) => !s.capped);
   const rawSourceIds = new Set();
+  const metrics = deps.metrics || createFootageMetrics({ now });
+  if (deps.capabilities?.chatBatch) {
+    metrics.batch({
+      state: deps.capabilities.chatBatch.available
+        ? 'available'
+        : `unavailable (${deps.capabilities.chatBatch.status || 405})`,
+    });
+  }
   const accounting = {
     returnedCount: 0,
     uniqueCount: 0,
@@ -918,6 +928,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
     fanout: null,
     accounting,
     capabilities: PROVIDER_CAPABILITIES,
+    metrics: metrics.snapshot(),
     bounds: {
       radius: scene.radius || null,
       strictBounds: Boolean(scene.strictBounds),
@@ -935,6 +946,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
       emptyReason: scene.strictBounds
         ? 'no-place-within-strict-bounds'
         : 'no-place-name-for-location',
+      metrics: metrics.snapshot(),
     };
   const retrievalTime = now().toISOString();
   const executeStep = async (stepNames, levelSteps) => {
@@ -950,46 +962,70 @@ export async function retrieveSnapchatFootage(scene, deps) {
       limit: cfg.resultLimit,
       pluginId: cfg.pluginId,
     });
+    const stepLabel = `ladder:${step.level}:${stepNames[0] || 'step'}`;
     const t0 = Date.now();
-    const res = await withBackoff(
-      async (attempt) => {
-        accounting.attemptsCount += 1;
-        trace('session_create', { pluginIds: [cfg.pluginId], attempt });
-        const session = await client.sessions.create(
-          { externalUserId: 'gev-scene-footage', pluginIds: [cfg.pluginId] },
-          { signal },
-        );
-        trace('session_created', { sessionId: session?.id, attempt });
-        trace('query_submit', {
-          sessionId: session?.id,
-          pluginIds: [cfg.pluginId],
-          endpointId: cfg.endpointId,
-          responseMode: 'sync',
-          places: stepNames,
-          limit: cfg.resultLimit,
-          attempt,
-        });
-        accounting.queriesCount += 1;
-        const out = await client.query.sync(
-          session.id,
-          {
-            query,
+    let res;
+    try {
+      res = await withBackoff(
+        async (attempt) => {
+          accounting.attemptsCount += 1;
+          metrics.start(stepLabel);
+          trace('session_create', { pluginIds: [cfg.pluginId], attempt });
+          const session = await client.sessions.create(
+            { externalUserId: 'gev-scene-footage', pluginIds: [cfg.pluginId] },
+            { signal },
+          );
+          trace('session_created', { sessionId: session?.id, attempt });
+          trace('query_submit', {
+            sessionId: session?.id,
+            pluginIds: [cfg.pluginId],
             endpointId: cfg.endpointId,
             responseMode: 'sync',
-            pluginIds: [cfg.pluginId],
+            places: stepNames,
+            limit: cfg.resultLimit,
+            attempt,
+          });
+          accounting.queriesCount += 1;
+          const out = await client.query.sync(
+            session.id,
+            {
+              query,
+              endpointId: cfg.endpointId,
+              responseMode: 'sync',
+              pluginIds: [cfg.pluginId],
+            },
+            { signal, timeoutMs: cfg.queryTimeoutMs },
+          );
+          metrics.success(stepLabel);
+          return { ...out, _sessionId: session?.id };
+        },
+        {
+          attempts: cfg.maxAttempts ?? 3,
+          baseMs: cfg.backoffBaseMs ?? 1000,
+          signal,
+          sleep: deps.sleep,
+          onRetry: (info) => {
+            trace('retry_backoff', info);
+            metrics.failure(stepLabel, {
+              status: info?.error?.status,
+              error: info?.error,
+            });
+            if (info?.error?.status === 429) {
+              metrics.rateLimit({ state: 'throttled' });
+            }
           },
-          { signal, timeoutMs: cfg.queryTimeoutMs },
-        );
-        return { ...out, _sessionId: session?.id };
-      },
-      {
-        attempts: cfg.maxAttempts ?? 3,
-        baseMs: cfg.backoffBaseMs ?? 1000,
-        signal,
-        sleep: deps.sleep,
-        onRetry: (info) => trace('retry_backoff', info),
-      },
-    );
+        },
+      );
+    } catch (err) {
+      metrics.failure(stepLabel, {
+        status: err?.status,
+        error: err,
+      });
+      if (err?.status === 429) {
+        metrics.rateLimit({ state: 'throttled' });
+      }
+      throw err;
+    }
     const session = { id: res._sessionId };
     let data = res?.data || res || {};
     if (data.sessionId && data.sessionId !== session.id)
@@ -1248,20 +1284,24 @@ export async function retrieveSnapchatFootage(scene, deps) {
         signal,
         sleep: deps.sleep,
         knownStoryIds: (picked?.clips || []).map((c) => c.storyId),
-        callOne: async (variant) => {
-          try {
-            return await executeStep(
-              [variant],
-              [{ ...first, names: [variant] }],
-            );
-          } catch (error) {
-            trace('fanout_variant_failed', {
-              variant,
-              error: String(error?.message || error).slice(0, 120),
-            });
-            throw error;
-          }
-        },
+        metrics,
+        callOne: Object.assign(
+          async (variant) => {
+            try {
+              return await executeStep(
+                [variant],
+                [{ ...first, names: [variant] }],
+              );
+            } catch (error) {
+              trace('fanout_variant_failed', {
+                variant,
+                error: String(error?.message || error).slice(0, 120),
+              });
+              throw error;
+            }
+          },
+          { _handlesMetrics: true },
+        ),
       });
       // Normalise the merged raw videos through the same validated clip pipeline.
       const merged = {
@@ -1331,6 +1371,13 @@ export async function retrieveSnapchatFootage(scene, deps) {
       (accounting.truncated ? 1 : 0) + (report.fanout?.truncatedVariants || 0),
   };
 
+  const raw = accounting.returnedCount;
+  const unique = accounting.uniqueCount;
+  const duplicates = Math.max(0, raw - unique);
+  const relevant = finalClips.length;
+  metrics.record({ raw, unique, duplicates, relevant });
+  report.metrics = metrics.snapshot();
+
   if (!picked)
     return {
       ...report,
@@ -1338,6 +1385,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
       coverageLevel: queryable.at(-1).level,
       coverageLabel: queryable.map((s) => s.label).join(' → '),
       expanded: queryable.length > 1,
+      metrics: report.metrics,
       // Matches existed but the plugin failed to fetch every one of them: that
       // is a plugin failure, not "no footage here" — never report it as empty.
       status: report.rejected.some((r) => r.reason === 'plugin-item-error')
@@ -1358,6 +1406,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
     expanded: picked.step !== first,
     status: 'ok',
     retrievalTime,
+    metrics: report.metrics,
   };
 }
 

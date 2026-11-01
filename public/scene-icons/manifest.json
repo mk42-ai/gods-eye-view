@@ -1,11 +1,12 @@
 {
-  "version": 2,
-  "generatedAt": "2026-11-01T07:23:35.914Z",
+  "version": 3,
+  "generatedAt": "2026-11-01T13:12:57.658Z",
   "keys": [
     {
       "key": "cone",
       "png": "png/cone.png",
       "png2x": "png/cone@2x.png",
+      "png4x": "png/cone@4x.png",
       "sprite": {
         "x": 0,
         "y": 0,
@@ -19,6 +20,7 @@
       "key": "police_unit",
       "png": "png/police_unit.png",
       "png2x": "png/police_unit@2x.png",
+      "png4x": "png/police_unit@4x.png",
       "sprite": {
         "x": 32,
         "y": 0,
@@ -32,6 +34,7 @@
       "key": "barrier",
       "png": "png/barrier.png",
       "png2x": "png/barrier@2x.png",
+      "png4x": "png/barrier@4x.png",
       "sprite": {
         "x": 64,
         "y": 0,
@@ -45,6 +48,7 @@
       "key": "cctv_signal",
       "png": "png/cctv_signal.png",
       "png2x": "png/cctv_signal@2x.png",
+      "png4x": "png/cctv_signal@4x.png",
       "sprite": {
         "x": 96,
         "y": 0,
@@ -58,6 +62,7 @@
       "key": "checkpoint",
       "png": "png/checkpoint.png",
       "png2x": "png/checkpoint@2x.png",
+      "png4x": "png/checkpoint@4x.png",
       "sprite": {
         "x": 128,
         "y": 0,
@@ -71,6 +76,7 @@
       "key": "staging_point",
       "png": "png/staging_point.png",
       "png2x": "png/staging_point@2x.png",
+      "png4x": "png/staging_point@4x.png",
       "sprite": {
         "x": 160,
         "y": 0,
@@ -84,6 +90,7 @@
       "key": "perimeter_unit",
       "png": "png/perimeter_unit.png",
       "png2x": "png/perimeter_unit@2x.png",
+      "png4x": "png/perimeter_unit@4x.png",
       "sprite": {
         "x": 192,
         "y": 0,
@@ -97,6 +104,7 @@
       "key": "crowd_zone",
       "png": "png/crowd_zone.png",
       "png2x": "png/crowd_zone@2x.png",
+      "png4x": "png/crowd_zone@4x.png",
       "sprite": {
         "x": 224,
         "y": 0,
@@ -110,6 +118,7 @@
       "key": "start_finish",
       "png": "png/start_finish.png",
       "png2x": "png/start_finish@2x.png",
+      "png4x": "png/start_finish@4x.png",
       "sprite": {
         "x": 256,
         "y": 0,
@@ -123,6 +132,7 @@
       "key": "egress",
       "png": "png/egress.png",
       "png2x": "png/egress@2x.png",
+      "png4x": "png/egress@4x.png",
       "sprite": {
         "x": 288,
         "y": 0,
@@ -136,6 +146,7 @@
       "key": "command_post",
       "png": "png/command_post.png",
       "png2x": "png/command_post@2x.png",
+      "png4x": "png/command_post@4x.png",
       "sprite": {
         "x": 320,
         "y": 0,
@@ -149,6 +160,7 @@
       "key": "cctv",
       "png": "png/cctv.png",
       "png2x": "png/cctv@2x.png",
+      "png4x": "png/cctv@4x.png",
       "sprite": {
         "x": 352,
         "y": 0,
@@ -162,6 +174,7 @@
       "key": "cordon_node",
       "png": "png/cordon_node.png",
       "png2x": "png/cordon_node@2x.png",
+      "png4x": "png/cordon_node@4x.png",
       "sprite": {
         "x": 384,
         "y": 0,
@@ -175,6 +188,7 @@
       "key": "route_start",
       "png": "png/route_start.png",
       "png2x": "png/route_start@2x.png",
+      "png4x": "png/route_start@4x.png",
       "sprite": {
         "x": 416,
         "y": 0,
@@ -188,6 +202,7 @@
       "key": "route_finish",
       "png": "png/route_finish.png",
       "png2x": "png/route_finish@2x.png",
+      "png4x": "png/route_finish@4x.png",
       "sprite": {
         "x": 448,
         "y": 0,
@@ -201,6 +216,7 @@
       "key": "generic",
       "png": "png/generic.png",
       "png2x": "png/generic@2x.png",
+      "png4x": "png/generic@4x.png",
       "sprite": {
         "x": 480,
         "y": 0,
@@ -209,6 +225,202 @@
       },
       "sourceFile": "generated:generic",
       "sha256": "016c4296a81145f9762abcd5e05fd24f31d4f71bd7ce535f77f1a1f7c47f1b8e"
+    },
+    {
+      "key": "vehicle_police_car",
+      "png": "png/vehicle_police_car.png",
+      "png2x": "png/vehicle_police_car@2x.png",
+      "png4x": "png/vehicle_police_car@4x.png",
+      "sprite": {
+        "x": 512,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/vehicle_police_car.png",
+      "sha256": "9e8692b53d2790adc06fa38730f46b52c9924e0d78449b7e7a26749ce3174827"
+    },
+    {
+      "key": "vehicle_ambulance",
+      "png": "png/vehicle_ambulance.png",
+      "png2x": "png/vehicle_ambulance@2x.png",
+      "png4x": "png/vehicle_ambulance@4x.png",
+      "sprite": {
+        "x": 544,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/vehicle_ambulance.png",
+      "sha256": "6015c1d8f324a745d2956434a921e967422281efc682d3885d14df6bc91c8c3c"
+    },
+    {
+      "key": "vehicle_fire_engine",
+      "png": "png/vehicle_fire_engine.png",
+      "png2x": "png/vehicle_fire_engine@2x.png",
+      "png4x": "png/vehicle_fire_engine@4x.png",
+      "sprite": {
+        "x": 576,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/vehicle_fire_engine.png",
+      "sha256": "270aefd96abe91bc1f4e9e92f14d05d0badf211ed9aa80f722dcbad07c289c3f"
+    },
+    {
+      "key": "vehicle_civilian_sedan",
+      "png": "png/vehicle_civilian_sedan.png",
+      "png2x": "png/vehicle_civilian_sedan@2x.png",
+      "png4x": "png/vehicle_civilian_sedan@4x.png",
+      "sprite": {
+        "x": 608,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/vehicle_civilian_sedan.png",
+      "sha256": "0321e61088d9f86d5cb902ba6823cf5249b6836119e6b605111538281c1086f4"
+    },
+    {
+      "key": "aircraft_helicopter",
+      "png": "png/aircraft_helicopter.png",
+      "png2x": "png/aircraft_helicopter@2x.png",
+      "png4x": "png/aircraft_helicopter@4x.png",
+      "sprite": {
+        "x": 640,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/aircraft_helicopter.png",
+      "sha256": "8b214a3a9c5e0d59bee7d10231e5b9bf0da34d477e9d2a2904fbee1a51a961a1"
+    },
+    {
+      "key": "aircraft_fixed_wing",
+      "png": "png/aircraft_fixed_wing.png",
+      "png2x": "png/aircraft_fixed_wing@2x.png",
+      "png4x": "png/aircraft_fixed_wing@4x.png",
+      "sprite": {
+        "x": 672,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/aircraft_fixed_wing.png",
+      "sha256": "b4a5ac051a4dce5e9fff038416ae05551e473c715f8e484fdaf85effad77be27"
+    },
+    {
+      "key": "person_runner",
+      "png": "png/person_runner.png",
+      "png2x": "png/person_runner@2x.png",
+      "png4x": "png/person_runner@4x.png",
+      "sprite": {
+        "x": 704,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/person_runner.png",
+      "sha256": "1318577533c226945aac84295447d15f096a3ef44c0d3a0ade490a4f011a7d8c"
+    },
+    {
+      "key": "person_police_officer",
+      "png": "png/person_police_officer.png",
+      "png2x": "png/person_police_officer@2x.png",
+      "png4x": "png/person_police_officer@4x.png",
+      "sprite": {
+        "x": 736,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/person_police_officer.png",
+      "sha256": "5c275ccfe6c3bf9fff8e58963eacbe966e673c1ce2f5303cad322b39c1a6c08d"
+    },
+    {
+      "key": "signage_road_closed",
+      "png": "png/signage_road_closed.png",
+      "png2x": "png/signage_road_closed@2x.png",
+      "png4x": "png/signage_road_closed@4x.png",
+      "sprite": {
+        "x": 768,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/signage_road_closed.png",
+      "sha256": "265cea019d3644b087f780f5cdc0dcf8f18aedd1ed183afb4f00890b08e8494a"
+    },
+    {
+      "key": "effect_smoke_fire",
+      "png": "png/effect_smoke_fire.png",
+      "png2x": "png/effect_smoke_fire@2x.png",
+      "png4x": "png/effect_smoke_fire@4x.png",
+      "sprite": {
+        "x": 800,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/effect_smoke_fire.png",
+      "sha256": "6e238834687ecfc3cee6e0d37f27913664f71d59d60c4782aaad04b1efeef75d"
+    },
+    {
+      "key": "alert_state_1",
+      "png": "png/alert_state_1.png",
+      "png2x": "png/alert_state_1@2x.png",
+      "png4x": "png/alert_state_1@4x.png",
+      "sprite": {
+        "x": 832,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-0",
+      "sha256": "cfe8565f1a5e69a62cede41807c3983b48dfb0122ad3a4954f051a9681e11eb6"
+    },
+    {
+      "key": "alert_state_2",
+      "png": "png/alert_state_2.png",
+      "png2x": "png/alert_state_2@2x.png",
+      "png4x": "png/alert_state_2@4x.png",
+      "sprite": {
+        "x": 864,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-1",
+      "sha256": "d6b7c13cf4451e84c9a9e14f3ad9707b46616c6da761818b92137ff3baf9ff57"
+    },
+    {
+      "key": "alert_state_3",
+      "png": "png/alert_state_3.png",
+      "png2x": "png/alert_state_3@2x.png",
+      "png4x": "png/alert_state_3@4x.png",
+      "sprite": {
+        "x": 896,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-2",
+      "sha256": "d9a0c170f01cc5288a71a568f3bc7113990a21f1f40c6ab80ef149ca89d0ec3c"
+    },
+    {
+      "key": "alert_state_4",
+      "png": "png/alert_state_4.png",
+      "png2x": "png/alert_state_4@2x.png",
+      "png4x": "png/alert_state_4@4x.png",
+      "sprite": {
+        "x": 928,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-3",
+      "sha256": "6fb131fc7f4e0a581e6679b76f4419aaa9a059c20bbc8802ff5c8654a570b347"
     }
   ]
 }

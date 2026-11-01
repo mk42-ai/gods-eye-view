@@ -117,6 +117,10 @@ export function createSceneFootagePanel({
     className: 'sfp__notice',
     attrs: { role: 'note' },
   });
+  const metricsLine = el(doc, 'div', {
+    id: 'scene-snapchat-metrics',
+    className: 'sfp__metrics',
+  });
   const status = el(doc, 'div', {
     id: `${FOOTAGE_PANEL_ID}-status`,
     className: 'sfp__status',
@@ -184,6 +188,7 @@ export function createSceneFootagePanel({
     sceneLine,
     matchLine,
     coverageNotice,
+    metricsLine,
     status,
     player,
     meta,
@@ -368,6 +373,70 @@ export function createSceneFootagePanel({
           `${summaryText}${st.lastAdded ? ` · +${st.lastAdded} new on last refresh` : ''}`,
         ),
       );
+    }
+
+    const m =
+      st.metrics ||
+      (st.accounting
+        ? {
+            requestsAttempted:
+              st.accounting.attemptsCount || st.accounting.queriesCount || 1,
+            requestsSucceeded:
+              st.accounting.queriesCount || st.accounting.attemptsCount || 1,
+            requestsFailed: 0,
+            results:
+              st.accounting.returnedCount ??
+              st.counts?.raw ??
+              (st.clips?.length || 0),
+            unique:
+              st.accounting.uniqueCount ??
+              st.counts?.unique ??
+              (st.clips?.length || 0),
+            duplicates: Math.max(
+              0,
+              (st.accounting.returnedCount ?? 0) -
+                (st.accounting.uniqueCount ?? 0),
+            ),
+            relevant: st.accounting.matchingCount ?? (st.clips?.length || 0),
+            batchState: st.capabilities?.chatBatch?.status
+              ? `unavailable (${st.capabilities.chatBatch.status})`
+              : 'unavailable (405)',
+            rateLimit: { state: 'ok' },
+          }
+        : null);
+
+    if (
+      m &&
+      (st.phase === 'ready' || st.phase === 'empty' || st.clips.length > 0)
+    ) {
+      const attempted = m.requestsAttempted ?? 0;
+      const ok = m.requestsSucceeded ?? 0;
+      const failed = m.requestsFailed ?? 0;
+      const res = m.results ?? 0;
+      const u = m.unique ?? 0;
+      const d = m.duplicates ?? 0;
+      const r = m.relevant ?? 0;
+      const bState =
+        m.batchState ||
+        (st.capabilities?.chatBatch?.status
+          ? `unavailable (${st.capabilities.chatBatch.status})`
+          : 'unavailable (405)');
+      const rlState = m.rateLimit?.state || 'ok';
+
+      let text = `Requests ${attempted} attempted · ${ok} ok · ${failed} failed · ${res} results · ${u} unique · ${d} duplicates · ${r} relevant · batch: ${bState} · rate limit: ${rlState}`;
+
+      const vCount =
+        st.counts?.verified ??
+        st.clips?.filter((c) => c.tier === 'verified').length ??
+        0;
+      if (vCount === 0) {
+        text += ' · unverified: no capture time / coordinates';
+      }
+      metricsLine.textContent = text;
+      metricsLine.hidden = false;
+    } else {
+      metricsLine.textContent = '';
+      metricsLine.hidden = true;
     }
     if (
       (st.bounds?.timeWindow || st.bounds?.strictBounds || st.bounds?.radius) &&

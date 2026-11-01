@@ -1344,10 +1344,23 @@ test('retrieve: balanced scope fans out to name variants under bounded concurren
         const json = {
           limit: 25,
           note: 'text matches',
-          results: [{ place, matchType: 'clip-text-match', matchedQuery: place, uploaded: videos.length, videos }],
+          results: [
+            {
+              place,
+              matchType: 'clip-text-match',
+              matchedQuery: place,
+              uploaded: videos.length,
+              videos,
+            },
+          ],
         };
         return {
-          data: { sessionId: id, messageId: `m${n}`, status: 'completed', answer: '```json\n' + JSON.stringify(json) + '\n```' },
+          data: {
+            sessionId: id,
+            messageId: `m${n}`,
+            status: 'completed',
+            answer: '```json\n' + JSON.stringify(json) + '\n```',
+          },
         };
       },
     },
@@ -1363,17 +1376,28 @@ test('retrieve: balanced scope fans out to name variants under bounded concurren
       nearbyNames: ['Marina Walk'],
       clientTimeIso: '2026-11-01T07:00:00.000Z',
     },
-    { client, cfg: { ...CFG, fanoutMaxVariants: 6, fanoutConcurrency: 2 }, now: () => new Date('2026-11-01T07:00:00Z') },
+    {
+      client,
+      cfg: { ...CFG, fanoutMaxVariants: 6, fanoutConcurrency: 2 },
+      now: () => new Date('2026-11-01T07:00:00Z'),
+    },
   );
   assert.equal(r.status, 'ok');
-  assert.ok(calls.length >= 3, `expected ladder + fan-out calls, got ${calls.length}`);
+  assert.ok(
+    calls.length >= 3,
+    `expected ladder + fan-out calls, got ${calls.length}`,
+  );
   assert.ok(r.fanout, 'fan-out report present');
   assert.ok(r.fanout.variants.length >= 2);
   // Duplicate storyId across variants counts once; Marina Walk adds one new clip.
   const ids = r.clips.map((c) => c.storyId);
   assert.deepEqual([...new Set(ids)].sort(), ids.sort());
   assert.ok(ids.includes('B'.repeat(12)), 'fan-out clip merged');
-  assert.equal(r.counts.verified, 0, 'provider has no capture time/geo → never verified');
+  assert.equal(
+    r.counts.verified,
+    0,
+    'provider has no capture time/geo → never verified',
+  );
   assert.equal(r.counts.candidate, r.clips.length);
   assert.equal(r.counts.variantsTried, r.variants.length);
   assert.ok(r.variants.some((v) => v.fanout === true));
@@ -1381,7 +1405,13 @@ test('retrieve: balanced scope fans out to name variants under bounded concurren
 
 test('retrieve: strict scope never fans out (legacy single ladder preserved)', async () => {
   const calls = [];
-  const client = fakeClient([{ limit: 25, results: [] }, { limit: 25, results: [] }], calls);
+  const client = fakeClient(
+    [
+      { limit: 25, results: [] },
+      { limit: 25, results: [] },
+    ],
+    calls,
+  );
   const r = await retrieveSnapchatFootage(
     {
       locationId: 'dubai-marina',
@@ -1401,4 +1431,93 @@ test('retrieve: strict scope never fans out (legacy single ladder preserved)', a
   // step is beyond the 1 km radius, so nothing is queried at all).
   assert.ok(calls.filter((c) => c.kind === 'query').length <= 1);
   assert.equal(r.status, 'empty');
+});
+
+test('retrieve: populates footage metrics from real executed requests and dedupe', async () => {
+  const calls = [];
+  const client = fakeClient([marinaResponse()], calls);
+  const r = await retrieveSnapchatFootage(
+    {
+      locationId: 'dubai-marina',
+      lat: 25.0805,
+      lon: 55.1403,
+      placeName: 'Dubai Marina',
+    },
+    {
+      client,
+      cfg: CFG,
+      now: () => new Date('2026-11-01T07:00:00Z'),
+      verify: false,
+    },
+  );
+
+  assert.ok(r.metrics, 'response includes metrics snapshot');
+  assert.ok(r.metrics.requestsAttempted >= 1);
+  assert.ok(r.metrics.requestsSucceeded >= 1);
+  assert.equal(r.metrics.requestsFailed, 0);
+  assert.ok(r.metrics.results >= 1);
+  assert.ok(r.metrics.unique >= 1);
+  assert.equal(r.metrics.rateLimit.state, 'ok');
+  assert.ok(r.metrics.startedAt);
+  assert.ok(r.metrics.finishedAt);
+});
+
+test('route: POST /footage/snapchat includes patch and metrics in JSON response', async () => {
+  const client = fakeClient([marinaResponse()]);
+  const h = createSceneFootageRoutes({
+    client,
+    isConfigured: () => true,
+    config: { verifyMedia: false, fanoutMaxVariants: 1 },
+  });
+  const req = mockReq('/dubai-marina/footage/snapchat', {
+    locationId: 'dubai-marina',
+    lat: 25.0805,
+    lon: 55.1403,
+    placeName: 'Dubai Marina',
+    sceneId: 'test-scene-123',
+    baseVersion: 1,
+  });
+  const out = await run(h, req);
+  assert.equal(out.res.statusCode, 200);
+  assert.ok(out.json.patch, 'patch is returned in response');
+  assert.equal(out.json.patch.sceneId, 'test-scene-123');
+  assert.equal(out.json.patch.baseVersion, 1);
+  assert.ok(out.json.metrics, 'metrics is returned in response');
+  assert.ok(out.json.metrics.requestsAttempted >= 1);
+});
+
+test('route: POST /footage/evidence/patch validates Evidence and returns { ok, patch }', async () => {
+  const h = createSceneFootageRoutes({
+    isConfigured: () => true,
+  });
+
+  // Valid payload
+  const reqValid = mockReq('/dubai-marina/footage/evidence/patch', {
+    records: [
+      {
+        id: 'ev-snap-test1',
+        source: 'snapchat',
+        title: 'Evidence 1',
+        tier: 'candidate',
+        url: 'https://www.snapchat.com/spotlight/test1',
+      },
+    ],
+    sceneId: 'scene-test',
+    baseVersion: 0,
+    origin: { lat: 25.0805, lon: 55.1403 },
+    label: 'Evidence test patch',
+  });
+  const outValid = await run(h, reqValid);
+  assert.equal(outValid.res.statusCode, 200);
+  assert.equal(outValid.json.ok, true);
+  assert.ok(outValid.json.patch);
+  assert.equal(outValid.json.patch.sceneId, 'scene-test');
+
+  // Invalid payload (invalid record structure)
+  const reqInvalid = mockReq('/dubai-marina/footage/evidence/patch', {
+    records: [{ invalid: true }],
+  });
+  const outInvalid = await run(h, reqInvalid);
+  assert.equal(outInvalid.res.statusCode, 400);
+  assert.equal(outInvalid.json.ok, false);
 });

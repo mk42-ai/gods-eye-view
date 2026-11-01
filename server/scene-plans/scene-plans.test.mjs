@@ -787,7 +787,9 @@ test('construct attaches a validated staging block built from the spec model and
           provider: 'ondemand',
           id: 'fixture-fast',
           latencyMs: 12,
-          attempts: [{ provider: 'ondemand', id: 'fixture-fast', ok: true, ms: 12 }],
+          attempts: [
+            { provider: 'ondemand', id: 'fixture-fast', ok: true, ms: 12 },
+          ],
           repaired: false,
           reasons: [],
           fallback: null,
@@ -813,7 +815,11 @@ test('construct attaches a validated staging block built from the spec model and
         anchor: input.anchor,
         model: input.model,
         timing: { specMs: input.specMs, geometryMs: 3, totalMs: 20 },
-        sources: { footprint: 'circle-fallback', roads: 'unavailable', routing: 'unavailable' },
+        sources: {
+          footprint: 'circle-fallback',
+          roads: 'unavailable',
+          routing: 'unavailable',
+        },
         unavailable: [{ element: 'cones', reason: 'fixture: no roads' }],
         layers: {
           areas: {
@@ -840,7 +846,10 @@ test('construct attaches a validated staging block built from the spec model and
           points: { type: 'FeatureCollection', features: [] },
           labels: { type: 'FeatureCollection', features: [] },
         },
-        badge: { text: 'ILLUSTRATIVE – suggested, not verified deployment', single: true },
+        badge: {
+          text: 'ILLUSTRATIVE – suggested, not verified deployment',
+          single: true,
+        },
         legend: [],
         summary: 'Police raid (illustrative) around Dubai fixture venue.',
       };
@@ -863,7 +872,10 @@ test('construct attaches a validated staging block built from the spec model and
   assert.equal(engineCalls[0].specMs, 12);
   assert.equal(result.staging.spec.scenarioType, 'police_raid');
   assert.equal(result.staging.model.id, 'fixture-fast');
-  assert.equal(result.staging.layers.areas.features[0].properties.id, 'inner-cordon');
+  assert.equal(
+    result.staging.layers.areas.features[0].properties.id,
+    'inner-cordon',
+  );
   assert.equal(result.staging.unavailable[0].element, 'cones');
   assert.equal(result.credentialRequest.fields[0], 'CEREBRAS_API_KEY');
   // The planner LLM output is unchanged by staging.
@@ -872,7 +884,11 @@ test('construct attaches a validated staging block built from the spec model and
 test('a staging failure never fails the scene: the plan is returned with stagingError', async () => {
   const t = transportFixture();
   const specModel = {
-    config: () => ({ tiers: ['template'], ultraFastEndpointExists: false, credentialRequest: null }),
+    config: () => ({
+      tiers: ['template'],
+      ultraFastEndpointExists: false,
+      credentialRequest: null,
+    }),
     classify: async () => ({
       spec: {
         scenarioType: 'observation',
@@ -880,7 +896,15 @@ test('a staging failure never fails the scene: the plan is returned with staging
         elements: [{ type: 'cctv_signal', params: { count: 1 } }],
         confidence: 0.3,
       },
-      model: { provider: 'template', id: 't', latencyMs: 0, attempts: [], repaired: true, reasons: [], fallback: 'template' },
+      model: {
+        provider: 'template',
+        id: 't',
+        latencyMs: 0,
+        attempts: [],
+        repaired: true,
+        reasons: [],
+        fallback: 'template',
+      },
     }),
   };
   const engine = {
@@ -888,7 +912,12 @@ test('a staging failure never fails the scene: the plan is returned with staging
       throw new Error('overpass exploded');
     },
   };
-  const result = await createScenePlanService({ transport: t, research: generic, specModel, engine }).construct(constructBody());
+  const result = await createScenePlanService({
+    transport: t,
+    research: generic,
+    specModel,
+    engine,
+  }).construct(constructBody());
   assert.equal(result.ok, true);
   assert.equal(result.staging, undefined);
   assert.equal(result.stagingError, 'overpass exploded');
@@ -896,19 +925,43 @@ test('a staging failure never fails the scene: the plan is returned with staging
 });
 test('staging is off for synthetic transports unless requested; the legacy contract is untouched', async () => {
   const t = transportFixture();
-  const result = await createScenePlanService({ transport: t, research: generic }).construct(constructBody());
+  const result = await createScenePlanService({
+    transport: t,
+    research: generic,
+  }).construct(constructBody());
   assert.equal(result.staging, undefined);
   assert.equal(result.stagingError, undefined);
-  assert.equal(createScenePlanService({ transport: t, research: generic }).health().staging.enabled, false);
+  assert.equal(
+    createScenePlanService({ transport: t, research: generic }).health().staging
+      .enabled,
+    false,
+  );
 });
 
 test('POST /construct/stream emits status→plan→element_added→narration_token→done in order with an injected fake engine/transport', async () => {
   const t = transportFixture();
   const specModel = {
-    config: () => ({ tiers: ['fixture:fast'], ultraFastEndpointExists: false, credentialRequest: null }),
+    config: () => ({
+      tiers: ['fixture:fast'],
+      ultraFastEndpointExists: false,
+      credentialRequest: null,
+    }),
     classify: async () => ({
-      spec: { scenarioType: 'police_raid', focalEntity: { name: 'Dubai venue', kind: 'venue' }, elements: [], confidence: 0.9 },
-      model: { provider: 'ondemand', id: 'fixture-fast', latencyMs: 12, attempts: [], repaired: false, reasons: [], fallback: null },
+      spec: {
+        scenarioType: 'police_raid',
+        focalEntity: { name: 'Dubai venue', kind: 'venue' },
+        elements: [],
+        confidence: 0.9,
+      },
+      model: {
+        provider: 'ondemand',
+        id: 'fixture-fast',
+        latencyMs: 12,
+        attempts: [],
+        repaired: false,
+        reasons: [],
+        fallback: null,
+      },
     }),
   };
   const ring = [
@@ -926,7 +979,11 @@ test('POST /construct/stream emits status→plan→element_added→narration_tok
       anchor: input.anchor,
       model: input.model,
       timing: { specMs: 12, geometryMs: 3, totalMs: 20 },
-      sources: { footprint: 'circle-fallback', roads: 'unavailable', routing: 'unavailable' },
+      sources: {
+        footprint: 'circle-fallback',
+        roads: 'unavailable',
+        routing: 'unavailable',
+      },
       unavailable: [],
       layers: {
         areas: {
@@ -935,7 +992,11 @@ test('POST /construct/stream emits status→plan→element_added→narration_tok
             {
               type: 'Feature',
               geometry: { type: 'Polygon', coordinates: [ring] },
-              properties: { id: 'inner-cordon', element: 'inner_cordon', role: 'cordon' },
+              properties: {
+                id: 'inner-cordon',
+                element: 'inner_cordon',
+                role: 'cordon',
+              },
             },
           ],
         },
@@ -956,32 +1017,56 @@ test('POST /construct/stream emits status→plan→element_added→narration_tok
   const res = {
     statusCode: 200,
     headers: {},
-    setHeader(k, v) { this.headers[k.toLowerCase()] = v; },
-    flushHeaders() { this.headersSent = true; },
-    write(chunk) { chunks.push(chunk); return true; },
-    end() { this.ended = true; },
+    setHeader(k, v) {
+      this.headers[k.toLowerCase()] = v;
+    },
+    flushHeaders() {
+      this.headersSent = true;
+    },
+    write(chunk) {
+      chunks.push(chunk);
+      return true;
+    },
+    end() {
+      this.ended = true;
+    },
   };
-  await middleware({
-    url: '/construct/stream',
-    method: 'POST',
-    body: constructBody(),
-    headers: {},
-  }, res);
+  await middleware(
+    {
+      url: '/construct/stream',
+      method: 'POST',
+      body: constructBody(),
+      headers: {},
+    },
+    res,
+  );
 
   assert.equal(res.statusCode, 200);
   assert.equal(res.headers['content-type'], 'text/event-stream; charset=utf-8');
   assert.ok(chunks.length > 0);
 
   const rawText = chunks.join('');
-  const eventMatches = [...rawText.matchAll(/id: ([^\n]+)\nevent: ([^\n]+)\ndata: ([^\n]+)\n\n/g)];
-  const events = eventMatches.map((m) => ({ id: m[1], event: m[2], data: JSON.parse(m[3]) }));
+  const eventMatches = [
+    ...rawText.matchAll(/id: ([^\n]+)\nevent: ([^\n]+)\ndata: ([^\n]+)\n\n/g),
+  ];
+  const events = eventMatches.map((m) => ({
+    id: m[1],
+    event: m[2],
+    data: JSON.parse(m[3]),
+  }));
 
   const eventTypes = events.map((e) => e.event);
   assert.ok(eventTypes.includes('status'), 'must emit status');
   assert.ok(eventTypes.includes('plan'), 'must emit plan');
   assert.ok(eventTypes.includes('element_added'), 'must emit element_added');
-  assert.ok(eventTypes.includes('snap_batch_progress'), 'must emit snap_batch_progress');
-  assert.ok(eventTypes.includes('narration_token'), 'must emit narration_token');
+  assert.ok(
+    eventTypes.includes('snap_batch_progress'),
+    'must emit snap_batch_progress',
+  );
+  assert.ok(
+    eventTypes.includes('narration_token'),
+    'must emit narration_token',
+  );
   assert.ok(eventTypes.includes('usage'), 'must emit usage');
   assert.ok(eventTypes.includes('done'), 'must emit done');
 
@@ -997,5 +1082,40 @@ test('POST /construct/stream emits status→plan→element_added→narration_tok
   const doneEvent = events.find((e) => e.event === 'done');
   assert.equal(doneEvent.data.result.ok, true);
   assert.equal(doneEvent.data.result.plan.entities[0].quantity, 3);
-  assert.equal(doneEvent.data.result.staging.layers.areas.features[0].properties.id, 'inner-cordon');
+  assert.equal(
+    doneEvent.data.result.staging.layers.areas.features[0].properties.id,
+    'inner-cordon',
+  );
+});
+test('cinematic simulation of a generic event type skips edition research; a titled event still requires it', async () => {
+  let calls = 0;
+  const t = transportFixture(() => {
+    calls++;
+    return JSON.stringify({
+      kind: 'event',
+      status: 'needs_clarification',
+      citations: [],
+    });
+  });
+  const research = createEventResearch({ transport: t });
+  const generic = await research({
+    ...constructBody(),
+    prompt:
+      'Create a cinematic marathon around Burj Khalifa with crowds, police roadblocks and moving traffic',
+  });
+  assert.equal(generic.kind, 'generic');
+  assert.equal(
+    calls,
+    0,
+    'no Perplexity lookup for an untitled simulated marathon',
+  );
+  await assert.rejects(
+    () =>
+      research({
+        ...constructBody(),
+        prompt: 'Create a cinematic Dubai Marathon scene',
+      }),
+    { code: 'needs_clarification' },
+  );
+  assert.equal(calls, 1, 'a titled recurring event is still verified');
 });

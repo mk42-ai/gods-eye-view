@@ -307,7 +307,11 @@
 #command-dock .gev-voice-visualizer span {
   width: 0.18rem;
   height: 0.55rem;
-  background: linear-gradient(to top, rgba(130, 131, 132, 0.18), rgba(184, 185, 186, 0.18));
+  background: linear-gradient(
+    to top,
+    rgba(130, 131, 132, 0.18),
+    rgba(184, 185, 186, 0.18)
+  );
   box-shadow: 0 0 0.35rem transparent;
   transform-origin: bottom;
 }

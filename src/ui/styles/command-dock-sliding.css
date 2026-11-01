@@ -381,7 +381,11 @@
   #gev-voice-control[data-speaker='user']
   .gev-voice-visualizer
   span {
-  background: linear-gradient(to top, rgba(135, 136, 137, 0.18), rgba(196, 197, 198, 0.18));
+  background: linear-gradient(
+    to top,
+    rgba(135, 136, 137, 0.18),
+    rgba(196, 197, 198, 0.18)
+  );
   box-shadow: 0 0 0.35rem transparent;
 }
 
@@ -392,7 +396,11 @@
 }
 
 #command-dock #gev-voice-control[data-speaker='ai'] .gev-voice-visualizer span {
-  background: linear-gradient(to top, rgba(130, 131, 132, 0.18), rgba(184, 185, 186, 0.18));
+  background: linear-gradient(
+    to top,
+    rgba(130, 131, 132, 0.18),
+    rgba(184, 185, 186, 0.18)
+  );
   box-shadow: 0 0 0.35rem transparent;
 }
 

@@ -12,6 +12,7 @@
  * mount; :locationId is parsed here with a strict pattern).
  */
 import { randomUUID } from 'node:crypto';
+import { z } from 'zod';
 import { readJsonBody, sendJson, rejectCrossOrigin } from '../ondemand/http.js';
 import {
   createRateLimiter,
@@ -25,6 +26,12 @@ import {
 } from '../ondemand/foundation/client.js';
 import { isConfigured } from '../ondemand/config.js';
 import { parseIncidentQuery } from '../../src/incidents/query.js';
+import { EvidenceSchema } from '../../src/cinematic/sceneSchema.js';
+import { normalizeClips, evidenceToPatch } from './evidence-pipeline.js';
+import {
+  getCachedChatBatchProbe,
+  getChatBatchCapability,
+} from './chat-batch.js';
 import {
   footageConfig,
   retrieveSnapchatFootage,
@@ -35,6 +42,8 @@ import {
 } from './snapchat.js';
 
 const PATH_RE = /^\/([A-Za-z0-9_-]{1,64})\/footage\/snapchat\/?$/;
+const EVIDENCE_PATCH_PATH_RE =
+  /^\/([A-Za-z0-9_-]{1,64})\/footage\/evidence\/patch\/?$/;
 const finite = (v, lim) =>
   typeof v === 'number' && Number.isFinite(v) && Math.abs(v) <= lim;
 
@@ -159,6 +168,33 @@ export function validateFootageRequest(locationId, body) {
   const effectiveRadius = radius ?? (scope === 'wide' ? 5 : null);
   const effectiveStrict = strictBounds || scope === 'strict';
 
+  let sceneId = null;
+  if (body.sceneId !== undefined && body.sceneId !== null) {
+    sceneId = String(body.sceneId).slice(0, 120);
+  }
+  let baseVersion = 0;
+  if (body.baseVersion !== undefined && body.baseVersion !== null) {
+    if (
+      typeof body.baseVersion !== 'number' ||
+      !Number.isInteger(body.baseVersion) ||
+      body.baseVersion < 0
+    ) {
+      return { error: 'invalid_base_version' };
+    }
+    baseVersion = body.baseVersion;
+  }
+  let origin = null;
+  if (body.origin !== undefined && body.origin !== null) {
+    if (
+      typeof body.origin !== 'object' ||
+      !finite(body.origin.lat, 90) ||
+      !finite(body.origin.lon, 180)
+    ) {
+      return { error: 'invalid_origin' };
+    }
+    origin = { lat: body.origin.lat, lon: body.origin.lon };
+  }
+
   return {
     value: {
       locationId,
@@ -173,6 +209,9 @@ export function validateFootageRequest(locationId, body) {
       ...(effectiveStrict ? { strictBounds: true } : {}),
       ...(timeWindow ? { timeWindow } : {}),
       ...(trigger ? { trigger } : {}),
+      ...(sceneId ? { sceneId } : {}),
+      baseVersion,
+      ...(origin ? { origin } : {}),
     },
   };
 }
@@ -197,6 +236,78 @@ export function createSceneFootageRoutes(deps = {}) {
 
   return async function sceneFootageHandler(req, res, next) {
     const pathOnly = String(req.url || '/').split('?')[0];
+
+    const patchMatch = pathOnly.match(EVIDENCE_PATCH_PATH_RE);
+    if (patchMatch) {
+      const locationId = patchMatch[1];
+      if ((req.method || 'GET') !== 'POST') {
+        res.setHeader('Allow', 'POST');
+        sendJson(res, 405, { ok: false, error: 'method_not_allowed' });
+        return true;
+      }
+      if (rejectCrossOrigin(req, res)) return true;
+      const c = cfg();
+      const bucket = limiter.take(clientAddress(req));
+      if (!bucket.allowed) {
+        res.setHeader('Retry-After', String(bucket.retryAfterSec));
+        sendJson(res, 429, {
+          ok: false,
+          error: 'rate_limited',
+          retryAfterSec: bucket.retryAfterSec,
+        });
+        return true;
+      }
+      let body;
+      try {
+        body = await readJsonBody(req, { maxBytes: 1024 * 1024 });
+      } catch {
+        sendJson(res, 400, { ok: false, error: 'invalid_request_body' });
+        return true;
+      }
+      const schema = z
+        .object({
+          records: z.array(EvidenceSchema),
+          sceneId: z.string().min(1).max(120).default(locationId),
+          baseVersion: z.number().int().min(0).default(0),
+          origin: z
+            .object({
+              lat: z.number().finite().min(-90).max(90),
+              lon: z.number().finite().min(-180).max(180),
+            })
+            .optional(),
+          label: z.string().max(80).optional(),
+        })
+        .strict();
+
+      const parsed = schema.safeParse(body);
+      if (!parsed.success) {
+        sendJson(res, 400, {
+          ok: false,
+          error: 'invalid_request_body',
+          details: parsed.error.issues,
+        });
+        return true;
+      }
+
+      try {
+        const patch = evidenceToPatch({
+          evidence: parsed.data.records,
+          sceneId: parsed.data.sceneId || locationId,
+          baseVersion: parsed.data.baseVersion,
+          origin: parsed.data.origin || { lat: 0, lon: 0 },
+          label: parsed.data.label,
+        });
+        sendJson(res, 200, { ok: true, patch });
+      } catch (err) {
+        sendJson(res, 400, {
+          ok: false,
+          error: 'patch_generation_failed',
+          message: err.message,
+        });
+      }
+      return true;
+    }
+
     const m = pathOnly.match(PATH_RE);
     if (!m) return next ? next() : false;
     if ((req.method || 'GET') !== 'POST') {
@@ -252,6 +363,7 @@ export function createSceneFootageRoutes(deps = {}) {
       bbox: scene.bbox,
       fresh: scene.fresh,
     });
+    const chatBatchCap = getChatBatchCapability(getCachedChatBatchProbe());
     const base = {
       locationId: scene.locationId,
       requestId,
@@ -267,16 +379,8 @@ export function createSceneFootageRoutes(deps = {}) {
         directCoordinatesSupported: false,
         spotlightTextSearchOnly: true,
         undocumentedEndpointsUsed: false,
-        chatBatchApiVerified:
-          'HTTP 405 method_not_allowed (POST /chat/v1/batches: Chat batch creation is currently unavailable)',
-        chatBatch: {
-          available: false,
-          status: 405,
-          body: JSON.stringify({
-            message: 'Chat batch creation is currently unavailable',
-            errorCode: 'method_not_allowed',
-          }),
-        },
+        chatBatchApiVerified: `HTTP ${chatBatchCap.status} (${chatBatchCap.available ? 'available' : 'unavailable'})`,
+        chatBatch: chatBatchCap,
       },
     };
     if (!configured()) {
@@ -345,6 +449,24 @@ export function createSceneFootageRoutes(deps = {}) {
       }
       const result = await job;
       const lastCheckedAt = new Date().toISOString();
+      let patch = null;
+      if (result.clips && result.clips.length > 0) {
+        try {
+          const evidence = normalizeClips(result.clips, {
+            scene,
+            retrievedAt: result.retrievalTime || lastCheckedAt,
+          });
+          patch = evidenceToPatch({
+            evidence,
+            sceneId: scene.sceneId || scene.locationId,
+            baseVersion: scene.baseVersion ?? 0,
+            origin: scene.origin || { lat: scene.lat, lon: scene.lon },
+            label: 'Snapchat intelligence',
+          });
+        } catch (patchErr) {
+          stamp('patch_generation_error', { error: patchErr.message });
+        }
+      }
       const payload = {
         state:
           result.status === 'ok'
@@ -354,6 +476,8 @@ export function createSceneFootageRoutes(deps = {}) {
               : 'empty',
         error: result.status === 'plugin_error' ? result.emptyReason : null,
         clips: result.clips,
+        patch: patch || null,
+        metrics: result.metrics || null,
         coverageLevel: result.coverageLevel,
         coverageLabel: result.coverageLabel,
         expanded: result.expanded,
@@ -447,6 +571,8 @@ export function createSceneFootageRoutes(deps = {}) {
           state,
           error: code,
           clips: [],
+          patch: null,
+          metrics: null,
           counts: {
             verified: 0,
             candidate: 0,

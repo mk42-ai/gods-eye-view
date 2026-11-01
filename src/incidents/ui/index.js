@@ -42,6 +42,7 @@ import { createGeographicOverlay } from './geographicOverlay.js';
 import { createSceneGeometryLayer } from './sceneGeometryLayer.js';
 import { createSceneStagingLayer } from './sceneStagingLayer.js';
 import { createSceneStreamLayer } from './sceneStreamLayer.js';
+import { installCinematicEngine } from '../../cinematic/index.js';
 
 /**
  * Decide whether a failed SSE construct attempt may be retried over the JSON
@@ -97,6 +98,20 @@ export function installIncidentScenes({
   const stagingLayer = createSceneStagingLayer(viewer, { document: doc });
   // Progressive SSE preview of staging elements (cleared once the final scene lands).
   const streamLayer = createSceneStreamLayer(viewer);
+  // Live Cinematic Intelligence Engine (2026-11-01): typed SSE events from the
+  // same construct stream drive the persistent Cesium runtime, playback clock,
+  // camera director, live-intelligence patches, Q&A and the cinematic panel.
+  const cinematic = installCinematicEngine({
+    viewer,
+    document: doc,
+    window: win,
+    fetch: fetchImpl,
+    headers: () => ({
+      'X-Workstation-User': client.externalUserId,
+      'X-Workstation-Workspace': client.workspace,
+    }),
+    log: (line) => console.info(line),
+  });
   let activeGeographicScene = null;
   let lastConstructGeometry = null;
   let sceneLibrary = null;
@@ -717,6 +732,15 @@ export function installIncidentScenes({
     stagingLayer.setScene(scene);
     // Verified camera-discovery candidates become cctv_signal markers; nothing invented.
     stagingLayer.setCameras(cameraCandidatesFor(scene));
+    if (cinematic) {
+      if (
+        scene.cinematic &&
+        cinematic.scene()?.sceneId !== scene.cinematic.sceneId
+      )
+        cinematic.attachScene(scene.cinematic);
+      else if (!scene.cinematic && !cinematic.scene()?.entities?.length)
+        cinematic.clear();
+    }
     for (const button of [playBtn, pauseBtn, prevBtn, nextBtn])
       button.disabled = false;
     scrub.disabled = false;
@@ -857,6 +881,42 @@ export function installIncidentScenes({
   }
   studio.cameraHost.append(sceneCamera.element);
   sceneLibrary.element.append(studio.element);
+  cinematic?.mountPanel(studio.element);
+  // Snapchat evidence → validated scene patches through the live director.
+  // The footage module may install after this one (src/app/tools.js order),
+  // so wire lazily on first availability.
+  const wireFootage = () => {
+    const footageApi = win.__gevSceneFootage;
+    if (!cinematic || !footageApi?.setEvidencePatchHandler) return false;
+    footageApi.setPatchContext(() => {
+      const sc = cinematic.scene();
+      return sc
+        ? {
+            sceneId: sc.sceneId,
+            baseVersion: sc.sceneVersion,
+            origin: sc.origin,
+          }
+        : null;
+    });
+    footageApi.setEvidencePatchHandler((patch, { counts } = {}) => {
+      const verified = Number(counts?.verified || 0);
+      cinematic.liveDirector.receive({
+        patch,
+        priority: verified > 0 ? 'high' : 'normal',
+        relevance: verified > 0 ? 0.9 : 0.4,
+        source: 'snapchat',
+      });
+    });
+    return true;
+  };
+  if (!wireFootage()) {
+    let tries = 0;
+    const retry = () => {
+      if (wireFootage() || ++tries > 20) return;
+      setTimeout(retry, 250);
+    };
+    setTimeout(retry, 0);
+  }
   const cameraLayer = dataManager?.layers?.get?.('cctv')?.module;
   if (cameraLayer?.subscribe)
     removeCameraSubscription = cameraLayer.subscribe((snapshot) => {
@@ -873,6 +933,7 @@ export function installIncidentScenes({
     sceneCamera.setScene(null);
     sceneFootageControls?.setScene(null);
     streamLayer.clear();
+    cinematic?.clear();
   };
   win.addEventListener('gev:incident-command-started', onPromptStarted);
   win.addEventListener('gev:incident-command-cancelled', onPromptStarted);
@@ -917,6 +978,12 @@ export function installIncidentScenes({
       if (evt?.id) lastEventId = evt.id;
       const data = evt?.data || {};
       const at = Math.round(performance.now() - started);
+      // Typed cinematic events → persistent runtime (reducer drops stale seq).
+      try {
+        cinematic?.onStreamEvent(evt);
+      } catch (err) {
+        console.warn('[cinematic] event rejected', err?.message || err);
+      }
       switch (evt?.event) {
         case 'status':
           view?.setStatus(data.stage, data.text);
@@ -961,8 +1028,9 @@ export function installIncidentScenes({
     };
     let result;
     try {
+      const endpointId = cinematic?.selectedEndpointId?.();
       result = await client.constructSceneStream(
-        { ...payload, requestId },
+        { ...payload, requestId, ...(endpointId ? { endpointId } : {}) },
         { signal, onEvent },
       );
     } catch (error) {
@@ -1104,6 +1172,10 @@ export function installIncidentScenes({
         },
         now: new Date(),
       });
+      // Cinematic runtime document (validated on save/load; null for legacy
+      // planner results). The streamed events already built the live runtime;
+      // the final document is kept so reload/library restores the same scene.
+      if (result.cinematic) scene.cinematic = result.cinematic;
       // Telemetry only: non-enumerable so the strict saved-scene allowlist
       // (geographicScene.js snapshot) never sees an unknown field and
       // save/restore keeps working byte-for-byte.
@@ -1363,8 +1435,11 @@ export function installIncidentScenes({
       lastConstructGeometryStatus: lastConstructGeometry?.status || null,
       studio: studio.getState(),
       sceneCamera: sceneCamera.getState(),
+      cinematic: cinematic ? cinematic.state() : null,
     }),
+    cinematic,
     destroy() {
+      cinematic?.destroy();
       unsubscribeClock?.();
       removeCameraSubscription?.();
       locationInput?.removeEventListener('input', onLocationInput);

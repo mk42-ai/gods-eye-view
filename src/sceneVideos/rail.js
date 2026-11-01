@@ -504,7 +504,10 @@ export function createSceneVideoRail({
       }
       for (const evt of parser.flush()) handle(evt.event, evt.data);
       if (!state.done && !state.abort?.signal?.aborted)
-        handle('error', { error: 'Source stream ended before completion; coverage is incomplete.' });
+        handle('error', {
+          error:
+            'Source stream ended before completion; coverage is incomplete.',
+        });
     } catch (err) {
       if (err?.name !== 'AbortError')
         handle('error', { error: String(err?.message || err) });
@@ -532,7 +535,8 @@ export function createSceneVideoRail({
     cancel() {
       state.abort?.abort();
       root.dataset.state = 'cancelled';
-      statusText.textContent = 'Evidence search cancelled. Existing clips remain archival evidence.';
+      statusText.textContent =
+        'Evidence search cancelled. Existing clips remain archival evidence.';
     },
     handle,
     playClip,

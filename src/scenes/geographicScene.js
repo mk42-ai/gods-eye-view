@@ -2,6 +2,7 @@
 import { validateScenePlan } from './structuredPlan.js';
 import { validateSceneGeometry } from './sceneGeometry.js';
 import { validateSceneStaging } from './sceneStaging.js';
+import { safeValidateCinematicScene } from '../cinematic/sceneSchema.js';
 
 export const PLANNED_SCENE_VERSION = 2;
 export const GEOGRAPHIC_SCENE_STORAGE_VERSION = 2;
@@ -614,6 +615,8 @@ export function buildPlannedScene({
         ? null
         : locationResolutionSnapshot(locationResolution),
     staging: validatedStaging,
+    // Cinematic runtime document (attached after the director run; null until then).
+    cinematic: null,
   };
 }
 
@@ -758,6 +761,9 @@ const SESSION_FIELDS = [
   'narrationConfig',
   'geometry',
   'locationResolution',
+  // Live Cinematic Intelligence Engine runtime document (validated with zod;
+  // malformed saved data is dropped so the scene still loads).
+  'cinematic',
   'staging',
 ];
 /** Bounded, validated copy of the server's location-resolution record. */
@@ -848,6 +854,12 @@ function sessionSnapshot(raw) {
           value == null ? null : validateSceneStaging(cloneData(value));
       } catch {
         out[field] = null;
+      }
+    } else if (field === 'cinematic') {
+      if (value == null) out[field] = null;
+      else {
+        const parsed = safeValidateCinematicScene(cloneData(value));
+        out[field] = parsed.success ? parsed.data : null;
       }
     } else if (field === 'originalPrompt' || field === 'refinedPrompt')
       out[field] = safeText(value);

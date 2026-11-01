@@ -43,7 +43,9 @@ const STATE_LABEL = {
   timeout: 'timed out',
   unavailable: 'unavailable',
   credentials_required: 'credentials required',
-  unsupported: 'not configured', quota: 'quota restricted', cancelled: 'cancelled',
+  unsupported: 'not configured',
+  quota: 'quota restricted',
+  cancelled: 'cancelled',
 };
 export const LIMITS_NOTE =
   'Public data only. Profiles show just the fields an official API or oEmbed returned (name, handle, avatar, bio, followers) with a link to the public profile. ' +
@@ -52,37 +54,59 @@ export const LIMITS_NOTE =
 
 const STREAM_TIMEOUT_MS = 60_000;
 
-const SMALL_WORDS = new Set(['of', 'and', 'the', 'in', 'at', 'on', 'for', 'de', 'la']);
+const SMALL_WORDS = new Set([
+  'of',
+  'and',
+  'the',
+  'in',
+  'at',
+  'on',
+  'for',
+  'de',
+  'la',
+]);
 /**
  * Split a geocoder display name into a short one-line label and the full
  * address. "American University Of Sharjah, Bobyan Street, …" →
  * { short: 'American University of Sharjah', full: '<unchanged>' }.
  */
 export function shortPlaceName(name) {
-  const full = String(name || '').replace(/\s+/g, ' ').trim();
+  const full = String(name || '')
+    .replace(/\s+/g, ' ')
+    .trim();
   if (!full) return { short: '', full: '' };
   const first = full.split(',')[0].trim() || full;
   const short = first
     .split(' ')
-    .map((w, i) => (i > 0 && SMALL_WORDS.has(w.toLowerCase()) ? w.toLowerCase() : w))
+    .map((w, i) =>
+      i > 0 && SMALL_WORDS.has(w.toLowerCase()) ? w.toLowerCase() : w,
+    )
     .join(' ');
   return { short, full };
 }
 
 /** Compact stat counts shown on the evidence chip and in the drawer header. */
 export function evidenceStats(state) {
-  const verified = (state.items || []).filter((x) => x.eligible === true).length;
+  const verified = (state.items || []).filter(
+    (x) => x.eligible === true,
+  ).length;
   const candidates = (state.candidates || []).length;
-  const timedOut = (state.sources || []).filter((x) => x.state === 'timeout').length;
-  const failed = (state.sources || []).filter((x) => ['error', 'unavailable'].includes(x.state)).length;
+  const timedOut = (state.sources || []).filter(
+    (x) => x.state === 'timeout',
+  ).length;
+  const failed = (state.sources || []).filter((x) =>
+    ['error', 'unavailable'].includes(x.state),
+  ).length;
   return { verified, candidates, timedOut, failed };
 }
 
 /** Chip label: 'Evidence · 0 verified · 18 candidates' (never wraps mid-word). */
 export function evidenceChipLabel(state) {
   const { verified, candidates } = evidenceStats(state);
-  if (state.phase === 'streaming') return `Evidence · searching… · ${verified} verified`;
-  if (state.phase === 'error' || state.phase === 'timeout') return `Evidence · ${verified} verified · retry`;
+  if (state.phase === 'streaming')
+    return `Evidence · searching… · ${verified} verified`;
+  if (state.phase === 'error' || state.phase === 'timeout')
+    return `Evidence · ${verified} verified · retry`;
   return `Evidence · ${verified} verified · ${candidates} candidate${candidates === 1 ? '' : 's'}`;
 }
 
@@ -163,9 +187,15 @@ export function createSceneEvidencePanel({
     },
   });
   chip.hidden = true;
-  const chipIcon = el(doc, 'span', { className: 'sev-chip__icon', attrs: { 'aria-hidden': 'true' } });
+  const chipIcon = el(doc, 'span', {
+    className: 'sev-chip__icon',
+    attrs: { 'aria-hidden': 'true' },
+  });
   setIconContent(chipIcon, 'film', {}, doc);
-  const chipLabel = el(doc, 'span', { className: 'sev-chip__label', text: 'Evidence' });
+  const chipLabel = el(doc, 'span', {
+    className: 'sev-chip__label',
+    text: 'Evidence',
+  });
   chip.append(chipIcon, chipLabel);
   const head = el(doc, 'div', { className: 'sev__head' });
   const titleWrap = el(doc, 'div', { className: 'sev__titles' });
@@ -194,10 +224,21 @@ export function createSceneEvidencePanel({
     setIconContent(b, icon, {}, doc);
     return b;
   };
-  const rebuildBtn = iconButton('rebuild', 'refresh-cw', 'Rebuild: fetch fresh results and diff against the cache');
-  const shareBtn = iconButton('share', 'link', 'Copy a link that reopens this evidence scene');
+  const rebuildBtn = iconButton(
+    'rebuild',
+    'refresh-cw',
+    'Rebuild: fetch fresh results and diff against the cache',
+  );
+  const shareBtn = iconButton(
+    'share',
+    'link',
+    'Copy a link that reopens this evidence scene',
+  );
   const closeBtn = iconButton('close', 'x', 'Close evidence (Esc)');
-  const actions = el(doc, 'div', { className: 'sev__actions', attrs: { role: 'toolbar', 'aria-label': 'Evidence actions' } });
+  const actions = el(doc, 'div', {
+    className: 'sev__actions',
+    attrs: { role: 'toolbar', 'aria-label': 'Evidence actions' },
+  });
   actions.append(rebuildBtn, shareBtn, closeBtn);
   head.append(titleWrap, actions);
   const stats = el(doc, 'div', {
@@ -206,7 +247,10 @@ export function createSceneEvidencePanel({
     attrs: { role: 'group', 'aria-label': 'Evidence counts' },
   });
   const statChip = (key, label) => {
-    const n = el(doc, 'span', { className: 'sev__stat', attrs: { 'data-stat': key } });
+    const n = el(doc, 'span', {
+      className: 'sev__stat',
+      attrs: { 'data-stat': key },
+    });
     const v = el(doc, 'strong', { className: 'sev__stat-value', text: '0' });
     n.append(v, el(doc, 'span', { className: 'sev__stat-label', text: label }));
     stats.appendChild(n);
@@ -215,7 +259,10 @@ export function createSceneEvidencePanel({
   const statVerified = statChip('verified', 'verified');
   const statCandidates = statChip('candidates', 'candidates');
   const statTimeout = statChip('timeout', 'timed out');
-  const meta = el(doc, 'div', { id: `${PANEL_ID}-meta`, className: 'sev__meta' });
+  const meta = el(doc, 'div', {
+    id: `${PANEL_ID}-meta`,
+    className: 'sev__meta',
+  });
   const body = el(doc, 'div', {
     id: `${PANEL_ID}-body`,
     className: 'sev__body',
@@ -226,13 +273,30 @@ export function createSceneEvidencePanel({
     attrs: { 'aria-live': 'polite', role: 'status' },
   });
   const emptyState = el(doc, 'section', {
-    id: 'scene-evidence-empty', className: 'sev__empty', attrs: { role: 'status', 'aria-live': 'polite' },
+    id: 'scene-evidence-empty',
+    className: 'sev__empty',
+    attrs: { role: 'status', 'aria-live': 'polite' },
   });
-  const timeScope = el(doc, 'p', { id: 'scene-evidence-window', className: 'sev__scope' });
-  const diagnostics = el(doc, 'details', { id: `${PANEL_ID}-diagnostics`, className: 'sev__section sev__diagnostics' });
-  const diagnosticsSummary = el(doc, 'summary', { className: 'sev__section-summary', text: 'Diagnostics' });
-  const candidatesBox = el(doc, 'details', { id: 'scene-evidence-candidates', className: 'sev__section sev__candidates' });
-  const candidatesSummary = el(doc, 'summary', { className: 'sev__section-summary', text: 'Unverified candidates' });
+  const timeScope = el(doc, 'p', {
+    id: 'scene-evidence-window',
+    className: 'sev__scope',
+  });
+  const diagnostics = el(doc, 'details', {
+    id: `${PANEL_ID}-diagnostics`,
+    className: 'sev__section sev__diagnostics',
+  });
+  const diagnosticsSummary = el(doc, 'summary', {
+    className: 'sev__section-summary',
+    text: 'Diagnostics',
+  });
+  const candidatesBox = el(doc, 'details', {
+    id: 'scene-evidence-candidates',
+    className: 'sev__section sev__candidates',
+  });
+  const candidatesSummary = el(doc, 'summary', {
+    className: 'sev__section-summary',
+    text: 'Unverified candidates',
+  });
   const candidatesList = el(doc, 'ol', { className: 'sev__list' });
   candidatesBox.append(candidatesSummary, candidatesList);
   const diffLine = el(doc, 'div', {
@@ -304,19 +368,17 @@ export function createSceneEvidencePanel({
     className: 'sev__section sev__summary',
     attrs: { 'aria-label': 'Evidence summary' },
   });
-  const summaryToggle = el(doc, 'summary', { className: 'sev__section-summary', text: 'Summary & context signals' });
+  const summaryToggle = el(doc, 'summary', {
+    className: 'sev__section-summary',
+    text: 'Summary & context signals',
+  });
   const summaryText = el(doc, 'p', { className: 'sev__summary-text' });
   const summaryEngine = el(doc, 'span', { className: 'sev__summary-engine' });
   const signalsList = el(doc, 'ul', {
     id: `${PANEL_ID}-signals`,
     className: 'sev__signals',
   });
-  summaryBox.append(
-    summaryToggle,
-    summaryText,
-    summaryEngine,
-    signalsList,
-  );
+  summaryBox.append(summaryToggle, summaryText, summaryEngine, signalsList);
   const limits = el(doc, 'p', {
     id: `${PANEL_ID}-limits`,
     className: 'sev__limits',
@@ -352,13 +414,18 @@ export function createSceneEvidencePanel({
       (m, s) => ((m[s.state] = (m[s.state] || 0) + 1), m),
       {},
     );
-    const failedCount = (counts.error || 0) + (counts.timeout || 0) + (counts.unavailable || 0);
+    const failedCount =
+      (counts.error || 0) + (counts.timeout || 0) + (counts.unavailable || 0);
     sourcesSummary.textContent = [
       `Source status · ${counts.ok || 0} ok`,
       counts.running ? `${counts.running} running` : '',
-      counts.credentials_required ? `${counts.credentials_required} need keys` : '',
+      counts.credentials_required
+        ? `${counts.credentials_required} need keys`
+        : '',
       failedCount ? `${failedCount} failed` : '',
-    ].filter(Boolean).join(' · ');
+    ]
+      .filter(Boolean)
+      .join(' · ');
     sourcesList.replaceChildren(
       ...state.sources.map((s) => {
         const li = el(doc, 'li', {
@@ -382,7 +449,12 @@ export function createSceneEvidencePanel({
                 : `${s.count || 0}${Number.isFinite(s.ms) ? ` · ${(s.ms / 1000).toFixed(1)} s` : ''}`,
           }),
         );
-        if (s.note) { li.title = s.note; li.append(el(doc, 'small', { className: 'sev__source-note', text: s.note })); }
+        if (s.note) {
+          li.title = s.note;
+          li.append(
+            el(doc, 'small', { className: 'sev__source-note', text: s.note }),
+          );
+        }
         return li;
       }),
     );
@@ -429,10 +501,13 @@ export function createSceneEvidencePanel({
         const logo = createPlatformLogo(item.platform, { size: 14 }, doc);
         if (logo) {
           platSpan.append(logo);
-          if (typeof doc.createTextNode === 'function') platSpan.append(doc.createTextNode(' '));
+          if (typeof doc.createTextNode === 'function')
+            platSpan.append(doc.createTextNode(' '));
         }
         if (typeof doc.createTextNode === 'function') {
-          platSpan.append(doc.createTextNode(PLATFORM_NAME[item.platform] || item.platform));
+          platSpan.append(
+            doc.createTextNode(PLATFORM_NAME[item.platform] || item.platform),
+          );
         } else {
           platSpan.textContent = PLATFORM_NAME[item.platform] || item.platform;
         }
@@ -463,7 +538,12 @@ export function createSceneEvidencePanel({
       className: 'sev__btn sev-card__play',
       attrs: { type: 'button' },
     });
-    setIconContent(play, item.kind === 'video' ? 'play' : 'eye', { text: item.kind === 'video' ? 'Play' : 'View' }, doc);
+    setIconContent(
+      play,
+      item.kind === 'video' ? 'play' : 'eye',
+      { text: item.kind === 'video' ? 'Play' : 'View' },
+      doc,
+    );
     play.addEventListener('click', (e) => {
       e?.stopPropagation?.();
       select(item.id);
@@ -494,9 +574,18 @@ export function createSceneEvidencePanel({
     if (item.eligible === true && item.embedUrl) actions.append(play);
     if (item.author?.fields?.length) actions.append(prof);
     actions.append(orig);
-    if (item.eligible !== true) li.append(el(doc, 'p', { className: 'sev-card__rejection', text: (item.qualification?.labels || ['Unverified source metadata']).join('; ') }));
+    if (item.eligible !== true)
+      li.append(
+        el(doc, 'p', {
+          className: 'sev-card__rejection',
+          text: (
+            item.qualification?.labels || ['Unverified source metadata']
+          ).join('; '),
+        }),
+      );
     li.append(top, t, meta, attribution, actions);
-    if (item.eligible === true) li.addEventListener('click', () => select(item.id));
+    if (item.eligible === true)
+      li.addEventListener('click', () => select(item.id));
     li.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && item.eligible === true) select(item.id);
     });
@@ -622,13 +711,16 @@ export function createSceneEvidencePanel({
     root.dataset.items = String(state.items.length);
     root.dataset.candidates = String(state.candidates.length);
     root.dataset.requestId = state.requestId || '';
-    root.dataset.verifiedVideos = String(state.items.filter((x) => x.eligible === true).length);
+    root.dataset.verifiedVideos = String(
+      state.items.filter((x) => x.eligible === true).length,
+    );
     root.dataset.signals = String(state.signals.length);
     root.dataset.key = state.key || '';
     const names = shortPlaceName(state.place);
     title.textContent = names.short || 'Scene evidence';
     title.setAttribute('title', names.full || 'Scene evidence');
-    address.textContent = names.full && names.full !== names.short ? names.full : '';
+    address.textContent =
+      names.full && names.full !== names.short ? names.full : '';
     address.setAttribute('title', names.full || '');
     address.hidden = !address.textContent;
     const counts = evidenceStats(state);
@@ -639,7 +731,10 @@ export function createSceneEvidencePanel({
     statVerified.n.dataset.zero = String(counts.verified === 0);
     chipLabel.textContent = evidenceChipLabel(state);
     chip.dataset.phase = state.phase;
-    chip.setAttribute('aria-label', `${evidenceChipLabel(state)} — open scene evidence`);
+    chip.setAttribute(
+      'aria-label',
+      `${evidenceChipLabel(state)} — open scene evidence`,
+    );
     root.dataset.verified = String(counts.verified);
     const c = state.client;
     timing.textContent = [
@@ -662,13 +757,16 @@ export function createSceneEvidencePanel({
           ),
         ),
       );
-    timeScope.textContent = state.window ? `Recording time: ${state.window.startUtc} → ${state.window.endUtc} · ${state.request.radiusKm || 5} km · ${state.window.mode}. No automatic widening.` : `Recording window: ${state.request.windowHours || 1} hour(s), ending at server execution time (UTC).`;
+    timeScope.textContent = state.window
+      ? `Recording time: ${state.window.startUtc} → ${state.window.endUtc} · ${state.request.radiusKm || 5} km · ${state.window.mode}. No automatic widening.`
+      : `Recording window: ${state.request.windowHours || 1} hour(s), ending at server execution time (UTC).`;
     meta.textContent = metaLine(state);
     meta.setAttribute('title', timeScope.textContent);
     emptyState.hidden = state.items.length > 0;
-    emptyState.textContent = state.phase === 'streaming'
-      ? 'Waiting for source-verified recordings…'
-      : 'No verified footage in this window. Candidates below are unverified and not playable.';
+    emptyState.textContent =
+      state.phase === 'streaming'
+        ? 'Waiting for source-verified recordings…'
+        : 'No verified footage in this window. Candidates below are unverified and not playable.';
     player.hidden = state.items.length === 0;
     timeline.hidden = state.items.length === 0;
     filters.hidden = state.items.length === 0;
@@ -691,7 +789,11 @@ export function createSceneEvidencePanel({
     player.dataset.platform = item.platform;
     delete player.dataset.currentTime;
     const expectedEmbed = parsePostUrl(item.url)?.embedUrl;
-    if (item.eligible !== true || !expectedEmbed || expectedEmbed !== item.embedUrl) {
+    if (
+      item.eligible !== true ||
+      !expectedEmbed ||
+      expectedEmbed !== item.embedUrl
+    ) {
       player.replaceChildren(
         el(doc, 'p', {
           className: 'sev__player-empty',
@@ -835,7 +937,11 @@ export function createSceneEvidencePanel({
     );
     const close = el(doc, 'button', {
       className: 'sev__btn sev__profile-close',
-      attrs: { type: 'button', 'aria-label': 'Close profile', title: 'Close profile' },
+      attrs: {
+        type: 'button',
+        'aria-label': 'Close profile',
+        title: 'Close profile',
+      },
     });
     setIconContent(close, 'x', { text: 'Close' }, doc);
     close.addEventListener('click', () => {
@@ -869,42 +975,69 @@ export function createSceneEvidencePanel({
   async function stream(request, run) {
     const controller = new AbortController();
     abort = controller;
-    const current = () => run === generation && abort === controller && !controller.signal.aborted;
+    const current = () =>
+      run === generation && abort === controller && !controller.signal.aborted;
     const dispatchCurrent = (event, data) => {
-      if (!current() || (data?.requestId && data.requestId !== request.requestId)) return;
+      if (
+        !current() ||
+        (data?.requestId && data.requestId !== request.requestId)
+      )
+        return;
       dispatch(event, data);
     };
     const localTimer = setTimeout(() => {
       if (!current()) return;
-      dispatchCurrent('timeout', { error: 'Evidence deadline exceeded; no fresh result asserted' });
+      dispatchCurrent('timeout', {
+        error: 'Evidence deadline exceeded; no fresh result asserted',
+      });
       controller.abort();
     }, STREAM_TIMEOUT_MS);
     timer = localTimer;
     let reader;
     try {
       const res = await fetchImpl(EVIDENCE_URL, {
-        method: 'POST', headers: { 'content-type': 'application/json', accept: 'text/event-stream' },
-        body: JSON.stringify({ ...request, fresh: '1' }), signal: controller.signal,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          accept: 'text/event-stream',
+        },
+        body: JSON.stringify({ ...request, fresh: '1' }),
+        signal: controller.signal,
       });
       if (!current()) return;
       if (!res.ok || !res.body) {
-        dispatchCurrent('error', { error: `HTTP ${res.status}: evidence retrieval unavailable` }); return;
+        dispatchCurrent('error', {
+          error: `HTTP ${res.status}: evidence retrieval unavailable`,
+        });
+        return;
       }
-      const parser = createSceneSseParser(), dec = new TextDecoder();
+      const parser = createSceneSseParser(),
+        dec = new TextDecoder();
       reader = res.body.getReader();
       for (;;) {
         const { value, done } = await reader.read();
         if (!current()) return;
         if (done) break;
-        for (const ev of parser.push(dec.decode(value, { stream: true }))) dispatchCurrent(ev.event, ev.data);
+        for (const ev of parser.push(dec.decode(value, { stream: true })))
+          dispatchCurrent(ev.event, ev.data);
       }
       for (const ev of parser.flush()) dispatchCurrent(ev.event, ev.data);
-      if (current() && state.phase === 'streaming') dispatchCurrent('error', { error: 'Stream ended without a completed result' });
+      if (current() && state.phase === 'streaming')
+        dispatchCurrent('error', {
+          error: 'Stream ended without a completed result',
+        });
     } catch (err) {
-      if (current()) dispatchCurrent('error', { error: 'Evidence connection failed; retry this AOI' });
+      if (current())
+        dispatchCurrent('error', {
+          error: 'Evidence connection failed; retry this AOI',
+        });
     } finally {
       clearTimeout(localTimer);
-      try { reader?.releaseLock?.(); } catch { /* already closed */ }
+      try {
+        reader?.releaseLock?.();
+      } catch {
+        /* already closed */
+      }
       if (abort === controller) abort = null;
     }
   }
@@ -912,15 +1045,24 @@ export function createSceneEvidencePanel({
   function open(request, { preferCache = false, reveal = false } = {}) {
     const keepOpen = reveal || isOpen();
     generation += 1;
-    clearTimeout(timer); abort?.abort();
+    clearTimeout(timer);
+    abort?.abort();
     const run = generation;
-    const scoped = { ...request, windowHours: request.windowHours || 1, requestId: `sev-${now().toString(36)}-${generation}`, fresh: true };
+    const scoped = {
+      ...request,
+      windowHours: request.windowHours || 1,
+      requestId: `sev-${now().toString(36)}-${generation}`,
+      fresh: true,
+    };
     state = initialState(scoped);
     state.client.startedAt = now();
     chip.hidden = false;
     if (!keepOpen) setOpen(false);
-    diffLine.hidden = true; popover.hidden = true;
-    player.replaceChildren(playerEmpty); player.dataset.embedLoaded = 'false'; nowLine.textContent = '';
+    diffLine.hidden = true;
+    popover.hidden = true;
+    player.replaceChildren(playerEmpty);
+    player.dataset.embedLoaded = 'false';
+    nowLine.textContent = '';
     const cached = loadSceneEvidence(storage, state.key, new Date(now()));
     if (cached) {
       state.snapshotAt = cached.cachedAt;
@@ -928,7 +1070,8 @@ export function createSceneEvidencePanel({
       diffLine.textContent = `Previous retrieval ${cached.cachedAt} · revalidating now; cached leads are not fresh footage.`;
     }
     void preferCache; // Saving a camera scene does not save freshness of external evidence.
-    state.phase = 'streaming'; render();
+    state.phase = 'streaming';
+    render();
     if (reveal) setOpen(true);
     return stream(scoped, run).then(() => state);
   }
@@ -949,7 +1092,8 @@ export function createSceneEvidencePanel({
       lastFocus = doc.activeElement || chip;
       if (focus) closeBtn.focus?.({ preventScroll: true });
     } else if (focus && lastFocus) {
-      if (root.contains?.(doc.activeElement)) chip.focus?.({ preventScroll: true });
+      if (root.contains?.(doc.activeElement))
+        chip.focus?.({ preventScroll: true });
       lastFocus = null;
     }
     return openNow;
@@ -1015,7 +1159,12 @@ export function createSceneEvidencePanel({
         player.dataset.playerState = String(m.value);
       return;
     }
-    if (!['https://www.youtube-nocookie.com', 'https://www.youtube.com'].includes(origin)) return;
+    if (
+      !['https://www.youtube-nocookie.com', 'https://www.youtube.com'].includes(
+        origin,
+      )
+    )
+      return;
     let d = event.data;
     try {
       d = typeof d === 'string' ? JSON.parse(d) : d;
@@ -1030,12 +1179,26 @@ export function createSceneEvidencePanel({
   win?.addEventListener?.('message', onMessage);
   const onEscape = (event) => {
     if (event.key !== 'Escape') return;
-    if (!popover.hidden) { popover.hidden = true; profileInvoker?.focus?.(); event.stopPropagation?.(); return; }
-    if (isOpen()) { setOpen(false); event.stopPropagation?.(); }
+    if (!popover.hidden) {
+      popover.hidden = true;
+      profileInvoker?.focus?.();
+      event.stopPropagation?.();
+      return;
+    }
+    if (isOpen()) {
+      setOpen(false);
+      event.stopPropagation?.();
+    }
   };
   root.addEventListener('keydown', onEscape);
   const onDocKey = (event) => {
-    if (event.key === 'Escape' && isOpen() && popover.hidden && !event.defaultPrevented) setOpen(false);
+    if (
+      event.key === 'Escape' &&
+      isOpen() &&
+      popover.hidden &&
+      !event.defaultPrevented
+    )
+      setOpen(false);
   };
   const onDocPointer = (event) => {
     if (!isOpen()) return;

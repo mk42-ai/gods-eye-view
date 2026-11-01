@@ -19,3 +19,22 @@ under the license listed below.
 CC BY 4.0 permits sharing and adaptation, including commercial use, provided
 appropriate credit is retained, the license is linked, and modifications are
 identified. These credits do not imply endorsement by the original creators.
+
+## `cinematic/` — Cesium sample models (added 2026-11-01)
+
+Downloaded from `https://github.com/CesiumGS/cesium/raw/main/Apps/SampleData/models/` for
+the Live Cinematic Intelligence Engine asset registry (`src/cinematic/assetIds.js`).
+The CesiumGS/cesium repository is Apache-2.0; the Milk Truck and Cesium Man are also
+published in KhronosGroup/glTF-Sample-Models under CC BY 4.0 (© Cesium). Unmodified.
+
+| File | Asset id | Origin | License |
+|---|---|---|---|
+| `cinematic/CesiumMilkTruck.glb` | `model.cesium.milk_truck` | CesiumGS/cesium `Apps/SampleData/models/CesiumMilkTruck` | Apache-2.0 (repo) / CC BY 4.0 (Khronos sample) |
+| `cinematic/Cesium_Man.glb` | `model.cesium.man` | CesiumGS/cesium `Apps/SampleData/models/CesiumMan` | Apache-2.0 (repo) / CC BY 4.0 (Khronos sample) |
+| `cinematic/Cesium_Air.glb` | `model.cesium.air` | CesiumGS/cesium `Apps/SampleData/models/CesiumAir` | Apache-2.0 (repo) |
+| `cinematic/CesiumDrone.glb` | `model.cesium.drone` | CesiumGS/cesium `Apps/SampleData/models/CesiumDrone` | Apache-2.0 (repo) |
+
+Kenney Car Kit (CC0) was NOT bundled: `https://kenney.nl/assets/car-kit` answered HTTP 403 to
+the build container on 2026-11-01T13:03Z, so no CC0 vehicle GLB could be verified and downloaded.
+Vehicles therefore use the supplied top-down sprites (`sprite.vehicle.*`) with the Milk Truck as
+the only 3-D vehicle model.

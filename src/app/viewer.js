@@ -37,7 +37,8 @@ export function createApplicationViewer({ container, creditContainer }) {
 }
 
 /** Renderer strings of CPU-emulated WebGL (no GPU): SwiftShader, llvmpipe, WARP. */
-export const SOFTWARE_RENDERER_PATTERN = /swiftshader|llvmpipe|softpipe|software|basic render|microsoft basic/i;
+export const SOFTWARE_RENDERER_PATTERN =
+  /swiftshader|llvmpipe|softpipe|software|basic render|microsoft basic/i;
 
 /**
  * On a CPU-emulated WebGL context every 4x-MSAA full-resolution frame can
@@ -52,13 +53,18 @@ export function applySoftwareRendererBudget(viewer) {
     const gl = canvas?.getContext?.('webgl2') || canvas?.getContext?.('webgl');
     const ext = gl?.getExtension?.('WEBGL_debug_renderer_info');
     const renderer = String(
-      (ext && gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) || gl?.getParameter?.(gl.RENDERER) || '',
+      (ext && gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) ||
+        gl?.getParameter?.(gl.RENDERER) ||
+        '',
     );
     if (!SOFTWARE_RENDERER_PATTERN.test(renderer)) return false;
     viewer.resolutionScale = 0.5;
     if ('msaaSamples' in viewer.scene) viewer.scene.msaaSamples = 1;
     viewer.targetFrameRate = 20;
-    globalThis.document?.documentElement?.setAttribute?.('data-software-renderer', 'true');
+    globalThis.document?.documentElement?.setAttribute?.(
+      'data-software-renderer',
+      'true',
+    );
     debounceResizeRendering(viewer, globalThis.window);
     return true;
   } catch {

@@ -124,6 +124,10 @@ export function createFootageController({
   onChange = () => {},
   defaultRefreshMs = 120_000,
   minRefreshMs = 30_000,
+  onEvidencePatch = null,
+  // Cinematic runtime hand-off: returns {sceneId, baseVersion, origin} for
+  // the active cinematic scene so the server can answer with a scene patch.
+  getPatchContext = null,
 } = {}) {
   let generation = 0;
   let abort = null;
@@ -161,6 +165,8 @@ export function createFootageController({
     variants: [],
     scope: 'balanced',
     standby: false,
+    metrics: null,
+    patch: null,
   });
   let state = initial();
   const emit = () => {
@@ -205,6 +211,25 @@ export function createFootageController({
   };
   doc?.addEventListener?.('visibilitychange', onVisibility);
 
+  function patchContext() {
+    if (typeof getPatchContext !== 'function') return {};
+    try {
+      const ctx = getPatchContext();
+      if (!ctx || typeof ctx.sceneId !== 'string') return {};
+      return {
+        sceneId: ctx.sceneId.slice(0, 120),
+        baseVersion: Number.isInteger(ctx.baseVersion) ? ctx.baseVersion : 0,
+        ...(ctx.origin &&
+        Number.isFinite(ctx.origin.lat) &&
+        Number.isFinite(ctx.origin.lon)
+          ? { origin: { lat: ctx.origin.lat, lon: ctx.origin.lon } }
+          : {}),
+      };
+    } catch {
+      return {};
+    }
+  }
+
   async function request({
     refresh = false,
     fresh = false,
@@ -237,6 +262,7 @@ export function createFootageController({
         ? { timeWindow: state.bounds.timeWindow }
         : {}),
       ...(state.bounds?.trigger ? { trigger: state.bounds.trigger } : {}),
+      ...patchContext(),
     };
     let res, json;
     try {
@@ -291,6 +317,8 @@ export function createFootageController({
       counts: json.counts || null,
       variants: json.variants || [],
       scope: json.scope || state.scope || 'balanced',
+      metrics: json.metrics || state.metrics || null,
+      patch: json.patch || state.patch || null,
     };
     if (!res.ok || (json.state !== 'ok' && json.state !== 'empty')) {
       const st = json.state || 'plugin_error';
@@ -338,8 +366,18 @@ export function createFootageController({
       accounting: json.accounting || null,
       capabilities: json.capabilities || null,
       bounds: json.bounds || state.bounds,
+      metrics: json.metrics || null,
+      patch: json.patch || null,
       standby: false,
     });
+
+    if (json.patch && typeof onEvidencePatch === 'function') {
+      try {
+        onEvidencePatch(json.patch, { counts: base.counts });
+      } catch {
+        /* isolated */
+      }
+    }
     schedule();
     return json;
   }
@@ -483,6 +521,12 @@ export function createFootageController({
         history: state.history,
       };
       emit();
+    },
+    setOnEvidencePatch(fn) {
+      onEvidencePatch = fn;
+    },
+    setPatchContext(fn) {
+      getPatchContext = fn;
     },
     destroy() {
       api.close();

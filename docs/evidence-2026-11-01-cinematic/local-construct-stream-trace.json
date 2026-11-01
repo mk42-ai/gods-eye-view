@@ -1,0 +1,7133 @@
+{
+ "capturedAt": "2026-11-01T13:58:27.633Z",
+ "totalMs": 106178,
+ "counts": {
+  "status": 7,
+  "thinking": 3,
+  "plan": 1,
+  "run.started": 1,
+  "model.selected": 1,
+  "element_added": 50,
+  "scene.planning": 1,
+  "answer.delta": 192,
+  "scene.patch": 8,
+  "scene.object.created": 13,
+  "answer.completed": 1,
+  "scene.ready": 1,
+  "snap_batch_progress": 1,
+  "usage": 1,
+  "run.completed": 1,
+  "done": 1
+ },
+ "events": [
+  {
+   "t": 6,
+   "event": "status",
+   "data": {
+    "stage": "locating",
+    "text": "Resolving scene anchor",
+    "t": "2026-11-01T13:56:41.460Z",
+    "elapsedMs": 1
+   }
+  },
+  {
+   "t": 6,
+   "event": "thinking",
+   "data": {
+    "note": "Validating request and preparing location resolution",
+    "t": "2026-11-01T13:56:41.461Z",
+    "elapsedMs": 2
+   }
+  },
+  {
+   "t": 6,
+   "event": "status",
+   "data": {
+    "stage": "classifying",
+    "text": "Classifying scene scenario and focal entity",
+    "t": "2026-11-01T13:56:41.461Z",
+    "elapsedMs": 2
+   }
+  },
+  {
+   "t": 6,
+   "event": "thinking",
+   "data": {
+    "note": "Invoking tier-1 fast model for Scene Spec",
+    "t": "2026-11-01T13:56:41.461Z",
+    "elapsedMs": 2
+   }
+  },
+  {
+   "t": 29,
+   "event": "status",
+   "data": {
+    "stage": "researching",
+    "text": "Researching location and event context",
+    "t": "2026-11-01T13:56:41.484Z",
+    "elapsedMs": 25
+   }
+  },
+  {
+   "t": 29,
+   "event": "thinking",
+   "data": {
+    "note": "Querying Perplexity location research",
+    "t": "2026-11-01T13:56:41.484Z",
+    "elapsedMs": 25
+   }
+  },
+  {
+   "t": 4119,
+   "event": "plan",
+   "data": {
+    "spec": {
+     "scenarioType": "crowd_event",
+     "focalEntity": {
+      "name": "Burj Khalifa",
+      "kind": "landmark"
+     },
+     "elements": [
+      {
+       "type": "route_line",
+       "params": {
+        "count": 1
+       }
+      },
+      {
+       "type": "start_finish",
+       "params": {
+        "count": 1
+       }
+      },
+      {
+       "type": "crowd_zone",
+       "params": {
+        "count": 3
+       }
+      },
+      {
+       "type": "barriers",
+       "params": {
+        "count": 4
+       }
+      },
+      {
+       "type": "checkpoints",
+       "params": {
+        "count": 3
+       },
+       "generic": true
+      }
+     ],
+     "confidence": 0.85
+    },
+    "model": {
+     "provider": "ondemand",
+     "id": "predefined-cerebras-qwen-3.8-27b",
+     "endpointId": "predefined-cerebras-qwen-3.8-27b",
+     "latencyMs": 4113,
+     "attempts": [
+      {
+       "provider": "ondemand",
+       "id": "predefined-cerebras-qwen-3.8-27b",
+       "ok": true,
+       "ms": 4110
+      }
+     ],
+     "repaired": false,
+     "reasons": [
+      "elements.4.generic: unknown element marked generic: true"
+     ],
+     "fallback": null
+    },
+    "latencyMs": 4113,
+    "t": "2026-11-01T13:56:45.574Z",
+    "elapsedMs": 4115
+   }
+  },
+  {
+   "t": 89887,
+   "event": "status",
+   "data": {
+    "stage": "geometry",
+    "text": "Grounding spatial features and routes",
+    "t": "2026-11-01T13:58:11.342Z",
+    "elapsedMs": 89883
+   }
+  },
+  {
+   "t": 91370,
+   "event": "status",
+   "data": {
+    "stage": "staging",
+    "text": "Computing deterministic cordons and staging",
+    "t": "2026-11-01T13:58:12.825Z",
+    "elapsedMs": 91366
+   }
+  },
+  {
+   "t": 91370,
+   "event": "run.started",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "seq": 1,
+    "mode": "cinematic_simulation",
+    "origin": {
+     "name": "Burj Khalifa",
+     "lat": 25.1970336,
+     "lon": 55.2741329,
+     "approximate": false
+    },
+    "title": "Create a cinematic marathon around Burj Khalifa with crowds, police roadblocks and moving traffic",
+    "t": "2026-11-01T13:58:12.825Z",
+    "elapsedMs": 91366
+   }
+  },
+  {
+   "t": 91370,
+   "event": "status",
+   "data": {
+    "stage": "planning",
+    "text": "Cinematic Director streaming scene instructions",
+    "t": "2026-11-01T13:58:12.825Z",
+    "elapsedMs": 91366
+   }
+  },
+  {
+   "t": 91893,
+   "event": "model.selected",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "seq": 2,
+    "endpointId": "predefined-cerebras-qwen-3.8-27b",
+    "modelId": "qwen-3.8-27b",
+    "provider": "cerebras",
+    "cerebras": true,
+    "reason": "task_default",
+    "t": "2026-11-01T13:58:13.348Z",
+    "elapsedMs": 91889
+   }
+  },
+  {
+   "t": 92543,
+   "event": "element_added",
+   "data": {
+    "layer": "areas",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+       [
+        [
+         55.27398,
+         25.197053
+        ],
+        [
+         55.273963,
+         25.196587
+        ],
+        [
+         55.274069,
+         25.196368
+        ],
+        [
+         55.274108,
+         25.196422
+        ],
+        [
+         55.274213,
+         25.196567
+        ],
+        [
+         55.274287,
+         25.197035
+        ],
+        [
+         55.274295,
+         25.197032
+        ],
+        [
+         55.27431,
+         25.196944
+        ],
+        [
+         55.274352,
+         25.196954
+        ],
+        [
+         55.274392,
+         25.196971
+        ],
+        [
+         55.274427,
+         25.196995
+        ],
+        [
+         55.274456,
+         25.197025
+        ],
+        [
+         55.274478,
+         25.19706
+        ],
+        [
+         55.274491,
+         25.197098
+        ],
+        [
+         55.274495,
+         25.197138
+        ],
+        [
+         55.27449,
+         25.197178
+        ],
+        [
+         55.274397,
+         25.19716
+        ],
+        [
+         55.274394,
+         25.197167
+        ],
+        [
+         55.274828,
+         25.197348
+        ],
+        [
+         55.274999,
+         25.197531
+        ],
+        [
+         55.274738,
+         25.19756
+        ],
+        [
+         55.27427,
+         25.197422
+        ],
+        [
+         55.274269,
+         25.197431
+        ],
+        [
+         55.274341,
+         25.197486
+        ],
+        [
+         55.274304,
+         25.197517
+        ],
+        [
+         55.274261,
+         25.197539
+        ],
+        [
+         55.274213,
+         25.197553
+        ],
+        [
+         55.274164,
+         25.197557
+        ],
+        [
+         55.274114,
+         25.197551
+        ],
+        [
+         55.274067,
+         25.197536
+        ],
+        [
+         55.274025,
+         25.197511
+        ],
+        [
+         55.274094,
+         25.197443
+        ],
+        [
+         55.27409,
+         25.197435
+        ],
+        [
+         55.273689,
+         25.197668
+        ],
+        [
+         55.273427,
+         25.197702
+        ],
+        [
+         55.273538,
+         25.197487
+        ],
+        [
+         55.273909,
+         25.197204
+        ],
+        [
+         55.2739,
+         25.197197
+        ],
+        [
+         55.273816,
+         25.197231
+        ],
+        [
+         55.273802,
+         25.197192
+        ],
+        [
+         55.273799,
+         25.197151
+        ],
+        [
+         55.273805,
+         25.19711
+        ],
+        [
+         55.273821,
+         25.197072
+        ],
+        [
+         55.273842,
+         25.197036
+        ],
+        [
+         55.27387,
+         25.197005
+        ],
+        [
+         55.273906,
+         25.19698
+        ],
+        [
+         55.273947,
+         25.196964
+        ],
+        [
+         55.27397,
+         25.197048
+        ],
+        [
+         55.27398,
+         25.197053
+        ]
+       ]
+      ]
+     },
+     "properties": {
+      "id": "focal-footprint",
+      "element": "focal",
+      "role": "focal",
+      "priority": 100,
+      "color": "#FFFFFF",
+      "provenance": "osm-footprint-buffer",
+      "illustrative": true,
+      "label": "Burj Khalifa"
+     }
+    },
+    "properties": {
+     "id": "focal-footprint",
+     "element": "focal",
+     "role": "focal",
+     "priority": 100,
+     "color": "#FFFFFF",
+     "provenance": "osm-footprint-buffer",
+     "illustrative": true,
+     "label": "Burj Khalifa"
+    },
+    "geometry": {
+     "type": "Polygon",
+     "coordinates": [
+      [
+       [
+        55.27398,
+        25.197053
+       ],
+       [
+        55.273963,
+        25.196587
+       ],
+       [
+        55.274069,
+        25.196368
+       ],
+       [
+        55.274108,
+        25.196422
+       ],
+       [
+        55.274213,
+        25.196567
+       ],
+       [
+        55.274287,
+        25.197035
+       ],
+       [
+        55.274295,
+        25.197032
+       ],
+       [
+        55.27431,
+        25.196944
+       ],
+       [
+        55.274352,
+        25.196954
+       ],
+       [
+        55.274392,
+        25.196971
+       ],
+       [
+        55.274427,
+        25.196995
+       ],
+       [
+        55.274456,
+        25.197025
+       ],
+       [
+        55.274478,
+        25.19706
+       ],
+       [
+        55.274491,
+        25.197098
+       ],
+       [
+        55.274495,
+        25.197138
+       ],
+       [
+        55.27449,
+        25.197178
+       ],
+       [
+        55.274397,
+        25.19716
+       ],
+       [
+        55.274394,
+        25.197167
+       ],
+       [
+        55.274828,
+        25.197348
+       ],
+       [
+        55.274999,
+        25.197531
+       ],
+       [
+        55.274738,
+        25.19756
+       ],
+       [
+        55.27427,
+        25.197422
+       ],
+       [
+        55.274269,
+        25.197431
+       ],
+       [
+        55.274341,
+        25.197486
+       ],
+       [
+        55.274304,
+        25.197517
+       ],
+       [
+        55.274261,
+        25.197539
+       ],
+       [
+        55.274213,
+        25.197553
+       ],
+       [
+        55.274164,
+        25.197557
+       ],
+       [
+        55.274114,
+        25.197551
+       ],
+       [
+        55.274067,
+        25.197536
+       ],
+       [
+        55.274025,
+        25.197511
+       ],
+       [
+        55.274094,
+        25.197443
+       ],
+       [
+        55.27409,
+        25.197435
+       ],
+       [
+        55.273689,
+        25.197668
+       ],
+       [
+        55.273427,
+        25.197702
+       ],
+       [
+        55.273538,
+        25.197487
+       ],
+       [
+        55.273909,
+        25.197204
+       ],
+       [
+        55.2739,
+        25.197197
+       ],
+       [
+        55.273816,
+        25.197231
+       ],
+       [
+        55.273802,
+        25.197192
+       ],
+       [
+        55.273799,
+        25.197151
+       ],
+       [
+        55.273805,
+        25.19711
+       ],
+       [
+        55.273821,
+        25.197072
+       ],
+       [
+        55.273842,
+        25.197036
+       ],
+       [
+        55.27387,
+        25.197005
+       ],
+       [
+        55.273906,
+        25.19698
+       ],
+       [
+        55.273947,
+        25.196964
+       ],
+       [
+        55.27397,
+        25.197048
+       ],
+       [
+        55.27398,
+        25.197053
+       ]
+      ]
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92543,
+   "event": "element_added",
+   "data": {
+    "layer": "areas",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+       [
+        [
+         55.266336,
+         25.199242
+        ],
+        [
+         55.266079,
+         25.199212
+        ],
+        [
+         55.265839,
+         25.199122
+        ],
+        [
+         55.265633,
+         25.198979
+        ],
+        [
+         55.265475,
+         25.198793
+        ],
+        [
+         55.265376,
+         25.198576
+        ],
+        [
+         55.265342,
+         25.198343
+        ],
+        [
+         55.265376,
+         25.19811
+        ],
+        [
+         55.265475,
+         25.197893
+        ],
+        [
+         55.265633,
+         25.197707
+        ],
+        [
+         55.265839,
+         25.197564
+        ],
+        [
+         55.266079,
+         25.197474
+        ],
+        [
+         55.266336,
+         25.197444
+        ],
+        [
+         55.266593,
+         25.197474
+        ],
+        [
+         55.266833,
+         25.197564
+        ],
+        [
+         55.267039,
+         25.197707
+        ],
+        [
+         55.267197,
+         25.197893
+        ],
+        [
+         55.267296,
+         25.19811
+        ],
+        [
+         55.26733,
+         25.198343
+        ],
+        [
+         55.267296,
+         25.198576
+        ],
+        [
+         55.267197,
+         25.198793
+        ],
+        [
+         55.267039,
+         25.198979
+        ],
+        [
+         55.266833,
+         25.199122
+        ],
+        [
+         55.266593,
+         25.199212
+        ],
+        [
+         55.266336,
+         25.199242
+        ]
+       ]
+      ]
+     },
+     "properties": {
+      "id": "crowd-zone-1",
+      "element": "crowd_zone",
+      "role": "zone",
+      "priority": 85,
+      "color": "#A7F3D0",
+      "provenance": "circle-buffer",
+      "illustrative": true,
+      "label": "Crowd zone 1"
+     }
+    },
+    "properties": {
+     "id": "crowd-zone-1",
+     "element": "crowd_zone",
+     "role": "zone",
+     "priority": 85,
+     "color": "#A7F3D0",
+     "provenance": "circle-buffer",
+     "illustrative": true,
+     "label": "Crowd zone 1"
+    },
+    "geometry": {
+     "type": "Polygon",
+     "coordinates": [
+      [
+       [
+        55.266336,
+        25.199242
+       ],
+       [
+        55.266079,
+        25.199212
+       ],
+       [
+        55.265839,
+        25.199122
+       ],
+       [
+        55.265633,
+        25.198979
+       ],
+       [
+        55.265475,
+        25.198793
+       ],
+       [
+        55.265376,
+        25.198576
+       ],
+       [
+        55.265342,
+        25.198343
+       ],
+       [
+        55.265376,
+        25.19811
+       ],
+       [
+        55.265475,
+        25.197893
+       ],
+       [
+        55.265633,
+        25.197707
+       ],
+       [
+        55.265839,
+        25.197564
+       ],
+       [
+        55.266079,
+        25.197474
+       ],
+       [
+        55.266336,
+        25.197444
+       ],
+       [
+        55.266593,
+        25.197474
+       ],
+       [
+        55.266833,
+        25.197564
+       ],
+       [
+        55.267039,
+        25.197707
+       ],
+       [
+        55.267197,
+        25.197893
+       ],
+       [
+        55.267296,
+        25.19811
+       ],
+       [
+        55.26733,
+        25.198343
+       ],
+       [
+        55.267296,
+        25.198576
+       ],
+       [
+        55.267197,
+        25.198793
+       ],
+       [
+        55.267039,
+        25.198979
+       ],
+       [
+        55.266833,
+        25.199122
+       ],
+       [
+        55.266593,
+        25.199212
+       ],
+       [
+        55.266336,
+        25.199242
+       ]
+      ]
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92543,
+   "event": "element_added",
+   "data": {
+    "layer": "areas",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+       [
+        [
+         55.270234,
+         25.204816
+        ],
+        [
+         55.269977,
+         25.204786
+        ],
+        [
+         55.269737,
+         25.204696
+        ],
+        [
+         55.269531,
+         25.204553
+        ],
+        [
+         55.269373,
+         25.204367
+        ],
+        [
+         55.269274,
+         25.20415
+        ],
+        [
+         55.26924,
+         25.203917
+        ],
+        [
+         55.269274,
+         25.203684
+        ],
+        [
+         55.269373,
+         25.203467
+        ],
+        [
+         55.269531,
+         25.203281
+        ],
+        [
+         55.269737,
+         25.203138
+        ],
+        [
+         55.269977,
+         25.203048
+        ],
+        [
+         55.270234,
+         25.203018
+        ],
+        [
+         55.270491,
+         25.203048
+        ],
+        [
+         55.270731,
+         25.203138
+        ],
+        [
+         55.270937,
+         25.203281
+        ],
+        [
+         55.271095,
+         25.203467
+        ],
+        [
+         55.271194,
+         25.203684
+        ],
+        [
+         55.271228,
+         25.203917
+        ],
+        [
+         55.271194,
+         25.20415
+        ],
+        [
+         55.271095,
+         25.204367
+        ],
+        [
+         55.270937,
+         25.204553
+        ],
+        [
+         55.270731,
+         25.204696
+        ],
+        [
+         55.270491,
+         25.204786
+        ],
+        [
+         55.270234,
+         25.204816
+        ]
+       ]
+      ]
+     },
+     "properties": {
+      "id": "crowd-zone-2",
+      "element": "crowd_zone",
+      "role": "zone",
+      "priority": 85,
+      "color": "#A7F3D0",
+      "provenance": "circle-buffer",
+      "illustrative": true,
+      "label": "Crowd zone 2"
+     }
+    },
+    "properties": {
+     "id": "crowd-zone-2",
+     "element": "crowd_zone",
+     "role": "zone",
+     "priority": 85,
+     "color": "#A7F3D0",
+     "provenance": "circle-buffer",
+     "illustrative": true,
+     "label": "Crowd zone 2"
+    },
+    "geometry": {
+     "type": "Polygon",
+     "coordinates": [
+      [
+       [
+        55.270234,
+        25.204816
+       ],
+       [
+        55.269977,
+        25.204786
+       ],
+       [
+        55.269737,
+        25.204696
+       ],
+       [
+        55.269531,
+        25.204553
+       ],
+       [
+        55.269373,
+        25.204367
+       ],
+       [
+        55.269274,
+        25.20415
+       ],
+       [
+        55.26924,
+        25.203917
+       ],
+       [
+        55.269274,
+        25.203684
+       ],
+       [
+        55.269373,
+        25.203467
+       ],
+       [
+        55.269531,
+        25.203281
+       ],
+       [
+        55.269737,
+        25.203138
+       ],
+       [
+        55.269977,
+        25.203048
+       ],
+       [
+        55.270234,
+        25.203018
+       ],
+       [
+        55.270491,
+        25.203048
+       ],
+       [
+        55.270731,
+        25.203138
+       ],
+       [
+        55.270937,
+        25.203281
+       ],
+       [
+        55.271095,
+        25.203467
+       ],
+       [
+        55.271194,
+        25.203684
+       ],
+       [
+        55.271228,
+        25.203917
+       ],
+       [
+        55.271194,
+        25.20415
+       ],
+       [
+        55.271095,
+        25.204367
+       ],
+       [
+        55.270937,
+        25.204553
+       ],
+       [
+        55.270731,
+        25.204696
+       ],
+       [
+        55.270491,
+        25.204786
+       ],
+       [
+        55.270234,
+        25.204816
+       ]
+      ]
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92543,
+   "event": "element_added",
+   "data": {
+    "layer": "areas",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+       [
+        [
+         55.274132,
+         25.21039
+        ],
+        [
+         55.273875,
+         25.21036
+        ],
+        [
+         55.273635,
+         25.21027
+        ],
+        [
+         55.273429,
+         25.210127
+        ],
+        [
+         55.273271,
+         25.209941
+        ],
+        [
+         55.273172,
+         25.209724
+        ],
+        [
+         55.273138,
+         25.209491
+        ],
+        [
+         55.273172,
+         25.209258
+        ],
+        [
+         55.273271,
+         25.209041
+        ],
+        [
+         55.273429,
+         25.208855
+        ],
+        [
+         55.273635,
+         25.208712
+        ],
+        [
+         55.273875,
+         25.208622
+        ],
+        [
+         55.274132,
+         25.208592
+        ],
+        [
+         55.274389,
+         25.208622
+        ],
+        [
+         55.274629,
+         25.208712
+        ],
+        [
+         55.274835,
+         25.208855
+        ],
+        [
+         55.274993,
+         25.209041
+        ],
+        [
+         55.275092,
+         25.209258
+        ],
+        [
+         55.275126,
+         25.209491
+        ],
+        [
+         55.275092,
+         25.209724
+        ],
+        [
+         55.274993,
+         25.209941
+        ],
+        [
+         55.274835,
+         25.210127
+        ],
+        [
+         55.274629,
+         25.21027
+        ],
+        [
+         55.274389,
+         25.21036
+        ],
+        [
+         55.274132,
+         25.21039
+        ]
+       ]
+      ]
+     },
+     "properties": {
+      "id": "crowd-zone-3",
+      "element": "crowd_zone",
+      "role": "zone",
+      "priority": 85,
+      "color": "#A7F3D0",
+      "provenance": "circle-buffer",
+      "illustrative": true,
+      "label": "Crowd zone 3"
+     }
+    },
+    "properties": {
+     "id": "crowd-zone-3",
+     "element": "crowd_zone",
+     "role": "zone",
+     "priority": 85,
+     "color": "#A7F3D0",
+     "provenance": "circle-buffer",
+     "illustrative": true,
+     "label": "Crowd zone 3"
+    },
+    "geometry": {
+     "type": "Polygon",
+     "coordinates": [
+      [
+       [
+        55.274132,
+        25.21039
+       ],
+       [
+        55.273875,
+        25.21036
+       ],
+       [
+        55.273635,
+        25.21027
+       ],
+       [
+        55.273429,
+        25.210127
+       ],
+       [
+        55.273271,
+        25.209941
+       ],
+       [
+        55.273172,
+        25.209724
+       ],
+       [
+        55.273138,
+        25.209491
+       ],
+       [
+        55.273172,
+        25.209258
+       ],
+       [
+        55.273271,
+        25.209041
+       ],
+       [
+        55.273429,
+        25.208855
+       ],
+       [
+        55.273635,
+        25.208712
+       ],
+       [
+        55.273875,
+        25.208622
+       ],
+       [
+        55.274132,
+        25.208592
+       ],
+       [
+        55.274389,
+        25.208622
+       ],
+       [
+        55.274629,
+        25.208712
+       ],
+       [
+        55.274835,
+        25.208855
+       ],
+       [
+        55.274993,
+        25.209041
+       ],
+       [
+        55.275092,
+        25.209258
+       ],
+       [
+        55.275126,
+        25.209491
+       ],
+       [
+        55.275092,
+        25.209724
+       ],
+       [
+        55.274993,
+        25.209941
+       ],
+       [
+        55.274835,
+        25.210127
+       ],
+       [
+        55.274629,
+        25.21027
+       ],
+       [
+        55.274389,
+        25.21036
+       ],
+       [
+        55.274132,
+        25.21039
+       ]
+      ]
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92543,
+   "event": "element_added",
+   "data": {
+    "layer": "lines",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "LineString",
+      "coordinates": [
+       [
+        55.266336,
+        25.198343
+       ],
+       [
+        55.274132,
+        25.209491
+       ]
+      ]
+     },
+     "properties": {
+      "id": "route-line",
+      "element": "route_line",
+      "role": "route",
+      "priority": 85,
+      "color": "#14B8A6",
+      "provenance": "osrm-route",
+      "illustrative": true,
+      "label": "Sheikh Zayed Road",
+      "lineStyle": "route_line",
+      "widthClass": "major"
+     }
+    },
+    "properties": {
+     "id": "route-line",
+     "element": "route_line",
+     "role": "route",
+     "priority": 85,
+     "color": "#14B8A6",
+     "provenance": "osrm-route",
+     "illustrative": true,
+     "label": "Sheikh Zayed Road",
+     "lineStyle": "route_line",
+     "widthClass": "major"
+    },
+    "geometry": {
+     "type": "LineString",
+     "coordinates": [
+      [
+       55.266336,
+       25.198343
+      ],
+      [
+       55.274132,
+       25.209491
+      ]
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92543,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.266442,
+       25.198495
+      ]
+     },
+     "properties": {
+      "id": "barriers-1",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 0
+     }
+    },
+    "properties": {
+     "id": "barriers-1",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 0
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.266442,
+      25.198495
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92543,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.266655,
+       25.198799
+      ]
+     },
+     "properties": {
+      "id": "barriers-2",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 1
+     }
+    },
+    "properties": {
+     "id": "barriers-2",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 1
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.266655,
+      25.198799
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92543,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.266867,
+       25.199103
+      ]
+     },
+     "properties": {
+      "id": "barriers-3",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 2
+     }
+    },
+    "properties": {
+     "id": "barriers-3",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 2
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.266867,
+      25.199103
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92543,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.26708,
+       25.199407
+      ]
+     },
+     "properties": {
+      "id": "barriers-4",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 3
+     }
+    },
+    "properties": {
+     "id": "barriers-4",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 3
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.26708,
+      25.199407
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92543,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.267293,
+       25.199711
+      ]
+     },
+     "properties": {
+      "id": "barriers-5",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 4
+     }
+    },
+    "properties": {
+     "id": "barriers-5",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 4
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.267293,
+      25.199711
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.267505,
+       25.200015
+      ]
+     },
+     "properties": {
+      "id": "barriers-6",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 5
+     }
+    },
+    "properties": {
+     "id": "barriers-6",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 5
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.267505,
+      25.200015
+     ]
+    },
+    "t": "2026-11-01T13:58:13.998Z",
+    "elapsedMs": 92539
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.267718,
+       25.200319
+      ]
+     },
+     "properties": {
+      "id": "barriers-7",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 6
+     }
+    },
+    "properties": {
+     "id": "barriers-7",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 6
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.267718,
+      25.200319
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.26793,
+       25.200623
+      ]
+     },
+     "properties": {
+      "id": "barriers-8",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 7
+     }
+    },
+    "properties": {
+     "id": "barriers-8",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 7
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.26793,
+      25.200623
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.268143,
+       25.200927
+      ]
+     },
+     "properties": {
+      "id": "barriers-9",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 8
+     }
+    },
+    "properties": {
+     "id": "barriers-9",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 8
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.268143,
+      25.200927
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.268355,
+       25.201231
+      ]
+     },
+     "properties": {
+      "id": "barriers-10",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 9
+     }
+    },
+    "properties": {
+     "id": "barriers-10",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 9
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.268355,
+      25.201231
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.268568,
+       25.201535
+      ]
+     },
+     "properties": {
+      "id": "barriers-11",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 10
+     }
+    },
+    "properties": {
+     "id": "barriers-11",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 10
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.268568,
+      25.201535
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.268781,
+       25.201839
+      ]
+     },
+     "properties": {
+      "id": "barriers-12",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 11
+     }
+    },
+    "properties": {
+     "id": "barriers-12",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 11
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.268781,
+      25.201839
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.268993,
+       25.202143
+      ]
+     },
+     "properties": {
+      "id": "barriers-13",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 12
+     }
+    },
+    "properties": {
+     "id": "barriers-13",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 12
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.268993,
+      25.202143
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.269206,
+       25.202447
+      ]
+     },
+     "properties": {
+      "id": "barriers-14",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 13
+     }
+    },
+    "properties": {
+     "id": "barriers-14",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 13
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.269206,
+      25.202447
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.269418,
+       25.202751
+      ]
+     },
+     "properties": {
+      "id": "barriers-15",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 14
+     }
+    },
+    "properties": {
+     "id": "barriers-15",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 14
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.269418,
+      25.202751
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.269631,
+       25.203055
+      ]
+     },
+     "properties": {
+      "id": "barriers-16",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 15
+     }
+    },
+    "properties": {
+     "id": "barriers-16",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 15
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.269631,
+      25.203055
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.269843,
+       25.203359
+      ]
+     },
+     "properties": {
+      "id": "barriers-17",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 16
+     }
+    },
+    "properties": {
+     "id": "barriers-17",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 16
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.269843,
+      25.203359
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.270056,
+       25.203663
+      ]
+     },
+     "properties": {
+      "id": "barriers-18",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 17
+     }
+    },
+    "properties": {
+     "id": "barriers-18",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 17
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.270056,
+      25.203663
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.270269,
+       25.203967
+      ]
+     },
+     "properties": {
+      "id": "barriers-19",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 18
+     }
+    },
+    "properties": {
+     "id": "barriers-19",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 18
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.270269,
+      25.203967
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.270481,
+       25.204271
+      ]
+     },
+     "properties": {
+      "id": "barriers-20",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 19
+     }
+    },
+    "properties": {
+     "id": "barriers-20",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 19
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.270481,
+      25.204271
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.270694,
+       25.204575
+      ]
+     },
+     "properties": {
+      "id": "barriers-21",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 20
+     }
+    },
+    "properties": {
+     "id": "barriers-21",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 20
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.270694,
+      25.204575
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.270906,
+       25.204879
+      ]
+     },
+     "properties": {
+      "id": "barriers-22",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 21
+     }
+    },
+    "properties": {
+     "id": "barriers-22",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 21
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.270906,
+      25.204879
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.271119,
+       25.205183
+      ]
+     },
+     "properties": {
+      "id": "barriers-23",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 22
+     }
+    },
+    "properties": {
+     "id": "barriers-23",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 22
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.271119,
+      25.205183
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.271332,
+       25.205487
+      ]
+     },
+     "properties": {
+      "id": "barriers-24",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 23
+     }
+    },
+    "properties": {
+     "id": "barriers-24",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 23
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.271332,
+      25.205487
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.271544,
+       25.205791
+      ]
+     },
+     "properties": {
+      "id": "barriers-25",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 24
+     }
+    },
+    "properties": {
+     "id": "barriers-25",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 24
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.271544,
+      25.205791
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.271757,
+       25.206095
+      ]
+     },
+     "properties": {
+      "id": "barriers-26",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 25
+     }
+    },
+    "properties": {
+     "id": "barriers-26",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 25
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.271757,
+      25.206095
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.271969,
+       25.206399
+      ]
+     },
+     "properties": {
+      "id": "barriers-27",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 26
+     }
+    },
+    "properties": {
+     "id": "barriers-27",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 26
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.271969,
+      25.206399
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.272182,
+       25.206703
+      ]
+     },
+     "properties": {
+      "id": "barriers-28",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 27
+     }
+    },
+    "properties": {
+     "id": "barriers-28",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 27
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.272182,
+      25.206703
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.272395,
+       25.207007
+      ]
+     },
+     "properties": {
+      "id": "barriers-29",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 28
+     }
+    },
+    "properties": {
+     "id": "barriers-29",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 28
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.272395,
+      25.207007
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.272607,
+       25.207311
+      ]
+     },
+     "properties": {
+      "id": "barriers-30",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 29
+     }
+    },
+    "properties": {
+     "id": "barriers-30",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 29
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.272607,
+      25.207311
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.27282,
+       25.207615
+      ]
+     },
+     "properties": {
+      "id": "barriers-31",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 30
+     }
+    },
+    "properties": {
+     "id": "barriers-31",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 30
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.27282,
+      25.207615
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.273032,
+       25.207919
+      ]
+     },
+     "properties": {
+      "id": "barriers-32",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 31
+     }
+    },
+    "properties": {
+     "id": "barriers-32",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 31
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.273032,
+      25.207919
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.273245,
+       25.208223
+      ]
+     },
+     "properties": {
+      "id": "barriers-33",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 32
+     }
+    },
+    "properties": {
+     "id": "barriers-33",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 32
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.273245,
+      25.208223
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.273457,
+       25.208527
+      ]
+     },
+     "properties": {
+      "id": "barriers-34",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 33
+     }
+    },
+    "properties": {
+     "id": "barriers-34",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 33
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.273457,
+      25.208527
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.27367,
+       25.208831
+      ]
+     },
+     "properties": {
+      "id": "barriers-35",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 34
+     }
+    },
+    "properties": {
+     "id": "barriers-35",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 34
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.27367,
+      25.208831
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.273883,
+       25.209135
+      ]
+     },
+     "properties": {
+      "id": "barriers-36",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 35
+     }
+    },
+    "properties": {
+     "id": "barriers-36",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 35
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.273883,
+      25.209135
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.274095,
+       25.209439
+      ]
+     },
+     "properties": {
+      "id": "barriers-37",
+      "element": "barriers",
+      "role": "barrier",
+      "priority": 20,
+      "color": "#A7F3D0",
+      "provenance": "turf-along",
+      "illustrative": true,
+      "icon": "barrier",
+      "index": 36
+     }
+    },
+    "properties": {
+     "id": "barriers-37",
+     "element": "barriers",
+     "role": "barrier",
+     "priority": 20,
+     "color": "#A7F3D0",
+     "provenance": "turf-along",
+     "illustrative": true,
+     "icon": "barrier",
+     "index": 36
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.274095,
+      25.209439
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.266336,
+       25.198343
+      ]
+     },
+     "properties": {
+      "id": "start-finish",
+      "element": "start_finish",
+      "role": "marker",
+      "priority": 65,
+      "color": "#FFFFFF",
+      "provenance": "osrm-route",
+      "illustrative": true,
+      "icon": "start_finish"
+     }
+    },
+    "properties": {
+     "id": "start-finish",
+     "element": "start_finish",
+     "role": "marker",
+     "priority": 65,
+     "color": "#FFFFFF",
+     "provenance": "osrm-route",
+     "illustrative": true,
+     "icon": "start_finish"
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.266336,
+      25.198343
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.266336,
+       25.198343
+      ]
+     },
+     "properties": {
+      "id": "crowd-zone-marker-1",
+      "element": "crowd_zone",
+      "role": "zone",
+      "priority": 85,
+      "color": "#A7F3D0",
+      "provenance": "circle-buffer",
+      "illustrative": true,
+      "icon": "crowd_zone",
+      "index": 0
+     }
+    },
+    "properties": {
+     "id": "crowd-zone-marker-1",
+     "element": "crowd_zone",
+     "role": "zone",
+     "priority": 85,
+     "color": "#A7F3D0",
+     "provenance": "circle-buffer",
+     "illustrative": true,
+     "icon": "crowd_zone",
+     "index": 0
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.266336,
+      25.198343
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.270234,
+       25.203917
+      ]
+     },
+     "properties": {
+      "id": "crowd-zone-marker-2",
+      "element": "crowd_zone",
+      "role": "zone",
+      "priority": 85,
+      "color": "#A7F3D0",
+      "provenance": "circle-buffer",
+      "illustrative": true,
+      "icon": "crowd_zone",
+      "index": 1
+     }
+    },
+    "properties": {
+     "id": "crowd-zone-marker-2",
+     "element": "crowd_zone",
+     "role": "zone",
+     "priority": 85,
+     "color": "#A7F3D0",
+     "provenance": "circle-buffer",
+     "illustrative": true,
+     "icon": "crowd_zone",
+     "index": 1
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.270234,
+      25.203917
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.274132,
+       25.209491
+      ]
+     },
+     "properties": {
+      "id": "crowd-zone-marker-3",
+      "element": "crowd_zone",
+      "role": "zone",
+      "priority": 85,
+      "color": "#A7F3D0",
+      "provenance": "circle-buffer",
+      "illustrative": true,
+      "icon": "crowd_zone",
+      "index": 2
+     }
+    },
+    "properties": {
+     "id": "crowd-zone-marker-3",
+     "element": "crowd_zone",
+     "role": "zone",
+     "priority": 85,
+     "color": "#A7F3D0",
+     "provenance": "circle-buffer",
+     "illustrative": true,
+     "icon": "crowd_zone",
+     "index": 2
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.274132,
+      25.209491
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "points",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.274133,
+       25.199732
+      ]
+     },
+     "properties": {
+      "id": "generic-checkpoints-1",
+      "element": "checkpoints",
+      "role": "marker",
+      "priority": 40,
+      "color": "#14B8A6",
+      "provenance": "anchor",
+      "illustrative": true,
+      "icon": "generic",
+      "confidence": 0.5,
+      "generic": true
+     }
+    },
+    "properties": {
+     "id": "generic-checkpoints-1",
+     "element": "checkpoints",
+     "role": "marker",
+     "priority": 40,
+     "color": "#14B8A6",
+     "provenance": "anchor",
+     "illustrative": true,
+     "icon": "generic",
+     "confidence": 0.5,
+     "generic": true
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.274133,
+      25.199732
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "labels",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.274133,
+       25.197034
+      ]
+     },
+     "properties": {
+      "id": "label-focal-footprint-1",
+      "element": "focal",
+      "role": "focal",
+      "priority": 100,
+      "color": "#FFFFFF",
+      "provenance": "anchor",
+      "illustrative": true,
+      "label": "Burj Khalifa",
+      "labelFor": "focal-footprint"
+     }
+    },
+    "properties": {
+     "id": "label-focal-footprint-1",
+     "element": "focal",
+     "role": "focal",
+     "priority": 100,
+     "color": "#FFFFFF",
+     "provenance": "anchor",
+     "illustrative": true,
+     "label": "Burj Khalifa",
+     "labelFor": "focal-footprint"
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.274133,
+      25.197034
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "labels",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.270234,
+       25.203917
+      ]
+     },
+     "properties": {
+      "id": "label-route-line-2",
+      "element": "route_line",
+      "role": "route",
+      "priority": 85,
+      "color": "#A7F3D0",
+      "provenance": "anchor",
+      "illustrative": true,
+      "label": "Sheikh Zayed Road",
+      "labelFor": "route-line"
+     }
+    },
+    "properties": {
+     "id": "label-route-line-2",
+     "element": "route_line",
+     "role": "route",
+     "priority": 85,
+     "color": "#A7F3D0",
+     "provenance": "anchor",
+     "illustrative": true,
+     "label": "Sheikh Zayed Road",
+     "labelFor": "route-line"
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.270234,
+      25.203917
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 92544,
+   "event": "element_added",
+   "data": {
+    "layer": "labels",
+    "feature": {
+     "type": "Feature",
+     "geometry": {
+      "type": "Point",
+      "coordinates": [
+       55.266336,
+       25.198343
+      ]
+     },
+     "properties": {
+      "id": "label-start-finish-3",
+      "element": "start_finish",
+      "role": "marker",
+      "priority": 65,
+      "color": "#A7F3D0",
+      "provenance": "anchor",
+      "illustrative": true,
+      "label": "Start / finish",
+      "labelFor": "start-finish"
+     }
+    },
+    "properties": {
+     "id": "label-start-finish-3",
+     "element": "start_finish",
+     "role": "marker",
+     "priority": 65,
+     "color": "#A7F3D0",
+     "provenance": "anchor",
+     "illustrative": true,
+     "label": "Start / finish",
+     "labelFor": "start-finish"
+    },
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      55.266336,
+      25.198343
+     ]
+    },
+    "t": "2026-11-01T13:58:13.999Z",
+    "elapsedMs": 92540
+   }
+  },
+  {
+   "t": 103164,
+   "event": "scene.planning",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "seq": 3,
+    "prompt": "Create a cinematic marathon around Burj Khalifa with crowds, police roadblocks and moving traffic",
+    "origin": {
+     "name": "Burj Khalifa",
+     "lat": 25.1970336,
+     "lon": 55.2741329,
+     "approximate": false,
+     "precision": "exact",
+     "confidence": 0.95,
+     "sourceUrl": "https://www.openstreetmap.org/way/446646206"
+    },
+    "mode": "cinematic_simulation",
+    "t": "2026-11-01T13:58:24.619Z",
+    "elapsedMs": 103160
+   }
+  },
+  {
+   "t": 103164,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "seq": 4,
+    "text": "\n\n{\"kind\":\"classification\",\"title\":\"Illustrative Marathon Around Burj Khalifa\",\"classification\":{\"scenarioType",
+    "t": "2026-11-01T13:58:24.619Z",
+    "elapsedMs": 103160
+   }
+  },
+  {
+   "t": 103166,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "seq": 5,
+    "text": "\":\"marathon\",\"intent\":\"Illustrative 60-second cinematic marathon staging around",
+    "t": "2026-11-01T13:58:24.621Z",
+    "elapsedMs": 103162
+   }
+  },
+  {
+   "t": 103214,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "seq": 6,
+    "text": " Burj Khalifa with runners, spectator crowds, police roadblocks, and moving civilian traffic along",
+    "t": "2026-11-01T13:58:24.669Z",
+    "elapsedMs": 103210
+   }
+  },
+  {
+   "t": 103216,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "seq": 7,
+    "text": " Sheikh Zayed Road.\",\"hypothetical\":false,\"geographicConstraints\":[\"Burj Khal",
+    "t": "2026-11-01T13:58:24.671Z",
+    "elapsedMs": 103212
+   }
+  },
+  {
+   "t": 103217,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "seq": 8,
+    "text": "ifa, Dubai\",\"Sheikh Zayed Road\"],\"labels\":[\"marathon\",\"crowd_event\",\"",
+    "t": "2026-11-01T13:58:24.672Z",
+    "elapsedMs": 103213
+   }
+  },
+  {
+   "t": 103219,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "seq": 9,
+    "text": "police_roadblocks\",\"moving_traffic\",\"illustrative\"],\"uncertaintyNote\":\"All positions,",
+    "t": "2026-11-01T13:58:24.674Z",
+    "elapsedMs": 103215
+   }
+  },
+  {
+   "t": 103220,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "seq": 10,
+    "text": " timing, and staging are illustrative and not operational intelligence.\"}}\n{\"kind\":\"timeline\",\"",
+    "t": "2026-11-01T13:58:24.675Z",
+    "elapsedMs": 103216
+   }
+  },
+  {
+   "t": 103222,
+   "event": "scene.patch",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 11,
+    "patch": {
+     "patchId": "patch-71dfe2f6-e727-49fc-acf7-a0876f95c0e1",
+     "sceneId": "scene-test-1793541401455",
+     "baseVersion": 0,
+     "ops": [
+      {
+       "op": "set_classification",
+       "classification": {
+        "scenarioType": "marathon",
+        "intent": "Illustrative 60-second cinematic marathon staging around Burj Khalifa with runners, spectator crowds, police roadblocks, and moving civilian traffic along Sheikh Zayed Road.",
+        "hypothetical": false,
+        "geographicConstraints": [
+         "Burj Khalifa, Dubai",
+         "Sheikh Zayed Road"
+        ],
+        "labels": [
+         "marathon",
+         "crowd_event",
+         "police_roadblocks",
+         "moving_traffic",
+         "illustrative"
+        ],
+        "uncertaintyNote": "All positions, timing, and staging are illustrative and not operational intelligence."
+       }
+      },
+      {
+       "op": "set_title",
+       "title": "Illustrative Marathon Around Burj Khalifa"
+      }
+     ],
+     "reason": "director classification",
+     "source": "director"
+    },
+    "t": "2026-11-01T13:58:24.677Z",
+    "elapsedMs": 103218
+   }
+  },
+  {
+   "t": 103223,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 12,
+    "text": "durationSec\":60}\n{\"kind\":\"entity\",\"entity\":{\"id\":\"run",
+    "t": "2026-11-01T13:58:24.678Z",
+    "elapsedMs": 103219
+   }
+  },
+  {
+   "t": 103223,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 13,
+    "text": "ners_main\",\"assetId\":\"sprite.person.runner\",\"label\":\"Main runner pack\",\"category\":\"",
+    "t": "2026-11-01T13:58:24.678Z",
+    "elapsedMs": 103219
+   }
+  },
+  {
+   "t": 103225,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 14,
+    "text": "person\",\"role\":\"runners\",\"position\":{\"eastM\":-300,\"",
+    "t": "2026-11-01T13:58:24.680Z",
+    "elapsedMs": 103221
+   }
+  },
+  {
+   "t": 103226,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 15,
+    "text": "northM\":-400},\"headingDeg\":45,\"count\":12,\"",
+    "t": "2026-11-01T13:58:24.681Z",
+    "elapsedMs": 103222
+   }
+  },
+  {
+   "t": 103227,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 16,
+    "text": "spreadM\":20,\"behavior\":{\"type\":\"run\",\"speedMps\":4.5,\"path",
+    "t": "2026-11-01T13:58:24.682Z",
+    "elapsedMs": 103223
+   }
+  },
+  {
+   "t": 103275,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 17,
+    "text": "\":[{\"eastM\":-300,\"northM\":-400,\"atSec",
+    "t": "2026-11-01T13:58:24.730Z",
+    "elapsedMs": 103271
+   }
+  },
+  {
+   "t": 103276,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 18,
+    "text": "\":0},{\"eastM\":0,\"northM\":0,\"atSec\":30},{\"",
+    "t": "2026-11-01T13:58:24.731Z",
+    "elapsedMs": 103272
+   }
+  },
+  {
+   "t": 103277,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 19,
+    "text": "eastM\":300,\"northM\":400,\"at",
+    "t": "2026-11-01T13:58:24.732Z",
+    "elapsedMs": 103273
+   }
+  },
+  {
+   "t": 103278,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 20,
+    "text": "Sec\":60}]},\"startSec\":0,\"endSec\":60,\"uncertainty\":\"illustr",
+    "t": "2026-11-01T13:58:24.733Z",
+    "elapsedMs": 103274
+   }
+  },
+  {
+   "t": 103281,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 1,
+    "seq": 21,
+    "text": "ative\",\"tags\":[\"marathon\",\"runners\"]}}\n{\"kind\":\"entity\",\"entity",
+    "t": "2026-11-01T13:58:24.736Z",
+    "elapsedMs": 103277
+   }
+  },
+  {
+   "t": 103285,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 2,
+    "seq": 22,
+    "entity": {
+     "id": "runners_main",
+     "assetId": "sprite.person.runner",
+     "label": "Main runner pack",
+     "category": "person",
+     "role": "runners",
+     "position": {
+      "eastM": -300,
+      "northM": -400
+     },
+     "headingDeg": 45,
+     "scale": 1,
+     "count": 12,
+     "spreadM": 20,
+     "behavior": {
+      "type": "run",
+      "speedMps": 4.5,
+      "path": [
+       {
+        "eastM": -300,
+        "northM": -400,
+        "atSec": 0
+       },
+       {
+        "eastM": 0,
+        "northM": 0,
+        "atSec": 30
+       },
+       {
+        "eastM": 300,
+        "northM": 400,
+        "atSec": 60
+       }
+      ]
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "marathon",
+      "runners"
+     ]
+    },
+    "t": "2026-11-01T13:58:24.740Z",
+    "elapsedMs": 103281
+   }
+  },
+  {
+   "t": 103285,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 2,
+    "seq": 23,
+    "text": "\":{\"id\":\"crowd_zone_a\",\"assetId\":\"sprite.crowd_zone\",\"label",
+    "t": "2026-11-01T13:58:24.740Z",
+    "elapsedMs": 103281
+   }
+  },
+  {
+   "t": 103285,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 2,
+    "seq": 24,
+    "text": "\":\"Spectator zone A\",\"category\":\"crowd\",\"role\":\"spectators\",\"position",
+    "t": "2026-11-01T13:58:24.740Z",
+    "elapsedMs": 103281
+   }
+  },
+  {
+   "t": 103285,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 2,
+    "seq": 25,
+    "text": "\":{\"eastM\":-150,\"northM\":-250},\"count\":1",
+    "t": "2026-11-01T13:58:24.740Z",
+    "elapsedMs": 103281
+   }
+  },
+  {
+   "t": 103287,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 2,
+    "seq": 26,
+    "text": "20,\"spreadM\":80,\"behavior\":{\"type\":\"static\"},\"startSec",
+    "t": "2026-11-01T13:58:24.742Z",
+    "elapsedMs": 103283
+   }
+  },
+  {
+   "t": 103288,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 2,
+    "seq": 27,
+    "text": "\":0,\"endSec\":60,\"uncertainty\":\"illustrative\",\"tags\":[\"crowd\",\"spect",
+    "t": "2026-11-01T13:58:24.743Z",
+    "elapsedMs": 103284
+   }
+  },
+  {
+   "t": 103315,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 2,
+    "seq": 28,
+    "text": "ators\"]}}\n{\"kind\":\"entity\",\"entity\":{\"id\":\"crowd_zone_b",
+    "t": "2026-11-01T13:58:24.769Z",
+    "elapsedMs": 103310
+   }
+  },
+  {
+   "t": 103315,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 3,
+    "seq": 29,
+    "entity": {
+     "id": "crowd_zone_a",
+     "assetId": "sprite.crowd_zone",
+     "label": "Spectator zone A",
+     "category": "crowd",
+     "role": "spectators",
+     "position": {
+      "eastM": -150,
+      "northM": -250
+     },
+     "headingDeg": 0,
+     "scale": 1,
+     "count": 120,
+     "spreadM": 80,
+     "behavior": {
+      "type": "static"
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "crowd",
+      "spectators"
+     ]
+    },
+    "t": "2026-11-01T13:58:24.770Z",
+    "elapsedMs": 103311
+   }
+  },
+  {
+   "t": 103316,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 3,
+    "seq": 30,
+    "text": "\",\"assetId\":\"sprite.crowd_zone\",\"label\":\"Spectator zone B\",\"category",
+    "t": "2026-11-01T13:58:24.771Z",
+    "elapsedMs": 103312
+   }
+  },
+  {
+   "t": 103320,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 3,
+    "seq": 31,
+    "text": "\":\"crowd\",\"role\":\"spectators\",\"position\":{\"eastM\":150",
+    "t": "2026-11-01T13:58:24.775Z",
+    "elapsedMs": 103316
+   }
+  },
+  {
+   "t": 103325,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 3,
+    "seq": 32,
+    "text": ",\"northM\":250},\"count\":120,\"spreadM\":80,\"behavior",
+    "t": "2026-11-01T13:58:24.780Z",
+    "elapsedMs": 103321
+   }
+  },
+  {
+   "t": 103326,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 3,
+    "seq": 33,
+    "text": "\":{\"type\":\"static\"},\"startSec\":0,\"endSec\":60,\"uncertainty\":\"",
+    "t": "2026-11-01T13:58:24.781Z",
+    "elapsedMs": 103322
+   }
+  },
+  {
+   "t": 103331,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 3,
+    "seq": 34,
+    "text": "illustrative\",\"tags\":[\"crowd\",\"spectators\"]}}\n{\"kind\":\"entity",
+    "t": "2026-11-01T13:58:24.786Z",
+    "elapsedMs": 103327
+   }
+  },
+  {
+   "t": 103331,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 4,
+    "seq": 35,
+    "entity": {
+     "id": "crowd_zone_b",
+     "assetId": "sprite.crowd_zone",
+     "label": "Spectator zone B",
+     "category": "crowd",
+     "role": "spectators",
+     "position": {
+      "eastM": 150,
+      "northM": 250
+     },
+     "headingDeg": 0,
+     "scale": 1,
+     "count": 120,
+     "spreadM": 80,
+     "behavior": {
+      "type": "static"
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "crowd",
+      "spectators"
+     ]
+    },
+    "t": "2026-11-01T13:58:24.786Z",
+    "elapsedMs": 103327
+   }
+  },
+  {
+   "t": 103331,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 4,
+    "seq": 36,
+    "text": "\",\"entity\":{\"id\":\"barrier_line_a\",\"assetId\":\"sprite.barrier\",\"label\":\"",
+    "t": "2026-11-01T13:58:24.786Z",
+    "elapsedMs": 103327
+   }
+  },
+  {
+   "t": 103331,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 4,
+    "seq": 37,
+    "text": "Road barrier line\",\"category\":\"barrier\",\"role\":\"course_barrier\",\"position\":{\"",
+    "t": "2026-11-01T13:58:24.786Z",
+    "elapsedMs": 103327
+   }
+  },
+  {
+   "t": 103331,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 4,
+    "seq": 38,
+    "text": "eastM\":-200,\"northM\":-280},\"count\":8,\"",
+    "t": "2026-11-01T13:58:24.786Z",
+    "elapsedMs": 103327
+   }
+  },
+  {
+   "t": 103332,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 4,
+    "seq": 39,
+    "text": "spreadM\":10,\"behavior\":{\"type\":\"static\"},\"startSec\":0,\"",
+    "t": "2026-11-01T13:58:24.787Z",
+    "elapsedMs": 103328
+   }
+  },
+  {
+   "t": 103365,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 4,
+    "seq": 40,
+    "text": "endSec\":60,\"uncertainty\":\"illustrative\",\"tags\":[\"barrier\",\"roadblock\"]",
+    "t": "2026-11-01T13:58:24.820Z",
+    "elapsedMs": 103361
+   }
+  },
+  {
+   "t": 103366,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 4,
+    "seq": 41,
+    "text": "}}\n{\"kind\":\"entity\",\"entity\":{\"id\":\"cordon_nodes_a\",\"assetId\":\"sprite",
+    "t": "2026-11-01T13:58:24.821Z",
+    "elapsedMs": 103362
+   }
+  },
+  {
+   "t": 103366,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 5,
+    "seq": 42,
+    "entity": {
+     "id": "barrier_line_a",
+     "assetId": "sprite.barrier",
+     "label": "Road barrier line",
+     "category": "barrier",
+     "role": "course_barrier",
+     "position": {
+      "eastM": -200,
+      "northM": -280
+     },
+     "headingDeg": 0,
+     "scale": 1,
+     "count": 8,
+     "spreadM": 10,
+     "behavior": {
+      "type": "static"
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "barrier",
+      "roadblock"
+     ]
+    },
+    "t": "2026-11-01T13:58:24.821Z",
+    "elapsedMs": 103362
+   }
+  },
+  {
+   "t": 103368,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 5,
+    "seq": 43,
+    "text": ".cordon_node\",\"label\":\"Cordon nodes\",\"category\":\"barrier\",\"role\":\"c",
+    "t": "2026-11-01T13:58:24.823Z",
+    "elapsedMs": 103364
+   }
+  },
+  {
+   "t": 103373,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 5,
+    "seq": 44,
+    "text": "ordon_perimeter\",\"position\":{\"eastM\":120,\"northM\":",
+    "t": "2026-11-01T13:58:24.828Z",
+    "elapsedMs": 103369
+   }
+  },
+  {
+   "t": 103374,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 5,
+    "seq": 45,
+    "text": "180},\"count\":4,\"spreadM\":8,\"behavior\":{\"type\":\"static\"},\"",
+    "t": "2026-11-01T13:58:24.829Z",
+    "elapsedMs": 103370
+   }
+  },
+  {
+   "t": 103376,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 5,
+    "seq": 46,
+    "text": "startSec\":0,\"endSec\":60,\"uncertainty\":\"illustrative\",\"tags\":[\"c",
+    "t": "2026-11-01T13:58:24.831Z",
+    "elapsedMs": 103372
+   }
+  },
+  {
+   "t": 103377,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 5,
+    "seq": 47,
+    "text": "ordon\",\"roadblock\"]}}\n{\"kind\":\"entity\",\"entity\":{\"id\":\"police",
+    "t": "2026-11-01T13:58:24.832Z",
+    "elapsedMs": 103373
+   }
+  },
+  {
+   "t": 103377,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 6,
+    "seq": 48,
+    "entity": {
+     "id": "cordon_nodes_a",
+     "assetId": "sprite.cordon_node",
+     "label": "Cordon nodes",
+     "category": "barrier",
+     "role": "cordon_perimeter",
+     "position": {
+      "eastM": 120,
+      "northM": 180
+     },
+     "headingDeg": 0,
+     "scale": 1,
+     "count": 4,
+     "spreadM": 8,
+     "behavior": {
+      "type": "static"
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "cordon",
+      "roadblock"
+     ]
+    },
+    "t": "2026-11-01T13:58:24.832Z",
+    "elapsedMs": 103373
+   }
+  },
+  {
+   "t": 103378,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 6,
+    "seq": 49,
+    "text": "_officers_a\",\"assetId\":\"sprite.person.police_officer\",\"label\":\"Police officers\",\"",
+    "t": "2026-11-01T13:58:24.833Z",
+    "elapsedMs": 103374
+   }
+  },
+  {
+   "t": 103397,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 6,
+    "seq": 50,
+    "text": "category\":\"person\",\"role\":\"police_officer\",\"position\":{\"",
+    "t": "2026-11-01T13:58:24.852Z",
+    "elapsedMs": 103393
+   }
+  },
+  {
+   "t": 103399,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 6,
+    "seq": 51,
+    "text": "eastM\":130,\"northM\":190},\"count\":6,\"spreadM\":1",
+    "t": "2026-11-01T13:58:24.854Z",
+    "elapsedMs": 103395
+   }
+  },
+  {
+   "t": 103415,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 6,
+    "seq": 52,
+    "text": "2,\"behavior\":{\"type\":\"static\"},\"startSec\":0,\"endSec\":60,\"unc",
+    "t": "2026-11-01T13:58:24.870Z",
+    "elapsedMs": 103411
+   }
+  },
+  {
+   "t": 103417,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 6,
+    "seq": 53,
+    "text": "ertainty\":\"illustrative\",\"tags\":[\"police\",\"roadblock\"]}}\n{\"kind",
+    "t": "2026-11-01T13:58:24.872Z",
+    "elapsedMs": 103413
+   }
+  },
+  {
+   "t": 103417,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 7,
+    "seq": 54,
+    "entity": {
+     "id": "police_officers_a",
+     "assetId": "sprite.person.police_officer",
+     "label": "Police officers",
+     "category": "person",
+     "role": "police_officer",
+     "position": {
+      "eastM": 130,
+      "northM": 190
+     },
+     "headingDeg": 0,
+     "scale": 1,
+     "count": 6,
+     "spreadM": 12,
+     "behavior": {
+      "type": "static"
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "police",
+      "roadblock"
+     ]
+    },
+    "t": "2026-11-01T13:58:24.872Z",
+    "elapsedMs": 103413
+   }
+  },
+  {
+   "t": 103417,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 7,
+    "seq": 55,
+    "text": "\":\"entity\",\"entity\":{\"id\":\"command_post_a",
+    "t": "2026-11-01T13:58:24.872Z",
+    "elapsedMs": 103413
+   }
+  },
+  {
+   "t": 103419,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 7,
+    "seq": 56,
+    "text": "\",\"assetId\":\"sprite.command_post\",\"label\":\"Command post\",\"category\":\"responder\",\"role\":\"command_post\",\"position\":{\"",
+    "t": "2026-11-01T13:58:24.874Z",
+    "elapsedMs": 103415
+   }
+  },
+  {
+   "t": 103420,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 7,
+    "seq": 57,
+    "text": "eastM\":120,\"northM\":180},\"count\":1,\"behavior\":{\"",
+    "t": "2026-11-01T13:58:24.875Z",
+    "elapsedMs": 103416
+   }
+  },
+  {
+   "t": 103421,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 7,
+    "seq": 58,
+    "text": "type\":\"static\"},\"startSec\":0,\"endSec\":60,\"uncertainty\":\"illustr",
+    "t": "2026-11-01T13:58:24.876Z",
+    "elapsedMs": 103417
+   }
+  },
+  {
+   "t": 103423,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 7,
+    "seq": 59,
+    "text": "ative\",\"tags\":[\"command_post\",\"roadblock\"]}}\n{\"kind\":\"entity\",\"",
+    "t": "2026-11-01T13:58:24.878Z",
+    "elapsedMs": 103419
+   }
+  },
+  {
+   "t": 103424,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 8,
+    "seq": 60,
+    "entity": {
+     "id": "command_post_a",
+     "assetId": "sprite.command_post",
+     "label": "Command post",
+     "category": "responder",
+     "role": "command_post",
+     "position": {
+      "eastM": 120,
+      "northM": 180
+     },
+     "headingDeg": 0,
+     "scale": 1,
+     "count": 1,
+     "spreadM": 0,
+     "behavior": {
+      "type": "static"
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "command_post",
+      "roadblock"
+     ]
+    },
+    "t": "2026-11-01T13:58:24.879Z",
+    "elapsedMs": 103420
+   }
+  },
+  {
+   "t": 103424,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 8,
+    "seq": 61,
+    "text": "entity\":{\"id\":\"police_unit_a\",\"assetId\":\"sprite.police_unit\",\"label\":\"",
+    "t": "2026-11-01T13:58:24.879Z",
+    "elapsedMs": 103420
+   }
+  },
+  {
+   "t": 103425,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 8,
+    "seq": 62,
+    "text": "Police unit\",\"category\":\"police\",\"role\":\"police_unit\",\"position\":{\"",
+    "t": "2026-11-01T13:58:24.880Z",
+    "elapsedMs": 103421
+   }
+  },
+  {
+   "t": 103426,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 8,
+    "seq": 63,
+    "text": "eastM\":-100,\"northM\":-100},\"headingDeg\":4",
+    "t": "2026-11-01T13:58:24.881Z",
+    "elapsedMs": 103422
+   }
+  },
+  {
+   "t": 103466,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 8,
+    "seq": 64,
+    "text": "5,\"count\":1,\"behavior\":{\"type\":\"arrive\",\"speedMps\":8,\"path",
+    "t": "2026-11-01T13:58:24.921Z",
+    "elapsedMs": 103462
+   }
+  },
+  {
+   "t": 103468,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 8,
+    "seq": 65,
+    "text": "\":[{\"eastM\":-100,\"northM\":-100,\"atSec\":0",
+    "t": "2026-11-01T13:58:24.923Z",
+    "elapsedMs": 103464
+   }
+  },
+  {
+   "t": 103475,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 8,
+    "seq": 66,
+    "text": "},{\"eastM\":100,\"northM\":160,\"",
+    "t": "2026-11-01T13:58:24.930Z",
+    "elapsedMs": 103471
+   }
+  },
+  {
+   "t": 103478,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 8,
+    "seq": 67,
+    "text": "atSec\":10}]},\"startSec\":0,\"endSec\":60,\"uncertainty\":\"illustr",
+    "t": "2026-11-01T13:58:24.932Z",
+    "elapsedMs": 103473
+   }
+  },
+  {
+   "t": 103479,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 8,
+    "seq": 68,
+    "text": "ative\",\"tags\":[\"police\",\"roadblock\"]}}\n{\"kind\":\"entity",
+    "t": "2026-11-01T13:58:24.934Z",
+    "elapsedMs": 103475
+   }
+  },
+  {
+   "t": 103479,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 9,
+    "seq": 69,
+    "entity": {
+     "id": "police_unit_a",
+     "assetId": "sprite.police_unit",
+     "label": "Police unit",
+     "category": "police",
+     "role": "police_unit",
+     "position": {
+      "eastM": -100,
+      "northM": -100
+     },
+     "headingDeg": 45,
+     "scale": 1,
+     "count": 1,
+     "spreadM": 0,
+     "behavior": {
+      "type": "arrive",
+      "speedMps": 8,
+      "path": [
+       {
+        "eastM": -100,
+        "northM": -100,
+        "atSec": 0
+       },
+       {
+        "eastM": 100,
+        "northM": 160,
+        "atSec": 10
+       }
+      ]
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "police",
+      "roadblock"
+     ]
+    },
+    "t": "2026-11-01T13:58:24.934Z",
+    "elapsedMs": 103475
+   }
+  },
+  {
+   "t": 103479,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 9,
+    "seq": 70,
+    "text": "\",\"entity\":{\"id\":\"traffic_sedans_a\",\"assetId\":\"sprite.vehicle.civil",
+    "t": "2026-11-01T13:58:24.934Z",
+    "elapsedMs": 103475
+   }
+  },
+  {
+   "t": 103485,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 9,
+    "seq": 71,
+    "text": "ian_sedan\",\"label\":\"Civilian traffic\",\"category\":\"vehicle\",\"role\":\"civilian_traffic",
+    "t": "2026-11-01T13:58:24.940Z",
+    "elapsedMs": 103481
+   }
+  },
+  {
+   "t": 103487,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 9,
+    "seq": 72,
+    "text": "\",\"position\":{\"eastM\":-500,\"northM\":-200},\"headingDeg",
+    "t": "2026-11-01T13:58:24.942Z",
+    "elapsedMs": 103483
+   }
+  },
+  {
+   "t": 103489,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 9,
+    "seq": 73,
+    "text": "\":45,\"count\":3,\"spreadM\":15,\"behavior\":{\"",
+    "t": "2026-11-01T13:58:24.944Z",
+    "elapsedMs": 103485
+   }
+  },
+  {
+   "t": 103489,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 9,
+    "seq": 74,
+    "text": "type\":\"drive\",\"speedMps\":12,\"path\":[{\"eastM",
+    "t": "2026-11-01T13:58:24.944Z",
+    "elapsedMs": 103485
+   }
+  },
+  {
+   "t": 103518,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 9,
+    "seq": 75,
+    "text": "\":-500,\"northM\":-200,\"atSec\":0},{\"",
+    "t": "2026-11-01T13:58:24.973Z",
+    "elapsedMs": 103514
+   }
+  },
+  {
+   "t": 103522,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 9,
+    "seq": 76,
+    "text": "eastM\":500,\"northM\":200,\"atSec\":60}]}",
+    "t": "2026-11-01T13:58:24.977Z",
+    "elapsedMs": 103518
+   }
+  },
+  {
+   "t": 103523,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 9,
+    "seq": 77,
+    "text": ",\"startSec\":0,\"endSec\":60,\"uncertainty\":\"illustrative\",\"tags",
+    "t": "2026-11-01T13:58:24.978Z",
+    "elapsedMs": 103519
+   }
+  },
+  {
+   "t": 103525,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 9,
+    "seq": 78,
+    "text": "\":[\"traffic\",\"civilian\"]}}\n{\"kind\":\"entity\",\"entity\":{\"id\":\"road_closed",
+    "t": "2026-11-01T13:58:24.980Z",
+    "elapsedMs": 103521
+   }
+  },
+  {
+   "t": 103525,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 10,
+    "seq": 79,
+    "entity": {
+     "id": "traffic_sedans_a",
+     "assetId": "sprite.vehicle.civilian_sedan",
+     "label": "Civilian traffic",
+     "category": "vehicle",
+     "role": "civilian_traffic",
+     "position": {
+      "eastM": -500,
+      "northM": -200
+     },
+     "headingDeg": 45,
+     "scale": 1,
+     "count": 3,
+     "spreadM": 15,
+     "behavior": {
+      "type": "drive",
+      "speedMps": 12,
+      "path": [
+       {
+        "eastM": -500,
+        "northM": -200,
+        "atSec": 0
+       },
+       {
+        "eastM": 500,
+        "northM": 200,
+        "atSec": 60
+       }
+      ]
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "traffic",
+      "civilian"
+     ]
+    },
+    "t": "2026-11-01T13:58:24.980Z",
+    "elapsedMs": 103521
+   }
+  },
+  {
+   "t": 103526,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 10,
+    "seq": 80,
+    "text": "_sign_a\",\"assetId\":\"sprite.signage.road_closed\",\"label\":\"Road closed sign",
+    "t": "2026-11-01T13:58:24.981Z",
+    "elapsedMs": 103522
+   }
+  },
+  {
+   "t": 103527,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 10,
+    "seq": 81,
+    "text": "\",\"",
+    "t": "2026-11-01T13:58:24.982Z",
+    "elapsedMs": 103523
+   }
+  },
+  {
+   "t": 103528,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 10,
+    "seq": 82,
+    "text": "category\":\"signage\",\"role\":\"road_closed",
+    "t": "2026-11-01T13:58:24.983Z",
+    "elapsedMs": 103524
+   }
+  },
+  {
+   "t": 103529,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 10,
+    "seq": 83,
+    "text": "\",\"position\":{\"eastM\":-250,\"northM\":-320},\"count\":",
+    "t": "2026-11-01T13:58:24.984Z",
+    "elapsedMs": 103525
+   }
+  },
+  {
+   "t": 103531,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 10,
+    "seq": 84,
+    "text": "1,\"behavior\":{\"type\":\"static\"},\"startSec\":0,\"endSec\":60,\"",
+    "t": "2026-11-01T13:58:24.986Z",
+    "elapsedMs": 103527
+   }
+  },
+  {
+   "t": 103567,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 10,
+    "seq": 85,
+    "text": "uncertainty\":\"illustrative\",\"tags\":[\"signage\",\"roadblock\"]}}\n{\"",
+    "t": "2026-11-01T13:58:25.022Z",
+    "elapsedMs": 103563
+   }
+  },
+  {
+   "t": 103567,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 11,
+    "seq": 86,
+    "entity": {
+     "id": "road_closed_sign_a",
+     "assetId": "sprite.signage.road_closed",
+     "label": "Road closed sign",
+     "category": "signage",
+     "role": "road_closed",
+     "position": {
+      "eastM": -250,
+      "northM": -320
+     },
+     "headingDeg": 0,
+     "scale": 1,
+     "count": 1,
+     "spreadM": 0,
+     "behavior": {
+      "type": "static"
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "signage",
+      "roadblock"
+     ]
+    },
+    "t": "2026-11-01T13:58:25.022Z",
+    "elapsedMs": 103563
+   }
+  },
+  {
+   "t": 103571,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 11,
+    "seq": 87,
+    "text": "kind\":\"entity\",\"entity\":{\"id\":\"burj_marker\",\"assetId\":\"sprite.generic\",\"",
+    "t": "2026-11-01T13:58:25.026Z",
+    "elapsedMs": 103567
+   }
+  },
+  {
+   "t": 103573,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 11,
+    "seq": 88,
+    "text": "label\":\"Burj Khalifa\",\"category\":\"marker\",\"role\":\"landmark\",\"position",
+    "t": "2026-11-01T13:58:25.028Z",
+    "elapsedMs": 103569
+   }
+  },
+  {
+   "t": 103574,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 11,
+    "seq": 89,
+    "text": "\":{\"eastM\":0,\"northM\":0},\"count\":1,\"behavior\":{\"type\":\"",
+    "t": "2026-11-01T13:58:25.029Z",
+    "elapsedMs": 103570
+   }
+  },
+  {
+   "t": 103582,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 11,
+    "seq": 90,
+    "text": "static\"},\"startSec\":0,\"endSec\":60,\"uncertainty\":\"illustr",
+    "t": "2026-11-01T13:58:25.037Z",
+    "elapsedMs": 103578
+   }
+  },
+  {
+   "t": 103583,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 11,
+    "seq": 91,
+    "text": "ative\",\"tags\":[\"landmark\"]}}\n{\"kind\":\"route\",\"route\":{\"id\":\"route_s",
+    "t": "2026-11-01T13:58:25.038Z",
+    "elapsedMs": 103579
+   }
+  },
+  {
+   "t": 103583,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 12,
+    "seq": 92,
+    "entity": {
+     "id": "burj_marker",
+     "assetId": "sprite.generic",
+     "label": "Burj Khalifa",
+     "category": "marker",
+     "role": "landmark",
+     "position": {
+      "eastM": 0,
+      "northM": 0
+     },
+     "headingDeg": 0,
+     "scale": 1,
+     "count": 1,
+     "spreadM": 0,
+     "behavior": {
+      "type": "static"
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "uncertainty": "illustrative",
+     "provenance": {
+      "kind": "generated"
+     },
+     "highlight": false,
+     "hypothetical": false,
+     "tags": [
+      "landmark"
+     ]
+    },
+    "t": "2026-11-01T13:58:25.038Z",
+    "elapsedMs": 103579
+   }
+  },
+  {
+   "t": 103584,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 12,
+    "seq": 93,
+    "text": "heikh_zayed\",\"label\":\"Sheikh Zayed Road\",\"kind\":\"race_route\",\"coordinates",
+    "t": "2026-11-01T13:58:25.039Z",
+    "elapsedMs": 103580
+   }
+  },
+  {
+   "t": 103585,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 12,
+    "seq": 94,
+    "text": "\":[[55.2663",
+    "t": "2026-11-01T13:58:25.040Z",
+    "elapsedMs": 103581
+   }
+  },
+  {
+   "t": 103592,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 12,
+    "seq": 95,
+    "text": "36,25.198343],[55.27",
+    "t": "2026-11-01T13:58:25.047Z",
+    "elapsedMs": 103588
+   }
+  },
+  {
+   "t": 103593,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 12,
+    "seq": 96,
+    "text": "4132,25.209491]],\"closed\":false}}\n{\"kind\":\"effect\",\"",
+    "t": "2026-11-01T13:58:25.048Z",
+    "elapsedMs": 103589
+   }
+  },
+  {
+   "t": 103595,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 13,
+    "seq": 97,
+    "route": {
+     "id": "route_sheikh_zayed",
+     "label": "Sheikh Zayed Road",
+     "kind": "race_route",
+     "coordinates": [
+      [
+       55.266336,
+       25.198343
+      ],
+      [
+       55.274132,
+       25.209491
+      ]
+     ],
+     "closed": false,
+     "provenance": {
+      "kind": "generated"
+     },
+     "uncertainty": "illustrative"
+    },
+    "t": "2026-11-01T13:58:25.050Z",
+    "elapsedMs": 103591
+   }
+  },
+  {
+   "t": 103595,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 13,
+    "seq": 98,
+    "text": "effect\":{\"id\":\"effect_police_lights\",\"type\":\"emergency_lights\",\"entityId\":\"",
+    "t": "2026-11-01T13:58:25.050Z",
+    "elapsedMs": 103591
+   }
+  },
+  {
+   "t": 103617,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 13,
+    "seq": 99,
+    "text": "command_post_a\",\"position\":{\"eastM\":120,\"",
+    "t": "2026-11-01T13:58:25.072Z",
+    "elapsedMs": 103613
+   }
+  },
+  {
+   "t": 103618,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 13,
+    "seq": 100,
+    "text": "northM\":180},\"startSec\":0,\"endSec\":60,\"intensity\":",
+    "t": "2026-11-01T13:58:25.073Z",
+    "elapsedMs": 103614
+   }
+  },
+  {
+   "t": 103619,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 13,
+    "seq": 101,
+    "text": "0.5,\"hypothetical\":false}}\n{\"kind\":\"shot\",\"shot\":{\"",
+    "t": "2026-11-01T13:58:25.074Z",
+    "elapsedMs": 103615
+   }
+  },
+  {
+   "t": 103620,
+   "event": "scene.object.created",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 102,
+    "effect": {
+     "id": "effect_police_lights",
+     "type": "emergency_lights",
+     "entityId": "command_post_a",
+     "position": {
+      "eastM": 120,
+      "northM": 180
+     },
+     "startSec": 0,
+     "endSec": 60,
+     "intensity": 0.5,
+     "hypothetical": false
+    },
+    "t": "2026-11-01T13:58:25.075Z",
+    "elapsedMs": 103616
+   }
+  },
+  {
+   "t": 103621,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 103,
+    "text": "id\":\"shot_aerial_establishing\",\"type\":\"aerial_establishing\",\"title",
+    "t": "2026-11-01T13:58:25.076Z",
+    "elapsedMs": 103617
+   }
+  },
+  {
+   "t": 103622,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 104,
+    "text": "\":\"Burj Khalifa Marathon Overview\",\"startSec\":0,\"durationSec\":15",
+    "t": "2026-11-01T13:58:25.077Z",
+    "elapsedMs": 103618
+   }
+  },
+  {
+   "t": 103624,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 105,
+    "text": ",\"subjectIds\":[\"runners_main\",\"crow",
+    "t": "2026-11-01T13:58:25.079Z",
+    "elapsedMs": 103620
+   }
+  },
+  {
+   "t": 103625,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 106,
+    "text": "d_zone_a\",\"",
+    "t": "2026-11-01T13:58:25.080Z",
+    "elapsedMs": 103621
+   }
+  },
+  {
+   "t": 103627,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 107,
+    "text": "traffic_sedans",
+    "t": "2026-11-01T13:58:25.082Z",
+    "elapsedMs": 103623
+   }
+  },
+  {
+   "t": 103628,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 108,
+    "text": "_a\"],\"focus",
+    "t": "2026-11-01T13:58:25.083Z",
+    "elapsedMs": 103624
+   }
+  },
+  {
+   "t": 103629,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 109,
+    "text": "\":{\"east",
+    "t": "2026-11-01T13:58:25.084Z",
+    "elapsedMs": 103625
+   }
+  },
+  {
+   "t": 103631,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 110,
+    "text": "M\":",
+    "t": "2026-11-01T13:58:25.086Z",
+    "elapsedMs": 103627
+   }
+  },
+  {
+   "t": 103669,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 111,
+    "text": "0,\"northM\":0},\"",
+    "t": "2026-11-01T13:58:25.124Z",
+    "elapsedMs": 103665
+   }
+  },
+  {
+   "t": 103669,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 112,
+    "text": "distanceM\":",
+    "t": "2026-11-01T13:58:25.124Z",
+    "elapsedMs": 103665
+   }
+  },
+  {
+   "t": 103671,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 113,
+    "text": "120",
+    "t": "2026-11-01T13:58:25.126Z",
+    "elapsedMs": 103667
+   }
+  },
+  {
+   "t": 103673,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 114,
+    "text": "0,\"",
+    "t": "2026-11-01T13:58:25.128Z",
+    "elapsedMs": 103669
+   }
+  },
+  {
+   "t": 103674,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 115,
+    "text": "pitchDeg\":-",
+    "t": "2026-11-01T13:58:25.129Z",
+    "elapsedMs": 103670
+   }
+  },
+  {
+   "t": 103675,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 116,
+    "text": "15,\"headingDeg",
+    "t": "2026-11-01T13:58:25.130Z",
+    "elapsedMs": 103671
+   }
+  },
+  {
+   "t": 103676,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 117,
+    "text": "\":45",
+    "t": "2026-11-01T13:58:25.131Z",
+    "elapsedMs": 103672
+   }
+  },
+  {
+   "t": 103681,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 118,
+    "text": ",\"e",
+    "t": "2026-11-01T13:58:25.136Z",
+    "elapsedMs": 103677
+   }
+  },
+  {
+   "t": 103681,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 119,
+    "text": "asing\":\"ease_in_out",
+    "t": "2026-11-01T13:58:25.136Z",
+    "elapsedMs": 103677
+   }
+  },
+  {
+   "t": 103719,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 120,
+    "text": "\",\"priority\":",
+    "t": "2026-11-01T13:58:25.174Z",
+    "elapsedMs": 103715
+   }
+  },
+  {
+   "t": 103720,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 121,
+    "text": "90",
+    "t": "2026-11-01T13:58:25.175Z",
+    "elapsedMs": 103716
+   }
+  },
+  {
+   "t": 103721,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 14,
+    "seq": 122,
+    "text": "}}\n{\"kind\":\"",
+    "t": "2026-11-01T13:58:25.176Z",
+    "elapsedMs": 103717
+   }
+  },
+  {
+   "t": 103723,
+   "event": "scene.patch",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 123,
+    "patch": {
+     "patchId": "patch-ade9212c-fe22-4c83-ad28-995a3e7d4195",
+     "sceneId": "scene-test-1793541401455",
+     "baseVersion": 0,
+     "ops": [
+      {
+       "op": "add_shot",
+       "shot": {
+        "id": "shot_aerial_establishing",
+        "type": "aerial_establishing",
+        "title": "Burj Khalifa Marathon Overview",
+        "startSec": 0,
+        "durationSec": 15,
+        "subjectIds": [
+         "runners_main",
+         "crowd_zone_a",
+         "traffic_sedans_a"
+        ],
+        "focus": {
+         "eastM": 0,
+         "northM": 0
+        },
+        "distanceM": 1200,
+        "pitchDeg": -15,
+        "headingDeg": 45,
+        "headingDeltaDeg": 0,
+        "easing": "ease_in_out",
+        "priority": 90,
+        "interruptible": true
+       }
+      }
+     ],
+     "reason": "director shot",
+     "source": "director"
+    },
+    "t": "2026-11-01T13:58:25.178Z",
+    "elapsedMs": 103719
+   }
+  },
+  {
+   "t": 103723,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 124,
+    "text": "shot\",\"",
+    "t": "2026-11-01T13:58:25.178Z",
+    "elapsedMs": 103719
+   }
+  },
+  {
+   "t": 103723,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 125,
+    "text": "shot\":{\"id\":\"shot",
+    "t": "2026-11-01T13:58:25.178Z",
+    "elapsedMs": 103719
+   }
+  },
+  {
+   "t": 103725,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 126,
+    "text": "_street_level\",\"",
+    "t": "2026-11-01T13:58:25.180Z",
+    "elapsedMs": 103721
+   }
+  },
+  {
+   "t": 103726,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 127,
+    "text": "type\":\"street",
+    "t": "2026-11-01T13:58:25.181Z",
+    "elapsedMs": 103722
+   }
+  },
+  {
+   "t": 103728,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 128,
+    "text": "_level\",\"",
+    "t": "2026-11-01T13:58:25.183Z",
+    "elapsedMs": 103724
+   }
+  },
+  {
+   "t": 103729,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 129,
+    "text": "title\":\"Runners",
+    "t": "2026-11-01T13:58:25.184Z",
+    "elapsedMs": 103725
+   }
+  },
+  {
+   "t": 103730,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 130,
+    "text": " Past Barriers",
+    "t": "2026-11-01T13:58:25.185Z",
+    "elapsedMs": 103726
+   }
+  },
+  {
+   "t": 103769,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 131,
+    "text": "\",\"startSec\":1",
+    "t": "2026-11-01T13:58:25.224Z",
+    "elapsedMs": 103765
+   }
+  },
+  {
+   "t": 103770,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 132,
+    "text": "5,\"",
+    "t": "2026-11-01T13:58:25.225Z",
+    "elapsedMs": 103766
+   }
+  },
+  {
+   "t": 103772,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 133,
+    "text": "durationSec\":",
+    "t": "2026-11-01T13:58:25.227Z",
+    "elapsedMs": 103768
+   }
+  },
+  {
+   "t": 103774,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 134,
+    "text": "15,\"",
+    "t": "2026-11-01T13:58:25.229Z",
+    "elapsedMs": 103770
+   }
+  },
+  {
+   "t": 103774,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 135,
+    "text": "subjectIds\":[\"",
+    "t": "2026-11-01T13:58:25.229Z",
+    "elapsedMs": 103770
+   }
+  },
+  {
+   "t": 103777,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 136,
+    "text": "runners_main\",\"",
+    "t": "2026-11-01T13:58:25.232Z",
+    "elapsedMs": 103773
+   }
+  },
+  {
+   "t": 103780,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 137,
+    "text": "barrier",
+    "t": "2026-11-01T13:58:25.235Z",
+    "elapsedMs": 103776
+   }
+  },
+  {
+   "t": 103780,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 138,
+    "text": "_line_a\"],\"focus",
+    "t": "2026-11-01T13:58:25.235Z",
+    "elapsedMs": 103776
+   }
+  },
+  {
+   "t": 103781,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 139,
+    "text": "\":{\"eastM\":-100,\"northM\":-150},\"distanceM",
+    "t": "2026-11-01T13:58:25.236Z",
+    "elapsedMs": 103777
+   }
+  },
+  {
+   "t": 103781,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 140,
+    "text": "\":80,\"pitchDeg\":-5,\"headingDeg\":135,\"easing\":\"ease_in_out",
+    "t": "2026-11-01T13:58:25.236Z",
+    "elapsedMs": 103777
+   }
+  },
+  {
+   "t": 103783,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 15,
+    "seq": 141,
+    "text": "\",\"priority\":80}}\n{\"kind\":\"shot\",\"shot\":{\"id\":\"shot",
+    "t": "2026-11-01T13:58:25.238Z",
+    "elapsedMs": 103779
+   }
+  },
+  {
+   "t": 103783,
+   "event": "scene.patch",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 16,
+    "seq": 142,
+    "patch": {
+     "patchId": "patch-84d795d9-9b40-4980-b500-fdfad1371de0",
+     "sceneId": "scene-test-1793541401455",
+     "baseVersion": 0,
+     "ops": [
+      {
+       "op": "add_shot",
+       "shot": {
+        "id": "shot_street_level",
+        "type": "street_level",
+        "title": "Runners Past Barriers",
+        "startSec": 15,
+        "durationSec": 15,
+        "subjectIds": [
+         "runners_main",
+         "barrier_line_a"
+        ],
+        "focus": {
+         "eastM": -100,
+         "northM": -150
+        },
+        "distanceM": 80,
+        "pitchDeg": -5,
+        "headingDeg": 135,
+        "headingDeltaDeg": 0,
+        "easing": "ease_in_out",
+        "priority": 80,
+        "interruptible": true
+       }
+      }
+     ],
+     "reason": "director shot",
+     "source": "director"
+    },
+    "t": "2026-11-01T13:58:25.238Z",
+    "elapsedMs": 103779
+   }
+  },
+  {
+   "t": 103819,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 16,
+    "seq": 143,
+    "text": "_tracking_traffic\",\"type\":\"tracking\",\"title\":\"Civilian Traffic Flow\",\"startSec\":3",
+    "t": "2026-11-01T13:58:25.274Z",
+    "elapsedMs": 103815
+   }
+  },
+  {
+   "t": 103822,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 16,
+    "seq": 144,
+    "text": "0,\"durationSec\":15,\"subjectIds\":[\"traffic_sedans_a\"],\"",
+    "t": "2026-11-01T13:58:25.277Z",
+    "elapsedMs": 103818
+   }
+  },
+  {
+   "t": 103822,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 16,
+    "seq": 145,
+    "text": "focus\":{\"eastM\":0,\"northM\":0},\"distanceM\":12",
+    "t": "2026-11-01T13:58:25.277Z",
+    "elapsedMs": 103818
+   }
+  },
+  {
+   "t": 103824,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 16,
+    "seq": 146,
+    "text": "0,\"pitchDeg\":-10,\"headingDeg\":315,\"easing\":\"linear\",\"",
+    "t": "2026-11-01T13:58:25.279Z",
+    "elapsedMs": 103820
+   }
+  },
+  {
+   "t": 103825,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 16,
+    "seq": 147,
+    "text": "priority\":70",
+    "t": "2026-11-01T13:58:25.280Z",
+    "elapsedMs": 103821
+   }
+  },
+  {
+   "t": 103826,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 16,
+    "seq": 148,
+    "text": "}}\n{\"kind\":\"",
+    "t": "2026-11-01T13:58:25.281Z",
+    "elapsedMs": 103822
+   }
+  },
+  {
+   "t": 103827,
+   "event": "scene.patch",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 149,
+    "patch": {
+     "patchId": "patch-4aa47048-5982-4518-bf06-7a68e6895489",
+     "sceneId": "scene-test-1793541401455",
+     "baseVersion": 0,
+     "ops": [
+      {
+       "op": "add_shot",
+       "shot": {
+        "id": "shot_tracking_traffic",
+        "type": "tracking",
+        "title": "Civilian Traffic Flow",
+        "startSec": 30,
+        "durationSec": 15,
+        "subjectIds": [
+         "traffic_sedans_a"
+        ],
+        "focus": {
+         "eastM": 0,
+         "northM": 0
+        },
+        "distanceM": 120,
+        "pitchDeg": -10,
+        "headingDeg": 315,
+        "headingDeltaDeg": 0,
+        "easing": "linear",
+        "priority": 70,
+        "interruptible": true
+       }
+      }
+     ],
+     "reason": "director shot",
+     "source": "director"
+    },
+    "t": "2026-11-01T13:58:25.282Z",
+    "elapsedMs": 103823
+   }
+  },
+  {
+   "t": 103827,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 150,
+    "text": "shot\",\"",
+    "t": "2026-11-01T13:58:25.282Z",
+    "elapsedMs": 103823
+   }
+  },
+  {
+   "t": 103830,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 151,
+    "text": "shot\":{\"id\":\"shot",
+    "t": "2026-11-01T13:58:25.285Z",
+    "elapsedMs": 103826
+   }
+  },
+  {
+   "t": 103832,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 152,
+    "text": "_overhead_",
+    "t": "2026-11-01T13:58:25.286Z",
+    "elapsedMs": 103827
+   }
+  },
+  {
+   "t": 103832,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 153,
+    "text": "roadblock\",\"",
+    "t": "2026-11-01T13:58:25.287Z",
+    "elapsedMs": 103828
+   }
+  },
+  {
+   "t": 103871,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 154,
+    "text": "type\":\"overhead",
+    "t": "2026-11-01T13:58:25.326Z",
+    "elapsedMs": 103867
+   }
+  },
+  {
+   "t": 103872,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 155,
+    "text": "_intelligence\",\"",
+    "t": "2026-11-01T13:58:25.327Z",
+    "elapsedMs": 103868
+   }
+  },
+  {
+   "t": 103873,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 156,
+    "text": "title\":\"Roadblock",
+    "t": "2026-11-01T13:58:25.328Z",
+    "elapsedMs": 103869
+   }
+  },
+  {
+   "t": 103875,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 157,
+    "text": " Command Post",
+    "t": "2026-11-01T13:58:25.330Z",
+    "elapsedMs": 103871
+   }
+  },
+  {
+   "t": 103876,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 158,
+    "text": "\",\"startSec\":4",
+    "t": "2026-11-01T13:58:25.331Z",
+    "elapsedMs": 103872
+   }
+  },
+  {
+   "t": 103878,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 159,
+    "text": "5,\"",
+    "t": "2026-11-01T13:58:25.333Z",
+    "elapsedMs": 103874
+   }
+  },
+  {
+   "t": 103879,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 160,
+    "text": "durationSec\":",
+    "t": "2026-11-01T13:58:25.334Z",
+    "elapsedMs": 103875
+   }
+  },
+  {
+   "t": 103880,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 161,
+    "text": "15,\"",
+    "t": "2026-11-01T13:58:25.335Z",
+    "elapsedMs": 103876
+   }
+  },
+  {
+   "t": 103882,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 162,
+    "text": "subjectIds\":[\"command",
+    "t": "2026-11-01T13:58:25.337Z",
+    "elapsedMs": 103878
+   }
+  },
+  {
+   "t": 103883,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 163,
+    "text": "_post",
+    "t": "2026-11-01T13:58:25.338Z",
+    "elapsedMs": 103879
+   }
+  },
+  {
+   "t": 103921,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 164,
+    "text": "_a\",\"police_off",
+    "t": "2026-11-01T13:58:25.376Z",
+    "elapsedMs": 103917
+   }
+  },
+  {
+   "t": 103921,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 165,
+    "text": "icers_a\",\"cordon_nodes_a\"],\"focus\":{\"eastM\":120",
+    "t": "2026-11-01T13:58:25.376Z",
+    "elapsedMs": 103917
+   }
+  },
+  {
+   "t": 103923,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 166,
+    "text": ",\"northM\":180},\"distanceM\":300,\"pitchDeg\":-20",
+    "t": "2026-11-01T13:58:25.378Z",
+    "elapsedMs": 103919
+   }
+  },
+  {
+   "t": 103924,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 167,
+    "text": ",\"headingDeg\":225",
+    "t": "2026-11-01T13:58:25.379Z",
+    "elapsedMs": 103920
+   }
+  },
+  {
+   "t": 103926,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 168,
+    "text": ",\"easing\":\"",
+    "t": "2026-11-01T13:58:25.381Z",
+    "elapsedMs": 103922
+   }
+  },
+  {
+   "t": 103928,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 169,
+    "text": "ease_out\",\"",
+    "t": "2026-11-01T13:58:25.383Z",
+    "elapsedMs": 103924
+   }
+  },
+  {
+   "t": 103929,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 17,
+    "seq": 170,
+    "text": "priority\":85}}\n{\"kind\":\"beat\",\"beat\":{\"atSec\":0,\"title\":\"",
+    "t": "2026-11-01T13:58:25.384Z",
+    "elapsedMs": 103925
+   }
+  },
+  {
+   "t": 103929,
+   "event": "scene.patch",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 18,
+    "seq": 171,
+    "patch": {
+     "patchId": "patch-9081e421-b870-4e63-a691-1d419fe262e1",
+     "sceneId": "scene-test-1793541401455",
+     "baseVersion": 0,
+     "ops": [
+      {
+       "op": "add_shot",
+       "shot": {
+        "id": "shot_overhead_roadblock",
+        "type": "overhead_intelligence",
+        "title": "Roadblock Command Post",
+        "startSec": 45,
+        "durationSec": 15,
+        "subjectIds": [
+         "command_post_a",
+         "police_officers_a",
+         "cordon_nodes_a"
+        ],
+        "focus": {
+         "eastM": 120,
+         "northM": 180
+        },
+        "distanceM": 300,
+        "pitchDeg": -20,
+        "headingDeg": 225,
+        "headingDeltaDeg": 0,
+        "easing": "ease_out",
+        "priority": 85,
+        "interruptible": true
+       }
+      }
+     ],
+     "reason": "director shot",
+     "source": "director"
+    },
+    "t": "2026-11-01T13:58:25.384Z",
+    "elapsedMs": 103925
+   }
+  },
+  {
+   "t": 103930,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 18,
+    "seq": 172,
+    "text": "Establishing the Route\",\"narration\":\"An illustrative aerial view introduces the marathon corridor",
+    "t": "2026-11-01T13:58:25.385Z",
+    "elapsedMs": 103926
+   }
+  },
+  {
+   "t": 103933,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 18,
+    "seq": 173,
+    "text": " near Burj Khalifa, with runners, crowds, and traffic staged along the route.\",\"",
+    "t": "2026-11-01T13:58:25.388Z",
+    "elapsedMs": 103929
+   }
+  },
+  {
+   "t": 103935,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 18,
+    "seq": 174,
+    "text": "entityIds\":[\"runners_main\",\"crowd_zone",
+    "t": "2026-11-01T13:58:25.390Z",
+    "elapsedMs": 103931
+   }
+  },
+  {
+   "t": 103970,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 18,
+    "seq": 175,
+    "text": "_a\",\"traffic",
+    "t": "2026-11-01T13:58:25.425Z",
+    "elapsedMs": 103966
+   }
+  },
+  {
+   "t": 103971,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 18,
+    "seq": 176,
+    "text": "_s",
+    "t": "2026-11-01T13:58:25.426Z",
+    "elapsedMs": 103967
+   }
+  },
+  {
+   "t": 103973,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 18,
+    "seq": 177,
+    "text": "edans_a",
+    "t": "2026-11-01T13:58:25.428Z",
+    "elapsedMs": 103969
+   }
+  },
+  {
+   "t": 103975,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 18,
+    "seq": 178,
+    "text": "\"]}}\n{\"kind\":\"",
+    "t": "2026-11-01T13:58:25.430Z",
+    "elapsedMs": 103971
+   }
+  },
+  {
+   "t": 103976,
+   "event": "scene.patch",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 179,
+    "patch": {
+     "patchId": "patch-19d5003e-b2e1-4f3e-b23a-44a051f97886",
+     "sceneId": "scene-test-1793541401455",
+     "baseVersion": 0,
+     "ops": [
+      {
+       "op": "add_timeline_event",
+       "beat": {
+        "atSec": 0,
+        "title": "Establishing the Route",
+        "narration": "An illustrative aerial view introduces the marathon corridor near Burj Khalifa, with runners, crowds, and traffic staged along the route.",
+        "entityIds": [
+         "runners_main",
+         "crowd_zone_a",
+         "traffic_sedans_a"
+        ],
+        "evidenceIds": []
+       }
+      }
+     ],
+     "reason": "director beat",
+     "source": "director"
+    },
+    "t": "2026-11-01T13:58:25.431Z",
+    "elapsedMs": 103972
+   }
+  },
+  {
+   "t": 103976,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 180,
+    "text": "beat\",\"",
+    "t": "2026-11-01T13:58:25.431Z",
+    "elapsedMs": 103972
+   }
+  },
+  {
+   "t": 103977,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 181,
+    "text": "beat\":{\"",
+    "t": "2026-11-01T13:58:25.432Z",
+    "elapsedMs": 103973
+   }
+  },
+  {
+   "t": 103981,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 182,
+    "text": "atSec\":2",
+    "t": "2026-11-01T13:58:25.436Z",
+    "elapsedMs": 103977
+   }
+  },
+  {
+   "t": 103981,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 183,
+    "text": "0,\"title\":\"",
+    "t": "2026-11-01T13:58:25.436Z",
+    "elapsedMs": 103977
+   }
+  },
+  {
+   "t": 103983,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 184,
+    "text": "Crowd Energy and",
+    "t": "2026-11-01T13:58:25.438Z",
+    "elapsedMs": 103979
+   }
+  },
+  {
+   "t": 103984,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 185,
+    "text": " Barriers",
+    "t": "2026-11-01T13:58:25.439Z",
+    "elapsedMs": 103980
+   }
+  },
+  {
+   "t": 104023,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 186,
+    "text": "\",\"narr",
+    "t": "2026-11-01T13:58:25.478Z",
+    "elapsedMs": 104019
+   }
+  },
+  {
+   "t": 104023,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 187,
+    "text": "ation\":\"Spectator",
+    "t": "2026-11-01T13:58:25.478Z",
+    "elapsedMs": 104019
+   }
+  },
+  {
+   "t": 104025,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 188,
+    "text": " zones line the",
+    "t": "2026-11-01T13:58:25.480Z",
+    "elapsedMs": 104021
+   }
+  },
+  {
+   "t": 104026,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 189,
+    "text": " course while road barriers",
+    "t": "2026-11-01T13:58:25.481Z",
+    "elapsedMs": 104022
+   }
+  },
+  {
+   "t": 104027,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 190,
+    "text": " define the running",
+    "t": "2026-11-01T13:58:25.482Z",
+    "elapsedMs": 104023
+   }
+  },
+  {
+   "t": 104028,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 191,
+    "text": " path in",
+    "t": "2026-11-01T13:58:25.483Z",
+    "elapsedMs": 104024
+   }
+  },
+  {
+   "t": 104030,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 192,
+    "text": " this non-operational",
+    "t": "2026-11-01T13:58:25.485Z",
+    "elapsedMs": 104026
+   }
+  },
+  {
+   "t": 104031,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 193,
+    "text": " cinematic staging.\",\"",
+    "t": "2026-11-01T13:58:25.486Z",
+    "elapsedMs": 104027
+   }
+  },
+  {
+   "t": 104032,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 194,
+    "text": "entityIds",
+    "t": "2026-11-01T13:58:25.487Z",
+    "elapsedMs": 104028
+   }
+  },
+  {
+   "t": 104033,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 195,
+    "text": "\":[\"crowd",
+    "t": "2026-11-01T13:58:25.488Z",
+    "elapsedMs": 104029
+   }
+  },
+  {
+   "t": 104072,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 196,
+    "text": "_zone_a\",\"",
+    "t": "2026-11-01T13:58:25.527Z",
+    "elapsedMs": 104068
+   }
+  },
+  {
+   "t": 104073,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 197,
+    "text": "crowd_zone",
+    "t": "2026-11-01T13:58:25.528Z",
+    "elapsedMs": 104069
+   }
+  },
+  {
+   "t": 104074,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 198,
+    "text": "_b\",\"barrier",
+    "t": "2026-11-01T13:58:25.529Z",
+    "elapsedMs": 104070
+   }
+  },
+  {
+   "t": 104075,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 199,
+    "text": "_line_a",
+    "t": "2026-11-01T13:58:25.530Z",
+    "elapsedMs": 104071
+   }
+  },
+  {
+   "t": 104077,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 19,
+    "seq": 200,
+    "text": "\"]}}\n{\"kind\":\"",
+    "t": "2026-11-01T13:58:25.532Z",
+    "elapsedMs": 104073
+   }
+  },
+  {
+   "t": 104077,
+   "event": "scene.patch",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 201,
+    "patch": {
+     "patchId": "patch-cc7940c3-309f-44e8-bd01-fd42a0773951",
+     "sceneId": "scene-test-1793541401455",
+     "baseVersion": 0,
+     "ops": [
+      {
+       "op": "add_timeline_event",
+       "beat": {
+        "atSec": 20,
+        "title": "Crowd Energy and Barriers",
+        "narration": "Spectator zones line the course while road barriers define the running path in this non-operational cinematic staging.",
+        "entityIds": [
+         "crowd_zone_a",
+         "crowd_zone_b",
+         "barrier_line_a"
+        ],
+        "evidenceIds": []
+       }
+      }
+     ],
+     "reason": "director beat",
+     "source": "director"
+    },
+    "t": "2026-11-01T13:58:25.532Z",
+    "elapsedMs": 104073
+   }
+  },
+  {
+   "t": 104078,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 202,
+    "text": "beat\",\"",
+    "t": "2026-11-01T13:58:25.533Z",
+    "elapsedMs": 104074
+   }
+  },
+  {
+   "t": 104079,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 203,
+    "text": "beat\":{\"",
+    "t": "2026-11-01T13:58:25.534Z",
+    "elapsedMs": 104075
+   }
+  },
+  {
+   "t": 104081,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 204,
+    "text": "atSec\":4",
+    "t": "2026-11-01T13:58:25.536Z",
+    "elapsedMs": 104077
+   }
+  },
+  {
+   "t": 104082,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 205,
+    "text": "5,\"title\":\"Police Road",
+    "t": "2026-11-01T13:58:25.537Z",
+    "elapsedMs": 104078
+   }
+  },
+  {
+   "t": 104083,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 206,
+    "text": "block Presence",
+    "t": "2026-11-01T13:58:25.538Z",
+    "elapsedMs": 104079
+   }
+  },
+  {
+   "t": 104085,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 207,
+    "text": "\",\"n",
+    "t": "2026-11-01T13:58:25.540Z",
+    "elapsedMs": 104081
+   }
+  },
+  {
+   "t": 104128,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 208,
+    "text": "arration\":\"A command",
+    "t": "2026-11-01T13:58:25.583Z",
+    "elapsedMs": 104124
+   }
+  },
+  {
+   "t": 104130,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 209,
+    "text": " post, c",
+    "t": "2026-11-01T13:58:25.585Z",
+    "elapsedMs": 104126
+   }
+  },
+  {
+   "t": 104133,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 210,
+    "text": "ordon nodes, and officers",
+    "t": "2026-11-01T13:58:25.588Z",
+    "elapsedMs": 104129
+   }
+  },
+  {
+   "t": 104134,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 211,
+    "text": " show a visible roadblock perimeter without operational tactical detail.\",\"entityIds\":[\"command_post_a\",\"pol",
+    "t": "2026-11-01T13:58:25.589Z",
+    "elapsedMs": 104130
+   }
+  },
+  {
+   "t": 104136,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 20,
+    "seq": 212,
+    "text": "ice_officers_a\",\"cordon_nodes_a\",\"police_unit_a\"]}}\n",
+    "t": "2026-11-01T13:58:25.591Z",
+    "elapsedMs": 104132
+   }
+  },
+  {
+   "t": 104136,
+   "event": "scene.patch",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 21,
+    "seq": 213,
+    "patch": {
+     "patchId": "patch-09e9e914-654d-488e-ab6a-30563f5e5d80",
+     "sceneId": "scene-test-1793541401455",
+     "baseVersion": 0,
+     "ops": [
+      {
+       "op": "add_timeline_event",
+       "beat": {
+        "atSec": 45,
+        "title": "Police Roadblock Presence",
+        "narration": "A command post, cordon nodes, and officers show a visible roadblock perimeter without operational tactical detail.",
+        "entityIds": [
+         "command_post_a",
+         "police_officers_a",
+         "cordon_nodes_a",
+         "police_unit_a"
+        ],
+        "evidenceIds": []
+       }
+      }
+     ],
+     "reason": "director beat",
+     "source": "director"
+    },
+    "t": "2026-11-01T13:58:25.591Z",
+    "elapsedMs": 104132
+   }
+  },
+  {
+   "t": 104137,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 21,
+    "seq": 214,
+    "text": "{\"kind\":\"end\",\"summary\":\"A 60-second illustrative marathon scene around",
+    "t": "2026-11-01T13:58:25.592Z",
+    "elapsedMs": 104133
+   }
+  },
+  {
+   "t": 104141,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 21,
+    "seq": 215,
+    "text": " Burj Khalifa shows runners, spectator crowds, road barriers, police roadblock elements, and moving",
+    "t": "2026-11-01T13:58:25.596Z",
+    "elapsedMs": 104137
+   }
+  },
+  {
+   "t": 104142,
+   "event": "answer.delta",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 21,
+    "seq": 216,
+    "text": " civilian traffic. All staging is illustrative and non-operational.\"}",
+    "t": "2026-11-01T13:58:25.597Z",
+    "elapsedMs": 104138
+   }
+  },
+  {
+   "t": 106168,
+   "event": "answer.completed",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 21,
+    "seq": 217,
+    "deltas": 192,
+    "t": "2026-11-01T13:58:27.623Z",
+    "elapsedMs": 106164
+   }
+  },
+  {
+   "t": 106174,
+   "event": "scene.ready",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 21,
+    "seq": 218,
+    "entities": 11,
+    "shots": 4,
+    "beats": 3,
+    "t": "2026-11-01T13:58:27.629Z",
+    "elapsedMs": 106170
+   }
+  },
+  {
+   "t": 106176,
+   "event": "snap_batch_progress",
+   "data": {
+    "available": false,
+    "reason": "snapchat discovery is explicit-only",
+    "t": "2026-11-01T13:58:27.631Z",
+    "elapsedMs": 106172
+   }
+  },
+  {
+   "t": 106176,
+   "event": "status",
+   "data": {
+    "stage": "finalizing",
+    "text": "Finalizing cinematic scene",
+    "t": "2026-11-01T13:58:27.631Z",
+    "elapsedMs": 106172
+   }
+  },
+  {
+   "t": 106176,
+   "event": "usage",
+   "data": {
+    "tokensEstimated": 12820,
+    "method": "provider publicMetrics.outputTokens",
+    "modelId": "predefined-cerebras-qwen-3.8-27b",
+    "plannerMs": 14804,
+    "t": "2026-11-01T13:58:27.631Z",
+    "elapsedMs": 106172
+   }
+  },
+  {
+   "t": 106176,
+   "event": "run.completed",
+   "data": {
+    "runId": "test-1793541401455",
+    "sceneId": "scene-test-1793541401455",
+    "sceneVersion": 0,
+    "scene": "[omitted]",
+    "model": {
+     "endpointId": "predefined-cerebras-qwen-3.8-27b",
+     "modelId": "qwen-3.8-27b",
+     "provider": "cerebras",
+     "ttftMs": 10804,
+     "tokensPerSec": 4267.64,
+     "outputTokens": 12820,
+     "visibleChars": 7263,
+     "visibleTokensEst": 1816,
+     "visibleTokensPerSecEst": 604.53,
+     "deltas": 192,
+     "latencyMs": 13808
+    },
+    "metrics": {
+     "ttftMs": 10804,
+     "totalMs": 14804,
+     "invalidLines": 0,
+     "repairs": 0
+    },
+    "t": "2026-11-01T13:58:27.631Z",
+    "elapsedMs": 106172
+   }
+  },
+  {
+   "t": 106176,
+   "event": "done",
+   "data": {
+    "result": {
+     "ok": true,
+     "planner": "cinematic-director"
+    }
+   }
+  }
+ ]
+}

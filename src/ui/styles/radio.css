@@ -566,8 +566,7 @@
   color: #bdbebf;
   font: 23px/1 sans-serif;
   transform-origin: 50% 50%;
-  filter: drop-shadow(0 0 5px transparent)
-    drop-shadow(0 0 13px transparent);
+  filter: drop-shadow(0 0 5px transparent) drop-shadow(0 0 13px transparent);
 }
 .military-awareness-direction-arrow .od-icon {
   display: block;

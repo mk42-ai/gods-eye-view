@@ -1,0 +1,27 @@
+captured 2026-11-01T12:49:22Z
+remote: https://github.com/mk42-ai/gods-eye-view.git
+branch: feat/scene-video-evidence
+HEAD: faa88cfb6ac787625460666154facad8858a8074
+origin/feat/scene-video-evidence: faa88cfb6ac787625460666154facad8858a8074
+baseline/approved-k8v6snzk7 (remote): 
+f20fab6 full: f20fab68c6960a9dc95df494a358eb67237f2d48
+f20fab6 is an ancestor of HEAD (preserved)
+b698032 ancestor: yes
+cca89df ancestor: yes
+5c56f4d ancestor: yes
+948b962 ancestor: yes
+8c6f3a7 ancestor: yes
+b57de0a ancestor: yes
+faa88cf ancestor: yes
+working tree:
+?? docs/evidence-2026-11-01-cinematic/
+(end working tree; clean = no pre-existing uncommitted work)
+recent log:
+faa88cf Evidence: record evidence commit hash in QA report
+b57de0a Evidence: fan-out / dynamic DSL / SSE delivery QA (2026-11-01)
+8c6f3a7 Snapchat fan-out + dynamic Scene Spec DSL + SSE streaming scene builds
+ca98807 Add two-tier staging evidence: live QA runs (8/8), timings, test matrix, report (2026-11-01)
+41d3e85 Location research: strip scenario vocabulary before geocoding; city guesses must match their tokens
+5c7712c Two-tier scene staging: strict Scene Spec DSL + deterministic geometry engine
+948b962 Add live Kane's location-resolution evidence and QA script (2026-10-31)
+d26f844 Research-first location resolution: any place prompt builds a scene (approximate when uncertain)
