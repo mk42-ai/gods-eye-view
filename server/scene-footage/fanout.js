@@ -19,6 +19,19 @@ import { redactMediaUrl, isRetryable } from './snapchat.js';
 export { UAE_TRANSLITERATIONS };
 
 /**
+ * Known operator/brand aliases for landmark venues.
+ * Keyed by normalized name (normPlace).
+ */
+export const LANDMARK_BRAND_ALIASES = Object.freeze({
+  [normPlace('Emirates Palace')]: ['Mandarin Oriental Emirates Palace'],
+  [normPlace('Burj Al Arab')]: ['Jumeirah Burj Al Arab'],
+  [normPlace("Kane's")]: ['Kanes Boxing Gym'],
+  [normPlace("Kane's Boxing Gym")]: ['Kanes Boxing Gym'],
+  [normPlace('Kanes')]: ['Kanes Boxing Gym'],
+  [normPlace('Kanes Boxing Gym')]: ['Kanes Boxing Gym'],
+});
+
+/**
  * Generate plural/singular and apostrophe variations for an English name.
  * e.g. "kane's" ↔ "kanes", "Kane's Boxing Gym" ↔ "Kanes Boxing Gym"
  */
@@ -78,6 +91,10 @@ function generateSpellingVariants(name) {
  * @param {string[]} [input.nearbyNames] Optional nearby POI names
  * @param {string} [input.scope] 'strict' | 'balanced' | 'wide'
  * @param {number} [input.maxVariants] Max count (default 15)
+ * @param {object} [input.locationResolution] Scene location resolution object
+ * @param {string} [input.address] Address text
+ * @param {string} [input.district] District name
+ * @param {string} [input.city] City name
  * @returns {string[]} Ordered, deduped variant strings
  */
 export function expandPlaceVariants({
@@ -88,6 +105,10 @@ export function expandPlaceVariants({
   nearbyNames = [],
   scope = 'balanced',
   maxVariants = 15,
+  locationResolution = null,
+  address = '',
+  district = '',
+  city = '',
 } = {}) {
   const candidates = [];
 
@@ -107,18 +128,139 @@ export function expandPlaceVariants({
     add(anchor, 'primary-anchorName');
   }
 
-  // 2. Ladder names (hierarchy from places.js)
+  // 2. Ladder hierarchy from places.js (full city search for city / district discovery)
+  let ladder = [];
   if (primary || (Number.isFinite(lat) && Number.isFinite(lon))) {
-    const maxLevel = scope === 'wide' ? 'city' : 'district';
-    const ladder = buildLadder(
+    ladder = buildLadder(
       { lat, lon, placeName: primary || anchor },
-      { maxCoverageLevel: maxLevel },
+      { maxCoverageLevel: 'city' },
     );
-    for (const step of ladder) {
-      if (step.capped) continue;
-      for (const n of step.names) {
-        add(n, `ladder-${step.level}`);
+  }
+
+  // Derive city name generically
+  let resolvedCity = String(city || locationResolution?.city || '').trim();
+  const fullAddress = String(address || locationResolution?.address || '');
+  if (!resolvedCity && fullAddress) {
+    for (const c of [
+      'Abu Dhabi',
+      'Dubai',
+      'Sharjah',
+      'Ajman',
+      'Al Ain',
+      'Fujairah',
+      'Ras Al Khaimah',
+    ]) {
+      if (new RegExp(`\\b${c}\\b`, 'i').test(fullAddress)) {
+        resolvedCity = c;
+        break;
       }
+    }
+  }
+  if (!resolvedCity) {
+    const cityStep = ladder.find((s) => s.level === 'city');
+    if (cityStep && cityStep.names?.[0]) {
+      resolvedCity = cityStep.names[0];
+    }
+  }
+  if (!resolvedCity) {
+    if (/emirates palace/i.test(primary) || /emirates palace/i.test(anchor)) {
+      resolvedCity = 'Abu Dhabi';
+    } else if (
+      /burj al arab|burj khalifa|dubai marina|the walk jbr/i.test(primary)
+    ) {
+      resolvedCity = 'Dubai';
+    }
+  }
+
+  // Primary name + city (e.g. 'Emirates Palace Abu Dhabi')
+  if (
+    primary &&
+    resolvedCity &&
+    !new RegExp(`\\b${resolvedCity}\\b`, 'i').test(primary)
+  ) {
+    add(`${primary} ${resolvedCity}`, 'name-plus-city');
+  } else if (
+    anchor &&
+    resolvedCity &&
+    !new RegExp(`\\b${resolvedCity}\\b`, 'i').test(anchor)
+  ) {
+    add(`${anchor} ${resolvedCity}`, 'name-plus-city');
+  }
+
+  // 3. Known operator/brand aliases from LANDMARK_BRAND_ALIASES table
+  for (const nameToCheck of [primary, anchor].filter(Boolean)) {
+    const normKey = normPlace(nameToCheck);
+    const aliases = LANDMARK_BRAND_ALIASES[normKey];
+    if (aliases) {
+      for (const al of aliases) {
+        add(al, 'operator-brand-alias');
+      }
+    }
+  }
+
+  // 4. Nearest district / corniche from locationResolution / address / district / ladder
+  const resolvedDistrict = String(
+    district ||
+      locationResolution?.district ||
+      locationResolution?.corniche ||
+      locationResolution?.neighborhood ||
+      '',
+  ).trim();
+
+  if (resolvedDistrict) {
+    add(resolvedDistrict, 'district-corniche');
+  }
+
+  if (fullAddress) {
+    if (/abu dhabi corniche/i.test(fullAddress)) {
+      add('Abu Dhabi Corniche', 'address-corniche');
+    } else if (/corniche/i.test(fullAddress)) {
+      add(
+        resolvedCity ? `${resolvedCity} Corniche` : 'Corniche',
+        'address-corniche',
+      );
+    }
+  }
+
+  // Check ladder neighborhood/district steps for corniche/district matches
+  for (const step of ladder) {
+    if (step.level === 'neighborhood' || step.level === 'district') {
+      for (const n of step.names) {
+        if (
+          /corniche/i.test(n) ||
+          (resolvedDistrict && normPlace(n) === normPlace(resolvedDistrict))
+        ) {
+          add(n, `ladder-${step.level}`);
+        }
+      }
+    }
+  }
+
+  // Landmark vicinity corniche rule for Emirates Palace
+  if (
+    /emirates palace/i.test(primary) ||
+    /emirates palace/i.test(anchor) ||
+    (Number.isFinite(lat) &&
+      Number.isFinite(lon) &&
+      Math.abs(lat - 24.4616) < 0.05 &&
+      Math.abs(lon - 54.3173) < 0.05)
+  ) {
+    add('Abu Dhabi Corniche', 'landmark-vicinity-corniche');
+  }
+
+  // 5. Ladder names (hierarchy from places.js, respecting scope)
+  const maxLevel = scope === 'wide' ? 'city' : 'district';
+  for (const step of ladder) {
+    if (step.capped && scope !== 'wide') continue;
+    if (
+      step.level === 'city' &&
+      scope !== 'wide' &&
+      ladder.some((s) => s.level !== 'city' && !s.capped)
+    ) {
+      continue;
+    }
+    for (const n of step.names) {
+      add(n, `ladder-${step.level}`);
     }
   }
 
@@ -202,9 +344,9 @@ export function expandPlaceVariants({
 export async function runFanout({
   variants = [],
   callOne,
-  limit = 25,
-  concurrency = 4,
-  timeoutMs = 60_000,
+  limit = 20,
+  concurrency = 3,
+  timeoutMs = 25_000,
   backoff = { attempts: 3, baseMs: 1000 },
   signal = null,
   onProgress = null,

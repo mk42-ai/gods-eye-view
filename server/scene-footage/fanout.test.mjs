@@ -55,6 +55,32 @@ test('expandPlaceVariants includes caller-supplied nearby POI names', () => {
   assert.ok(variants.includes('Dubai Mall'));
 });
 
+test('expandPlaceVariants generates venue-specific variants for landmark venues including Emirates Palace', () => {
+  const variants = expandPlaceVariants({
+    placeName: 'Emirates Palace',
+    maxVariants: 15,
+  });
+
+  assert.ok(variants.includes('Emirates Palace'));
+  assert.ok(variants.includes('Emirates Palace Abu Dhabi'));
+  assert.ok(variants.includes('Mandarin Oriental Emirates Palace'));
+  assert.ok(variants.includes('Abu Dhabi Corniche'));
+
+  // Burj Al Arab brand alias
+  const burj = expandPlaceVariants({
+    placeName: 'Burj Al Arab',
+    maxVariants: 15,
+  });
+  assert.ok(burj.includes('Jumeirah Burj Al Arab'));
+
+  // Kane's alias
+  const kanes = expandPlaceVariants({
+    placeName: "Kane's",
+    maxVariants: 15,
+  });
+  assert.ok(kanes.includes('Kanes Boxing Gym'));
+});
+
 test('runFanout: dedupe drops duplicate storyIds across variants and counts them accurately', async () => {
   const callOne = async (variant) => {
     if (variant === 'Dubai Marina') {

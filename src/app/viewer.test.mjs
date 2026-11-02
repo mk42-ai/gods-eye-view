@@ -1,14 +1,45 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { applySoftwareRendererBudget, debounceResizeRendering, SOFTWARE_RENDERER_PATTERN } from './viewer.js';
+import {
+  applySoftwareRendererBudget,
+  debounceResizeRendering,
+  SOFTWARE_RENDERER_PATTERN,
+  tilesetCacheOptions,
+  isSoftwareRenderer,
+} from './viewer.js';
+import {
+  TILESET_CACHE_BYTES,
+  TILESET_CACHE_OVERFLOW_BYTES,
+  SOFTWARE_TILESET_CACHE_BYTES,
+} from '../cinematic/renderBudget.js';
 
 const fakeViewer = (renderer) => {
-  const gl = { RENDERER: 1, getExtension: () => null, getParameter: () => renderer };
-  return { resolutionScale: 1, targetFrameRate: 60, useDefaultRenderLoop: true, scene: { msaaSamples: 4, canvas: { getContext: () => gl }, requestRender() { this.r = (this.r || 0) + 1; } }, isDestroyed: () => false };
+  const gl = {
+    RENDERER: 1,
+    getExtension: () => null,
+    getParameter: () => renderer,
+  };
+  return {
+    resolutionScale: 1,
+    targetFrameRate: 60,
+    useDefaultRenderLoop: true,
+    scene: {
+      msaaSamples: 4,
+      canvas: { getContext: () => gl },
+      requestRender() {
+        this.r = (this.r || 0) + 1;
+      },
+    },
+    isDestroyed: () => false,
+  };
 };
 
 test('software WebGL (SwiftShader) gets a reduced render budget; real GPUs do not', () => {
-  assert.ok(SOFTWARE_RENDERER_PATTERN.test('ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero)), SwiftShader driver)'));
+  assert.ok(
+    SOFTWARE_RENDERER_PATTERN.test(
+      'ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero)), SwiftShader driver)',
+    ),
+  );
   const soft = fakeViewer('Google SwiftShader');
   assert.equal(applySoftwareRendererBudget(soft), true);
   assert.equal(soft.resolutionScale, 0.5);
@@ -20,10 +51,33 @@ test('software WebGL (SwiftShader) gets a reduced render budget; real GPUs do no
   assert.equal(gpu.scene.msaaSamples, 4);
 });
 
+test('tilesetCacheOptions returns software budget for software renderers and standard budget for real GPUs', () => {
+  const soft = fakeViewer('Google SwiftShader');
+  assert.equal(isSoftwareRenderer(soft), true);
+  const softOpts = tilesetCacheOptions(soft);
+  assert.equal(softOpts.cacheBytes, SOFTWARE_TILESET_CACHE_BYTES);
+  assert.equal(softOpts.maximumCacheOverflowBytes, SOFTWARE_TILESET_CACHE_BYTES);
+
+  const gpu = fakeViewer('ANGLE (NVIDIA GeForce RTX 4070)');
+  assert.equal(isSoftwareRenderer(gpu), false);
+  const gpuOpts = tilesetCacheOptions(gpu);
+  assert.equal(gpuOpts.cacheBytes, TILESET_CACHE_BYTES);
+  assert.equal(gpuOpts.maximumCacheOverflowBytes, TILESET_CACHE_OVERFLOW_BYTES);
+
+  const defOpts = tilesetCacheOptions();
+  assert.equal(defOpts.cacheBytes, TILESET_CACHE_BYTES);
+  assert.equal(defOpts.maximumCacheOverflowBytes, TILESET_CACHE_OVERFLOW_BYTES);
+});
+
 test('resize debounce pauses the render loop and resumes once the size settles', () => {
   const listeners = {};
   const timers = [];
-  const win = { addEventListener: (t, f) => (listeners[t] = f), removeEventListener: () => {}, setTimeout: (f) => timers.push(f), clearTimeout: () => {} };
+  const win = {
+    addEventListener: (t, f) => (listeners[t] = f),
+    removeEventListener: () => {},
+    setTimeout: (f) => timers.push(f),
+    clearTimeout: () => {},
+  };
   const v = fakeViewer('SwiftShader');
   const off = debounceResizeRendering(v, win, 10);
   listeners.resize();

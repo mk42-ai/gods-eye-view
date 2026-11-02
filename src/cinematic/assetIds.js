@@ -7,7 +7,7 @@
  * the Vite bundle both import it.
  *
  * Every entry records provenance + licence. Sprites resolve to
- * `/scene-icons/png/<key>.png` (32 px), `@2x` (64 px) and `@4x` (128 px);
+ * `/scene-icons/png/<key>.png` (64 px) and `@2x` (128 px);
  * models resolve to `/models/...glb`. `fallback` names the nearest registered
  * asset used when a requested id is missing or fails to load (logged, never
  * silent).
@@ -21,6 +21,8 @@ const SPRITE_SOURCE_NEW =
   'Supplied 1024² top-down PNG (2026-11-01 batch, black keyed to alpha), tools/scene-icons/sources';
 const SPRITE_SOURCE_BATCH_B =
   'Generated 1024² top-down PNG (2026-11-01 batch B, black #000000 keyed to alpha), tools/scene-icons/sources';
+const SPRITE_SOURCE_2026_11_02 =
+  'Supplied 1024² top-down PNG (2026-11-02 contract, black keyed to alpha), tools/scene-icons/sources';
 const SPRITE_LICENCE =
   'Project-supplied artwork (OnDemand), used with permission';
 const SPRITE_SVG = 'Hand-authored SVG in public/scene-icons/svg';
@@ -106,35 +108,35 @@ export const CINEMATIC_ASSETS = Object.freeze(
       'police_unit',
       'Police unit',
       'police',
-      SPRITE_SVG,
+      SPRITE_SOURCE_2026_11_02,
     ),
     sprite(
       'sprite.cctv_signal',
       'cctv_signal',
       'CCTV signal',
       'sensor',
-      SPRITE_SVG,
+      SPRITE_SOURCE_EXISTING,
     ),
     sprite(
       'sprite.staging_point',
       'staging_point',
       'Staging point',
       'responder',
-      SPRITE_SVG,
+      SPRITE_SOURCE_2026_11_02,
     ),
     sprite(
       'sprite.perimeter_unit',
       'perimeter_unit',
       'Perimeter unit',
       'police',
-      SPRITE_SVG,
+      SPRITE_SOURCE_2026_11_02,
     ),
     sprite(
       'sprite.start_finish',
       'start_finish',
       'Start / finish',
       'route',
-      SPRITE_SVG,
+      SPRITE_SOURCE_2026_11_02,
     ),
     sprite(
       'sprite.generic',
@@ -258,7 +260,6 @@ export const CINEMATIC_ASSETS = Object.freeze(
       SPRITE_SOURCE_NEW + ' sheet quadrant BR',
       'sprite.alert.state_1',
     ),
-    // ---- glTF/GLB models. Existing project models are CC BY 4.0 (public/models/README.md).
     // ---- 2026-11-01 batch B — 10 generated icons (teal/mint/white/navy on black, keyed)
     sprite(
       'sprite.barrier.crowd',
@@ -340,6 +341,58 @@ export const CINEMATIC_ASSETS = Object.freeze(
       SPRITE_SOURCE_BATCH_B,
       'sprite.generic',
     ),
+
+    // ---- 2026-11-02 contract — 6 new sprite ids
+    sprite(
+      'sprite.medical_point',
+      'medical_point',
+      'Medical point',
+      'responder',
+      SPRITE_SOURCE_2026_11_02,
+      'sprite.vehicle.ambulance',
+    ),
+    sprite(
+      'sprite.marine_patrol',
+      'vessel_marine_patrol',
+      'Marine patrol boat',
+      'vessel',
+      SPRITE_SOURCE_BATCH_B,
+      'sprite.vessel.marine_patrol',
+    ),
+    sprite(
+      'sprite.vehicle_checkpoint',
+      'vehicle_checkpoint',
+      'Vehicle checkpoint',
+      'barrier',
+      SPRITE_SOURCE_2026_11_02,
+      'sprite.checkpoint',
+    ),
+    sprite(
+      'sprite.screening_lane',
+      'screening_lane',
+      'Screening lane',
+      'barrier',
+      SPRITE_SOURCE_2026_11_02,
+      'sprite.barrier.crowd',
+    ),
+    sprite(
+      'sprite.road_closed',
+      'road_closed',
+      'Road closed',
+      'signage',
+      SPRITE_SOURCE_2026_11_02,
+      'sprite.signage.road_closed',
+    ),
+    sprite(
+      'sprite.civilian_sedan',
+      'civilian_sedan',
+      'Civilian sedan',
+      'vehicle',
+      SPRITE_SOURCE_2026_11_02,
+      'sprite.vehicle.civilian_sedan',
+    ),
+
+    // Models
     model(
       'model.cesium.milk_truck',
       'models/cinematic/CesiumMilkTruck.glb',
@@ -474,14 +527,15 @@ export function isAssetId(id) {
 }
 
 /**
- * Category → preferred asset ids (first that exists wins). Used to map a
- * model's loose `kind`/`role` words to a registered id when it omits one.
+ * Category & keyword alias map (first registered id that exists wins).
+ * Covers common terminology across model prompt generation and runtime queries.
  */
-export const CATEGORY_DEFAULTS = Object.freeze({
+export const ALIAS_MAP = Object.freeze({
   police_vehicle: ['sprite.vehicle.police_car'],
-  ambulance: ['sprite.vehicle.ambulance'],
+  ambulance: ['sprite.vehicle.ambulance', 'sprite.medical_point'],
   fire_engine: ['sprite.vehicle.fire_engine'],
   civilian_vehicle: [
+    'sprite.civilian_sedan',
     'sprite.vehicle.civilian_sedan',
     'model.cesium.milk_truck',
   ],
@@ -489,23 +543,23 @@ export const CATEGORY_DEFAULTS = Object.freeze({
   fixed_wing: ['sprite.aircraft.fixed_wing', 'model.cesium.air'],
   drone: ['model.cesium.drone', 'sprite.aircraft.helicopter'],
   runner: ['sprite.person.runner'],
-  police_officer: ['sprite.person.police_officer'],
+  police_officer: ['sprite.person.police_officer', 'sprite.police_unit'],
   pedestrian: ['sprite.person.runner', 'model.cesium.man'],
-  crowd: ['sprite.crowd_zone'],
+  crowd: ['sprite.crowd_zone', 'sprite.crowd.spectators'],
   barrier: ['sprite.barrier'],
   cone: ['sprite.cone'],
-  road_closed: ['sprite.signage.road_closed'],
-  checkpoint: ['sprite.checkpoint'],
+  road_closed: ['sprite.road_closed', 'sprite.signage.road_closed'],
+  checkpoint: ['sprite.checkpoint', 'sprite.vehicle_checkpoint'],
   command_post: ['sprite.command_post'],
   cctv: ['sprite.cctv'],
   smoke: ['sprite.effect.smoke_fire'],
   fire: ['sprite.effect.smoke_fire'],
   alert: ['sprite.alert.state_2'],
   marker: ['sprite.generic'],
-  crowd_barrier: ['sprite.barrier.crowd'],
+  crowd_barrier: ['sprite.barrier.crowd', 'sprite.screening_lane'],
   cone_cluster: ['sprite.cone_cluster'],
-  spectators: ['sprite.crowd.spectators'],
-  spectator_crowd: ['sprite.crowd.spectators'],
+  spectators: ['sprite.crowd.spectators', 'sprite.crowd_zone'],
+  spectator_crowd: ['sprite.crowd.spectators', 'sprite.crowd_zone'],
   responder: ['sprite.person.responder'],
   bus: ['sprite.vehicle.city_bus'],
   city_bus: ['sprite.vehicle.city_bus'],
@@ -517,10 +571,33 @@ export const CATEGORY_DEFAULTS = Object.freeze({
   evidence: ['sprite.evidence.pin_verified'],
   air_raid_impact: ['sprite.marker.air_raid_impact_sim'],
   impact_marker: ['sprite.marker.air_raid_impact_sim'],
-  patrol_boat: ['sprite.vessel.marine_patrol'],
-  vessel: ['sprite.vessel.marine_patrol'],
-  boat: ['sprite.vessel.marine_patrol'],
+  patrol_boat: ['sprite.marine_patrol', 'sprite.vessel.marine_patrol'],
+  vessel: ['sprite.marine_patrol', 'sprite.vessel.marine_patrol'],
+  boat: ['sprite.marine_patrol', 'sprite.vessel.marine_patrol'],
+
+  // 2026-11-02 contract keywords
+  medical: ['sprite.medical_point', 'sprite.vehicle.ambulance'],
+  vehicle_checkpoint: ['sprite.vehicle_checkpoint', 'sprite.checkpoint'],
+  screening: ['sprite.screening_lane', 'sprite.barrier.crowd'],
+  queue: ['sprite.screening_lane', 'sprite.barrier.crowd'],
+  marine: ['sprite.marine_patrol', 'sprite.vessel.marine_patrol'],
+  officer: ['sprite.person.police_officer', 'sprite.perimeter_unit'],
+  foot_patrol: ['sprite.perimeter_unit', 'sprite.person.police_officer'],
+  escort: ['sprite.vehicle.police_motorcycle'],
+  shuttle: ['sprite.vehicle.city_bus'],
+  barricade: [
+    'sprite.road_closed',
+    'sprite.signage.road_closed',
+    'sprite.barrier',
+  ],
+  start_finish: ['sprite.start_finish'],
+  gate: ['sprite.start_finish'],
+  sedan: ['sprite.civilian_sedan', 'sprite.vehicle.civilian_sedan'],
+  car: ['sprite.civilian_sedan', 'sprite.vehicle.civilian_sedan'],
+  traffic: ['sprite.civilian_sedan', 'sprite.cone', 'sprite.barrier'],
 });
+
+export const CATEGORY_DEFAULTS = ALIAS_MAP;
 
 /**
  * Resolve any requested id (or loose category word) to a registered asset.
@@ -535,7 +612,7 @@ export function resolveAssetId(requested, { unavailable = new Set() } = {}) {
   if (!asset) {
     const loose = want.toLowerCase().replace(/[^a-z0-9]+/g, '_');
     const viaKey = BY_KEY.get(loose);
-    const viaCategory = CATEGORY_DEFAULTS[loose]
+    const viaCategory = ALIAS_MAP[loose]
       ?.map((id) => BY_ID.get(id))
       .find(Boolean);
     asset = viaKey || viaCategory || null;
@@ -560,11 +637,16 @@ export function resolveAssetId(requested, { unavailable = new Set() } = {}) {
   };
 }
 
+/**
+ * Maps an asset to its PNG icon URL.
+ * Scale >= 2 maps to '@2x' (128 px), never emits '@4x'.
+ */
 export function spriteUrl(asset, scale = 1) {
   if (!asset || asset.kind !== ASSET_KIND.SPRITE) return null;
-  const suffix = scale >= 4 ? '@4x' : scale >= 2 ? '@2x' : '';
+  const suffix = scale >= 2 ? '@2x' : '';
   return `/scene-icons/png/${asset.key}${suffix}.png`;
 }
+
 export function modelUrl(asset) {
   return asset && asset.kind === ASSET_KIND.MODEL ? `/${asset.file}` : null;
 }

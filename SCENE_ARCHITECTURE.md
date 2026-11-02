@@ -144,7 +144,7 @@ else: this is what the saved-scene store and the renderer trust.
 
 Generated PNGs (black background keyed to alpha, centred, 8 % padding) and
 hand-authored SVGs in the palette (teal `#14B8A6`, mint `#A7F3D0`, white, navy
-`#0B1220`, amber `#F59E0B`). Sprite sheets `sprite.png` (32 px, 1x) and `sprite@2x.png` (64 px, 2x)
+`#0B1220`, amber `#F59E0B`). Sprite sheets `sprite.png` (64 px, 1x) and `sprite@2x.png` (128 px, 2x)
 with MapLibre-format JSON atlases (`sprite.json`, `sprite@2x.json`; each entry
 `{x,y,width,height,pixelRatio,sdf:false}`), usable directly as a MapLibre sprite
 or as a deck.gl `iconAtlas` + `iconMapping`.
@@ -153,30 +153,61 @@ Asset keying and sprite rebuild pipeline: `tools/scene-icons/build-icons.mjs`
 
 - Reads 1024×1024 RGB source PNGs with pure black `#000000` background.
 - Soft threshold keying: `alpha = clamp((max(r,g,b) - 8) / 40, 0, 1)`, un-premultiplying color toward original hue `c / alpha`.
+- 1 px alpha erosion and feather to eliminate black fringe.
 - Bounding box content cropping + 8% padding, centered on square.
-- Exports 32 px (`png/<key>.png`) and 64 px (`png/<key>@2x.png`).
-- Rebuilds `sprite.png` (512×32) and `sprite@2x.png` (1024×64), `sprite.json`, `sprite@2x.json`, and `manifest.json` (version 2) with SHA-256 hashes.
+- Exports 64 px (`png/<key>.png`) and 128 px (`png/<key>@2x.png`).
+- Rebuilds `sprite.png` (1024×192, 16 columns grid) and `sprite@2x.png` (2048×384), `sprite.json`, `sprite@2x.json`, and `manifest.json` (version 5: 46 keys + `elementTypeIcons` map) with SHA-256 hashes.
 - Route flag keys: `route_start` (normal) and `route_finish` (horizontally mirrored via `flop()`).
 - Generic marker: generated target dot sprite with teal ring and white center.
 
-| key            | PNG (1x / 2x)                    | SVG                      | sprite index | source                                                |
-| -------------- | -------------------------------- | ------------------------ | ------------ | ----------------------------------------------------- |
-| cone           | `png/cone.png` (`@2x`)           | `svg/cone.svg`           | 0            | `tools/scene-icons/sources/cone.png`                  |
-| police_unit    | `png/police_unit.png` (`@2x`)    | `svg/police_unit.svg`    | 1            | `public/scene-icons/svg/police_unit.svg`              |
-| barrier        | `png/barrier.png` (`@2x`)        | `svg/barrier.svg`        | 2            | `tools/scene-icons/sources/barrier.png`               |
-| cctv_signal    | `png/cctv_signal.png` (`@2x`)    | `svg/cctv_signal.svg`    | 3            | `public/scene-icons/svg/cctv_signal.svg`              |
-| checkpoint     | `png/checkpoint.png` (`@2x`)     | `svg/checkpoint.svg`     | 4            | `tools/scene-icons/sources/checkpoint.png`            |
-| staging_point  | `png/staging_point.png` (`@2x`)  | `svg/staging_point.svg`  | 5            | `public/scene-icons/svg/staging_point.svg`            |
-| perimeter_unit | `png/perimeter_unit.png` (`@2x`) | `svg/perimeter_unit.svg` | 6            | `public/scene-icons/svg/perimeter_unit.svg`           |
-| crowd_zone     | `png/crowd_zone.png` (`@2x`)     | `svg/crowd_zone.svg`     | 7            | `tools/scene-icons/sources/crowd_zone.png`            |
-| start_finish   | `png/start_finish.png` (`@2x`)   | `svg/start_finish.svg`   | 8            | `public/scene-icons/svg/start_finish.svg`             |
-| egress         | `png/egress.png` (`@2x`)         | `svg/egress.svg`         | 9            | `tools/scene-icons/sources/egress.png`                |
-| command_post   | `png/command_post.png` (`@2x`)   | `svg/command_post.svg`   | 10           | `tools/scene-icons/sources/command_post.png`          |
-| cctv           | `png/cctv.png` (`@2x`)           | `svg/cctv.svg`           | 11           | `tools/scene-icons/sources/cctv.png`                  |
-| cordon_node    | `png/cordon_node.png` (`@2x`)    | `svg/cordon_node.svg`    | 12           | `tools/scene-icons/sources/cordon_node.png`           |
-| route_start    | `png/route_start.png` (`@2x`)    | `svg/route_start.svg`    | 13           | `tools/scene-icons/sources/route_flag.png`            |
-| route_finish   | `png/route_finish.png` (`@2x`)   | `svg/route_finish.svg`   | 14           | `tools/scene-icons/sources/route_flag.png` (mirrored) |
-| generic        | `png/generic.png` (`@2x`)        | `svg/generic.svg`        | 15           | `generated:generic`                                   |
+| key                        | PNG (1x / 2x)                                | SVG                                  | sprite index | source                                                       |
+| -------------------------- | -------------------------------------------- | ------------------------------------ | ------------ | ------------------------------------------------------------ |
+| cone                       | `png/cone.png` (`@2x`)                       | `svg/cone.svg`                       | 0            | `tools/scene-icons/sources/cone.png`                         |
+| police_unit                | `png/police_unit.png` (`@2x`)                | `svg/police_unit.svg`                | 1            | `tools/scene-icons/sources/police_patrol_car.png`             |
+| barrier                    | `png/barrier.png` (`@2x`)                    | `svg/barrier.svg`                    | 2            | `tools/scene-icons/sources/barrier.png`                      |
+| cctv_signal                | `png/cctv_signal.png` (`@2x`)                | `svg/cctv_signal.svg`                | 3            | `tools/scene-icons/sources/cctv.png`                         |
+| checkpoint                 | `png/checkpoint.png` (`@2x`)                 | `svg/checkpoint.svg`                 | 4            | `tools/scene-icons/sources/checkpoint_cordon_node.png`        |
+| staging_point              | `png/staging_point.png` (`@2x`)              | `svg/staging_point.svg`              | 5            | `tools/scene-icons/sources/event_command_post.png`           |
+| perimeter_unit             | `png/perimeter_unit.png` (`@2x`)             | `svg/perimeter_unit.svg`             | 6            | `tools/scene-icons/sources/foot_patrol_officer.png`          |
+| crowd_zone                 | `png/crowd_zone.png` (`@2x`)                 | `svg/crowd_zone.svg`                 | 7            | `tools/scene-icons/sources/spectator_crowd_cluster.png`      |
+| start_finish               | `png/start_finish.png` (`@2x`)               | `svg/start_finish.svg`               | 8            | `tools/scene-icons/sources/start_finish_gate.png`            |
+| egress                     | `png/egress.png` (`@2x`)                     | `svg/egress.svg`                     | 9            | `tools/scene-icons/sources/egress.png`                       |
+| command_post               | `png/command_post.png` (`@2x`)               | `svg/command_post.svg`               | 10           | `tools/scene-icons/sources/event_command_post.png`           |
+| cctv                       | `png/cctv.png` (`@2x`)                       | `svg/cctv.svg`                       | 11           | `tools/scene-icons/sources/cctv.png`                         |
+| cordon_node                | `png/cordon_node.png` (`@2x`)                | `svg/cordon_node.svg`                | 12           | `tools/scene-icons/sources/checkpoint_cordon_node.png`        |
+| route_start                | `png/route_start.png` (`@2x`)                | `svg/route_start.svg`                | 13           | `tools/scene-icons/sources/route_flag.png`                   |
+| route_finish               | `png/route_finish.png` (`@2x`)               | `svg/route_finish.svg`               | 14           | `tools/scene-icons/sources/route_flag.png` (mirrored)        |
+| generic                    | `png/generic.png` (`@2x`)                    | `svg/generic.svg`                    | 15           | `generated:generic`                                          |
+| vehicle_police_car         | `png/vehicle_police_car.png` (`@2x`)         | `svg/vehicle_police_car.svg`         | 16           | `tools/scene-icons/sources/police_patrol_car.png`             |
+| vehicle_ambulance          | `png/vehicle_ambulance.png` (`@2x`)          | `svg/vehicle_ambulance.svg`          | 17           | `tools/scene-icons/sources/ambulance_medical_point.png`       |
+| vehicle_fire_engine        | `png/vehicle_fire_engine.png` (`@2x`)        | `svg/vehicle_fire_engine.svg`        | 18           | `tools/scene-icons/sources/vehicle_fire_engine.png`          |
+| vehicle_civilian_sedan     | `png/vehicle_civilian_sedan.png` (`@2x`)     | `svg/vehicle_civilian_sedan.svg`     | 19           | `tools/scene-icons/sources/civilian_sedan.png`               |
+| aircraft_helicopter        | `png/aircraft_helicopter.png` (`@2x`)        | `svg/aircraft_helicopter.svg`        | 20           | `tools/scene-icons/sources/aircraft_helicopter.png`          |
+| aircraft_fixed_wing        | `png/aircraft_fixed_wing.png` (`@2x`)        | `svg/aircraft_fixed_wing.svg`        | 21           | `tools/scene-icons/sources/aircraft_fixed_wing.png`          |
+| person_runner              | `png/person_runner.png` (`@2x`)              | `svg/person_runner.svg`              | 22           | `tools/scene-icons/sources/person_runner.png`                |
+| person_police_officer      | `png/person_police_officer.png` (`@2x`)      | `svg/person_police_officer.svg`      | 23           | `tools/scene-icons/sources/foot_patrol_officer.png`          |
+| signage_road_closed        | `png/signage_road_closed.png` (`@2x`)        | `svg/signage_road_closed.svg`        | 24           | `tools/scene-icons/sources/road_closed_barricade.png`        |
+| effect_smoke_fire          | `png/effect_smoke_fire.png` (`@2x`)          | `svg/effect_smoke_fire.svg`          | 25           | `tools/scene-icons/sources/effect_smoke_fire.png`            |
+| alert_state_1              | `png/alert_state_1.png` (`@2x`)              | `svg/alert_state_1.svg`              | 26           | `tools/scene-icons/sources/alert_states_sheet.png` (quad 0)  |
+| alert_state_2              | `png/alert_state_2.png` (`@2x`)              | `svg/alert_state_2.svg`              | 27           | `tools/scene-icons/sources/alert_states_sheet.png` (quad 1)  |
+| alert_state_3              | `png/alert_state_3.png` (`@2x`)              | `svg/alert_state_3.svg`              | 28           | `tools/scene-icons/sources/alert_states_sheet.png` (quad 2)  |
+| alert_state_4              | `png/alert_state_4.png` (`@2x`)              | `svg/alert_state_4.svg`              | 29           | `tools/scene-icons/sources/alert_states_sheet.png` (quad 3)  |
+| barrier_crowd              | `png/barrier_crowd.png` (`@2x`)              | `svg/barrier_crowd.svg`              | 30           | `tools/scene-icons/sources/crowd_control_barrier.png`        |
+| cone_cluster               | `png/cone_cluster.png` (`@2x`)               | `svg/cone_cluster.svg`               | 31           | `tools/scene-icons/sources/cone_cluster.png`                 |
+| crowd_spectators           | `png/crowd_spectators.png` (`@2x`)           | `svg/crowd_spectators.svg`           | 32           | `tools/scene-icons/sources/spectator_crowd_cluster.png`      |
+| person_responder           | `png/person_responder.png` (`@2x`)           | `svg/person_responder.svg`           | 33           | `tools/scene-icons/sources/person_responder.png`             |
+| vehicle_city_bus           | `png/vehicle_city_bus.png` (`@2x`)           | `svg/vehicle_city_bus.svg`           | 34           | `tools/scene-icons/sources/vehicle_city_bus.png`             |
+| vehicle_police_motorcycle  | `png/vehicle_police_motorcycle.png` (`@2x`)  | `svg/vehicle_police_motorcycle.svg`  | 35           | `tools/scene-icons/sources/vehicle_police_motorcycle.png`    |
+| sensor_cctv_feed           | `png/sensor_cctv_feed.png` (`@2x`)           | `svg/sensor_cctv_feed.svg`           | 36           | `tools/scene-icons/sources/sensor_cctv_feed.png`             |
+| evidence_pin_verified      | `png/evidence_pin_verified.png` (`@2x`)      | `svg/evidence_pin_verified.svg`      | 37           | `tools/scene-icons/sources/evidence_pin_verified.png`        |
+| marker_air_raid_impact_sim | `png/marker_air_raid_impact_sim.png` (`@2x`) | `svg/marker_air_raid_impact_sim.svg` | 38           | `tools/scene-icons/sources/marker_air_raid_impact_sim.png`   |
+| vessel_marine_patrol       | `png/vessel_marine_patrol.png` (`@2x`)       | `svg/vessel_marine_patrol.svg`       | 39           | `tools/scene-icons/sources/vessel_marine_patrol.png`         |
+| medical_point              | `png/medical_point.png` (`@2x`)              | `svg/medical_point.svg`              | 40           | `tools/scene-icons/sources/ambulance_medical_point.png`       |
+| marine_patrol              | `png/marine_patrol.png` (`@2x`)              | `svg/marine_patrol.svg`              | 41           | alias of `vessel_marine_patrol`                              |
+| vehicle_checkpoint         | `png/vehicle_checkpoint.png` (`@2x`)         | `svg/vehicle_checkpoint.svg`         | 42           | alias of `checkpoint`                                        |
+| screening_lane             | `png/screening_lane.png` (`@2x`)             | `svg/screening_lane.svg`             | 43           | `tools/scene-icons/sources/crowd_control_barrier.png`        |
+| road_closed                | `png/road_closed.png` (`@2x`)                | `svg/road_closed.svg`                | 44           | alias of `signage_road_closed`                               |
+| civilian_sedan             | `png/civilian_sedan.png` (`@2x`)             | `svg/civilian_sedan.svg`             | 45           | alias of `vehicle_civilian_sedan`                            |
 
 ## 7. Caching
 

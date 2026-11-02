@@ -9,6 +9,7 @@
  */
 import {
   parseSceneSpec,
+  parseDynamicSceneSpec,
   SCENARIO_TYPES,
   ELEMENT_TYPES,
   SPEC_LIMITS,
@@ -70,6 +71,23 @@ export const SCENARIO_TEMPLATES = Object.freeze({
     el('perimeter_unit', { count: 2 }),
     el('crowd_zone', { radius_m: 80, count: 1 }),
   ]),
+  police_protection: Object.freeze([
+    el('outer_cordon', { radius_m: 450 }),
+    el('inner_cordon', { radius_m: 160 }),
+    el('barriers', { spacing_m: 20 }),
+    el('vehicle_checkpoint', { count: 3 }),
+    el('screening_lane', { count: 2 }),
+    el('crowd_zone', { radius_m: 60, count: 2 }),
+    el('command_post', { count: 1 }),
+    el('medical_point', { count: 1 }),
+    el('cctv_signal', { count: 3 }),
+    el('foot_patrol', { count: 8 }),
+    el('perimeter_unit', { count: 6 }),
+    el('approach_route', { count: 2 }),
+    el('egress_route', { count: 1 }),
+    el('marine_patrol', { count: 1 }),
+    el('overwatch', { count: 1 }),
+  ]),
 });
 
 /** Elements a scenario must contain for the renderer to show a complete scene. */
@@ -91,6 +109,13 @@ export const REQUIRED_ELEMENTS = Object.freeze({
   crowd_event: Object.freeze(['route_line', 'start_finish']),
   motorcade: Object.freeze(['route_line', 'checkpoint']),
   observation: Object.freeze(['cctv_signal']),
+  police_protection: Object.freeze([
+    'inner_cordon',
+    'outer_cordon',
+    'vehicle_checkpoint',
+    'command_post',
+    'medical_point',
+  ]),
 });
 
 /** Human readable labels (no bracketed citations, no "ILLUSTRATIVE" prefix). */
@@ -101,6 +126,7 @@ export const SCENARIO_LABELS = Object.freeze({
   perimeter_cordon: 'Perimeter cordon (illustrative)',
   motorcade: 'Motorcade (illustrative)',
   observation: 'Observation (illustrative)',
+  police_protection: 'Event security / police protection (illustrative)',
 });
 
 const RULES = [
@@ -109,12 +135,16 @@ const RULES = [
     /\b(raid|raided|raiding|bust|swat|tactical entry|warrant|arrest operation|sting)\b/i,
   ],
   [
+    'crowd_event',
+    /\b(marathon|run|race|parade|festival|concert|rally|fun run|10k|5k|half[- ]marathon|triathlon|cycle (race|ride)|crowd)\b/i,
+  ],
+  [
     'motorcade',
     /\b(motorcade|convoy|vip movement|presidential route|escort(ed)? route)\b/i,
   ],
   [
-    'crowd_event',
-    /\b(marathon|run|race|parade|festival|concert|rally|fun run|10k|5k|half[- ]marathon|triathlon|cycle (race|ride)|crowd)\b/i,
+    'police_protection',
+    /\b(pol[oi]{1,2}ce|security)\b.*\b(protection|security|vip|world event|summit|dignitary|state visit|royal|guard)\b|\b(protection|security|vip|world event|summit|dignitary|state visit|royal|guard)\b.*\b(pol[oi]{1,2}ce|security)\b|\b(vip protection|dignitary protection|close protection|event security)\b/i,
   ],
   [
     'route_closure',
@@ -122,7 +152,7 @@ const RULES = [
   ],
   [
     'perimeter_cordon',
-    /\b(cordon|perimeter|lockdown|secure(d)? area|exclusion zone|bomb threat|evacuat\w+)\b/i,
+    /\b(cordon|perimeter|lockdown|secure(d)? area|exclusion zone|bomb threat|evacuat\w+|car crash|crash|collision|traffic accident|road accident|accident)\b/i,
   ],
   [
     'observation',
@@ -145,6 +175,8 @@ export function promptHints(prompt) {
     /(\d{2,4})\s*(?:m|metre|meter)s?\b[^.]{0,20}\b(cordon|perimeter)/,
   );
   if (m) hints.cordonRadiusM = Math.min(SPEC_LIMITS.radiusM.max, Number(m[1]));
+  else if (/\b(car crash|crash|collision|traffic accident|road accident|accident)\b/i.test(text))
+    hints.cordonRadiusM = 60;
   const r = text.match(
     /(\d{1,2})\s*(?:approach )?(?:routes?|roads?|entry points?)\b/,
   );
@@ -171,7 +203,7 @@ export function focalNameFromPrompt(prompt) {
     explicit ? explicit[1] : text.split(/\r?\n/)[0] || 'Requested place'
   )
     .replace(
-      /\b(i'?m|im|we'?re|doing|planning|a|an|the|police|raid|at|in|near|around|on|for|of|operation|scene|build|cordon|closure|motorcade|observation|event)\b/gi,
+      /\b(i'?m|im|we'?re|doing|planning|lets|let's|map|do|a|an|the|police|poloice|raid|protection|security|at|in|near|around|on|for|of|operation|scene|build|cordon|closure|motorcade|observation|event)\b/gi,
       ' ',
     )
     .replace(/\s+/g, ' ')
@@ -228,7 +260,27 @@ export function templateSpec(
  * Returns `{spec, repaired:boolean, reasons:string[], rejected:[]}`.
  */
 export function repairSceneSpec(raw, prompt, { focalName } = {}) {
-  const parsed = parseSceneSpec(raw);
+  const isDynamic =
+    raw &&
+    typeof raw === 'object' &&
+    raw.scenarioType === 'police_protection';
+  const parsed = isDynamic
+    ? (() => {
+        const dyn = parseDynamicSceneSpec(raw);
+        return {
+          ok: dyn.spec.elements.length > 0,
+          spec: dyn.spec,
+          rejected: dyn.rejected.map((r) => ({
+            type:
+              typeof r.element === 'string'
+                ? r.element
+                : r.element?.type || 'unknown',
+            reason: r.reason,
+          })),
+          issues: [],
+        };
+      })()
+    : parseSceneSpec(raw);
   const reasons = [];
   if (!parsed.ok) {
     const scenario =
@@ -283,6 +335,24 @@ export function repairSceneSpec(raw, prompt, { focalName } = {}) {
       spec: templateSpec(
         prompt,
         'police_raid',
+        focalName || spec.focalEntity.name,
+      ),
+      repaired: true,
+      reasons,
+      rejected: parsed.rejected,
+    };
+  }
+  if (
+    keyword === 'police_protection' &&
+    spec.scenarioType !== 'police_protection'
+  ) {
+    reasons.push(
+      `scenario ${spec.scenarioType} overridden by prompt keyword rule`,
+    );
+    return {
+      spec: templateSpec(
+        prompt,
+        'police_protection',
         focalName || spec.focalEntity.name,
       ),
       repaired: true,

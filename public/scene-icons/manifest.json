@@ -1,566 +1,640 @@
 {
-  "version": 4,
-  "generatedAt": "2026-11-01T15:02:16.232Z",
+  "version": 5,
+  "generatedAt": "2026-11-02T01:14:14.881Z",
+  "elementTypeIcons": {
+    "inner_cordon": "cordon_node",
+    "outer_cordon": "cordon_node",
+    "approach_route": "vehicle_police_car",
+    "egress_route": "egress",
+    "staging_point": "staging_point",
+    "perimeter_unit": "perimeter_unit",
+    "checkpoint": "checkpoint",
+    "vehicle_checkpoint": "checkpoint",
+    "cones": "cone_cluster",
+    "barriers": "barrier",
+    "cctv_signal": "cctv",
+    "cctv_pick": "sensor_cctv_feed",
+    "crowd_zone": "crowd_spectators",
+    "crowd_density_zone": "crowd_spectators",
+    "route_line": "route_start",
+    "start_finish": "start_finish",
+    "command_post": "command_post",
+    "overwatch": "aircraft_helicopter",
+    "cordon_node": "cordon_node",
+    "medical_point": "medical_point",
+    "marine_patrol": "vessel_marine_patrol",
+    "foot_patrol": "perimeter_unit",
+    "escort_motorcycle": "vehicle_police_motorcycle",
+    "shuttle_bus": "vehicle_city_bus",
+    "road_closed": "signage_road_closed",
+    "screening_lane": "barrier_crowd",
+    "threat_zone": "alert_state_3",
+    "interest_zone": "generic",
+    "intel_note": "generic",
+    "timeline_event": "generic"
+  },
   "keys": [
     {
       "key": "cone",
       "png": "png/cone.png",
       "png2x": "png/cone@2x.png",
-      "png4x": "png/cone@4x.png",
       "sprite": {
         "x": 0,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/cone.png",
-      "sha256": "031956c297534f4a344dfafee41f2e0ae080f481de0725a528e53b300855e163"
+      "sha256": "eba06dbfc83fc0d53d89cc7364b136be97046650bc9af62eea2679e815aedcae"
     },
     {
       "key": "police_unit",
       "png": "png/police_unit.png",
       "png2x": "png/police_unit@2x.png",
-      "png4x": "png/police_unit@4x.png",
       "sprite": {
-        "x": 32,
+        "x": 64,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "public/scene-icons/svg/police_unit.svg",
-      "sha256": "0b0f388c932b147e00448efb09fc49edf405e91e973c4e8a643cd19d471944a4"
+      "sourceFile": "tools/scene-icons/sources/police_patrol_car.png",
+      "sha256": "3ec4b4d493508d79e4c42ea4504d2022a24f5ee458a9f5ba9442aca87bcbffc6"
     },
     {
       "key": "barrier",
       "png": "png/barrier.png",
       "png2x": "png/barrier@2x.png",
-      "png4x": "png/barrier@4x.png",
       "sprite": {
-        "x": 64,
+        "x": 128,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/barrier.png",
-      "sha256": "ca77b07126a5fea4e67521bf726b1a6ad0af74bf0f02dbad3e99e1299cb6f90e"
+      "sha256": "8f0fce04f1e1b4c59913486208861390edfe34db2ec0c0cde6121aca913bb124"
     },
     {
       "key": "cctv_signal",
       "png": "png/cctv_signal.png",
       "png2x": "png/cctv_signal@2x.png",
-      "png4x": "png/cctv_signal@4x.png",
       "sprite": {
-        "x": 96,
+        "x": 192,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "public/scene-icons/svg/cctv_signal.svg",
-      "sha256": "527d92e66af41dfb65fe5e53d42cb3b2d0ee6b3a5a8277ead67c381df9f89731"
+      "sourceFile": "tools/scene-icons/sources/cctv.png",
+      "sha256": "51e5f48cdf6d66f5f96127a48ed5347b6a798bac54454f94ae0f4c0165e132a7"
     },
     {
       "key": "checkpoint",
       "png": "png/checkpoint.png",
       "png2x": "png/checkpoint@2x.png",
-      "png4x": "png/checkpoint@4x.png",
       "sprite": {
-        "x": 128,
+        "x": 256,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/checkpoint.png",
-      "sha256": "e387b27c4c722447b1fe6468a5793e02a4d5620c201d408a49afc595e2133b9a"
+      "sourceFile": "tools/scene-icons/sources/checkpoint_cordon_node.png",
+      "sha256": "075a94032948942c65fb88a9f51686bf143b981c98cddc30d05ad8e790dac243"
     },
     {
       "key": "staging_point",
       "png": "png/staging_point.png",
       "png2x": "png/staging_point@2x.png",
-      "png4x": "png/staging_point@4x.png",
       "sprite": {
-        "x": 160,
+        "x": 320,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "public/scene-icons/svg/staging_point.svg",
-      "sha256": "4ba5ecb4ed13789b3f2960888346fceaf55678e0f9b044b1afd89d5d37496767"
+      "sourceFile": "tools/scene-icons/sources/event_command_post.png",
+      "sha256": "59a9076baed78a38a891a7cda4b863968f0f72216bc5ae6965f303488787ad5c"
     },
     {
       "key": "perimeter_unit",
       "png": "png/perimeter_unit.png",
       "png2x": "png/perimeter_unit@2x.png",
-      "png4x": "png/perimeter_unit@4x.png",
       "sprite": {
-        "x": 192,
+        "x": 384,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "public/scene-icons/svg/perimeter_unit.svg",
-      "sha256": "1be0bae38878f5583eefa76ef0156307f1c5daa833b6ec4c9caf341569c94085"
+      "sourceFile": "tools/scene-icons/sources/foot_patrol_officer.png",
+      "sha256": "da064b3d430fa16256ea6279e44b3cf56b0fcdf902018b0a509572c8182e9b85"
     },
     {
       "key": "crowd_zone",
       "png": "png/crowd_zone.png",
       "png2x": "png/crowd_zone@2x.png",
-      "png4x": "png/crowd_zone@4x.png",
       "sprite": {
-        "x": 224,
+        "x": 448,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/crowd_zone.png",
-      "sha256": "5ef5b5d1b6be279f43ce1a2296cd31143796905b6114a5c265cd64ba4d3a2b3e"
+      "sourceFile": "tools/scene-icons/sources/spectator_crowd_cluster.png",
+      "sha256": "b026c613d042c4c121fa459548fa4930c431330f00f8cdff416730b3e3dad9d9"
     },
     {
       "key": "start_finish",
       "png": "png/start_finish.png",
       "png2x": "png/start_finish@2x.png",
-      "png4x": "png/start_finish@4x.png",
       "sprite": {
-        "x": 256,
+        "x": 512,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "public/scene-icons/svg/start_finish.svg",
-      "sha256": "063fc3a4d4fab8b2807ce6c434eea6da60f554772aae216fc99e3914a94ac49e"
+      "sourceFile": "tools/scene-icons/sources/start_finish_gate.png",
+      "sha256": "f4056ecfe5605bb5f42f88388e0be8b66a0ec9472c32ee75ac4962b69cf5207e"
     },
     {
       "key": "egress",
       "png": "png/egress.png",
       "png2x": "png/egress@2x.png",
-      "png4x": "png/egress@4x.png",
       "sprite": {
-        "x": 288,
+        "x": 576,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/egress.png",
-      "sha256": "d860d61d02b61fe44ae62e82cddc69e79a43aa2d896169a42970da550cd666a3"
+      "sha256": "4d7404d3729a7f8e0460c946f54918c069974fcfd336a8c1240a983656c2fa4b"
     },
     {
       "key": "command_post",
       "png": "png/command_post.png",
       "png2x": "png/command_post@2x.png",
-      "png4x": "png/command_post@4x.png",
       "sprite": {
-        "x": 320,
+        "x": 640,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/command_post.png",
-      "sha256": "25fb55e316d7ad750b585a82600a84d62316dd7d354e65a4fc360c5b02aff7a2"
+      "sourceFile": "tools/scene-icons/sources/event_command_post.png",
+      "sha256": "59a9076baed78a38a891a7cda4b863968f0f72216bc5ae6965f303488787ad5c"
     },
     {
       "key": "cctv",
       "png": "png/cctv.png",
       "png2x": "png/cctv@2x.png",
-      "png4x": "png/cctv@4x.png",
       "sprite": {
-        "x": 352,
+        "x": 704,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/cctv.png",
-      "sha256": "76f7cbdb0e5471829dee3d592ad96ed1c623dc80cff545d78529a42c3ef68c4b"
+      "sha256": "51e5f48cdf6d66f5f96127a48ed5347b6a798bac54454f94ae0f4c0165e132a7"
     },
     {
       "key": "cordon_node",
       "png": "png/cordon_node.png",
       "png2x": "png/cordon_node@2x.png",
-      "png4x": "png/cordon_node@4x.png",
       "sprite": {
-        "x": 384,
+        "x": 768,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/cordon_node.png",
-      "sha256": "033d726c6e703b3e44f80612e287ea0c3e833c5ec11d62497bed0840c73d9d0a"
+      "sourceFile": "tools/scene-icons/sources/checkpoint_cordon_node.png",
+      "sha256": "075a94032948942c65fb88a9f51686bf143b981c98cddc30d05ad8e790dac243"
     },
     {
       "key": "route_start",
       "png": "png/route_start.png",
       "png2x": "png/route_start@2x.png",
-      "png4x": "png/route_start@4x.png",
       "sprite": {
-        "x": 416,
+        "x": 832,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/route_flag.png",
-      "sha256": "a2fc687a4d84014728a90e62bc667af89bb324d2e36d237e825f1ff6ffee2404"
+      "sha256": "b062cd5915da5270e194dc4ff24e3bc8b019cf360d9d28bf3144d79edbbb8384"
     },
     {
       "key": "route_finish",
       "png": "png/route_finish.png",
       "png2x": "png/route_finish@2x.png",
-      "png4x": "png/route_finish@4x.png",
       "sprite": {
-        "x": 448,
+        "x": 896,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/route_flag.png",
-      "sha256": "6f469735e5b2c8d1c91f13dd51dc71a6c9c08dbec89b5b6f78b5272e3afd3632"
+      "sha256": "e11190da0ec0b97ac61fd4eae4c4f3c2578917dec9f28ea9e2169759e5f7a8e5"
     },
     {
       "key": "generic",
       "png": "png/generic.png",
       "png2x": "png/generic@2x.png",
-      "png4x": "png/generic@4x.png",
       "sprite": {
-        "x": 480,
+        "x": 960,
         "y": 0,
-        "width": 32,
-        "height": 32
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "generated:generic",
-      "sha256": "016c4296a81145f9762abcd5e05fd24f31d4f71bd7ce535f77f1a1f7c47f1b8e"
+      "sha256": "8892964fbf1274765935c6e32425ee2b3dec343bba819a2913f7af0a3a6322cb"
     },
     {
       "key": "vehicle_police_car",
       "png": "png/vehicle_police_car.png",
       "png2x": "png/vehicle_police_car@2x.png",
-      "png4x": "png/vehicle_police_car@4x.png",
       "sprite": {
-        "x": 512,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 0,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/vehicle_police_car.png",
-      "sha256": "9e8692b53d2790adc06fa38730f46b52c9924e0d78449b7e7a26749ce3174827"
+      "sourceFile": "tools/scene-icons/sources/police_patrol_car.png",
+      "sha256": "3ec4b4d493508d79e4c42ea4504d2022a24f5ee458a9f5ba9442aca87bcbffc6"
     },
     {
       "key": "vehicle_ambulance",
       "png": "png/vehicle_ambulance.png",
       "png2x": "png/vehicle_ambulance@2x.png",
-      "png4x": "png/vehicle_ambulance@4x.png",
       "sprite": {
-        "x": 544,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 64,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/vehicle_ambulance.png",
-      "sha256": "6015c1d8f324a745d2956434a921e967422281efc682d3885d14df6bc91c8c3c"
+      "sourceFile": "tools/scene-icons/sources/ambulance_medical_point.png",
+      "sha256": "e5ba7e01a0de26f7354edf269a81443fefea9abb188b7e2eed3e073480a94ba0"
     },
     {
       "key": "vehicle_fire_engine",
       "png": "png/vehicle_fire_engine.png",
       "png2x": "png/vehicle_fire_engine@2x.png",
-      "png4x": "png/vehicle_fire_engine@4x.png",
       "sprite": {
-        "x": 576,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 128,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/vehicle_fire_engine.png",
-      "sha256": "270aefd96abe91bc1f4e9e92f14d05d0badf211ed9aa80f722dcbad07c289c3f"
+      "sha256": "5d1859d13bbe70eed37b9ab10f7b1181aa04e7ef5c9572215e1426f087cf64ed"
     },
     {
       "key": "vehicle_civilian_sedan",
       "png": "png/vehicle_civilian_sedan.png",
       "png2x": "png/vehicle_civilian_sedan@2x.png",
-      "png4x": "png/vehicle_civilian_sedan@4x.png",
       "sprite": {
-        "x": 608,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 192,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/vehicle_civilian_sedan.png",
-      "sha256": "0321e61088d9f86d5cb902ba6823cf5249b6836119e6b605111538281c1086f4"
+      "sourceFile": "tools/scene-icons/sources/civilian_sedan.png",
+      "sha256": "b4b16dddaa1765d1be1f81964f18a91b655823188f485cc0b88f5726ef064182"
     },
     {
       "key": "aircraft_helicopter",
       "png": "png/aircraft_helicopter.png",
       "png2x": "png/aircraft_helicopter@2x.png",
-      "png4x": "png/aircraft_helicopter@4x.png",
       "sprite": {
-        "x": 640,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 256,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/aircraft_helicopter.png",
-      "sha256": "8b214a3a9c5e0d59bee7d10231e5b9bf0da34d477e9d2a2904fbee1a51a961a1"
+      "sha256": "70028487a622d5195881b4c0600229d8b97c8b4eea746fa2f75aa8bcb293f26c"
     },
     {
       "key": "aircraft_fixed_wing",
       "png": "png/aircraft_fixed_wing.png",
       "png2x": "png/aircraft_fixed_wing@2x.png",
-      "png4x": "png/aircraft_fixed_wing@4x.png",
       "sprite": {
-        "x": 672,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 320,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/aircraft_fixed_wing.png",
-      "sha256": "b4a5ac051a4dce5e9fff038416ae05551e473c715f8e484fdaf85effad77be27"
+      "sha256": "61322f44f7488dae46706c0b8f663feb851ec51839d2c4f3e47082e22400ef99"
     },
     {
       "key": "person_runner",
       "png": "png/person_runner.png",
       "png2x": "png/person_runner@2x.png",
-      "png4x": "png/person_runner@4x.png",
       "sprite": {
-        "x": 704,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 384,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/person_runner.png",
-      "sha256": "1318577533c226945aac84295447d15f096a3ef44c0d3a0ade490a4f011a7d8c"
+      "sha256": "dcb5c2c9e0326da42bdb5aea45d86e49d26d84405950a14a800d8dac4ebaa979"
     },
     {
       "key": "person_police_officer",
       "png": "png/person_police_officer.png",
       "png2x": "png/person_police_officer@2x.png",
-      "png4x": "png/person_police_officer@4x.png",
       "sprite": {
-        "x": 736,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 448,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/person_police_officer.png",
-      "sha256": "5c275ccfe6c3bf9fff8e58963eacbe966e673c1ce2f5303cad322b39c1a6c08d"
+      "sourceFile": "tools/scene-icons/sources/foot_patrol_officer.png",
+      "sha256": "da064b3d430fa16256ea6279e44b3cf56b0fcdf902018b0a509572c8182e9b85"
     },
     {
       "key": "signage_road_closed",
       "png": "png/signage_road_closed.png",
       "png2x": "png/signage_road_closed@2x.png",
-      "png4x": "png/signage_road_closed@4x.png",
       "sprite": {
-        "x": 768,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 512,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/signage_road_closed.png",
-      "sha256": "265cea019d3644b087f780f5cdc0dcf8f18aedd1ed183afb4f00890b08e8494a"
+      "sourceFile": "tools/scene-icons/sources/road_closed_barricade.png",
+      "sha256": "dd0b4c2d4aed4c527b44eff4c66c5ba6b14908dc785546517e876e5c875fb64c"
     },
     {
       "key": "effect_smoke_fire",
       "png": "png/effect_smoke_fire.png",
       "png2x": "png/effect_smoke_fire@2x.png",
-      "png4x": "png/effect_smoke_fire@4x.png",
       "sprite": {
-        "x": 800,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 576,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/effect_smoke_fire.png",
-      "sha256": "6e238834687ecfc3cee6e0d37f27913664f71d59d60c4782aaad04b1efeef75d"
+      "sha256": "07fe0c9fd37bfe38d247121d951c2db29f3ce808ecf7ec7c62d942d99282a9ab"
     },
     {
       "key": "alert_state_1",
       "png": "png/alert_state_1.png",
       "png2x": "png/alert_state_1@2x.png",
-      "png4x": "png/alert_state_1@4x.png",
       "sprite": {
-        "x": 832,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 640,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-0",
-      "sha256": "cfe8565f1a5e69a62cede41807c3983b48dfb0122ad3a4954f051a9681e11eb6"
+      "sha256": "ec9c44cbcba6fea3c9e2f1e77d5fc44769f79d9bec1b61922ab989d7ba95253f"
     },
     {
       "key": "alert_state_2",
       "png": "png/alert_state_2.png",
       "png2x": "png/alert_state_2@2x.png",
-      "png4x": "png/alert_state_2@4x.png",
       "sprite": {
-        "x": 864,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 704,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-1",
-      "sha256": "d6b7c13cf4451e84c9a9e14f3ad9707b46616c6da761818b92137ff3baf9ff57"
+      "sha256": "8f455a44f1e3b3dc4af8496c0cec4cc6d32407bf1e7083fb377edec8b5de82dc"
     },
     {
       "key": "alert_state_3",
       "png": "png/alert_state_3.png",
       "png2x": "png/alert_state_3@2x.png",
-      "png4x": "png/alert_state_3@4x.png",
       "sprite": {
-        "x": 896,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 768,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-2",
-      "sha256": "d9a0c170f01cc5288a71a568f3bc7113990a21f1f40c6ab80ef149ca89d0ec3c"
+      "sha256": "d36c36d6a145c829e9f8586d49b13e698c44d837f8eee38b042fe0564a7926dc"
     },
     {
       "key": "alert_state_4",
       "png": "png/alert_state_4.png",
       "png2x": "png/alert_state_4@2x.png",
-      "png4x": "png/alert_state_4@4x.png",
       "sprite": {
-        "x": 928,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 832,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-3",
-      "sha256": "6fb131fc7f4e0a581e6679b76f4419aaa9a059c20bbc8802ff5c8654a570b347"
+      "sha256": "5580eb188f2e26efd9e58ff773065d277de5d1e1bd9ff11677fa7bf60347e37e"
     },
     {
       "key": "barrier_crowd",
       "png": "png/barrier_crowd.png",
       "png2x": "png/barrier_crowd@2x.png",
-      "png4x": "png/barrier_crowd@4x.png",
       "sprite": {
-        "x": 960,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 896,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/barrier_crowd.png",
-      "sha256": "20e17377fa2ece280668da94bf62743b206afe8737c9b33a1e77de5551db2a96"
+      "sourceFile": "tools/scene-icons/sources/crowd_control_barrier.png",
+      "sha256": "09b4151ea74900420567f06b496da649037f5a12a6d05403a7e2c75ba18d8e44"
     },
     {
       "key": "cone_cluster",
       "png": "png/cone_cluster.png",
       "png2x": "png/cone_cluster@2x.png",
-      "png4x": "png/cone_cluster@4x.png",
       "sprite": {
-        "x": 992,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 960,
+        "y": 64,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/cone_cluster.png",
-      "sha256": "66f1a99736d49eb8c4bfdea5055458e77010b70df9746bd155be11bfb1354138"
+      "sha256": "6c22278922dc03869928b7f5a473741e5fb6734f9aa53c7b2def1c8bcc0f043e"
     },
     {
       "key": "crowd_spectators",
       "png": "png/crowd_spectators.png",
       "png2x": "png/crowd_spectators@2x.png",
-      "png4x": "png/crowd_spectators@4x.png",
       "sprite": {
-        "x": 1024,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 0,
+        "y": 128,
+        "width": 64,
+        "height": 64
       },
-      "sourceFile": "tools/scene-icons/sources/crowd_spectators.png",
-      "sha256": "c628d27bab05536eafc109a6f3da0b4116fccc968a54a9aba40601f94a0d2f8b"
+      "sourceFile": "tools/scene-icons/sources/spectator_crowd_cluster.png",
+      "sha256": "b026c613d042c4c121fa459548fa4930c431330f00f8cdff416730b3e3dad9d9"
     },
     {
       "key": "person_responder",
       "png": "png/person_responder.png",
       "png2x": "png/person_responder@2x.png",
-      "png4x": "png/person_responder@4x.png",
       "sprite": {
-        "x": 1056,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 64,
+        "y": 128,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/person_responder.png",
-      "sha256": "e702cee2b22b7b02dcd1b51a1b2b897e4f6830029cb2d88cf58b2ae431d40c55"
+      "sha256": "ba01e4fb36a42e5493e19bb6a10d085e7f7d1aa26fa5fb1f2b6dbdc6b71e21ad"
     },
     {
       "key": "vehicle_city_bus",
       "png": "png/vehicle_city_bus.png",
       "png2x": "png/vehicle_city_bus@2x.png",
-      "png4x": "png/vehicle_city_bus@4x.png",
       "sprite": {
-        "x": 1088,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 128,
+        "y": 128,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/vehicle_city_bus.png",
-      "sha256": "6b71f5d7c28d690425c9de668151880589f0f5821a3fe63f6d892d1c619aa142"
+      "sha256": "186f653b112d829fd0ba5ec747b1a39b3142444dfa93d10c56669ea15c690e13"
     },
     {
       "key": "vehicle_police_motorcycle",
       "png": "png/vehicle_police_motorcycle.png",
       "png2x": "png/vehicle_police_motorcycle@2x.png",
-      "png4x": "png/vehicle_police_motorcycle@4x.png",
       "sprite": {
-        "x": 1120,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 192,
+        "y": 128,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/vehicle_police_motorcycle.png",
-      "sha256": "c7c0e914bf6ceb1ec02024fd21ec58a177fdb564003add16abe8cb2e4e8e9c7b"
+      "sha256": "b46a983d489217e96548f5213401328316f36c7001e51aeb12417588056b4c8f"
     },
     {
       "key": "sensor_cctv_feed",
       "png": "png/sensor_cctv_feed.png",
       "png2x": "png/sensor_cctv_feed@2x.png",
-      "png4x": "png/sensor_cctv_feed@4x.png",
       "sprite": {
-        "x": 1152,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 256,
+        "y": 128,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/sensor_cctv_feed.png",
-      "sha256": "b13695cc14b092f49e559f72d5cf932b2fc0c3204eeab6311078f2344cc3f8de"
+      "sha256": "e9ad81863ef4d16ae87f4a5f7c9784ef74878151e5566f95e5ca8216f41a5f72"
     },
     {
       "key": "evidence_pin_verified",
       "png": "png/evidence_pin_verified.png",
       "png2x": "png/evidence_pin_verified@2x.png",
-      "png4x": "png/evidence_pin_verified@4x.png",
       "sprite": {
-        "x": 1184,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 320,
+        "y": 128,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/evidence_pin_verified.png",
-      "sha256": "d1c243cfc5dea7e9cb5372694e0fec308bf966b48b977c8fc1465ad5f2015b06"
+      "sha256": "db43e7e597eaed5a748f31cbc788daa8345c452e1e3572ed7500aee865ecd073"
     },
     {
       "key": "marker_air_raid_impact_sim",
       "png": "png/marker_air_raid_impact_sim.png",
       "png2x": "png/marker_air_raid_impact_sim@2x.png",
-      "png4x": "png/marker_air_raid_impact_sim@4x.png",
       "sprite": {
-        "x": 1216,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 384,
+        "y": 128,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/marker_air_raid_impact_sim.png",
-      "sha256": "4c166004c6f701ca7d3d32a1d682359ca9255796f67c73a361108795f3c8bb6f"
+      "sha256": "e5cced279f2c37777534b52a4668b6ede39b9da88ff276aefa7939ef3174f0b8"
     },
     {
       "key": "vessel_marine_patrol",
       "png": "png/vessel_marine_patrol.png",
       "png2x": "png/vessel_marine_patrol@2x.png",
-      "png4x": "png/vessel_marine_patrol@4x.png",
       "sprite": {
-        "x": 1248,
-        "y": 0,
-        "width": 32,
-        "height": 32
+        "x": 448,
+        "y": 128,
+        "width": 64,
+        "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/vessel_marine_patrol.png",
-      "sha256": "5972d5b1c34523776b3594aafad6f6c17d5f506f63e7c7be718d8b32e2e0a4b7"
+      "sha256": "38b8b9cd60e061e391f8d0784425b3b38a04b9a4d5712a48b38ee039273e061b"
+    },
+    {
+      "key": "medical_point",
+      "png": "png/medical_point.png",
+      "png2x": "png/medical_point@2x.png",
+      "sprite": {
+        "x": 512,
+        "y": 128,
+        "width": 64,
+        "height": 64
+      },
+      "sourceFile": "tools/scene-icons/sources/ambulance_medical_point.png",
+      "sha256": "e5ba7e01a0de26f7354edf269a81443fefea9abb188b7e2eed3e073480a94ba0"
+    },
+    {
+      "key": "marine_patrol",
+      "png": "png/marine_patrol.png",
+      "png2x": "png/marine_patrol@2x.png",
+      "sprite": {
+        "x": 576,
+        "y": 128,
+        "width": 64,
+        "height": 64
+      },
+      "sourceFile": "tools/scene-icons/sources/vessel_marine_patrol.png",
+      "sha256": "38b8b9cd60e061e391f8d0784425b3b38a04b9a4d5712a48b38ee039273e061b",
+      "aliasOf": "vessel_marine_patrol"
+    },
+    {
+      "key": "vehicle_checkpoint",
+      "png": "png/vehicle_checkpoint.png",
+      "png2x": "png/vehicle_checkpoint@2x.png",
+      "sprite": {
+        "x": 640,
+        "y": 128,
+        "width": 64,
+        "height": 64
+      },
+      "sourceFile": "tools/scene-icons/sources/checkpoint_cordon_node.png",
+      "sha256": "075a94032948942c65fb88a9f51686bf143b981c98cddc30d05ad8e790dac243",
+      "aliasOf": "checkpoint"
+    },
+    {
+      "key": "screening_lane",
+      "png": "png/screening_lane.png",
+      "png2x": "png/screening_lane@2x.png",
+      "sprite": {
+        "x": 704,
+        "y": 128,
+        "width": 64,
+        "height": 64
+      },
+      "sourceFile": "tools/scene-icons/sources/crowd_control_barrier.png",
+      "sha256": "09b4151ea74900420567f06b496da649037f5a12a6d05403a7e2c75ba18d8e44"
+    },
+    {
+      "key": "road_closed",
+      "png": "png/road_closed.png",
+      "png2x": "png/road_closed@2x.png",
+      "sprite": {
+        "x": 768,
+        "y": 128,
+        "width": 64,
+        "height": 64
+      },
+      "sourceFile": "tools/scene-icons/sources/road_closed_barricade.png",
+      "sha256": "dd0b4c2d4aed4c527b44eff4c66c5ba6b14908dc785546517e876e5c875fb64c",
+      "aliasOf": "signage_road_closed"
+    },
+    {
+      "key": "civilian_sedan",
+      "png": "png/civilian_sedan.png",
+      "png2x": "png/civilian_sedan@2x.png",
+      "sprite": {
+        "x": 832,
+        "y": 128,
+        "width": 64,
+        "height": 64
+      },
+      "sourceFile": "tools/scene-icons/sources/civilian_sedan.png",
+      "sha256": "b4b16dddaa1765d1be1f81964f18a91b655823188f485cc0b88f5726ef064182",
+      "aliasOf": "vehicle_civilian_sedan"
     }
   ]
 }

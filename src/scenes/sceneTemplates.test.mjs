@@ -1,9 +1,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseSceneSpec, SCENARIO_TYPES } from './sceneSpec.js';
+import {
+  parseSceneSpec,
+  parseDynamicSceneSpec,
+  SCENARIO_TYPES,
+} from './sceneSpec.js';
 import {
   SCENARIO_TEMPLATES,
   REQUIRED_ELEMENTS,
+  SCENARIO_LABELS,
   classifyPrompt,
   promptHints,
   focalNameFromPrompt,
@@ -16,6 +21,12 @@ const QA_PROMPTS = [
   ['kanes boxing gym abu dhabi police raid', 'police_raid'],
   ['im doing a raid in the dubai marina', 'police_raid'],
   ['Dubai Run on Sheikh Zayed Road', 'crowd_event'],
+  ['dubai run on sheikh zayed road', 'crowd_event'],
+  [
+    'emirates palace world event lets map and do the poloice protection',
+    'police_protection',
+  ],
+  ['car crash outside yas mall', 'perimeter_cordon'],
 ];
 
 test('classifyPrompt handles the four live QA prompts', () => {
@@ -50,8 +61,11 @@ test('every scenario template validates and contains the required elements', () 
       type,
       'Example Place',
     );
-    const parsed = parseSceneSpec(spec);
-    assert.equal(parsed.ok, true, `${type}: ${JSON.stringify(parsed.issues)}`);
+    const parsed =
+      type === 'police_protection'
+        ? parseDynamicSceneSpec(spec)
+        : parseSceneSpec(spec);
+    assert.equal(parsed.ok !== false, true, `${type}: ${JSON.stringify(parsed.issues)}`);
     assert.deepEqual(parsed.rejected, []);
     assert.equal(parsed.spec.scenarioType, type);
     const present = new Set(parsed.spec.elements.map((e) => e.type));
@@ -65,6 +79,10 @@ test('every scenario template validates and contains the required elements', () 
   assert.deepEqual(
     Object.keys(REQUIRED_ELEMENTS).sort(),
     [...SCENARIO_TYPES].sort(),
+  );
+  assert.equal(
+    SCENARIO_LABELS.police_protection,
+    'Event security / police protection (illustrative)',
   );
 });
 
@@ -271,4 +289,42 @@ test('repairSceneSpec passes a fully valid spec through untouched', () => {
   assert.deepEqual(out.reasons, []);
   assert.deepEqual(out.rejected, []);
   assert.deepEqual(out.spec, goodSpec());
+});
+
+test('repairSceneSpec overrides observation when the prompt specifies police protection', () => {
+  const raw = {
+    scenarioType: 'observation',
+    focalEntity: { name: 'Emirates Palace', kind: 'venue' },
+    elements: [{ type: 'cctv_signal', params: { count: 3 } }],
+    confidence: 0.8,
+  };
+  const out = repairSceneSpec(
+    raw,
+    'emirates palace world event lets map and do the poloice protection',
+  );
+  assert.equal(out.repaired, true);
+  assert.equal(out.spec.scenarioType, 'police_protection');
+  assert.ok(
+    out.reasons.some((r) => /overridden by prompt keyword rule/.test(r)),
+  );
+  assert.equal(out.spec.focalEntity.name, 'Emirates Palace');
+  const present = new Set(out.spec.elements.map((e) => e.type));
+  for (const required of REQUIRED_ELEMENTS.police_protection)
+    assert.ok(present.has(required));
+});
+
+test('templateSpec builds complete police_protection layout', () => {
+  const spec = templateSpec(
+    'emirates palace world event lets map and do the poloice protection',
+  );
+  assert.equal(spec.scenarioType, 'police_protection');
+  const types = spec.elements.map((e) => e.type);
+  assert.ok(types.includes('inner_cordon'));
+  assert.ok(types.includes('outer_cordon'));
+  assert.ok(types.includes('vehicle_checkpoint'));
+  assert.ok(types.includes('screening_lane'));
+  assert.ok(types.includes('command_post'));
+  assert.ok(types.includes('medical_point'));
+  assert.ok(types.includes('foot_patrol'));
+  assert.ok(types.includes('marine_patrol'));
 });

@@ -1,4 +1,9 @@
 import * as Cesium from 'cesium';
+import {
+  TILESET_CACHE_BYTES,
+  TILESET_CACHE_OVERFLOW_BYTES,
+  SOFTWARE_TILESET_CACHE_BYTES,
+} from '../cinematic/renderBudget.js';
 
 /** Create the standard globe viewer in caller-owned, visible containers. */
 export function createApplicationViewer({ container, creditContainer }) {
@@ -19,6 +24,7 @@ export function createApplicationViewer({ container, creditContainer }) {
     baseLayer: false,
     creditContainer,
     msaaSamples: 4,
+    showRenderLoopErrors: false,
     contextOptions: { webgl: { preserveDrawingBuffer: true } },
   });
   try {
@@ -40,6 +46,52 @@ export function createApplicationViewer({ container, creditContainer }) {
 export const SOFTWARE_RENDERER_PATTERN =
   /swiftshader|llvmpipe|softpipe|software|basic render|microsoft basic/i;
 
+/** Detect if viewer is running on CPU-emulated WebGL (SwiftShader, llvmpipe, etc.) */
+export function isSoftwareRenderer(viewer) {
+  try {
+    if (viewer?._isSoftwareRenderer) return true;
+    const canvas = viewer?.scene?.canvas || viewer?.canvas;
+    const gl = canvas?.getContext?.('webgl2') || canvas?.getContext?.('webgl');
+    const ext = gl?.getExtension?.('WEBGL_debug_renderer_info');
+    const renderer = String(
+      (ext && gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) ||
+        gl?.getParameter?.(gl.RENDERER) ||
+        '',
+    );
+    if (SOFTWARE_RENDERER_PATTERN.test(renderer)) return true;
+    if (
+      globalThis.document?.documentElement?.getAttribute?.(
+        'data-software-renderer',
+      ) === 'true'
+    )
+      return true;
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Returns tileset cache options sized appropriately for the current GPU/renderer.
+ * Software renderers receive SOFTWARE_TILESET_CACHE_BYTES (256 MB), while standard GPUs
+ * receive TILESET_CACHE_BYTES (768 MB) and TILESET_CACHE_OVERFLOW_BYTES (256 MB).
+ *
+ * @param {object} [viewer]
+ * @returns {{cacheBytes: number, maximumCacheOverflowBytes: number}}
+ */
+export function tilesetCacheOptions(viewer) {
+  if (isSoftwareRenderer(viewer)) {
+    return {
+      cacheBytes: SOFTWARE_TILESET_CACHE_BYTES,
+      maximumCacheOverflowBytes: SOFTWARE_TILESET_CACHE_BYTES,
+    };
+  }
+  return {
+    cacheBytes: TILESET_CACHE_BYTES,
+    maximumCacheOverflowBytes: TILESET_CACHE_OVERFLOW_BYTES,
+  };
+}
+
 /**
  * On a CPU-emulated WebGL context every 4x-MSAA full-resolution frame can
  * block the main thread for hundreds of milliseconds, starving input and
@@ -58,6 +110,7 @@ export function applySoftwareRendererBudget(viewer) {
         '',
     );
     if (!SOFTWARE_RENDERER_PATTERN.test(renderer)) return false;
+    viewer._isSoftwareRenderer = true;
     viewer.resolutionScale = 0.5;
     if ('msaaSamples' in viewer.scene) viewer.scene.msaaSamples = 1;
     viewer.targetFrameRate = 20;

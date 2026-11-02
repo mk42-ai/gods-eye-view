@@ -283,6 +283,9 @@ test('specInstructions forbids coordinates and embeds the prompt', () => {
   assert.ok(text.includes(JSON.stringify('raid at <Place> & "quotes"')));
   assert.ok(text.includes('Focal entity hint'));
   assert.ok(text.includes(JSON.stringify('Place')));
+  assert.ok(text.includes('police_protection'));
+  assert.ok(text.includes('vehicle_checkpoint'));
+  assert.ok(text.includes('screening_lane'));
   const lines = text.split('\n');
   for (const line of lines)
     if (/coordinate/i.test(line))
@@ -407,4 +410,40 @@ test('a sparse dynamic spec is topped up with the scenario REQUIRED_ELEMENTS (li
   assert.ok(info.reasons.some((r) => /added missing cctv_signal/.test(r)));
   assert.equal(info.repaired, true);
   assert.equal(info.fallback, null, 'still the model, not the template');
+});
+
+test('classify overrides model scenario to police_protection when prompt matches keyword rule', async () => {
+  const answer = JSON.stringify({
+    scenarioType: 'observation',
+    focalEntity: { name: 'Emirates Palace', kind: 'venue' },
+    elements: [
+      { type: 'inner_cordon', params: { radius_m: 160 } },
+      { type: 'outer_cordon', params: { radius_m: 450 } },
+    ],
+    confidence: 0.8,
+  });
+  const model = createSpecModel({
+    env: {},
+    tiers: () => [
+      {
+        provider: 'test',
+        id: 'fake',
+        retries: 0,
+        run: async () => answer,
+      },
+    ],
+    log: () => {},
+  });
+  const { spec, model: info } = await model.classify(
+    'emirates palace world event lets map and do the poloice protection',
+  );
+  assert.equal(spec.scenarioType, 'police_protection');
+  assert.equal(info.repaired, true);
+  assert.ok(
+    info.reasons.some((r) => /overridden by prompt keyword rule/.test(r)),
+  );
+  const types = spec.elements.map((e) => e.type);
+  assert.ok(types.includes('vehicle_checkpoint'));
+  assert.ok(types.includes('command_post'));
+  assert.ok(types.includes('medical_point'));
 });

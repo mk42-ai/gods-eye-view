@@ -6,6 +6,7 @@ import {
   SCENE_SPEC_STRICT_JSON_SCHEMA,
   SCENE_SPEC_DYNAMIC_JSON_SCHEMA,
   SPEC_LIMITS,
+  SCENARIO_TYPES,
   ELEMENT_TYPES,
   DYNAMIC_ELEMENT_TYPES,
   normalizeSceneSpecInput,
@@ -313,6 +314,14 @@ test('DYNAMIC_ELEMENT_TYPES contains all closed ELEMENT_TYPES plus new typed ele
     'cctv_pick',
     'intel_note',
     'timeline_event',
+    'vehicle_checkpoint',
+    'screening_lane',
+    'medical_point',
+    'marine_patrol',
+    'foot_patrol',
+    'escort_motorcycle',
+    'shuttle_bus',
+    'road_closed',
   ];
   for (const nt of newTypes) {
     assert.ok(
@@ -503,4 +512,43 @@ test('parseDynamicSceneSpec validates cctv_pick relevance, intel_note citations,
   const timeline = parsed.spec.elements[2];
   assert.equal(timeline.atSec, 120);
   assert.equal(timeline.title, 'Tactical units deployed');
+});
+
+test('police_protection is in SCENARIO_TYPES and validates in closed and dynamic schemas', () => {
+  assert.ok(SCENARIO_TYPES.includes('police_protection'));
+
+  const rawClosed = {
+    scenarioType: 'police_protection',
+    focalEntity: { name: 'Emirates Palace', kind: 'venue' },
+    elements: [
+      { type: 'inner_cordon', params: { radius_m: 160 } },
+      { type: 'outer_cordon', params: { radius_m: 450 } },
+    ],
+    confidence: 0.9,
+  };
+  const parsedClosed = parseSceneSpec(rawClosed);
+  assert.equal(parsedClosed.ok, true, JSON.stringify(parsedClosed.issues));
+  assert.equal(parsedClosed.spec.scenarioType, 'police_protection');
+
+  const rawDynamic = {
+    scenarioType: 'police_protection',
+    focalEntity: { name: 'Emirates Palace', kind: 'venue' },
+    elements: [
+      { type: 'vehicle_checkpoint', count: 3 },
+      { type: 'screening_lane', count: 2 },
+      { type: 'medical_point', count: 1 },
+      { type: 'marine_patrol', count: 1 },
+      { type: 'foot_patrol', count: 8 },
+      { type: 'escort_motorcycle', count: 4 },
+      { type: 'shuttle_bus', count: 2 },
+      { type: 'road_closed', count: 3 },
+    ],
+  };
+  const parsedDynamic = parseDynamicSceneSpec(rawDynamic);
+  assert.equal(parsedDynamic.spec.scenarioType, 'police_protection');
+  assert.equal(parsedDynamic.spec.elements.length, 8);
+  assert.deepEqual(parsedDynamic.rejected, []);
+  for (const el of parsedDynamic.spec.elements) {
+    assert.equal(el.generic, undefined);
+  }
 });

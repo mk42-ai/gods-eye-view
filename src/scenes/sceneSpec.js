@@ -23,6 +23,7 @@ export const SCENARIO_TYPES = Object.freeze([
   'perimeter_cordon',
   'motorcade',
   'observation',
+  'police_protection',
 ]);
 export const ELEMENT_TYPES = Object.freeze([
   'inner_cordon',
@@ -50,6 +51,14 @@ export const DYNAMIC_ELEMENT_TYPES = Object.freeze([
   'cctv_pick',
   'intel_note',
   'timeline_event',
+  'vehicle_checkpoint',
+  'screening_lane',
+  'medical_point',
+  'marine_patrol',
+  'foot_patrol',
+  'escort_motorcycle',
+  'shuttle_bus',
+  'road_closed',
 ]);
 export const DIRECTIONS = Object.freeze([
   'N',
@@ -221,6 +230,12 @@ const MERGEABLE = new Set([
   'cctv_signal',
   'crowd_zone',
   'start_finish',
+  'vehicle_checkpoint',
+  'screening_lane',
+  'foot_patrol',
+  'escort_motorcycle',
+  'shuttle_bus',
+  'marine_patrol',
 ]);
 const plainObject = (v) =>
   v && typeof v === 'object' && !Array.isArray(v) && !(v instanceof Date);
@@ -422,7 +437,7 @@ export const SCENE_SPEC_DYNAMIC_JSON_SCHEMA = Object.freeze({
           type: {
             type: 'string',
             description:
-              'Dynamic element type: threat_zone, interest_zone, approach_route, egress_route, overwatch, command_post, checkpoint, cordon_node, crowd_density_zone, cctv_pick, intel_note, timeline_event, inner_cordon, outer_cordon, staging_point, perimeter_unit, cones, barriers, cctv_signal, crowd_zone, route_line, start_finish, or custom type',
+              'Dynamic element type: threat_zone, interest_zone, approach_route, egress_route, overwatch, command_post, checkpoint, cordon_node, crowd_density_zone, cctv_pick, intel_note, timeline_event, inner_cordon, outer_cordon, staging_point, perimeter_unit, cones, barriers, cctv_signal, crowd_zone, route_line, start_finish, vehicle_checkpoint, screening_lane, medical_point, marine_patrol, foot_patrol, escort_motorcycle, shuttle_bus, road_closed, or custom type',
           },
           label: { type: 'string', maxLength: 48 },
           confidence: { type: 'number', minimum: 0, maximum: 1 },

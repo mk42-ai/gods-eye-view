@@ -1,6 +1,7 @@
 import { createApplicationOperations } from './operations.js';
 import * as Cesium from 'cesium';
-import { createApplicationViewer } from '../app/viewer.js';
+import { createApplicationViewer, tilesetCacheOptions } from '../app/viewer.js';
+import { installRenderGuard } from './renderGuard.js';
 import { registerDataCredits } from '../data/dataCredits.js';
 import { configureCreditKeyboardAccess } from '../creditKeyboard.js';
 import { MapStackController } from '../mapStackController.js';
