@@ -1,0 +1,117 @@
+{
+  "probeTimestampUtc": "2026-11-02T11:02:39.850Z",
+  "completedAtUtc": "2026-11-02T11:03:39.187Z",
+  "baseUrl": "https://gateway.on-demand.io",
+  "pluginId": "plugin-1792945050",
+  "endpointId": "predefined-openai-gpt4.1-mini",
+  "requestShapeConfirmed": {
+    "createSession": {
+      "method": "POST",
+      "path": "/chat/v1/sessions",
+      "headers": {
+        "apikey": "[REDACTED]",
+        "content-type": "application/json"
+      },
+      "body": {
+        "externalUserId": "gev-scene-footage-probe",
+        "pluginIds": [
+          "plugin-1792945050"
+        ]
+      }
+    },
+    "submitQuery": {
+      "method": "POST",
+      "path": "/chat/v1/sessions/{sessionId}/query",
+      "headers": {
+        "apikey": "[REDACTED]",
+        "content-type": "application/json"
+      },
+      "body": {
+        "endpointId": "predefined-openai-gpt4.1-mini",
+        "query": "<AGENT_INSTRUCTION + scene context + fetchSnapchatVideosByPlace>",
+        "responseMode": "sync",
+        "pluginIds": [
+          "plugin-1792945050"
+        ]
+      }
+    }
+  },
+  "target": "Dubai Marina",
+  "variantsQueried": [
+    "Dubai Marina",
+    "Marina Dubai",
+    "Dubai Marina Walk",
+    "JBR Dubai Marina"
+  ],
+  "totals": {
+    "rawRecordCount": 1,
+    "uniqueAfterDedupe": 1,
+    "verified_count": 0,
+    "approximate_count": 1
+  },
+  "perVariantResults": [
+    {
+      "variant": "Dubai Marina",
+      "sessionStatus": 201,
+      "queryStatus": 200,
+      "latencyMs": 16496,
+      "recordCount": 1,
+      "verifiedCount": 0,
+      "approximateCount": 1,
+      "error": null,
+      "clipsSummary": [
+        {
+          "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+          "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+          "tier": "candidate",
+          "locationEvidence": "hashtag-match",
+          "matchedPlaceName": "Dubai Marina",
+          "caption": "#dubaimarina",
+          "publicationTime": "2026-09-09T17:13:12.000Z",
+          "mediaUrlRedacted": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/HoZUjv3lAS.mp4"
+        }
+      ]
+    },
+    {
+      "variant": "Marina Dubai",
+      "sessionStatus": 201,
+      "queryStatus": 200,
+      "latencyMs": 15948,
+      "recordCount": 0,
+      "verifiedCount": 0,
+      "approximateCount": 0,
+      "error": null,
+      "clipsSummary": []
+    },
+    {
+      "variant": "Dubai Marina Walk",
+      "sessionStatus": 201,
+      "queryStatus": 200,
+      "latencyMs": 12883,
+      "recordCount": 0,
+      "verifiedCount": 0,
+      "approximateCount": 0,
+      "error": null,
+      "clipsSummary": []
+    },
+    {
+      "variant": "JBR Dubai Marina",
+      "sessionStatus": 201,
+      "queryStatus": 200,
+      "latencyMs": 13738,
+      "recordCount": 0,
+      "verifiedCount": 0,
+      "approximateCount": 0,
+      "error": null,
+      "clipsSummary": []
+    }
+  ],
+  "chatBatchProbe": {
+    "endpoint": "/chat/v1/batches",
+    "status": 405,
+    "available": false,
+    "body": "{\"message\":\"Chat batch creation is currently unavailable\",\"errorCode\":\"method_not_allowed\"}",
+    "checkedAt": "2026-11-02T11:03:38.921Z"
+  },
+  "chat_batches_assessment": "Live API probe of POST /chat/v1/batches confirmed HTTP 405 ({\"message\":\"Chat batch creation is currently unavailable\",\"errorCode\":\"method_not_allowed\"}). OnDemand does not provide an active chat batch creation endpoint at present, so batching cannot raise footage result counts today. Server-side fan-out across place-name variants under bounded concurrency (SNAPCHAT_FANOUT_CONCURRENCY=4) is the proven and effective mechanism to maximize footage discovery without blocking."
+}
