@@ -78,6 +78,6 @@ Verified against live OpenAPI documentation (`docs/evidence-2026-11-02-render-fi
 
 ---
 
-## 5. Chat Batches Assessment
+## 5. legacy multi-query transport Assessment
 
-> **Live API probe of POST /chat/v1/batches confirmed HTTP 405 ({"message":"Chat batch creation is currently unavailable","errorCode":"method_not_allowed"}). OnDemand does not provide an active chat batch creation endpoint at present, so batching cannot raise footage result counts today. Server-side fan-out across place-name variants under bounded concurrency (SNAPCHAT_FANOUT_CONCURRENCY=4) is the proven and effective mechanism to maximize footage discovery without blocking.**
+> **Live API probe of the removed legacy multi-query transport confirmed HTTP 405 ({"message":"legacy multi-query transport creation is currently unavailable","errorCode":"method_not_allowed"}). OnDemand does not provide an active legacy multi-query transport creation endpoint at present, so batching cannot raise footage result counts today. Server-side fan-out across place-name variants under bounded concurrency (SNAPCHAT_FANOUT_CONCURRENCY=4) is the proven and effective mechanism to maximize footage discovery without blocking.**

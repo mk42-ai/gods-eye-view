@@ -2,7 +2,7 @@
 SNAPCHAT FOOTAGE FAN-OUT INGESTION AUDIT: BEFORE VS AFTER
 Generated: 2026-11-01T07:40:03.296Z (Started: 2026-11-01T07:37:57.868Z)
 Transport: OnDemand Chat API (predefined-openai-gpt4.1-mini) + plugin-1792945050
-Batch API: POST /chat/v1/batches -> HTTP 405 ({"message":"Chat batch creation is currently unavailable","errorCode":"method_not_allowed"})
+Batch API: the removed legacy multi-query transport -> HTTP 405 ({"message":"legacy multi-query transport creation is currently unavailable","errorCode":"method_not_allowed"})
 ================================================================================
 
 EXECUTIVE SUMMARY

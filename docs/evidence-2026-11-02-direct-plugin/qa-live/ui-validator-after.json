@@ -1,0 +1,81 @@
+{
+  "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-1440x900.png",
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#incident-composer-input",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "expect-selector",
+      "target": "#incident-composer-input",
+      "ok": true,
+      "detail": "visible"
+    },
+    {
+      "kind": "eval",
+      "target": "(async()=>{const m=await (await fetch('/scene-icons/manifest.json')).json();const bad=[];for(const k of m.keys){for(const p of [k.png,k.png2x,k.png4x].filter(Boolean)){const img=new Image();img.src='/",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__iconAlpha && JSON.stringify(window.__iconAlpha)",
+      "ok": true,
+      "detail": "\"{\\\"version\\\":7,\\\"keys\\\":49,\\\"bad\\\":[],\\\"has4x\\\":true}\""
+    },
+    {
+      "kind": "eval",
+      "target": "(async()=>{const r=await fetch('/api/scenes/dubai-marina/footage/snapchat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({lat:25.0786415,lon:55.1352524,placeName:'Duba",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__snap && JSON.stringify(window.__snap)",
+      "ok": true,
+      "detail": "\"{\\\"status\\\":200,\\\"head\\\":\\\"{\\\\\\\"locationId\\\\\\\":\\\\\\\"dubai-marina\\\\\\\",\\\\\\\"requestId\\\\\\\":\\\\\\\"e21472ce-5625-4445-aa12-f6ff5ce70b15\\\\\\\",\\\\\\\"plugin\\\\\\\":{\\\\\\\"id\\\\\\\":\\\\\\\"plugin-1792945050\\\\\\\",\\\\\\\"operation\\\\\\\":\\\\\\\"fetchSnapchatVideosByPlace\\\\\\\"},\\\\\\\"refresh\\\\\\\":{\\\\\\\"defaultMs\\\\\\\":120000,\\\\\\\"minMs\\\\\\\":30000},\\\\\\\"maxCoverageLevel\\\\\\\":\\\\\\\"district\\\\\\\",\\\\\\\"scope\\\\\\\":\\\\\\\"balanced\\\\\\\",\\\\\\\"capabilities\\\\\\\":{\\\\\\\"paginationSupported\\\\\\\":false,\\\\\\\"geot\\\"}\""
+    },
+    {
+      "kind": "eval",
+      "target": "(()=>{const es=performance.getEntriesByType('resource').map(e=>e.name);window.__net={total:es.length,batch:es.filter(n=>/batch/i.test(n))};return es.length>0&&window.__net.batch.length===0;})()",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__net && JSON.stringify(window.__net)",
+      "ok": true,
+      "detail": "\"{\\\"total\\\":250,\\\"batch\\\":[]}\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=432 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "pageErrors": [],
+  "failedRequests": [
+    "Fetch: net::ERR_ABORTED https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation",
+  "textLength": 432
+}

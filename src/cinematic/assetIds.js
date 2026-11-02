@@ -23,6 +23,8 @@ const SPRITE_SOURCE_BATCH_B =
   'Generated 1024² top-down PNG (2026-11-01 batch B, black #000000 keyed to alpha), tools/scene-icons/sources';
 const SPRITE_SOURCE_2026_11_02 =
   'Supplied 1024² top-down PNG (2026-11-02 contract, black keyed to alpha), tools/scene-icons/sources';
+const SPRITE_SOURCE_ICON_FAMILY =
+  'Supplied 1024² top-down PNG (2026-11-02 icon family, black #000000 keyed to alpha, navy outlines kept), tools/scene-icons/sources';
 const SPRITE_LICENCE =
   'Project-supplied artwork (OnDemand), used with permission';
 const SPRITE_SVG = 'Hand-authored SVG in public/scene-icons/svg';
@@ -391,6 +393,31 @@ export const CINEMATIC_ASSETS = Object.freeze(
       SPRITE_SOURCE_2026_11_02,
       'sprite.vehicle.civilian_sedan',
     ),
+    // 2026-11-02 icon family: three new first-class types (64/128/256 px)
+    sprite(
+      'sprite.event_command_post',
+      'event_command_post',
+      'Event command post',
+      'responder',
+      SPRITE_SOURCE_ICON_FAMILY,
+      'sprite.command_post',
+    ),
+    sprite(
+      'sprite.checkpoint_cordon_node',
+      'checkpoint_cordon_node',
+      'Checkpoint / cordon node',
+      'barrier',
+      SPRITE_SOURCE_ICON_FAMILY,
+      'sprite.cordon_node',
+    ),
+    sprite(
+      'sprite.road_closed_barricade',
+      'road_closed_barricade',
+      'Road closed barricade',
+      'signage',
+      SPRITE_SOURCE_ICON_FAMILY,
+      'sprite.road_closed',
+    ),
 
     // Models
     model(
@@ -548,9 +575,21 @@ export const ALIAS_MAP = Object.freeze({
   crowd: ['sprite.crowd_zone', 'sprite.crowd.spectators'],
   barrier: ['sprite.barrier'],
   cone: ['sprite.cone'],
-  road_closed: ['sprite.road_closed', 'sprite.signage.road_closed'],
+  road_closed: [
+    'sprite.road_closed_barricade',
+    'sprite.road_closed',
+    'sprite.signage.road_closed',
+  ],
+  road_closed_barricade: ['sprite.road_closed_barricade', 'sprite.road_closed'],
   checkpoint: ['sprite.checkpoint', 'sprite.vehicle_checkpoint'],
-  command_post: ['sprite.command_post'],
+  checkpoint_cordon_node: [
+    'sprite.checkpoint_cordon_node',
+    'sprite.cordon_node',
+    'sprite.checkpoint',
+  ],
+  cordon_node: ['sprite.checkpoint_cordon_node', 'sprite.cordon_node'],
+  command_post: ['sprite.event_command_post', 'sprite.command_post'],
+  event_command_post: ['sprite.event_command_post', 'sprite.command_post'],
   cctv: ['sprite.cctv'],
   smoke: ['sprite.effect.smoke_fire'],
   fire: ['sprite.effect.smoke_fire'],

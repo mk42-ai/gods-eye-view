@@ -253,7 +253,8 @@ test('retrieveSnapchatFootage under strictBounds: returns empty if narrow step h
 
 test('pagination capability unavailable and query accounting are explicitly surfaced', async () => {
   assert.strictEqual(PROVIDER_CAPABILITIES.paginationSupported, false);
-  assert.strictEqual(PROVIDER_CAPABILITIES.batchSupported, false);
+  assert.strictEqual(PROVIDER_CAPABILITIES.transport, 'direct-plugin-query');
+  assert.strictEqual(PROVIDER_CAPABILITIES.sessionReuse, 'per-run-pool');
   assert.strictEqual(PROVIDER_CAPABILITIES.geotagSupported, false);
   assert.strictEqual(PROVIDER_CAPABILITIES.captureTimeSupported, false);
   assert.strictEqual(PROVIDER_CAPABILITIES.spotlightTextSearchOnly, true);
@@ -313,7 +314,10 @@ test('pagination capability unavailable and query accounting are explicitly surf
   assert.equal(res.accounting.queriesCount, 1);
   assert.equal(res.accounting.pagesCount, 1);
   assert.equal(res.capabilities.paginationSupported, false);
-  assert.equal(res.capabilities.batchSupported, false);
+  assert.equal(res.capabilities.transport, 'direct-plugin-query');
+  assert.equal(res.transport.mode, 'direct-plugin-query');
+  assert.equal(res.transport.sessionsCreated, 1);
+  assert.equal(res.transport.directQueries, 1);
 });
 
 test('per-item failures from plugin are recorded in rejected and handled terminally if all fail', async () => {

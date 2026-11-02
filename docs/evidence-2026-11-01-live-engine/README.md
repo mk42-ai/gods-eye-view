@@ -8,7 +8,7 @@ All artefacts in this folder were produced in this turn against the EXISTING
 | `pre-existing-uncommitted-work.patch` | The 53 modified files found uncommitted at session start (text diff; binary sprites excluded). Committed as-is in `5ee34c8` together with the 147 untracked files. |
 | `ondemand-live-endpoints.json` | `GET /config/v1/public/endpoints` at 15:21Z — 98 endpoints, 29 active, 1 Cerebras (`predefined-cerebras-qwen-3.8-27b`). |
 | `ondemand-runtime-live.txt` | Live streaming probe (Cerebras TTFT 2.2 s, director build 11.6 s, GPT-6.1-sol 29 s, Q&A 4.8 s). |
-| `chat-batch-probe.txt` | `POST /chat/v1/batches` → **405 "Chat batch creation is currently unavailable"** (re-probed 15:11Z). |
+| `legacy multi-query transport-probe.txt` | `the removed legacy multi-query transport → **405 "legacy multi-query transport creation is currently unavailable"** (re-probed 15:11Z). |
 | `elevenlabs-retest.txt` | Narration route → **503 narration_provider_payment_required** (14.05 s). BLOCKED, no audio substituted. |
 | `open-meteo-probe.txt` | New `/intel/weather` route — real Open-Meteo observation → validated scene patch (148 ms). |
 | `frontend-tests.txt`, `backend-tests.txt`, `checks.txt`, `build.txt` | Timestamped suites + gates (first run and the re-run after the live-QA fixes). |

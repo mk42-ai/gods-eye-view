@@ -165,10 +165,8 @@ Native `<video muted playsinline autoplay loop controls>` pointed directly at th
 - **Limit and Cap**: Raised default result limit from 3 to 25 (`SNAPCHAT_RESULT_LIMIT`), env cap raised from 10 to 50.
 - **Fan-Out Module (`server/scene-footage/fanout.js`)**:
   - `expandPlaceVariants`: generates up to N variants covering primary place name, ladder ancestors, hashtag forms (compact lowercase '#'-less), plural/singular + apostrophe/spelling variations, and well-known static EN→AR transliterations for UAE places (`UAE_TRANSLITERATIONS` in `src/sceneFootage/places.js`).
-  - `runFanout`: bounded concurrency pool (default 4), exponential backoff with full jitter, per-call timeouts (120 s), deduplication by `storyId` and SAS-independent storageUrl path, truncation detection (`raw === limit` → `truncated: true`), and per-variant error isolation.
-- **Chat Batch Client (`server/scene-footage/chat-batch.js`)**:
-  - Live API verified: `POST https://api.on-demand.io/chat/v1/batches` returns `HTTP 405 {"message":"Chat batch creation is currently unavailable","errorCode":"method_not_allowed"}`.
-  - The client probes this once, surfaces the exact status/body in `capabilities.chatBatch`, and seamlessly falls back to bounded concurrent direct sessions.
+  - `runFanout`: bounded concurrency pool (≤3), exponential backoff with full jitter, per-call timeouts (30 s), deduplication by `storyId` and SAS-independent storageUrl path, truncation detection (`raw === limit` → `truncated: true`), and per-variant error isolation.
+- **Direct plugin transport (2026-11-02)**: every place-name variant is its own documented Chat API call — `POST /chat/v1/sessions` (sessions reused through a per-run pool of ≤3) then `POST /chat/v1/sessions/{sessionId}/query` with `responseMode: "sync"` and `pluginIds: ["plugin-1792945050"]`. Bounded concurrency ≤3, 30 s per request (`SNAPCHAT_QUERY_TIMEOUT_MS`), exponential backoff on 409/429/5xx with a fresh session. The earlier multi-query transport experiment (which only ever answered HTTP 405) was removed entirely; the response advertises `capabilities.transport: "direct-plugin-query"` and `transport: { sessionIds, sessionPoolSize, sessionsCreated, directQueries, concurrency, perRequestTimeoutMs }`.
 - **Tiering (`verified` vs `candidate`)**:
   - Every clip receives `tier: 'verified' | 'candidate'`. For this provider, capture time is null and direct coordinates are null, so clips are honestly tiered as `'candidate'`.
   - Scopes:

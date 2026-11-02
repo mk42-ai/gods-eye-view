@@ -19,15 +19,15 @@ function hasPngSignature(buffer) {
   return buffer.length >= 8 && buffer.subarray(0, 8).equals(PNG_MAGIC);
 }
 
-test('manifest.json exists, has version 6, valid timestamp, and keys array', () => {
+test('manifest.json exists, has version 7, valid timestamp, and keys array', () => {
   const manifestPath = path.join(PUBLIC_DIR, 'manifest.json');
   assert.ok(fs.existsSync(manifestPath), 'manifest.json must exist');
 
   const content = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   assert.equal(
     content.version,
-    6,
-    'manifest version must be 6 (v6: 46 keys, 64px 1x / 128px 2x, grid sprite sheet, elementTypeIcons map)',
+    7,
+    'manifest version must be 7 (v7: 49 keys, 64/128/256 px, grid sprite sheet, elementTypeIcons map)',
   );
   assert.ok(content.generatedAt, 'generatedAt must be present');
   assert.ok(
@@ -36,8 +36,8 @@ test('manifest.json exists, has version 6, valid timestamp, and keys array', () 
   );
   assert.ok(Array.isArray(content.keys), 'keys must be an array');
   assert.ok(
-    content.keys.length >= 46,
-    `expected at least 46 keys, got ${content.keys.length}`,
+    content.keys.length >= 49,
+    `expected at least 49 keys, got ${content.keys.length}`,
   );
 
   const requiredKeys = [
@@ -88,6 +88,10 @@ test('manifest.json exists, has version 6, valid timestamp, and keys array', () 
     'screening_lane',
     'road_closed',
     'civilian_sedan',
+    // 2026-11-02 icon family
+    'event_command_post',
+    'checkpoint_cordon_node',
+    'road_closed_barricade',
   ];
 
   const presentKeys = content.keys.map((k) => k.key);
@@ -118,6 +122,9 @@ test('manifest elementTypeIcons map covers every element type in sceneSpec + con
     'escort_motorcycle',
     'shuttle_bus',
     'road_closed',
+    'event_command_post',
+    'checkpoint_cordon_node',
+    'road_closed_barricade',
   ];
 
   const allExpectedTypes = new Set([
@@ -136,62 +143,47 @@ test('manifest elementTypeIcons map covers every element type in sceneSpec + con
   }
 });
 
-test('every manifest key has valid 64px and 128px PNGs (<= 128px), correct sha256, and no @4x file remains', async () => {
+test('every manifest key has valid 64/128/256 px PNGs with fully transparent corners and correct sha256', async () => {
   const manifest = JSON.parse(
     fs.readFileSync(path.join(PUBLIC_DIR, 'manifest.json'), 'utf8'),
-  );
-
-  // Assert no @4x files exist in PNG_DIR
-  const pngFiles = fs.readdirSync(PNG_DIR);
-  const at4xFiles = pngFiles.filter((f) => f.includes('@4x'));
-  assert.equal(
-    at4xFiles.length,
-    0,
-    `Found @4x files in PNG_DIR that should have been deleted: ${at4xFiles.join(', ')}`,
   );
 
   for (const item of manifest.keys) {
     assert.ok(item.key, 'key must not be empty');
     assert.ok(item.png, `png path missing for ${item.key}`);
     assert.ok(item.png2x, `png2x path missing for ${item.key}`);
+    assert.ok(item.png4x, `png4x path missing for ${item.key}`);
     assert.ok(item.sha256, `sha256 missing for ${item.key}`);
-    assert.equal(
-      item.png4x,
-      undefined,
-      `png4x must not be present in manifest v5 for ${item.key}`,
-    );
 
-    const p64Path = path.join(PUBLIC_DIR, item.png);
-    const p128Path = path.join(PUBLIC_DIR, item.png2x);
+    for (const [rel, size] of [
+      [item.png, 64],
+      [item.png2x, 128],
+      [item.png4x, 256],
+    ]) {
+      const abs = path.join(PUBLIC_DIR, rel);
+      assert.ok(fs.existsSync(abs), `${size}px PNG file ${rel} missing`);
+      const buf = fs.readFileSync(abs);
+      assert.ok(hasPngSignature(buf), `${rel} has invalid PNG signature`);
+      const meta = await sharp(buf).metadata();
+      assert.equal(meta.width, size, `${rel} width must be ${size}`);
+      assert.equal(meta.height, size, `${rel} height must be ${size}`);
+      // Chroma-key proof: every corner pixel is fully transparent (no black square).
+      const raw = await sharp(buf)
+        .ensureAlpha()
+        .raw()
+        .toBuffer({ resolveWithObject: true });
+      const a = (x, y) => raw.data[(y * size + x) * 4 + 3];
+      for (const [x, y] of [
+        [0, 0],
+        [size - 1, 0],
+        [0, size - 1],
+        [size - 1, size - 1],
+      ]) {
+        assert.equal(a(x, y), 0, `${rel} corner (${x},${y}) alpha must be 0`);
+      }
+    }
 
-    assert.ok(fs.existsSync(p64Path), `64px PNG file ${item.png} missing`);
-    assert.ok(fs.existsSync(p128Path), `128px PNG file ${item.png2x} missing`);
-
-    const p64Buf = fs.readFileSync(p64Path);
-    const p128Buf = fs.readFileSync(p128Path);
-
-    assert.ok(hasPngSignature(p64Buf), `${item.png} has invalid PNG signature`);
-    assert.ok(
-      hasPngSignature(p128Buf),
-      `${item.png2x} has invalid PNG signature`,
-    );
-
-    const m64 = await sharp(p64Buf).metadata();
-    assert.equal(m64.width, 64, `${item.png} width must be 64`);
-    assert.equal(m64.height, 64, `${item.png} height must be 64`);
-    assert.ok(
-      m64.width <= 128 && m64.height <= 128,
-      'width and height must be <= 128',
-    );
-
-    const m128 = await sharp(p128Buf).metadata();
-    assert.equal(m128.width, 128, `${item.png2x} width must be 128`);
-    assert.equal(m128.height, 128, `${item.png2x} height must be 128`);
-    assert.ok(
-      m128.width <= 128 && m128.height <= 128,
-      'width and height must be <= 128',
-    );
-
+    const p64Buf = fs.readFileSync(path.join(PUBLIC_DIR, item.png));
     const expectedSha256 = createHash('sha256').update(p64Buf).digest('hex');
     assert.equal(
       item.sha256,
@@ -299,5 +291,48 @@ test('sprite sheets and MapLibre sprite json rects are valid grid (<= 16 cols), 
       `duplicate rect ${rKey} in sprite@2x.json for key ${key}`,
     );
     rects2x.add(rKey);
+  }
+});
+
+test('2026-11-02 icon family: the three new types resolve through registry, legend map, staging icon keys and the cinematic alias map', async () => {
+  const { ELEMENT_TYPE_ICONS } = await import('./iconBillboard.js');
+  const { ICON_KEYS } = await import('./sceneStaging.js');
+  const { resolveAssetId, ALIAS_MAP } = await import(
+    '../cinematic/assetIds.js'
+  );
+  const { ELEMENT_LABELS, ELEMENT_ICONS } = await import(
+    '../incidents/ui/scenePanel.js'
+  );
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(PUBLIC_DIR, 'manifest.json'), 'utf8'),
+  );
+  const keys = new Set(manifest.keys.map((k) => k.key));
+  for (const type of [
+    'event_command_post',
+    'checkpoint_cordon_node',
+    'road_closed_barricade',
+  ]) {
+    assert.ok(DYNAMIC_ELEMENT_TYPES.includes(type), `${type} is a spec type`);
+    assert.equal(ELEMENT_TYPE_ICONS[type], type, `${type} maps to its own icon`);
+    assert.equal(manifest.elementTypeIcons[type], type);
+    assert.ok(ICON_KEYS.includes(type), `${type} is a staging icon key`);
+    assert.ok(keys.has(type), `${type} is in the manifest`);
+    assert.ok(ELEMENT_LABELS[type], `${type} has a legend label`);
+    assert.equal(ELEMENT_ICONS[type], type);
+    assert.ok(ALIAS_MAP[type]?.[0] === `sprite.${type}`);
+    const r = resolveAssetId(`sprite.${type}`);
+    assert.equal(r.asset.id, `sprite.${type}`);
+    assert.equal(r.substituted, false);
+  }
+  // Replaced artwork: the six refreshed slots still resolve to the same keys.
+  for (const key of [
+    'police_unit',
+    'barrier_crowd',
+    'medical_point',
+    'crowd_spectators',
+    'start_finish',
+    'perimeter_unit',
+  ]) {
+    assert.ok(keys.has(key), `${key} present after artwork refresh`);
   }
 });

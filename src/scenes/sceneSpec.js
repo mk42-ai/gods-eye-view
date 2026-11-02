@@ -59,6 +59,10 @@ export const DYNAMIC_ELEMENT_TYPES = Object.freeze([
   'escort_motorcycle',
   'shuttle_bus',
   'road_closed',
+  // 2026-11-02 icon family
+  'event_command_post',
+  'checkpoint_cordon_node',
+  'road_closed_barricade',
 ]);
 export const DIRECTIONS = Object.freeze([
   'N',
@@ -437,7 +441,7 @@ export const SCENE_SPEC_DYNAMIC_JSON_SCHEMA = Object.freeze({
           type: {
             type: 'string',
             description:
-              'Dynamic element type: threat_zone, interest_zone, approach_route, egress_route, overwatch, command_post, checkpoint, cordon_node, crowd_density_zone, cctv_pick, intel_note, timeline_event, inner_cordon, outer_cordon, staging_point, perimeter_unit, cones, barriers, cctv_signal, crowd_zone, route_line, start_finish, vehicle_checkpoint, screening_lane, medical_point, marine_patrol, foot_patrol, escort_motorcycle, shuttle_bus, road_closed, or custom type',
+              'Dynamic element type: threat_zone, interest_zone, approach_route, egress_route, overwatch, command_post, checkpoint, cordon_node, crowd_density_zone, cctv_pick, intel_note, timeline_event, inner_cordon, outer_cordon, staging_point, perimeter_unit, cones, barriers, cctv_signal, crowd_zone, route_line, start_finish, vehicle_checkpoint, screening_lane, medical_point, marine_patrol, foot_patrol, escort_motorcycle, shuttle_bus, road_closed, event_command_post, checkpoint_cordon_node, road_closed_barricade, or custom type',
           },
           label: { type: 'string', maxLength: 48 },
           confidence: { type: 'number', minimum: 0, maximum: 1 },

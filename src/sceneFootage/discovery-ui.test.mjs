@@ -227,7 +227,7 @@ test('explicit discovery via gev:scene-footage propagates metadata, UTC timeWind
           queriesCount: 1,
           pagesCount: 1,
         },
-        capabilities: { paginationSupported: false, batchSupported: false },
+        capabilities: { paginationSupported: false, transport: 'direct-plugin-query' },
       }),
     };
   };

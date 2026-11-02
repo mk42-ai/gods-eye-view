@@ -32,7 +32,6 @@ import {
   expandPlaceVariants,
   runFanout,
 } from '../server/scene-footage/fanout.js';
-import { createChatBatchClient } from '../server/scene-footage/chat-batch.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
@@ -128,15 +127,8 @@ async function run() {
     throw new Error('ONDEMAND_API_KEY is not configured in environment.');
   }
 
-  // 1. Probe Chat Batch endpoint
-  console.log('[QA] Probing POST /chat/v1/batches once...');
-  const batchClient = createChatBatchClient({
-    apiKeyProvider: () => serverKey,
-  });
-  const batchProbe = await batchClient.submitBatch([{ query: 'probe' }]);
-  console.log(
-    `[QA] Chat Batch Probe result: available=${batchProbe.available}, status=${batchProbe.status}`,
-  );
+  // Transport: direct plugin queries only (one session per run, ≤3 in flight).
+  console.log('[QA] Transport: direct-plugin-query (one session per run)');
 
   const client = createOnDemandClient({ retry: { retries: 0 } });
   const results = [];
@@ -289,11 +281,7 @@ async function run() {
   const finalOutput = {
     generatedAtUtc: tEnd,
     startedAtUtc: tStart,
-    chatBatchCapability: {
-      available: batchProbe.available,
-      status: batchProbe.status,
-      body: batchProbe.body,
-    },
+    transport: 'direct-plugin-query',
     scenes: results,
   };
 
@@ -307,7 +295,7 @@ async function run() {
 SNAPCHAT FOOTAGE FAN-OUT INGESTION AUDIT: BEFORE VS AFTER
 Generated: ${tEnd} (Started: ${tStart})
 Transport: OnDemand Chat API (predefined-openai-gpt4.1-mini) + plugin-1792945050
-Batch API: POST /chat/v1/batches -> HTTP ${batchProbe.status} (${batchProbe.body})
+Transport: direct-plugin-query (one chat session per run, one sync query per variant, <=3 in flight)
 ================================================================================
 
 EXECUTIVE SUMMARY

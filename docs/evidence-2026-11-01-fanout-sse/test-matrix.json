@@ -119,9 +119,9 @@
    "utc": "2026-11-01T10:44:42Z"
   },
   {
-   "check": "Chat Batch API",
+   "check": "legacy multi-query transport (removed 2026-11-02)",
    "status": "blocked",
-   "proof": "POST /chat/v1/batches 405 'Chat batch creation is currently unavailable'",
+   "proof": "the removed legacy multi-query transport 405 'legacy multi-query transport creation is currently unavailable'",
    "utc": "2026-11-01T07:37:58Z"
   },
   {

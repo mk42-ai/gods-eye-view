@@ -3,8 +3,8 @@
  *
  * Populated ONLY by executed requests inside snapchat.js ladder + fanout.js.
  * Tracks attempted/succeeded/failed requests, rate-limit state (honouring 429/Retry-After),
- * batch capability state, deduplication numbers (raw, unique, duplicates, relevant),
- * timestamps, and error records.
+ * the transport used (direct plugin query, one session per run), deduplication
+ * numbers (raw, unique, duplicates, relevant), timestamps, and error records.
  */
 
 export function createFootageMetrics({ now = () => Date.now() } = {}) {
@@ -15,8 +15,8 @@ export function createFootageMetrics({ now = () => Date.now() } = {}) {
   let unique = 0;
   let duplicates = 0;
   let relevant = 0;
-  let activeBatchJobs = 0;
-  let batchState = 'unavailable (405)';
+  let transportState = 'direct-plugin-query';
+  let sessionsPerRun = 1;
   let rateLimit = {
     state: 'ok',
     remaining: undefined,
@@ -74,13 +74,11 @@ export function createFootageMetrics({ now = () => Date.now() } = {}) {
       if (resetAt !== undefined) rateLimit.resetAt = resetAt;
     },
 
-    batch({ jobId, state } = {}) {
+    transport({ state, sessionsPerRun: spr } = {}) {
       if (state !== undefined && state !== null) {
-        batchState = String(state);
+        transportState = String(state);
       }
-      if (jobId) {
-        activeBatchJobs += 1;
-      }
+      if (Number.isFinite(spr)) sessionsPerRun = spr;
     },
 
     record({ raw, unique: u, duplicates: d, relevant: r } = {}) {
@@ -102,8 +100,8 @@ export function createFootageMetrics({ now = () => Date.now() } = {}) {
         unique,
         duplicates,
         relevant,
-        activeBatchJobs,
-        batchState,
+        transport: transportState,
+        sessionsPerRun,
         rateLimit: { ...rateLimit },
         startedAt,
         finishedAt,
@@ -115,7 +113,7 @@ export function createFootageMetrics({ now = () => Date.now() } = {}) {
 
 /**
  * Format metrics for the panel line.
- * Formats: "Requests A attempted · S ok · F failed · R results · U unique · D duplicates · V relevant · batch: <state> · rate limit: <state>"
+ * Formats: "Requests A attempted · S ok · F failed · R results · U unique · D duplicates · V relevant · transport: <state> · rate limit: <state>"
  * Plus when verified=0: " · unverified: <reason>"
  */
 export function formatFootageMetrics(
@@ -130,10 +128,10 @@ export function formatFootageMetrics(
   const u = s.unique ?? 0;
   const d = s.duplicates ?? 0;
   const r = s.relevant ?? 0;
-  const bState = s.batchState || 'unavailable (405)';
+  const tState = s.transport || 'direct-plugin-query';
   const rlState = s.rateLimit?.state || 'ok';
 
-  let line = `Requests ${attempted} attempted · ${ok} ok · ${failed} failed · ${res} results · ${u} unique · ${d} duplicates · ${r} relevant · batch: ${bState} · rate limit: ${rlState}`;
+  let line = `Requests ${attempted} attempted · ${ok} ok · ${failed} failed · ${res} results · ${u} unique · ${d} duplicates · ${r} relevant · transport: ${tState} · rate limit: ${rlState}`;
 
   if (verified === 0) {
     const reason =

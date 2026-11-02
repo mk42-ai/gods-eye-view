@@ -140,7 +140,13 @@ export function buildLadder(
     named || (point ? placeForPoint(point.lat, point.lon, places) : null);
   const steps = [];
   const seen = new Set();
-  if (!start && placeName && norm(placeName).length >= 3) {
+  // The operator-named place is always queried by its own name when it is not
+  // a gazetteer entry: the Snapchat plugin is a place-NAME text search, so a
+  // named landmark inside a capped city (e.g. "Yas Mall" inside Abu Dhabi)
+  // still gets one direct query instead of an immediate empty result.
+  const namedExactly =
+    named && named.names.some((n) => norm(n) === norm(placeName));
+  if (!namedExactly && placeName && norm(placeName).length >= 3) {
     steps.push({
       level: 'landmark',
       placeId: null,

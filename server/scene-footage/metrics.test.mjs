@@ -59,18 +59,15 @@ test('createFootageMetrics: rateLimit sets throttled on 429 or explicit call', (
   assert.equal(metrics.snapshot().rateLimit.state, 'throttled');
 });
 
-test('createFootageMetrics: batch capability state and active jobs', () => {
+test('createFootageMetrics: transport state is the direct plugin query with a reused session pool', () => {
   const metrics = createFootageMetrics();
-  assert.equal(metrics.snapshot().batchState, 'unavailable (405)');
-  assert.equal(metrics.snapshot().activeBatchJobs, 0);
+  assert.equal(metrics.snapshot().transport, 'direct-plugin-query');
+  assert.equal(metrics.snapshot().sessionsPerRun, 1);
 
-  metrics.batch({ jobId: 'job-123', state: 'active' });
-  assert.equal(metrics.snapshot().batchState, 'active');
-  assert.equal(metrics.snapshot().activeBatchJobs, 1);
-
-  metrics.batch({ state: 'unavailable (405)' });
-  assert.equal(metrics.snapshot().batchState, 'unavailable (405)');
-  assert.equal(metrics.snapshot().activeBatchJobs, 1);
+  metrics.transport({ state: 'direct-plugin-query', sessionsPerRun: 3 });
+  assert.equal(metrics.snapshot().transport, 'direct-plugin-query');
+  assert.equal(metrics.snapshot().sessionsPerRun, 3);
+  assert.equal('activeBatchJobs' in metrics.snapshot(), false);
 });
 
 test('createFootageMetrics: record updates raw, unique, duplicates, relevant', () => {
@@ -106,7 +103,7 @@ test('formatFootageMetrics: formats line with exact format and verified=0 note',
   });
   assert.equal(
     lineVerified,
-    'Requests 3 attempted · 2 ok · 1 failed · 12 results · 9 unique · 3 duplicates · 4 relevant · batch: unavailable (405) · rate limit: ok',
+    'Requests 3 attempted · 2 ok · 1 failed · 12 results · 9 unique · 3 duplicates · 4 relevant · transport: direct-plugin-query · rate limit: ok',
   );
 
   const lineUnverified = formatFootageMetrics(metrics.snapshot(), {
@@ -115,6 +112,6 @@ test('formatFootageMetrics: formats line with exact format and verified=0 note',
   });
   assert.equal(
     lineUnverified,
-    'Requests 3 attempted · 2 ok · 1 failed · 12 results · 9 unique · 3 duplicates · 4 relevant · batch: unavailable (405) · rate limit: ok · unverified: no capture time / coordinates',
+    'Requests 3 attempted · 2 ok · 1 failed · 12 results · 9 unique · 3 duplicates · 4 relevant · transport: direct-plugin-query · rate limit: ok · unverified: no capture time / coordinates',
   );
 });

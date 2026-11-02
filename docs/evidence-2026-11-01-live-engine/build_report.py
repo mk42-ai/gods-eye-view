@@ -90,7 +90,7 @@ phases = [
  ("P2 OnDemand live docs / registry / stream probe", "15:09Z–15:21Z (registry 98/29/1 Cerebras; probe `ondemand-runtime-live.txt`)"),
  ("P4 asset registry (batch B keyed, manifest v4)", "14:55Z–15:00Z"),
  ("P3/P5/P6/P7/P8 engine defects reproduced + fixed", "15:12Z–15:47Z (local Demo A `partially_completed` → fixed; camera interrupt fix)"),
- ("P9 Snapchat / batch re-probe", "15:11Z (POST /chat/v1/batches → 405); live Demo E 16:33Z & 17:12Z"),
+ ("P9 Snapchat / batch re-probe", "15:11Z (the removed legacy multi-query transport → 405); live Demo E 16:33Z & 17:12Z"),
  ("P10 Open-Meteo live-intelligence source", "15:05Z–15:09Z (route + tests + local probe 148 ms)"),
  ("P11/P12 Q&A + playback verified live", "16:08Z–16:22Z (acceptance 10/10 confirmed commands)"),
  ("Tests / gates / build (first + re-run)", "15:21Z–15:27Z and 16:50Z–16:54Z"),
@@ -146,7 +146,7 @@ w("* **Docs read live:** `GET /config/v1/public/docs/categories` (15:21Z) lists 
 w("* **Model registry (live, 15:21Z):** `GET /config/v1/public/endpoints` → 98 endpoints, 29 active, exactly one Cerebras-backed: `predefined-cerebras-qwen-3.8-27b` (streaming, ctx 128k). `GET /api/ondemand/v2/scene-plans/models` on the final preview returns `source: live`, 98 models, `cerebrasAvailable: true`, `scene_direction → predefined-cerebras-qwen-3.8-27b`. No direct Cerebras bypass (`CEREBRAS_API_KEY` is not configured anywhere).")
 w(f"* **Streaming trace (live probe 15:09Z):** Cerebras TTFT 2,182 ms / 22.6 tok/s on a short query; director build 11.6 s (TTFT 8.6 s, 13,643 output tokens); GPT-6.1-sol director 29.0 s (TTFT 6.0 s); Q&A 4.8 s.")
 w(f"* **Model switching (Demo F, deploy #4):** picker set `scene_direction` to `predefined-gpt-6.1-sol` → run completed with `state.model.endpointId = predefined-gpt-6.1-sol` (TTFT {Fm['ttftMs']} ms, {Fm['tokensPerSec']} tok/s, {Fm['outputTokens']} tokens, 11 entities); default runs carry `predefined-cerebras-qwen-3.8-27b` (`model.selected` seq 2, reason `task_default`). Switching to the BYOI `gemma4-e2b` endpoint (deploy #2/#3 run) produced `run.failed: Stream completed with 0 deltas and no [DONE]` — reported truthfully, not hidden.")
-w("* **Chat batches:** `POST /chat/v1/batches` → HTTP 405 `Chat batch creation is currently unavailable` (15:11Z, `chat-batch-probe.txt`); the UI shows `batch: unavailable (405)`.")
+w("* **legacy multi-query transport:** `the removed legacy multi-query transport → HTTP 405 `legacy multi-query transport creation is currently unavailable` (15:11Z, `legacy multi-query transport-probe.txt`); the UI shows `batch: unavailable (405)`.")
 
 w("\n## 6. Real SSE event trace (Demo A, deploy #3, 1440×900)\n")
 counts = {}
@@ -209,9 +209,9 @@ for lbl, d, keys in (("H", H, ("qaAerial","qaAdd")), ("acceptance", acc, ("q1","
 w(f"\nAcceptance Q2 answer (excerpt): *{acc['metrics']['q2']['answer'][:220]}…* — the model attributes the closure to the labelled test injection, not to a real event.")
 
 w("\n## 11. Snapchat\n")
-w(f"* Provider: OnDemand plugin `plugin-1792945050` (Spotlight by place). Schema has no cursor/offset/time filter (`docs/evidence-2026-11-01-cinematic/snapchat-batching.md`); fan-out across place-name variants with bounded concurrency, storyId dedupe, retry/backoff.")
+w(f"* Provider: OnDemand plugin `plugin-1792945050` (Spotlight by place). Schema has no cursor/offset/time filter (`docs/evidence-2026-11-01-cinematic/snaplegacy multi-query transport.md`); fan-out across place-name variants with bounded concurrency, storyId dedupe, retry/backoff.")
 w(f"* Live (deploy #4, Dubai Marina, balanced): {E4['snapchatMetrics']}. Mobile run identical. Verified tier is 0 because the provider supplies no capture time or coordinates — the UI says so (`unverified: no capture time / coordinates`) and never upgrades a clip.")
-w("* Batch: `POST /chat/v1/batches` → 405; no official public-content API exists (Marketing API / Snap Kit are OAuth/partner gated) — nothing was assumed authorised.")
+w("* Batch: `the removed legacy multi-query transport → 405; no official public-content API exists (Marketing API / Snap Kit are OAuth/partner gated) — nothing was assumed authorised.")
 
 w("\n## 12. Testing\n")
 w("| Suite / gate | Result | File |\n|---|---|---|")
@@ -264,7 +264,7 @@ for a, b, c in matrix: w(f"| {a} | **{b}** | {c} |")
 w("\n## 14. Remaining blockers\n")
 w("**Application defects:** FPS/adaptive-quality instrumentation unmeasured in headless; legacy `/scene/videos` rail is no longer auto-started (by design since b6bbfb2) so `qa-scene-videos` checks 2–4 fail; the final `done` frame waits for Overpass/OSRM staging (84 s) after the scene is already playable.")
 w("**Missing API permissions / credentials:** ElevenLabs billing (payment_required); `CEREBRAS_API_KEY` not configured (OnDemand Cerebras endpoint used instead — no bypass); PR description update needs a token with PR write scope (create returned 422 only).")
-w("**Unsupported third-party capabilities:** Snapchat provides no capture time/coordinates/cursor; OnDemand chat batches 405; `predefined-gpt-6.1-sol-ultra-fast` does not exist; BYOI gemma endpoint streams 0 deltas.")
+w("**Unsupported third-party capabilities:** Snapchat provides no capture time/coordinates/cursor; OnDemand legacy multi-query transport 405; `predefined-gpt-6.1-sol-ultra-fast` does not exist; BYOI gemma endpoint streams 0 deltas.")
 w("**Missing assets:** none — all 19 icons located. Kenney CC0 car kit unreachable (HTTP 403 earlier), so vehicles stay sprites + Cesium Milk Truck.")
 w("**Performance limitations:** director TTFT 4–8 s is model-bound; staging enrichment 70–80 s is Overpass-bound; storage is browser-local only.")
 

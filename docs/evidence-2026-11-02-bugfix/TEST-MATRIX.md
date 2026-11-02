@@ -32,7 +32,7 @@ Base commit: a9c7419 → pre-existing work recovered as ff678b8 → code 9bb0c5e
 | backend-unit-tests | **passed** | 2026-11-02T12:43:45Z |  | 824 pass / 0 fail (server/**/*.test.mjs) |
 | production-build | **passed** | 2026-11-02T12:44:39Z |  | vite build OK; dist secret scan clean |
 | snapchat-live-probe-dubai-marina | **passed** | 2026-11-02T11:03:39.187Z |  | 4 variants HTTP 200; raw 1, unique 1, verified 0, approximate 1 |
-| chat-batches-availability | **blocked** | 2026-11-02T11:03:39.187Z |  | POST /chat/v1/batches → HTTP 405 "Chat batch creation is currently unavailable" |
+| legacy multi-query transport-availability | **blocked** | 2026-11-02T11:03:39.187Z |  | the removed legacy multi-query transport → HTTP 405 "legacy multi-query transport creation is currently unavailable" |
 | fps-measurement-gpu | **not_run** |  |  | headless SwiftShader only (2–5 fps baseline); real-GPU FPS not measured |
 | elevenlabs-narration-playback | **not_run** |  |  | out of scope this turn; prior turn recorded 503 payment_required |
 

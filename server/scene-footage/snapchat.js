@@ -84,14 +84,21 @@ export function footageConfig(env = process.env) {
       5_000,
       60 * 60_000,
     ),
-    queryTimeoutMs: int(env.SNAPCHAT_QUERY_TIMEOUT_MS, 120_000, 5_000, 150_000),
+    // Direct plugin path (2026-11-02): one documented query per place-name
+    // variant, 30 s per request, exponential backoff on 429/5xx.
+    queryTimeoutMs: int(env.SNAPCHAT_QUERY_TIMEOUT_MS, 30_000, 5_000, 150_000),
     maxAttempts: int(env.SNAPCHAT_MAX_ATTEMPTS, 3, 1, 5),
     backoffBaseMs: int(env.SNAPCHAT_BACKOFF_BASE_MS, 1_000, 0, 30_000),
     ratePerMinute: int(env.SNAPCHAT_RATE_LIMIT_PER_MIN, 12, 0, 600),
     // Fan-out (balanced/wide scopes): name variants per scene and the bounded
     // concurrency used for the extra variant calls (strict scope never fans out).
     fanoutMaxVariants: int(env.SNAPCHAT_FANOUT_MAX_VARIANTS, 6, 1, 15),
-    fanoutConcurrency: int(env.SNAPCHAT_FANOUT_CONCURRENCY, 4, 1, 6),
+    // Hard cap 3: each variant is its own direct plugin query (max 3 in flight).
+    fanoutConcurrency: int(env.SNAPCHAT_FANOUT_CONCURRENCY, 3, 1, 3),
+    // Sessions reused across a run (pool ≤ fan-out concurrency, ≤3). 1 = strict
+    // single-session serial mode (OnDemand answers 409 session_busy to a second
+    // concurrent query in one session).
+    sessionsPerRun: int(env.SNAPCHAT_SESSIONS_PER_RUN, 3, 1, 3),
     verifyMedia: !['0', 'false', 'off'].includes(
       String(env.SNAPCHAT_VERIFY_MEDIA ?? '1').toLowerCase(),
     ),
@@ -358,13 +365,15 @@ const iso = z.string().datetime({ offset: false });
 
 export const PROVIDER_CAPABILITIES = Object.freeze({
   paginationSupported: false,
-  batchSupported: false,
   multiPlaceInputSupported: true,
-  chatBatchApiVerified:
-    'HTTP 405 method_not_allowed (POST /chat/v1/batches: Chat batch creation is currently unavailable)',
+  // Direct plugin path (user instruction 2026-11-02): every place-name variant
+  // is one documented Chat API query (POST /chat/v1/sessions/{id}/query,
+  // responseMode sync, pluginIds [plugin]) inside ONE session per run.
+  transport: 'direct-plugin-query',
+  sessionReuse: 'per-run-pool',
   rawToolResponsesExposed: false,
   capabilityBasis:
-    'Observed configured Spotlight operation; no verified cursor/chat-batch contract.',
+    'Observed configured Spotlight operation; single documented sync query per variant; no verified cursor contract.',
   geotagSupported: false,
   captureTimeSupported: false,
   directCoordinatesSupported: false,
@@ -815,6 +824,7 @@ export async function withBackoff(
     sleep,
     onRetry = () => {},
     random = Math.random,
+    retryable = isRetryable,
   } = {},
 ) {
   const wait =
@@ -843,7 +853,7 @@ export async function withBackoff(
       return await fn(attempt);
     } catch (error) {
       last = error;
-      if (signal?.aborted || attempt >= attempts || !isRetryable(error))
+      if (signal?.aborted || attempt >= attempts || !retryable(error))
         throw error;
       const retryAfter = Number(error?.meta?.retryAfterMs) || 0;
       const delay = Math.max(
@@ -892,13 +902,60 @@ export async function retrieveSnapchatFootage(scene, deps) {
   const queryable = ladder.filter((s) => !s.capped);
   const rawSourceIds = new Set();
   const metrics = deps.metrics || createFootageMetrics({ now });
-  if (deps.capabilities?.chatBatch) {
-    metrics.batch({
-      state: deps.capabilities.chatBatch.available
-        ? 'available'
-        : `unavailable (${deps.capabilities.chatBatch.status || 405})`,
-    });
-  }
+  metrics.transport({
+    state: 'direct-plugin-query',
+    sessionsPerRun: Math.max(
+      1,
+      Math.min(3, cfg.sessionsPerRun ?? 3, cfg.fanoutConcurrency ?? 3),
+    ),
+  });
+  // Chat sessions are REUSED across the direct variant queries of one
+  // discovery run instead of being created per request. The OnDemand Chat API
+  // runs ONE query per session at a time (live-verified 2026-11-02T14:55Z:
+  // a second concurrent query into the same session answers HTTP 409
+  // {"errorCode":"session_busy"}), so a strictly single session would
+  // serialise the fan-out. The run therefore holds a small pool of reused
+  // sessions, bounded by the fan-out concurrency (≤3); SNAPCHAT_SESSIONS_PER_RUN=1
+  // forces the strict single-session serial mode. A busy/failed session is
+  // dropped and replaced on the next backoff attempt.
+  const poolSize = Math.max(
+    1,
+    Math.min(3, cfg.sessionsPerRun ?? 3, cfg.fanoutConcurrency ?? 3),
+  );
+  const pool = [];
+  const waiters = [];
+  const sessionIds = [];
+  const acquireSlot = async () => {
+    for (;;) {
+      const free = pool.find((slot) => !slot.busy);
+      if (free) {
+        free.busy = true;
+        return free;
+      }
+      if (pool.length < poolSize) {
+        const slot = { session: null, busy: true };
+        pool.push(slot);
+        return slot;
+      }
+      await new Promise((resolve) => waiters.push(resolve));
+    }
+  };
+  const releaseSlot = (slot) => {
+    slot.busy = false;
+    waiters.shift()?.();
+  };
+  const sessionFor = async (slot, attempt) => {
+    if (slot.session) return { session: slot.session, reused: true };
+    trace('session_create', { pluginIds: [cfg.pluginId], attempt });
+    const created = await client.sessions.create(
+      { externalUserId: 'gev-scene-footage', pluginIds: [cfg.pluginId] },
+      { signal },
+    );
+    slot.session = created;
+    if (created?.id) sessionIds.push(created.id);
+    trace('session_created', { sessionId: created?.id, attempt });
+    return { session: created, reused: false };
+  };
   const accounting = {
     returnedCount: 0,
     uniqueCount: 0,
@@ -909,6 +966,8 @@ export async function retrieveSnapchatFootage(scene, deps) {
     pollsCount: 0,
     pagesCount: 0, // increment only after a real provider result set is returned
     attemptsCount: 0,
+    sessionsCreated: 0,
+    directQueries: 0,
     partial: false,
     truncated: false,
   };
@@ -949,7 +1008,22 @@ export async function retrieveSnapchatFootage(scene, deps) {
       metrics: metrics.snapshot(),
     };
   const retrievalTime = now().toISOString();
-  const executeStep = async (stepNames, levelSteps) => {
+  /** Fan-out variants retry only 429/5xx (not a 30 s timeout): bounded run time. */
+  const retryStatusOnly = (error) => {
+    const status = Number(error?.status);
+    return (
+      status === 429 ||
+      (status >= 500 && status <= 599 && status !== 504) ||
+      status === 408 ||
+      status === 409 ||
+      status === 425
+    );
+  };
+  const executeStep = async (
+    stepNames,
+    levelSteps,
+    { fanout = false } = {},
+  ) => {
     accounting.logicalQueriesCount += 1;
     const step = {
       level: levelSteps[0].level,
@@ -965,19 +1039,18 @@ export async function retrieveSnapchatFootage(scene, deps) {
     const stepLabel = `ladder:${step.level}:${stepNames[0] || 'step'}`;
     const t0 = Date.now();
     let res;
+    const slot = await acquireSlot();
     try {
       res = await withBackoff(
         async (attempt) => {
           accounting.attemptsCount += 1;
           metrics.start(stepLabel);
-          trace('session_create', { pluginIds: [cfg.pluginId], attempt });
-          const session = await client.sessions.create(
-            { externalUserId: 'gev-scene-footage', pluginIds: [cfg.pluginId] },
-            { signal },
-          );
-          trace('session_created', { sessionId: session?.id, attempt });
+          const { session, reused } = await sessionFor(slot, attempt);
+          if (!reused) accounting.sessionsCreated += 1;
           trace('query_submit', {
             sessionId: session?.id,
+            sessionReused: reused,
+            transport: 'direct-plugin-query',
             pluginIds: [cfg.pluginId],
             endpointId: cfg.endpointId,
             responseMode: 'sync',
@@ -986,6 +1059,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
             attempt,
           });
           accounting.queriesCount += 1;
+          accounting.directQueries += 1;
           const out = await client.query.sync(
             session.id,
             {
@@ -1004,8 +1078,11 @@ export async function retrieveSnapchatFootage(scene, deps) {
           baseMs: cfg.backoffBaseMs ?? 1000,
           signal,
           sleep: deps.sleep,
+          ...(fanout ? { retryable: retryStatusOnly } : {}),
           onRetry: (info) => {
             trace('retry_backoff', info);
+            // A busy/failed session is not reused: the next attempt creates one.
+            slot.session = null;
             metrics.failure(stepLabel, {
               status: info?.error?.status,
               error: info?.error,
@@ -1025,6 +1102,8 @@ export async function retrieveSnapchatFootage(scene, deps) {
         metrics.rateLimit({ state: 'throttled' });
       }
       throw err;
+    } finally {
+      releaseSlot(slot);
     }
     const session = { id: res._sessionId };
     let data = res?.data || res || {};
@@ -1148,7 +1227,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
       byLevel.push({ step: s, ...n });
     }
     // A response row for a place belongs to exactly one level; place-not-requested
-    // rejections are expected across levels in a batched call → drop them.
+    // rejections are expected across levels in a multi-place call → drop them.
     for (const b of byLevel)
       report.rejected.push(
         ...b.rejected.filter((r) => r.reason !== 'place-not-requested'),
@@ -1216,7 +1295,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
     if (clips.length >= cfg.minClips) picked = { step: first, clips };
     else if (clips.length) picked = { step: first, clips, partial: true };
   }
-  // 2) wider levels, one batched call — only if not strictBounds and wider queryable exists
+  // 2) wider levels, one multi-place plugin call — only if not strictBounds and wider queryable exists
   const wider = queryable.slice(1);
   if (
     !scene.strictBounds &&
@@ -1278,8 +1357,9 @@ export async function retrieveSnapchatFootage(scene, deps) {
       const fan = await runFanout({
         variants,
         limit: cfg.resultLimit,
-        concurrency: cfg.fanoutConcurrency ?? 4,
+        concurrency: Math.min(3, cfg.fanoutConcurrency ?? 3),
         timeoutMs: cfg.queryTimeoutMs,
+        // executeStep already applies withBackoff (429/5xx); no double retry here.
         backoff: { attempts: 1, baseMs: cfg.backoffBaseMs ?? 1000 },
         signal,
         sleep: deps.sleep,
@@ -1291,6 +1371,7 @@ export async function retrieveSnapchatFootage(scene, deps) {
               return await executeStep(
                 [variant],
                 [{ ...first, names: [variant] }],
+                { fanout: true },
               );
             } catch (error) {
               trace('fanout_variant_failed', {
@@ -1361,6 +1442,15 @@ export async function retrieveSnapchatFootage(scene, deps) {
     fanout: true,
   }));
   report.variants = [...ladderVariants, ...fanoutVariants];
+  report.transport = {
+    mode: 'direct-plugin-query',
+    sessionIds: sessionIds.slice(0, 10),
+    sessionPoolSize: poolSize,
+    sessionsCreated: accounting.sessionsCreated,
+    directQueries: accounting.directQueries,
+    concurrency: Math.min(3, cfg.fanoutConcurrency ?? 3),
+    perRequestTimeoutMs: cfg.queryTimeoutMs,
+  };
   report.counts = {
     verified: verifiedCount,
     candidate: candidateCount,

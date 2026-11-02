@@ -398,9 +398,7 @@ export function createSceneFootagePanel({
                 (st.accounting.uniqueCount ?? 0),
             ),
             relevant: st.accounting.matchingCount ?? (st.clips?.length || 0),
-            batchState: st.capabilities?.chatBatch?.status
-              ? `unavailable (${st.capabilities.chatBatch.status})`
-              : 'unavailable (405)',
+            transport: st.capabilities?.transport || 'direct-plugin-query',
             rateLimit: { state: 'ok' },
           }
         : null);
@@ -416,14 +414,11 @@ export function createSceneFootagePanel({
       const u = m.unique ?? 0;
       const d = m.duplicates ?? 0;
       const r = m.relevant ?? 0;
-      const bState =
-        m.batchState ||
-        (st.capabilities?.chatBatch?.status
-          ? `unavailable (${st.capabilities.chatBatch.status})`
-          : 'unavailable (405)');
+      const tState =
+        m.transport || st.capabilities?.transport || 'direct-plugin-query';
       const rlState = m.rateLimit?.state || 'ok';
 
-      let text = `Requests ${attempted} attempted · ${ok} ok · ${failed} failed · ${res} results · ${u} unique · ${d} duplicates · ${r} relevant · batch: ${bState} · rate limit: ${rlState}`;
+      let text = `Requests ${attempted} attempted · ${ok} ok · ${failed} failed · ${res} results · ${u} unique · ${d} duplicates · ${r} relevant · transport: ${tState} · rate limit: ${rlState}`;
 
       const vCount =
         st.counts?.verified ??

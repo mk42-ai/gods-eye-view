@@ -4,14 +4,17 @@
  * Keying & sprite generation pipeline for Scene Spec icons (manifest v5).
  *
  * 1. Reads 1024x1024 RGB source PNGs with pure black #000000 background.
- * 2. Keys black to alpha using soft threshold:
- *      alpha = clamp((max(r,g,b) - 8) / 40, 0, 1)
+ * 2. Keys black (#000000) to alpha using a soft threshold (tolerance ≈ 40/255):
+ *      alpha = clamp((max(r,g,b) - 10) / 36, 0, 1)
+ *    Navy (#0B1220 → max channel 32) survives with alpha ≈ 0.6 before
+ *    unpremultiply and is restored to full colour by the fringe-safe rule in
+ *    step 6 (no navy outline is keyed out).
  *    and un-premultiplies RGB towards original hue:
  *      c_orig = c / alpha
  * 3. Applies 1 px alpha erosion and feather to eliminate black fringe.
  * 4. Crops to content bbox + 8% padding, centered on square.
- * 5. Exports 64px (<key>.png) and 128px (<key>@2x.png) to public/scene-icons/png/
- *    (deletes any legacy @4x files; max 128px).
+ * 5. Exports 64px (<key>.png), 128px (<key>@2x.png) and 256px (<key>@4x.png)
+ *    to public/scene-icons/png/ (2026-11-02 icon family: 64/128/256).
  * 6. Verifies no output pixel with alpha > 0.5 is darker than (12,12,12) unless inside navy (#0B1220).
  * 7. Generates sprite sheets: sprite.png (64px cells, <= 16 cols grid) and sprite@2x.png (128px cells)
  *    + sprite.json / sprite@2x.json (MapLibre format).
@@ -55,8 +58,11 @@ export const ELEMENT_TYPE_ICONS = Object.freeze({
   route_line: 'route_start',
   start_finish: 'start_finish',
   command_post: 'command_post',
+  event_command_post: 'event_command_post',
   overwatch: 'aircraft_helicopter',
   cordon_node: 'cordon_node',
+  checkpoint_cordon_node: 'checkpoint_cordon_node',
+  road_closed_barricade: 'road_closed_barricade',
   medical_point: 'medical_point',
   marine_patrol: 'vessel_marine_patrol',
   foot_patrol: 'perimeter_unit',
@@ -263,6 +269,22 @@ export const KEY_DEFINITIONS = [
     source: 'tools/scene-icons/sources/civilian_sedan.png',
     aliasOf: 'vehicle_civilian_sedan',
   },
+  // 2026-11-02 icon family: three new first-class types
+  {
+    key: 'event_command_post',
+    source: 'tools/scene-icons/sources/event_command_post.png',
+    aliasOf: 'command_post',
+  },
+  {
+    key: 'checkpoint_cordon_node',
+    source: 'tools/scene-icons/sources/checkpoint_cordon_node.png',
+    aliasOf: 'cordon_node',
+  },
+  {
+    key: 'road_closed_barricade',
+    source: 'tools/scene-icons/sources/road_closed_barricade.png',
+    aliasOf: 'road_closed',
+  },
 ];
 
 function generateGenericSvg() {
@@ -451,26 +473,39 @@ async function keyAndCropSource(
   }
 
   const squareBuffer = await pipeline.png().toBuffer();
-  // 64 px (<key>.png) and 128 px (<key>@2x.png)
+  // 64 px (<key>.png), 128 px (<key>@2x.png), 256 px (<key>@4x.png)
   const p64 = await sharp(squareBuffer).resize(64, 64).png().toBuffer();
   const p128 = await sharp(squareBuffer).resize(128, 128).png().toBuffer();
+  const p256 = await sharp(squareBuffer).resize(256, 256).png().toBuffer();
 
   const raw64 = await sharp(p64).raw().toBuffer({ resolveWithObject: true });
   const fringeViolations = checkFringe(raw64.data, 64, 64);
+  // Corner alpha must be 0 at every size (transparent background proof).
+  const corners = [];
+  for (const [buf, size] of [
+    [p64, 64],
+    [p128, 128],
+    [p256, 256],
+  ]) {
+    const raw = await sharp(buf).raw().toBuffer({ resolveWithObject: true });
+    const a = (x, y) => raw.data[(y * size + x) * 4 + 3];
+    corners.push(a(0, 0), a(size - 1, 0), a(0, size - 1), a(size - 1, size - 1));
+  }
+  const cornerAlphaMax = Math.max(...corners);
 
-  return { p64, p128, fringeViolations };
+  return { p64, p128, p256, fringeViolations, cornerAlphaMax };
 }
 
 export async function buildIcons() {
   fs.mkdirSync(PNG_DIR, { recursive: true });
   fs.mkdirSync(SVG_DIR, { recursive: true });
 
-  // Delete all legacy @4x files from PNG_DIR
-  const existingPngs = fs.readdirSync(PNG_DIR);
-  for (const file of existingPngs) {
-    if (file.includes('@4x')) {
-      fs.unlinkSync(path.join(PNG_DIR, file));
-    }
+  // Remove stale @4x files of keys no longer defined (the 2026-11-02 family
+  // ships 64/128/256 for every defined key).
+  const definedKeys = new Set(KEY_DEFINITIONS.map((d) => d.key));
+  for (const file of fs.readdirSync(PNG_DIR)) {
+    const m = /^(.+)@4x\.png$/.exec(file);
+    if (m && !definedKeys.has(m[1])) fs.unlinkSync(path.join(PNG_DIR, file));
   }
 
   // Generate generic SVG
@@ -483,7 +518,9 @@ export async function buildIcons() {
   for (const def of KEY_DEFINITIONS) {
     let p64,
       p128,
-      fringeViolations = 0;
+      p256,
+      fringeViolations = 0,
+      cornerAlphaMax = 0;
     if (def.source === 'generated:generic') {
       p64 = await sharp(Buffer.from(genericSvg))
         .resize(64, 64)
@@ -491,6 +528,10 @@ export async function buildIcons() {
         .toBuffer();
       p128 = await sharp(Buffer.from(genericSvg))
         .resize(128, 128)
+        .png()
+        .toBuffer();
+      p256 = await sharp(Buffer.from(genericSvg))
+        .resize(256, 256)
         .png()
         .toBuffer();
     } else {
@@ -502,16 +543,24 @@ export async function buildIcons() {
       );
       p64 = res.p64;
       p128 = res.p128;
+      p256 = res.p256;
       fringeViolations = res.fringeViolations;
+      cornerAlphaMax = res.cornerAlphaMax;
     }
 
-    fringeReport.push({ key: def.key, violations: fringeViolations });
+    fringeReport.push({
+      key: def.key,
+      violations: fringeViolations,
+      cornerAlphaMax,
+    });
 
-    // Write PNG files (64 px and 128 px; max 128 px per requirement)
+    // Write PNG files (64 px, 128 px and 256 px)
     const pngPath = path.join(PNG_DIR, `${def.key}.png`);
     const png2xPath = path.join(PNG_DIR, `${def.key}@2x.png`);
+    const png4xPath = path.join(PNG_DIR, `${def.key}@4x.png`);
     fs.writeFileSync(pngPath, p64);
     fs.writeFileSync(png2xPath, p128);
+    fs.writeFileSync(png4xPath, p256);
 
     // If new key doesn't have an SVG, write one embedding the 64px PNG
     const svgPath = path.join(SVG_DIR, `${def.key}.svg`);
@@ -529,6 +578,7 @@ export async function buildIcons() {
       aliasOf: def.aliasOf,
       p64,
       p128,
+      p256,
       sha256,
     });
   }
@@ -584,6 +634,7 @@ export async function buildIcons() {
       key: item.key,
       png: `png/${item.key}.png`,
       png2x: `png/${item.key}@2x.png`,
+      png4x: `png/${item.key}@4x.png`,
       sprite: {
         x: x1x,
         y: y1x,
@@ -638,7 +689,7 @@ export async function buildIcons() {
   );
 
   const manifest = {
-    version: 6,
+    version: 7,
     generatedAt: new Date().toISOString(),
     elementTypeIcons: ELEMENT_TYPE_ICONS,
     keys: manifestKeys,
@@ -654,7 +705,7 @@ export async function buildIcons() {
     {
       slot: 'event_command_post',
       source_file: 'tools/scene-icons/sources/event_command_post.png',
-      keys: ['command_post', 'staging_point'],
+      keys: ['command_post', 'staging_point', 'event_command_post'],
     },
     {
       slot: 'police_patrol_car',
@@ -689,7 +740,12 @@ export async function buildIcons() {
     {
       slot: 'checkpoint_cordon_node',
       source_file: 'tools/scene-icons/sources/checkpoint_cordon_node.png',
-      keys: ['checkpoint', 'cordon_node', 'vehicle_checkpoint'],
+      keys: [
+        'checkpoint',
+        'cordon_node',
+        'vehicle_checkpoint',
+        'checkpoint_cordon_node',
+      ],
     },
     {
       slot: 'spectator_crowd_cluster',
@@ -699,7 +755,7 @@ export async function buildIcons() {
     {
       slot: 'road_closed_barricade',
       source_file: 'tools/scene-icons/sources/road_closed_barricade.png',
-      keys: ['signage_road_closed', 'road_closed'],
+      keys: ['signage_road_closed', 'road_closed', 'road_closed_barricade'],
     },
     {
       slot: 'vessel_marine_patrol',
@@ -729,6 +785,9 @@ export async function buildIcons() {
   ];
 
   const fringeByKey = new Map(fringeReport.map((r) => [r.key, r.violations]));
+  const cornerByKey = new Map(
+    fringeReport.map((r) => [r.key, r.cornerAlphaMax ?? 0]),
+  );
   const evidenceList = EVIDENCE_SLOTS.map((s) => {
     const primaryKey = s.keys[0];
     const s1 = sprite1xEntries[primaryKey] || {
@@ -754,10 +813,15 @@ export async function buildIcons() {
         '2x': { x: s2.x, y: s2.y, w: s2.width, h: s2.height },
       },
       fringe_pixels: maxFringe,
+      corner_alpha_max: Math.max(...s.keys.map((k) => cornerByKey.get(k) ?? 0)),
+      sizes: [64, 128, 256],
     };
   });
 
-  const evidenceDir = path.join(REPO_ROOT, 'docs/evidence-2026-11-02-bugfix');
+  const evidenceDir = path.join(
+    REPO_ROOT,
+    'docs/evidence-2026-11-02-direct-plugin',
+  );
   fs.mkdirSync(evidenceDir, { recursive: true });
   fs.writeFileSync(
     path.join(evidenceDir, 'icons-integrated.json'),
@@ -766,12 +830,12 @@ export async function buildIcons() {
   );
 
   console.log(
-    `[build-icons] Successfully generated ${count} icons in manifest v6 (${rows} rows x ${COLS} cols):`,
+    `[build-icons] Successfully generated ${count} icons in manifest v7 (${rows} rows x ${COLS} cols, 64/128/256 px):`,
   );
   console.log('[build-icons] --- PER-KEY FRINGE REPORT ---');
   for (const r of fringeReport) {
     console.log(
-      `  - ${r.key.padEnd(26)}: ${r.violations === 0 ? 'CLEAN (0 fringe pixels)' : `${r.violations} violations`}`,
+      `  - ${r.key.padEnd(26)}: ${r.violations === 0 ? 'CLEAN (0 fringe pixels)' : `${r.violations} violations`} · corner alpha max ${r.cornerAlphaMax ?? 0}`,
     );
   }
 }

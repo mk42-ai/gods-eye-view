@@ -29,10 +29,6 @@ import { parseIncidentQuery } from '../../src/incidents/query.js';
 import { EvidenceSchema } from '../../src/cinematic/sceneSchema.js';
 import { normalizeClips, evidenceToPatch } from './evidence-pipeline.js';
 import {
-  getCachedChatBatchProbe,
-  getChatBatchCapability,
-} from './chat-batch.js';
-import {
   footageConfig,
   retrieveSnapchatFootage,
   createFootageCache,
@@ -363,7 +359,6 @@ export function createSceneFootageRoutes(deps = {}) {
       bbox: scene.bbox,
       fresh: scene.fresh,
     });
-    const chatBatchCap = getChatBatchCapability(getCachedChatBatchProbe());
     const base = {
       locationId: scene.locationId,
       requestId,
@@ -373,14 +368,15 @@ export function createSceneFootageRoutes(deps = {}) {
       scope: scene.scope || 'balanced',
       capabilities: {
         paginationSupported: false,
-        batchSupported: false,
         geotagSupported: false,
         captureTimeSupported: false,
         directCoordinatesSupported: false,
         spotlightTextSearchOnly: true,
         undocumentedEndpointsUsed: false,
-        chatBatchApiVerified: `HTTP ${chatBatchCap.status} (${chatBatchCap.available ? 'available' : 'unavailable'})`,
-        chatBatch: chatBatchCap,
+        // Direct plugin path: POST /chat/v1/sessions (reused per run) +
+        // POST /chat/v1/sessions/{id}/query (sync, pluginIds) per variant.
+        transport: 'direct-plugin-query',
+        sessionReuse: 'per-run-pool',
       },
     };
     if (!configured()) {
@@ -493,16 +489,8 @@ export function createSceneFootageRoutes(deps = {}) {
         capabilities: {
           ...(base.capabilities || {}),
           ...(result.capabilities || {}),
-          chatBatch: result.capabilities?.chatBatch ||
-            base.capabilities?.chatBatch || {
-              available: false,
-              status: 405,
-              body: JSON.stringify({
-                message: 'Chat batch creation is currently unavailable',
-                errorCode: 'method_not_allowed',
-              }),
-            },
         },
+        transport: result.transport || null,
         bounds: result.bounds || {
           radius: scene.radius || null,
           strictBounds: Boolean(scene.strictBounds),

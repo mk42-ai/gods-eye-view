@@ -42,15 +42,15 @@ Grep audit covering all call sites and references to `fetchSnapchatVideosByPlace
 
 ---
 
-## 3. Chat Batch Verification Outcome
+## 3. legacy multi-query transport Verification Outcome
 
-Probed live OnDemand endpoint: `POST https://api.on-demand.io/chat/v1/batches`  
+Probed live OnDemand endpoint: `POST https://api.on-demand.iothe removed legacy multi-query transport  
 Timestamp: `2026-11-01T07:37:58.214Z`
 
 ### Request Excerpt (Redacted):
 
 ```http
-POST /chat/v1/batches HTTP/1.1
+the removed legacy multi-query transport HTTP/1.1
 Host: api.on-demand.io
 apikey: [REDACTED_SERVER_KEY]
 content-type: application/json
@@ -65,12 +65,12 @@ HTTP/1.1 405 Method Not Allowed
 Content-Type: application/json; charset=utf-8
 Date: Sun, 01 Nov 2026 07:37:58 GMT
 
-{"message":"Chat batch creation is currently unavailable","errorCode":"method_not_allowed"}
+{"message":"legacy multi-query transport creation is currently unavailable","errorCode":"method_not_allowed"}
 ```
 
-- **Outcome**: The Chat Batch creation endpoint is unavailable (`HTTP 405 method_not_allowed`). Additional path checks `/chat/v1/sessions/batch`, `/chat/v1/batch`, and `/chat/v1/sessions/query/batch` previously returned `404 Route not found`.
-- **Capability Record**: `PROVIDER_CAPABILITIES.chatBatchApiVerified` updated to `'HTTP 405 method_not_allowed (POST /chat/v1/batches: Chat batch creation is currently unavailable)'`.
-- **Fallback Implementation**: `server/scene-footage/chat-batch.js` probes `/chat/v1/batches` once, records `{ available: false, status: 405, body: "..." }` in response capabilities, and `runFanout` seamlessly executes bounded concurrent direct queries via `concurrency: 4`.
+- **Outcome**: The legacy multi-query transport creation endpoint is unavailable (`HTTP 405 method_not_allowed`). Additional path checks `/chat/v1/sessions/batch`, `/chat/v1/batch`, and `/chat/v1/sessions/query/batch` previously returned `404 Route not found`.
+- **Capability Record**: `PROVIDER_CAPABILITIES.legacy multi-query transportApiVerified` updated to `'HTTP 405 method_not_allowed (the removed legacy multi-query transport: legacy multi-query transport creation is currently unavailable)'`.
+- **Fallback Implementation**: `server/scene-footage/legacy multi-query transport.js` probes the removed legacy multi-query transport once, records `{ available: false, status: 405, body: "..." }` in response capabilities, and `runFanout` seamlessly executes bounded concurrent direct queries via `concurrency: 4`.
 
 ---
 
@@ -148,8 +148,8 @@ _Evidence artifacts stored in_:
 
 1. `server/scene-footage/fanout.js`: Place-name variant expansion, bounded concurrency pool, retry backoff, and dedupe logic.
 2. `server/scene-footage/fanout.test.mjs`: Unit tests for variant generation, deduplication, truncation detection, error isolation, and concurrency bounds.
-3. `server/scene-footage/chat-batch.js`: Chat Batch API probe client with direct session fallback.
-4. `server/scene-footage/chat-batch.test.mjs`: Unit tests for Chat Batch probe and status handling.
+3. `server/scene-footage/legacy multi-query transport.js`: legacy multi-query transport (removed 2026-11-02) probe client with direct session fallback.
+4. `server/scene-footage/legacy multi-query transport.test.mjs`: Unit tests for legacy multi-query transport probe and status handling.
 5. `scripts/qa-snapchat-fanout.mjs`: Live Before/After counter script.
 6. `docs/evidence-2026-11-01-fanout-sse/phase-a/fanout-before-after.json`: Live probe JSON output with redacted SAS URLs.
 7. `docs/evidence-2026-11-01-fanout-sse/phase-a/fanout-before-after.txt`: Live probe text summary with redacted SAS URLs.
@@ -158,7 +158,7 @@ _Evidence artifacts stored in_:
 ### Existing Files Modified:
 
 1. `server/scene-footage/snapchat.js`: Result limit default 25 (cap 50), robust `parsePublicationTime` ('Sept', missing seconds, ISO), coerced schema numeric strings & hashtags, `tier: 'candidate'` assignment, updated `PROVIDER_CAPABILITIES`.
-2. `server/scene-footage/routes.js`: Scope validation (`strict`, `balanced`, `wide`), scope-aware cache key, `capabilities.chatBatch`, and `counts`/`variants` response fields.
+2. `server/scene-footage/routes.js`: Scope validation (`strict`, `balanced`, `wide`), scope-aware cache key, `capabilities.legacy multi-query transport`, and `counts`/`variants` response fields.
 3. `server/scene-footage/snapchat.test.mjs`: Added tests for robust date parsing, numeric/hashtag coercion, clip tiering, scope validation, and route counts/variants.
 4. `src/sceneFootage/places.js`: Added static `UAE_TRANSLITERATIONS` map with `'static-transliteration'` provenance.
 5. `src/sceneFootage/controller.js`: Scope support in request bodies, `counts` and `variants` state tracking.
@@ -166,7 +166,7 @@ _Evidence artifacts stored in_:
 7. `src/incidents/ui/sceneFootageControls.js`: Scope selector with `'balanced'` default, `'strict'`, and `'wide'`; legacy `'place-mentions'` mapped to `'balanced'`.
 8. `src/incidents/sceneFootageControls.test.mjs`: Unit tests for balanced and wide scope request generation.
 9. `src/ui/styles/scene-footage.css`: Badges styling for candidate and verified clips.
-10. `docs/SNAPCHAT_PLUGIN.md`: Documented Phase A additions, Chat Batch 405 verification, fan-out, tiering, and scopes.
+10. `docs/SNAPCHAT_PLUGIN.md`: Documented Phase A additions, legacy multi-query transport 405 verification, fan-out, tiering, and scopes.
 
 ---
 
@@ -217,8 +217,8 @@ check-no-secrets: scanned 1985 text files under src, public, api, server, script
 | Parsing fixes (`parsePublicationTime`, schemas, `snapchat.js`)      | 2026-11-01T07:22:15Z             | Complete            |
 | UAE transliterations added to `places.js`                           | 2026-11-01T07:24:40Z             | Complete            |
 | Fan-out module created (`fanout.js` + `fanout.test.mjs`)            | 2026-11-01T07:28:10Z             | Complete            |
-| Live Chat Batch probe executed (`POST /chat/v1/batches`)            | 2026-11-01T07:33:05Z             | Complete (HTTP 405) |
-| Chat batch client created (`chat-batch.js` + test)                  | 2026-11-01T07:35:20Z             | Complete            |
+| Live legacy multi-query transport probe executed (`the removed legacy multi-query transport)            | 2026-11-01T07:33:05Z             | Complete (HTTP 405) |
+| legacy multi-query transport client created (`legacy multi-query transport.js` + test)                  | 2026-11-01T07:35:20Z             | Complete            |
 | Tiering & scope routes updates (`routes.js`, controls, panel)       | 2026-11-01T07:36:50Z             | Complete            |
 | Live Before/After probe executed (`scripts/qa-snapchat-fanout.mjs`) | 2026-11-01T07:37:57Z – 07:40:03Z | Complete            |
 | Code formatting with Prettier & secret validation                   | 2026-11-01T07:41:10Z             | Complete            |
@@ -230,5 +230,5 @@ check-no-secrets: scanned 1985 text files under src, public, api, server, script
 
 1. **Unverified Geolocation**: The Snapchat Spotlight plugin (`plugin-1792945050`, `fetchSnapchatVideosByPlace`) returns text-matched Spotlight clips only. It provides **no latitude, no longitude, no geographic bounding box, and no geotags**. All clips are therefore tiered as `'candidate'` and labelled `'unverified'` in the UI.
 2. **Unverified Capture Time**: The provider provides only `uploadDateMs` (a human-readable publication time string), not the time the video was recorded. Under strict temporal filters (`strictCaptureTime`), candidate clips cannot prove they were recorded within the incident window and are honestly rejected. Under `balanced` and `wide` scopes, clips are admitted as unverified candidates with uncertainty explicitly disclosed.
-3. **Chat Batch Creation Unavailable**: `POST /chat/v1/batches` returns `HTTP 405 Method Not Allowed` with message `"Chat batch creation is currently unavailable"`. Batch querying is therefore blocked upstream on the platform side; bounded concurrent direct calls (`concurrency: 4`) serve as the verified operational fallback.
+3. **legacy multi-query transport Creation Unavailable**: `the removed legacy multi-query transport returns `HTTP 405 Method Not Allowed` with message `"legacy multi-query transport creation is currently unavailable"`. Batch querying is therefore blocked upstream on the platform side; bounded concurrent direct calls (`concurrency: 4`) serve as the verified operational fallback.
 4. **Keyword Collision on Short Names**: Short variants like `"kanes"` or `"kane's"` match sports figures (e.g. footballer Harry Kane). Because the plugin performs global text search without spatial constraints, broad place names will match non-local social posts. This uncertainty is honestly tagged as `unverified candidate`.

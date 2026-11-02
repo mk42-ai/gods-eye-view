@@ -89,6 +89,9 @@ export const ICON_KEYS = Object.freeze([
   'screening_lane',
   'road_closed',
   'civilian_sedan',
+  'event_command_post',
+  'checkpoint_cordon_node',
+  'road_closed_barricade',
 ]);
 export const PROVENANCES = Object.freeze([
   'osm-footprint-buffer',

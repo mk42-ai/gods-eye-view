@@ -26,7 +26,7 @@ Automatic YouTube/TikTok/Instagram scene evidence remains a separate lane. Snapc
 
 ## Verified integration boundary
 
-The configured plugin remains `plugin-1792945050`, agent `agent-1792945050`, operation `fetchSnapchatVideosByPlace`. Current marketplace discovery returned its name “Snapchat video downloader” and description “It can download video from snachat by places name.” Its previously observed operation accepts `places: string[]` and `limit`; this is a multi-place operation input, **not** proof of a public Chat Batch API or Snap Map access.
+The configured plugin remains `plugin-1792945050`, agent `agent-1792945050`, operation `fetchSnapchatVideosByPlace`. Current marketplace discovery returned its name “Snapchat video downloader” and description “It can download video from snachat by places name.” Its previously observed operation accepts `places: string[]` and `limit`; this is a multi-place operation input, **not** proof of a public legacy multi-query transport (removed 2026-11-02) or Snap Map access.
 
 The adapter accepts structured source records only, rejects generic model prose, validates each row, deduplicates provider IDs/canonical URLs/media hashes, and distinguishes per-item download errors from empty results. Returned rows, unique source IDs, accepted matches, result sets, actual query submissions, attempts, polls, possible truncation and partial failures are counted separately. A result set is counted only when returned, never before querying.
 
@@ -49,7 +49,7 @@ Retrieved on 2026-10-31 at 04:58–05:01 UTC:
 
 The authoritative operation specs document `POST /chat/v1/sessions`, `POST /chat/v1/sessions/{sessionId}/query`, and `GET /chat/v1/sessions/{sessionId}/messages/{messageId}`, authenticated server-side via `apikey`. Session creation returns `data.id`; query output carries `data.status`, `answer`, `messageId`; processing is polled by message identity, never by resubmitting. Supported terminal statuses are completed/failed. `pagination.next` applies to documented session/message listing; the client now follows that exact field. Listing defaults/maxima are 10/50; plugin arrays have a maximum of 20. The reference lists 10,000 requests/minute per origin IP and a 2.5-minute plugin execution timeout; these do not establish Snapchat quotas.
 
-Neither the current categories index nor the official llms index exposed a Chat Batch operation/reference. The installed batch-named skill is `file-batch-processor`, for files, not OnDemand retrieval batches. No usable installed Chat Batch API skill/contract was found. No endpoint, execution/poll schema, page token or Snapchat batch authorization was invented. Guides and generated OpenAPI differ on some required fields; the operation spec takes precedence, so externalUserId and responseMode are always supplied.
+Neither the current categories index nor the official llms index exposed a legacy multi-query transport operation/reference. The installed batch-named skill is `file-batch-processor`, for files, not OnDemand retrieval batches. No usable installed legacy multi-query transport (removed 2026-11-02) skill/contract was found. No endpoint, execution/poll schema, page token or Snaplegacy multi-query transport authorization was invented. Guides and generated OpenAPI differ on some required fields; the operation spec takes precedence, so externalUserId and responseMode are always supplied.
 
 ## Reproducible validation
 

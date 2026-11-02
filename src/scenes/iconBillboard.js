@@ -36,8 +36,11 @@ export const ELEMENT_TYPE_ICONS = Object.freeze({
   route_line: 'route_start',
   start_finish: 'start_finish',
   command_post: 'command_post',
+  event_command_post: 'event_command_post',
   overwatch: 'aircraft_helicopter',
   cordon_node: 'cordon_node',
+  checkpoint_cordon_node: 'checkpoint_cordon_node',
+  road_closed_barricade: 'road_closed_barricade',
   medical_point: 'medical_point',
   marine_patrol: 'vessel_marine_patrol',
   foot_patrol: 'perimeter_unit',
@@ -332,6 +335,7 @@ export function getSharedAtlas() {
 export function iconSizeFor(key) {
   switch (key) {
     case 'command_post':
+    case 'event_command_post':
     case 'staging_point':
     case 'start_finish':
     case 'start_finish_gate':

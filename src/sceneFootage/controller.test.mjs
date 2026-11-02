@@ -759,7 +759,7 @@ test('panel: renders #scene-snapchat-metrics line with required format and unver
           unique: 3,
           duplicates: 1,
           relevant: 1,
-          batchState: 'unavailable (405)',
+          transport: 'direct-plugin-query',
           rateLimit: { state: 'ok' },
         },
       }),
@@ -784,7 +784,7 @@ test('panel: renders #scene-snapchat-metrics line with required format and unver
   assert.equal(metricsEl.hidden, false);
   assert.equal(
     metricsEl.textContent,
-    'Requests 3 attempted · 3 ok · 0 failed · 4 results · 3 unique · 1 duplicates · 1 relevant · batch: unavailable (405) · rate limit: ok · unverified: no capture time / coordinates',
+    'Requests 3 attempted · 3 ok · 0 failed · 4 results · 3 unique · 1 duplicates · 1 relevant · transport: direct-plugin-query · rate limit: ok · unverified: no capture time / coordinates',
   );
 });
 

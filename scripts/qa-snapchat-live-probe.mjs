@@ -1,8 +1,21 @@
 /**
  * scripts/qa-snapchat-live-probe.mjs
  *
- * Live QA probe for Snapchat plugin-1792945050 across Dubai Marina place-name variants.
- * Verified against live OnDemand Chat API docs (2026-11-02).
+ * Live QA probe for the DIRECT plugin path of Snapchat discovery
+ * (plugin-1792945050). It drives the production retrieval function
+ * (`retrieveSnapchatFootage`) with the real foundation client, so what is
+ * measured here is exactly what the deployed route executes:
+ *
+ *   POST /chat/v1/sessions                  reused pool (≤3) per discovery run
+ *   POST /chat/v1/sessions/{id}/query       one SYNC query per place-name variant
+ *                                            (pluginIds [plugin], max 3 in flight,
+ *                                             30 s per request, backoff on 409/429/5xx)
+ *
+ * Verified against the live OnDemand Chat API docs (createchatsession /
+ * submitquery, 2026-11-02). No legacy multi-query transport exists in this code base.
+ *
+ * Usage:
+ *   node scripts/qa-snapchat-live-probe.mjs [--out docs/evidence-<date>/snapchat-direct-probe]
  *
  * NEVER prints, logs, or records any API key or secret.
  */
@@ -11,43 +24,35 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
-  SNAPCHAT_PLUGIN_ID_DEFAULT,
-  buildQuery,
-  extractPluginJson,
-  normalizePluginResponse,
-  dedupeClips,
+  footageConfig,
+  retrieveSnapchatFootage,
   redactMediaUrl,
 } from '../server/scene-footage/snapchat.js';
-import { expandPlaceVariants } from '../server/scene-footage/fanout.js';
-import { probeChatBatch } from '../server/scene-footage/chat-batch.js';
+import { createOnDemandClient } from '../server/ondemand/foundation/client.js';
+import { isConfigured } from '../server/ondemand/config.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
-const OUT_DIR = resolve(ROOT, 'docs/evidence-2026-11-02-bugfix');
-const JSON_OUT = resolve(OUT_DIR, 'snapchat-live-probe.json');
-const MD_OUT = resolve(OUT_DIR, 'snapchat-live-probe.md');
-
+const args = process.argv.slice(2);
+const outArg = args.includes('--out') ? args[args.indexOf('--out') + 1] : null;
+const OUT_DIR = resolve(
+  ROOT,
+  outArg || 'docs/evidence-2026-11-02-direct-plugin/snapchat-direct-probe',
+);
 mkdirSync(OUT_DIR, { recursive: true });
+const JSON_OUT = resolve(OUT_DIR, 'snapchat-direct-probe.json');
+const MD_OUT = resolve(OUT_DIR, 'snapchat-direct-probe.md');
 
-const BASE_URL =
-  process.env.ONDEMAND_BASE_URL ||
-  process.env.ON_DEMAND_BASE_URL ||
-  'https://api.on-demand.io';
-
-const API_KEY =
-  process.env.ONDEMAND_API_KEY || process.env.ON_DEMAND_API_KEY || '';
-
-if (!API_KEY) {
+// The container exports ON_DEMAND_API_KEY; the app reads ONDEMAND_API_KEY.
+if (!process.env.ONDEMAND_API_KEY && process.env.ON_DEMAND_API_KEY) {
+  process.env.ONDEMAND_API_KEY = process.env.ON_DEMAND_API_KEY;
+}
+if (!isConfigured()) {
   console.error(
-    'ERROR: ONDEMAND_API_KEY or ON_DEMAND_API_KEY must be set in environment.',
+    'ERROR: ONDEMAND_API_KEY (or ON_DEMAND_API_KEY) must be set in environment.',
   );
   process.exit(1);
 }
-
-const PLUGIN_ID = process.env.SNAPCHAT_PLUGIN_ID || SNAPCHAT_PLUGIN_ID_DEFAULT;
-const ENDPOINT_ID =
-  process.env.SNAPCHAT_ENDPOINT_ID || 'predefined-openai-gpt4.1-mini';
-const TIMEOUT_MS = 60_000;
 
 function redactString(str) {
   if (typeof str !== 'string') return '';
@@ -59,408 +64,303 @@ function redactString(str) {
     .replace(/sig=([A-Za-z0-9%_-]+)/gi, 'sig=[REDACTED]');
 }
 
-async function createChatSession() {
-  const url = `${BASE_URL.replace(/\/+$/, '')}/chat/v1/sessions`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      apikey: API_KEY,
+/** The three probes requested by the user (prompt → anchored scene). */
+const PROBES = [
+  {
+    prompt: 'Dubai Marina raid',
+    scene: {
+      locationId: 'snap-dubai-marina',
+      lat: 25.0786415,
+      lon: 55.1352524,
+      placeName: 'Dubai Marina',
+      text: 'Dubai Marina raid',
+      scope: 'balanced',
     },
-    body: JSON.stringify({
-      externalUserId: 'gev-scene-footage-probe',
-      pluginIds: [PLUGIN_ID],
-    }),
-    signal: AbortSignal.timeout(TIMEOUT_MS),
-  });
-
-  const status = res.status;
-  const json = await res.json().catch(() => null);
-  const sessionId = json?.data?.id || null;
-  return { status, sessionId, raw: json };
-}
-
-async function submitChatQuery(sessionId, queryText) {
-  const url = `${BASE_URL.replace(/\/+$/, '')}/chat/v1/sessions/${sessionId}/query`;
-  const payload = {
-    endpointId: ENDPOINT_ID,
-    query: queryText,
-    responseMode: 'sync',
-    pluginIds: [PLUGIN_ID],
-  };
-
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      apikey: API_KEY,
+  },
+  {
+    prompt: 'boxing gym',
+    scene: {
+      locationId: 'snap-kanes-boxing-gym-abu-dhabi',
+      lat: 24.4539,
+      lon: 54.3773,
+      placeName: "Kane's Boxing Gym Abu Dhabi",
+      text: 'boxing gym',
+      nearbyNames: ['Al Zahiyah', 'Abu Dhabi'],
+      scope: 'balanced',
     },
-    body: JSON.stringify(payload),
-    signal: AbortSignal.timeout(TIMEOUT_MS),
-  });
+  },
+  {
+    prompt: 'Yas Mall crash',
+    scene: {
+      locationId: 'snap-yas-mall',
+      lat: 24.4886,
+      lon: 54.6081,
+      placeName: 'Yas Mall',
+      text: 'Yas Mall crash',
+      nearbyNames: ['Yas Island'],
+      scope: 'balanced',
+    },
+  },
+];
 
-  const status = res.status;
-  const json = await res.json().catch(() => null);
-  return { status, json };
-}
-
-async function runLiveProbe() {
-  const startTime = new Date().toISOString();
-  console.log(`[Snapchat QA Probe] Starting live probe against ${BASE_URL}...`);
-  console.log(
-    `[Snapchat QA Probe] Plugin ID: ${PLUGIN_ID}, Endpoint ID: ${ENDPOINT_ID}`,
-  );
-
-  // 1. Expand location-name variants for Dubai Marina
-  const allVariants = expandPlaceVariants({
-    placeName: 'Dubai Marina',
-    maxVariants: 15,
-  });
-
-  // Target variants required by contract: at least these four
-  const targetVariants = [
-    'Dubai Marina',
-    'Marina Dubai',
-    'Dubai Marina Walk',
-    'JBR Dubai Marina',
-  ];
-
-  // Guarantee target variants are first, followed by any additional generated variants up to 4 total
-  const variantsToQuery = [
-    ...targetVariants,
-    ...allVariants.filter((v) => !targetVariants.includes(v)),
-  ].slice(0, 4);
-
-  console.log(
-    `[Snapchat QA Probe] Variants to query (${variantsToQuery.length}):`,
-    variantsToQuery,
-  );
-
-  const callResults = [];
-  const rawClipsAccumulated = [];
-
-  for (let i = 0; i < variantsToQuery.length; i++) {
-    const variant = variantsToQuery[i];
-    console.log(
-      `\n[Snapchat QA Probe] [${i + 1}/${variantsToQuery.length}] Querying variant: "${variant}"...`,
-    );
-
-    const t0 = Date.now();
-    let sessionStatus = 0;
-    let queryStatus = 0;
-    let sessionId = null;
-    let recordCount = 0;
-    let verifiedCount = 0;
-    let approximateCount = 0;
-    let error = null;
-    let parsedClips = [];
-
-    try {
-      // Step A: Create session with pluginIds
-      const sessionRes = await createChatSession();
-      sessionStatus = sessionRes.status;
-      sessionId = sessionRes.sessionId;
-
-      if (!sessionId) {
-        throw new Error(
-          `Session creation failed with status ${sessionStatus}: ${JSON.stringify(sessionRes.raw)}`,
-        );
+const cfg = { ...footageConfig(process.env), verifyMedia: false };
+const baseClient = createOnDemandClient({ retry: { retries: 0 } });
+// Wrap the documented sync query so the raw plugin answer of every direct
+// request is kept for the evidence table (the retrieval function only keeps
+// validated clips). Nothing else about the client changes.
+const rawAnswers = [];
+const client = {
+  ...baseClient,
+  sessions: baseClient.sessions,
+  query: {
+    ...baseClient.query,
+    async sync(sessionId, input, opts) {
+      const places = /"places":(\[[^\]]*\])/.exec(input.query)?.[1] || null;
+      const t0 = Date.now();
+      try {
+        const out = await baseClient.query.sync(sessionId, input, opts);
+        rawAnswers.push({
+          at: new Date().toISOString(),
+          sessionId,
+          places,
+          httpStatus: 200,
+          latencyMs: Date.now() - t0,
+          upstreamStatus: out?.data?.status || null,
+          messageId: out?.data?.messageId || null,
+          excerpt: excerptOf(out?.data?.answer || ''),
+        });
+        return out;
+      } catch (err) {
+        rawAnswers.push({
+          at: new Date().toISOString(),
+          sessionId,
+          places,
+          httpStatus: err?.status ?? 0,
+          latencyMs: Date.now() - t0,
+          error: redactString(String(err?.message || err)).slice(0, 160),
+          excerpt: excerptOf(
+            typeof err?.upstream === 'string'
+              ? err.upstream
+              : JSON.stringify(err?.upstream ?? ''),
+          ),
+        });
+        throw err;
       }
+    },
+  },
+};
 
-      // Step B: Build query using repo's prompt helper
-      const queryText = buildQuery({
-        scene: {
-          locationId: 'dubai-marina',
-          lat: 25.0805,
-          lon: 55.1403,
-          placeName: 'Dubai Marina',
-          clientTimeIso: new Date().toISOString(),
-        },
-        step: {
-          level: 'district',
-          names: [variant],
-          wider: false,
-        },
-        limit: 25,
-        pluginId: PLUGIN_ID,
+function excerptOf(answer) {
+  const s = typeof answer === 'string' ? answer : JSON.stringify(answer ?? '');
+  return redactString(s).replace(/\s+/g, ' ').slice(0, 400);
+}
+
+async function runProbe(probe) {
+  const requests = [];
+  const open = new Map();
+  let maxInflight = 0;
+  const trace = (stage, data) => {
+    const at = new Date().toISOString();
+    if (stage === 'session_create') {
+      requests.push({
+        at,
+        endpoint: 'POST /chat/v1/sessions',
+        kind: 'session',
+        attempt: data.attempt,
+        status: null,
+        latencyMs: null,
       });
-
-      // Step C: Submit query with sync responseMode and pluginIds
-      const queryRes = await submitChatQuery(sessionId, queryText);
-      queryStatus = queryRes.status;
-
-      if (queryStatus === 200 && queryRes.json) {
-        const answer =
-          queryRes.json?.data?.answer || queryRes.json?.answer || '';
-        const pluginJson = extractPluginJson(answer);
-
-        if (pluginJson) {
-          const normalized = normalizePluginResponse(pluginJson, {
-            step: { level: 'district', names: [variant] },
-            retrievalTime: new Date().toISOString(),
-            now: new Date(),
-            scope: 'balanced',
-          });
-
-          parsedClips = normalized.clips || [];
-          recordCount = parsedClips.length;
-          verifiedCount = parsedClips.filter(
-            (c) => c.tier === 'verified',
-          ).length;
-          approximateCount = parsedClips.filter(
-            (c) => c.tier === 'candidate',
-          ).length;
-
-          // Redact media URLs in parsed clips
-          for (const clip of parsedClips) {
-            if (clip.mediaUrl) {
-              clip.mediaUrlRedacted = redactMediaUrl(clip.mediaUrl);
-            }
-          }
-          rawClipsAccumulated.push(...parsedClips);
-        } else {
-          error = 'No valid JSON found in model answer';
-        }
-      } else {
-        error = `Query HTTP ${queryStatus}: ${JSON.stringify(queryRes.json || {}).slice(0, 200)}`;
+    } else if (stage === 'session_created') {
+      const last = [...requests]
+        .reverse()
+        .find((r) => r.kind === 'session' && r.status === null);
+      if (last) {
+        last.status = data.sessionId ? 201 : null;
+        last.sessionId = data.sessionId || null;
       }
-    } catch (err) {
-      error = redactString(err?.message || String(err));
-      queryStatus = queryStatus || 500;
+    } else if (stage === 'query_submit') {
+      const entry = {
+        at,
+        endpoint: `POST /chat/v1/sessions/${data.sessionId}/query`,
+        kind: 'query',
+        places: data.places,
+        attempt: data.attempt,
+        sessionReused: Boolean(data.sessionReused),
+        transport: data.transport,
+        status: null,
+        latencyMs: null,
+      };
+      requests.push(entry);
+      open.set(JSON.stringify(data.places), entry);
+      maxInflight = Math.max(maxInflight, open.size);
+    } else if (stage === 'query_completed') {
+      // the latest open query for that session
+      const entry = [...requests]
+        .reverse()
+        .find(
+          (r) =>
+            r.kind === 'query' &&
+            r.status === null &&
+            r.endpoint.includes(data.sessionId),
+        );
+      if (entry) {
+        entry.status = data.status === 'completed' ? 200 : 502;
+        entry.latencyMs = data.ms;
+        entry.upstreamStatus = data.status;
+        open.delete(JSON.stringify(entry.places));
+      }
+    } else if (stage === 'retry_backoff') {
+      const entry = [...requests]
+        .reverse()
+        .find((r) => r.kind === 'query' && r.status === null);
+      if (entry) {
+        entry.status = data.status ?? 0;
+        entry.error = data.code || null;
+        entry.backoffMs = data.delayMs;
+        open.delete(JSON.stringify(entry.places));
+      }
+    } else if (stage === 'fanout_variant_failed') {
+      const entry = [...requests]
+        .reverse()
+        .find(
+          (r) =>
+            r.kind === 'query' &&
+            r.status === null &&
+            r.places?.[0] === data.variant,
+        );
+      if (entry) {
+        entry.status = 0;
+        entry.error = data.error;
+        open.delete(JSON.stringify(entry.places));
+      }
     }
-
-    const latencyMs = Date.now() - t0;
-
-    const callResult = {
-      variant,
-      sessionStatus,
-      queryStatus,
-      latencyMs,
-      recordCount,
-      verifiedCount,
-      approximateCount,
-      error,
-      clips: parsedClips.map((c) => ({
-        id: c.id,
-        storyId: c.storyId,
-        tier: c.tier,
-        locationEvidence: c.locationEvidence,
-        matchedPlaceName: c.matchedPlaceName,
-        caption: c.caption,
-        publicationTime: c.publicationTime,
-        mediaUrlRedacted:
-          c.mediaUrlRedacted ||
-          (c.mediaUrl ? redactMediaUrl(c.mediaUrl) : null),
-      })),
+  };
+  const startedAt = new Date().toISOString();
+  const t0 = Date.now();
+  const rawStart = rawAnswers.length;
+  let result = null;
+  let fatal = null;
+  try {
+    result = await retrieveSnapchatFootage(probe.scene, {
+      client,
+      cfg,
+      trace,
+      signal: AbortSignal.timeout(240_000),
+    });
+  } catch (err) {
+    fatal = {
+      status: err?.status ?? null,
+      message: redactString(String(err?.message || err)).slice(0, 200),
     };
+  }
+  const finishedAt = new Date().toISOString();
+  const clips = result?.clips || [];
+  const raw = rawAnswers.slice(rawStart);
+  const rawExcerpt =
+    raw.find((r) => r.excerpt && /results/.test(r.excerpt))?.excerpt ||
+    raw.find((r) => r.excerpt)?.excerpt ||
+    null;
+  return {
+    prompt: probe.prompt,
+    placeName: probe.scene.placeName,
+    startedAtUtc: startedAt,
+    finishedAtUtc: finishedAt,
+    totalMs: Date.now() - t0,
+    state: fatal ? 'error' : result?.status,
+    fatal,
+    transport: result?.transport || null,
+    counts: result?.counts || null,
+    accounting: result?.accounting || null,
+    variants: result?.variants || [],
+    verifiedCount: clips.filter((c) => c.tier === 'verified').length,
+    approximateCount: clips.filter((c) => c.tier === 'candidate').length,
+    maxInflightObserved: maxInflight,
+    requests: requests.map((r) => ({
+      ...r,
+      endpoint: r.endpoint.replace(/sessions\/[0-9a-f]{24}/, 'sessions/{id}'),
+    })),
+    rawExcerpt,
+    rawAnswers: raw,
+    clips: clips.map((c) => ({
+      id: c.id,
+      storyId: c.storyId,
+      tier: c.tier,
+      locationEvidence: c.locationEvidence,
+      matchedPlaceName: c.matchedPlaceName,
+      caption: c.caption,
+      publicationTime: c.publicationTime,
+      mediaUrlRedacted: c.mediaUrl ? redactMediaUrl(c.mediaUrl) : null,
+    })),
+  };
+}
 
-    callResults.push(callResult);
-
+const startedAt = new Date().toISOString();
+console.log(
+  `[direct-plugin probe] plugin ${cfg.pluginId}, endpoint ${cfg.endpointId}, timeout ${cfg.queryTimeoutMs} ms, concurrency ≤${Math.min(3, cfg.fanoutConcurrency)}`,
+);
+const probes = [];
+for (const probe of PROBES) {
+  console.log(`\n[direct-plugin probe] "${probe.prompt}" → ${probe.scene.placeName}`);
+  const r = await runProbe(probe);
+  probes.push(r);
+  console.log(
+    `  state=${r.state} sessions=${r.transport?.sessionsCreated ?? '-'} directQueries=${r.transport?.directQueries ?? '-'} maxInflight=${r.maxInflightObserved} verified=${r.verifiedCount} approximate=${r.approximateCount} totalMs=${r.totalMs}`,
+  );
+  for (const q of r.requests) {
     console.log(
-      `  -> Status: HTTP ${queryStatus} | Latency: ${latencyMs}ms | Parsed: ${recordCount} | Verified: ${verifiedCount} | Approximate (candidate): ${approximateCount}${error ? ` | Error: ${error}` : ''}`,
+      `   ${q.at} ${q.endpoint} ${q.places ? JSON.stringify(q.places) : ''} → HTTP ${q.status ?? 'n/a'} ${q.latencyMs ?? '-'} ms${q.error ? ` error=${q.error}` : ''}`,
     );
   }
+}
+const finishedAt = new Date().toISOString();
 
-  // 2. Deduplicate all accumulated clips using repo's dedupeClips logic
-  const dedupeResult = dedupeClips(rawClipsAccumulated);
-  const uniqueClips = dedupeResult.kept || [];
-  const uniqueVerified = uniqueClips.filter(
-    (c) => c.tier === 'verified',
-  ).length;
-  const uniqueApproximate = uniqueClips.filter(
-    (c) => c.tier === 'candidate',
-  ).length;
-
-  console.log(`\n[Snapchat QA Probe] Deduplication Summary:`);
-  console.log(`  Raw clips total: ${rawClipsAccumulated.length}`);
-  console.log(`  Unique after dedupe: ${uniqueClips.length}`);
-  console.log(`  Verified count: ${uniqueVerified}`);
-  console.log(`  Approximate count: ${uniqueApproximate}`);
-
-  // 3. Chat Batches capability probe evaluation
-  console.log(
-    `\n[Snapchat QA Probe] Evaluating OnDemand Chat Batches (/chat/v1/batches)...`,
-  );
-  const batchProbe = await probeChatBatch({
-    baseUrl: BASE_URL,
-    apiKeyProvider: () => API_KEY,
-    force: true,
-  });
-
-  const chatBatchesAssessment =
-    `Live API probe of POST /chat/v1/batches confirmed HTTP ${batchProbe.status} (${batchProbe.body || 'currently unavailable'}). ` +
-    `OnDemand does not provide an active chat batch creation endpoint at present, so batching cannot raise footage result counts today. ` +
-    `Server-side fan-out across place-name variants under bounded concurrency (SNAPCHAT_FANOUT_CONCURRENCY=4) is the proven and effective mechanism to maximize footage discovery without blocking.`;
-
-  console.log(`  -> Batch Probe HTTP ${batchProbe.status}: ${batchProbe.body}`);
-  console.log(`  -> Assessment: ${chatBatchesAssessment}`);
-
-  const endTime = new Date().toISOString();
-
-  // 4. Output Data Structure
-  const reportData = {
-    probeTimestampUtc: startTime,
-    completedAtUtc: endTime,
-    baseUrl: BASE_URL,
-    pluginId: PLUGIN_ID,
-    endpointId: ENDPOINT_ID,
-    requestShapeConfirmed: {
-      createSession: {
-        method: 'POST',
-        path: '/chat/v1/sessions',
-        headers: { apikey: '[REDACTED]', 'content-type': 'application/json' },
-        body: {
-          externalUserId: 'gev-scene-footage-probe',
-          pluginIds: [PLUGIN_ID],
-        },
-      },
-      submitQuery: {
-        method: 'POST',
-        path: '/chat/v1/sessions/{sessionId}/query',
-        headers: { apikey: '[REDACTED]', 'content-type': 'application/json' },
-        body: {
-          endpointId: ENDPOINT_ID,
-          query:
-            '<AGENT_INSTRUCTION + scene context + fetchSnapchatVideosByPlace>',
-          responseMode: 'sync',
-          pluginIds: [PLUGIN_ID],
-        },
+const out = {
+  startedAtUtc: startedAt,
+  finishedAtUtc: finishedAt,
+  pluginId: cfg.pluginId,
+  endpointId: cfg.endpointId,
+  transport: 'direct-plugin-query',
+  perRequestTimeoutMs: cfg.queryTimeoutMs,
+  concurrencyCap: Math.min(3, cfg.fanoutConcurrency),
+  legacyTransportEndpointsReferenced: 0,
+  requestShape: {
+    createSession: {
+      method: 'POST',
+      path: '/chat/v1/sessions',
+      headers: { apikey: '[REDACTED]', 'content-type': 'application/json' },
+      body: { externalUserId: 'gev-scene-footage', pluginIds: [cfg.pluginId] },
+    },
+    submitQuery: {
+      method: 'POST',
+      path: '/chat/v1/sessions/{sessionId}/query',
+      headers: { apikey: '[REDACTED]', 'content-type': 'application/json' },
+      body: {
+        endpointId: cfg.endpointId,
+        query: '<AGENT_INSTRUCTION + scene context + fetchSnapchatVideosByPlace({places:[variant],limit})>',
+        responseMode: 'sync',
+        pluginIds: [cfg.pluginId],
       },
     },
-    target: 'Dubai Marina',
-    variantsQueried: variantsToQuery,
-    totals: {
-      rawRecordCount: rawClipsAccumulated.length,
-      uniqueAfterDedupe: uniqueClips.length,
-      verified_count: uniqueVerified,
-      approximate_count: uniqueApproximate,
-    },
-    perVariantResults: callResults.map((r) => ({
-      variant: r.variant,
-      sessionStatus: r.sessionStatus,
-      queryStatus: r.queryStatus,
-      latencyMs: r.latencyMs,
-      recordCount: r.recordCount,
-      verifiedCount: r.verifiedCount,
-      approximateCount: r.approximateCount,
-      error: r.error,
-      clipsSummary: r.clips,
-    })),
-    chatBatchProbe: {
-      endpoint: batchProbe.endpoint,
-      status: batchProbe.status,
-      available: batchProbe.available,
-      body: batchProbe.body,
-      checkedAt: batchProbe.checkedAt,
-    },
-    chat_batches_assessment: chatBatchesAssessment,
-  };
+  },
+  probes,
+};
+writeFileSync(JSON_OUT, JSON.stringify(out, null, 2));
 
-  writeFileSync(JSON_OUT, JSON.stringify(reportData, null, 2), 'utf8');
-  console.log(`\n[Snapchat QA Probe] Wrote JSON results to: ${JSON_OUT}`);
-
-  // 5. Markdown Report
-  const mdReport = `# Snapchat Plugin-1792945050 Live Dubai Marina Probe Report
-
-- **Date / Time (UTC)**: \`${startTime}\` to \`${endTime}\`
-- **Target Location**: \`Dubai Marina\` (Lat: 25.0805, Lon: 55.1403)
-- **Plugin ID**: \`${PLUGIN_ID}\` (Snapchat video downloader)
-- **Endpoint ID**: \`${ENDPOINT_ID}\`
-- **Response Mode**: \`sync\`
-- **Per-Call Timeout**: \`60s\`
-
----
-
-## 1. Confirmed Request Payload Shape
-
-Verified against live OpenAPI documentation (\`docs/evidence-2026-11-02-render-fix/ondemand-live-docs-chat-api.json\`):
-
-### Session Creation
-- **Endpoint**: \`POST https://api.on-demand.io/chat/v1/sessions\`
-- **Headers**: \`apikey: [REDACTED]\`, \`content-type: application/json\`
-- **Payload**:
-\`\`\`json
-{
-  "externalUserId": "gev-scene-footage-probe",
-  "pluginIds": ["${PLUGIN_ID}"]
+let md = `# Snapchat direct-plugin live probe\n\n`;
+md += `Started ${startedAt} · finished ${finishedAt} · plugin \`${cfg.pluginId}\` · endpoint \`${cfg.endpointId}\` · transport direct-plugin-query (reused session pool ≤3, ≤3 in flight, ${cfg.queryTimeoutMs} ms per request)\n\n`;
+for (const p of probes) {
+  md += `## "${p.prompt}" → ${p.placeName}\n\n`;
+  md += `state **${p.state}** · sessions created ${p.transport?.sessionsCreated ?? '-'} · direct queries ${p.transport?.directQueries ?? '-'} · max in flight ${p.maxInflightObserved} · verified ${p.verifiedCount} · approximate ${p.approximateCount} · ${p.totalMs} ms\n\n`;
+  md += `| timestamp (UTC) | endpoint | places | HTTP | latency ms | note |\n|---|---|---|---|---|---|\n`;
+  for (const q of p.requests) {
+    md += `| ${q.at} | ${q.endpoint} | ${q.places ? q.places.join(', ') : ''} | ${q.status ?? 'n/a'} | ${q.latencyMs ?? '-'} | ${q.error || (q.sessionReused ? 'session reused' : q.kind === 'session' ? 'session created' : '')} |\n`;
+  }
+  md += `\n| timestamp (UTC) | places | HTTP | latency ms | upstream status | raw plugin answer excerpt |\n|---|---|---|---|---|---|\n`;
+  for (const r of p.rawAnswers || []) {
+    md += `| ${r.at} | ${r.places || ''} | ${r.httpStatus} | ${r.latencyMs} | ${r.upstreamStatus || r.error || ''} | ${(r.excerpt || '').replace(/\|/g, '/').slice(0, 220)} |\n`;
+  }
+  md += `\nResult count ${p.counts?.unique ?? 0} unique (${p.counts?.raw ?? 0} raw) · verified ${p.verifiedCount} / approximate ${p.approximateCount}\n\n`;
+  md += `Raw plugin answer excerpt (last message of the run session):\n\n\`\`\`\n${p.rawExcerpt || '(none)'}\n\`\`\`\n\n`;
 }
-\`\`\`
-
-### Query Submission
-- **Endpoint**: \`POST https://api.on-demand.io/chat/v1/sessions/{sessionId}/query\`
-- **Headers**: \`apikey: [REDACTED]\`, \`content-type: application/json\`
-- **Payload**:
-\`\`\`json
-{
-  "endpointId": "${ENDPOINT_ID}",
-  "query": "<AGENT_INSTRUCTION + scene context JSON + fetchSnapchatVideosByPlace call>",
-  "responseMode": "sync",
-  "pluginIds": ["${PLUGIN_ID}"]
-}
-\`\`\`
-
----
-
-## 2. Summary Totals
-
-| Metric | Count |
-| :--- | :--- |
-| **Variants Queried** | \`${variantsToQuery.length}\` |
-| **Total Raw Records Returned** | \`${rawClipsAccumulated.length}\` |
-| **Unique Records (After Deduplication)** | \`${uniqueClips.length}\` |
-| **Verified Records (\`tier: 'verified'\`)** | \`${uniqueVerified}\` |
-| **Approximate Candidates (\`tier: 'candidate'\`)** | \`${uniqueApproximate}\` |
-
-*Note on tiering*: As documented in \`docs/SNAPCHAT_PLUGIN.md\` and enforced by \`server/scene-footage/snapchat.js\`, Snapchat Spotlight public search results are text/hashtag-matched and do not carry verified GPS coordinates or author-certified capture timestamps. Therefore, honest tiering classifies all playable clips as \`approximate / candidate\` (\`tier: 'candidate'\`) rather than inventing verified status.
-
----
-
-## 3. Per-Variant Execution Results
-
-| # | Variant | HTTP Status | Latency (ms) | Raw Records | Verified | Approximate (Candidate) | Notes |
-| :- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-${callResults
-  .map(
-    (r, idx) =>
-      `| ${idx + 1} | \`${r.variant}\` | \`${r.queryStatus}\` | \`${r.latencyMs} ms\` | \`${r.recordCount}\` | \`${r.verifiedCount}\` | \`${r.approximateCount}\` | ${r.error ? `Error: ${r.error}` : 'OK'} |`,
-  )
-  .join('\n')}
-
----
-
-## 4. Sample Discovered Clips (Media URLs Redacted)
-
-${
-  uniqueClips.length === 0
-    ? '_No clips returned for queried variants on this turn._'
-    : uniqueClips
-        .slice(0, 5)
-        .map(
-          (c, idx) => `### Clip ${idx + 1}: \`${c.id}\`
-- **Story ID**: \`${c.storyId}\`
-- **Matched Place**: \`${c.matchedPlaceName}\`
-- **Tier**: \`${c.tier}\`
-- **Evidence**: \`${c.locationEvidence}\`
-- **Publication Time (UTC)**: \`${c.publicationTime || 'unknown'}\`
-- **Caption**: ${c.caption ? `"${c.caption.slice(0, 120)}"` : '_[none]_'}
-- **Redacted Media URL**: \`${c.mediaUrlRedacted || redactMediaUrl(c.mediaUrl)}\`
-`,
-        )
-        .join('\n')
-}
-
----
-
-## 5. Chat Batches Assessment
-
-> **${chatBatchesAssessment}**
-`;
-
-  writeFileSync(MD_OUT, mdReport, 'utf8');
-  console.log(`[Snapchat QA Probe] Wrote Markdown summary to: ${MD_OUT}`);
-}
-
-runLiveProbe().catch((err) => {
-  console.error('[Snapchat QA Probe] Fatal error:', err.message);
-  process.exit(1);
-});
+writeFileSync(MD_OUT, md);
+console.log(`\n[direct-plugin probe] wrote ${JSON_OUT}\n[direct-plugin probe] wrote ${MD_OUT}`);

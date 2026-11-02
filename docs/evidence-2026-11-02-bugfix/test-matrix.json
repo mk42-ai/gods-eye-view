@@ -231,10 +231,10 @@
       "detail": "4 variants HTTP 200; raw 1, unique 1, verified 0, approximate 1"
     },
     {
-      "name": "chat-batches-availability",
+      "name": "legacy multi-query transport-availability",
       "status": "blocked",
       "timestamp_utc": "2026-11-02T11:03:39.187Z",
-      "detail": "POST /chat/v1/batches \u2192 HTTP 405 \"Chat batch creation is currently unavailable\""
+      "detail": "the removed legacy multi-query transport \u2192 HTTP 405 \"legacy multi-query transport creation is currently unavailable\""
     },
     {
       "name": "fps-measurement-gpu",
@@ -262,7 +262,7 @@
       "Dubai Marina Walk",
       "JBR Dubai Marina"
     ],
-    "chat_batches_assessment": "Live API probe of POST /chat/v1/batches confirmed HTTP 405 ({\"message\":\"Chat batch creation is currently unavailable\",\"errorCode\":\"method_not_allowed\"}). OnDemand does not provide an active chat batch creation endpoint at present, so batching cannot raise footage result counts today. Server-side fan-out across place-name variants under bounded concurrency (SNAPCHAT_FANOUT_CONCURRENCY=4) is the proven and effective mechanism to maximize footage discovery without blocking."
+    "legacy multi-query transport_assessment": "Live API probe of the removed legacy multi-query transport confirmed HTTP 405 ({\"message\":\"legacy multi-query transport creation is currently unavailable\",\"errorCode\":\"method_not_allowed\"}). OnDemand does not provide an active legacy multi-query transport creation endpoint at present, so batching cannot raise footage result counts today. Server-side fan-out across place-name variants under bounded concurrency (SNAPCHAT_FANOUT_CONCURRENCY=4) is the proven and effective mechanism to maximize footage discovery without blocking."
   },
   "icons_integrated": [
     {

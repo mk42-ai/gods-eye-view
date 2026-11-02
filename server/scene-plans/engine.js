@@ -1398,6 +1398,190 @@ export function stageFromData({
     }
   });
 
+  // 9b. Contract unit types (2026-11-02 icon family): each is a real staged
+  //     unit with its own icon key, placed with scene logic — road closures and
+  //     vehicle checkpoints on the cordon's road access points (or the
+  //     perimeter when no road crossed it), screening lanes just inside the
+  //     outer cordon, medical / shuttle / escort / foot-patrol units spaced
+  //     around the perimeter, marine patrols offshore (south-west by default).
+  const UNIT_TYPES = Object.freeze({
+    medical_point: {
+      icon: 'medical_point',
+      label: 'Medical point',
+      color: white,
+      priority: PRIORITY.command_post || 70,
+      place: 'perimeter',
+      startBearing: 200,
+      distFactor: 1.05,
+    },
+    road_closed: {
+      icon: 'road_closed',
+      label: 'Road closed',
+      color: amber,
+      priority: PRIORITY.checkpoint || 60,
+      place: 'access',
+      startBearing: 0,
+      distFactor: 1.0,
+    },
+    road_closed_barricade: {
+      icon: 'road_closed_barricade',
+      label: 'Road closed barricade',
+      color: amber,
+      priority: PRIORITY.checkpoint || 60,
+      place: 'access',
+      startBearing: 180,
+      distFactor: 1.0,
+    },
+    checkpoint_cordon_node: {
+      icon: 'checkpoint_cordon_node',
+      label: 'Checkpoint / cordon node',
+      color: teal,
+      priority: PRIORITY.cordon_node || 60,
+      place: 'perimeter',
+      startBearing: 0,
+      distFactor: 1.0,
+    },
+    event_command_post: {
+      icon: 'event_command_post',
+      label: 'Event command post',
+      color: mint,
+      priority: PRIORITY.command_post || 70,
+      place: 'perimeter',
+      startBearing: 315,
+      distFactor: 1.2,
+    },
+    vehicle_checkpoint: {
+      icon: 'vehicle_checkpoint',
+      label: 'Vehicle checkpoint',
+      color: teal,
+      priority: PRIORITY.checkpoint || 60,
+      place: 'access',
+      startBearing: 45,
+      distFactor: 1.0,
+    },
+    screening_lane: {
+      icon: 'screening_lane',
+      label: 'Screening lane',
+      color: mint,
+      priority: PRIORITY.unit || 60,
+      place: 'perimeter',
+      startBearing: 90,
+      distFactor: 0.8,
+    },
+    foot_patrol: {
+      icon: 'perimeter_unit',
+      label: 'Foot patrol',
+      color: teal,
+      priority: PRIORITY.unit || 60,
+      place: 'perimeter',
+      startBearing: 30,
+      distFactor: 0.9,
+    },
+    marine_patrol: {
+      icon: 'marine_patrol',
+      label: 'Marine patrol',
+      color: teal,
+      priority: PRIORITY.unit || 60,
+      place: 'offshore',
+      startBearing: 225,
+      distFactor: 1.6,
+    },
+    escort_motorcycle: {
+      icon: 'vehicle_police_motorcycle',
+      label: 'Escort motorcycle',
+      color: teal,
+      priority: PRIORITY.unit || 60,
+      place: 'perimeter',
+      startBearing: 135,
+      distFactor: 1.15,
+    },
+    shuttle_bus: {
+      icon: 'vehicle_city_bus',
+      label: 'Shuttle bus',
+      color: mint,
+      priority: PRIORITY.marker || 55,
+      place: 'perimeter',
+      startBearing: 300,
+      distFactor: 1.25,
+    },
+  });
+  const perimeterRing = perimeter ? ringOf(perimeter) : null;
+  const unitAccessCursor = { i: 0 };
+  for (const [type, def] of Object.entries(UNIT_TYPES)) {
+    const entries = all(spec, type);
+    if (!entries.length) continue;
+    let n = 0;
+    entries.forEach((el, ei) => {
+      const count = Math.max(
+        1,
+        Math.min(24, Math.round(el.params?.count ?? 1)),
+      );
+      for (let k = 0; k < count; k += 1) {
+        n += 1;
+        let c;
+        let provenance = 'circle-buffer';
+        if (el.offset && k === 0) {
+          c = coordFromOffset(el.offset);
+        } else if (def.place === 'access' && accessPoints.length) {
+          const ap = accessPoints[unitAccessCursor.i % accessPoints.length];
+          unitAccessCursor.i += 1;
+          c = ap.coord;
+          provenance = 'overpass-highway';
+        } else if (def.place !== 'offshore' && perimeterRing) {
+          const total = entries.reduce(
+            (acc, e) =>
+              acc + Math.max(1, Math.min(24, Math.round(e.params?.count ?? 1))),
+            0,
+          );
+          const frac =
+            ((n - 0.5) / Math.max(1, total) + def.startBearing / 360) % 1;
+          const ring = perimeterRing;
+          c = ring[Math.floor(frac * (ring.length - 1))];
+          if (def.distFactor !== 1) {
+            const b = turf.bearing(center, turf.point(c));
+            const d = turf.distance(center, turf.point(c), {
+              units: 'kilometers',
+            });
+            c = rc([
+              turf.destination(center, d * def.distFactor, b, {
+                units: 'kilometers',
+              }).geometry.coordinates,
+            ])[0];
+          }
+        } else {
+          const bearing =
+            (def.startBearing +
+              (el.params?.direction ? BEARING[el.params.direction] : 0) +
+              ((n - 1) * 360) / Math.max(1, count)) %
+            360;
+          c = coordFromOffset(null, bearing, outerR * def.distFactor);
+        }
+        const id = `${slug(type)}-${n}`;
+        points.push(
+          feature(
+            { type: 'Point', coordinates: rc([c])[0] },
+            {
+              id,
+              element: type,
+              role: 'unit',
+              priority: def.priority,
+              color: def.color,
+              icon: def.icon,
+              provenance,
+              confidence: el.confidence ?? 0.5,
+              ...(el.source ? { source: el.source } : {}),
+              ...(el.generic ? { generic: true } : {}),
+            },
+          ),
+        );
+        if (k === 0 && (el.label || ei === 0)) {
+          addLabel(c, el.label || def.label, type, 'unit', def.priority, id);
+        }
+        addLegend(type, def.label, 'icon', def.color, def.icon);
+      }
+    });
+  }
+
   // 10. generic unknown elements
   const genericElements = spec.elements.filter(
     (e) =>
@@ -1412,6 +1596,7 @@ export function stageFromData({
         'cctv_pick',
         'intel_note',
         'timeline_event',
+        ...Object.keys(UNIT_TYPES),
       ].includes(e.type),
   );
   genericElements.forEach((ge, i) => {

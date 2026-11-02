@@ -30,7 +30,9 @@ import { createSceneFootageRoutes, validateFootageRequest } from './routes.js';
 import { OnDemandHttpError } from '../ondemand/foundation/client.js';
 
 const NOW = new Date('2026-10-26T23:50:00Z');
-const SAS = (name, se = '2026-11-02T15%3A21%3A45Z') =>
+// Default SAS expiry far in the future: route tests run against the real clock
+// (the previous 2026-11-02T15:21:45Z fixture expired and turned 4 tests red).
+const SAS = (name, se = '2099-01-01T00%3A00%3A00Z') =>
   `https://airevdev.blob.core.windows.net/on-demand-dev/x/agents/${name}.mp4?se=${se}&sig=FAKEsig123&sp=r&sr=b&sv=2025-05-05`;
 const NOTE =
   'Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.';
@@ -102,7 +104,7 @@ test('parsePublicationTime: plugin human string → UTC ISO (assumption checked 
 });
 
 test('parseSasExpiry + media allowlist + redaction', () => {
-  assert.equal(parseSasExpiry(SAS('a')), '2026-11-02T15:21:45.000Z');
+  assert.equal(parseSasExpiry(SAS('a')), '2099-01-01T00:00:00.000Z');
   assert.equal(parseSasExpiry('https://x.blob.core.windows.net/a.mp4'), null);
   assert.ok(isAllowedMediaUrl(SAS('a')));
   for (const bad of [
@@ -160,7 +162,7 @@ test('normalizePluginResponse: honest fields (captureTime null, isLive false, th
   assert.equal(c.embedUrl, null);
   assert.equal(c.publicationTime, '2026-09-09T17:13:12.000Z');
   assert.equal(c.publicationTimeRaw, 'September 9, 2026 at 5:13:12 PM');
-  assert.equal(c.mediaExpiresAt, '2026-11-02T15:21:45.000Z');
+  assert.equal(c.mediaExpiresAt, '2099-01-01T00:00:00.000Z');
   assert.equal(c.retrievalTime, NOW.toISOString());
   assert.equal(c.locationEvidence, 'hashtag-match');
   assert.equal(c.coverageLevel, 'district');
@@ -1229,7 +1231,7 @@ test('FootageClipSchema: accepts tier and defaults to candidate', () => {
     retrievalTime: '2026-10-26T23:50:00.000Z',
     isLive: false,
     liveConfirmedBy: null,
-    mediaExpiresAt: '2026-11-02T15:21:45.000Z',
+    mediaExpiresAt: '2099-01-01T00:00:00.000Z',
     mediaHash: null,
     mediaVerified: false,
     durationMs: 16100,
@@ -1307,14 +1309,19 @@ test('route: response includes counts, variants, and tier on clips', async () =>
   assert.equal(json.counts.candidate, 1);
   assert.ok(Array.isArray(json.variants));
   assert.equal(json.clips[0].tier, 'candidate');
-  assert.ok(json.capabilities.chatBatch);
-  assert.equal(json.capabilities.chatBatch.available, false);
+  assert.equal(json.capabilities.transport, 'direct-plugin-query');
+  assert.equal(json.capabilities.sessionReuse, 'per-run-pool');
+  assert.equal(
+    Object.keys(json.capabilities).some((k) => /batch/i.test(k)),
+    false,
+  );
+  assert.equal(json.transport.mode, 'direct-plugin-query');
 });
 
 test('retrieve: balanced scope fans out to name variants under bounded concurrency and merges unique clips', async () => {
   const video = (storyId, tag) => ({
     storyId,
-    storageUrl: `https://airevdev.blob.core.windows.net/on-demand-dev/x/agents/${storyId}.mp4?se=2026-11-08T00%3A05%3A06Z&sig=FAKEsig123`,
+    storageUrl: `https://airevdev.blob.core.windows.net/on-demand-dev/x/agents/${storyId}.mp4?se=2099-01-01T00%3A00%3A00Z&sig=FAKEsig123`,
     description: `#${tag}`,
     hashtags: [`#${tag}`],
     durationMs: 12000,
@@ -1520,4 +1527,156 @@ test('route: POST /footage/evidence/patch validates Evidence and returns { ok, p
   const outInvalid = await run(h, reqInvalid);
   assert.equal(outInvalid.res.statusCode, 400);
   assert.equal(outInvalid.json.ok, false);
+});
+
+// ---------------------------------------------------------------------------
+// Direct plugin path (2026-11-02, user instruction: go directly to the plugin,
+// no multi-query transport): every place-name variant is its own documented sync query,
+// ONE chat session per discovery run, max 3 in flight, 30 s per request,
+// 409/429/5xx → exponential backoff with a fresh session.
+// ---------------------------------------------------------------------------
+test('direct path: sessions are reused across every variant query of a run (strict single-session mode)', async () => {
+  const calls = [];
+  let n = 0;
+  const client = {
+    sessions: {
+      create: async (input) => {
+        calls.push({ kind: 'session', input });
+        return { id: `sess${++n}aaaaaaaaaaaaaaaaaaa` };
+      },
+    },
+    query: {
+      sync: async (id, input) => {
+        calls.push({ kind: 'query', id, input });
+        return {
+          data: {
+            sessionId: id,
+            messageId: `m${calls.length}`,
+            status: 'completed',
+            answer:
+              '```json\n' +
+              JSON.stringify(emptyResponse(/"places":\["([^"]+)"/.exec(input.query)?.[1] || 'x')) +
+              '\n```',
+          },
+        };
+      },
+    },
+  };
+  const r = await retrieveSnapchatFootage(
+    {
+      locationId: 'snap-dubai-marina',
+      lat: 25.0786415,
+      lon: 55.1352524,
+      placeName: 'Dubai Marina',
+      scope: 'balanced',
+    },
+    {
+      client,
+      cfg: { ...CFG, fanoutMaxVariants: 4, fanoutConcurrency: 3, sessionsPerRun: 1 },
+      now: () => NOW,
+    },
+  );
+  const sessions = calls.filter((c) => c.kind === 'session');
+  const queries = calls.filter((c) => c.kind === 'query');
+  assert.equal(sessions.length, 1, 'strict mode: exactly one session per discovery run');
+  assert.ok(queries.length >= 2, `expected variant fan-out, got ${queries.length}`);
+  assert.ok(
+    queries.every((q) => q.id === sessions[0].input.externalUserId || q.id === 'sess1aaaaaaaaaaaaaaaaaaa'),
+    'every direct query targets the run session',
+  );
+  for (const q of queries) {
+    assert.equal(q.input.responseMode, 'sync');
+    assert.deepEqual(q.input.pluginIds, ['plugin-1792945050']);
+    assert.ok(/"places":\["[^"]+"\]/.test(q.input.query), 'one place per direct query');
+  }
+  assert.equal(r.transport.mode, 'direct-plugin-query');
+  assert.equal(r.transport.sessionsCreated, 1);
+  assert.equal(r.transport.directQueries, queries.length);
+  assert.ok(r.transport.concurrency <= 3);
+  assert.equal(
+    Object.keys(r.capabilities).some((k) => /batch/i.test(k)),
+    false,
+  );
+  assert.equal(/\/batch(es)?\b/i.test(JSON.stringify(r)), false);
+});
+
+test('direct path: at most 3 variant queries in flight; session_busy 409 gets a fresh session + backoff', async () => {
+  let inflight = 0;
+  let peak = 0;
+  let n = 0;
+  let busyOnce = true;
+  const calls = [];
+  const client = {
+    sessions: {
+      create: async () => {
+        calls.push('session');
+        return { id: `sess${++n}aaaaaaaaaaaaaaaaaaa` };
+      },
+    },
+    query: {
+      sync: async (id, input) => {
+        calls.push('query');
+        inflight += 1;
+        peak = Math.max(peak, inflight);
+        await new Promise((r) => setTimeout(r, 5));
+        inflight -= 1;
+        if (busyOnce && /"places":\["Marina Dubai"/.test(input.query)) {
+          busyOnce = false;
+          throw new OnDemandHttpError(409, { errorCode: 'session_busy' }, {
+            url: 'x',
+            method: 'POST',
+            attempt: 1,
+          });
+        }
+        return {
+          data: {
+            sessionId: id,
+            messageId: `m${calls.length}`,
+            status: 'completed',
+            answer:
+              '```json\n' +
+              JSON.stringify(emptyResponse(/"places":\["([^"]+)"/.exec(input.query)?.[1] || 'x')) +
+              '\n```',
+          },
+        };
+      },
+    },
+  };
+  const stages = [];
+  const r = await retrieveSnapchatFootage(
+    {
+      locationId: 'snap-dubai-marina',
+      lat: 25.0786415,
+      lon: 55.1352524,
+      placeName: 'Dubai Marina',
+      scope: 'wide',
+    },
+    {
+      client,
+      cfg: { ...CFG, fanoutMaxVariants: 6, fanoutConcurrency: 6 },
+      now: () => NOW,
+      sleep: async () => {},
+      trace: (s) => stages.push(s),
+    },
+  );
+  assert.ok(peak <= 3, `concurrency cap violated: ${peak}`);
+  assert.ok(stages.includes('retry_backoff'), '409 retried with backoff');
+  const sessions = calls.filter((c) => c === 'session').length;
+  assert.ok(
+    sessions >= 2 && sessions <= 4,
+    `pool ≤3 sessions reused + one busy replacement, got ${sessions}`,
+  );
+  assert.ok(r.transport.sessionPoolSize <= 3);
+  assert.equal(r.status, 'empty');
+  assert.equal(r.transport.concurrency, 3);
+});
+
+test('direct path: default per-request timeout is 30 s and fan-out concurrency clamps to 3', () => {
+  const c = footageConfig({});
+  assert.equal(c.queryTimeoutMs, 30_000);
+  assert.equal(c.fanoutConcurrency, 3);
+  assert.equal(c.sessionsPerRun, 3);
+  assert.equal(footageConfig({ SNAPCHAT_SESSIONS_PER_RUN: '1' }).sessionsPerRun, 1);
+  assert.equal(footageConfig({ SNAPCHAT_FANOUT_CONCURRENCY: '9' }).fanoutConcurrency, 3);
+  assert.equal(footageConfig({ SNAPCHAT_QUERY_TIMEOUT_MS: '45000' }).queryTimeoutMs, 45_000);
 });

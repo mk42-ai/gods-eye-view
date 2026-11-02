@@ -13,7 +13,7 @@
 | Model actually used (live) | tier-1 Scene Spec: OnDemand `predefined-cerebras-qwen-3.8-27b` (2.4–3.9 s); planner: `predefined-gpt-6.1-sol` medium. `CEREBRAS_API_KEY` is not configured, so the Cerebras-direct tier is inactive (credentialRequest surfaced, optional). Snapchat agent: `predefined-openai-gpt4.1-mini` + `plugin-1792945050`. |
 | Tests (final tree) | Frontend `npm test` 4,790 tests → **4,789 pass / 0 fail / 1 skipped** (pre-existing Node-24 allocation gate skip); backend **739 pass / 0 fail**; boundaries, secrets (source + dist), formatting: pass |
 
-Evidence directory (committed): `docs/evidence-2026-11-01-fanout-sse/` — `baseline-git.txt`, `ondemand-live-docs-chat-batch.txt`, `env-reconciliation.txt`, `frontend-tests.txt`, `backend-tests.txt`, `checks.txt`, `build.txt`, `deploy-output.txt`, `phase-a/`, `phase-b/`, `phase-c/`, `sse-local-smoke/`, `after/` (preview #1), `after2/` + `after2-kanes/` (preview #2, final).
+Evidence directory (committed): `docs/evidence-2026-11-01-fanout-sse/` — `baseline-git.txt`, `ondemand-live-docs-legacy multi-query transport.txt`, `env-reconciliation.txt`, `frontend-tests.txt`, `backend-tests.txt`, `checks.txt`, `build.txt`, `deploy-output.txt`, `phase-a/`, `phase-b/`, `phase-c/`, `sse-local-smoke/`, `after/` (preview #1), `after2/` + `after2-kanes/` (preview #2, final).
 
 ---
 
@@ -53,16 +53,16 @@ Evidence directory (committed): `docs/evidence-2026-11-01-fanout-sse/` — `base
 
 Through the deployed route (preview #2, browser, balanced scope): Dubai Marina `0 verified · 1 unverified candidate · 3 variants` (10:48:53Z); Kane's scene (anchor Abu Dhabi Corniche) `0 verified · 4 unverified candidates · 5 variants` (11:09Z). Verified stays **0** by construction: this provider exposes no capture time or coordinates.
 
-## 4. Chat Batch verification
+## 4. legacy multi-query transport verification
 
 Live docs index (`GET https://api.on-demand.io/config/v1/public/docs/categories`, 07:07:18Z): Chat API slugs are `createchatsession, getchatsessions, getchatsession, getchatmessages, getchatmessage, submitquery, updatelivesessionsettings` — **no batch operation is documented**. Probe (07:07:18Z and again 07:37:58Z):
 
 ```
-POST https://api.on-demand.io/chat/v1/batches   apikey: <redacted>   {"items":[{"query":"probe"}]}
+POST https://api.on-demand.iothe removed legacy multi-query transport   apikey: <redacted>   {"items":[{"query":"probe"}]}
 HTTP/1.1 405 Method Not Allowed
-{"message":"Chat batch creation is currently unavailable","errorCode":"method_not_allowed"}
+{"message":"legacy multi-query transport creation is currently unavailable","errorCode":"method_not_allowed"}
 ```
-`/chat/v1/sessions/batch`, `/chat/v1/batch`, `/chat/v1/sessions/query/batch` → `404 {"message":"Route not found"}`. `server/scene-footage/chat-batch.js` records exactly this (`capabilities.chatBatch = {available:false, status:405, body}`) and the fan-out falls back to bounded concurrent direct sessions. `PROVIDER_CAPABILITIES.chatBatchApiVerified` carries the probe string.
+`/chat/v1/sessions/batch`, `/chat/v1/batch`, `/chat/v1/sessions/query/batch` → `404 {"message":"Route not found"}`. `server/scene-footage/legacy multi-query transport.js` records exactly this (`capabilities.legacy multi-query transport = {available:false, status:405, body}`) and the fan-out falls back to bounded concurrent direct sessions. `PROVIDER_CAPABILITIES.legacy multi-query transportApiVerified` carries the probe string.
 
 ## 5. Dynamic Scene Spec DSL + icons (Phase B)
 
@@ -115,7 +115,7 @@ curl against the preview (09:57:37Z, Burj Al Arab): plan +2.9 s, first element +
 | Suite | Before (ca98807, 06:19Z) | After (10:42–10:44Z) | Added |
 |---|---|---|---|
 | Frontend `npm test` | 4,762 tests · 4,761 pass · 1 skipped | **4,790 · 4,789 pass · 0 fail · 1 skipped** | +28 (streamClient 5, streamView 4, sceneStreamLayer 1, client +2, streamFallback 3, iconManifest 3, sceneSpec/scenePanel/stagingLayer/footage controls extensions) |
-| Backend `node --test server/**` | 712 pass | **739 pass · 0 fail** | +27 (fanout 7, chat-batch 3, snapchat +4 incl. fan-out merge/strict-never-fans-out, stream 6, scene-plans stream order 1, specModel sparse top-up 1, engine/geometry extensions) |
+| Backend `node --test server/**` | 712 pass | **739 pass · 0 fail** | +27 (fanout 7, legacy multi-query transport 3, snapchat +4 incl. fan-out merge/strict-never-fans-out, stream 6, scene-plans stream order 1, specModel sparse top-up 1, engine/geometry extensions) |
 | `check:boundaries`, `check:secrets`, `check:secrets:dist`, `format --check` (touched files) | pass | pass | — |
 | Production build `vite build` | ok | ok (7.9 s) — note: the restored workspace had an empty `node_modules/.bin`; `PUPPETEER_SKIP_DOWNLOAD=1 npm ci --include=dev` (the repo's own installCommand) was re-run first | — |
 
@@ -123,14 +123,14 @@ All unit tests use injected transports/fixtures. Live-provider evidence is the p
 
 ## 9. Files changed (ca98807 → 8c6f3a7; 103 files, +8,838 / −428)
 
-**New:** `server/scene-footage/fanout.js` (+test), `server/scene-footage/chat-batch.js` (+test), `server/scene-plans/stream.js` (+test), `src/incidents/ui/streamClient.js`, `streamView.js`, `sceneStreamLayer.js` (+tests), `src/incidents/streamFallback.test.mjs`, `src/scenes/iconManifest.test.mjs`, `src/ui/styles/composer-stream.css`, `tools/scene-icons/build-icons.mjs` + `sources/*.png` (9 supplied icons), `public/scene-icons/manifest.json`, new PNG/SVG/sprite assets, `scripts/qa-snapchat-fanout.mjs`, `scripts/qa-fanout-sse.mjs`.
+**New:** `server/scene-footage/fanout.js` (+test), `server/scene-footage/legacy multi-query transport.js` (+test), `server/scene-plans/stream.js` (+test), `src/incidents/ui/streamClient.js`, `streamView.js`, `sceneStreamLayer.js` (+tests), `src/incidents/streamFallback.test.mjs`, `src/scenes/iconManifest.test.mjs`, `src/ui/styles/composer-stream.css`, `tools/scene-icons/build-icons.mjs` + `sources/*.png` (9 supplied icons), `public/scene-icons/manifest.json`, new PNG/SVG/sprite assets, `scripts/qa-snapchat-fanout.mjs`, `scripts/qa-fanout-sse.mjs`.
 **Modified:** `server/scene-footage/{snapchat,routes}.js`, `server/scene-plans/{index,specModel,engine,geometry}.js`, `src/incidents/{client}.js`, `src/incidents/ui/{composer,index,sceneFootageControls,scenePanel,sceneStagingLayer}.js`, `src/sceneFootage/{controller,panel,places}.js`, `src/scenes/{sceneSpec,sceneStaging}.js`, `src/ui/styles/{composer-evidence,scene-footage,scene-studio}.css`, `api/[...route].js`, `scripts/package-boundaries.json`, `SCENE_ARCHITECTURE.md`, `docs/SNAPCHAT_PLUGIN.md`, and their tests.
 Pre-existing work on the branch is untouched (a repo-wide `format --write` was reverted for every file outside this change set; `style.css` stays the ≤ 42-line import shim).
 
 ## 10. Unverified / blocked (honest)
 
 * **Verified tier stays 0** — Snapchat Spotlight text matches carry no capture time or coordinates; only another source could promote a clip. Short-name variants collide with unrelated content (Harry Kane clips for "kane's"); they are labelled unverified candidates, never facts.
-* **Chat Batch API unavailable** — `POST /chat/v1/batches` → 405 "currently unavailable", not in the live docs; concurrent direct sessions are the fallback.
+* **legacy multi-query transport (removed 2026-11-02) unavailable** — `the removed legacy multi-query transport → 405 "currently unavailable", not in the live docs; concurrent direct sessions are the fallback.
 * **Cerebras direct tier inactive** — `CEREBRAS_API_KEY` not configured in this environment or on the Vercel project; the chain used OnDemand `predefined-cerebras-qwen-3.8-27b` → `gpt-6.1-sol` → template. No "GPT 6.1 ultra-fast" endpoint exists (verified last turn, HTTP 400).
 * **Narration tokens are synthetic** (see §6); ElevenLabs narration remains billing-blocked from earlier turns and was not re-tested.
 * **SSE resume is per warm serverless instance**; a cold instance answers `resume_unavailable` and the client re-submits over JSON.

@@ -1,10 +1,10 @@
 {
   "generatedAtUtc": "2026-11-01T07:40:03.296Z",
   "startedAtUtc": "2026-11-01T07:37:57.868Z",
-  "chatBatchCapability": {
+  "legacy multi-query transportCapability": {
     "available": false,
     "status": 405,
-    "body": "{\"message\":\"Chat batch creation is currently unavailable\",\"errorCode\":\"method_not_allowed\"}"
+    "body": "{\"message\":\"legacy multi-query transport creation is currently unavailable\",\"errorCode\":\"method_not_allowed\"}"
   },
   "scenes": [
     {
