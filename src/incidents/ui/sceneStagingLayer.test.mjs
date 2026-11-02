@@ -491,19 +491,26 @@ test('points with icons are clamped billboards with sprite images', (t) => {
   for (const f of staging.layers.points.features) {
     const bb = byId(source(), `staging-${f.properties.id}`).billboard;
     assert.ok(bb, `${f.properties.id} billboard`);
+    // URL first (2x bitmap, crisp at 32–64 px), backplated canvas once decoded.
+    const img = val(bb.image);
     assert.ok(
-      val(bb.image).endsWith(`/scene-icons/png/${f.properties.icon}.png`),
+      typeof img === 'string'
+        ? img.endsWith(`/scene-icons/png/${f.properties.icon}@2x.png`)
+        : img?.tagName === 'CANVAS',
+      `${f.properties.id} image`,
     );
     assert.equal(
       val(bb.heightReference),
       Cesium.HeightReference.CLAMP_TO_GROUND,
     );
     assert.equal(val(bb.disableDepthTestDistance), Number.POSITIVE_INFINITY);
+    const w = val(bb.width);
+    assert.ok(w >= 28 && w <= 64, `${f.properties.id} width ${w} in 28–64 px`);
   }
-  assert.equal(val(byId(source(), 'staging-cones-1').billboard.width), 14);
-  assert.equal(
-    val(byId(source(), 'staging-perimeter-unit-1').billboard.width),
-    26,
+  // Cones stay small (28 px); units are unmistakable at >= 32 px.
+  assert.equal(val(byId(source(), 'staging-cones-1').billboard.width), 28);
+  assert.ok(
+    val(byId(source(), 'staging-perimeter-unit-1').billboard.width) >= 32,
   );
 });
 

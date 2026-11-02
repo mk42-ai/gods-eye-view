@@ -384,10 +384,24 @@ export function stageFromData({
   // ---- cones & barriers along closed segments ------------------------------
   const placeAlong = (elementType, spacingM, icon, role, color, cap) => {
     let n = 0;
+    // Share the cap across every closed segment in proportion to its length
+    // (at least one marker each) so a long first road never starves the rest.
+    const totalKm = closedSegments.reduce(
+      (sum, { piece }) => sum + turf.length(piece, { units: 'kilometers' }),
+      0,
+    );
     for (const { piece, road } of closedSegments) {
       const lenKm = turf.length(piece, { units: 'kilometers' });
       const step = km(spacingM);
-      for (let d = step / 2; d < lenKm && n < cap; d += step) {
+      const share = totalKm
+        ? Math.max(1, Math.round((cap * lenKm) / totalKm))
+        : cap;
+      let placedHere = 0;
+      for (
+        let d = step / 2;
+        d < lenKm && n < cap && placedHere < share;
+        d += step, placedHere += 1
+      ) {
         const p = turf.along(piece, d, { units: 'kilometers' });
         const next = turf.along(piece, Math.min(lenKm, d + step / 4), {
           units: 'kilometers',
@@ -426,17 +440,37 @@ export function stageFromData({
     }
     return n;
   };
+  // Readability cap (2026-11-02): the Scene Spec `count` is the number of cone
+  // / barrier MARKERS the renderer should show; previously every closed road
+  // segment was carpeted at spacing_m (160 cones + 80 barriers for a marina
+  // raid), which buried the unit icons and halved the headless frame rate.
+  // The spacing is widened so the requested count is spread over the closed
+  // segments, and the hard cap is 48 cones / 32 barriers per scene.
+  const totalClosedKm = closedSegments.reduce(
+    (sum, { piece }) => sum + turf.length(piece, { units: 'kilometers' }),
+    0,
+  );
+  const spreadSpacing = (requested, spacingM, cap) => {
+    // Explicit `count` → spread that many markers over the closed segments;
+    // spacing-only specs (templates) keep their spacing under the hard cap.
+    const count = Number(requested);
+    if (!Number.isFinite(count) || count <= 0 || !totalClosedKm)
+      return { spacingM, cap };
+    const wanted = Math.max(1, Math.min(cap, Math.round(count)));
+    return {
+      spacingM: Math.max(spacingM, (totalClosedKm * 1000) / wanted),
+      cap: wanted,
+    };
+  };
   const conesSpec = first(spec, 'cones');
   if (conesSpec) {
+    const want = spreadSpacing(
+      conesSpec.params.count,
+      conesSpec.params.spacing_m ?? 8,
+      48,
+    );
     const n = closedSegments.length
-      ? placeAlong(
-          'cones',
-          conesSpec.params.spacing_m ?? 8,
-          'cone',
-          'cone',
-          teal,
-          160,
-        )
+      ? placeAlong('cones', want.spacingM, 'cone', 'cone', teal, want.cap)
       : 0;
     if (!n && closedSegments.length === 0 && roads.length)
       unavailable.push({
@@ -446,14 +480,19 @@ export function stageFromData({
   }
   const barriersSpec = first(spec, 'barriers');
   if (barriersSpec) {
+    const wantB = spreadSpacing(
+      barriersSpec.params.count,
+      barriersSpec.params.spacing_m ?? 25,
+      32,
+    );
     const n = closedSegments.length
       ? placeAlong(
           'barriers',
-          barriersSpec.params.spacing_m ?? 25,
+          wantB.spacingM,
           'barrier',
           'barrier',
           mint,
-          80,
+          wantB.cap,
         )
       : 0;
     if (!n && closedSegments.length === 0)

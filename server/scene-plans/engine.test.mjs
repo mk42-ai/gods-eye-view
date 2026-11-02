@@ -204,6 +204,28 @@ test('cones and barriers follow the closed road segments at the requested spacin
   assert.ok(!sources.has('Far Road'));
 });
 
+test('an explicit cones/barriers count is spread over the closed segments and hard-capped (readability)', () => {
+  const spec = structuredClone(SPEC);
+  for (const e of spec.elements) {
+    if (e.type === 'cones') e.params = { ...e.params, count: 24 };
+    if (e.type === 'barriers') e.params = { ...e.params, count: 12 };
+  }
+  const out = stage({ spec });
+  const cones = byElement(out.points, 'cones');
+  const barriers = byElement(out.points, 'barriers');
+  assert.ok(cones.length > 0 && cones.length <= 24, `cones ${cones.length}`);
+  assert.ok(
+    barriers.length > 0 && barriers.length <= 12,
+    `barriers ${barriers.length}`,
+  );
+  const sources = new Set(cones.map((p) => p.properties.source));
+  assert.ok(sources.size >= 2, 'markers are shared across closed roads');
+  const huge = structuredClone(SPEC);
+  for (const e of huge.elements)
+    if (e.type === 'cones') e.params = { ...e.params, count: 200 };
+  assert.ok(byElement(stage({ spec: huge }).points, 'cones').length <= 48);
+});
+
 test('perimeter units sit on access points, checkpoints 18 m outside them', () => {
   const units = byElement(full.points, 'perimeter_unit');
   assert.equal(units.length, 6);

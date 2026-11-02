@@ -68,6 +68,19 @@ export function createPlaybackController({
 
   // Configure initial clock state
   clock.clockRange = Cesium.ClockRange.LOOP_STOP;
+  // Clock ownership guard: Cesium's Viewer resets clock.canAnimate=false on
+  // every tick while async entity geometry is pending; undo it while playing so
+  // Play never freezes at 0 s (live defect 2026-11-02).
+  if (clock.onTick?.addEventListener) {
+    clock.onTick.addEventListener(() => {
+      if (
+        stateValue === 'playing' &&
+        'canAnimate' in clock &&
+        !clock.canAnimate
+      )
+        clock.canAnimate = true;
+    });
+  }
   clock.multiplier = currentSpeed;
   clock.shouldAnimate = false;
 
@@ -175,6 +188,16 @@ export function createPlaybackController({
     const dur = durationSec();
     if (dur > 0 && positionSec() >= dur) {
       seek(0);
+    }
+    // Cesium's DataSourceDisplay pauses the clock (clock.canAnimate=false) while
+    // any asynchronous entity geometry is still being built; the cinematic
+    // playback owns the clock, so never let background geometry freeze it.
+    try {
+      if (viewer && 'allowDataSourcesToSuspendAnimation' in viewer)
+        viewer.allowDataSourcesToSuspendAnimation = false;
+      if ('canAnimate' in clock) clock.canAnimate = true;
+    } catch {
+      /* fake viewers in tests */
     }
     clock.shouldAnimate = true;
     stateValue = 'playing';
@@ -289,6 +312,11 @@ export function createPlaybackController({
     }
   }
 
+  /** Replace the scene reference without touching the clock (streamed updates). */
+  function setScene(scene) {
+    if (scene) currentScene = scene;
+  }
+
   function positionsSnapshot(sec = positionSec()) {
     if (typeof customPositionsSnapshotGetter === 'function') {
       return customPositionsSnapshotGetter(sec);
@@ -308,6 +336,12 @@ export function createPlaybackController({
     const listener = (c) => {
       // In requestRenderMode, ensure frames advance on every tick
       viewer?.scene?.requestRender?.();
+      if (
+        stateValue === 'playing' &&
+        'canAnimate' in clock &&
+        !clock.canAnimate
+      )
+        clock.canAnimate = true;
 
       // Check clamped end if CLAMPED is active
       if (
@@ -333,6 +367,7 @@ export function createPlaybackController({
   }
 
   return {
+    setScene,
     load,
     play,
     pause,

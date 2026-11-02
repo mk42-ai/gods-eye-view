@@ -21,7 +21,10 @@ import {
   stagingSignature,
   stagingCounts,
 } from '../../scenes/sceneStaging.js';
-import { iconBillboardGraphics } from '../../scenes/iconBillboard.js';
+import {
+  iconBillboardGraphics,
+  iconSizeFor,
+} from '../../scenes/iconBillboard.js';
 
 export const STAGING_LABEL_FONT =
   '600 13px system-ui, -apple-system, Segoe UI, sans-serif';
@@ -326,7 +329,13 @@ export function createSceneStagingLayer(
   function addPoint(f) {
     const p = f.properties;
     const [lon, lat] = f.geometry.coordinates;
-    const size = ICON_SIZE[p.icon] || 20;
+    // Unmistakable at 32–64 px: cones/barriers stay small, units 36 px,
+    // command/medical/start-finish 44 px (iconSizeFor); the 2x PNG keeps the
+    // bitmap crisp once scaleByDistance shrinks it.
+    const size =
+      p.icon === 'cone' || p.icon === 'barrier'
+        ? 28
+        : Math.max(32, iconSizeFor(p.icon) || ICON_SIZE[p.icon] || 36);
     source.entities.add({
       id: `staging-${p.id}`,
       name: p.label || p.element,
@@ -334,7 +343,7 @@ export function createSceneStagingLayer(
       billboard: p.icon
         ? iconBillboardGraphics(Cesium, {
             key: p.icon,
-            image: `${iconBaseUrl}${p.icon}.png`,
+            image: `${iconBaseUrl}${p.icon}@2x.png`,
             sizePx: size,
             heading:
               p.icon === 'cone' || p.icon === 'barrier' ? 0 : -(p.heading || 0),

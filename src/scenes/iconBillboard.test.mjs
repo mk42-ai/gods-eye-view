@@ -147,12 +147,13 @@ test('iconWithBackplate creates cached navy halo canvas and preserves URL string
   });
   assert.equal(urlRes, '/scene-icons/png/cone.png');
 
-  // But when canvas is available, it wraps the URL into a backplate canvas
-  const canvasFromUrl = iconWithBackplate(doc, '/scene-icons/png/cone.png', {
+  // A URL whose bitmap is not decoded yet is passed through unchanged (Cesium
+  // snapshots canvases into its atlas immediately, so a late draw would be
+  // lost); the backplate is baked once preloadIconImage() resolves.
+  const urlFirst = iconWithBackplate(doc, '/scene-icons/png/cone.png', {
     sizePx: 28,
   });
-  assert.equal(canvasFromUrl.tagName, 'CANVAS');
-  assert.equal(canvasFromUrl.width, 28);
+  assert.equal(urlFirst, '/scene-icons/png/cone.png');
 });
 
 test('INLINE_SVG_GLYPHS contains all required contract keys', () => {

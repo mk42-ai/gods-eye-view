@@ -97,7 +97,12 @@ export function createIncidentClient({
       ),
     constructSceneStream: async (
       payload,
-      { signal, onEvent = () => {}, lastEventId = null } = {},
+      {
+        signal,
+        onEvent = () => {},
+        onHeartbeat = () => {},
+        lastEventId = null,
+      } = {},
     ) => {
       const reqHeaders = {
         ...headers(),
@@ -213,7 +218,15 @@ export function createIncidentClient({
                 dataLines.push(d);
               }
             }
-            if (dataLines.length === 0 && !id && event === 'message') continue;
+            if (dataLines.length === 0 && !id && event === 'message') {
+              // Comment-only block (": heartbeat"): the server is alive and
+              // still working — liveness, not an event.
+              if (lines.some((line) => line.startsWith(':')))
+                try {
+                  onHeartbeat();
+                } catch {}
+              continue;
+            }
             const rawData = dataLines.join('\n');
             let parsedData = rawData;
             try {

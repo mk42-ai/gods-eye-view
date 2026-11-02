@@ -331,3 +331,58 @@ test('hasTimeDynamic reflects beats or entity paths', () => {
   playback.load(sceneSynth);
   assert.equal(playback.state().hasTimeDynamic, true);
 });
+
+test('play() owns the Cesium clock: data-source suspension is disabled and canAnimate forced (live defect 2026-11-02)', () => {
+  const clock = createFakeClock();
+  clock.canAnimate = false; // what the Viewer sets while async geometry is still building
+  const viewer = {
+    clock,
+    allowDataSourcesToSuspendAnimation: true,
+    scene: { requestRender() {} },
+  };
+  const playback = createPlaybackController({ viewer });
+  const scene = emptyScene({
+    sceneId: 'suspend-1',
+    origin: { name: 'Origin', lat: 25, lon: 55 },
+    durationSec: 30,
+  });
+  playback.load(scene);
+  playback.play();
+  assert.equal(viewer.allowDataSourcesToSuspendAnimation, false);
+  assert.equal(clock.canAnimate, true);
+  assert.equal(clock.shouldAnimate, true);
+  // A later suspension attempt is undone on the next tick while playing.
+  clock.canAnimate = false;
+  clock.tick();
+  assert.equal(clock.canAnimate, true);
+  assert.ok(playback.positionSec() > 0, 'clock advanced');
+});
+
+test('setScene() refreshes hasTimeDynamic after streamed entity updates', () => {
+  const clock = createFakeClock();
+  const playback = createPlaybackController({ viewer: { clock } });
+  const scene = emptyScene({
+    sceneId: 'stream-1',
+    origin: { name: 'Origin', lat: 25, lon: 55 },
+  });
+  playback.load(scene);
+  assert.equal(playback.state().hasTimeDynamic, false);
+  const next = {
+    ...scene,
+    entities: [
+      {
+        id: 'car',
+        category: 'vehicle',
+        behavior: {
+          type: 'drive',
+          path: [
+            { eastM: 0, northM: 0 },
+            { eastM: 50, northM: 0 },
+          ],
+        },
+      },
+    ],
+  };
+  playback.setScene(next);
+  assert.equal(playback.state().hasTimeDynamic, true);
+});

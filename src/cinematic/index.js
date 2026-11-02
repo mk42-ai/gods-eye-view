@@ -268,6 +268,9 @@ export function installCinematicEngine({
       runtime.update(scene, changes);
       if (scene.timeline?.durationSec > playback.durationSec())
         playback.extendDuration(scene.timeline.durationSec);
+      // Keep the playback's notion of the scene current (entities/paths
+      // stream in after the first attach), so hasTimeDynamic is truthful.
+      playback.setScene?.(scene);
     }
     const cam = ensureCameraDirector();
     cam?.setShots(scene.shots || []);

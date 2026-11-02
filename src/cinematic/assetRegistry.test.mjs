@@ -63,7 +63,14 @@ test('billboardFor returns sprite URL with dimensions and handles model fallback
   });
   assert.equal(bbDoc.width, 36);
   assert.equal(bbDoc.height, 36);
-  assert.equal(bbDoc.image.tagName, 'CANVAS');
+  // Before the PNG is decoded the image is a CallbackProperty that yields the
+  // URL (Cesium re-reads it each tick and flips to the backplated canvas
+  // once decoded); in a DOM-less test the URL stays.
+  const now = bbDoc.image?.getValue ? bbDoc.image.getValue() : bbDoc.image;
+  assert.ok(
+    typeof now === 'string' || now?.tagName === 'CANVAS',
+    'URL first, canvas once decoded',
+  );
 
   // Model asked as billboard falls back to its sprite fallback
   const bb2 = registry.billboardFor('model.cesium.milk_truck');

@@ -377,6 +377,19 @@ export function iconWithBackplate(
     return backplateCache.get(cacheKey);
   }
 
+  // A URL whose bitmap has not been decoded yet cannot be composited now:
+  // Cesium snapshots the canvas into its texture atlas immediately, so a
+  // deferred drawImage would never show. Hand the URL through unchanged and
+  // let `preloadIconImage()` + `whenIconReady()` deliver the backplated canvas.
+  if (typeof image === 'string') {
+    const loaded = loadedImages.get(image);
+    if (!loaded || !(loaded.complete && loaded.naturalWidth > 0)) {
+      preloadIconImage(image, doc);
+      return image;
+    }
+    image = loaded;
+  }
+
   let canvas;
   try {
     canvas = doc.createElement('canvas');
@@ -414,7 +427,10 @@ export function iconWithBackplate(
   if (
     image &&
     typeof image === 'object' &&
-    (image.tagName === 'CANVAS' || image.width > 0)
+    (image.tagName === 'CANVAS' ||
+      image.tagName === 'IMG' ||
+      image.width > 0 ||
+      image.naturalWidth > 0)
   ) {
     const iconDim = Math.round(sizePx / 1.25);
     const ox = Math.round((sizePx - iconDim) / 2);
@@ -424,35 +440,71 @@ export function iconWithBackplate(
     } catch {
       // Ignore drawImage errors in synthetic test environments
     }
-  } else if (typeof image === 'string') {
-    // When image is a URL string, optionally load and draw onto the canvas asynchronously
-    if (
-      typeof globalThis.Image === 'function' ||
-      typeof doc.createElement === 'function'
-    ) {
-      try {
-        const img =
-          typeof globalThis.Image === 'function'
-            ? new globalThis.Image()
-            : doc.createElement('img');
-        if (img) {
-          img.crossOrigin = 'anonymous';
-          img.onload = () => {
-            const iconDim = Math.round(sizePx / 1.25);
-            const ox = Math.round((sizePx - iconDim) / 2);
-            const oy = Math.round((sizePx - iconDim) / 2);
-            try {
-              ctx.drawImage(img, ox, oy, iconDim, iconDim);
-            } catch {}
-          };
-          img.src = image;
-        }
-      } catch {}
-    }
   }
 
   backplateCache.set(cacheKey, canvas);
   return canvas;
+}
+
+const loadedImages = new Map();
+const loadingImages = new Map();
+const readyListeners = new Set();
+
+/**
+ * Decode an icon URL once (cached). Resolves with the HTMLImageElement, or
+ * null when the environment has no Image/img support or the load fails.
+ */
+export function preloadIconImage(url, doc = globalThis.document) {
+  if (typeof url !== 'string' || !url) return Promise.resolve(null);
+  const done = loadedImages.get(url);
+  if (done) return Promise.resolve(done);
+  if (loadingImages.has(url)) return loadingImages.get(url);
+  let img = null;
+  try {
+    img =
+      typeof globalThis.Image === 'function'
+        ? new globalThis.Image()
+        : doc && typeof doc.createElement === 'function'
+          ? doc.createElement('img')
+          : null;
+  } catch {
+    img = null;
+  }
+  if (!img || !('src' in img)) return Promise.resolve(null);
+  const promise = new Promise((resolve) => {
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      loadedImages.set(url, img);
+      loadingImages.delete(url);
+      for (const fn of readyListeners) {
+        try {
+          fn(url, img);
+        } catch {
+          /* listener errors never break icon loading */
+        }
+      }
+      resolve(img);
+    };
+    img.onerror = () => {
+      loadingImages.delete(url);
+      resolve(null);
+    };
+    img.src = url;
+  });
+  loadingImages.set(url, promise);
+  return promise;
+}
+
+/** Subscribe to "icon URL decoded" events; returns an unsubscribe function. */
+export function onIconReady(fn) {
+  readyListeners.add(fn);
+  return () => readyListeners.delete(fn);
+}
+
+/** True when `url` has been decoded and `iconWithBackplate` can bake it now. */
+export function iconImageLoaded(url) {
+  const img = loadedImages.get(url);
+  return Boolean(img && img.complete !== false && (img.naturalWidth ?? 1) > 0);
 }
 
 /**
@@ -526,9 +578,40 @@ export function iconFor(
  */
 export function iconBillboardGraphics(
   Cesium,
-  { key, image, sizePx = 36, heading = 0, rotate = false } = {},
+  {
+    key,
+    image,
+    sizePx = 36,
+    heading = 0,
+    rotate = false,
+    doc = globalThis.document,
+  } = {},
 ) {
-  const resolvedImage = image || (key ? iconFor(key, { sizePx }) : undefined);
+  let resolvedImage = image || (key ? iconFor(key, { sizePx }) : undefined);
+  // A plain URL is handed to Cesium immediately (never blocks the first
+  // frame); once the bitmap is decoded the billboard flips to the cached
+  // backplated canvas through a CallbackProperty, which the BillboardVisualizer
+  // re-reads every tick (identity change → billboard.image reassigned once).
+  if (
+    typeof resolvedImage === 'string' &&
+    !resolvedImage.startsWith('data:') &&
+    doc &&
+    typeof doc.createElement === 'function' &&
+    typeof Cesium?.CallbackProperty === 'function'
+  ) {
+    const url = resolvedImage;
+    let current = url;
+    const bake = () => {
+      const baked = iconWithBackplate(doc, url, { sizePx, key: key || url });
+      if (baked && typeof baked === 'object') current = baked;
+    };
+    if (iconImageLoaded(url)) bake();
+    else
+      preloadIconImage(url, doc).then((img) => {
+        if (img) bake();
+      });
+    resolvedImage = new Cesium.CallbackProperty(() => current, false);
+  }
 
   const scaleByDistance =
     Cesium?.NearFarScalar && typeof Cesium.NearFarScalar === 'function'

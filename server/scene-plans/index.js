@@ -323,6 +323,10 @@ export function createScenePlanService(options = {}) {
       sessions: runtime.sessions,
     });
   }
+  const CONSTRUCT_INNER = Symbol('constructInner');
+  const constructInner = function (body, opts, registerStop) {
+    return this[CONSTRUCT_INNER](body, opts, registerStop);
+  };
   const directorBudgetMs = options.directorBudgetMs ?? 45000;
   const legacyPlannerBudgetMs = options.legacyPlannerBudgetMs ?? 40000;
   return {
@@ -371,9 +375,20 @@ export function createScenePlanService(options = {}) {
         ],
       },
     }),
-    async construct(
+    async construct(body, options = {}) {
+      let stopProgressTimer = () => {};
+      try {
+        return await constructInner.call(this, body, options, (stop) => {
+          stopProgressTimer = stop;
+        });
+      } finally {
+        stopProgressTimer();
+      }
+    },
+    async [CONSTRUCT_INNER](
       body,
       { signal, emit = () => {}, requestId: clientRequestId, pacingMs } = {},
+      registerStop = () => {},
     ) {
       validateBody(body, [
         'prompt',
@@ -404,6 +419,29 @@ export function createScenePlanService(options = {}) {
         inputError('prompt must contain 3–6000 characters.');
 
       const fallbacks = [];
+      // Liveness: while long stages (event research, Overpass/OSRM staging,
+      // planner) run, a progress status every 10 s keeps the client informed
+      // and keeps its silence timer honest. Cleared on every exit path.
+      const progressStarted = Date.now();
+      let progressStage = 'locating';
+      const progressTimer = setInterval(() => {
+        if (signal?.aborted) return;
+        emit('status', {
+          stage: 'progress',
+          text: `Still working · ${progressStage} · ${Math.round((Date.now() - progressStarted) / 1000)} s`,
+        });
+      }, 10000);
+      progressTimer.unref?.();
+      const stopProgress = () => clearInterval(progressTimer);
+      registerStop(stopProgress);
+      signal?.addEventListener?.('abort', stopProgress, { once: true });
+      const baseEmit = emit;
+      emit = (event, data) => {
+        if (event === 'status' && data?.stage && data.stage !== 'progress')
+          progressStage = String(data.text || data.stage).slice(0, 80);
+        if (event === 'done' || event === 'error') stopProgress();
+        return baseEmit(event, data);
+      };
       const recordFallback = (stage, reason, mode, statusText) => {
         fallbacks.push(`${stage}:${reason}:${mode}`);
         emit('fallback', { stage, reason, mode });

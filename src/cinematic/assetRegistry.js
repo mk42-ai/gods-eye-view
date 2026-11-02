@@ -1,3 +1,4 @@
+import * as Cesium from 'cesium';
 /**
  * Browser-safe asset registry wrapping assetIds.js.
  * Handles sprite and model resolution, substitutions, preloading, and asset events.
@@ -10,7 +11,10 @@ import {
   modelUrl,
   getAsset,
 } from './assetIds.js';
-import { iconWithBackplate } from '../scenes/iconBillboard.js';
+import {
+  iconWithBackplate,
+  preloadIconImage,
+} from '../scenes/iconBillboard.js';
 
 /**
  * Create an asset registry instance.
@@ -96,9 +100,20 @@ export function createAssetRegistry({
         (asset?.id
           ? asset.id.replace(/^sprite\./, '').replace(/\./g, '_')
           : 'generic');
-      const canvas = iconWithBackplate(doc, rawUrl, { sizePx: width, key });
-      if (canvas) {
-        image = canvas;
+      // Backplate once the bitmap is decoded; until then the URL is used and a
+      // CallbackProperty flips the billboard to the baked canvas (Cesium copies
+      // canvases into its atlas at assignment time, so a late draw is lost).
+      const baked = iconWithBackplate(doc, rawUrl, { sizePx: width, key });
+      if (baked && typeof baked === 'object') {
+        image = baked;
+      } else if (typeof Cesium?.CallbackProperty === 'function') {
+        let current = rawUrl;
+        preloadIconImage(rawUrl, doc).then((img) => {
+          if (!img) return;
+          const late = iconWithBackplate(doc, rawUrl, { sizePx: width, key });
+          if (late && typeof late === 'object') current = late;
+        });
+        image = new Cesium.CallbackProperty(() => current, false);
       }
     }
 

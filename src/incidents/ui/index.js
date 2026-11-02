@@ -1344,6 +1344,9 @@ export function installIncidentScenes({
               data.text ||
                 'Research timed out · continuing with approximate location',
             );
+          } else if (data.stage === 'progress') {
+            // Liveness ticker: refresh the thinking line, keep the stage label.
+            view?.setThinking(data.text);
           } else {
             view?.setStatus(data.stage, data.text);
           }
@@ -1437,7 +1440,11 @@ export function installIncidentScenes({
       const endpointId = cinematic?.selectedEndpointId?.();
       result = await client.constructSceneStream(
         { ...payload, requestId, ...(endpointId ? { endpointId } : {}) },
-        { signal: internalAbort.signal, onEvent },
+        {
+          signal: internalAbort.signal,
+          onEvent,
+          onHeartbeat: resetSilenceTimer,
+        },
       );
     } catch (error) {
       if (signal?.aborted || (error?.name === 'AbortError' && !timedOut)) {
@@ -1466,7 +1473,12 @@ export function installIncidentScenes({
       try {
         result = await client.constructSceneStream(
           { ...payload, requestId },
-          { signal: internalAbort.signal, onEvent, lastEventId },
+          {
+            signal: internalAbort.signal,
+            onEvent,
+            onHeartbeat: resetSilenceTimer,
+            lastEventId,
+          },
         );
       } catch (error) {
         if (signal?.aborted || (error?.name === 'AbortError' && !timedOut)) {
