@@ -4,7 +4,7 @@
  * render loop without showing blocking error modals.
  */
 
-import { SOFTWARE_TILESET_CACHE_BYTES } from '../cinematic/renderBudget.js';
+const SOFTWARE_TILESET_CACHE_BYTES = 256 * 1024 * 1024;
 
 export function installRenderGuard(
   viewer,
@@ -246,6 +246,57 @@ export function installRenderGuard(
     canvas.addEventListener('webglcontextrestored', onContextRestored);
   }
 
+  // Hook provider error events: log and do not halt rendering
+  const providerListeners = [];
+  try {
+    const onTerrainErr = (err) => {
+      log?.('[renderGuard terrainProvider error]', err?.message || err);
+    };
+    if (viewer.terrainProvider?.errorEvent?.addEventListener) {
+      viewer.terrainProvider.errorEvent.addEventListener(onTerrainErr);
+      providerListeners.push(() => {
+        viewer.terrainProvider?.errorEvent?.removeEventListener?.(onTerrainErr);
+      });
+    }
+
+    const onImageryErr = (err) => {
+      log?.('[renderGuard imageryProvider error]', err?.message || err);
+    };
+    if (viewer.baseLayer?.imageryProvider?.errorEvent?.addEventListener) {
+      viewer.baseLayer.imageryProvider.errorEvent.addEventListener(
+        onImageryErr,
+      );
+      providerListeners.push(() => {
+        viewer.baseLayer?.imageryProvider?.errorEvent?.removeEventListener?.(
+          onImageryErr,
+        );
+      });
+    }
+    if (viewer.imageryLayers) {
+      const onLayerAdded = (layer) => {
+        if (layer?.imageryProvider?.errorEvent?.addEventListener) {
+          layer.imageryProvider.errorEvent.addEventListener(onImageryErr);
+        }
+      };
+      viewer.imageryLayers.layerAdded?.addEventListener?.(onLayerAdded);
+      providerListeners.push(() => {
+        viewer.imageryLayers?.layerAdded?.removeEventListener?.(onLayerAdded);
+      });
+      const len = viewer.imageryLayers.length || 0;
+      for (let i = 0; i < len; i++) {
+        const l = viewer.imageryLayers.get
+          ? viewer.imageryLayers.get(i)
+          : viewer.imageryLayers[i];
+        if (l?.imageryProvider?.errorEvent?.addEventListener) {
+          l.imageryProvider.errorEvent.addEventListener(onImageryErr);
+          providerListeners.push(() => {
+            l.imageryProvider?.errorEvent?.removeEventListener?.(onImageryErr);
+          });
+        }
+      }
+    }
+  } catch {}
+
   function stats() {
     return { ...statsData };
   }
@@ -344,6 +395,12 @@ export function installRenderGuard(
       if (hideTimer && win?.clearTimeout) {
         win.clearTimeout(hideTimer);
       }
+      for (const cleanup of providerListeners) {
+        try {
+          cleanup();
+        } catch {}
+      }
+      providerListeners.length = 0;
       observer?.disconnect?.();
       toast?.remove?.();
       if (win?.__gevRender?.recover === recover) {

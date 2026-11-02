@@ -139,6 +139,7 @@ function makeDoc() {
 
 function makeFakeWin() {
   const store = new Map();
+  const listeners = new Map();
   return {
     localStorage: {
       getItem(k) {
@@ -147,6 +148,24 @@ function makeFakeWin() {
       setItem(k, v) {
         store.set(k, String(v));
       },
+    },
+    addEventListener(evt, fn) {
+      if (!listeners.has(evt)) listeners.set(evt, []);
+      listeners.get(evt).push(fn);
+    },
+    removeEventListener(evt, fn) {
+      if (listeners.has(evt)) {
+        listeners.set(
+          evt,
+          listeners.get(evt).filter((f) => f !== fn),
+        );
+      }
+    },
+    dispatchEvent(evt) {
+      const type = typeof evt === 'string' ? evt : evt?.type;
+      for (const fn of listeners.get(type) || []) {
+        fn(evt);
+      }
     },
     requestAnimationFrame(cb) {
       cb();
@@ -434,6 +453,120 @@ test('panel exposes the Open-Meteo live-weather button and routes failures to th
   await new Promise((r) => setTimeout(r, 10));
   assert.equal(calls, 1);
   const feed = panel.element.querySelector('#cinematic-feed');
-  assert.ok(feed.textContent.includes('Live weather unavailable: Open-Meteo HTTP 503'));
+  assert.ok(
+    feed.textContent.includes('Live weather unavailable: Open-Meteo HTTP 503'),
+  );
+  panel.destroy();
+});
+
+test('cinematicPanel: playhead progressbar reflects seek position and position label shows m:ss / m:ss', () => {
+  const doc = makeDoc();
+  const win = makeFakeWin();
+  let pos = 30;
+  const playback = {
+    positionSec: () => pos,
+    durationSec: () => 60,
+    state: () => ({ state: 'playing', positionSec: pos, durationSec: 60 }),
+  };
+
+  const panel = mountCinematicPanel({ document: doc, window: win, playback });
+  const playhead = panel.element.querySelector('#cinematic-playhead');
+  assert.ok(playhead, '#cinematic-playhead element must exist');
+  assert.equal(playhead.getAttribute('role'), 'progressbar');
+
+  panel.update({}, { timeline: { durationSec: 60 } });
+  assert.equal(playhead.getAttribute('aria-valuenow'), '50');
+
+  const posSpan = panel.element.querySelector('#cinematic-position');
+  assert.equal(posSpan.textContent, '0:30 / 1:00');
+  panel.destroy();
+});
+
+test('cinematicPanel: button states (aria-pressed, data-state, disabled) reflect playback and scene status', () => {
+  const doc = makeDoc();
+  const win = makeFakeWin();
+  let pbState = { state: 'paused', positionSec: 0, durationSec: 60 };
+  const playback = {
+    positionSec: () => pbState.positionSec,
+    durationSec: () => pbState.durationSec,
+    state: () => pbState,
+    play() {},
+    pause() {},
+  };
+
+  const panel = mountCinematicPanel({ document: doc, window: win, playback });
+  const playBtn = panel.element.querySelector('#cinematic-play');
+  const pauseBtn = panel.element.querySelector('#cinematic-pause');
+
+  // Initially with scene: buttons enabled
+  panel.update({ playback: pbState }, { timeline: { durationSec: 60 } });
+  assert.equal(playBtn.disabled, false);
+  assert.equal(playBtn.getAttribute('aria-pressed'), 'false');
+  assert.equal(pauseBtn.getAttribute('aria-pressed'), 'true');
+  assert.equal(playBtn.getAttribute('data-state'), 'paused');
+
+  // Playing state
+  pbState = { state: 'playing', positionSec: 15, durationSec: 60 };
+  panel.update({ playback: pbState }, { timeline: { durationSec: 60 } });
+  assert.equal(playBtn.getAttribute('aria-pressed'), 'true');
+  assert.equal(pauseBtn.getAttribute('aria-pressed'), 'false');
+  assert.equal(playBtn.getAttribute('data-state'), 'playing');
+
+  // Ended state
+  pbState = { state: 'ended', positionSec: 60, durationSec: 60 };
+  panel.update({ playback: pbState }, { timeline: { durationSec: 60 } });
+  assert.equal(playBtn.getAttribute('data-state'), 'ended');
+
+  panel.destroy();
+});
+
+test('cinematicPanel: Space bar toggles playback when focus is not in an input and ignores input focus', () => {
+  const doc = makeDoc();
+  const win = makeFakeWin();
+  const actions = [];
+  let isPlaying = false;
+
+  const playback = {
+    state: () => ({ state: isPlaying ? 'playing' : 'paused' }),
+    play: () => {
+      isPlaying = true;
+      actions.push('play');
+    },
+    pause: () => {
+      isPlaying = false;
+      actions.push('pause');
+    },
+  };
+
+  const panel = mountCinematicPanel({ document: doc, window: win, playback });
+
+  // Space on document body -> play
+  win.dispatchEvent({
+    type: 'keydown',
+    code: 'Space',
+    preventDefault() {},
+  });
+  assert.deepEqual(actions, ['play']);
+
+  // Space on document body again -> pause
+  win.dispatchEvent({
+    type: 'keydown',
+    code: 'Space',
+    preventDefault() {},
+  });
+  assert.deepEqual(actions, ['play', 'pause']);
+
+  // Focus in an input -> Space should be ignored
+  const input = doc.createElement('input');
+  doc.activeElement = input;
+
+  win.dispatchEvent({
+    type: 'keydown',
+    code: 'Space',
+    preventDefault() {},
+  });
+  // No new action
+  assert.deepEqual(actions, ['play', 'pause']);
+
   panel.destroy();
 });

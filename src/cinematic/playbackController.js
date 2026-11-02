@@ -5,6 +5,41 @@
  */
 import * as Cesium from 'cesium';
 
+function checkHasTimeDynamic(scene) {
+  if (!scene) return false;
+  if (scene.hasTimeDynamic != null) return Boolean(scene.hasTimeDynamic);
+  if (Array.isArray(scene.timeline?.beats) && scene.timeline.beats.length > 0) {
+    return true;
+  }
+  if (
+    Array.isArray(scene.timeline?.keyframes) &&
+    scene.timeline.keyframes.length > 0
+  ) {
+    return true;
+  }
+  if (Array.isArray(scene.entities)) {
+    return scene.entities.some((e) => {
+      if (e.synthesizedPath) return true;
+      if (e.behavior?.path && e.behavior.path.length > 0) return true;
+      if (
+        [
+          'walk',
+          'run',
+          'drive',
+          'fly',
+          'patrol',
+          'crowd_flow',
+          'orbit',
+        ].includes(e.behavior?.type)
+      ) {
+        return true;
+      }
+      return false;
+    });
+  }
+  return false;
+}
+
 /**
  * Creates a Playback Controller.
  *
@@ -12,11 +47,13 @@ import * as Cesium from 'cesium';
  * @param {Cesium.Viewer} [options.viewer]
  * @param {Function} [options.onChange] Callback on state change: (state) => void
  * @param {Function} [options.entityGetter] (id) => Cesium.Entity|null
+ * @param {Function} [options.positionsSnapshotGetter] (sec) => { [id]: {lon,lat} }
  */
 export function createPlaybackController({
   viewer,
   onChange,
   entityGetter,
+  positionsSnapshotGetter,
 } = {}) {
   const clock = viewer?.clock || new Cesium.Clock();
 
@@ -27,11 +64,19 @@ export function createPlaybackController({
   let isLive = false;
   let currentScene = null;
   let customEntityGetter = entityGetter;
+  let customPositionsSnapshotGetter = positionsSnapshotGetter;
 
   // Configure initial clock state
-  clock.clockRange = Cesium.ClockRange.CLAMPED;
+  clock.clockRange = Cesium.ClockRange.LOOP_STOP;
   clock.multiplier = currentSpeed;
   clock.shouldAnimate = false;
+
+  // Always call viewer.scene?.requestRender?.() on clock ticks
+  if (clock.onTick?.addEventListener) {
+    clock.onTick.addEventListener(() => {
+      viewer?.scene?.requestRender?.();
+    });
+  }
 
   function notifyChange() {
     if (typeof onChange === 'function') {
@@ -57,23 +102,34 @@ export function createPlaybackController({
       clock.currentTime,
       clock.startTime,
     );
-    return Math.max(0, Math.min(diff, durationSec()));
+    const dur = durationSec();
+    return Math.max(0, dur > 0 ? Math.min(diff, dur) : diff);
   }
 
   function state() {
+    const dur = durationSec();
+    const pos = positionSec();
+    const isEnded = dur > 0 && pos >= dur && stateValue !== 'playing';
+    const effectiveState = isEnded ? 'ended' : stateValue;
     return {
-      state: stateValue,
-      positionSec: positionSec(),
-      durationSec: durationSec(),
+      state: effectiveState,
+      positionSec: pos,
+      durationSec: dur,
       speed: currentSpeed,
       cameraMode: currentCameraMode,
       followEntityId,
       live: isLive,
+      hasTimeDynamic: checkHasTimeDynamic(currentScene),
+      progress: dur > 0 ? Math.max(0, Math.min(1, pos / dur)) : 0,
     };
   }
 
-  function load(scene, { entityGetter: eg } = {}) {
+  function load(
+    scene,
+    { entityGetter: eg, positionsSnapshotGetter: psg } = {},
+  ) {
     if (eg) customEntityGetter = eg;
+    if (psg) customPositionsSnapshotGetter = psg;
     if (!scene) return;
 
     const isSameScene = currentScene && currentScene.sceneId === scene.sceneId;
@@ -99,7 +155,7 @@ export function createPlaybackController({
 
     clock.startTime = startTime;
     clock.stopTime = stopTime;
-    clock.clockRange = Cesium.ClockRange.CLAMPED;
+    clock.clockRange = Cesium.ClockRange.LOOP_STOP;
     clock.multiplier = currentSpeed;
 
     if (isSameScene) {
@@ -116,6 +172,10 @@ export function createPlaybackController({
   }
 
   function play() {
+    const dur = durationSec();
+    if (dur > 0 && positionSec() >= dur) {
+      seek(0);
+    }
     clock.shouldAnimate = true;
     stateValue = 'playing';
     notifyChange();
@@ -229,19 +289,33 @@ export function createPlaybackController({
     }
   }
 
+  function positionsSnapshot(sec = positionSec()) {
+    if (typeof customPositionsSnapshotGetter === 'function') {
+      return customPositionsSnapshotGetter(sec);
+    }
+    return {};
+  }
+
+  function setPositionsSnapshotGetter(fn) {
+    customPositionsSnapshotGetter = fn;
+  }
+
   function onTick(callback) {
     if (!clock.onTick?.addEventListener) {
       return () => {};
     }
 
     const listener = (c) => {
-      // Check clamped end
+      // In requestRenderMode, ensure frames advance on every tick
+      viewer?.scene?.requestRender?.();
+
+      // Check clamped end if CLAMPED is active
       if (
         clock.clockRange === Cesium.ClockRange.CLAMPED &&
         positionSec() >= durationSec() &&
         stateValue === 'playing'
       ) {
-        stateValue = 'paused';
+        stateValue = 'ended';
         clock.shouldAnimate = false;
         notifyChange();
       }
@@ -275,6 +349,8 @@ export function createPlaybackController({
     selectEvent,
     setLive,
     extendDuration,
+    positionsSnapshot,
+    setPositionsSnapshotGetter,
     onTick,
     get clock() {
       return clock;

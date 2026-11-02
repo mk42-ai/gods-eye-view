@@ -1,9 +1,8 @@
 import * as Cesium from 'cesium';
-import {
-  TILESET_CACHE_BYTES,
-  TILESET_CACHE_OVERFLOW_BYTES,
-  SOFTWARE_TILESET_CACHE_BYTES,
-} from '../cinematic/renderBudget.js';
+
+export const TILESET_CACHE_BYTES = 768 * 1024 * 1024;
+export const TILESET_CACHE_OVERFLOW_BYTES = 256 * 1024 * 1024;
+export const SOFTWARE_TILESET_CACHE_BYTES = 256 * 1024 * 1024;
 
 /** Create the standard globe viewer in caller-owned, visible containers. */
 export function createApplicationViewer({ container, creditContainer }) {
@@ -35,11 +34,160 @@ export function createApplicationViewer({ container, creditContainer }) {
     viewer.scene.skyAtmosphere.atmosphereLightIntensity = 18;
     viewer.scene.skyAtmosphere.saturationShift = -0.12;
     viewer.scene.skyAtmosphere.brightnessShift = -0.08;
+
+    const resizeGuard = installContainerResizeGuard(viewer, container);
+
+    const originalDestroy = viewer.destroy?.bind(viewer);
+    if (originalDestroy) {
+      viewer.destroy = function () {
+        try {
+          resizeGuard.disconnect();
+        } catch {}
+        return originalDestroy();
+      };
+    }
+
+    // Ensure imagery/terrain provider errors are logged and do not halt rendering
+    try {
+      const logProviderError = (provider, err) => {
+        console.warn(`[Cesium ${provider} error]`, err?.message || err);
+      };
+      viewer.terrainProvider?.errorEvent?.addEventListener?.((err) =>
+        logProviderError('terrainProvider', err),
+      );
+      if (viewer.baseLayer?.imageryProvider?.errorEvent?.addEventListener) {
+        viewer.baseLayer.imageryProvider.errorEvent.addEventListener((err) =>
+          logProviderError('imageryProvider', err),
+        );
+      }
+      if (viewer.imageryLayers) {
+        viewer.imageryLayers.layerAdded?.addEventListener?.((layer) => {
+          layer?.imageryProvider?.errorEvent?.addEventListener?.((err) =>
+            logProviderError('imageryProvider', err),
+          );
+        });
+        const len = viewer.imageryLayers.length || 0;
+        for (let i = 0; i < len; i++) {
+          const l = viewer.imageryLayers.get
+            ? viewer.imageryLayers.get(i)
+            : viewer.imageryLayers[i];
+          l?.imageryProvider?.errorEvent?.addEventListener?.((err) =>
+            logProviderError('imageryProvider', err),
+          );
+        }
+      }
+    } catch {}
+
     return viewer;
   } catch (error) {
     viewer.destroy();
     throw error;
   }
+}
+
+/**
+ * Install a ResizeObserver on the viewer container that calls viewer.resize()
+ * + requestRender() and guards against a zero-size container (defers entity adds
+ * until the canvas/container has nonzero size).
+ */
+export function installContainerResizeGuard(
+  viewer,
+  container,
+  { ResizeObserver: ResizeObserverImpl = globalThis.ResizeObserver } = {},
+) {
+  if (!viewer) return { disconnect: () => {}, flush: () => {} };
+  const containerEl =
+    typeof container === 'string'
+      ? globalThis.document?.getElementById?.(container)
+      : container;
+  const pendingEntities = [];
+  const originalEntitiesAdd = viewer.entities?.add?.bind(viewer.entities);
+
+  function hasNonzeroSize() {
+    const canvas = viewer?.canvas || viewer?.scene?.canvas;
+    if (
+      canvas &&
+      (canvas.clientWidth > 0 ||
+        canvas.width > 0 ||
+        canvas.clientHeight > 0 ||
+        canvas.height > 0)
+    ) {
+      return true;
+    }
+    if (
+      containerEl &&
+      (containerEl.clientWidth > 0 ||
+        containerEl.offsetWidth > 0 ||
+        containerEl.clientHeight > 0 ||
+        containerEl.offsetHeight > 0)
+    ) {
+      return true;
+    }
+    if (!containerEl && !canvas) return true;
+    return false;
+  }
+
+  function flushPendingEntities() {
+    if (!hasNonzeroSize() || !originalEntitiesAdd) return false;
+    let flushed = false;
+    while (pendingEntities.length > 0) {
+      const ent = pendingEntities.shift();
+      try {
+        originalEntitiesAdd(ent);
+        flushed = true;
+      } catch {}
+    }
+    if (flushed) {
+      viewer.scene?.requestRender?.();
+    }
+    return flushed;
+  }
+
+  if (originalEntitiesAdd) {
+    viewer.entities.add = function (entity) {
+      if (!hasNonzeroSize()) {
+        pendingEntities.push(entity);
+        return entity;
+      }
+      return originalEntitiesAdd(entity);
+    };
+    viewer.entities.getPending = function () {
+      return [...pendingEntities];
+    };
+    viewer.entities.flushPending = flushPendingEntities;
+  }
+
+  let observer = null;
+  if (containerEl && typeof ResizeObserverImpl === 'function') {
+    observer = new ResizeObserverImpl((entries) => {
+      for (const entry of entries) {
+        const { width = 0, height = 0 } = entry.contentRect || {};
+        if (width > 0 && height > 0) {
+          if (!viewer.isDestroyed?.()) {
+            viewer.resize?.();
+            const flushed = flushPendingEntities();
+            if (!flushed) {
+              viewer.scene?.requestRender?.();
+            }
+          }
+        }
+      }
+    });
+    try {
+      observer.observe(containerEl);
+    } catch {}
+  }
+
+  return {
+    disconnect() {
+      try {
+        observer?.disconnect?.();
+      } catch {}
+      pendingEntities.length = 0;
+    },
+    flush: flushPendingEntities,
+    hasNonzeroSize,
+  };
 }
 
 /** Renderer strings of CPU-emulated WebGL (no GPU): SwiftShader, llvmpipe, WARP. */

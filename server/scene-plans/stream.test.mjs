@@ -174,3 +174,37 @@ test('tokenizeNarration splits text into word-ish chunks of ~2-6 chars', () => {
   }
   assert.equal(tokens.join(''), text);
 });
+
+test('close({ ensureTerminal: true }) emits error if neither done nor error was emitted', () => {
+  resetSessionRing();
+  const res = createMockResponse();
+  const stream = createSceneEventStream(res, {
+    requestId: 'req-ensure-term',
+    heartbeatMs: 60000,
+  });
+
+  stream.emit('status', { stage: 'locating', text: 'Locating' });
+  stream.close({ ensureTerminal: true });
+
+  assert.equal(res.ended, true);
+  const errorChunk = res.chunks.find((c) => c.includes('event: error\n'));
+  assert.ok(errorChunk, 'error event should be emitted');
+  assert.match(errorChunk, /stream_closed_without_terminal/);
+});
+
+test('close({ ensureTerminal: true }) does not emit extra error if done was emitted', () => {
+  resetSessionRing();
+  const res = createMockResponse();
+  const stream = createSceneEventStream(res, {
+    requestId: 'req-done-term',
+    heartbeatMs: 60000,
+  });
+
+  stream.emit('status', { stage: 'locating', text: 'Locating' });
+  stream.emit('done', { result: { ok: true } });
+  stream.close({ ensureTerminal: true });
+
+  assert.equal(res.ended, true);
+  const errorChunk = res.chunks.find((c) => c.includes('event: error\n'));
+  assert.equal(errorChunk, undefined, 'no error event when done was emitted');
+});

@@ -6,6 +6,7 @@ import {
   SOFTWARE_RENDERER_PATTERN,
   tilesetCacheOptions,
   isSoftwareRenderer,
+  installContainerResizeGuard,
 } from './viewer.js';
 import {
   TILESET_CACHE_BYTES,
@@ -56,7 +57,10 @@ test('tilesetCacheOptions returns software budget for software renderers and sta
   assert.equal(isSoftwareRenderer(soft), true);
   const softOpts = tilesetCacheOptions(soft);
   assert.equal(softOpts.cacheBytes, SOFTWARE_TILESET_CACHE_BYTES);
-  assert.equal(softOpts.maximumCacheOverflowBytes, SOFTWARE_TILESET_CACHE_BYTES);
+  assert.equal(
+    softOpts.maximumCacheOverflowBytes,
+    SOFTWARE_TILESET_CACHE_BYTES,
+  );
 
   const gpu = fakeViewer('ANGLE (NVIDIA GeForce RTX 4070)');
   assert.equal(isSoftwareRenderer(gpu), false);
@@ -86,4 +90,80 @@ test('resize debounce pauses the render loop and resumes once the size settles',
   assert.equal(v.useDefaultRenderLoop, true);
   assert.equal(v.scene.r, 1);
   off();
+});
+
+test('viewer ResizeObserver guard defers entity adds until nonzero size, then flushes and calls resize + requestRender', () => {
+  let observedEl = null;
+  let observerCallback = null;
+  class FakeResizeObserver {
+    constructor(cb) {
+      observerCallback = cb;
+    }
+    observe(el) {
+      observedEl = el;
+    }
+    disconnect() {
+      observedEl = null;
+    }
+  }
+
+  let resizeCount = 0;
+  let renderCount = 0;
+  const entitiesList = [];
+
+  const v = {
+    resize() {
+      resizeCount++;
+    },
+    scene: {
+      requestRender() {
+        renderCount++;
+      },
+      canvas: { clientWidth: 0, clientHeight: 0 },
+    },
+    entities: {
+      values: entitiesList,
+      add(e) {
+        entitiesList.push(e);
+        return e;
+      },
+    },
+    isDestroyed: () => false,
+  };
+
+  const container = { clientWidth: 0, clientHeight: 0 };
+  const guard = installContainerResizeGuard(v, container, {
+    ResizeObserver: FakeResizeObserver,
+  });
+
+  assert.equal(observedEl, container);
+  assert.equal(guard.hasNonzeroSize(), false);
+
+  // Adding entity to zero-size viewer must be deferred
+  const ent1 = { id: 'test-entity-1' };
+  v.entities.add(ent1);
+  assert.equal(entitiesList.length, 0);
+  assert.equal(v.entities.getPending().length, 1);
+  assert.equal(v.entities.getPending()[0], ent1);
+
+  // ResizeObserver fires with nonzero size
+  container.clientWidth = 800;
+  container.clientHeight = 600;
+  assert.equal(guard.hasNonzeroSize(), true);
+
+  observerCallback([{ contentRect: { width: 800, height: 600 } }]);
+  assert.equal(resizeCount, 1);
+  assert.equal(renderCount, 1);
+  assert.equal(entitiesList.length, 1);
+  assert.equal(entitiesList[0], ent1);
+  assert.equal(v.entities.getPending().length, 0);
+
+  // Further adds when nonzero size add immediately
+  const ent2 = { id: 'test-entity-2' };
+  v.entities.add(ent2);
+  assert.equal(entitiesList.length, 2);
+  assert.equal(entitiesList[1], ent2);
+
+  guard.disconnect();
+  assert.equal(observedEl, null);
 });

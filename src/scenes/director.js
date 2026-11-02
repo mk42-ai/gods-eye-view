@@ -61,6 +61,16 @@ import {
   SceneDocumentError,
 } from '../director/document.js';
 
+function getCinematicEngine() {
+  const win =
+    typeof window !== 'undefined'
+      ? window
+      : typeof globalThis !== 'undefined'
+        ? globalThis
+        : null;
+  return win?.__gevCinematic || null;
+}
+
 /** @constant {string} localStorage key for the serialized project */
 const STORAGE_KEY = 'godsEyeView.sceneProject.v2';
 const STORAGE_CHECKPOINT_KEY = 'godsEyeView.sceneProject.checkpoint.v1';
@@ -433,6 +443,17 @@ export class SceneDirector {
    * from that position via the seek path. Returns the paused snapshot.
    */
   pauseScene() {
+    const cinematic = getCinematicEngine();
+    if (cinematic?.playback && cinematic.scene?.()) {
+      try {
+        cinematic.playback.pause();
+      } catch (err) {
+        console.warn?.(
+          '[director] failed to mirror pauseScene to cinematic playback:',
+          err,
+        );
+      }
+    }
     if (!this._running) return this._paused;
     const snapshot = this._clock.snapshot;
     if (!snapshot) return null;
@@ -1655,6 +1676,20 @@ export class SceneDirector {
     if (this._destroyed) return Promise.resolve(false);
     this.stopScene('Seeking scene clock');
     const generation = ++this._sceneSeekGeneration;
+    const cinematic = getCinematicEngine();
+    if (cinematic?.playback && cinematic.scene?.()) {
+      try {
+        const dur = cinematic.playback.durationSec();
+        if (dur > 0 && typeof progress === 'number') {
+          cinematic.playback.seek(progress * dur);
+        }
+      } catch (err) {
+        console.warn?.(
+          '[director] failed to mirror seekScene to cinematic playback:',
+          err,
+        );
+      }
+    }
     return this._trackWork(this._seekScene(sceneId, progress, generation));
   }
 
@@ -1836,6 +1871,17 @@ export class SceneDirector {
       return Promise.resolve({ started: false, reason: 'destroyed' });
     this._paused = null;
     this._sceneSeekGeneration++;
+    const cinematic = getCinematicEngine();
+    if (cinematic?.playback && cinematic.scene?.()) {
+      try {
+        cinematic.playback.play();
+      } catch (err) {
+        console.warn?.(
+          '[director] failed to mirror startScene to cinematic playback:',
+          err,
+        );
+      }
+    }
     return this._trackWork(this._startScene(sceneId, options));
   }
 

@@ -21,6 +21,7 @@ import {
   stagingSignature,
   stagingCounts,
 } from '../../scenes/sceneStaging.js';
+import { iconBillboardGraphics } from '../../scenes/iconBillboard.js';
 
 export const STAGING_LABEL_FONT =
   '600 13px system-ui, -apple-system, Segoe UI, sans-serif';
@@ -331,20 +332,14 @@ export function createSceneStagingLayer(
       name: p.label || p.element,
       position: Cesium.Cartesian3.fromDegrees(lon, lat),
       billboard: p.icon
-        ? {
+        ? iconBillboardGraphics(Cesium, {
+            key: p.icon,
             image: `${iconBaseUrl}${p.icon}.png`,
-            width: size,
-            height: size,
-            rotation:
-              p.icon === 'cone' || p.icon === 'barrier'
-                ? 0
-                : -Cesium.Math.toRadians(p.heading || 0),
-            alignedAxis: Cesium.Cartesian3.ZERO,
-            heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-            disableDepthTestDistance: Number.POSITIVE_INFINITY,
-            scaleByDistance: new Cesium.NearFarScalar(300, 1.15, 12000, 0.55),
-            verticalOrigin: Cesium.VerticalOrigin.CENTER,
-          }
+            sizePx: size,
+            heading:
+              p.icon === 'cone' || p.icon === 'barrier' ? 0 : -(p.heading || 0),
+            rotate: !(p.icon === 'cone' || p.icon === 'barrier'),
+          })
         : undefined,
       point: p.icon
         ? undefined
@@ -392,6 +387,11 @@ export function createSceneStagingLayer(
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
         scaleByDistance: new Cesium.NearFarScalar(500, 1, 40000, 0.85),
+        distanceDisplayCondition:
+          Cesium.DistanceDisplayCondition &&
+          typeof Cesium.DistanceDisplayCondition === 'function'
+            ? new Cesium.DistanceDisplayCondition(0, 60000)
+            : undefined,
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
       },
@@ -423,14 +423,11 @@ export function createSceneStagingLayer(
         id: `staging-cctv-${n + 1}`,
         name: cam.name || cam.id || 'Camera',
         position: Cesium.Cartesian3.fromDegrees(cam.lon, cam.lat),
-        billboard: {
+        billboard: iconBillboardGraphics(Cesium, {
+          key: 'cctv_signal',
           image: `${iconBaseUrl}cctv_signal.png`,
-          width: ICON_SIZE.cctv_signal,
-          height: ICON_SIZE.cctv_signal,
-          heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-          disableDepthTestDistance: Number.POSITIVE_INFINITY,
-          scaleByDistance: new Cesium.NearFarScalar(300, 1.15, 12000, 0.55),
-        },
+          sizePx: ICON_SIZE.cctv_signal,
+        }),
         properties: {
           illustrative: false,
           element: 'cctv_signal',

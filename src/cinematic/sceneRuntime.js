@@ -167,6 +167,10 @@ export function createSceneRuntime({
       const alt = behavior.altitudeM ?? pos.heightM ?? 30;
       const duration = currentScene?.timeline?.durationSec ?? 60;
       const sampled = new Cesium.SampledPositionProperty();
+      sampled.setInterpolationOptions({
+        interpolationDegree: 1,
+        interpolationAlgorithm: Cesium.LinearApproximation,
+      });
       sampled.backwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
       sampled.forwardExtrapolationType = Cesium.ExtrapolationType.HOLD;
 
@@ -553,8 +557,103 @@ export function createSceneRuntime({
     }
   }
 
+  function ensurePatrolPaths(scene) {
+    if (
+      !scene ||
+      !Array.isArray(scene.entities) ||
+      scene.entities.length === 0
+    ) {
+      return;
+    }
+
+    const hasMoving = scene.entities.some((e) => {
+      if (e.synthesizedPath) return true;
+      if (e.behavior?.path && e.behavior.path.length > 1) return true;
+      if (e.behavior?.type === 'orbit') return true;
+      if (
+        ['walk', 'run', 'drive', 'fly', 'patrol', 'crowd_flow'].includes(
+          e.behavior?.type,
+        ) &&
+        e.behavior?.path &&
+        e.behavior.path.length > 0
+      ) {
+        return true;
+      }
+      return false;
+    });
+
+    if (hasMoving) {
+      for (const e of scene.entities) {
+        if (
+          !e.synthesizedPath &&
+          (!e.behavior || e.behavior.type === 'static')
+        ) {
+          e.idleAnimation = true;
+        }
+      }
+      return;
+    }
+
+    const eligibleCategories = new Set([
+      'vehicle',
+      'person',
+      'responder',
+      'police',
+    ]);
+    const duration = Math.max(10, scene.timeline?.durationSec || 60);
+
+    for (const entity of scene.entities) {
+      if (eligibleCategories.has(entity.category)) {
+        const pos = entity.position || { eastM: 0, northM: 0, heightM: 0 };
+        const isVehicle = entity.category === 'vehicle';
+        const radius = isVehicle ? 60 : 40;
+
+        const t0 = 0;
+        const t1 = duration * 0.25;
+        const t2 = duration * 0.5;
+        const t3 = duration * 0.75;
+        const t4 = duration;
+        const h = pos.heightM ?? 0;
+
+        entity.behavior = {
+          type: 'patrol',
+          loop: true,
+          speedMps: (radius * 4) / duration,
+          path: [
+            { eastM: pos.eastM, northM: pos.northM, heightM: h, atSec: t0 },
+            {
+              eastM: pos.eastM + radius,
+              northM: pos.northM,
+              heightM: h,
+              atSec: t1,
+            },
+            {
+              eastM: pos.eastM + radius,
+              northM: pos.northM + radius,
+              heightM: h,
+              atSec: t2,
+            },
+            {
+              eastM: pos.eastM,
+              northM: pos.northM + radius,
+              heightM: h,
+              atSec: t3,
+            },
+            { eastM: pos.eastM, northM: pos.northM, heightM: h, atSec: t4 },
+          ],
+        };
+        entity.synthesizedPath = true;
+      } else {
+        if (!entity.behavior || entity.behavior.type === 'static') {
+          entity.idleAnimation = true;
+        }
+      }
+    }
+  }
+
   function attach(scene) {
     if (!scene) return;
+    ensurePatrolPaths(scene);
     currentScene = scene;
 
     if (
@@ -602,6 +701,7 @@ export function createSceneRuntime({
       attach(scene);
       return;
     }
+    ensurePatrolPaths(scene);
     currentScene = scene;
 
     queue.push(() => {
@@ -678,6 +778,31 @@ export function createSceneRuntime({
     return null;
   }
 
+  function positionsSnapshot(sec = 0) {
+    const out = {};
+    for (const [id] of entityMap) {
+      const c3 = positionAt(id, sec);
+      if (!c3) continue;
+      const carto = Cesium.Cartographic?.fromCartesian?.(c3);
+      if (carto) {
+        out[id] = {
+          lon: Number(Cesium.Math.toDegrees(carto.longitude).toFixed(6)),
+          lat: Number(Cesium.Math.toDegrees(carto.latitude).toFixed(6)),
+        };
+      } else if (context) {
+        const local = context.cartesianToLocal(c3);
+        const geo = context.localToCartographic(local);
+        if (geo) {
+          out[id] = {
+            lon: Number(geo.lon.toFixed(6)),
+            lat: Number(geo.lat.toFixed(6)),
+          };
+        }
+      }
+    }
+    return out;
+  }
+
   function snapshot() {
     let bbCount = 0;
     let polyCount = 0;
@@ -707,6 +832,7 @@ export function createSceneRuntime({
         uncertainty: e.uncertainty,
         hypothetical: Boolean(e.hypothetical),
         highlight: isHighlighted,
+        synthesizedPath: Boolean(e.synthesizedPath),
       };
     });
 
@@ -721,6 +847,8 @@ export function createSceneRuntime({
       type: eff.type,
     }));
 
+    const synthesizedCount = entities.filter((e) => e.synthesizedPath).length;
+
     return {
       sceneId: currentScene?.sceneId || '',
       sceneVersion: currentScene?.sceneVersion || 0,
@@ -733,6 +861,14 @@ export function createSceneRuntime({
         billboards: bbCount,
         polylines: polyCount,
         models: modelCount,
+      },
+      stats: {
+        synthesizedPath: synthesizedCount > 0,
+        synthesizedCount,
+      },
+      debug: {
+        synthesizedPath: synthesizedCount > 0,
+        synthesizedCount,
       },
     };
   }
@@ -763,6 +899,7 @@ export function createSceneRuntime({
     },
     entityById,
     positionAt,
+    positionsSnapshot,
     setHighlight,
     select,
     selected: () => selectedId,

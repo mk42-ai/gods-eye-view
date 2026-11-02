@@ -79,6 +79,40 @@ Live docs read 2026-10-26: `https://docs.on-demand.io/docs/chat-api.md`, `/refer
 2. `POST /chat/v1/sessions/{id}/query` — body
    `{"endpointId":"predefined-openai-gpt4.1-mini","query":"<instruction + scene context + call>","responseMode":"sync","pluginIds":["plugin-1792945050"]}` → `200 {data:{sessionId,messageId,answer,status:"completed",metrics}}`.
 
+### Request shape (verified against live docs 2026-11-02)
+
+Verified against live public OpenAPI docs (`docs/evidence-2026-11-02-render-fix/ondemand-live-docs-chat-api.json` fetched from `GET https://api.on-demand.io/config/v1/public/docs/reference/api/<slug>`):
+
+1. **Create Chat Session**:
+   - **Method / Path**: `POST https://api.on-demand.io/chat/v1/sessions`
+   - **Headers**: `apikey: <ONDEMAND_API_KEY>`, `content-type: application/json`
+   - **Required body fields**: `externalUserId`
+   - **Optional body fields**: `pluginIds`
+   - **Confirmed Snapchat payload**:
+     ```json
+     {
+       "externalUserId": "gev-scene-footage",
+       "pluginIds": ["plugin-1792945050"]
+     }
+     ```
+   - **Response**: `201 Created` with `{ data: { id: "<sessionId>", ... } }`
+
+2. **Submit Query**:
+   - **Method / Path**: `POST https://api.on-demand.io/chat/v1/sessions/{sessionId}/query`
+   - **Headers**: `apikey: <ONDEMAND_API_KEY>`, `content-type: application/json`
+   - **Required body fields**: `query`, `endpointId`, `responseMode`
+   - **Optional body fields**: `pluginIds`, `fulfillmentOnly`, `modelConfigs`
+   - **Confirmed Snapchat payload**:
+     ```json
+     {
+       "endpointId": "predefined-openai-gpt4.1-mini",
+       "query": "<AGENT_INSTRUCTION + scene context JSON + fetchSnapchatVideosByPlace call>",
+       "responseMode": "sync",
+       "pluginIds": ["plugin-1792945050"]
+     }
+     ```
+   - **Response**: `200 OK` with `{ data: { sessionId, messageId, answer, status: "completed", metrics } }`
+
 The `query` begins with the footage-retrieval agent instruction **verbatim** (constant `AGENT_INSTRUCTION`), followed by a structured JSON scene context (`locationId, lat, lon, placeName, bbox, clientTimeIso`, coverage level, supported/unsupported plugin inputs) and the exact call `fetchSnapchatVideosByPlace {"places":[…],"limit":3}`, asking for the plugin JSON unmodified in a fenced block. The model answer is parsed, then **validated by strict zod schemas** (plugin response → clip). Captions are sanitized (markup, control and bidi characters stripped, 500-char cap) and rendered only through `textContent`; they are data, never instructions.
 
 ### Timeouts, retries and rate limits

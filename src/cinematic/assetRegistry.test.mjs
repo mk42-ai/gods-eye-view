@@ -36,6 +36,35 @@ test('billboardFor returns sprite URL with dimensions and handles model fallback
   assert.equal(bb1.height, 32);
   assert.equal(bb1.substituted, false);
 
+  // When document exists, returns width/height 36 and backplated canvas
+  const mockDoc = {
+    createElement(tag) {
+      if (tag === 'canvas') {
+        return {
+          tagName: 'CANVAS',
+          width: 0,
+          height: 0,
+          getContext: () => ({
+            save() {},
+            restore() {},
+            beginPath() {},
+            arc() {},
+            fill() {},
+            stroke() {},
+            drawImage() {},
+          }),
+        };
+      }
+      return {};
+    },
+  };
+  const bbDoc = registry.billboardFor('sprite.vehicle.police_car', {
+    document: mockDoc,
+  });
+  assert.equal(bbDoc.width, 36);
+  assert.equal(bbDoc.height, 36);
+  assert.equal(bbDoc.image.tagName, 'CANVAS');
+
   // Model asked as billboard falls back to its sprite fallback
   const bb2 = registry.billboardFor('model.cesium.milk_truck');
   assert.ok(bb2.image.includes('vehicle_civilian_sedan'));

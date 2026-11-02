@@ -73,6 +73,7 @@ export function createIncidentComposer({
   );
   root.setAttribute('data-state', 'idle');
   root.setAttribute('aria-busy', 'false');
+  root.setAttribute('data-request-count', '0');
   root.dataset.promptRevision = '0';
   // Explicit submission UI contract: drafts never auto-generate
   root.dataset.submissionMode = 'explicit';
@@ -694,12 +695,50 @@ export function createIncidentComposer({
     }
     text.title = `${lead.textContent} at ${fullName}`;
     wrap.append(play, text);
+    // When done.result.fallbacks is non-empty, show ONE compact badge in the done block: Approximate · <reason>
+    const fallbackReason =
+      (Array.isArray(payload.scene?.fallbacks) && payload.scene.fallbacks[0]) ||
+      (Array.isArray(payload.fallbacks) && payload.fallbacks[0]) ||
+      payload.fallback ||
+      payload.scene?.fallback ||
+      null;
+
+    if (fallbackReason) {
+      const badge = document.createElement('span');
+      badge.className = 'composer-fallback-badge';
+      badge.id = 'composer-fallback-badge';
+      const label =
+        fallbackReason === 'template' ? 'template fallback' : fallbackReason;
+      badge.textContent = `Approximate · ${label}`;
+      wrap.append(badge);
+      const fallbackAttr =
+        fallbackReason === 'partial'
+          ? 'partial'
+          : fallbackReason.includes('template')
+            ? 'template'
+            : fallbackReason;
+      root.setAttribute('data-fallback', fallbackAttr);
+      retry.hidden = false;
+      retry.textContent = '⟳ Retry';
+      retry.className =
+        'incident-composer__submit incident-composer__retry composer-retry-pill';
+    }
     // Keep the live-stream telemetry visible after completion (model · tok/s · elapsed).
-    if (payload.scene?.streamTimings && streamView.chip?.textContent) {
+    if (streamView.chip?.textContent) {
       const chip = document.createElement('span');
       chip.className = 'composer-stream-chip composer-stream-chip--done';
       chip.id = `${COMPOSER_ID}-stream-chip`;
       chip.textContent = streamView.chip.textContent;
+      if (streamView.chip.getAttribute('data-tokens'))
+        chip.setAttribute(
+          'data-tokens',
+          streamView.chip.getAttribute('data-tokens'),
+        );
+      if (streamView.chip.getAttribute('data-elapsed-ms'))
+        chip.setAttribute(
+          'data-elapsed-ms',
+          streamView.chip.getAttribute('data-elapsed-ms'),
+        );
       chip.title =
         'Streaming telemetry: tokens/s is an estimate from narration_token events';
       wrap.append(chip);
@@ -754,6 +793,8 @@ export function createIncidentComposer({
       inserted = null,
       ingest = null,
       reused = false;
+    const prevReqCount = Number(root.getAttribute('data-request-count') || 0);
+    root.setAttribute('data-request-count', String(prevReqCount + 1));
     const geographic = geographicOnly(run);
     if (geographic) {
       // Legacy standalone callers retain the deterministic geographic builder.
@@ -1134,18 +1175,17 @@ export function createIncidentComposer({
 
     // Synchronous admission check before first await so rapid click+keyboard only one run:
     if (
-      state.busy &&
-      activeRun?.kind === 'prompt' &&
-      trimmed === (activeRun.snapshot?.text ?? state.text) &&
-      selectionKey === (activeRun.snapshot?.scopeKey ?? state.submittedScope)
+      (state.busy || admissionOwner) &&
+      trimmed === (activeRun?.snapshot?.text ?? state.text) &&
+      selectionKey === (activeRun?.snapshot?.scopeKey ?? state.submittedScope)
     ) {
       root.setAttribute('data-duplicate', String(Date.now()));
-      return activeRun.promise || null;
+      return activeRun?.promise || admissionOwner?.promise || null;
     }
 
     if (admissionOwner && !activeRun) {
       root.setAttribute('data-duplicate', String(Date.now()));
-      return activeRun?.promise || null;
+      return activeRun?.promise || admissionOwner?.promise || null;
     }
     const admission = {};
 
@@ -1163,11 +1203,11 @@ export function createIncidentComposer({
       state.extraction = null;
       clearScene();
       resetSteps();
-      setBusy(false);
       retry.hidden = true;
 
       const local = showLocalPrompt(trimmed);
       if (local) {
+        setBusy(false);
         if (!trimmed) input.focus?.({ preventScroll: true });
         return trimmed ? local : null;
       }
@@ -1233,7 +1273,7 @@ export function createIncidentComposer({
       );
       root.setAttribute('data-state', 'busy');
 
-      run.promise = (async () => {
+      admission.promise = run.promise = (async () => {
         try {
           state.extraction = run.extraction = parsed;
           step('locating', 'active', run);
@@ -1542,6 +1582,9 @@ export function createIncidentComposer({
     restorePrompt,
     attachStoredScene(scene) {
       state.lastScene = scene;
+    },
+    showNotice(text) {
+      showResult(notice(text));
     },
     cancel: cancelRequest,
     state,

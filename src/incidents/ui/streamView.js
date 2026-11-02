@@ -32,6 +32,8 @@ export function createStreamView({
   const chip = document.createElement('div');
   chip.className = 'composer-stream-chip';
   chip.textContent = 'Connecting…';
+  chip.setAttribute('data-tokens', '0');
+  chip.setAttribute('data-elapsed-ms', '0');
 
   // Screen reader summary line (polite, only updated on milestone/completion)
   const srSummary = document.createElement('div');
@@ -89,10 +91,17 @@ export function createStreamView({
 
   function updateChip() {
     if (destroyed) return;
-    const elapsedSec = Math.max(0.1, (Date.now() - startTime) / 1000);
+    const elapsedMs = Math.max(0, Date.now() - startTime);
+    const elapsedSec = Math.max(0.1, elapsedMs / 1000);
     const rate =
-      finalRate !== null ? finalRate : Math.round(tokenCount / elapsedSec);
+      tokenCount === 0
+        ? 0
+        : finalRate !== null
+          ? finalRate
+          : Math.round(tokenCount / elapsedSec);
     chip.textContent = `${modelName} · ~${rate} tok/s (est.) · ${elapsedSec.toFixed(1)} s`;
+    chip.setAttribute('data-tokens', String(tokenCount));
+    chip.setAttribute('data-elapsed-ms', String(elapsedMs));
   }
 
   function startTimer() {
@@ -168,6 +177,19 @@ export function createStreamView({
     tokenCount += 1;
     root.dataset.state = 'streaming';
     scheduleTypewriter();
+    updateChip();
+  }
+
+  function addTokens(count) {
+    if (destroyed || !Number.isFinite(count) || count <= 0) return;
+    tokenCount += Math.round(count);
+    updateChip();
+  }
+
+  function setTokensAuthoritative(count) {
+    if (destroyed || !Number.isFinite(count)) return;
+    tokenCount = Math.round(count);
+    updateChip();
   }
 
   function flush() {
@@ -196,6 +218,8 @@ export function createStreamView({
       startTimer();
       skeleton.hidden = false;
       chip.textContent = 'Connecting…';
+      chip.setAttribute('data-tokens', '0');
+      chip.setAttribute('data-elapsed-ms', '0');
     } else if (state === 'reconnecting') {
       skeleton.hidden = false;
       chip.textContent = 'Reconnecting…';
@@ -206,10 +230,17 @@ export function createStreamView({
       flush();
       skeleton.hidden = true;
       stopTimer();
-      const totalSec = Math.max(0.1, (Date.now() - startTime) / 1000);
+      const totalMs = Math.max(0, Date.now() - startTime);
+      const totalSec = Math.max(0.1, totalMs / 1000);
       const rate =
-        finalRate !== null ? finalRate : Math.round(tokenCount / totalSec);
+        tokenCount === 0
+          ? 0
+          : finalRate !== null
+            ? finalRate
+            : Math.round(tokenCount / totalSec);
       chip.textContent = `${modelName} · ~${rate} tok/s (est.) · ${totalSec.toFixed(1)} s`;
+      chip.setAttribute('data-tokens', String(tokenCount));
+      chip.setAttribute('data-elapsed-ms', String(totalMs));
       srSummary.textContent = `Scene build complete. ${tokenCount} narration tokens delivered in ${totalSec.toFixed(1)}s.`;
     } else if (state === 'error') {
       flush();
@@ -239,6 +270,22 @@ export function createStreamView({
       statusLine.textContent = text;
       statusLine.hidden = false;
       statusLine.dataset.stage = stage || '';
+      if (stage === 'fallback') {
+        statusLine.className =
+          'composer-stream-status composer-stream-status--fallback';
+      } else {
+        statusLine.className = 'composer-stream-status';
+      }
+    }
+  }
+
+  function setFallback(text) {
+    if (text) {
+      statusLine.textContent = text;
+      statusLine.hidden = false;
+      statusLine.dataset.stage = 'fallback';
+      statusLine.className =
+        'composer-stream-status composer-stream-status--fallback';
     }
   }
 
@@ -266,11 +313,14 @@ export function createStreamView({
     jumpPill,
     srSummary,
     appendToken,
+    addTokens,
+    setTokensAuthoritative,
     flush,
     setState,
     setModel,
     setTokensPerSec,
     setStatus,
+    setFallback,
     setThinking,
     jumpToLatest,
     getDisplayedText: () => displayedChars,

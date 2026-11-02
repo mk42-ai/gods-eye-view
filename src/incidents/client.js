@@ -148,78 +148,106 @@ export function createIncidentClient({
       let buffer = '';
       let completedResult = null;
 
+      let activeReader = null;
+      const onAbort = () => {
+        try {
+          activeReader?.cancel?.();
+        } catch {}
+      };
+      signal?.addEventListener?.('abort', onAbort, { once: true });
+
       const readIterator = async function* () {
         if (res.body?.getReader) {
           const reader = res.body.getReader();
+          activeReader = reader;
           try {
             while (true) {
+              if (signal?.aborted) break;
               const { done, value } = await reader.read();
               if (done) break;
               yield value;
             }
           } finally {
+            activeReader = null;
             reader.releaseLock?.();
           }
         } else if (res.body && res.body[Symbol.asyncIterator]) {
-          for await (const chunk of res.body) yield chunk;
+          for await (const chunk of res.body) {
+            if (signal?.aborted) break;
+            yield chunk;
+          }
         }
       };
 
-      for await (const chunk of readIterator()) {
-        if (signal?.aborted) {
-          const err = new Error('Request cancelled.');
-          err.name = 'AbortError';
-          throw err;
-        }
-        buffer +=
-          typeof chunk === 'string'
-            ? chunk
-            : decoder.decode(chunk, { stream: true });
-        const parts = buffer.split(/\r?\n\r?\n/);
-        buffer = parts.pop() || '';
-        for (const block of parts) {
-          if (!block.trim()) continue;
-          const lines = block.split(/\r?\n/);
-          let event = 'message';
-          let id = null;
-          const dataLines = [];
-          for (const line of lines) {
-            if (!line || line.startsWith(':')) continue;
-            if (line.startsWith('id:')) id = line.slice(3).trim();
-            else if (line.startsWith('event:')) event = line.slice(6).trim();
-            else if (line.startsWith('data:')) {
-              let d = line.slice(5);
-              if (d.startsWith(' ')) d = d.slice(1);
-              dataLines.push(d);
+      try {
+        for await (const chunk of readIterator()) {
+          if (signal?.aborted) {
+            const err = new Error('Request cancelled.');
+            err.name = 'AbortError';
+            throw err;
+          }
+          buffer +=
+            typeof chunk === 'string'
+              ? chunk
+              : decoder.decode(chunk, { stream: true });
+          const parts = buffer.split(/\r?\n\r?\n/);
+          buffer = parts.pop() || '';
+          for (const block of parts) {
+            if (!block.trim()) continue;
+            if (signal?.aborted) {
+              const err = new Error('Request cancelled.');
+              err.name = 'AbortError';
+              throw err;
+            }
+            const lines = block.split(/\r?\n/);
+            let event = 'message';
+            let id = null;
+            const dataLines = [];
+            for (const line of lines) {
+              if (!line || line.startsWith(':')) continue;
+              if (line.startsWith('id:')) id = line.slice(3).trim();
+              else if (line.startsWith('event:')) event = line.slice(6).trim();
+              else if (line.startsWith('data:')) {
+                let d = line.slice(5);
+                if (d.startsWith(' ')) d = d.slice(1);
+                dataLines.push(d);
+              }
+            }
+            if (dataLines.length === 0 && !id && event === 'message') continue;
+            const rawData = dataLines.join('\n');
+            let parsedData = rawData;
+            try {
+              parsedData = JSON.parse(rawData);
+            } catch {}
+            const eventObj = { id, event, data: parsedData, raw: rawData };
+            if (signal?.aborted) {
+              const err = new Error('Request cancelled.');
+              err.name = 'AbortError';
+              throw err;
+            }
+            onEvent(eventObj);
+            if (event === 'done') {
+              completedResult = parsedData?.result || parsedData;
+              return completedResult;
+            }
+            if (event === 'error') {
+              const err = new Error(
+                parsedData?.message || parsedData?.code || 'Stream error',
+              );
+              err.code = parsedData?.code || 'stream_error';
+              err.details = parsedData;
+              throw err;
+            }
+            if (event === 'resume_unavailable') {
+              const err = new Error('Session resume unavailable');
+              err.code = 'resume_unavailable';
+              err.details = parsedData;
+              throw err;
             }
           }
-          if (dataLines.length === 0 && !id && event === 'message') continue;
-          const rawData = dataLines.join('\n');
-          let parsedData = rawData;
-          try {
-            parsedData = JSON.parse(rawData);
-          } catch {}
-          const eventObj = { id, event, data: parsedData, raw: rawData };
-          onEvent(eventObj);
-          if (event === 'done') {
-            completedResult = parsedData?.result || parsedData;
-            return completedResult;
-          }
-          if (event === 'error') {
-            const err = new Error(
-              parsedData?.message || parsedData?.code || 'Stream error',
-            );
-            err.code = parsedData?.code || 'stream_error';
-            err.details = parsedData;
-            throw err;
-          }
-          if (event === 'resume_unavailable') {
-            const err = new Error('Session resume unavailable');
-            err.code = 'resume_unavailable';
-            err.details = parsedData;
-            throw err;
-          }
         }
+      } finally {
+        signal?.removeEventListener?.('abort', onAbort);
       }
       return completedResult;
     },

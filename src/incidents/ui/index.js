@@ -42,7 +42,10 @@ import { createGeographicOverlay } from './geographicOverlay.js';
 import { createSceneGeometryLayer } from './sceneGeometryLayer.js';
 import { createSceneStagingLayer } from './sceneStagingLayer.js';
 import { createSceneStreamLayer } from './sceneStreamLayer.js';
+import { createSceneLegend } from './sceneLegend.js';
 import { installCinematicEngine } from '../../cinematic/index.js';
+import * as CesiumModule from 'cesium';
+import { classifyPrompt, templateSpec } from '../../scenes/sceneTemplates.js';
 
 /**
  * Decide whether a failed SSE construct attempt may be retried over the JSON
@@ -88,6 +91,9 @@ export function installIncidentScenes({
   storage,
 } = {}) {
   if (!doc || !viewer || !sceneDirector) return null;
+  if (typeof win !== 'undefined' && viewer) {
+    win.__gevViewer = viewer;
+  }
   const client = createIncidentClient({ fetch: fetchImpl, storage });
   const geographicStore = createGeographicSceneStore(
     storage || win.localStorage,
@@ -98,6 +104,16 @@ export function installIncidentScenes({
   const stagingLayer = createSceneStagingLayer(viewer, { document: doc });
   // Progressive SSE preview of staging elements (cleared once the final scene lands).
   const streamLayer = createSceneStreamLayer(viewer);
+  // Compact map legend (collapsed pill; icon + label per element type present).
+  let sceneLegend = null;
+  try {
+    sceneLegend = createSceneLegend({
+      document: doc,
+      viewerContainer: viewer.container || doc.body,
+    });
+  } catch (error) {
+    console.warn('[scene-legend] unavailable', error?.message || error);
+  }
   // Live Cinematic Intelligence Engine (2026-11-01): typed SSE events from the
   // same construct stream drive the persistent Cesium runtime, playback clock,
   // camera director, live-intelligence patches, Q&A and the cinematic panel.
@@ -726,12 +742,35 @@ export function installIncidentScenes({
     ];
     sceneLibrary?.setScene(scene, { saved });
     sceneLibrary?.element.setAttribute('data-scene-id', scene.id);
+
+    // Guaranteed render: when fallback is partial, promote and KEEP streamLayer visible!
+    if (scene.fallback === 'partial') {
+      for (const button of [playBtn, pauseBtn, prevBtn, nextBtn])
+        button.disabled = false;
+      scrub.disabled = false;
+      panel.dataset.activeScene = scene.id;
+      panel.dataset.playable = 'true';
+      viewer.useDefaultRenderLoop = true;
+      viewer.scene?.requestRender?.();
+      studio?.setScene(scene);
+      if (focus && !reopen) {
+        await triggerCinematicFlyIn(scene);
+      }
+      return scene;
+    }
+
     geographicOverlay.setScene(scene);
     geometryLayer.setScene(scene);
     streamLayer.clear();
     stagingLayer.setScene(scene);
     // Verified camera-discovery candidates become cctv_signal markers; nothing invented.
     stagingLayer.setCameras(cameraCandidatesFor(scene));
+    try {
+      sceneLegend?.setScene(scene.staging || scene.plan || scene);
+    } catch {
+      /* legend is decorative */
+    }
+    viewer.scene?.requestRender?.();
     if (cinematic) {
       if (
         scene.cinematic &&
@@ -767,15 +806,17 @@ export function installIncidentScenes({
     }
     if (focus && !reopen) {
       viewer.useDefaultRenderLoop = true;
-      viewer.scene.requestRender();
+      viewer.scene?.requestRender?.();
       const first = sceneDirector._getSelectedScene?.()?.shots?.[0];
       if (first)
         await sceneDirector.loadShot(scene.id, first.id, { flyDuration: 1.8 });
+      await triggerCinematicFlyIn(scene);
     }
     assertCurrent(reopen ? {} : request);
     studio?.setScene(scene);
     sceneCamera?.setScene(scene);
     sceneFootageControls?.setScene(scene);
+    viewer.scene?.requestRender?.();
     if (research)
       openEvidence(scene, {
         text: evidenceText,
@@ -945,13 +986,269 @@ export function installIncidentScenes({
   scrub.disabled = true;
 
   // ------------------------------------------------- streaming construct
+  function buildLocalTemplateFallback(payload, lastOrigin) {
+    const prompt = payload.prompt || '';
+    const scenarioType = classifyPrompt(prompt);
+    const spec = templateSpec(prompt, scenarioType);
+
+    const anchor = {
+      name:
+        payload.candidate?.name ||
+        lastOrigin?.name ||
+        spec.focalEntity?.name ||
+        'Local area',
+      lat: Number.isFinite(payload.candidate?.lat)
+        ? payload.candidate.lat
+        : Number.isFinite(lastOrigin?.lat)
+          ? lastOrigin.lat
+          : 25.0806,
+      lon: Number.isFinite(payload.candidate?.lon)
+        ? payload.candidate.lon
+        : Number.isFinite(lastOrigin?.lon)
+          ? lastOrigin.lon
+          : 55.1397,
+    };
+
+    const typeMap = {
+      inner_cordon: 'barrier',
+      outer_cordon: 'barrier',
+      cordon: 'barrier',
+      barriers: 'barrier',
+      cones: 'barrier',
+      perimeter_unit: 'police',
+      checkpoint: 'police_vehicle',
+      vehicle_checkpoint: 'police_vehicle',
+      police_car: 'police_vehicle',
+      staging_point: 'police_vehicle',
+      cctv_signal: 'police',
+      crowd_zone: 'person',
+      runner: 'runner',
+      start_finish: 'start_line',
+      approach_route: 'vehicle',
+      egress_route: 'vehicle',
+      route_line: 'barrier',
+    };
+
+    const entities = (spec.elements || []).map((element, i) => {
+      const entType = typeMap[element.type] || 'police';
+      const angle = i * 45 * (Math.PI / 180);
+      const dist = 30 + i * 15;
+      return {
+        id: `fallback-ent-${i + 1}`,
+        type: entType,
+        label: element.type.replace(/_/g, ' '),
+        quantity: Math.min(element.params?.count || 1, 10),
+        position: {
+          eastM: Math.round(dist * Math.cos(angle)),
+          northM: Math.round(dist * Math.sin(angle)),
+        },
+        heading: (i * 45) % 360,
+      };
+    });
+
+    if (entities.length === 0) {
+      entities.push({
+        id: 'fallback-ent-1',
+        type: 'police',
+        label: 'Security unit',
+        quantity: 1,
+        position: { eastM: 10, northM: 10 },
+        heading: 0,
+      });
+    }
+
+    const plan = {
+      version: 1,
+      title: `${spec.focalEntity?.name || 'Scene'} (${scenarioType.replace(/_/g, ' ')})`,
+      illustrative: true,
+      durationSec: 15,
+      location: {
+        name: anchor.name,
+        lat: anchor.lat,
+        lon: anchor.lon,
+      },
+      camera: { distanceM: 400, heading: 45, pitch: -35, framing: 'wide' },
+      entities,
+      relationships: [],
+      beats: [
+        {
+          atSec: 0,
+          title: 'Initial Overview',
+          narration: 'Approximate template fallback staging.',
+          entityIds: [entities[0].id],
+        },
+      ],
+      citations: [],
+      verification: {
+        status: 'location_approximate',
+        locationSource: 'Client template fallback',
+        checkedAt: new Date().toISOString(),
+        limitations: [
+          'Approximate template fallback generated client-side after timeout.',
+        ],
+      },
+    };
+
+    return {
+      ok: true,
+      plan,
+      staging: null,
+      geometry: null,
+      locationResolution: {
+        approximate: true,
+        confidence: 0.35,
+        precision: 'approximate',
+      },
+      fallbacks: ['template fallback'],
+      fallback: 'template fallback',
+      anchor,
+    };
+  }
+
+  let lastFlyInSceneId = null;
+
+  function extractCartesianPositions(scene, Cesium) {
+    const positions = [];
+    const anchor = scene.anchor || { lat: 25.0806, lon: 55.1397 };
+    if (!Cesium?.Cartesian3?.fromDegrees) return positions;
+
+    if (Array.isArray(scene.plan?.entities)) {
+      for (const ent of scene.plan.entities) {
+        if (ent.position) {
+          const dLat = (ent.position.northM || 0) / 111111;
+          const dLon =
+            (ent.position.eastM || 0) /
+            (111111 * Math.cos((anchor.lat * Math.PI) / 180));
+          positions.push(
+            Cesium.Cartesian3.fromDegrees(
+              anchor.lon + dLon,
+              anchor.lat + dLat,
+              0,
+            ),
+          );
+        }
+      }
+    }
+
+    if (Array.isArray(scene.staging?.points)) {
+      for (const pt of scene.staging.points) {
+        if (Number.isFinite(pt.lat) && Number.isFinite(pt.lon)) {
+          positions.push(
+            Cesium.Cartesian3.fromDegrees(pt.lon, pt.lat, pt.alt || 0),
+          );
+        }
+      }
+    }
+
+    return positions;
+  }
+
+  function extractScenePositions(scene) {
+    const positions = [];
+    const anchor = scene.anchor || { lat: 25.0806, lon: 55.1397 };
+
+    if (Array.isArray(scene.plan?.entities)) {
+      for (const ent of scene.plan.entities) {
+        if (ent.position) {
+          const dLat = (ent.position.northM || 0) / 111111;
+          const dLon =
+            (ent.position.eastM || 0) /
+            (111111 * Math.cos((anchor.lat * Math.PI) / 180));
+          positions.push({
+            lat: anchor.lat + dLat,
+            lon: anchor.lon + dLon,
+          });
+        }
+      }
+    }
+
+    if (Array.isArray(scene.staging?.points)) {
+      for (const pt of scene.staging.points) {
+        if (Number.isFinite(pt.lat) && Number.isFinite(pt.lon)) {
+          positions.push({ lat: pt.lat, lon: pt.lon });
+        }
+      }
+    }
+
+    return positions;
+  }
+
+  async function triggerCinematicFlyIn(scene) {
+    if (!viewer || !scene || scene.id === lastFlyInSceneId) return;
+    lastFlyInSceneId = scene.id;
+
+    try {
+      const flyInModule = await import('./sceneFlyIn.js').catch(() => null);
+      if (typeof flyInModule?.flyToScene === 'function') {
+        const positions = extractScenePositions(scene);
+        await flyInModule.flyToScene(viewer, {
+          positions,
+          anchor: scene.anchor,
+          Cesium: CesiumModule,
+        });
+        return;
+      }
+    } catch {}
+
+    if (!viewer?.camera?.flyToBoundingSphere) return;
+
+    try {
+      const Cesium = CesiumModule;
+      const positions = extractCartesianPositions(scene, Cesium);
+      let sphere;
+      if (positions.length > 0 && Cesium.BoundingSphere?.fromPoints) {
+        sphere = Cesium.BoundingSphere.fromPoints(positions);
+      } else {
+        const center = Cesium.Cartesian3?.fromDegrees
+          ? Cesium.Cartesian3.fromDegrees(
+              scene.anchor?.lon ?? 55.1397,
+              scene.anchor?.lat ?? 25.0806,
+              scene.anchor?.alt || 0,
+            )
+          : { x: 0, y: 0, z: 0 };
+        sphere = Cesium.BoundingSphere
+          ? new Cesium.BoundingSphere(center, 600)
+          : { center, radius: 600 };
+      }
+
+      const headingRad = Cesium.Math?.toRadians
+        ? Cesium.Math.toRadians(25)
+        : (25 * Math.PI) / 180;
+      const pitchRad = Cesium.Math?.toRadians
+        ? Cesium.Math.toRadians(-45)
+        : (-45 * Math.PI) / 180;
+      const range = (sphere.radius || 600) * 2.0;
+
+      const offset = Cesium.HeadingPitchRange
+        ? new Cesium.HeadingPitchRange(headingRad, pitchRad, range)
+        : { heading: headingRad, pitch: pitchRad, range };
+
+      viewer.camera.flyToBoundingSphere(sphere, {
+        duration: 2.5,
+        offset,
+      });
+    } catch (err) {
+      console.warn(
+        '[fly-in] inline flyToBoundingSphere error',
+        err?.message || err,
+      );
+    }
+  }
+
   /**
    * Build through the SSE route when available (typed events feed the
    * composer's typewriter view and the progressive map preview); fall back to
    * the JSON /construct route when the server is older, answers non-SSE, or
    * cannot resume. Timings are measured client-side from real event arrival.
    */
-  async function constructWithStream(payload, { signal } = {}) {
+  async function constructWithStream(
+    payload,
+    {
+      signal,
+      silenceTimeoutMs = win?.__gevSilenceTimeoutMs || 45_000,
+      totalTimeoutMs = win?.__gevTotalTimeoutMs || 150_000,
+    } = {},
+  ) {
     const streamEnabled =
       typeof client.constructSceneStream === 'function' &&
       win.__gevSceneStream !== false;
@@ -973,8 +1270,64 @@ export function installIncidentScenes({
         ? crypto.randomUUID()
         : `req-${Date.now().toString(36)}`;
     streamLayer.clear();
+    viewer?.scene?.requestRender?.();
     let lastEventId = null;
+    let lastKnownOrigin = null;
+    const fallbacks = [];
+
+    let silenceTimer = null;
+    let totalTimer = null;
+    let timedOut = false;
+    let streamAborted = false;
+    const internalAbort = new AbortController();
+
+    const forwardAbort = () => {
+      internalAbort.abort(signal?.reason);
+    };
+    if (signal) {
+      if (signal.aborted) {
+        internalAbort.abort(signal.reason);
+      } else {
+        signal.addEventListener('abort', forwardAbort, { once: true });
+      }
+    }
+
+    const cleanupTimers = () => {
+      if (silenceTimer) clearTimeout(silenceTimer);
+      if (totalTimer) clearTimeout(totalTimer);
+      silenceTimer = null;
+      totalTimer = null;
+      if (signal) signal.removeEventListener?.('abort', forwardAbort);
+    };
+
+    const handleTimeout = (reason) => {
+      if (timedOut || streamAborted) return;
+      timedOut = true;
+      view?.setFallback(
+        'Research timed out · continuing with approximate location',
+      );
+      try {
+        internalAbort.abort(new Error(`Scene build timed out (${reason})`));
+      } catch {}
+    };
+
+    const resetSilenceTimer = () => {
+      if (silenceTimer) clearTimeout(silenceTimer);
+      if (timedOut || streamAborted) return;
+      silenceTimer = setTimeout(() => {
+        handleTimeout('silence');
+      }, silenceTimeoutMs);
+      silenceTimer?.unref?.();
+    };
+
+    totalTimer = setTimeout(() => {
+      handleTimeout('total');
+    }, totalTimeoutMs);
+    totalTimer?.unref?.();
+    resetSilenceTimer();
+
     const onEvent = (evt) => {
+      resetSilenceTimer();
       if (evt?.id) lastEventId = evt.id;
       const data = evt?.data || {};
       const at = Math.round(performance.now() - started);
@@ -986,16 +1339,42 @@ export function installIncidentScenes({
       }
       switch (evt?.event) {
         case 'status':
-          view?.setStatus(data.stage, data.text);
+          if (data.stage === 'fallback') {
+            view?.setFallback(
+              data.text ||
+                'Research timed out · continuing with approximate location',
+            );
+          } else {
+            view?.setStatus(data.stage, data.text);
+          }
           if (data.stage) view?.setState('streaming');
+          break;
+        case 'fallback':
+          view?.setFallback(
+            data.reason ||
+              data.text ||
+              'Research timed out · continuing with approximate location',
+          );
+          if (data.reason || data.mode)
+            fallbacks.push(data.reason || data.mode);
           break;
         case 'thinking':
           view?.setThinking(data.note);
+          break;
+        case 'model.selected':
+          if (data.endpointId || data.modelId || data.id)
+            view?.setModel(data.endpointId || data.modelId || data.id);
           break;
         case 'plan':
           if (timings.planMs == null) timings.planMs = at;
           if (data.model?.id || data.model?.endpointId)
             view?.setModel(data.model.id || data.model.endpointId);
+          if (data.spec?.location) lastKnownOrigin = data.spec.location;
+          else if (data.plan?.location) lastKnownOrigin = data.plan.location;
+          break;
+        case 'run.started':
+          if (data.origin) lastKnownOrigin = data.origin;
+          else if (data.location) lastKnownOrigin = data.location;
           break;
         case 'element_added':
           if (timings.firstElementMs == null) timings.firstElementMs = at;
@@ -1005,6 +1384,7 @@ export function installIncidentScenes({
           } catch {
             /* preview only */
           }
+          viewer?.scene?.requestRender?.();
           break;
         case 'narration_token':
           if (timings.ttftMs == null) timings.ttftMs = at;
@@ -1015,45 +1395,150 @@ export function installIncidentScenes({
               : String(data.token ?? ''),
           );
           break;
+        case 'answer.delta': {
+          if (timings.ttftMs == null) timings.ttftMs = at;
+          const deltaText =
+            typeof data.text === 'string'
+              ? data.text
+              : typeof data.delta === 'string'
+                ? data.delta
+                : '';
+          const deltaTokens = Number.isFinite(data.tokens)
+            ? data.tokens
+            : Math.max(1, Math.round(deltaText.length / 4));
+          timings.tokens += deltaTokens;
+          view?.addTokens?.(deltaTokens);
+          if (deltaText) view?.appendToken?.(deltaText, 0);
+          break;
+        }
         case 'usage':
-          if (Number.isFinite(data.tokensEstimated) && timings.ttftMs != null) {
-            const secs = Math.max(0.001, (at - timings.ttftMs) / 1000);
-            timings.tokensPerSec = Math.round(timings.tokens / secs);
-            view?.setTokensPerSec(timings.tokensPerSec);
+          if (Number.isFinite(data.tokensEstimated)) {
+            timings.tokens = data.tokensEstimated;
+            view?.setTokensAuthoritative?.(data.tokensEstimated);
+            if (timings.ttftMs != null) {
+              const secs = Math.max(0.001, (at - timings.ttftMs) / 1000);
+              timings.tokensPerSec = Math.round(data.tokensEstimated / secs);
+              view?.setTokensPerSec(timings.tokensPerSec);
+            }
+          }
+          break;
+        case 'done':
+          if (Array.isArray(data.result?.fallbacks)) {
+            fallbacks.push(...data.result.fallbacks);
           }
           break;
         default:
           break;
       }
     };
-    let result;
+
+    let result = null;
     try {
       const endpointId = cinematic?.selectedEndpointId?.();
       result = await client.constructSceneStream(
         { ...payload, requestId, ...(endpointId ? { endpointId } : {}) },
-        { signal, onEvent },
+        { signal: internalAbort.signal, onEvent },
       );
     } catch (error) {
-      if (signal?.aborted || error?.name === 'AbortError') throw error;
-      if (!shouldFallBackToJsonConstruct(error)) throw error;
-      view?.setState('reconnecting');
-      timings.transport = `json-fallback:${error?.code || error?.status || error?.message || 'network'}`;
-      result = await client.constructScene(payload, { signal });
+      if (signal?.aborted || (error?.name === 'AbortError' && !timedOut)) {
+        streamAborted = true;
+        cleanupTimers();
+        throw error;
+      }
+      if (!timedOut) {
+        if (!shouldFallBackToJsonConstruct(error)) {
+          cleanupTimers();
+          throw error;
+        }
+        view?.setState('reconnecting');
+        timings.transport = `json-fallback:${error?.code || error?.status || error?.message || 'network'}`;
+        try {
+          result = await client.constructScene(payload, { signal });
+        } catch {
+          result = null;
+        }
+      }
     }
-    if (!result && lastEventId) {
+
+    if (!result && lastEventId && !timedOut && !signal?.aborted) {
       // Stream ended without a done event (dropped connection): resume once.
       view?.setState('reconnecting');
       try {
         result = await client.constructSceneStream(
           { ...payload, requestId },
-          { signal, onEvent, lastEventId },
+          { signal: internalAbort.signal, onEvent, lastEventId },
         );
       } catch (error) {
-        if (signal?.aborted || error?.name === 'AbortError') throw error;
-        timings.transport = `json-fallback-after-resume:${error?.code || error?.status || 'network'}`;
-        result = await client.constructScene(payload, { signal });
+        if (signal?.aborted || (error?.name === 'AbortError' && !timedOut)) {
+          cleanupTimers();
+          throw error;
+        }
+        if (!timedOut) {
+          timings.transport = `json-fallback-after-resume:${error?.code || error?.status || 'network'}`;
+          try {
+            result = await client.constructScene(payload, { signal });
+          } catch {
+            result = null;
+          }
+        }
       }
     }
+
+    cleanupTimers();
+
+    if (timedOut) {
+      view?.setFallback(
+        'Research timed out · continuing with approximate location',
+      );
+      composerRef?.showNotice?.(
+        'Scene build timed out — showing the best available scene',
+      );
+
+      // Branch A: element_added features were already streamed
+      if (timings.elements > 0 || streamLayer.getState().count > 0) {
+        composerRef?.element?.setAttribute('data-state', 'done');
+        composerRef?.element?.setAttribute('data-fallback', 'partial');
+        viewer?.scene?.requestRender?.();
+        result = {
+          ok: true,
+          partial: true,
+          fallback: 'partial',
+          fallbacks: ['partial stream'],
+          anchor: lastKnownOrigin || payload.candidate,
+          __streamTimings: timings,
+        };
+        return result;
+      }
+
+      // Branch B: no elements streamed yet -> fall back to JSON /construct route once
+      view?.setState('reconnecting');
+      view?.setFallback(
+        'Research timed out · continuing with approximate location',
+      );
+      try {
+        result = await client.constructScene(payload, { signal });
+        if (result && result.ok && result.plan) {
+          if (!result.fallbacks) result.fallbacks = ['json fallback'];
+          return result;
+        }
+      } catch {}
+
+      // Branch C: JSON also failed -> render LOCAL fallback
+      result = buildLocalTemplateFallback(payload, lastKnownOrigin);
+      return result;
+    }
+
+    if (!result || !result.ok || !result.plan) {
+      // Guaranteed render: if server returned no plan, build local fallback
+      result = buildLocalTemplateFallback(payload, lastKnownOrigin);
+    }
+
+    if (fallbacks.length > 0 && result) {
+      result.fallbacks = [
+        ...new Set([...(result.fallbacks || []), ...fallbacks]),
+      ];
+    }
+
     timings.doneMs = Math.round(performance.now() - started);
     if (
       timings.tokensPerSec == null &&
@@ -1103,6 +1588,11 @@ export function installIncidentScenes({
       const result = await constructWithStream(
         {
           prompt: text,
+          // QA degradation hook (fallback acceptance tests only; see
+          // scripts/qa-bugfix-live.mjs). The server can only degrade with it.
+          ...(win.__gevQaForce && typeof win.__gevQaForce === 'object'
+            ? { qaForce: win.__gevQaForce }
+            : {}),
           candidate: {
             name: String(candidate?.name || text).slice(0, 300),
             ...(hasHintCoords
@@ -1127,6 +1617,32 @@ export function installIncidentScenes({
       );
       lastConstructGeometry = result.geometry || null;
       assertCurrent(request);
+
+      if (result.partial) {
+        composerRef?.element?.setAttribute('data-state', 'done');
+        composerRef?.element?.setAttribute('data-fallback', 'partial');
+        const resolvedAnchor = result.anchor || {
+          name: candidate?.name || text,
+          lat: Number.isFinite(candidate?.lat) ? candidate.lat : 25.0806,
+          lon: Number.isFinite(candidate?.lon) ? candidate.lon : 55.1397,
+        };
+        const scene = {
+          id: `geo-scene-partial-${Date.now().toString(36)}`,
+          title: text,
+          geographic: true,
+          anchor: resolvedAnchor,
+          fallback: 'partial',
+          fallbacks: ['partial stream'],
+          selectedTime: {
+            windowHours: extraction.windowHours,
+            timeMode: extraction.timeMode,
+            windowStart: extraction.windowStart,
+            windowEnd: extraction.windowEnd,
+          },
+        };
+        return scene;
+      }
+
       if (!result.ok || !result.plan)
         throw new Error('No validated scene plan was returned.');
       const streamTimings = result.__streamTimings || null;
@@ -1172,6 +1688,8 @@ export function installIncidentScenes({
         },
         now: new Date(),
       });
+      if (result.fallbacks) scene.fallbacks = result.fallbacks;
+      if (result.fallback) scene.fallback = result.fallback;
       // Cinematic runtime document (validated on save/load; null for legacy
       // planner results). The streamed events already built the live runtime;
       // the final document is kept so reload/library restores the same scene.
@@ -1234,6 +1752,8 @@ export function installIncidentScenes({
       geometryLayer.clear();
       streamLayer.clear();
       stagingLayer.clear();
+      sceneLegend?.clear();
+      viewer?.scene?.requestRender?.();
       overlay.flyTo(candidate.lat, candidate.lon, {
         altitude: 14000,
         duration: 1.6,
@@ -1244,6 +1764,11 @@ export function installIncidentScenes({
         return sceneDirector.pauseScene();
       if (action === 'resume' && sceneDirector.paused)
         return sceneDirector.resumeScene();
+      if (action === 'play') {
+        const id = sceneDirector._selectedSceneId || state.scenes[0]?.id;
+        if (id) return playScene(id, { fly: false });
+        return cinematic?.playback?.play?.() ?? null;
+      }
       return null;
     },
     onUnresolved: (request) => {
@@ -1452,10 +1977,14 @@ export function installIncidentScenes({
       sceneCamera.destroy();
       sceneFootageControls?.destroy();
       if (win.__gevSceneStudio === studio) delete win.__gevSceneStudio;
+      if (typeof win !== 'undefined' && win.__gevViewer === viewer) {
+        delete win.__gevViewer;
+      }
       doc.removeEventListener('keydown', onKey);
       composer.destroy();
       diagnostics.destroy();
       sceneLibrary.destroy();
+      sceneLegend?.destroy?.();
       geographicOverlay.destroy();
       geometryLayer.destroy();
       streamLayer.destroy();

@@ -175,3 +175,62 @@ test('complete state updates chip and screen reader polite summary line', () => 
 
   view.destroy();
 });
+
+test('setFallback updates status line with compact amber fallback styling', () => {
+  const doc = createMockDom();
+  const view = createStreamView({
+    document: doc,
+    requestAnimationFrame: () => 1,
+  });
+
+  view.setFallback('Research timed out · continuing with approximate location');
+  const statusLine = view.scrollArea.children.find((c) =>
+    c.className?.includes('composer-stream-status'),
+  );
+  assert.ok(statusLine, 'status line must exist');
+  assert.equal(statusLine.hidden, false);
+  assert.equal(
+    statusLine.textContent,
+    'Research timed out · continuing with approximate location',
+  );
+  assert.equal(statusLine.dataset.stage, 'fallback');
+  assert.ok(
+    statusLine.className.includes('composer-stream-status--fallback'),
+    'must carry fallback class',
+  );
+
+  view.destroy();
+});
+
+test('telemetry pill: accumulates tokens, shows ~0 tok/s initially, and sets QA data attributes', () => {
+  const doc = createMockDom();
+  const view = createStreamView({
+    document: doc,
+    requestAnimationFrame: () => 1,
+  });
+
+  view.setState('streaming');
+  // Initially before any token
+  assert.equal(view.chip.getAttribute('data-tokens'), '0');
+  assert.ok(view.chip.getAttribute('data-elapsed-ms') !== null);
+  assert.match(view.chip.textContent, /~0 tok\/s/);
+
+  // Append token and addTokens from answer.delta
+  view.appendToken('Hello ');
+  assert.equal(view.chip.getAttribute('data-tokens'), '1');
+  view.addTokens(5);
+  assert.equal(view.chip.getAttribute('data-tokens'), '6');
+
+  // Authoritative update from usage event
+  view.setTokensAuthoritative(12);
+  assert.equal(view.chip.getAttribute('data-tokens'), '12');
+
+  view.setModel('cerebras-llama3');
+  assert.match(view.chip.textContent, /cerebras-llama3/);
+
+  view.setState('complete');
+  assert.equal(view.chip.getAttribute('data-tokens'), '12');
+  assert.ok(Number(view.chip.getAttribute('data-elapsed-ms')) >= 0);
+
+  view.destroy();
+});

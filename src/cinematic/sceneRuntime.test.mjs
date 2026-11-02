@@ -314,3 +314,122 @@ test('destroy cleans up data source and entities', () => {
   runtime.destroy();
   assert.equal(viewer.getRemoved(), 1);
 });
+
+test('positionAt and positionsSnapshot change between t=0 and t=10 for authored moving entity', () => {
+  const viewer = createMockViewer();
+  const runtime = createSceneRuntime({ viewer });
+
+  const scene = emptyScene({
+    sceneId: 'scene-moving-path',
+    origin: { name: 'Origin', lat: 25.1972, lon: 55.2744 },
+    durationSec: 60,
+  });
+
+  scene.entities = [
+    {
+      id: 'patrol-car',
+      label: 'Patrol Car',
+      assetId: 'sprite.vehicle.police_car',
+      category: 'vehicle',
+      position: { eastM: 0, northM: 0 },
+      behavior: {
+        type: 'drive',
+        speedMps: 10,
+        path: [
+          { eastM: 0, northM: 0, atSec: 0 },
+          { eastM: 100, northM: 50, atSec: 10 },
+          { eastM: 200, northM: 100, atSec: 20 },
+        ],
+      },
+      uncertainty: 'verified',
+    },
+  ];
+
+  runtime.attach(scene);
+  runtime.flush();
+
+  const pos0 = runtime.positionAt('patrol-car', 0);
+  const pos10 = runtime.positionAt('patrol-car', 10);
+  assert.ok(pos0, 'pos0 must be non-null');
+  assert.ok(pos10, 'pos10 must be non-null');
+  assert.notDeepEqual(
+    pos0,
+    pos10,
+    'position must advance between t=0 and t=10',
+  );
+
+  const snap0 = runtime.positionsSnapshot(0);
+  const snap10 = runtime.positionsSnapshot(10);
+  assert.ok(snap0['patrol-car'], 'snap0 must include patrol-car');
+  assert.ok(snap10['patrol-car'], 'snap10 must include patrol-car');
+  assert.notDeepEqual(
+    snap0['patrol-car'],
+    snap10['patrol-car'],
+    'positionsSnapshot lon/lat must change between t=0 and t=10',
+  );
+});
+
+test('synthesizes gentle patrol path when scene has NO moving entities and enables movement', () => {
+  const viewer = createMockViewer();
+  const runtime = createSceneRuntime({ viewer });
+
+  const scene = emptyScene({
+    sceneId: 'scene-static-to-patrol',
+    origin: { name: 'Origin', lat: 25.1972, lon: 55.2744 },
+    durationSec: 60,
+  });
+
+  // Scene has ONLY static entities in eligible categories (vehicle, police)
+  scene.entities = [
+    {
+      id: 'static-car',
+      label: 'Civilian Vehicle',
+      assetId: 'sprite.vehicle.civilian_sedan',
+      category: 'vehicle',
+      position: { eastM: 10, northM: 10 },
+      behavior: { type: 'static' },
+      uncertainty: 'illustrative',
+    },
+    {
+      id: 'static-officer',
+      label: 'Officer',
+      assetId: 'sprite.person.police_officer',
+      category: 'police',
+      position: { eastM: -20, northM: -20 },
+      behavior: { type: 'static' },
+      uncertainty: 'illustrative',
+    },
+  ];
+
+  runtime.attach(scene);
+  runtime.flush();
+
+  // Verify synthesizedPath is marked in debug and stats
+  const snap = runtime.snapshot();
+  assert.equal(snap.debug.synthesizedPath, true);
+  assert.equal(snap.stats.synthesizedPath, true);
+  assert.equal(snap.stats.synthesizedCount, 2);
+
+  const carSnap = snap.entities.find((e) => e.id === 'static-car');
+  const officerSnap = snap.entities.find((e) => e.id === 'static-officer');
+  assert.equal(carSnap?.synthesizedPath, true);
+  assert.equal(officerSnap?.synthesizedPath, true);
+
+  // Verify positionAt changes between t=0 and t=10
+  const pos0 = runtime.positionAt('static-car', 0);
+  const pos10 = runtime.positionAt('static-car', 10);
+  assert.ok(pos0, 'pos0 must be non-null');
+  assert.ok(pos10, 'pos10 must be non-null');
+  assert.notDeepEqual(
+    pos0,
+    pos10,
+    'synthesized patrol position must change over time',
+  );
+
+  // Verify positionsSnapshot shows movement
+  const snap0 = runtime.positionsSnapshot(0);
+  const snap10 = runtime.positionsSnapshot(10);
+  assert.ok(snap0['static-car']);
+  assert.ok(snap10['static-car']);
+  assert.notDeepEqual(snap0['static-car'], snap10['static-car']);
+});

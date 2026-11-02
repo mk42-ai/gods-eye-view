@@ -10,6 +10,7 @@ import {
   modelUrl,
   getAsset,
 } from './assetIds.js';
+import { iconWithBackplate } from '../scenes/iconBillboard.js';
 
 /**
  * Create an asset registry instance.
@@ -65,7 +66,15 @@ export function createAssetRegistry({
     return resolved;
   }
 
-  function billboardFor(assetId, { scale = 2, width = 32, height = 32 } = {}) {
+  function billboardFor(
+    assetId,
+    {
+      scale = 2,
+      document: doc = globalThis.document,
+      width = doc ? 36 : 32,
+      height = doc ? 36 : 32,
+    } = {},
+  ) {
     const resolved = resolve(assetId);
     let asset = resolved.asset;
     let substituted = resolved.substituted;
@@ -78,7 +87,21 @@ export function createAssetRegistry({
       substituted = true;
     }
 
-    const image = spriteUrl(asset, scale) || '/scene-icons/png/generic@2x.png';
+    const rawUrl = spriteUrl(asset, scale) || '/scene-icons/png/generic@2x.png';
+    let image = rawUrl;
+
+    if (doc && typeof doc.createElement === 'function') {
+      const key =
+        asset?.key ||
+        (asset?.id
+          ? asset.id.replace(/^sprite\./, '').replace(/\./g, '_')
+          : 'generic');
+      const canvas = iconWithBackplate(doc, rawUrl, { sizePx: width, key });
+      if (canvas) {
+        image = canvas;
+      }
+    }
+
     return {
       image,
       width,

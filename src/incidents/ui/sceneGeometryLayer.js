@@ -15,6 +15,7 @@ import {
   geometrySignature,
   SUGGESTED_MARKER_LABEL,
 } from '../../scenes/sceneGeometry.js';
+import { iconBillboardGraphics } from '../../scenes/iconBillboard.js';
 
 const COLORS = Object.freeze({
   route: '#4fd1c5',
@@ -193,6 +194,11 @@ export function createSceneGeometryLayer(
         heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
         scaleByDistance: new Cesium.NearFarScalar(500, 1, 60000, 0.7),
+        distanceDisplayCondition:
+          Cesium.DistanceDisplayCondition &&
+          typeof Cesium.DistanceDisplayCondition === 'function'
+            ? new Cesium.DistanceDisplayCondition(0, 60000)
+            : undefined,
       },
       properties: { featureId: item.id, illustrative: true, labelOnly: true },
     });
@@ -268,6 +274,10 @@ export function createSceneGeometryLayer(
           heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
           disableDepthTestDistance: Number.POSITIVE_INFINITY,
         },
+        billboard: iconBillboardGraphics(Cesium, {
+          key: 'generic',
+          sizePx: 32,
+        }),
       });
       addLabel(item, position, kind);
     }

@@ -175,7 +175,11 @@ export function promptHints(prompt) {
     /(\d{2,4})\s*(?:m|metre|meter)s?\b[^.]{0,20}\b(cordon|perimeter)/,
   );
   if (m) hints.cordonRadiusM = Math.min(SPEC_LIMITS.radiusM.max, Number(m[1]));
-  else if (/\b(car crash|crash|collision|traffic accident|road accident|accident)\b/i.test(text))
+  else if (
+    /\b(car crash|crash|collision|traffic accident|road accident|accident)\b/i.test(
+      text,
+    )
+  )
     hints.cordonRadiusM = 60;
   const r = text.match(
     /(\d{1,2})\s*(?:approach )?(?:routes?|roads?|entry points?)\b/,
@@ -261,9 +265,7 @@ export function templateSpec(
  */
 export function repairSceneSpec(raw, prompt, { focalName } = {}) {
   const isDynamic =
-    raw &&
-    typeof raw === 'object' &&
-    raw.scenarioType === 'police_protection';
+    raw && typeof raw === 'object' && raw.scenarioType === 'police_protection';
   const parsed = isDynamic
     ? (() => {
         const dyn = parseDynamicSceneSpec(raw);

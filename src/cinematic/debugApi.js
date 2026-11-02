@@ -410,7 +410,42 @@ export function installDebugApi(windowObj, deps = {}) {
     },
 
     get playback() {
-      return deps.playback ?? null;
+      if (!deps.playback) return null;
+      return new Proxy(deps.playback, {
+        get(target, prop, receiver) {
+          if (prop === 'play') {
+            return typeof target.play === 'function'
+              ? target.play.bind(target)
+              : () => {};
+          }
+          if (prop === 'pause') {
+            return typeof target.pause === 'function'
+              ? target.pause.bind(target)
+              : () => {};
+          }
+          if (prop === 'seek') {
+            return typeof target.seek === 'function'
+              ? target.seek.bind(target)
+              : () => {};
+          }
+          if (prop === 'state') {
+            return typeof target.state === 'function'
+              ? target.state.bind(target)
+              : () => ({ state: 'idle' });
+          }
+          if (prop === 'positionsSnapshot') {
+            return (sec) => {
+              if (typeof target.positionsSnapshot === 'function') {
+                const res = target.positionsSnapshot(sec);
+                if (res && Object.keys(res).length > 0) return res;
+              }
+              const s = sec ?? target.positionSec?.() ?? 0;
+              return deps.runtime?.positionsSnapshot?.(s) || {};
+            };
+          }
+          return Reflect.get(target, prop, receiver);
+        },
+      });
     },
 
     camera() {

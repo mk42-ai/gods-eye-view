@@ -151,14 +151,17 @@ or as a deck.gl `iconAtlas` + `iconMapping`.
 
 Asset keying and sprite rebuild pipeline: `tools/scene-icons/build-icons.mjs`
 
-- Reads 1024×1024 RGB source PNGs with pure black `#000000` background.
-- Soft threshold keying: `alpha = clamp((max(r,g,b) - 8) / 40, 0, 1)`, un-premultiplying color toward original hue `c / alpha`.
-- 1 px alpha erosion and feather to eliminate black fringe.
+- Reads 1024×1024 RGB source PNGs with pure black `#000000` background (including 10 new bold user-supplied slots from 2026-11-02: `event_command_post`, `police_patrol_car`, `crowd_control_barrier`, `ambulance_medical_point`, `civilian_sedan`, `foot_patrol_officer`, `start_finish_gate`, `checkpoint_cordon_node`, `spectator_crowd_cluster`, `road_closed_barricade`).
+- Soft threshold keying: `alpha = clamp((max(r,g,b) - 10) / 36, 0, 1)`, un-premultiplying color toward original hue `c / alpha`.
+- 1 px alpha erosion and 0.5 px feather to eliminate black fringe, with automated verification of 0 dark fringe pixels in `docs/evidence-2026-11-02-bugfix/icons-integrated.json`.
 - Bounding box content cropping + 8% padding, centered on square.
 - Exports 64 px (`png/<key>.png`) and 128 px (`png/<key>@2x.png`).
-- Rebuilds `sprite.png` (1024×192, 16 columns grid) and `sprite@2x.png` (2048×384), `sprite.json`, `sprite@2x.json`, and `manifest.json` (version 5: 46 keys + `elementTypeIcons` map) with SHA-256 hashes.
+- Rebuilds `sprite.png` (1024×192, 16 columns grid) and `sprite@2x.png` (2048×384), `sprite.json`, `sprite@2x.json`, and `manifest.json` (version 6: 46 keys + `elementTypeIcons` map covering all dynamic and legacy plan entity types) with SHA-256 hashes.
 - Route flag keys: `route_start` (normal) and `route_finish` (horizontally mirrored via `flop()`).
 - Generic marker: generated target dot sprite with teal ring and white center.
+- Billboard styling (`src/scenes/iconBillboard.js`): `iconBillboardGraphics` (clamping, NearFarScalar distance scaling, infinite depth test distance, center origin), circular navy backplate `#0B1220` with teal ring `#14B8A6` (`iconWithBackplate`), and offline `INLINE_SVG_GLYPHS` fallbacks.
+- Interactive map legend (`src/incidents/ui/sceneLegend.js`): compact 28 px pill ("Legend ▸", `#scene-legend`) collapsed by default, expanding to 24 px backplated icon + label list, line styles (glowing routes, dashed cordons, AOI fill), and illustrative badge.
+- Cinematic fly-in (`src/incidents/ui/sceneFlyIn.js`): `flyToScene` computes framed BoundingSphere and animates camera with pitch and heading offset.
 
 | key                        | PNG (1x / 2x)                                | SVG                                  | sprite index | source                                                       |
 | -------------------------- | -------------------------------------------- | ------------------------------------ | ------------ | ------------------------------------------------------------ |

@@ -19,15 +19,15 @@ function hasPngSignature(buffer) {
   return buffer.length >= 8 && buffer.subarray(0, 8).equals(PNG_MAGIC);
 }
 
-test('manifest.json exists, has version 5, valid timestamp, and keys array', () => {
+test('manifest.json exists, has version 6, valid timestamp, and keys array', () => {
   const manifestPath = path.join(PUBLIC_DIR, 'manifest.json');
   assert.ok(fs.existsSync(manifestPath), 'manifest.json must exist');
 
   const content = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   assert.equal(
     content.version,
-    5,
-    'manifest version must be 5 (v5: 46 keys, 64px 1x / 128px 2x, grid sprite sheet, elementTypeIcons map)',
+    6,
+    'manifest version must be 6 (v6: 46 keys, 64px 1x / 128px 2x, grid sprite sheet, elementTypeIcons map)',
   );
   assert.ok(content.generatedAt, 'generatedAt must be present');
   assert.ok(

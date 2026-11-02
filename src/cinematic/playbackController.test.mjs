@@ -221,3 +221,113 @@ test('onTick listener receives updates and unsubscribes cleanly', () => {
   clock.tick();
   assert.equal(ticks.length, 1);
 });
+
+test('LOOP_STOP configured on clock and play at durationSec restarts from 0', () => {
+  const clock = createFakeClock();
+  const playback = createPlaybackController({ viewer: { clock } });
+  const scene = emptyScene({
+    sceneId: 'scene-loop-stop',
+    origin: { name: 'Origin', lat: 25, lon: 55 },
+    durationSec: 60,
+  });
+  playback.load(scene);
+
+  assert.equal(clock.clockRange, Cesium.ClockRange.LOOP_STOP);
+
+  // Seek to end
+  playback.seek(60);
+  assert.equal(playback.positionSec(), 60);
+  assert.equal(playback.state().state, 'ended');
+  assert.equal(playback.state().progress, 1);
+
+  // Calling play at the end must restart from 0
+  playback.play();
+  assert.equal(playback.positionSec(), 0);
+  assert.equal(playback.state().state, 'playing');
+  assert.equal(playback.state().progress, 0);
+});
+
+test('requestRender called on clock tick', () => {
+  const clock = createFakeClock();
+  let renderCalls = 0;
+  const mockViewer = {
+    clock,
+    scene: {
+      requestRender() {
+        renderCalls++;
+      },
+    },
+  };
+
+  const playback = createPlaybackController({ viewer: mockViewer });
+  playback.load(
+    emptyScene({
+      sceneId: 'scene-render',
+      origin: { name: 'Origin', lat: 25, lon: 55 },
+    }),
+  );
+
+  clock.tick();
+  assert.ok(
+    renderCalls >= 1,
+    'scene.requestRender must be called on clock tick',
+  );
+});
+
+test('hasTimeDynamic reflects beats or entity paths', () => {
+  const clock = createFakeClock();
+  const playback = createPlaybackController({ viewer: { clock } });
+
+  // Empty scene
+  const sceneEmpty = emptyScene({
+    sceneId: 'scene-empty',
+    origin: { name: 'Origin', lat: 25, lon: 55 },
+  });
+  playback.load(sceneEmpty);
+  assert.equal(playback.state().hasTimeDynamic, false);
+
+  // Scene with beats
+  const sceneBeats = emptyScene({
+    sceneId: 'scene-beats-2',
+    origin: { name: 'Origin', lat: 25, lon: 55 },
+  });
+  sceneBeats.timeline.beats = [{ atSec: 10, title: 'Beat 1' }];
+  playback.load(sceneBeats);
+  assert.equal(playback.state().hasTimeDynamic, true);
+
+  // Scene with entity having path
+  const scenePath = emptyScene({
+    sceneId: 'scene-path',
+    origin: { name: 'Origin', lat: 25, lon: 55 },
+  });
+  scenePath.entities = [
+    {
+      id: 'car-1',
+      category: 'vehicle',
+      behavior: {
+        type: 'drive',
+        path: [
+          { eastM: 0, northM: 0 },
+          { eastM: 10, northM: 10 },
+        ],
+      },
+    },
+  ];
+  playback.load(scenePath);
+  assert.equal(playback.state().hasTimeDynamic, true);
+
+  // Scene with synthesized path
+  const sceneSynth = emptyScene({
+    sceneId: 'scene-synth',
+    origin: { name: 'Origin', lat: 25, lon: 55 },
+  });
+  sceneSynth.entities = [
+    {
+      id: 'car-2',
+      category: 'vehicle',
+      synthesizedPath: true,
+    },
+  ];
+  playback.load(sceneSynth);
+  assert.equal(playback.state().hasTimeDynamic, true);
+});

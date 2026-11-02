@@ -12,6 +12,7 @@ import {
   incidentChatContext,
 } from './client.js';
 import { buildGeographicScene } from '../scenes/geographicScene.js';
+import * as Cesium from 'cesium';
 
 /** Minimal DOM stand-in: enough of createElement/append/listeners for the composer. */
 function makeDoc() {
@@ -39,6 +40,9 @@ function makeDoc() {
       getAttribute(k) {
         return this.attrs.has(k) ? this.attrs.get(k) : null;
       },
+      removeAttribute(k) {
+        this.attrs.delete(k);
+      },
       append(...kids) {
         for (const k of kids) this.appendChild(k);
       },
@@ -46,6 +50,13 @@ function makeDoc() {
         this.children.push(k);
         k.parentNode = this;
         return k;
+      },
+      insertBefore(newChild, refChild) {
+        const idx = this.children.indexOf(refChild);
+        if (idx !== -1) this.children.splice(idx, 0, newChild);
+        else this.children.push(newChild);
+        newChild.parentNode = this;
+        return newChild;
       },
       replaceChildren(...kids) {
         this.children = [];
@@ -60,6 +71,14 @@ function makeDoc() {
       addEventListener(type, fn) {
         if (!listeners.has(type)) listeners.set(type, []);
         listeners.get(type).push(fn);
+      },
+      removeEventListener(type, fn) {
+        if (listeners.has(type)) {
+          listeners.set(
+            type,
+            listeners.get(type).filter((f) => f !== fn),
+          );
+        }
       },
       dispatch(type, event = {}) {
         for (const fn of listeners.get(type) || [])
@@ -2052,6 +2071,273 @@ describe('explicit-only admission regression battery', () => {
     await tick(40);
     assert.equal(c.state.busy, false);
     c.destroy();
+  });
+  test('click and keydown back-to-back synchronously admits exactly one request, asserts one client.locate and one construct call with data-request-count=1', async () => {
+    const locateWait = deferred();
+    const constructWait = deferred();
+    const locateCalls = [];
+    const constructCalls = [];
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: {
+        locate(text, options) {
+          locateCalls.push({ text, ...options });
+          return locateWait.promise;
+        },
+      },
+      createGeographicScene: async (request) => {
+        constructCalls.push(request);
+        return constructWait.promise;
+      },
+      structuredPlanning: true,
+    });
+    assert.equal(c.element.getAttribute('data-request-count'), '0');
+    c.input.value = 'Burj Khalifa';
+    const submitBtn = button(c, 'submit');
+    submitBtn.dispatch('click');
+    c.input.dispatch('keydown', { key: 'Enter', ctrlKey: true });
+    c.input.dispatch('keydown', { key: 'Enter', metaKey: true });
+    assert.equal(locateCalls.length, 1);
+    locateWait.resolve({ candidates: [BURJ] });
+    await tick(20);
+    assert.equal(constructCalls.length, 1);
+    assert.equal(c.element.getAttribute('data-request-count'), '1');
+    constructWait.resolve({
+      id: 's1',
+      title: 'Burj Scene',
+      anchor: BURJ,
+      geographic: true,
+    });
+    await tick(40);
+    assert.equal(locateCalls.length, 1);
+    assert.equal(constructCalls.length, 1);
+    assert.equal(c.element.getAttribute('data-request-count'), '1');
+    c.destroy();
+  });
+  test('fallback badge renders compact Approximate · <reason> badge in done block and sets data-fallback', async () => {
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: {
+        locate: () => Promise.resolve({ candidates: [BURJ] }),
+      },
+      createGeographicScene: async () => ({
+        id: 's-fallback',
+        title: 'Burj Fallback',
+        anchor: BURJ,
+        geographic: true,
+        fallbacks: ['template fallback'],
+      }),
+      structuredPlanning: true,
+    });
+    c.input.value = 'Burj Khalifa';
+    await c.submit('Burj Khalifa');
+    await tick(40);
+    assert.equal(c.element.getAttribute('data-state'), 'done');
+    assert.equal(c.element.getAttribute('data-fallback'), 'template');
+    const badge = c.element.find((n) =>
+      n.className?.includes('composer-fallback-badge'),
+    )[0];
+    assert.ok(badge, 'fallback badge must be rendered in done block');
+    assert.equal(badge.textContent, 'Approximate · template fallback');
+    // Retry button stays available
+    const retryBtn = button(c, 'retry');
+    assert.equal(retryBtn.hidden, false);
+    c.destroy();
+  });
+  test('partial fallback sets data-fallback=partial and keeps retry available', async () => {
+    const c = createIncidentComposer({
+      document: makeDoc(),
+      client: {
+        locate: () => Promise.resolve({ candidates: [BURJ] }),
+      },
+      createGeographicScene: async () => ({
+        id: 's-partial',
+        title: 'Burj Partial',
+        anchor: BURJ,
+        geographic: true,
+        fallback: 'partial',
+      }),
+      structuredPlanning: true,
+    });
+    c.input.value = 'Burj Khalifa';
+    await c.submit('Burj Khalifa');
+    await tick(40);
+    assert.equal(c.element.getAttribute('data-state'), 'done');
+    assert.equal(c.element.getAttribute('data-fallback'), 'partial');
+    const badge = c.element.find((n) =>
+      n.className?.includes('composer-fallback-badge'),
+    )[0];
+    assert.ok(badge, 'fallback badge must be rendered');
+    assert.equal(badge.textContent, 'Approximate · partial');
+    assert.equal(button(c, 'retry').hidden, false);
+    c.destroy();
+  });
+  test('silence timeout triggers guaranteed render fallback with approximate location and template badge', async () => {
+    let streamAborted = false;
+    let jsonConstructCalled = false;
+
+    const doc = makeDoc();
+    doc.addEventListener = () => {};
+    doc.removeEventListener = () => {};
+    doc.createTextNode = (txt) => ({ textContent: txt, parentNode: null });
+    doc.getElementById = (id) => doc.body.find((c) => c.id === id)[0] || null;
+    const win = {
+      document: doc,
+      localStorage: {
+        getItem: () => null,
+        setItem: () => {},
+        removeItem: () => {},
+      },
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => {},
+      matchMedia: () => ({ matches: false }),
+      __gevSilenceTimeoutMs: 25,
+      CustomEvent: class {
+        constructor(type, init) {
+          this.type = type;
+          this.detail = init?.detail;
+        }
+      },
+    };
+
+    const camera = new Cesium.Camera({
+      drawingBufferWidth: 800,
+      drawingBufferHeight: 600,
+      mapProjection: new Cesium.GeographicProjection(),
+    });
+    const canvasEl = doc.createElement('canvas');
+    canvasEl.clientWidth = 800;
+    canvasEl.clientHeight = 600;
+    canvasEl.disableRootEvents = true;
+
+    const sources = [];
+    const viewer = {
+      dataSources: {
+        add(ds) {
+          sources.push(ds);
+          return ds;
+        },
+        remove(ds) {
+          const idx = sources.indexOf(ds);
+          if (idx !== -1) sources.splice(idx, 1);
+        },
+      },
+      canvas: canvasEl,
+      scene: {
+        canvas: canvasEl,
+        frameState: {
+          mode: Cesium.SceneMode.SCENE3D,
+          mapProjection: new Cesium.GeographicProjection(),
+          camera,
+        },
+        camera,
+        mapProjection: new Cesium.GeographicProjection(),
+        drawingBufferWidth: 800,
+        drawingBufferHeight: 600,
+        requestRender() {},
+        preRender: { addEventListener() {}, removeEventListener() {} },
+        postRender: { addEventListener() {}, removeEventListener() {} },
+        primitives: {
+          add() {},
+          remove() {},
+          get() {
+            return null;
+          },
+          length: 0,
+        },
+        globe: { show: true, ellipsoid: Cesium.Ellipsoid.WGS84 },
+      },
+      camera,
+      clock: {
+        currentTime: { secondsOfDay: 0 },
+        onTick: { addEventListener() {}, removeEventListener() {} },
+      },
+      entities: {
+        values: [],
+        add(e) {
+          this.values.push(e);
+          return e;
+        },
+      },
+    };
+
+    const sceneDirector = {
+      running: false,
+      paused: false,
+      addIncidentScene() {
+        return { added: true };
+      },
+      listScenes() {
+        return [];
+      },
+      stopScene() {},
+      _waitForRunIdle: async () => {},
+      _getSelectedScene: () => null,
+    };
+
+    const prevDoc = globalThis.document;
+    const prevWin = globalThis.window;
+    globalThis.document = doc;
+    globalThis.window = win;
+
+    try {
+      const { installIncidentScenes } = await import('./ui/index.js');
+      const ws = installIncidentScenes({
+        viewer,
+        sceneDirector,
+        document: doc,
+        window: win,
+        fetch: async (url, init) => {
+          if (url.includes('/locate')) {
+            return {
+              ok: true,
+              json: async () => ({ status: 'ok', candidates: [BURJ] }),
+            };
+          }
+          if (url.includes('/construct/stream')) {
+            init?.signal?.addEventListener('abort', () => {
+              streamAborted = true;
+            });
+            return {
+              ok: true,
+              headers: new Map([['content-type', 'text/event-stream']]),
+              body: new ReadableStream({
+                start() {},
+              }),
+            };
+          }
+          if (url.includes('/construct')) {
+            jsonConstructCalled = true;
+            return {
+              ok: false,
+              status: 500,
+              json: async () => ({ error: { message: 'overloaded' } }),
+            };
+          }
+          return { ok: true, json: async () => ({}) };
+        },
+      });
+
+      const comp = ws.composer;
+      comp.input.value = 'Burj Khalifa';
+      await comp.submit('Burj Khalifa');
+
+      assert.equal(streamAborted, true);
+      assert.equal(jsonConstructCalled, true);
+      assert.equal(comp.element.getAttribute('data-state'), 'done');
+      assert.equal(comp.element.getAttribute('data-fallback'), 'template');
+      const badge = comp.element.find((n) =>
+        n.className?.includes('composer-fallback-badge'),
+      )[0];
+      assert.ok(badge, 'Approximate template fallback badge must be present');
+      assert.equal(badge.textContent, 'Approximate · template fallback');
+      assert.equal(button(comp, 'retry').hidden, false);
+      ws.destroy();
+    } finally {
+      globalThis.document = prevDoc;
+      globalThis.window = prevWin;
+    }
   });
   test('cancel, late completion and retry retain an immutable prompt/time snapshot and the newer draft', async () => {
     const wait = deferred();

@@ -1,25 +1,25 @@
 # OnDemand Chat Batch Live API Retest Probe
-# Probed: 2026-11-01T15:11:58.474Z
+# Probed: 2026-11-02T10:56:31.865Z
 # Base: https://api.on-demand.io
 # Summary: No batch operation is documented in public docs categories (grep for "batch" yielded zero occurrences).
 
-[2026-11-01T15:11:56.491Z] GET /config/v1/public/docs/categories -> HTTP 200
+[2026-11-02T10:56:29.851Z] GET /config/v1/public/docs/categories -> HTTP 200
 {"data":[{"service":"Media API","meta":[{"title":"Fetch Media","slug":"fetchmedia"},{"title":"Create Media URL","slug":"createmediaurl"},{"title":"Delete Media","slug":"deletemedia"}]},{"service":"Services API","meta":[{"title":"Convert audio to text","slug":"convertaudiototext"},{"title":"Convert text to audio","slug":"converttexttoaudio"},{"title":"Translate text to another language","slug":"translatetext"}]},{"service":"MQTT User Management API","meta":[{"title":"Create a new MQTT user","slug
 Note: No batch operation is documented in public docs categories (grep for "batch" yielded zero occurrences).
 
-[2026-11-01T15:11:57.602Z] POST /chat/v1/batches -> HTTP 405
+[2026-11-02T10:56:30.841Z] POST /chat/v1/batches -> HTTP 405
 {"message":"Chat batch creation is currently unavailable","errorCode":"method_not_allowed"}
 
-[2026-11-01T15:11:57.842Z] POST /chat/v1/sessions/batch -> HTTP 404
+[2026-11-02T10:56:31.134Z] POST /chat/v1/sessions/batch -> HTTP 404
 {"message":"Route not found","errorCode":"not_found"}
 
-[2026-11-01T15:11:57.996Z] POST /chat/v1/batch -> HTTP 404
+[2026-11-02T10:56:31.337Z] POST /chat/v1/batch -> HTTP 404
 {"message":"Route not found","errorCode":"not_found"}
 
-[2026-11-01T15:11:58.168Z] POST /chat/v1/sessions/query/batch -> HTTP 404
+[2026-11-02T10:56:31.502Z] POST /chat/v1/sessions/query/batch -> HTTP 404
 {"message":"Route not found","errorCode":"not_found"}
 
-[2026-11-01T15:11:58.295Z] GET /chat/v1/batches -> HTTP 200
+[2026-11-02T10:56:31.711Z] GET /chat/v1/batches -> HTTP 200
 {"message":"Chat batches fetched successfully","data":[],"pagination":{"next":"","limit":10}}
 
 

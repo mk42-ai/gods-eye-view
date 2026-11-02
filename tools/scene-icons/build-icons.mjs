@@ -68,6 +68,16 @@ export const ELEMENT_TYPE_ICONS = Object.freeze({
   interest_zone: 'generic',
   intel_note: 'generic',
   timeline_event: 'generic',
+  // Legacy plan entity types from structuredPlan.js:
+  person: 'perimeter_unit',
+  runner: 'person_runner',
+  police: 'person_police_officer',
+  organizer: 'command_post',
+  vehicle: 'vehicle_civilian_sedan',
+  police_vehicle: 'vehicle_police_car',
+  barrier: 'barrier_crowd',
+  start_line: 'start_finish',
+  finish_line: 'start_finish',
 });
 
 export const KEY_DEFINITIONS = [
@@ -332,7 +342,7 @@ async function keyAndCropSource(
       const g = data[srcIdx + 1];
       const b = data[srcIdx + 2];
       const m = Math.max(r, g, b);
-      const alpha = Math.min(1, Math.max(0, (m - 8) / 40));
+      const alpha = Math.min(1, Math.max(0, (m - 10) / 36));
       alphas[y * w + x] = alpha;
       if (alpha > 0) {
         unpr[(y * w + x) * 3] = Math.min(
@@ -364,7 +374,7 @@ async function keyAndCropSource(
     }
   }
 
-  // 3. 1 px feather on eroded alpha
+  // 3. 0.5 px feather on eroded alpha (4-neighbor cross blur with 4x center weight)
   const out = Buffer.alloc(w * h * 4);
   let minX = w;
   let maxX = 0;
@@ -373,8 +383,8 @@ async function keyAndCropSource(
 
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
-      let sum = eroded[y * w + x] * 2;
-      let count = 2;
+      let sum = eroded[y * w + x] * 4;
+      let count = 4;
       if (x > 0) {
         sum += eroded[y * w + (x - 1)];
         count++;
@@ -628,7 +638,7 @@ export async function buildIcons() {
   );
 
   const manifest = {
-    version: 5,
+    version: 6,
     generatedAt: new Date().toISOString(),
     elementTypeIcons: ELEMENT_TYPE_ICONS,
     keys: manifestKeys,
@@ -639,8 +649,124 @@ export async function buildIcons() {
     'utf8',
   );
 
+  // Write docs/evidence-2026-11-02-bugfix/icons-integrated.json
+  const EVIDENCE_SLOTS = [
+    {
+      slot: 'event_command_post',
+      source_file: 'tools/scene-icons/sources/event_command_post.png',
+      keys: ['command_post', 'staging_point'],
+    },
+    {
+      slot: 'police_patrol_car',
+      source_file: 'tools/scene-icons/sources/police_patrol_car.png',
+      keys: ['police_unit', 'vehicle_police_car'],
+    },
+    {
+      slot: 'crowd_control_barrier',
+      source_file: 'tools/scene-icons/sources/crowd_control_barrier.png',
+      keys: ['barrier_crowd', 'screening_lane'],
+    },
+    {
+      slot: 'ambulance_medical_point',
+      source_file: 'tools/scene-icons/sources/ambulance_medical_point.png',
+      keys: ['medical_point', 'vehicle_ambulance'],
+    },
+    {
+      slot: 'civilian_sedan',
+      source_file: 'tools/scene-icons/sources/civilian_sedan.png',
+      keys: ['civilian_sedan', 'vehicle_civilian_sedan'],
+    },
+    {
+      slot: 'foot_patrol_officer',
+      source_file: 'tools/scene-icons/sources/foot_patrol_officer.png',
+      keys: ['perimeter_unit', 'person_police_officer'],
+    },
+    {
+      slot: 'start_finish_gate',
+      source_file: 'tools/scene-icons/sources/start_finish_gate.png',
+      keys: ['start_finish'],
+    },
+    {
+      slot: 'checkpoint_cordon_node',
+      source_file: 'tools/scene-icons/sources/checkpoint_cordon_node.png',
+      keys: ['checkpoint', 'cordon_node', 'vehicle_checkpoint'],
+    },
+    {
+      slot: 'spectator_crowd_cluster',
+      source_file: 'tools/scene-icons/sources/spectator_crowd_cluster.png',
+      keys: ['crowd_spectators', 'crowd_zone'],
+    },
+    {
+      slot: 'road_closed_barricade',
+      source_file: 'tools/scene-icons/sources/road_closed_barricade.png',
+      keys: ['signage_road_closed', 'road_closed'],
+    },
+    {
+      slot: 'vessel_marine_patrol',
+      source_file: 'tools/scene-icons/sources/vessel_marine_patrol.png',
+      keys: ['vessel_marine_patrol', 'marine_patrol'],
+    },
+    {
+      slot: 'cone_cluster',
+      source_file: 'tools/scene-icons/sources/cone_cluster.png',
+      keys: ['cone_cluster'],
+    },
+    {
+      slot: 'vehicle_police_motorcycle',
+      source_file: 'tools/scene-icons/sources/vehicle_police_motorcycle.png',
+      keys: ['vehicle_police_motorcycle'],
+    },
+    {
+      slot: 'vehicle_city_bus',
+      source_file: 'tools/scene-icons/sources/vehicle_city_bus.png',
+      keys: ['vehicle_city_bus'],
+    },
+    {
+      slot: 'cctv',
+      source_file: 'tools/scene-icons/sources/cctv.png',
+      keys: ['cctv', 'cctv_signal'],
+    },
+  ];
+
+  const fringeByKey = new Map(fringeReport.map((r) => [r.key, r.violations]));
+  const evidenceList = EVIDENCE_SLOTS.map((s) => {
+    const primaryKey = s.keys[0];
+    const s1 = sprite1xEntries[primaryKey] || {
+      x: 0,
+      y: 0,
+      width: 64,
+      height: 64,
+    };
+    const s2 = sprite2xEntries[primaryKey] || {
+      x: 0,
+      y: 0,
+      width: 128,
+      height: 128,
+    };
+    const maxFringe = Math.max(...s.keys.map((k) => fringeByKey.get(k) ?? 0));
+    return {
+      slot: s.slot,
+      source_file: s.source_file,
+      'key(s)': s.keys.length === 1 ? s.keys[0] : s.keys,
+      keys: s.keys,
+      atlas_coords: {
+        '1x': { x: s1.x, y: s1.y, w: s1.width, h: s1.height },
+        '2x': { x: s2.x, y: s2.y, w: s2.width, h: s2.height },
+      },
+      fringe_pixels: maxFringe,
+    };
+  });
+
+  const evidenceDir = path.join(REPO_ROOT, 'docs/evidence-2026-11-02-bugfix');
+  fs.mkdirSync(evidenceDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(evidenceDir, 'icons-integrated.json'),
+    JSON.stringify(evidenceList, null, 2) + '\n',
+    'utf8',
+  );
+
   console.log(
-    `[build-icons] Successfully generated ${count} icons in manifest v5 (${rows} rows x ${COLS} cols):`,
+    `[build-icons] Successfully generated ${count} icons in manifest v6 (${rows} rows x ${COLS} cols):`,
   );
   console.log('[build-icons] --- PER-KEY FRINGE REPORT ---');
   for (const r of fringeReport) {

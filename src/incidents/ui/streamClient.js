@@ -50,20 +50,29 @@ export function parseSseBlock(block) {
   return { id, event, data, raw: rawData, retry };
 }
 
-async function* readChunks(body) {
+async function* readChunks(body, signal) {
   if (body?.getReader) {
     const reader = body.getReader();
+    const onAbort = () => {
+      try {
+        reader.cancel?.();
+      } catch {}
+    };
+    signal?.addEventListener?.('abort', onAbort, { once: true });
     try {
       while (true) {
+        if (signal?.aborted) break;
         const { done, value } = await reader.read();
         if (done) break;
         yield value;
       }
     } finally {
+      signal?.removeEventListener?.('abort', onAbort);
       reader.releaseLock?.();
     }
   } else if (body && body[Symbol.asyncIterator]) {
     for await (const chunk of body) {
+      if (signal?.aborted) break;
       yield chunk;
     }
   }
@@ -188,7 +197,7 @@ export function createStreamClient({
 
       let buffer = '';
       try {
-        for await (const chunk of readChunks(res.body)) {
+        for await (const chunk of readChunks(res.body, signal)) {
           if (signal?.aborted) {
             const err = new Error('Request cancelled.');
             err.name = 'AbortError';
@@ -203,12 +212,22 @@ export function createStreamClient({
 
           for (const block of parts) {
             if (!block.trim()) continue;
+            if (signal?.aborted) {
+              const err = new Error('Request cancelled.');
+              err.name = 'AbortError';
+              throw err;
+            }
             const parsed = parseSseBlock(block);
             if (!parsed) continue;
 
             if (parsed.id) state.lastEventId = parsed.id;
             if (parsed.retry) state.retryMs = parsed.retry;
 
+            if (signal?.aborted) {
+              const err = new Error('Request cancelled.');
+              err.name = 'AbortError';
+              throw err;
+            }
             onEvent(parsed);
 
             if (parsed.event === 'done') {
@@ -236,9 +255,19 @@ export function createStreamClient({
 
         // Process any trailing block left in buffer
         if (buffer.trim()) {
+          if (signal?.aborted) {
+            const err = new Error('Request cancelled.');
+            err.name = 'AbortError';
+            throw err;
+          }
           const parsed = parseSseBlock(buffer);
           if (parsed) {
             if (parsed.id) state.lastEventId = parsed.id;
+            if (signal?.aborted) {
+              const err = new Error('Request cancelled.');
+              err.name = 'AbortError';
+              throw err;
+            }
             onEvent(parsed);
             if (parsed.event === 'done') {
               state.completed = true;
@@ -278,6 +307,12 @@ export function createStreamClient({
         );
         await new Promise((r) => setTimeout(r, delay));
         continue;
+      }
+
+      if (signal?.aborted) {
+        const err = new Error('Request cancelled.');
+        err.name = 'AbortError';
+        throw err;
       }
 
       // If the stream ended without a terminal event and was not aborted, retry if autoResume enabled

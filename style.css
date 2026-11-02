@@ -33,9 +33,9 @@
 @import './src/ui/styles/scene-footage.css';
 @import './src/ui/styles/marina-workstation.css';
 @import './src/ui/styles/marina-mobile.css';
-/* Cycle 21 cleanup layers — must stay LAST: one-colour overrides, calm launch, walkthrough. */
-@import './src/ui/styles/ui-clean.css';
+@import './src/ui/styles/ui-clean.css'; /* Cycle 21 cleanup layers — must stay LAST: one-colour overrides, calm launch, walkthrough. */
 @import './src/ui/styles/calm-launch.css';
 @import './src/ui/styles/walkthrough.css';
 @import './src/ui/styles/composer-evidence.css';
 @import './src/ui/styles/scene-studio.css';
+@import './src/ui/styles/bugfix-2026-11-02.css'; /* composer fallback badge + scene legend (2026-11-02) */

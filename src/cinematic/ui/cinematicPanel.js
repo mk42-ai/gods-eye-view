@@ -41,10 +41,10 @@ const TASKS = Object.freeze([
 ]);
 
 function formatTime(sec) {
-  if (!Number.isFinite(sec) || sec < 0) return '00:00';
+  if (!Number.isFinite(sec) || sec < 0) return '0:00';
   const m = Math.floor(sec / 60);
   const s = Math.floor(sec % 60);
-  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  return `${m}:${String(s).padStart(2, '0')}`;
 }
 
 export function mountCinematicPanel({
@@ -267,32 +267,73 @@ export function mountCinematicPanel({
 
   const btnRow = doc.createElement('div');
   btnRow.className = 'cinematic-playback__buttons';
+  btnRow.setAttribute('data-state', 'paused');
 
   const playBtn = doc.createElement('button');
   playBtn.type = 'button';
   playBtn.id = 'cinematic-play';
   playBtn.className = 'cinematic-btn';
   playBtn.textContent = 'Play';
-  playBtn.addEventListener('click', () => playback?.play?.());
+  playBtn.setAttribute('aria-pressed', 'false');
+  playBtn.setAttribute('data-state', 'paused');
+  playBtn.addEventListener('click', () => {
+    playback?.play?.();
+    const st = playback?.state?.()?.state || 'playing';
+    playBtn.setAttribute('data-state', st);
+    pauseBtn.setAttribute('data-state', st);
+    restartBtn.setAttribute('data-state', st);
+    btnRow.setAttribute('data-state', st);
+    playBtn.setAttribute('aria-pressed', 'true');
+    pauseBtn.setAttribute('aria-pressed', 'false');
+  });
 
   const pauseBtn = doc.createElement('button');
   pauseBtn.type = 'button';
   pauseBtn.id = 'cinematic-pause';
   pauseBtn.className = 'cinematic-btn';
   pauseBtn.textContent = 'Pause';
-  pauseBtn.addEventListener('click', () => playback?.pause?.());
+  pauseBtn.setAttribute('aria-pressed', 'false');
+  pauseBtn.setAttribute('data-state', 'paused');
+  pauseBtn.addEventListener('click', () => {
+    playback?.pause?.();
+    const st = playback?.state?.()?.state || 'paused';
+    playBtn.setAttribute('data-state', st);
+    pauseBtn.setAttribute('data-state', st);
+    restartBtn.setAttribute('data-state', st);
+    btnRow.setAttribute('data-state', st);
+    playBtn.setAttribute('aria-pressed', 'false');
+    pauseBtn.setAttribute('aria-pressed', 'true');
+  });
 
   const restartBtn = doc.createElement('button');
   restartBtn.type = 'button';
   restartBtn.id = 'cinematic-restart';
   restartBtn.className = 'cinematic-btn';
   restartBtn.textContent = 'Restart';
+  restartBtn.setAttribute('aria-pressed', 'false');
+  restartBtn.setAttribute('data-state', 'paused');
   restartBtn.addEventListener('click', () => {
     playback?.seek?.(0);
     playback?.play?.();
+    const st = playback?.state?.()?.state || 'playing';
+    playBtn.setAttribute('data-state', st);
+    pauseBtn.setAttribute('data-state', st);
+    restartBtn.setAttribute('data-state', st);
+    btnRow.setAttribute('data-state', st);
+    playBtn.setAttribute('aria-pressed', 'true');
+    pauseBtn.setAttribute('aria-pressed', 'false');
   });
 
   btnRow.append(playBtn, pauseBtn, restartBtn);
+
+  // #cinematic-playhead progressbar
+  const playhead = doc.createElement('div');
+  playhead.id = 'cinematic-playhead';
+  playhead.className = 'cinematic-playback__playhead';
+  playhead.setAttribute('role', 'progressbar');
+  playhead.setAttribute('aria-valuemin', '0');
+  playhead.setAttribute('aria-valuemax', '100');
+  playhead.setAttribute('aria-valuenow', '0');
 
   const seekRow = doc.createElement('div');
   seekRow.className = 'cinematic-playback__seek-row';
@@ -316,7 +357,7 @@ export function mountCinematicPanel({
   const positionSpan = doc.createElement('span');
   positionSpan.id = 'cinematic-position';
   positionSpan.className = 'cinematic-playback__position';
-  positionSpan.textContent = '00:00 / 00:00';
+  positionSpan.textContent = '0:00 / 0:00';
 
   seekRow.append(seekInput, positionSpan);
 
@@ -356,7 +397,42 @@ export function mountCinematicPanel({
   });
 
   optionsRow.append(speedSelect, cameraModeSelect);
-  playbackContainer.append(btnRow, seekRow, optionsRow);
+  playbackContainer.append(btnRow, playhead, seekRow, optionsRow);
+
+  const initialHasScene = Boolean(
+    typeof playback?.durationSec === 'function'
+      ? playback.durationSec() > 0
+      : Boolean(playback),
+  );
+  playBtn.disabled = !initialHasScene;
+  pauseBtn.disabled = !initialHasScene;
+  restartBtn.disabled = !initialHasScene;
+  seekInput.disabled = !initialHasScene;
+
+  // Space bar toggles play/pause when focus is not in an input
+  function handleKeyDown(e) {
+    if (e.code === 'Space' || e.key === ' ' || e.key === 'Spacebar') {
+      const target = doc.activeElement || e.target;
+      const tagName = target?.tagName?.toUpperCase();
+      const isInput =
+        tagName === 'INPUT' ||
+        tagName === 'TEXTAREA' ||
+        tagName === 'SELECT' ||
+        Boolean(target?.isContentEditable);
+      if (isInput) return;
+      if (tagName === 'BUTTON') return;
+
+      e.preventDefault();
+      if (!playback) return;
+      const st = playback.state?.();
+      if (st?.state === 'playing') {
+        playback.pause?.();
+      } else {
+        playback.play?.();
+      }
+    }
+  }
+  win?.addEventListener?.('keydown', handleKeyDown);
 
   // 8. Live Feed
   const feedSection = doc.createElement('div');
@@ -577,8 +653,46 @@ export function mountCinematicPanel({
     seekInput.max = String(duration);
     seekInput.value = String(curPos);
 
+    const progressPercent =
+      duration > 0
+        ? Math.round(Math.min(100, Math.max(0, (curPos / duration) * 100)))
+        : 0;
+    playhead.setAttribute('aria-valuenow', String(progressPercent));
+
+    const hasScene = Boolean(
+      scene ||
+      lastScene ||
+      (typeof playback?.durationSec === 'function'
+        ? playback.durationSec() > 0
+        : Boolean(playback)),
+    );
+
+    playBtn.disabled = !hasScene;
+    pauseBtn.disabled = !hasScene;
+    restartBtn.disabled = !hasScene;
+    seekInput.disabled = !hasScene;
+
+    const pbState = playback?.state ? playback.state() : null;
+    const currentPbState =
+      pbState?.state ||
+      (duration > 0 && curPos >= duration ? 'ended' : 'paused');
+
+    playBtn.setAttribute('data-state', currentPbState);
+    pauseBtn.setAttribute('data-state', currentPbState);
+    restartBtn.setAttribute('data-state', currentPbState);
+    btnRow.setAttribute('data-state', currentPbState);
+
+    playBtn.setAttribute(
+      'aria-pressed',
+      currentPbState === 'playing' ? 'true' : 'false',
+    );
+    pauseBtn.setAttribute(
+      'aria-pressed',
+      currentPbState === 'paused' ? 'true' : 'false',
+    );
+    restartBtn.setAttribute('aria-pressed', 'false');
+
     if (playback?.state) {
-      const pbState = playback.state();
       if (pbState?.speed && speedSelect.value !== String(pbState.speed)) {
         speedSelect.value = String(pbState.speed);
       }
@@ -596,7 +710,7 @@ export function mountCinematicPanel({
     pendingUpdate = { state, scene };
     if (rafId === null) {
       const raf = win?.requestAnimationFrame || ((cb) => setTimeout(cb, 16));
-      rafId = raf(() => {
+      const id = raf(() => {
         rafId = null;
         if (pendingUpdate && !destroyed) {
           const { state: s, scene: sc } = pendingUpdate;
@@ -604,6 +718,9 @@ export function mountCinematicPanel({
           applyUpdate(s, sc);
         }
       });
+      if (pendingUpdate !== null) {
+        rafId = id ?? null;
+      }
     }
   }
 
@@ -651,6 +768,7 @@ export function mountCinematicPanel({
         win.cancelAnimationFrame(rafId);
       }
       rafId = null;
+      win?.removeEventListener?.('keydown', handleKeyDown);
       root.remove();
     },
   };

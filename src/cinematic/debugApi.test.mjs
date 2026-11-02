@@ -248,6 +248,15 @@ test('installDebugApi: installs on window and exposes complete interface', async
   api.recordEvent({ id: 'evt-1', event: 'test', data: {} });
   assert.equal(api.events().length, 1);
   assert.equal(api.events()[0].id, 'evt-1');
+
+  // Test playback API on debugApi
+  assert.ok(api.playback, 'api.playback must exist');
+  assert.equal(typeof api.playback.play, 'function');
+  assert.equal(typeof api.playback.pause, 'function');
+  assert.equal(typeof api.playback.seek, 'function');
+  assert.equal(typeof api.playback.state, 'function');
+  assert.equal(typeof api.playback.positionsSnapshot, 'function');
+  assert.equal(api.playback.state().state, 'playing');
 });
 
 test('getCameraPose: extracts degrees from Cesium cartographic', () => {
@@ -276,17 +285,31 @@ test('test road-closure injection stays inside the placement bound on a long res
   // Sheikh Zayed Road-like route: ~50 km of vertices, only one near the origin.
   const origin = { lat: 25.1972, lon: 55.2744 };
   const coords = [];
-  for (let i = 0; i < 50; i++) coords.push([55.2744 - i * 0.01, 25.1972 - i * 0.008]);
+  for (let i = 0; i < 50; i++)
+    coords.push([55.2744 - i * 0.01, 25.1972 - i * 0.008]);
   const scene = {
     sceneId: 'scene-long-route',
     sceneVersion: 3,
     origin,
     routes: [{ id: 'route-szr', coordinates: coords }],
   };
-  const patch = createTestRoadClosurePatch(scene, { now: () => 1, positionSec: 10 });
+  const patch = createTestRoadClosurePatch(scene, {
+    now: () => 1,
+    positionSec: 10,
+  });
   const parsed = safeValidateScenePatch(patch);
-  assert.equal(parsed.success, true, JSON.stringify(parsed.error?.issues)?.slice(0, 300));
+  assert.equal(
+    parsed.success,
+    true,
+    JSON.stringify(parsed.error?.issues)?.slice(0, 300),
+  );
   const sign = patch.ops.find((o) => o.op === 'add_entity').entity;
-  assert.ok(Math.abs(sign.position.eastM) <= 4900 && Math.abs(sign.position.northM) <= 4900);
-  assert.ok(Math.hypot(sign.position.eastM, sign.position.northM) < 50, 'sign sits on the vertex nearest the origin');
+  assert.ok(
+    Math.abs(sign.position.eastM) <= 4900 &&
+      Math.abs(sign.position.northM) <= 4900,
+  );
+  assert.ok(
+    Math.hypot(sign.position.eastM, sign.position.northM) < 50,
+    'sign sits on the vertex nearest the origin',
+  );
 });

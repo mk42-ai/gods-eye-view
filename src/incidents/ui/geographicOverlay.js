@@ -2,6 +2,10 @@
 import * as Cesium from 'cesium';
 import { governorRequestRender } from '../../renderGovernor.js';
 import { SUGGESTED_MARKER_LABEL } from '../../scenes/sceneGeometry.js';
+import {
+  iconBillboardGraphics,
+  iconSizeFor,
+} from '../../scenes/iconBillboard.js';
 
 const SECURITY_TYPES = new Set(['police', 'police_vehicle']);
 /** Short map label. Long model prose never becomes a map bar; the illustrative
@@ -65,6 +69,19 @@ export function createGeographicOverlay(
     const name = suggested
       ? `${SUGGESTED_MARKER_LABEL} (${placement.index + 1})`
       : `Illustrative ${placement.label} (${placement.index + 1})`;
+    const actorIconKey =
+      {
+        person: 'perimeter_unit',
+        runner: 'person_runner',
+        police: 'person_police_officer',
+        organizer: 'command_post',
+        vehicle: 'vehicle_civilian_sedan',
+        police_vehicle: 'vehicle_police_car',
+        barrier: 'barrier_crowd',
+        start_line: 'start_finish',
+        finish_line: 'start_finish',
+      }[placement.type] || 'generic';
+
     const base = {
       id: `planned-${placement.id}`,
       name,
@@ -73,6 +90,12 @@ export function createGeographicOverlay(
         placement.lat,
         height,
       ),
+      billboard: iconBillboardGraphics(Cesium, {
+        key: actorIconKey,
+        sizePx: iconSizeFor(actorIconKey),
+        heading: placement.heading || 0,
+        rotate: vehicle,
+      }),
       orientation: Cesium.Transforms.headingPitchRollQuaternion(
         Cesium.Cartesian3.fromDegrees(placement.lon, placement.lat, height),
         new Cesium.HeadingPitchRoll(
@@ -107,6 +130,11 @@ export function createGeographicOverlay(
         heightReference: relativeHeight,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
         translucencyByDistance: new Cesium.NearFarScalar(1500, 1, 6000, 0),
+        distanceDisplayCondition:
+          Cesium.DistanceDisplayCondition &&
+          typeof Cesium.DistanceDisplayCondition === 'function'
+            ? new Cesium.DistanceDisplayCondition(0, 60000)
+            : undefined,
       },
     };
     if (human)
@@ -229,6 +257,10 @@ export function createGeographicOverlay(
         outlineWidth: isExternal ? 4 : 2,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
       },
+      billboard: iconBillboardGraphics(Cesium, {
+        key: 'generic',
+        sizePx: 36,
+      }),
       label: {
         text: isExternal ? 'EXTERNAL' : title.toUpperCase(),
         font: 'bold 12px sans-serif',

@@ -18,6 +18,46 @@ test('expandPlaceVariants generates primary, ladder, hashtags, spelling variants
   assert.ok(variants.includes('مرسى دبي'));
 });
 
+test('expandPlaceVariants generates Dubai Marina variants with deduplication', () => {
+  const variants = expandPlaceVariants({
+    placeName: 'Dubai Marina',
+    maxVariants: 15,
+  });
+
+  // Must include at least these four variants
+  assert.ok(variants.includes('Dubai Marina'), 'includes Dubai Marina');
+  assert.ok(variants.includes('Marina Dubai'), 'includes Marina Dubai');
+  assert.ok(
+    variants.includes('Dubai Marina Walk'),
+    'includes Dubai Marina Walk',
+  );
+  assert.ok(variants.includes('JBR Dubai Marina'), 'includes JBR Dubai Marina');
+
+  // Verify that duplicates are removed when duplicate nearby names or ladder entries are present
+  const withDupes = expandPlaceVariants({
+    placeName: 'Dubai Marina',
+    nearbyNames: [
+      'Dubai Marina',
+      'Dubai Marina Walk',
+      'JBR Dubai Marina',
+      'Marina Dubai',
+    ],
+    maxVariants: 15,
+  });
+
+  const normalized = withDupes.map((v) => v.toLowerCase().trim());
+  const uniqueSet = new Set(normalized);
+  assert.equal(
+    normalized.length,
+    uniqueSet.size,
+    'all variants are unique after dedupe',
+  );
+  assert.ok(withDupes.includes('Dubai Marina'));
+  assert.ok(withDupes.includes('Marina Dubai'));
+  assert.ok(withDupes.includes('Dubai Marina Walk'));
+  assert.ok(withDupes.includes('JBR Dubai Marina'));
+});
+
 test('expandPlaceVariants handles apostrophes and gym variations', () => {
   const variants = expandPlaceVariants({
     placeName: 'Kanes Boxing Gym Abu Dhabi',

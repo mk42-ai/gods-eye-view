@@ -1,6 +1,6 @@
 {
-  "version": 5,
-  "generatedAt": "2026-11-02T01:14:14.881Z",
+  "version": 6,
+  "generatedAt": "2026-11-02T10:57:17.811Z",
   "elementTypeIcons": {
     "inner_cordon": "cordon_node",
     "outer_cordon": "cordon_node",
@@ -31,7 +31,16 @@
     "threat_zone": "alert_state_3",
     "interest_zone": "generic",
     "intel_note": "generic",
-    "timeline_event": "generic"
+    "timeline_event": "generic",
+    "person": "perimeter_unit",
+    "runner": "person_runner",
+    "police": "person_police_officer",
+    "organizer": "command_post",
+    "vehicle": "vehicle_civilian_sedan",
+    "police_vehicle": "vehicle_police_car",
+    "barrier": "barrier_crowd",
+    "start_line": "start_finish",
+    "finish_line": "start_finish"
   },
   "keys": [
     {
@@ -45,7 +54,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/cone.png",
-      "sha256": "eba06dbfc83fc0d53d89cc7364b136be97046650bc9af62eea2679e815aedcae"
+      "sha256": "0fb7fe39c6db1f74ab46e7f1ef7bbebb6e311b6700f35423c3b5315a50e761a2"
     },
     {
       "key": "police_unit",
@@ -58,7 +67,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/police_patrol_car.png",
-      "sha256": "3ec4b4d493508d79e4c42ea4504d2022a24f5ee458a9f5ba9442aca87bcbffc6"
+      "sha256": "92750c05a76e1d98c4f31a3b5fd0210bbb710a8ebc4d57a8f03a74c5d978ad9c"
     },
     {
       "key": "barrier",
@@ -71,7 +80,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/barrier.png",
-      "sha256": "8f0fce04f1e1b4c59913486208861390edfe34db2ec0c0cde6121aca913bb124"
+      "sha256": "390b9cec7b0f878988f0d0f967777ab9a298e77cf97ab49db6735946b84cbd7d"
     },
     {
       "key": "cctv_signal",
@@ -84,7 +93,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/cctv.png",
-      "sha256": "51e5f48cdf6d66f5f96127a48ed5347b6a798bac54454f94ae0f4c0165e132a7"
+      "sha256": "1395a38fdce56c18d61aba1717863e0614e838941c68722dd56331b877ca7fed"
     },
     {
       "key": "checkpoint",
@@ -97,7 +106,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/checkpoint_cordon_node.png",
-      "sha256": "075a94032948942c65fb88a9f51686bf143b981c98cddc30d05ad8e790dac243"
+      "sha256": "3ce14a3e65d570c9cf1249b987dbccecd8c83ac86d025e4b7053bed1ee2ccf1e"
     },
     {
       "key": "staging_point",
@@ -110,7 +119,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/event_command_post.png",
-      "sha256": "59a9076baed78a38a891a7cda4b863968f0f72216bc5ae6965f303488787ad5c"
+      "sha256": "b5012cd4325829e83e97139df594b9b0254e93f7a04d21a7af436ca2b97e945e"
     },
     {
       "key": "perimeter_unit",
@@ -123,7 +132,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/foot_patrol_officer.png",
-      "sha256": "da064b3d430fa16256ea6279e44b3cf56b0fcdf902018b0a509572c8182e9b85"
+      "sha256": "d00d435d4518525a49ea1fe7957abfc147de733d10f608fff72bd47e02387da1"
     },
     {
       "key": "crowd_zone",
@@ -136,7 +145,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/spectator_crowd_cluster.png",
-      "sha256": "b026c613d042c4c121fa459548fa4930c431330f00f8cdff416730b3e3dad9d9"
+      "sha256": "e74e19d51fa6432460772a29a4c69c2eb3655cfc3b7952a349d1106416570071"
     },
     {
       "key": "start_finish",
@@ -149,7 +158,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/start_finish_gate.png",
-      "sha256": "f4056ecfe5605bb5f42f88388e0be8b66a0ec9472c32ee75ac4962b69cf5207e"
+      "sha256": "0e018e40aedfad6cc9ff5a5d8a4147858f462bc394b6888d7c505b7d5ddf9297"
     },
     {
       "key": "egress",
@@ -162,7 +171,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/egress.png",
-      "sha256": "4d7404d3729a7f8e0460c946f54918c069974fcfd336a8c1240a983656c2fa4b"
+      "sha256": "403ac95a55e1d2620f2c0791a089614e0980c62e84aeabca9dc7663c58918a8d"
     },
     {
       "key": "command_post",
@@ -175,7 +184,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/event_command_post.png",
-      "sha256": "59a9076baed78a38a891a7cda4b863968f0f72216bc5ae6965f303488787ad5c"
+      "sha256": "b5012cd4325829e83e97139df594b9b0254e93f7a04d21a7af436ca2b97e945e"
     },
     {
       "key": "cctv",
@@ -188,7 +197,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/cctv.png",
-      "sha256": "51e5f48cdf6d66f5f96127a48ed5347b6a798bac54454f94ae0f4c0165e132a7"
+      "sha256": "1395a38fdce56c18d61aba1717863e0614e838941c68722dd56331b877ca7fed"
     },
     {
       "key": "cordon_node",
@@ -201,7 +210,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/checkpoint_cordon_node.png",
-      "sha256": "075a94032948942c65fb88a9f51686bf143b981c98cddc30d05ad8e790dac243"
+      "sha256": "3ce14a3e65d570c9cf1249b987dbccecd8c83ac86d025e4b7053bed1ee2ccf1e"
     },
     {
       "key": "route_start",
@@ -214,7 +223,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/route_flag.png",
-      "sha256": "b062cd5915da5270e194dc4ff24e3bc8b019cf360d9d28bf3144d79edbbb8384"
+      "sha256": "2c61f1cf6d5a23bf7035a474b4b8b03eefef8cdf669f58d31f516fc9823f8f0a"
     },
     {
       "key": "route_finish",
@@ -227,7 +236,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/route_flag.png",
-      "sha256": "e11190da0ec0b97ac61fd4eae4c4f3c2578917dec9f28ea9e2169759e5f7a8e5"
+      "sha256": "acf8b32e15fe05c1c25bd15769d2c982ee74af418420085f60655ea1ef1d9085"
     },
     {
       "key": "generic",
@@ -253,7 +262,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/police_patrol_car.png",
-      "sha256": "3ec4b4d493508d79e4c42ea4504d2022a24f5ee458a9f5ba9442aca87bcbffc6"
+      "sha256": "92750c05a76e1d98c4f31a3b5fd0210bbb710a8ebc4d57a8f03a74c5d978ad9c"
     },
     {
       "key": "vehicle_ambulance",
@@ -266,7 +275,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/ambulance_medical_point.png",
-      "sha256": "e5ba7e01a0de26f7354edf269a81443fefea9abb188b7e2eed3e073480a94ba0"
+      "sha256": "345bdb275cf0cec485ee3c3783b5115f340876ababf6a752446a780be7e66e9d"
     },
     {
       "key": "vehicle_fire_engine",
@@ -279,7 +288,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/vehicle_fire_engine.png",
-      "sha256": "5d1859d13bbe70eed37b9ab10f7b1181aa04e7ef5c9572215e1426f087cf64ed"
+      "sha256": "e693ef24a2532a1a6457ded958672603110881eaa931f7acf93338a471b0a19e"
     },
     {
       "key": "vehicle_civilian_sedan",
@@ -292,7 +301,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/civilian_sedan.png",
-      "sha256": "b4b16dddaa1765d1be1f81964f18a91b655823188f485cc0b88f5726ef064182"
+      "sha256": "27eb98719ca7884218e060e40a36bbb8b73d0cac1a83d006d58b3aa8dc4ad213"
     },
     {
       "key": "aircraft_helicopter",
@@ -305,7 +314,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/aircraft_helicopter.png",
-      "sha256": "70028487a622d5195881b4c0600229d8b97c8b4eea746fa2f75aa8bcb293f26c"
+      "sha256": "b942a1d7899b281471b3c299069ed6448fd7bf01ccb2a91a69908e4da8d8b996"
     },
     {
       "key": "aircraft_fixed_wing",
@@ -318,7 +327,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/aircraft_fixed_wing.png",
-      "sha256": "61322f44f7488dae46706c0b8f663feb851ec51839d2c4f3e47082e22400ef99"
+      "sha256": "bb2be2b675602503186cc0128ad20aa2189c01e355ab245ebd773c9b331badd1"
     },
     {
       "key": "person_runner",
@@ -331,7 +340,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/person_runner.png",
-      "sha256": "dcb5c2c9e0326da42bdb5aea45d86e49d26d84405950a14a800d8dac4ebaa979"
+      "sha256": "c0ac23f8d732f432c4e6aea85e897249491813a79074e88cdd215f805f6b1443"
     },
     {
       "key": "person_police_officer",
@@ -344,7 +353,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/foot_patrol_officer.png",
-      "sha256": "da064b3d430fa16256ea6279e44b3cf56b0fcdf902018b0a509572c8182e9b85"
+      "sha256": "d00d435d4518525a49ea1fe7957abfc147de733d10f608fff72bd47e02387da1"
     },
     {
       "key": "signage_road_closed",
@@ -357,7 +366,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/road_closed_barricade.png",
-      "sha256": "dd0b4c2d4aed4c527b44eff4c66c5ba6b14908dc785546517e876e5c875fb64c"
+      "sha256": "efb4f90dd6509e47418d7b1ecf7f592e91f143a60509ee717027386658bb93f7"
     },
     {
       "key": "effect_smoke_fire",
@@ -370,7 +379,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/effect_smoke_fire.png",
-      "sha256": "07fe0c9fd37bfe38d247121d951c2db29f3ce808ecf7ec7c62d942d99282a9ab"
+      "sha256": "c6fb46b9ee92d1117077c697350fc0ea7577b866d4734f93c78d9473fd5df7ae"
     },
     {
       "key": "alert_state_1",
@@ -383,7 +392,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-0",
-      "sha256": "ec9c44cbcba6fea3c9e2f1e77d5fc44769f79d9bec1b61922ab989d7ba95253f"
+      "sha256": "e1a5936af287368199c97e20bc363f054f1e7bcfede768eb4b93d8c97a2cf678"
     },
     {
       "key": "alert_state_2",
@@ -396,7 +405,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-1",
-      "sha256": "8f455a44f1e3b3dc4af8496c0cec4cc6d32407bf1e7083fb377edec8b5de82dc"
+      "sha256": "38b67bd661b7df19ebbad448e84f5c5c7b810705d4762fb735cce724422d331e"
     },
     {
       "key": "alert_state_3",
@@ -409,7 +418,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-2",
-      "sha256": "d36c36d6a145c829e9f8586d49b13e698c44d837f8eee38b042fe0564a7926dc"
+      "sha256": "d4245d3415af6d8ee4b54ecdbb168e316f6516e9d321a94f1da0e52c6480d712"
     },
     {
       "key": "alert_state_4",
@@ -422,7 +431,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/alert_states_sheet.png#quadrant-3",
-      "sha256": "5580eb188f2e26efd9e58ff773065d277de5d1e1bd9ff11677fa7bf60347e37e"
+      "sha256": "758b6167cd69b519289c96b3d177672708b721d0e9b08b8916be61be331deaca"
     },
     {
       "key": "barrier_crowd",
@@ -435,7 +444,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/crowd_control_barrier.png",
-      "sha256": "09b4151ea74900420567f06b496da649037f5a12a6d05403a7e2c75ba18d8e44"
+      "sha256": "fa199a9d1b9e6217eeb23fbaa5ee07bc52b7cee708c80db861b5a7d21e8153a3"
     },
     {
       "key": "cone_cluster",
@@ -448,7 +457,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/cone_cluster.png",
-      "sha256": "6c22278922dc03869928b7f5a473741e5fb6734f9aa53c7b2def1c8bcc0f043e"
+      "sha256": "5d8738a7a477ae0a6e0aae1c4aa38528c048d78d81015fc9cc6a17db8ef5d163"
     },
     {
       "key": "crowd_spectators",
@@ -461,7 +470,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/spectator_crowd_cluster.png",
-      "sha256": "b026c613d042c4c121fa459548fa4930c431330f00f8cdff416730b3e3dad9d9"
+      "sha256": "e74e19d51fa6432460772a29a4c69c2eb3655cfc3b7952a349d1106416570071"
     },
     {
       "key": "person_responder",
@@ -474,7 +483,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/person_responder.png",
-      "sha256": "ba01e4fb36a42e5493e19bb6a10d085e7f7d1aa26fa5fb1f2b6dbdc6b71e21ad"
+      "sha256": "bf2a335bf3afb7e311644cee29726bd3ce3363647759c20d371fdb40b1a30bb3"
     },
     {
       "key": "vehicle_city_bus",
@@ -487,7 +496,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/vehicle_city_bus.png",
-      "sha256": "186f653b112d829fd0ba5ec747b1a39b3142444dfa93d10c56669ea15c690e13"
+      "sha256": "13effebc918b4bb7692692cb5f5f0ecc3442739fdaf9f310dc642afffb5afa0c"
     },
     {
       "key": "vehicle_police_motorcycle",
@@ -500,7 +509,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/vehicle_police_motorcycle.png",
-      "sha256": "b46a983d489217e96548f5213401328316f36c7001e51aeb12417588056b4c8f"
+      "sha256": "31da868d310717fae5b4a7cfbcda646dac07ead8f5c1d6a0ff11be2db83c0459"
     },
     {
       "key": "sensor_cctv_feed",
@@ -513,7 +522,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/sensor_cctv_feed.png",
-      "sha256": "e9ad81863ef4d16ae87f4a5f7c9784ef74878151e5566f95e5ca8216f41a5f72"
+      "sha256": "5ec08199d2cade7a1e35d1d4852a41a078fbcf74fd7e8434347a8597c5318e9e"
     },
     {
       "key": "evidence_pin_verified",
@@ -526,7 +535,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/evidence_pin_verified.png",
-      "sha256": "db43e7e597eaed5a748f31cbc788daa8345c452e1e3572ed7500aee865ecd073"
+      "sha256": "a1786ae9529cd80128498ca5159f99d2d43be286d6738909969e45a83d82ddeb"
     },
     {
       "key": "marker_air_raid_impact_sim",
@@ -539,7 +548,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/marker_air_raid_impact_sim.png",
-      "sha256": "e5cced279f2c37777534b52a4668b6ede39b9da88ff276aefa7939ef3174f0b8"
+      "sha256": "d6ab6e878be829c64ba8507e1e6fb5a504c3a413d765e79dd89a4ebd51571816"
     },
     {
       "key": "vessel_marine_patrol",
@@ -552,7 +561,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/vessel_marine_patrol.png",
-      "sha256": "38b8b9cd60e061e391f8d0784425b3b38a04b9a4d5712a48b38ee039273e061b"
+      "sha256": "ac0ff3e2fb0b4c9174637753b620af7e99012ae73a43c0f954fb2bc651b1c5bd"
     },
     {
       "key": "medical_point",
@@ -565,7 +574,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/ambulance_medical_point.png",
-      "sha256": "e5ba7e01a0de26f7354edf269a81443fefea9abb188b7e2eed3e073480a94ba0"
+      "sha256": "345bdb275cf0cec485ee3c3783b5115f340876ababf6a752446a780be7e66e9d"
     },
     {
       "key": "marine_patrol",
@@ -578,7 +587,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/vessel_marine_patrol.png",
-      "sha256": "38b8b9cd60e061e391f8d0784425b3b38a04b9a4d5712a48b38ee039273e061b",
+      "sha256": "ac0ff3e2fb0b4c9174637753b620af7e99012ae73a43c0f954fb2bc651b1c5bd",
       "aliasOf": "vessel_marine_patrol"
     },
     {
@@ -592,7 +601,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/checkpoint_cordon_node.png",
-      "sha256": "075a94032948942c65fb88a9f51686bf143b981c98cddc30d05ad8e790dac243",
+      "sha256": "3ce14a3e65d570c9cf1249b987dbccecd8c83ac86d025e4b7053bed1ee2ccf1e",
       "aliasOf": "checkpoint"
     },
     {
@@ -606,7 +615,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/crowd_control_barrier.png",
-      "sha256": "09b4151ea74900420567f06b496da649037f5a12a6d05403a7e2c75ba18d8e44"
+      "sha256": "fa199a9d1b9e6217eeb23fbaa5ee07bc52b7cee708c80db861b5a7d21e8153a3"
     },
     {
       "key": "road_closed",
@@ -619,7 +628,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/road_closed_barricade.png",
-      "sha256": "dd0b4c2d4aed4c527b44eff4c66c5ba6b14908dc785546517e876e5c875fb64c",
+      "sha256": "efb4f90dd6509e47418d7b1ecf7f592e91f143a60509ee717027386658bb93f7",
       "aliasOf": "signage_road_closed"
     },
     {
@@ -633,7 +642,7 @@
         "height": 64
       },
       "sourceFile": "tools/scene-icons/sources/civilian_sedan.png",
-      "sha256": "b4b16dddaa1765d1be1f81964f18a91b655823188f485cc0b88f5726ef064182",
+      "sha256": "27eb98719ca7884218e060e40a36bbb8b73d0cac1a83d006d58b3aa8dc4ad213",
       "aliasOf": "vehicle_civilian_sedan"
     }
   ]

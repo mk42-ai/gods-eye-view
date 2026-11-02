@@ -373,7 +373,7 @@ test('research provider failure still builds from the prompt city via OSM; total
     fetchImpl,
     nominatimSpacingMs: 0,
   });
-  const out = await down({ prompt: 'kanes boxing gym abu dhabi' });
+  const out = await down({ prompt: 'unknown boxing gym abu dhabi' });
   assert.equal(out.resolution.method, 'osm-fallback');
   assert.equal(out.resolution.precision, 'city');
   assert.ok(out.resolution.researchError);
@@ -549,15 +549,13 @@ test('construct with no hint at all still builds (research-first)', async () => 
     geometry: false,
   });
   void fetchImpl;
-  await assert.rejects(
-    () =>
-      service.construct({
-        prompt: 'kanes boxing gym abu dhabi',
-        selectedTime: 72,
-      }),
-    (e) => e.code !== 'invalid_request',
-    'a missing hint is never an invalid_request',
-  );
+  const result = await service.construct({
+    prompt: 'kanes boxing gym abu dhabi',
+    selectedTime: 72,
+  });
+  assert.equal(result.ok, true);
+  assert.ok(result.plan);
+  assert.equal(result.plan.location.name, 'Abu Dhabi');
 });
 
 test('Snapchat strict scope is optional, separate and cannot gate a build', () => {
@@ -633,7 +631,10 @@ test('scenario vocabulary never becomes a geocoder query (live defect 2026-11-01
     stripScenarioTerms('im doing a raid in the dubai marina'),
     'dubai marina',
   );
-  assert.equal(stripScenarioTerms('police raid at Burj Al Arab'), 'Burj Al Arab');
+  assert.equal(
+    stripScenarioTerms('police raid at Burj Al Arab'),
+    'Burj Al Arab',
+  );
   assert.deepEqual(
     trailingPlace('kanes boxing gym abu dhabi police raid').slice(0, 1),
     ['abu dhabi'],
@@ -644,4 +645,81 @@ test('scenario vocabulary never becomes a geocoder query (live defect 2026-11-01
   ]);
   for (const guess of trailingPlace('kanes boxing gym abu dhabi police raid'))
     assert.doesNotMatch(guess, /police|raid/);
+});
+
+test('UAE bbox sanity rejection rejects Micronesia geocode and falls to known places table', async () => {
+  // Simulates live defect: "car crash outside yas mall" geocoded to Micronesia (lat 6.83, lon 158.32)
+  const micronesiaHit = {
+    name: 'Yas Mall',
+    displayName: 'Yas Mall, Micronesia',
+    lat: 6.83,
+    lon: 158.32,
+    type: 'mall',
+    provider: 'OpenStreetMap Nominatim',
+  };
+  const resolve = createLocationResolver({
+    transport: transport({
+      query: 'car crash outside yas mall',
+      area: {
+        name: 'Yas',
+        city: 'Abu Dhabi',
+        country: 'United Arab Emirates',
+        countryCode: 'ae',
+      },
+      locations: [
+        {
+          name: 'Yas Mall',
+          aliases: ['yas mall'],
+          address: 'Yas Island, Abu Dhabi',
+          lat: 6.83,
+          lon: 158.32,
+          confidence: 0.12,
+          citations: [],
+        },
+      ],
+      features: [],
+      citations: [],
+    }),
+    fetchImpl: async () => json([micronesiaHit]),
+    nominatimSpacingMs: 0,
+    knownPlaceWaitMs: 10,
+  });
+
+  const out = await resolve({ prompt: 'car crash outside yas mall' });
+  // The Micronesia hit (6.83, 158.32) must be rejected because it is outside UAE bbox (22.5-26.5 N, 51-56.5 E)
+  // Resolution must fall through to the known place table entry for Yas Mall (24.4886, 54.6079)
+  assert.equal(out.anchor.name, 'Yas Mall');
+  assert.equal(out.anchor.lat, 24.4886);
+  assert.equal(out.anchor.lon, 54.6079);
+  assert.equal(out.resolution.method, 'known-place-table');
+  assert.equal(out.resolution.approximate, true);
+});
+
+test('research timeout: fake transport that never resolves falls back to known place within budget', async () => {
+  const hangingTransport = {
+    configured: () => true,
+    createSession: async () => ({ id: 'hang-session' }),
+    query: () => new Promise(() => {}), // Never resolves
+  };
+  const resolve = createLocationResolver({
+    transport: hangingTransport,
+    fetchImpl: async () => {
+      throw new Error('network down');
+    },
+    nominatimSpacingMs: 0,
+    researchTimeoutMs: 100,
+    knownPlaceWaitMs: 30, // 30ms fast-anchor wait
+  });
+
+  const start = Date.now();
+  const out = await resolve({ prompt: 'im doinga. raid in the dubai marina' });
+  const elapsed = Date.now() - start;
+
+  assert.ok(elapsed < 1000, `Resolved quickly within budget: ${elapsed}ms`);
+  assert.equal(out.anchor.name, 'Dubai Marina');
+  assert.equal(out.anchor.lat, 25.0806);
+  assert.equal(out.anchor.lon, 55.1397);
+  assert.equal(out.resolution.method, 'known-place-table');
+  assert.equal(out.resolution.approximate, true);
+  assert.equal(out.resolution.confidence, 0.6);
 });

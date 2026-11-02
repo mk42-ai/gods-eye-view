@@ -59,6 +59,7 @@ export function installCinematicEngine({
     viewer,
     onChange: () => scheduleUpdate(),
     entityGetter: (id) => runtime?.entityById?.(id) || null,
+    positionsSnapshotGetter: (sec) => runtime?.positionsSnapshot?.(sec) || {},
   });
   const runtime = createSceneRuntime({
     viewer,

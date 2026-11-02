@@ -1852,7 +1852,13 @@
       "src/scenes/sceneTemplates.js",
       "src/scenes/sceneStaging.js",
       "src/incidents/ui/sceneStagingLayer.js",
-      "src/incidents/ui/scenePanel.js"
+      "src/incidents/ui/scenePanel.js",
+      "src/incidents/ui/sceneFlyIn.js",
+      "src/incidents/ui/sceneLegend.js",
+      "src/scenes/iconBillboard.js",
+      "src/scenes/spriteAtlas.js",
+      "src/app/renderGuard.js",
+      "src/cinematic/renderBudget.js"
     ],
     "external": [
       "zod",

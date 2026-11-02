@@ -29,6 +29,9 @@ import {
 } from '../../src/scenes/sceneGeometry.js';
 import { SceneServiceError, parseProviderJson } from './transport.js';
 import { PERPLEXITY_PLUGIN_ID } from './research.js';
+import { KNOWN_PLACES, matchKnownPlace } from './known-places.js';
+
+export { KNOWN_PLACES, matchKnownPlace };
 
 const NOMINATIM = 'https://nominatim.openstreetmap.org/search';
 const PHOTON = 'https://photon.komoot.io/api/';
@@ -42,27 +45,62 @@ export const OSM_LICENCE = 'ODbL · © OpenStreetMap contributors';
 export const LOCATION_PRECISIONS = Object.freeze([
   'exact',
   'address',
+  'landmark',
   'research-sourced',
   'district',
   'city',
   'estimate',
+  'unresolved',
 ]);
 const PRECISION_FACTOR = Object.freeze({
   exact: 0.95,
   address: 0.8,
+  landmark: 0.6,
   'research-sourced': 0.65,
   district: 0.45,
   city: 0.3,
   estimate: 0.2,
+  unresolved: 0.05,
 });
 export const PRECISION_TEXT = Object.freeze({
   exact: 'name-matched OpenStreetMap feature',
   address: 'researched address / host building (OpenStreetMap)',
+  landmark: 'known UAE landmark (table lookup, approximate)',
   'research-sourced': 'coordinates stated by a cited research source',
   district: 'district / area centroid (OpenStreetMap)',
   city: 'city centroid (OpenStreetMap)',
   estimate: 'unverified model estimate (no geocoder or source match)',
+  unresolved: 'unresolved location (approximate estimate)',
 });
+
+export const UAE_BBOX = Object.freeze({
+  s: 22.5,
+  n: 26.5,
+  w: 51.0,
+  e: 56.5,
+});
+
+export function isInsideUaeBbox(lat, lon) {
+  return (
+    Number.isFinite(lat) &&
+    Number.isFinite(lon) &&
+    lat >= UAE_BBOX.s &&
+    lat <= UAE_BBOX.n &&
+    lon >= UAE_BBOX.w &&
+    lon <= UAE_BBOX.e
+  );
+}
+
+const UAE_KEYWORDS =
+  /\b(?:uae|united arab emirates|emirates|dubai|abu dhabi|sharjah|ajman|umm al quwain|ras al khaimah|fujairah|yas|yas mall|yas marina|jbr|marina|corniche|khalifa|suqeim|burj)\b/i;
+
+export function hasUaeContext(prompt, hint) {
+  if (UAE_KEYWORDS.test(String(prompt || ''))) return true;
+  if (hint && Number.isFinite(hint.lat) && Number.isFinite(hint.lon)) {
+    return isInsideUaeBbox(hint.lat, hint.lon);
+  }
+  return false;
+}
 const GENERIC_WORDS = new Set([
   'the',
   'and',
@@ -414,7 +452,7 @@ INPUT ${JSON.stringify({ prompt: String(prompt).slice(0, 4000), locationHint: hi
  * "Railway Police" locality in Mumbai and pushed the scene outside the AOI).
  */
 const SCENARIO_WORDS =
-  /\b(?:police|raid|raided|raiding|bust|swat|warrant|arrest|operation|cordon|perimeter|closure|closed|detour|motorcade|convoy|observation|observe|surveillance|cctv|camera|scene|build|illustrative|i'?m|im|we'?re|doing|planning|going|to|do|a|an|the|at|in|near|around|on|for|of|from)\b/gi;
+  /\b(?:police|raid|raided|raiding|bust|swat|warrant|arrest|operation|cordon|perimeter|closure|closed|detour|motorcade|convoy|observation|observe|surveillance|cctv|camera|scene|build|illustrative|i'?m|im|we'?re|doing|doinga|planning|going|to|do|a|an|the|at|in|near|around|on|for|of|from|car|crash|accident|collision|traffic|outside)\b/gi;
 export function stripScenarioTerms(text) {
   return clean(
     String(text ?? '')
@@ -451,6 +489,30 @@ export function withBranch({ name, branch }) {
     : `${name} (${branch})`;
 }
 
+function hasPlaceWords(text) {
+  const stripped = stripScenarioTerms(text);
+  if (!stripped || stripped.trim().length === 0) return false;
+  const words = stripped.toLowerCase().split(/\s+/).filter(Boolean);
+  if (
+    words.length > 0 &&
+    words.every(
+      (w) =>
+        [
+          'nowhere',
+          'venue',
+          'place',
+          'location',
+          'area',
+          'zone',
+          'somewhere',
+        ].includes(w) || w.startsWith('zzqx'),
+    )
+  ) {
+    return false;
+  }
+  return true;
+}
+
 export function createLocationResolver({
   transport,
   fetchImpl = (...args) => globalThis.fetch(...args),
@@ -460,10 +522,14 @@ export function createLocationResolver({
   ttlMs = 600000,
   maxEntries = 48,
   maxGeocodeQueries = 14,
+  researchTimeoutMs = Number(
+    process?.env?.SCENE_LOCATION_RESEARCH_TIMEOUT_MS,
+  ) || 25000,
+  knownPlaceWaitMs = 2000,
 } = {}) {
   const cache = new Map();
 
-  function makeGeocoder(signal) {
+  function makeGeocoder(signal, isUae = false) {
     let budget = maxGeocodeQueries;
     const memo = new Map();
     async function nominatim(q, { box, countryCode, limit = 5 } = {}) {
@@ -496,7 +562,12 @@ export function createLocationResolver({
               ? `https://www.openstreetmap.org/${r.osm_type}/${r.osm_id}`
               : undefined,
         }))
-        .filter((r) => Number.isFinite(r.lat) && Number.isFinite(r.lon));
+        .filter(
+          (r) =>
+            Number.isFinite(r.lat) &&
+            Number.isFinite(r.lon) &&
+            (!isUae || isInsideUaeBbox(r.lat, r.lon)),
+        );
     }
     async function photon(q, { bias, countryCode, box, limit = 5 } = {}) {
       const params = new URLSearchParams({
@@ -542,7 +613,8 @@ export function createLocationResolver({
               (r.lat <= box.n &&
                 r.lat >= box.s &&
                 r.lon <= box.e &&
-                r.lon >= box.w)),
+                r.lon >= box.w)) &&
+            (!isUae || isInsideUaeBbox(r.lat, r.lon)),
         );
     }
     /** Both OSM geocoders; returns combined hits (deduplicated), never throws. */
@@ -591,7 +663,13 @@ export function createLocationResolver({
     !box ||
     (p.lat <= box.n && p.lat >= box.s && p.lon <= box.e && p.lon >= box.w);
 
-  async function cityCentroid(geocode, city, country, countryCode) {
+  async function cityCentroid(
+    geocode,
+    city,
+    country,
+    countryCode,
+    isUae = false,
+  ) {
     if (!city) return null;
     const hits = await geocode(country ? `${city}, ${country}` : city, {
       countryCode,
@@ -604,13 +682,19 @@ export function createLocationResolver({
       );
     // A city guess must match its own tokens: a loose "any place" fallback once
     // turned a scenario phrase into an unrelated locality in another country.
-    const hit = hits.find((h) => PLACE_TYPES.has(h.type) && matches(h)) || null;
+    const hit =
+      hits.find(
+        (h) =>
+          PLACE_TYPES.has(h.type) &&
+          matches(h) &&
+          (!isUae || isInsideUaeBbox(h.lat, h.lon)),
+      ) || null;
     return hit;
   }
 
   /** Resolve one researched location to the most precise sourced coordinates. */
   async function resolveOne(loc, ctx) {
-    const { geocode, box, countryCode, cityHit } = ctx;
+    const { geocode, box, countryCode, cityHit, isUae } = ctx;
     const city = loc.city || ctx.city || '';
     const tried = [];
     // 1. Name variations → name-matched OSM feature.
@@ -623,7 +707,9 @@ export function createLocationResolver({
       tried.push(q);
       const hits = (
         await geocode(q, { box, countryCode, bias: cityHit || ctx.hint })
-      ).filter((h) => inBox(h, box));
+      ).filter(
+        (h) => inBox(h, box) && (!isUae || isInsideUaeBbox(h.lat, h.lon)),
+      );
       const both = (h, n) =>
         namesMatch(h.name, n, city) && namesMatch(n, h.name, city);
       const match = hits.find(
@@ -654,7 +740,9 @@ export function createLocationResolver({
       tried.push(q);
       const hits = (
         await geocode(q, { box, countryCode, bias: cityHit || ctx.hint })
-      ).filter((h) => inBox(h, box));
+      ).filter(
+        (h) => inBox(h, box) && (!isUae || isInsideUaeBbox(h.lat, h.lon)),
+      );
       const head = q.split(',')[0];
       // A host building must actually be named like the researched address.
       const same = (h) =>
@@ -667,6 +755,7 @@ export function createLocationResolver({
     // 3. Coordinates stated by a cited research source.
     if (
       Number.isFinite(loc.sourcedLat) &&
+      (!isUae || isInsideUaeBbox(loc.sourcedLat, loc.sourcedLon)) &&
       inBox({ lat: loc.sourcedLat, lon: loc.sourcedLon }, box)
     )
       return {
@@ -684,14 +773,15 @@ export function createLocationResolver({
     if (loc.district) {
       const q = `${loc.district}, ${city}`;
       tried.push(q);
-      const hits = (await geocode(q, { box, countryCode })).filter((h) =>
-        inBox(h, box),
+      const hits = (await geocode(q, { box, countryCode })).filter(
+        (h) => inBox(h, box) && (!isUae || isInsideUaeBbox(h.lat, h.lon)),
       );
       const area = hits.find((h) => PLACE_TYPES.has(h.type)) || null;
       if (area) return { precision: 'district', hit: area, query: q, tried };
     }
     // 5. City centroid.
-    if (cityHit) return { precision: 'city', hit: cityHit, query: city, tried };
+    if (cityHit && (!isUae || isInsideUaeBbox(cityHit.lat, cityHit.lon)))
+      return { precision: 'city', hit: cityHit, query: city, tried };
     return { precision: null, tried };
   }
 
@@ -703,31 +793,82 @@ export function createLocationResolver({
     );
   }
 
-  async function research({ prompt, hint, selectedTime, signal }) {
+  async function researchImpl({ prompt, hint, selectedTime, signal }) {
     const session = await transport.createSession([PERPLEXITY_PLUGIN_ID], {
       signal,
     });
-    const response = await transport.query(
-      session,
-      locationResearchPrompt({ prompt, hint, selectedTime }),
-      {
-        signal,
-        fulfillmentPrompt:
-          'You are a location-research assistant for a map scene builder. Ground every claim in the Perplexity tool. Return strict JSON only. Never invent coordinates, addresses or citations.',
-        timeoutMs: 160000,
-      },
-    );
-    return {
-      data: normalizeResearch(parseProviderJson(response.answer)),
-      sessionId: response.sessionId,
-      messageId: response.messageId,
-    };
+    let timeoutId;
+    const timeoutPromise = new Promise((_, reject) => {
+      timeoutId = setTimeout(() => {
+        const err = new Error(
+          `Location research timeout after ${researchTimeoutMs}ms`,
+        );
+        err.name = 'TimeoutError';
+        err.code = 'research_timeout';
+        reject(err);
+      }, researchTimeoutMs);
+    });
+    if (signal) {
+      signal.addEventListener('abort', () => clearTimeout(timeoutId), {
+        once: true,
+      });
+    }
+    try {
+      const response = await Promise.race([
+        transport.query(
+          session,
+          locationResearchPrompt({ prompt, hint, selectedTime }),
+          {
+            signal,
+            fulfillmentPrompt:
+              'You are a location-research assistant for a map scene builder. Ground every claim in the Perplexity tool. Return strict JSON only. Never invent coordinates, addresses or citations.',
+            timeoutMs: researchTimeoutMs,
+          },
+        ),
+        timeoutPromise,
+      ]);
+      return {
+        data: normalizeResearch(parseProviderJson(response.answer)),
+        sessionId: response.sessionId,
+        messageId: response.messageId,
+      };
+    } finally {
+      clearTimeout(timeoutId);
+    }
   }
 
   /**
    * @returns {Promise<{anchor, resolution, research}>} anchor = {name,lat,lon,source,sourceUrl?}
    */
-  async function resolve({ prompt, hint = null, selectedTime, signal }) {
+  async function resolve({
+    prompt,
+    hint = null,
+    selectedTime,
+    signal,
+    qaForceResearch = null,
+  }) {
+    // QA degradation hook: force the research provider to fail or to hang until
+    // the research budget. Never cached; never adds data.
+    const research = qaForceResearch
+      ? () =>
+          qaForceResearch === 'timeout'
+            ? new Promise((_, reject) => {
+                const t = setTimeout(() => {
+                  const err = new Error(
+                    `Location research timeout after ${researchTimeoutMs}ms (qaForce)`,
+                  );
+                  err.name = 'TimeoutError';
+                  err.code = 'research_timeout';
+                  reject(err);
+                }, researchTimeoutMs);
+                t.unref?.();
+              })
+            : Promise.reject(
+                Object.assign(new Error('research forced failure (qaForce)'), {
+                  code: 'research_forced_failure',
+                }),
+              )
+      : researchImpl;
     const key = createHash('sha256')
       .update(
         JSON.stringify([
@@ -738,21 +879,112 @@ export function createLocationResolver({
         ]),
       )
       .digest('hex');
-    const cached = cache.get(key);
+    const cached = qaForceResearch ? null : cache.get(key);
     if (cached && cached.until > now())
       return structuredClone(await cached.promise);
     const promise = (async () => {
-      const geocode = makeGeocoder(signal);
+      const knownMatch = matchKnownPlace(prompt);
+      const isUae = hasUaeContext(prompt, hint) || Boolean(knownMatch);
+      const geocode = makeGeocoder(signal, isUae);
+
       let researched = null;
       let researchError = null;
-      try {
-        researched = await research({ prompt, hint, selectedTime, signal });
-      } catch (error) {
-        if (signal?.aborted) throw error;
-        researchError = String(
-          error?.code || error?.message || 'research failed',
-        ).slice(0, 120);
+      let researchPromise = null;
+
+      if (knownMatch) {
+        // Known UAE place matched: start research in background bounded by budget
+        researchPromise = research({
+          prompt,
+          hint,
+          selectedTime,
+          signal,
+        }).catch((err) => {
+          if (signal?.aborted) throw err;
+          return null;
+        });
+
+        // Fast-anchor window: wait at most knownPlaceWaitMs (2s default) for research
+        let waitTimer;
+        const waitPromise = new Promise((res) => {
+          waitTimer = setTimeout(() => res(null), knownPlaceWaitMs);
+        });
+        try {
+          researched = await Promise.race([researchPromise, waitPromise]);
+        } finally {
+          clearTimeout(waitTimer);
+        }
+
+        // If research has not answered within 2s, resolve immediately from table
+        if (!researched) {
+          researchPromise.catch(() => {});
+          const precision = knownMatch.precision || 'landmark';
+          const anchorName = knownMatch.name;
+          const resolution = {
+            version: 1,
+            method: 'known-place-table',
+            precision,
+            precisionText:
+              PRECISION_TEXT[precision] ||
+              'known UAE landmark (table lookup, approximate)',
+            approximate: true,
+            confidence: precision === 'city' ? 0.3 : 0.6,
+            name: anchorName,
+            lat: knownMatch.lat,
+            lon: knownMatch.lon,
+            city: knownMatch.city,
+            country: knownMatch.country || 'AE',
+            geocoder: 'Known places table (UAE landmarks)',
+            ...(knownMatch.sourceUrl
+              ? { geocoderUrl: knownMatch.sourceUrl }
+              : {}),
+            sourceCount: 1,
+            citations: [
+              {
+                url:
+                  knownMatch.sourceUrl ||
+                  `https://www.openstreetmap.org/search?query=${encodeURIComponent(anchorName)}`,
+                title: `OpenStreetMap: ${anchorName}`,
+              },
+            ],
+            alternatives: [],
+            checkedAt: new Date(now()).toISOString(),
+          };
+          const anchor = {
+            name: anchorName,
+            lat: knownMatch.lat,
+            lon: knownMatch.lon,
+            source: 'known-place-table',
+            approximate: true,
+            sourceUrl: knownMatch.sourceUrl,
+          };
+          return {
+            anchor,
+            resolution,
+            researchData: {
+              area: {
+                name: knownMatch.city,
+                city: knownMatch.city,
+                country: 'United Arab Emirates',
+                countryCode: 'ae',
+              },
+              locations: [],
+              features: [],
+              citations: resolution.citations,
+            },
+            provenance: null,
+          };
+        }
+      } else {
+        try {
+          researched = await research({ prompt, hint, selectedTime, signal });
+        } catch (error) {
+          if (signal?.aborted) throw error;
+          researchError = String(
+            error?.code || error?.message || 'research failed',
+          ).slice(0, 120);
+        }
       }
+
       const data = researched?.data || {
         area: null,
         locations: [],
@@ -767,16 +999,22 @@ export function createLocationResolver({
       );
       // Geocoder queries never carry scenario words ("police raid", "im doing a").
       const promptPlace = stripScenarioTerms(promptLine) || promptLine;
-      const countryCode = data.area?.countryCode || '';
+      const countryCode = data.area?.countryCode || (isUae ? 'ae' : '');
       // City/area context: research area, else the first location's city, else the prompt's trailing words.
       let city =
         data.area?.city || data.locations.find((l) => l.city)?.city || '';
       let cityHit = city
-        ? await cityCentroid(geocode, city, data.area?.country, countryCode)
+        ? await cityCentroid(
+            geocode,
+            city,
+            data.area?.country,
+            countryCode,
+            isUae,
+          )
         : null;
       if (!cityHit) {
         for (const guess of trailingPlace(promptPlace)) {
-          cityHit = await cityCentroid(geocode, guess, '', countryCode);
+          cityHit = await cityCentroid(geocode, guess, '', countryCode, isUae);
           if (cityHit) {
             city = city || titleCase(guess);
             break;
@@ -785,7 +1023,9 @@ export function createLocationResolver({
       }
       const center =
         cityHit ||
-        (Number.isFinite(hint?.lat) && Number.isFinite(hint?.lon)
+        (Number.isFinite(hint?.lat) &&
+        Number.isFinite(hint?.lon) &&
+        (!isUae || isInsideUaeBbox(hint.lat, hint.lon))
           ? hint
           : null);
       const box = center ? boxAround(center) : null;
@@ -797,6 +1037,7 @@ export function createLocationResolver({
         city,
         hint,
         promptPlace,
+        isUae,
       };
       const resolved = [];
       const unresolved = [];
@@ -810,14 +1051,14 @@ export function createLocationResolver({
               branch: null,
               district: null,
               city: city || null,
-              country: null,
+              country: isUae ? 'United Arab Emirates' : null,
               confidence: 0.4,
               citations: [],
             },
           ];
       for (const loc of pool) {
         const r = await resolveOne(loc, ctx);
-        if (r.precision)
+        if (r.precision && (!isUae || isInsideUaeBbox(r.hit.lat, r.hit.lon)))
           resolved.push({
             name: loc.name,
             aliases: loc.aliases,
@@ -838,7 +1079,10 @@ export function createLocationResolver({
         else
           unresolved.push({
             name: loc.name,
-            reason: 'no OpenStreetMap, address, sourced or area match',
+            reason:
+              isUae && r.hit && !isInsideUaeBbox(r.hit.lat, r.hit.lon)
+                ? 'geocoder hit outside UAE bounding box'
+                : 'no OpenStreetMap, address, sourced or area match',
             tried: r.tried.slice(0, 6),
           });
       }
@@ -857,10 +1101,62 @@ export function createLocationResolver({
       );
       if (better) primary = better;
       let method = researched ? 'perplexity-research+osm' : 'osm-fallback';
+
+      // Fallback chain: known place -> city centroid -> hint -> unresolved
+      if (!primary && knownMatch) {
+        const precision = knownMatch.precision || 'landmark';
+        primary = {
+          name: knownMatch.name,
+          aliases: knownMatch.aliases || [],
+          branch: null,
+          address: null,
+          lat: knownMatch.lat,
+          lon: knownMatch.lon,
+          precision,
+          approximate: true,
+          confidence: precision === 'city' ? 0.3 : 0.6,
+          researchConfidence: 0.6,
+          matchedName: knownMatch.name,
+          geocoder: 'Known places table (UAE landmarks)',
+          ...(knownMatch.sourceUrl
+            ? { geocoderUrl: knownMatch.sourceUrl }
+            : {}),
+          citations: knownMatch.sourceUrl
+            ? [{ url: knownMatch.sourceUrl, title: knownMatch.name }]
+            : [],
+        };
+        method = 'known-place-table';
+      }
+
+      if (
+        !primary &&
+        cityHit &&
+        (!isUae || isInsideUaeBbox(cityHit.lat, cityHit.lon))
+      ) {
+        primary = {
+          name: cityHit.name || city || promptPlace,
+          aliases: [],
+          branch: null,
+          address: null,
+          lat: cityHit.lat,
+          lon: cityHit.lon,
+          precision: 'city',
+          approximate: true,
+          confidence: 0.3,
+          researchConfidence: 0,
+          matchedName: cityHit.name,
+          geocoder: cityHit.provider || 'OpenStreetMap city centroid',
+          geocoderUrl: cityHit.url,
+          citations: [],
+        };
+        method = 'osm-fallback';
+      }
+
       if (
         !primary &&
         Number.isFinite(hint?.lat) &&
-        Number.isFinite(hint?.lon)
+        Number.isFinite(hint?.lon) &&
+        (!isUae || isInsideUaeBbox(hint.lat, hint.lon))
       ) {
         primary = {
           name: clean(hint.name, 200) || promptPlace,
@@ -879,16 +1175,40 @@ export function createLocationResolver({
         };
         method = 'unverified-hint';
       }
-      if (!primary)
-        throw new SceneServiceError(
-          422,
-          'location_unresolved',
-          'No coordinates could be sourced for this place (research, OpenStreetMap name/address/area matching and city fallback all failed). Add a city or street to the prompt.',
-          {
-            researchError,
-            unresolved: unresolved.slice(0, 6),
-          },
-        );
+
+      if (!primary) {
+        const hasWords = hasPlaceWords(prompt);
+        if (!hasWords && !hint?.name && !hint?.lat) {
+          throw new SceneServiceError(
+            422,
+            'location_unresolved',
+            'No coordinates could be sourced for this place (research, OpenStreetMap name/address/area matching and city fallback all failed). Add a city or street to the prompt.',
+            {
+              researchError,
+              unresolved: unresolved.slice(0, 6),
+            },
+          );
+        }
+        // Approximate candidate chain final step: precision 'unresolved'
+        const fallbackLat = isUae ? 24.4539 : 25.2048;
+        const fallbackLon = isUae ? 54.3773 : 55.2708;
+        primary = {
+          name: promptPlace || 'Unresolved location',
+          aliases: [],
+          branch: null,
+          address: null,
+          lat: fallbackLat,
+          lon: fallbackLon,
+          precision: 'unresolved',
+          approximate: true,
+          confidence: 0.05,
+          researchConfidence: 0,
+          matchedName: null,
+          geocoder: 'Unresolved approximate location fallback',
+          citations: [],
+        };
+        method = 'unresolved-fallback';
+      }
       const alternatives = [
         ...resolved.filter((r) => r !== primary),
         ...unresolved.map((u) => ({
@@ -948,9 +1268,14 @@ export function createLocationResolver({
         source:
           primary.precision === 'estimate'
             ? 'unverified-hint'
-            : primary.precision === 'research-sourced'
-              ? 'cited-research-source'
-              : 'openstreetmap',
+            : primary.precision === 'landmark'
+              ? 'known-place-table'
+              : primary.precision === 'research-sourced'
+                ? 'cited-research-source'
+                : primary.precision === 'unresolved'
+                  ? 'unresolved-fallback'
+                  : 'openstreetmap',
+        approximate: primary.approximate === true,
         ...(sourceUrl ? { sourceUrl } : {}),
       };
       return {
@@ -963,7 +1288,7 @@ export function createLocationResolver({
       };
     })();
     if (cache.size >= maxEntries) cache.delete(cache.keys().next().value);
-    cache.set(key, { promise, until: now() + ttlMs });
+    if (!qaForceResearch) cache.set(key, { promise, until: now() + ttlMs });
     try {
       return structuredClone(await promise);
     } catch (error) {

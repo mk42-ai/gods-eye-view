@@ -167,17 +167,18 @@ test('validated LLM plan preserves candidate coordinates, revision, actual scene
   assert.equal(result.provenance.attempts, 1);
   assert.equal(t.calls[0].o.fulfillmentOnly, true);
 });
-test('one corrective retry, no template fallback', async () => {
+test('one corrective retry falls back to template plan with guaranteed render', async () => {
   const t = transportFixture(() => '{bad json');
-  await assert.rejects(
-    () =>
-      createScenePlanService({ transport: t, research: generic }).construct(
-        constructBody(),
-      ),
-    { code: 'scene_plan_validation_failed' },
-  );
+  const result = await createScenePlanService({
+    transport: t,
+    research: generic,
+  }).construct(constructBody());
+  assert.equal(result.ok, true);
+  assert.equal(result.plannerTier, 'template');
   assert.equal(t.calls.length, 2);
   assert.match(t.calls[1].q, /Correct only/);
+  assert.ok(result.fallbacks.some((f) => f.includes('planner:')));
+  assert.ok(result.plan);
 });
 test('one correction can replace an invalid plan with actual model JSON', async () => {
   let good;
@@ -194,18 +195,75 @@ test('one correction can replace an invalid plan with actual model JSON', async 
   }).construct(constructBody());
   assert.equal(result.provenance.attempts, 2);
 });
-test('model cannot substitute invented coordinates', async () => {
+test('model cannot substitute invented coordinates (falls back to template preserving authoritative coordinates)', async () => {
   let p;
   const t = transportFixture((q, n) => {
     if (n === 1) p = planFromContext(q);
     return JSON.stringify({ ...p, location: { ...p.location, lat: 0 } });
   });
+  const result = await createScenePlanService({
+    transport: t,
+    research: generic,
+  }).construct(constructBody());
+  assert.equal(result.ok, true);
+  assert.equal(result.plannerTier, 'template');
+  assert.equal(result.plan.location.lat, 25.2);
+});
+test('construct() with a transport that throws still emits done with plannerTier:template', async () => {
+  const throwingTransport = {
+    configured: () => true,
+    createSession: async () => ({ id: 'throw-sess' }),
+    query: async () => {
+      throw new Error('OnDemand transport failure');
+    },
+  };
+  const events = [];
+  const service = createScenePlanService({
+    transport: throwingTransport,
+    research: generic,
+    geometry: false,
+  });
+  const result = await service.construct(constructBody(), {
+    emit: (event, data) => events.push({ event, data }),
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.plannerTier, 'template');
+  assert.ok(result.plan);
+  const doneEvent = events.find((e) => e.event === 'done');
+  assert.ok(doneEvent, 'done event must be emitted');
+  assert.equal(doneEvent.data.result.plannerTier, 'template');
+  const fallbackEvents = events.filter((e) => e.event === 'fallback');
+  assert.ok(fallbackEvents.length > 0, 'fallback event must be emitted');
+});
+test('qaForce planner:fail degrades a working transport to the template tier and is rejected when malformed', async () => {
+  const t = transportFixture((q) => JSON.stringify(planFromContext(q)));
+  const events = [];
+  const service = createScenePlanService({
+    transport: t,
+    research: generic,
+    geometry: false,
+  });
+  const result = await service.construct(
+    { ...constructBody(), qaForce: { planner: true } },
+    { emit: (event, data) => events.push({ event, data }) },
+  );
+  assert.equal(result.ok, true);
+  assert.equal(result.plannerTier, 'template');
+  assert.ok(
+    result.fallbacks.some((f) => f.startsWith('planner:')),
+    'planner fallback recorded',
+  );
+  assert.ok(events.some((e) => e.event === 'done'));
   await assert.rejects(
-    () =>
-      createScenePlanService({ transport: t, research: generic }).construct(
-        constructBody(),
-      ),
-    { code: 'scene_plan_validation_failed' },
+    service.construct({ ...constructBody(), qaForce: { research: 'explode' } }),
+    /qaForce\.research/,
+  );
+  await assert.rejects(
+    service.construct({
+      ...constructBody(),
+      qaForce: { skipValidation: true },
+    }),
+    /qaForce\.skipValidation is not allowed/,
   );
 });
 test('key order does not change semantic validity', async () => {

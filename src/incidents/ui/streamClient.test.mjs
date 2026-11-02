@@ -122,3 +122,44 @@ test('streamClient cancel aborts connection and propagates AbortError', async ()
   controller.abort();
   await assert.rejects(streamPromise, { name: 'AbortError' });
 });
+
+test('streamClient in-flight abort stops processing events immediately', async () => {
+  const controller = new AbortController();
+  const sseBody = [
+    'id: 1\nevent: status\ndata: {"stage":"first"}\n\n',
+    'id: 2\nevent: status\ndata: {"stage":"second"}\n\n',
+    'id: 3\nevent: done\ndata: {"result":{"ok":true}}\n\n',
+  ];
+
+  const received = [];
+  const fakeFetch = async () => ({
+    ok: true,
+    headers: new Map([['content-type', 'text/event-stream']]),
+    body: new ReadableStream({
+      async start(c) {
+        c.enqueue(new TextEncoder().encode(sseBody[0]));
+        // wait a tick
+        await new Promise((r) => setTimeout(r, 10));
+        c.enqueue(new TextEncoder().encode(sseBody[1]));
+        await new Promise((r) => setTimeout(r, 10));
+        c.enqueue(new TextEncoder().encode(sseBody[2]));
+        c.close();
+      },
+    }),
+  });
+
+  const client = createStreamClient({ fetch: fakeFetch });
+  const streamPromise = client.stream('http://example.com/stream', {
+    signal: controller.signal,
+    onEvent: (evt) => {
+      received.push(evt);
+      if (evt.data?.stage === 'first') {
+        controller.abort();
+      }
+    },
+  });
+
+  await assert.rejects(streamPromise, { name: 'AbortError' });
+  assert.equal(received.length, 1);
+  assert.equal(received[0].data.stage, 'first');
+});

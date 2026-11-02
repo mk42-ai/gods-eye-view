@@ -184,9 +184,13 @@ export function createSceneEventStream(res, options = {}) {
   }
 
   let closed = false;
+  let terminalEmitted = false;
 
   function emit(event, data) {
     if (closed || signal?.aborted) return;
+    if (event === 'done' || event === 'error') {
+      terminalEmitted = true;
+    }
     sessionRecord.seq += 1;
     const seq = sessionRecord.seq;
     const eventId = `${requestId}:${seq}`;
@@ -214,8 +218,20 @@ export function createSceneEventStream(res, options = {}) {
     });
   }
 
-  function close() {
+  function close(options = {}) {
     if (closed) return;
+    const ensureTerminal =
+      typeof options === 'object' && options !== null
+        ? Boolean(options.ensureTerminal)
+        : Boolean(options);
+
+    if (ensureTerminal && !terminalEmitted && !signal?.aborted) {
+      emit('error', {
+        code: 'stream_closed_without_terminal',
+        message: 'Stream closed without terminal event',
+      });
+    }
+
     closed = true;
     clearInterval(heartbeatTimer);
     sessionRecord.closed = true;

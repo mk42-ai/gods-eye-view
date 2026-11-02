@@ -29,6 +29,26 @@ export const LANDMARK_BRAND_ALIASES = Object.freeze({
   [normPlace("Kane's Boxing Gym")]: ['Kanes Boxing Gym'],
   [normPlace('Kanes')]: ['Kanes Boxing Gym'],
   [normPlace('Kanes Boxing Gym')]: ['Kanes Boxing Gym'],
+  [normPlace('Dubai Marina')]: [
+    'Marina Dubai',
+    'Dubai Marina Walk',
+    'JBR Dubai Marina',
+  ],
+  [normPlace('Marina Dubai')]: [
+    'Dubai Marina',
+    'Dubai Marina Walk',
+    'JBR Dubai Marina',
+  ],
+  [normPlace('Dubai Marina Walk')]: [
+    'Dubai Marina',
+    'Marina Dubai',
+    'JBR Dubai Marina',
+  ],
+  [normPlace('JBR Dubai Marina')]: [
+    'Dubai Marina',
+    'Marina Dubai',
+    'Dubai Marina Walk',
+  ],
 });
 
 /**
@@ -128,6 +148,13 @@ export function expandPlaceVariants({
     add(anchor, 'primary-anchorName');
   }
 
+  // 1b. Optional nearby POI names supplied by caller (high relevance)
+  if (Array.isArray(nearbyNames)) {
+    for (const poi of nearbyNames) {
+      add(poi, 'nearby-poi');
+    }
+  }
+
   // 2. Ladder hierarchy from places.js (full city search for city / district discovery)
   let ladder = [];
   if (primary || (Number.isFinite(lat) && Number.isFinite(lon))) {
@@ -135,6 +162,19 @@ export function expandPlaceVariants({
       { lat, lon, placeName: primary || anchor },
       { maxCoverageLevel: 'city' },
     );
+  }
+
+  // Target venue variants for Dubai Marina (primary, anchor, or ladder match)
+  const isDubaiMarina =
+    /dubai marina|marina dubai/i.test(primary) ||
+    /dubai marina|marina dubai/i.test(anchor) ||
+    ladder.some((s) => s.names?.some((n) => /dubai marina/i.test(n)));
+
+  if (isDubaiMarina) {
+    add('Dubai Marina', 'dubai-marina-variant');
+    add('Marina Dubai', 'dubai-marina-variant');
+    add('Dubai Marina Walk', 'dubai-marina-variant');
+    add('JBR Dubai Marina', 'dubai-marina-variant');
   }
 
   // Derive city name generically
@@ -291,21 +331,6 @@ export function expandPlaceVariants({
         if (norm.includes(enKey) && enKey.length >= 4) {
           add(arVal, 'static-transliteration');
         }
-      }
-    }
-  }
-
-  // 6. Optional nearby POI names supplied by caller
-  if (Array.isArray(nearbyNames)) {
-    for (const poi of nearbyNames) {
-      add(poi, 'nearby-poi');
-      const compact = compactPlace(poi);
-      if (compact && compact.length >= 3) {
-        add(compact, 'hashtag-compact');
-      }
-      const norm = normPlace(poi);
-      if (UAE_TRANSLITERATIONS[norm]) {
-        add(UAE_TRANSLITERATIONS[norm], 'static-transliteration');
       }
     }
   }
