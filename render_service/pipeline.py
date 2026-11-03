@@ -222,8 +222,14 @@ def ondemand_spec(prompt, focal, log=None):
                 rec = {"endpointId": ep, "http": r.status_code, "latency_s": round(time.time() - t, 2), "valid": ok, "answer_chars": len(ans)}
                 attempts.append(rec); log("spec_model", rec)
                 if ok:
-                    spec["elements"] = [e for e in spec["elements"] if isinstance(e, dict) and e.get("type") in ELEMENT_TO_ASSET or e.get("type") in ("inner_cordon", "outer_cordon", "approach_route", "egress_route", "route_line")][:40]
-                    return spec, {"provider": "ondemand", "endpointId": ep, "attempts": attempts, "fallback": False}
+                    spec["elements"] = [e for e in spec["elements"] if isinstance(e, dict) and (e.get("type") in ELEMENT_TO_ASSET or e.get("type") in ("inner_cordon", "outer_cordon", "approach_route", "egress_route", "route_line"))][:40]
+                    # Repair like the app's repairSceneSpec(): a sparse model spec is topped up with the
+                    # scenario template's missing element types so the staging is never near-empty.
+                    present = {e.get("type") for e in spec["elements"]}
+                    added = [t for t, _ in TEMPLATES[spec["scenarioType"]] if t not in present]
+                    spec["elements"] += [{"type": t, "params": dict(pp)} for t, pp in TEMPLATES[spec["scenarioType"]] if t in added]
+                    rec["repaired_with_template"] = added
+                    return spec, {"provider": "ondemand", "endpointId": ep, "attempts": attempts, "fallback": False, "repaired_with_template": added}
             except Exception as e:
                 rec = {"endpointId": ep, "error": str(e)[:200], "latency_s": round(time.time() - t, 2), "valid": False}
                 attempts.append(rec); log("spec_model", rec)

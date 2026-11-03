@@ -64,10 +64,12 @@ sun = bpy.data.lights.new("Sun", "SUN"); sun_o = bpy.data.objects.new("Sun", sun
 elev, az, strength, col = {"midday": (72, 160, 4.0, (1, 0.98, 0.95)), "dusk": (9, 255, 1.6, (1.0, 0.62, 0.35)), "night": (-20, 0, 0.0, (0.5, 0.6, 1.0))}.get(tod, (60, 180, 3.5, (1, 1, 1)))
 sun.energy = strength; sun.color = col; sun.angle = math.radians(1.0)
 sun_o.rotation_euler = Euler((math.radians(90 - elev), 0, math.radians(az)), "XYZ")
+# Exposure calibrated 2026-11-03 against the ground-truth luma (~120-160 for day views, ~55 at night):
+# the first Phase-F pass rendered at base exposure came out ~2 stops hot (frame luma ~205).
+EXPOSURE = {"night": 1.8, "dusk": -1.2, "midday": -1.6}
+sc.view_settings.exposure = EXPOSURE.get(tod, -1.2) + float(os.environ.get("GEV_EXPOSURE_OFFSET", "0") or 0)
 if tod == "night":
-    sc.view_settings.exposure = 1.2
-elif tod == "dusk":
-    sc.view_settings.exposure = 0.4
+    bg.inputs["Strength"].default_value = 0.4
 
 # ---- ground with satellite texture
 x0, y0, x1, y1 = S["imagery"]["local_bounds"]
@@ -80,7 +82,24 @@ gnt.links.new(tex.outputs["Color"], gb.inputs["Base Color"]); g.data.materials.a
 bpy.ops.object.mode_set(mode="EDIT"); bpy.ops.uv.smart_project(); bpy.ops.object.mode_set(mode="OBJECT")
 
 # ---- buildings extruded from OSM footprints
-bmat = mat("Building", (0.72, 0.70, 0.66), 0.55); bglass = mat("Glass", (0.35, 0.45, 0.55), 0.15, 0.6)
+# Roof caps take the satellite imagery projected from above (so a 700 m mall roof shows the real
+# roof plant/colour instead of a flat beige slab); walls keep a PBR facade material.
+def building_material(name, wall_rgb, rough, metal):
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt_ = m.node_tree; b = nt_.nodes["Principled BSDF"]
+    b.inputs["Roughness"].default_value = rough; b.inputs["Metallic"].default_value = metal
+    texc = nt_.nodes.new("ShaderNodeTexCoord"); mapn = nt_.nodes.new("ShaderNodeMapping")
+    mapn.inputs["Location"].default_value = (-x0 / (x1 - x0), -y0 / (y1 - y0), 0)
+    mapn.inputs["Scale"].default_value = (1 / (x1 - x0), 1 / (y1 - y0), 1)
+    nt_.links.new(texc.outputs["Object"], mapn.inputs["Vector"])
+    img = nt_.nodes.new("ShaderNodeTexImage"); img.image = bpy.data.images.load(S["imagery"]["png"]); img.extension = "EXTEND"
+    nt_.links.new(mapn.outputs["Vector"], img.inputs["Vector"])
+    geo = nt_.nodes.new("ShaderNodeNewGeometry"); sep = nt_.nodes.new("ShaderNodeSeparateXYZ"); nt_.links.new(geo.outputs["True Normal"], sep.inputs["Vector"])
+    gt = nt_.nodes.new("ShaderNodeMath"); gt.operation = "GREATER_THAN"; gt.inputs[1].default_value = 0.7; nt_.links.new(sep.outputs["Z"], gt.inputs[0])
+    wall = nt_.nodes.new("ShaderNodeRGB"); wall.outputs[0].default_value = (*wall_rgb, 1)
+    mix = nt_.nodes.new("ShaderNodeMixRGB"); nt_.links.new(gt.outputs[0], mix.inputs["Fac"]); nt_.links.new(wall.outputs[0], mix.inputs[1]); nt_.links.new(img.outputs["Color"], mix.inputs[2])
+    nt_.links.new(mix.outputs[0], b.inputs["Base Color"])
+    return m
+bmat = building_material("Building", (0.72, 0.70, 0.66), 0.55, 0.0); bglass = building_material("Glass", (0.35, 0.45, 0.55), 0.2, 0.5)
 bcount = 0
 for b in S["buildings"][:900]:
     pts = b["pts"]
@@ -92,14 +111,17 @@ for b in S["buildings"][:900]:
     me.from_pydata(verts, [], faces); me.update()
     ob.data.materials.append(bglass if h > 60 else bmat); bcount += 1
 
-# ---- roads as thin dark strips
+# ---- roads: the satellite ground texture already shows the real carriageways; opaque
+# synthetic road strips (first Phase-F pass) covered the imagery almost entirely in dense
+# urban patches (230 OSM ways at Yas Mall). Keep them only as faint centreline guides.
 rm = mat("Road", (0.12, 0.12, 0.13), 0.75)
 for r in S["roads"][:400]:
+    if r["kind"] not in ("primary", "trunk", "motorway", "secondary", "tertiary"): continue
     pts = r["pts"]
     if len(pts) < 2: continue
-    cu = bpy.data.curves.new("rc", "CURVE"); cu.dimensions = "3D"; cu.bevel_depth = 3.5 if r["kind"] in ("primary", "trunk", "motorway", "secondary") else 2.2; cu.bevel_resolution = 0; cu.fill_mode = "FULL"
+    cu = bpy.data.curves.new("rc", "CURVE"); cu.dimensions = "3D"; cu.bevel_depth = 0.35; cu.bevel_resolution = 0; cu.fill_mode = "FULL"
     sp = cu.splines.new("POLY"); sp.points.add(len(pts) - 1)
-    for i, (x, y) in enumerate(pts): sp.points[i].co = (x, y, 0.08, 1)
+    for i, (x, y) in enumerate(pts): sp.points[i].co = (x, y, 0.05, 1)
     ob = bpy.data.objects.new("road", cu); sc.collection.objects.link(ob); ob.data.materials.append(rm); ob.scale.z = 0.02
 
 # ---- cordon rings / crowd discs / routes (emissive staging graphics, clearly synthetic)
