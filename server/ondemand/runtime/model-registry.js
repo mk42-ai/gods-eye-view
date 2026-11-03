@@ -8,6 +8,10 @@
 import { ondemandFetch } from '../client.js';
 import { config } from '../config.js';
 
+/** Fast tier default (live registry 2026-11-03); Cerebras qwen-3.8-27b stays the fallback. */
+export const KIMI_FAST_ENDPOINT_ID = 'predefined-kimi-k3-fast';
+export const CEREBRAS_FALLBACK_ENDPOINT_ID = 'predefined-cerebras-qwen-3.8-27b';
+
 export const MODEL_TASKS = Object.freeze([
   'scene_direction',
   'camera_direction',
@@ -243,13 +247,21 @@ export function createModelRegistry({
     }
 
     // Default preference order:
-    // 1. Cerebras active streaming endpoints
+    // 1. Kimi K3 fast (predefined-kimi-k3-fast, resolved 2026-11-03 from the
+    //    live registry: model accounts/fireworks/routers/kimi-k3-fast)
+    const kimiFast = models.find(
+      (m) =>
+        m.endpointId === KIMI_FAST_ENDPOINT_ID && m.available && m.streaming,
+    );
+    if (kimiFast) return kimiFast;
+
+    // 2. Cerebras active streaming endpoints (kept as the fallback tier)
     const cerebras = models.find(
       (m) => m.cerebras && m.available && m.streaming,
     );
     if (cerebras) return cerebras;
 
-    // 2. predefined-gpt-6.1-sol
+    // 3. predefined-gpt-6.1-sol
     const gptSol = models.find(
       (m) =>
         m.endpointId === 'predefined-gpt-6.1-sol' && m.available && m.streaming,
@@ -289,7 +301,15 @@ export function createModelRegistry({
         }
       }
 
-      // Default order: cerebras -> gpt-6.1-sol -> any
+      // Default order: kimi-k3-fast -> cerebras -> gpt-6.1-sol -> any
+      const kimiFast = models.find(
+        (m) =>
+          m.endpointId === KIMI_FAST_ENDPOINT_ID && m.available && m.streaming,
+      );
+      if (kimiFast) {
+        result[task] = kimiFast.endpointId;
+        continue;
+      }
       const cerebras = models.find(
         (m) => m.cerebras && m.available && m.streaming,
       );
@@ -319,7 +339,7 @@ export function createModelRegistry({
       result[task] =
         task === 'planner' && env.SCENE_PLAN_ENDPOINT_ID
           ? env.SCENE_PLAN_ENDPOINT_ID
-          : 'predefined-cerebras-qwen-3.8-27b';
+          : KIMI_FAST_ENDPOINT_ID;
     }
 
     return result;

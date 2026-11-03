@@ -353,6 +353,41 @@ test('createModelRegistry pickForTask() returns null when no models available', 
 test('createModelRegistry assignments() uses defaults before cache population', () => {
   const registry = createModelRegistry({ env: {} });
   const assigns = registry.assignments();
-  assert.equal(assigns.scene_direction, 'predefined-cerebras-qwen-3.8-27b');
-  assert.equal(assigns.planner, 'predefined-cerebras-qwen-3.8-27b');
+  // 2026-11-03: fast tier default switched to Kimi K3 fast (live registry id);
+  // Cerebras qwen-3.8-27b remains the fallback once the cache is populated.
+  assert.equal(assigns.scene_direction, 'predefined-kimi-k3-fast');
+  assert.equal(assigns.planner, 'predefined-kimi-k3-fast');
+});
+
+test('createModelRegistry prefers predefined-kimi-k3-fast when the live registry lists it, else Cerebras', async () => {
+  const withKimi = createModelRegistry({
+    fetchImpl: makeMockFetch([
+      ...SAMPLE_ENDPOINTS,
+      {
+        endpoint_id: 'predefined-kimi-k3-fast',
+        endpoint_name: 'kimi-k3-fast',
+        model_id: 'accounts/fireworks/routers/kimi-k3-fast',
+        status: 'active',
+        streaming_supported: true,
+        context_length: 256000,
+        reasoning_efforts: ['low', 'medium', 'max'],
+      },
+    ]),
+    env: {},
+  });
+  await withKimi.list();
+  assert.equal(
+    (await withKimi.pickForTask('scene_direction')).endpointId,
+    'predefined-kimi-k3-fast',
+  );
+  assert.equal(withKimi.assignments().scene_direction, 'predefined-kimi-k3-fast');
+  const withoutKimi = createModelRegistry({
+    fetchImpl: makeMockFetch(SAMPLE_ENDPOINTS),
+    env: {},
+  });
+  await withoutKimi.list();
+  assert.equal(
+    (await withoutKimi.pickForTask('scene_direction')).endpointId,
+    'predefined-cerebras-qwen-3.8-27b',
+  );
 });

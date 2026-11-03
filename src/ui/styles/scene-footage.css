@@ -1,3 +1,4 @@
+@import './hyperreal-render.css';
 /* Explicit access remains visible even when the source results panel is closed.
  * Scope changes edit settings only; they never submit or search. */
 .scene-snapchat-controls {

@@ -248,6 +248,7 @@ test('specModelConfig exposes the Cerebras credential request only without a key
 test('default tiers with a configured transport and no key are the two OnDemand endpoints then template', () => {
   const { model } = harness({ transport: configuredTransport });
   assert.deepEqual(model.config().tiers, [
+    'ondemand:predefined-kimi-k3-fast',
     'ondemand:predefined-cerebras-qwen-3.8-27b',
     'ondemand:predefined-gpt-6.1-sol',
     'template',
@@ -264,6 +265,7 @@ test('default tiers with a Cerebras key start with the direct primary then fallb
   assert.deepEqual(model.config().tiers, [
     'cerebras-direct:qwen-3.8-27b',
     'cerebras-direct:qwen-3-235b-a22b-instruct-2507',
+    'ondemand:predefined-kimi-k3-fast',
     'ondemand:predefined-cerebras-qwen-3.8-27b',
     'ondemand:predefined-gpt-6.1-sol',
     'template',

@@ -6,9 +6,12 @@
  *   1. Cerebras direct   qwen-3.8-27b, strict json_schema, 2 s timeout, 1 retry
  *      (fallback model qwen-3-235b-a22b-instruct-2507, non-strict + validation)
  *      — only when CEREBRAS_API_KEY is configured on the server.
- *   2. OnDemand          predefined-cerebras-qwen-3.8-27b (Cerebras-hosted, existing key)
- *   3. OnDemand          predefined-gpt-6.1-sol, medium reasoning
- *   4. Scenario template — ALWAYS succeeds, so a scene always builds.
+ *   2. OnDemand          predefined-kimi-k3-fast (Kimi K3 fast — resolved from the
+ *                        live endpoint registry 2026-11-03: endpoint_name "kimi-k3-fast",
+ *                        model_id "accounts/fireworks/routers/kimi-k3-fast")
+ *   3. OnDemand          predefined-cerebras-qwen-3.8-27b (Cerebras-hosted, kept as fallback)
+ *   4. OnDemand          predefined-gpt-6.1-sol, medium reasoning
+ *   5. Scenario template — ALWAYS succeeds, so a scene always builds.
  *
  * The brief's "GPT 6.1 sol ultra-fast" endpoint does not exist in the live
  * OnDemand registry (probed 2026-11-01: `predefined-gpt-6.1-ultra-fast` and
@@ -37,6 +40,7 @@ import { parseProviderJson } from './transport.js';
 export const CEREBRAS_URL = 'https://api.cerebras.ai/v1/chat/completions';
 export const CEREBRAS_PRIMARY_MODEL = 'qwen-3.8-27b';
 export const CEREBRAS_FALLBACK_MODEL = 'qwen-3-235b-a22b-instruct-2507';
+export const ONDEMAND_KIMI_FAST_ENDPOINT = 'predefined-kimi-k3-fast';
 export const ONDEMAND_CEREBRAS_ENDPOINT = 'predefined-cerebras-qwen-3.8-27b';
 export const ONDEMAND_GPT_ENDPOINT = 'predefined-gpt-6.1-sol';
 export const CEREBRAS_TIMEOUT_MS = 2000;
@@ -60,6 +64,9 @@ export function specModelConfig(env = process.env) {
       CEREBRAS_FALLBACK_MODEL,
     ondemandFast:
       (env.SCENE_SPEC_ONDEMAND_FAST_ENDPOINT_ID || '').trim() ||
+      ONDEMAND_KIMI_FAST_ENDPOINT,
+    ondemandFastFallback:
+      (env.SCENE_SPEC_ONDEMAND_FAST_FALLBACK_ENDPOINT_ID || '').trim() ||
       ONDEMAND_CEREBRAS_ENDPOINT,
     ondemandPlanner:
       (
@@ -237,6 +244,21 @@ export function createSpecModel({
         run: (p, f, o) =>
           ondemandTier(config.ondemandFast, p, f, { signal: o.signal }),
       });
+      if (
+        config.ondemandFastFallback &&
+        config.ondemandFastFallback !== config.ondemandFast
+      ) {
+        list.push({
+          provider: 'ondemand',
+          id: config.ondemandFastFallback,
+          endpointId: config.ondemandFastFallback,
+          retries: 0,
+          run: (p, f, o) =>
+            ondemandTier(config.ondemandFastFallback, p, f, {
+              signal: o.signal,
+            }),
+        });
+      }
       list.push({
         provider: 'ondemand',
         id: config.ondemandPlanner,

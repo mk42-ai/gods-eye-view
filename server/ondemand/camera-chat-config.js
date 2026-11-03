@@ -8,7 +8,7 @@
  * by the health endpoint. The API key never lives here.
  *
  * Env (canonical name → default → evidence):
- *   ONDEMAND_CAMERA_CHAT_ENDPOINT_ID        'predefined-cerebras-qwen-3.8-27b'
+ *   ONDEMAND_CAMERA_CHAT_ENDPOINT_ID        'predefined-kimi-k3-fast' (was predefined-cerebras-qwen-3.8-27b)
  *       text-only turns. LIVE-verified Cerebras endpoint from the quick-fire
  *       contract (docs/ONDEMAND_QUICKFIRE_CHAT_CONTRACT_2026-09-19.md §0/§d);
  *       NOT in the docs' predefined table (docs/fulfillment-models, 18 rows,
@@ -51,7 +51,7 @@ export const CAMERA_CHAT_ENV = Object.freeze({
 });
 
 export const CAMERA_CHAT_DEFAULTS = Object.freeze({
-  endpointId: 'predefined-cerebras-qwen-3.8-27b',
+  endpointId: 'predefined-kimi-k3-fast',
   visionEndpointId: '',
   pluginIds: Object.freeze(['agent-1713924030']),
   reasoningMode: 'low',

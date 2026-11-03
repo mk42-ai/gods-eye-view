@@ -64,8 +64,8 @@ function sseResponse() {
 describe('camera-chat-config — defaults and env overrides (non-secret)', () => {
   test('defaults: cerebras text endpoint, Internet Agent pluginIds, reasoningMode low, image plugin, history 20', () => {
     const cfg = cameraChatConfig();
-    assert.equal(cfg.endpointId, 'predefined-cerebras-qwen-3.8-27b');
-    assert.equal(cfg.visionEndpointId, 'predefined-cerebras-qwen-3.8-27b', 'no vision endpoint documented → same as text');
+    assert.equal(cfg.endpointId, 'predefined-kimi-k3-fast');
+    assert.equal(cfg.visionEndpointId, 'predefined-kimi-k3-fast', 'no vision endpoint documented → same as text');
     assert.equal(cfg.visionEndpointSource, 'text-endpoint');
     assert.deepEqual([...cfg.pluginIds], ['agent-1713924030']);
     assert.equal(cfg.reasoningMode, 'low');
@@ -102,11 +102,11 @@ describe('camera-chat-config — defaults and env overrides (non-secret)', () =>
 
   test('applyCameraProfile fills only what the body omitted; explicit values win; reasoningMode only in stream mode', () => {
     const streamed = applyCameraProfile({ responseMode: 'stream' });
-    assert.deepEqual(streamed, { endpointId: 'predefined-cerebras-qwen-3.8-27b', pluginIds: ['agent-1713924030'], reasoningMode: 'low', applied: ['endpointId', 'pluginIds', 'reasoningMode'] });
+    assert.deepEqual(streamed, { endpointId: 'predefined-kimi-k3-fast', pluginIds: ['agent-1713924030'], reasoningMode: 'low', applied: ['endpointId', 'pluginIds', 'reasoningMode'] });
     const withImage = applyCameraProfile({ responseMode: 'stream' }, { hasAttachment: true });
     assert.deepEqual(withImage.applied, ['visionEndpointId', 'pluginIds', 'reasoningMode']);
     const sync = applyCameraProfile({ responseMode: 'sync', pluginIds: [] });
-    assert.deepEqual(sync, { endpointId: 'predefined-cerebras-qwen-3.8-27b', pluginIds: [], reasoningMode: undefined, applied: ['endpointId'] });
+    assert.deepEqual(sync, { endpointId: 'predefined-kimi-k3-fast', pluginIds: [], reasoningMode: undefined, applied: ['endpointId'] });
     const explicit = applyCameraProfile({ responseMode: 'stream', endpointId: 'predefined-claude-sonnet-5', reasoningMode: 'high' });
     assert.equal(explicit.endpointId, 'predefined-claude-sonnet-5');
     assert.equal(explicit.reasoningMode, 'high');
@@ -134,7 +134,7 @@ describe('api/ondemand/chat.js — profile camera', () => {
     const call = activeStub.calls[0];
     assert.equal(call.url, 'https://api.on-demand.io/chat/v1/sessions/sess-cam/query');
     const body = JSON.parse(call.init.body);
-    assert.deepEqual(body, { query: 'How many lanes?', endpointId: 'predefined-cerebras-qwen-3.8-27b', responseMode: 'stream', pluginIds: ['agent-1713924030'], modelConfigs: { fulfillmentPrompt: 'ctx' }, reasoningMode: 'low' });
+    assert.deepEqual(body, { query: 'How many lanes?', endpointId: 'predefined-kimi-k3-fast', responseMode: 'stream', pluginIds: ['agent-1713924030'], modelConfigs: { fulfillmentPrompt: 'ctx' }, reasoningMode: 'low' });
     assert.equal('profile' in body, false);
     assert.equal('attachment' in body, false);
     assert.equal(res.getHeader('X-OnDemand-Profile'), 'camera');
@@ -159,7 +159,7 @@ describe('api/ondemand/chat.js — profile camera', () => {
     await chatHandler(prime, primeRes);
     assert.equal(primeRes.statusCode, 200);
     const primeBody = JSON.parse(activeStub.calls[1].init.body);
-    assert.equal(primeBody.endpointId, 'predefined-cerebras-qwen-3.8-27b');
+    assert.equal(primeBody.endpointId, 'predefined-kimi-k3-fast');
     assert.equal(primeBody.reasoningMode, undefined);
     assert.deepEqual(primeBody.pluginIds, ['agent-1713924030']);
 

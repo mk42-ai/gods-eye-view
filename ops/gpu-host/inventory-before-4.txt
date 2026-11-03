@@ -1,0 +1,94 @@
+utc=2026-11-03T08:41:54Z
+=== can-i
+delete pods -n byom: yes
+delete deployments -n byom: no
+patch deployments -n byom: no
+delete deployments -n default: no
+delete pods -n default: yes
+=== byom pod volumes
+[{"emptyDir":{},"name":"cache"},{"emptyDir":{"medium":"Memory"},"name":"dshm"},{"name":"kube-api-access-smlj2","projected":{"defaultMode":420,"sources":[{"serviceAccountToken":{"expirationSeconds":3607,"path":"token"}},{"configMap":{"items":[{"key":"ca.crt","path":"ca.crt"}],"name":"kube-root-ca.crt"}},{"downwardAPI":{"items":[{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.namespace"},"path":"namespace"}]}}]}},{"configMap":{"defaultMode":420,"name":"byom-515f649affa24c6-756d5b67df-k6nj5hc-shared-gpu-0"},"name":"byom-515f649affa24c6-756d5b67df-k6nj5hc-shared-gpu-0-vol"}]
+vllm/vllm-openai:gptoss
+school-hack-h100-100
+school-hack-h100-200 ["--model","Qwen/Qwen3.5-2B","--no-enable-log-requests","--trust-remote-code","--model=Qwen/Qwen3.5-2B","--dtype=bfloat16","--port=8000","--chat-template={%- set image_count = namespace(value=0) %}\n{%- set video_count = namespace(value=0) %}\n{%- macro render_content(content, d
+[{"name":"kube-api-access-pxgzc","projected":{"defaultMode":420,"sources":[{"serviceAccountToken":{"expirationSeconds":3607,"path":"token"}},{"configMap":{"items":[{"key":"ca.crt","path":"ca.crt"}],"name":"kube-root-ca.crt"}},{"downwardAPI":{"items":[{"fieldRef":{"apiVersion":"v1","fieldPath":"metadata.namespace"},"path":"namespace"}]}}]}}]
+=== byom weights inside container (via /proc root)
+--- pid 3627851
+--- pid 2734166
+--- pid 941514
+--- pid 939753
+=== overlay upperdirs for deepseek weights on host disk
+/var/lib/kubelet/pods/756f7c1e-dcae-46cb-b268-631a6aa9dd35/volumes/kubernetes.io~empty-dir/cache/hub/models--deepseek-ai--DeepSeek-R1-0528-Qwen3-8B
+/var/lib/kubelet/pods/756f7c1e-dcae-46cb-b268-631a6aa9dd35/volumes/kubernetes.io~empty-dir/cache/hub/.locks/models--deepseek-ai--DeepSeek-R1-0528-Qwen3-8B
+/var/lib/kubelet/pods/f645165f-46e2-42a0-987e-6910f907c43e/volumes/kubernetes.io~empty-dir/cache/hub/models--deepseek-ai--DeepSeek-R1-0528-Qwen3-8B
+/var/lib/kubelet/pods/f645165f-46e2-42a0-987e-6910f907c43e/volumes/kubernetes.io~empty-dir/cache/hub/.locks/models--deepseek-ai--DeepSeek-R1-0528-Qwen3-8B
+=== deploy dir
+/localstorage/mk.thomas/deploy:
+total 1072
+drwx------ 2 mk.thomas mk.thomas    4096 Oct 31 12:49 .
+drwxr-xr-x 6 mk.thomas mk.thomas    4096 Oct 31 04:02 ..
+-rw-r--r-- 1 mk.thomas mk.thomas    1828 Oct 31 09:32 README-DEPLOY.md
+-rw------- 1 mk.thomas mk.thomas      65 Oct 31 04:36 api_keys.txt
+-rwxr-xr-x 1 mk.thomas mk.thomas     826 Oct 31 09:32 build-llama-cpp.sh
+-rw-rw-r-- 1 mk.thomas mk.thomas     713 Oct 31 12:47 cloudflared-dsv41.service
+-rwx------ 1 mk.thomas mk.thomas 1002176 Oct 31 04:37 cuda-visible-probe
+-rw-rw-r-- 1 mk.thomas mk.thomas     854 Oct 31 04:37 cuda-visible-probe.cu
+-rw------- 1 mk.thomas mk.thomas     518 Oct 31 12:49 deployment-status.env
+-rw-r--r-- 1 mk.thomas mk.thomas    1519 Oct 31 09:32 docker-compose.yml
+-rwx------ 1 mk.thomas mk.thomas    1109 Oct 31 05:10 download.sh
+-rwxrwxr-x 1 mk.thomas mk.thomas     246 Oct 31 12:49 get-tunnel-url.sh
+-rwx------ 1 mk.thomas mk.thomas     196 Oct 31 09:28 healthcheck.sh
+-rw------- 1 mk.thomas mk.thomas     108 Oct 31 05:09 hf.env
+-rwx------ 1 mk.thomas mk.thomas    1200 Oct 31 11:06 launch.sh
+-rw-r--r-- 1 mk.thomas mk.thomas     201 Oct 31 04:36 llama-dsv41-health.service
+-rw-r--r-- 1 mk.thomas mk.thomas     191 Oct 31 04:36 llama-dsv41-health.timer
+-rw-r--r-- 1 mk.thomas mk.thomas     752 Oct 31 09:28 llama-dsv41.service
+#!/bin/bash
+set -euo pipefail
+D=/localstorage/mk.thomas/deploy
+set -a; . "$D/model-selection.env"; set +a
+"$D/preflight.sh"
+export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1,2,3,4,5}"
+export GGML_CUDA_NO_PINNED=0
+export GGML_CUDA_GRAPH_OPT=1
+
+exec /localstorage/mk.thomas/src/llama.cpp/build/bin/llama-server \
+  -m "$MODEL_FIRST_SHARD" \
+  --mmproj "$MMPROJ_PATH" \
+  --alias "$MODEL_ALIAS" \
+  --device "${DEVICE_ORDER:-CUDA0,CUDA3,CUDA1,CUDA2,CUDA4,CUDA5}" \
+  -ngl "${NGL:-999}" \
+  --split-mode "${SPLIT_MODE:-layer}" \
+  --tensor-split "${TENSOR_SPLIT:-1,1,18,20,0,1}" \
+  -ot "${TENSOR_OVERRIDES:-blk\\.19\\.ffn_.*_exps\\.weight=CUDA4,blk\\.39\\.ffn_.*_exps\\.weight=CUDA5}" \
+  --flash-attn on \
+  -cb \
+=== du all deepseek paths
+210G	/localstorage/mk.thomas/models/dsv41-gguf/Mix-128G
+928M	/localstorage/mk.thomas/models/dsv41-gguf/mmproj-DeepSeek-V4.1-Flash-1017-abliterated-BF16.gguf
+927M	/localstorage/mk.thomas/models/dsv41-gguf/mmproj-DeepSeek-V4.1-Flash-1017-abliterated-F16.gguf
+=== tools
+/usr/bin/unrar
+/usr/bin/ffmpeg
+/usr/bin/python3
+/usr/bin/pip3
+Python 3.10.12
+ffmpeg version 4.4.2-0ubuntu0.22.04.1 Copyright (c) 2000-2021 the FFmpeg developers
+ V....D h264_nvenc           NVIDIA NVENC H.264 encoder (codec h264)
+ V..... nvenc                NVIDIA NVENC H.264 encoder (codec h264)
+ V..... nvenc_h264           NVIDIA NVENC H.264 encoder (codec h264)
+224
+               total        used        free      shared  buff/cache   available
+Mem:            2015          53        1207           2         755        1950
+/usr/lib/x86_64-linux-gnu/libEGL.so.1
+/usr/lib/x86_64-linux-gnu/libEGL.so.1.1.0
+/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0
+/usr/lib/x86_64-linux-gnu/libEGL_mesa.so.0.0.0
+/usr/lib/x86_64-linux-gnu/libEGL_nvidia.so.0
+/usr/lib/x86_64-linux-gnu/libEGL_nvidia.so.570.148.08
+/usr/lib/x86_64-linux-gnu/libnvoptix.so.1
+/usr/lib/x86_64-linux-gnu/libnvoptix.so.570.148.08
+=== firewall
+Status: inactive
+-P INPUT ACCEPT
+-A INPUT -m comment --comment "cilium-feeder: CILIUM_INPUT" -j CILIUM_INPUT
+-A INPUT -j KUBE-FIREWALL

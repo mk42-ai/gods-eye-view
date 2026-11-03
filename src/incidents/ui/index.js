@@ -28,6 +28,7 @@ import { setIconContent } from '../../ui/icons/layerIcon.js';
 import { createIncidentComposer } from './composer.js';
 import { canMirrorLocationDraft } from './draftOwnership.js';
 import { createSceneFootageControls } from './sceneFootageControls.js';
+import { createHyperRealRender } from './hyperRealRender.js';
 import { ASK_OBJECT_EVENT } from '../../ondemand/miniChat.js';
 import {
   buildPlannedScene,
@@ -135,6 +136,7 @@ export function installIncidentScenes({
   let studio = null;
   let sceneCamera = null;
   let sceneFootageControls = null;
+  let hyperRealRender = null;
   let removeCameraSubscription = null;
   let refinementContext = null;
   const overlay = createIncidentOverlay(viewer, {
@@ -816,6 +818,10 @@ export function installIncidentScenes({
     studio?.setScene(scene);
     sceneCamera?.setScene(scene);
     sceneFootageControls?.setScene(scene);
+    hyperRealRender?.setScene(
+      scene,
+      scene?.refinedPrompt || scene?.originalPrompt || scene?.title || '',
+    );
     viewer.scene?.requestRender?.();
     if (research)
       openEvidence(scene, {
@@ -973,6 +979,7 @@ export function installIncidentScenes({
     studio.invalidate();
     sceneCamera.setScene(null);
     sceneFootageControls?.setScene(null);
+    hyperRealRender?.setScene(null);
     streamLayer.clear();
     cinematic?.clear();
   };
@@ -1750,6 +1757,7 @@ export function installIncidentScenes({
       studio.setScene(null);
       sceneCamera.setScene(null);
       sceneFootageControls?.setScene(null);
+      hyperRealRender?.setScene(null);
       sceneDirector.stopScene('External context only');
       activeGeographicScene = null;
       selectedSceneId = null;
@@ -1900,6 +1908,21 @@ export function installIncidentScenes({
     window: win,
   });
   composer.element.appendChild(sceneFootageControls.element);
+  // Hyper-real Render: explicit opt-in next to Build scene; the Render panel
+  // mounts on the right context rail (falls back to body). Every render is
+  // badged 'Illustrative render · not evidence' and never affects Build scene.
+  hyperRealRender = createHyperRealRender({ document: doc, window: win });
+  const composerRow =
+    typeof composer.element.querySelector === 'function'
+      ? composer.element.querySelector('.incident-composer__row')
+      : null;
+  (composerRow || composer.element).appendChild?.(hyperRealRender.toggle);
+  (
+    doc.getElementById?.('right-context-rail') ||
+    doc.body ||
+    doc.documentElement
+  )?.appendChild?.(hyperRealRender.panel);
+  win.__gevHyperRealRender = hyperRealRender;
   (doc.body || doc.documentElement).appendChild(composer.element);
   const locationInput = doc.getElementById('location-search');
   let lastMirroredLocation = '';
@@ -1988,6 +2011,9 @@ export function installIncidentScenes({
       studio.destroy();
       sceneCamera.destroy();
       sceneFootageControls?.destroy();
+      hyperRealRender?.destroy();
+      if (win.__gevHyperRealRender === hyperRealRender)
+        delete win.__gevHyperRealRender;
       if (win.__gevSceneStudio === studio) delete win.__gevSceneStudio;
       if (typeof win !== 'undefined' && win.__gevViewer === viewer) {
         delete win.__gevViewer;

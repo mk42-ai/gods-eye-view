@@ -9,9 +9,11 @@
  *
  * Engines, in order of preference:
  *   'cerebras-direct'   CEREBRAS_API_KEY set → https://api.cerebras.ai/v1/chat/completions
- *   'cerebras-ondemand' OnDemand endpoint predefined-cerebras-qwen-3.8-27b
- *                       (Cerebras-hosted model served through the existing
- *                       OnDemand key; enabled unless SCENE_EVIDENCE_CEREBRAS=off)
+ *   'cerebras-ondemand' OnDemand fast endpoint: predefined-kimi-k3-fast by default
+ *                       (SCENE_EVIDENCE_ONDEMAND_ENDPOINT_ID overrides; the
+ *                       previous default predefined-cerebras-qwen-3.8-27b stays
+ *                       as the documented fallback id); enabled unless
+ *                       SCENE_EVIDENCE_CEREBRAS=off
  *   'deterministic'     regex parser + template summary
  */
 import { parseIncidentQuery } from '../../src/incidents/query.js';
@@ -19,7 +21,9 @@ import { deterministicSummary } from '../../src/sceneEvidence/model.js';
 
 export const CEREBRAS_URL = 'https://api.cerebras.ai/v1/chat/completions';
 export const CEREBRAS_DIRECT_MODEL = 'gpt-oss-120b';
+export const KIMI_FAST_ONDEMAND_ENDPOINT = 'predefined-kimi-k3-fast';
 export const CEREBRAS_ONDEMAND_ENDPOINT = 'predefined-cerebras-qwen-3.8-27b';
+export const DEFAULT_ONDEMAND_ENDPOINT = KIMI_FAST_ONDEMAND_ENDPOINT;
 
 export function inferenceEngine(
   env = process.env,
@@ -87,7 +91,14 @@ async function callDirect({
   return String(j?.choices?.[0]?.message?.content || '');
 }
 
-async function callOnDemand({ client, messages, signal, timeoutMs }) {
+function ondemandEndpointId(env = process.env) {
+  return (
+    String(env.SCENE_EVIDENCE_ONDEMAND_ENDPOINT_ID || '').trim() ||
+    DEFAULT_ONDEMAND_ENDPOINT
+  );
+}
+
+async function callOnDemand({ client, messages, signal, timeoutMs, env }) {
   const session = await client.sessions.create({
     externalUserId: `scene-evidence-inf-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
     pluginIds: [],
@@ -100,7 +111,7 @@ async function callOnDemand({ client, messages, signal, timeoutMs }) {
           m.role === 'system' ? `INSTRUCTIONS: ${m.content}` : m.content,
         )
         .join('\n\n'),
-      endpointId: CEREBRAS_ONDEMAND_ENDPOINT,
+      endpointId: ondemandEndpointId(env),
       responseMode: 'sync',
       pluginIds: [],
       reasoningEffort: 'low',
@@ -121,7 +132,7 @@ export function createInference({
   const call = (messages, opts) =>
     chosen === 'cerebras-direct'
       ? callDirect({ env, fetchImpl, messages, ...opts })
-      : callOnDemand({ client, messages, ...opts });
+      : callOnDemand({ client, messages, env, ...opts });
 
   return {
     engine: chosen,

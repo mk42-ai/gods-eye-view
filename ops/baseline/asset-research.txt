@@ -1,0 +1,262 @@
+utc=2026-11-03T08:50:00Z
+car-kit -> 
+city-kit-roads -> 
+mini-characters-1 -> 
+watercraft-kit -> 
+blocky-characters -> 
+pirate-kit -> 
+city-kit-commercial -> 
+== kenney_*.zip
+=== polyhaven keyword scan
+['bench_vice_01', 'concrete_road_barrier', 'concrete_road_barrier_02', 'modular_electricity_poles', 'painted_wooden_bench', 'security_camera_01', 'security_camera_02', 'vintage_video_camera']
+['aarfontein_dusk', 'bambanani_sunset', 'belfast_sunset', 'belfast_sunset_puresky', 'blaubeuren_night', 'blue_lagoon_night', 'cedar_bridge_sunset_1', 'cedar_bridge_sunset_2', 'clarens_midday', 'clarens_night_01', 'clarens_night_02', 'cobblestone_street_night', 'countrytrax_midday', 'courtyard_night', 'derelict_highway_midday', 'derelict_highway_noon', 'dikhololo_night', 'dikhololo_sunset', 'dresden_station_night', 'farm_sunset', 'fouriesburg_mountain_midday', 'grasslands_sunset', 'highway_bridge_sunset', 'industrial_sunset', 'industrial_sunset_02', 'industrial_sunset_02_puresky', 'industrial_sunset_puresky', 'kiara_5_noon', 'kiara_6_afternoon', 'kiara_7_late-afternoon', 'kiara_8_sunset', 'kiara_9_dusk', 'kloofendal_28d_misty', 'kloofendal_28d_misty_puresky', 'kloofendal_38d_partly_cloudy', 'kloofendal_38d_partly_cloudy_puresky', 'kloofendal_43d_clear', 'kloofendal_43d_clear_puresky', 'kloofendal_48d_partly_cloudy', 'kloofendal_48d_partly_cloudy_puresky']
+		<meta property='og:image'	content='https://kenney.nl/media/pages/assets/car-kit/81f9d77bc7-1775131953/preview.png' /><meta property='og:description' content='Download this package (45 assets) for free, CC0 licensed!' />		
+	<a target='_blank' href='https://kenney.itch.io/kenney-game-assets' class='warning no-select'><img src='https://kenney.nl/data/img/sparkles.svg' height='20px' style='vertical-align: bottom; margin-right:0.25em' /> Get Kenney Game Assets All-in-1 to download <em>everything</em> at once, plus free updates!</a>
+				<p class='mobile-text-center no-select margin-top medium'><a href='#inline-download' class='button button-wide' data-lity>Download</a> <a href='https://kenney.itch.io/kenney-game-assets' target='_blank' class='button dark button-wide'>Get All-in-1 bundle</a></p>
+<div id='inline-download' class='lity-pop lity-hide text-center'>
+				<p style='margin-bottom:2em'>The game assets you're about to download are available for free, thanks to the generosity of our amazing community. If you'd like to support and help keep them free for everyone, consider making a small donation!</p>
+=== quaternius alt
+404
+200
+href="/packs/downtowncitymegakit.html"
+href="/packs/modularcharacteroutfitsfantasy.html"
+href="/packs/universalbasecharacters.html"
+href="/packs/3dcardkitfantasy.html"
+href="/packs/ultimatemodularcharacters.html"
+href="/packs/rpgcharacters.html"
+href="/packs/ultimatedanimatedcharacter.html"
+href="/packs/cars.html"
+=== github quaternius/kenney mirrors
+https://github.com/KhronosGroup/glTF-Sample-Assets/raw/main/Models/CesiumMilkTruck/glTF-Binary/CesiumMilkTruck.glb 200 369980
+=== polyhaven model download urls
+{
+"gltf": {
+"include": {
+"security_camera_01.bin": {
+"size": 386836,
+"url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/security_camera_01/security_camera_01.bin",
+"md5": "e48ddbe564323963c0c37e29b4d0ca4b"
+},
+"textures/security_camera_01_diff_1k.jpg": {
+"size": 521174,
+"url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/security_camera_01/security_camera_01_diff_1k.jpg",
+"md5": "a88344425885875615f1b276fc6f312e"
+},
+"textures/security_camera_01_arm_1k.jpg": {
+"size": 530966,
+"url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/security_camera_01/security_camera_01
+License
+License
+https://kenney.nl/download-link/
+https://kenney.nl/media/pages/assets/car-kit/5db5e6a1c7-1761348592/2073910.jpg
+https://kenney.nl/media/pages/assets/car-kit/81f9d77bc7-1775131953/preview.png
+https://kenney.nl/media/pages/assets/car-kit/a8a2304572-1788515911/4513480.jpg
+https://kenney.nl/media/pages/assets/pixel-vehicle-pack/f3918c8717-1677578606/preview-400x.png
+https://kenney.nl/media/pages/assets/racing-kit/fbc58ae3cd-1677580945/sample-400x.png
+https://kenney.nl/media/pages/assets/train-kit/625675b011-1722429699/preview-400x.png
+https://kenney.nl/media/pages/assets/watercraft-kit/0a7953e9b7-1713354133/preview-400x.png
+https://kenney.nl/media/pages/home/75cfd7d709-1790163677/all-in-1-wishlist.png
+---
+https://creativecommons.org/publicdomain/zero/1.0/
+https://discord.gg/hXB2qTTEnJ
+https://drive.google.com/drive/folders/1fKlbDry77iY8KlEoxzUxIAZQL_XhzWlA?usp=sharing
+https://quaternius.com/packs/cars.html
+https://twitter.com/quaternius
+https://www.artstation.com/quaternius
+https://www.patreon.com/quaternius
+https://www.twitter.com/quaternius
+193:				<p class='mobile-text-center no-select margin-top medium'><a href='#inline-download' class='button button-wide' data-lity>Download</a> <a href='https://kenney.itch.io/kenney-game-assets' target='_blank' class='button dark button-wide'>Get All-in-1 bundle</a></p>
+318:<div id='inline-download' class='lity-pop lity-hide text-center'>
+<a href='https://kenney.nl/donate' onclick='initiateDonate()' target='_blank' class='button'>
+<a id='donate-text' href='#' data-download-id='6173736574732f6361722d6b6974' onclick='return initiateDownload(this)'>
+https://kenney.nl/download-link/' + _id, { credentials: 'same-origin', cache: 'no-store' })
+download-link/
+car-kit :: {"url":"https:\/\/kenney.nl\/download\/6173736574732f6361722d6b6974\/5217c5a4353928835bd3a1b9289f06d3d50d02cf46c36902dffed4e02f3dd36c?expires=1793696176"}
+city-kit-roads :: {"url":"https:\/\/kenney.nl\/download\/6173736574732f636974792d6b69742d726f616473\/95433239296781341bbe378708802a77c4fc1caf0d6436f25f205735baed7a98?expires=1793696176"}
+mini-characters-1 :: {"error":"not found"}
+watercraft-kit :: {"url":"https:\/\/kenney.nl\/download\/6173736574732f776174657263726166742d6b6974\/1aa9e2189dbbcc14bd019711563cfd3831873dd40ea4023d18c7e33a390be3f9?expires=1793696177"}
+car-kit url=https://kenney.nl/download/6173736574732f6361722d6b6974/3166
+-rw-rw-r-- 1 mk.thomas mk.thomas 4814237 Nov  3 08:51 kenney_car-kit.zip
+kenney_car-kit.zip: Zip archive data, at least v2.0 to extract, compression meth
+city-kit-roads url=https://kenney.nl/download/6173736574732f636974792d6b69742d7
+-rw-rw-r-- 1 mk.thomas mk.thomas 2852289 Nov  3 08:51 kenney_city-kit-roads.zip
+kenney_city-kit-roads.zip: Zip archive data, at least v2.0 to extract, compressi
+watercraft-kit url=https://kenney.nl/download/6173736574732f7761746572637261667
+-rw-rw-r-- 1 mk.thomas mk.thomas 1870991 Nov  3 08:51 kenney_watercraft-kit.zip
+kenney_watercraft-kit.zip: Zip archive data, at least v2.0 to extract, compressi
+mini-characters url=https://kenney.nl/download/6173736574732f6d696e692d636861726
+-rw-rw-r-- 1 mk.thomas mk.thomas 2403059 Nov  3 08:51 kenney_mini-characters.zip
+kenney_mini-characters.zip: Zip archive data, at least v2.0 to extract, compress
+blocky-characters url=https://kenney.nl/download/6173736574732f626c6f636b792d63686
+-rw-rw-r-- 1 mk.thomas mk.thomas 2148510 Nov  3 08:51 kenney_blocky-characters.zip
+kenney_blocky-characters.zip: Zip archive data, at least v2.0 to extract, compre
+city-kit-suburban url=https://kenney.nl/download/6173736574732f636974792d6b69742d7
+-rw-rw-r-- 1 mk.thomas mk.thomas 3038740 Nov  3 08:51 kenney_city-kit-suburban.zip
+kenney_city-kit-suburban.zip: Zip archive data, at least v2.0 to extract, compre
+== kenney_blocky-characters.zip
+License.txt
+== kenney_car-kit.zip
+License.txt
+== kenney_city-kit-roads.zip
+License.txt
+== kenney_city-kit-suburban.zip
+License.txt
+== kenney_mini-characters.zip
+License.txt
+== kenney_watercraft-kit.zip
+License.txt
+== kenney_blocky-characters.zip
+ character-a.glb character-b.glb character-c.glb character-d.glb character-e.glb character-f.glb character-g.glb character-h.glb character-i.glb character-j.glb character-k.glb character-l.glb character-m.glb character-n.glb character-o.glb character-p.glb character-q.glb character-r.glb texture-a.png texture-b.png texture-c.png texture-d.png texture-e.png texture-f.png texture-g.png texture-h.png texture-i.png texture-j.png texture-k.png texture-l.png texture-m.png texture-n.png texture-o.png texture-p.png texture-q.png texture-r.png 
+
+== kenney_car-kit.zip
+ ambulance.glb box.glb colormap.png cone-flat.glb cone.glb debris-bolt.glb debris-bumper.glb debris-door-window.glb debris-door.glb debris-drivetrain-axle.glb debris-drivetrain.glb debris-nut.glb debris-plate-a.glb debris-plate-b.glb debris-plate-small-a.glb debris-plate-small-b.glb debris-spoiler-a.glb debris-spoiler-b.glb debris-tire.glb delivery-flat.glb delivery.glb firetruck.glb garbage-truck.glb hatchback-sports.glb kart-oobi.glb kart-oodi.glb kart-ooli.glb kart-oopi.glb kart-oozi.glb police.glb race-future.glb race.glb sedan-sports.glb sedan.glb suv-luxury.glb suv.glb taxi.glb tractor-police.glb tractor-shovel.glb tractor.glb truck-flat.glb truck.glb van.glb wheel-dark.glb wheel-default.glb wheel-racing.glb wheel-tractor-back.glb wheel-tractor-dark-back.glb wheel-tractor-dark-front.glb wheel-tractor-front.glb wheel-truck.glb 
+
+== kenney_city-kit-roads.zip
+ bridge-pillar-wide.glb bridge-pillar.glb colormap.png construction-barrier.glb construction-cone.glb construction-fence.glb construction-light.glb dumpster.glb electricity-pole-single.glb electricity-pole-wide.glb electricity-pole.glb electricity-side-single.glb electricity-side-wide.glb electricity-side.glb electricity-wires-wide.glb electricity-wires.glb light-curved-cross.glb light-curved-double.glb light-curved.glb light-square-cross.glb light-square-double.glb light-square.glb road-bend-barrier.glb road-bend-sidewalk.glb road-bend-square-barrier.glb road-bend-square.glb road-bend.glb road-bridge.glb road-crossing.glb road-crossroad-barrier.glb road-crossroad-line.glb road-crossroad-path.glb road-crossroad.glb road-curve-barrier.glb road-curve-intersection-barrier.glb road-curve-intersection.glb road-curve-pavement.glb road-curve.glb road-driveway-double-barrier.glb road-driveway-double.glb road-driveway-single-barrier.glb road-driveway-single.glb road-end-barrier.glb road-end-round-barrier.glb road-end-round.glb road-end.glb road-intersection-barrier.glb road-intersection-line.glb road-intersection-path.glb road-intersection.glb road-roundabout-barrier.glb road-roundabout.glb road-side-barrier.glb road-side-entry-barrier.glb road-side-entry.glb road-side-exit-barrier.glb road-side-exit.glb road-side.glb road-sign-empty-hanging.glb road-sign-empty.glb road-sign-object-stop.glb road-sign-object-street.glb road-sign-object-warning.glb road-sign-stop.glb road-sign-street.gl
+
+== kenney_city-kit-suburban.zip
+ building-type-a.glb building-type-b.glb building-type-c.glb building-type-d.glb building-type-e.glb building-type-f.glb building-type-g.glb building-type-h.glb building-type-i.glb building-type-j.glb building-type-k.glb building-type-l.glb building-type-m.glb building-type-n.glb building-type-o.glb building-type-p.glb building-type-q.glb building-type-r.glb building-type-s.glb building-type-t.glb building-type-u.glb colormap.png driveway-long.glb driveway-short.glb fence-1x2.glb fence-1x3.glb fence-1x4.glb fence-2x2.glb fence-2x3.glb fence-3x2.glb fence-3x3.glb fence-low.glb fence.glb path-long.glb path-short.glb path-stones-long.glb path-stones-messy.glb path-stones-short.glb planter.glb tree-large.glb tree-small.glb 
+
+== kenney_mini-characters.zip
+ aid-cane-blind.glb aid-cane-low-vision.glb aid-cane.glb aid-crutch.glb aid-defibrillator-green.glb aid-defibrillator-red.glb aid-glasses.glb aid-mask.glb aid-sunglasses.glb aid_hearing.glb character-female-a.glb character-female-b.glb character-female-c.glb character-female-d.glb character-female-e.glb character-female-f.glb character-male-a.glb character-male-b.glb character-male-c.glb character-male-d.glb character-male-e.glb character-male-f.glb colormap.png wheelchair-deluxe.glb wheelchair-power-deluxe.glb wheelchair-power.glb wheelchair.glb 
+
+== kenney_watercraft-kit.zip
+ arrow-standing.glb arrow.glb boat-fan.glb boat-fishing-small.glb boat-house-a.glb boat-house-b.glb boat-house-c.glb boat-house-d.glb boat-row-large.glb boat-row-small.glb boat-sail-a.glb boat-sail-b.glb boat-speed-a.glb boat-speed-b.glb boat-speed-c.glb boat-speed-d.glb boat-speed-e.glb boat-speed-f.glb boat-speed-g.glb boat-speed-h.glb boat-speed-i.glb boat-speed-j.glb boat-tow-a.glb boat-tow-b.glb boat-tug-a.glb boat-tug-b.glb boat-tug-c.glb buoy-flag.glb buoy.glb cargo-container-a.glb cargo-container-b.glb cargo-container-c.glb cargo-pile-a.glb cargo-pile-b.glb colormap.png gate-finish.glb gate.glb ramp-wide.glb ramp.glb ship-cargo-a.glb ship-cargo-b.glb ship-cargo-c.glb ship-large.glb ship-ocean-liner-small.glb ship-ocean-liner.glb ship-small-ghost.glb ship-small.glb 
+
+	
+
+	Car Kit (3.1)
+
+	Created/distributed by Kenney (www.kenney.nl)
+	Creation date: 02-04-2026 14:03
+	
+			------------------------------
+survival-kit: 1948174
+tent-canvas-half.glb tent-canvas.glb tent.glb 
+city-kit-commercial: 4096974
+
+mini-market: 
+
+toy-car-kit: 5245353
+
+platformer-kit: 4640135
+
+camping-kit: 
+
+holiday-kit: 4482244
+
+=== polyhaven downloads
+security_camera_01 ['security_camera_01.gltf', 'textures', 'security_camera_01.bin']
+concrete_road_barrier ['textures', 'concrete_road_barrier.gltf', 'concrete_road_barrier.bin']
+kiara_9_dusk https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/kiara_9_dusk_2k.hdr
+dikhololo_night https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/dikhololo_night_2k.hdr
+clarens_midday https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/2k/clarens_midday_2k.hdr
+total 19372
+drwxrwxr-x 4 mk.thomas mk.thomas    4096 Nov  3 08:53 .
+drwxrwxr-x 4 mk.thomas mk.thomas    4096 Nov  3 08:52 ..
+-rw-rw-r-- 1 mk.thomas mk.thomas 6476415 Nov  3 08:53 clarens_midday_2k.hdr
+drwxrwxr-x 3 mk.thomas mk.thomas    4096 Nov  3 08:53 concrete_road_barrier
+-rw-rw-r-- 1 mk.thomas mk.thomas 7050455 Nov  3 08:53 dikhololo_night_2k.hdr
+-rw-rw-r-- 1 mk.thomas mk.thomas 6286402 Nov  3 08:53 kiara_9_dusk_2k.hdr
+drwxrwxr-x 3 mk.thomas mk.thomas    4096 Nov  3 08:52 security_camera_01
+25M	.
+=== pip
+  WARNING: The script pyproj is installed in '/home/mk.thomas/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+2.1.2 3.7.1
+== kenney_toy-car-kit.zip
+ colormap.png gate-finish.glb gate.glb item-banana.glb item-box.glb item-coin-bronze.glb item-coin-gold.glb item-coin-silver.glb item-cone.glb smoke.glb supports-clamp.glb supports-diagonal.glb supports-wide-clamp.glb supports-wide-diagonal.glb supports-wide.glb supports.glb track-narrow-cap-back.glb track-narrow-cap-front.glb track-narrow-corner-large-ramp.glb track-narrow-corner-large.glb track-narrow-corner-small-ramp.glb track-narrow-corner-small.glb track-narrow-curve.glb track-narrow-looping.glb track-narrow-straight-bend-large.glb track-narrow-straight-bend.glb track-narrow-straight-bump-down.glb track-narrow-straight-bump-up.glb track-narrow-straight-hill-beginning.glb track-narrow-straight-hill-complete-half.glb track-narrow-straight-hill-complete.glb track-narrow-straight-hill-end.glb track-narrow-straight-skew-left-side.glb track-narrow-straight-skew-left.glb track-narrow-stra
+
+== kenney_city-kit-commercial.zip
+ building-a.glb building-b.glb building-c.glb building-d.glb building-e.glb building-f.glb building-g.glb building-h.glb building-i.glb building-j.glb building-k.glb building-l.glb building-m.glb building-n.glb building-skyscraper-a.glb building-skyscraper-b.glb building-skyscraper-c.glb building-skyscraper-d.glb building-skyscraper-e.glb colormap.png detail-awning-wide.glb detail-awning.glb detail-overhang-wide.glb detail-overhang.glb detail-parasol-a.glb detail-parasol-b.glb low-detail-building-a.glb low-detail-building-b.glb low-detail-building-c.glb low-detail-building-d.glb low-detail-building-e.glb low-detail-building-f.glb low-detail-building-g.glb low-detail-building-h.glb low-detail-building-i.glb low-detail-building-j.glb low-detail-building-k.glb low-detail-building-l.glb low-detail-building-m.glb low-detail-building-n.glb low-detail-building-wide-a.glb low-detail-building-wid
+
+== kenney_platformer-kit.zip
+ arrow.glb arrows.glb barrel.glb block-grass-corner-low.glb block-grass-corner-overhang-low.glb block-grass-corner-overhang.glb block-grass-corner.glb block-grass-curve-half.glb block-grass-curve-low.glb block-grass-curve.glb block-grass-edge.glb block-grass-hexagon.glb block-grass-large-slope-narrow.glb block-grass-large-slope-steep-narrow.glb block-grass-large-slope-steep.glb block-grass-large-slope.glb block-grass-large-tall.glb block-grass-large.glb block-grass-long.glb block-grass-low-hexagon.glb block-grass-low-large.glb block-grass-low-long.glb block-grass-low-narrow.glb block-grass-low.glb block-grass-narrow.glb block-grass-overhang-corner.glb block-grass-overhang-edge.glb block-grass-overhang-hexagon.glb block-grass-overhang-large-slope-narrow.glb block-grass-overhang-large-slope-steep-narrow.glb block-grass-overhang-large-slope-steep.glb block-grass-overhang-large-slope.glb blo
+
+== kenney_holiday-kit.zip
+ bench-short.glb bench.glb cabin-corner-bottom.glb cabin-corner-logs.glb cabin-corner.glb cabin-door-rotate.glb cabin-doorway-center.glb cabin-doorway-left.glb cabin-doorway-right.glb cabin-doorway.glb cabin-fence.glb cabin-overhang-door-rotate.glb cabin-overhang-doorway.glb cabin-roof-chimney.glb cabin-roof-corner.glb cabin-roof-dormer.glb cabin-roof-point.glb cabin-roof-snow-chimney.glb cabin-roof-snow-corner.glb cabin-roof-snow-dormer.glb cabin-roof-snow-point.glb cabin-roof-snow.glb cabin-roof-top.glb cabin-roof.glb cabin-wall-low.glb cabin-wall-roof-center.glb cabin-wall-roof.glb cabin-wall-wreath.glb cabin-wall.glb cabin-window-a.glb cabin-window-b.glb cabin-window-c.glb cabin-window-large.glb candy-cane-green.glb candy-cane-red.glb colormap.png festivus-pole.glb floor-stone.glb floor-wood-snow.glb floor-wood.glb gingerbread-man.glb gingerbread-woman.glb hanukkah-dreidel.glb hanukk
+
+=== poly.pizza search (public)
+200
+=== opengameart bus
+/content/3d-bus
+/content/air-ship-bus
+/content/bus-stop-unfinishedno-texture
+== 3d-bus
+      7 CC0
+https://opengameart.org/sites/default/files/3DBus_by_ajanhallinta.zip
+field-name-author-submitter field-type-ds field-label-above"><div class="field-label">Author:&nbsp;</div>
+=== OGA motorcycle search CC0 3D
+/content/fancy-motorcycle
+/content/faq
+/content/irc-web-chat-rules
+/content/october-2026-art-challenge-phobias
+=== OGA bus search CC0 3D (license tid 4 = CC0?)
+/content/faq
+/content/irc-web-chat-rules
+/content/low-poly-vehicles-pack
+/content/october-2026-art-challenge-phobias
+/content/vehicles-assets-pt1
+== 3d-bus
+license: license-name'>CC0 
+author: /users/ajanhallinta
+https://opengameart.org/sites/default/files/3DBus_by_ajanhallinta.zip
+== fancy-motorcycle
+license: license-name'>CC0 
+author: /users/tehbucket
+https://opengameart.org/sites/default/files/bike.blend
+https://opengameart.org/sites/default/files/bike.obj
+== low-poly-vehicles-pack
+license: license-name'>CC0 
+author: /users/daniel-quevedo
+https://opengameart.org/sites/default/files/VehiclesFBXformat.zip
+https://opengameart.org/sites/default/files/VehiclesLowPoly.blend
+== vehicles-assets-pt1
+license: license-name'>CC0 
+author: /users/eracoon
+https://opengameart.org/sites/default/files/vehicle_asset_v1.zip
+Archive:  oga_3DBus_by_ajanhallinta.zip
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+  1027796  2017-12-07 12:28   BUS.blend
+        0  2017-12-07 12:11   FBX/
+   268124  2017-12-07 12:11   FBX/BUS.fbx
+        0  2017-12-07 12:11   OBJ/
+     1669  2017-12-07 12:11   OBJ/BUS.mtl
+   614792  2017-12-07 12:11   OBJ/BUS.obj
+     1248  2017-12-07 12:39   README.txt
+        0  2017-12-07 12:05   Screens/
+    74260  2017-12-07 12:03   Screens/bus1.png
+    48076  2017-12-07 12:05   Screens/bus2.png
+---------                     -------
+  2035965                     10 files
+-rw-rw-r-- 1 mk.thomas mk.thomas 1862904 Nov  3 08:54 oga_bike.blend
+-rw-rw-r-- 1 mk.thomas mk.thomas  637347 Nov  3 08:54 oga_bike.obj
+obj/car-minibus-blue.mtl
+obj/car-minibus-blue.obj
+obj/car-minibus-citrus.mtl
+obj/car-minibus-citrus.obj
+obj/car-minibus-green.mtl
+obj/car-minibus-green.obj
+obj/car-minibus-orange.mtl
+obj/car-minibus-orange.obj
+obj/car-minibus-red.mtl
+obj/car-minibus-red.obj
+total 43344
+drwxrwxr-x 2 mk.thomas mk.thomas    4096 Nov  3 08:54 .
+drwxrwxr-x 4 mk.thomas mk.thomas    4096 Nov  3 08:52 ..
+-rw-rw-r-- 1 mk.thomas mk.thomas 2148510 Nov  3 08:51 kenney_blocky-characters.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 4814237 Nov  3 08:51 kenney_car-kit.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 4096974 Nov  3 08:52 kenney_city-kit-commercial.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 2852289 Nov  3 08:51 kenney_city-kit-roads.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 3038740 Nov  3 08:51 kenney_city-kit-suburban.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 4482244 Nov  3 08:52 kenney_holiday-kit.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 2403059 Nov  3 08:51 kenney_mini-characters.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 4640135 Nov  3 08:52 kenney_platformer-kit.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 1948174 Nov  3 08:52 kenney_survival-kit.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 5245353 Nov  3 08:52 kenney_toy-car-kit.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 1870991 Nov  3 08:51 kenney_watercraft-kit.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas  782148 Nov  3 08:54 oga_3DBus_by_ajanhallinta.zip
+-rw-rw-r-- 1 mk.thomas mk.thomas 1862904 Nov  3 08:54 oga_bike.blend
+-rw-rw-r-- 1 mk.thomas mk.thomas  637347 Nov  3 08:54 oga_bike.obj
+-rw-rw-r-- 1 mk.thomas mk.thomas 3529075 Nov  3 08:54 oga_vehicle_asset_v1.zip
