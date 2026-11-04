@@ -243,7 +243,15 @@ def latest(jid: str):
     fr = frame_paths(jid)
     if not fr: raise HTTPException(404, "no frame yet")
     from PIL import Image; import io
-    im = Image.open(fr[-1]).convert("RGB"); buf = io.BytesIO(); im.save(buf, "JPEG", quality=85)
+    # Blender may still be writing the newest PNG: fall back to the previous complete frame
+    # instead of answering 500 (seen once mid-render in the browser console).
+    buf = None
+    for cand in reversed(fr[-3:]):
+        try:
+            im = Image.open(cand); im.load(); im = im.convert("RGB"); buf = io.BytesIO(); im.save(buf, "JPEG", quality=85); break
+        except Exception:
+            buf = None
+    if buf is None: raise HTTPException(404, "frame still being written")
     return StreamingResponse(iter([buf.getvalue()]), media_type="image/jpeg", headers={"Cache-Control": "no-store", "X-Illustrative": "true"})
 
 @app.get("/frames/{jid}/{n}.png", dependencies=[Depends(auth)])
