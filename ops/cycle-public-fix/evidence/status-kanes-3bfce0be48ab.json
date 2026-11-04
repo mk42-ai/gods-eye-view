@@ -1,0 +1,300 @@
+{
+ "job_id": "3bfce0be48ab",
+ "illustrative": true,
+ "label": "Illustrative render \u00b7 not evidence",
+ "created_utc": "2026-11-04T22:16:59Z",
+ "request": {
+  "prompt": "Kane's Boxing Gym Abu Dhabi",
+  "lat": 24.4539,
+  "lng": 54.3773,
+  "time_of_day": null,
+  "duration_s": 4,
+  "seed": 932872024,
+  "samples": 24
+ },
+ "stage": "complete",
+ "progress": 1,
+ "frames_done": 96,
+ "status_url": "/api/scenes/render/3bfce0be48ab/status",
+ "stream_url": "/api/scenes/render/3bfce0be48ab/stream",
+ "latest_frame_url": "/api/scenes/render/3bfce0be48ab/latest.jpg",
+ "frames_url_template": "/api/scenes/render/3bfce0be48ab/frames/{n}.png",
+ "mp4_url": "/api/scenes/render/3bfce0be48ab/video.mp4",
+ "focal": {
+  "name": "Kane's Boxing Gym Abu Dhabi (city-level)",
+  "lat": 24.4539,
+  "lon": 54.3773,
+  "kind": "gym",
+  "waterfront": false,
+  "source": "caller-coordinates",
+  "precision": "exact-input",
+  "approximate": true
+ },
+ "time_of_day": "midday",
+ "land_patch": {
+  "source": "Esri World Imagery tiles + OSM buildings/roads via Overpass (no Google Maps key on host)",
+  "half_extent_m": 260,
+  "buildings": 58,
+  "roads": 98,
+  "overpass": "ok",
+  "tiles_ok": 25
+ },
+ "seed": 932872024,
+ "prompt_hash": "b79a7f58a96880155b95c9e1efa8d4064c368232614c252ed59785b0d04f4258",
+ "spec": {
+  "scenarioType": "police_raid",
+  "focalEntity": {
+   "name": "Kane's Boxing Gym Abu Dhabi (city-level)",
+   "kind": "venue"
+  },
+  "elements": [
+   {
+    "type": "inner_cordon",
+    "params": {
+     "radius_m": 80,
+     "count": null,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "outer_cordon",
+    "params": {
+     "radius_m": 250,
+     "count": null,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "perimeter_unit",
+    "params": {
+     "radius_m": 250,
+     "count": 8,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "approach_route",
+    "params": {
+     "radius_m": null,
+     "count": 2,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "egress_route",
+    "params": {
+     "radius_m": null,
+     "count": 1,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "staging_point",
+    "params": {
+     "radius_m": 20,
+     "count": 1,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "command_post",
+    "params": {
+     "radius_m": 15,
+     "count": 1,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "vehicle_checkpoint",
+    "params": {
+     "radius_m": null,
+     "count": 2,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "checkpoint",
+    "params": {
+     "count": 2
+    }
+   },
+   {
+    "type": "cones",
+    "params": {
+     "spacing_m": 8
+    }
+   },
+   {
+    "type": "barriers",
+    "params": {
+     "spacing_m": 25
+    }
+   },
+   {
+    "type": "cctv_signal",
+    "params": {
+     "count": 3
+    }
+   },
+   {
+    "type": "foot_patrol",
+    "params": {
+     "count": 6
+    }
+   }
+  ],
+  "confidence": 0.45,
+  "seed": 932872024,
+  "prompt_hash": "b79a7f58a96880155b95c9e1efa8d4064c368232614c252ed59785b0d04f4258",
+  "_prompt": "Kane's Boxing Gym Abu Dhabi"
+ },
+ "model": {
+  "provider": "ondemand",
+  "endpointId": "predefined-kimi-k3-fast",
+  "attempts": [
+   {
+    "endpointId": "predefined-kimi-k3-fast",
+    "http": 200,
+    "latency_s": 7.94,
+    "valid": true,
+    "answer_chars": 911,
+    "repaired_with_template": [
+     "checkpoint",
+     "cones",
+     "barriers",
+     "cctv_signal",
+     "foot_patrol"
+    ]
+   }
+  ],
+  "fallback": false,
+  "repaired_with_template": [
+   "checkpoint",
+   "cones",
+   "barriers",
+   "cctv_signal",
+   "foot_patrol"
+  ]
+ },
+ "placement": {
+  "instances": 105,
+  "by_asset": {
+   "cctv_camera": 3,
+   "crowd_control_barrier": 20,
+   "event_command_post": 1,
+   "foot_patrol_officer": 6,
+   "police_patrol_car": 13,
+   "traffic_cone_cluster": 62
+  }
+ },
+ "prep_s": 12.74,
+ "total_frames": 96,
+ "shards": [
+  {
+   "frames": [
+    49,
+    96
+   ],
+   "gpu": "6",
+   "pid": 3778828,
+   "started_utc": "2026-11-04T22:17:12Z"
+  },
+  {
+   "frames": [
+    1,
+    48
+   ],
+   "gpu": "2",
+   "pid": 3778853,
+   "started_utc": "2026-11-04T22:17:12Z"
+  }
+ ],
+ "ttff_s": 21.75,
+ "ttff_render_only_s": 9.02,
+ "wall_clock_render_s": 32.05,
+ "wall_clock_total_s": 44.79,
+ "fps_sustained": 2.995,
+ "fps_after_first_frame": 4.212,
+ "realtime_factor": 0.1248,
+ "gpu_metrics": {
+  "2": {
+   "util_pct_mean": 48.1,
+   "util_pct_max": 100,
+   "mem_used_mib_max": 4407,
+   "mem_total_mib": 81559,
+   "samples": 15
+  },
+  "6": {
+   "util_pct_mean": 36.1,
+   "util_pct_max": 100,
+   "mem_used_mib_max": 4407,
+   "mem_total_mib": 81559,
+   "samples": 15
+  }
+ },
+ "encoder": "libx264 (CPU)",
+ "encode_s": 1.49,
+ "mp4_bytes": 4044653,
+ "finished_utc": "2026-11-04T22:17:46Z",
+ "events_tail": [
+  {
+   "utc": "2026-11-04T22:17:21Z",
+   "stage": "first_frame",
+   "data": {
+    "ttff_s": 21.75,
+    "frame": "f_0001.png"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:17:44Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_49_96.log",
+    "line": "SCENE_READY seed=932872024 cuda_visible=6 order=PCI_BUS_ID devices=['NVIDIA H100 80GB HBM3'] buildings=58 instances=105 assets=6 setup_s=7.01 frames=49-96"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:17:44Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_49_96.log",
+    "line": "SHARD_DONE frames=48 render_s=23.35 setup_s=7.01"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:17:44Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_1_48.log",
+    "line": "SCENE_READY seed=932872024 cuda_visible=2 order=PCI_BUS_ID devices=['NVIDIA H100 80GB HBM3'] buildings=58 instances=105 assets=6 setup_s=5.94 frames=1-48"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:17:44Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_1_48.log",
+    "line": "SHARD_DONE frames=48 render_s=23.35 setup_s=5.94"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:17:46Z",
+   "stage": "done",
+   "data": {
+    "stage": "complete",
+    "frames": 96,
+    "ttff_s": 21.75,
+    "fps_sustained": 2.995,
+    "mp4_bytes": 4044653
+   }
+  }
+ ]
+}

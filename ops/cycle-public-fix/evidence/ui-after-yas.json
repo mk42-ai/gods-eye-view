@@ -1,0 +1,197 @@
+{
+  "url": "https://ondemand-agent-mqb0wgj5e-schoolhack-web-team.vercel.app/?prompt=car%20crash%20yas%20mall&build=1",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-yas-1440x900.png",
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-yas-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-mqb0wgj5e-schoolhack-web-team.vercel.app/?prompt=car%20crash%20yas%20mall&build=1",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#ws-app[data-state=\"ready\"]",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Scene ready",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Reference assets",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Placed assets",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Camera (crane orbit)",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "gpu_policy_violation",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "Scene build failed",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "No scene yet",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "expect-selector",
+      "target": "#ws-viewport img#ws-frame",
+      "ok": true,
+      "detail": "visible"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": ".cesium-viewer",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": "canvas.cesium-widget",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": ".legend",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": ".sprite",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__ws.buildRequests === 1",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelector('#ws-frame').naturalWidth > 0 && document.querySelector('#ws-frame').naturalHeight > 0",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelector('#ws-frame').naturalWidth",
+      "ok": true,
+      "detail": "1280"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__ws.result && window.__ws.result.lumMean > 20",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "JSON.stringify({lumMean:window.__ws.result.lumMean,lumStd:window.__ws.result.lumStd,ahash:window.__ws.result.ahash,clientTtffS:window.__ws.result.clientTtffS,serviceTtffS:window.__ws.result.serviceTtf",
+      "ok": true,
+      "detail": "\"{\\\"lumMean\\\":124.6,\\\"lumStd\\\":22.9,\\\"ahash\\\":\\\"0011110100011101000111010001110100111101001111010111110101111101\\\",\\\"clientTtffS\\\":31.9,\\\"serviceTtffS\\\":29.5,\\\"fps\\\":0.949,\\\"steadyFps\\\":1.188,\\\"gpus\\\""
+    },
+    {
+      "kind": "eval",
+      "target": "fetch(document.querySelector('#ws-frame').currentSrc,{cache:'no-store'}).then(r=>r.blob().then(b=>JSON.stringify({status:r.status,type:r.headers.get('content-type'),bytes:b.size,url:document.querySele",
+      "ok": true,
+      "detail": "\"{\\\"status\\\":200,\\\"type\\\":\\\"image/jpeg\\\",\\\"bytes\\\":37659,\\\"url\\\":\\\"https://ondemand-agent-mqb0wgj5e-schoolhack-web-team.vercel.app/api/scenes/render/82ff33725f54/latest.jpg?n=96\\\"}\""
+    },
+    {
+      "kind": "eval",
+      "target": "fetch(window.__ws.job.frames_url_template.replace('{n}','1'),{cache:'no-store'}).then(r=>r.blob().then(b=>JSON.stringify({status:r.status,type:r.headers.get('content-type'),bytes:b.size,ok:r.status===",
+      "ok": true,
+      "detail": "\"{\\\"status\\\":200,\\\"type\\\":\\\"image/png\\\",\\\"bytes\\\":954154,\\\"ok\\\":true}\""
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelectorAll('#ws-outliner-list li:not(.ws-group)').length >= 6",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelectorAll('#ws-outliner-list li').length",
+      "ok": true,
+      "detail": "25"
+    },
+    {
+      "kind": "eval",
+      "target": "[...document.querySelectorAll('#ws-outliner-list li')].map(l=>l.textContent.trim().replace(/\\s+/g,' ')).join(' | ')",
+      "ok": true,
+      "detail": "\"Environment | Ground \\u00b7 satellite patch + roads1 | OSM roads217 | OSM buildings (extruded)45 | Sun + sky (midday)1 | Camera (crane orbit)1 | Placed assets | Ambulance2 | CCTV camera2 | Bus1 | Civ"
+    },
+    {
+      "kind": "eval",
+      "target": "(function(){var m={};document.querySelectorAll('#ws-props dt').forEach(function(d){m[d.textContent]=d.nextElementSibling.textContent});return JSON.stringify(m)})()",
+      "ok": true,
+      "detail": "\"{\\\"Renderer\\\":\\\"Blender Cycles \\u00b7 OptiX\\\",\\\"Device\\\":\\\"NVIDIA H100 80GB HBM3\\\",\\\"GPUs\\\":\\\"6, 2\\\",\\\"Place\\\":\\\"Yas Mall (24.4886, 54.6085)\\\",\\\"Located by\\\":\\\"known-place-table\\\",\\\"Scene spec\\\":\\\"pr"
+    },
+    {
+      "kind": "eval",
+      "target": "Number(document.querySelector('#ws-scrub').max) > 0 && !document.querySelector('#ws-scrub').disabled",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelector('#ws-frame-readout').textContent",
+      "ok": true,
+      "detail": "\"96 / 96\""
+    },
+    {
+      "kind": "eval",
+      "target": "window.__ws.job.shards.every(function(s){return s.gpu==='2'||s.gpu==='6'}) && window.__ws.job.shards.length===2",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(function(r){var s=document.querySelector('#ws-scrub');var img=document.querySelector('#ws-frame');var v0=Number(s.value);var src0=img.getAttribute('src');document.querySelector('[data-tran",
+      "ok": true,
+      "detail": "\"{\\\"v0\\\":96,\\\"v1\\\":2,\\\"advanced\\\":true,\\\"srcChanged\\\":true,\\\"readout\\\":\\\"2 / 96\\\",\\\"playLabel\\\":\\\"Play\\\"}\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=1294 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation \u00b7 Scene Workstation",
+  "textLength": 1294
+}

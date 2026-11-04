@@ -1,0 +1,330 @@
+{
+ "job_id": "de948c716f5e",
+ "illustrative": true,
+ "label": "Illustrative render \u00b7 not evidence",
+ "created_utc": "2026-11-04T22:20:02Z",
+ "request": {
+  "prompt": "concert crowd at Etihad Arena",
+  "lat": 24.46036,
+  "lng": 54.60422,
+  "time_of_day": null,
+  "duration_s": 4,
+  "seed": 1094358417,
+  "samples": 24
+ },
+ "stage": "complete",
+ "progress": 1,
+ "frames_done": 96,
+ "status_url": "/api/scenes/render/de948c716f5e/status",
+ "stream_url": "/api/scenes/render/de948c716f5e/stream",
+ "latest_frame_url": "/api/scenes/render/de948c716f5e/latest.jpg",
+ "frames_url_template": "/api/scenes/render/de948c716f5e/frames/{n}.png",
+ "mp4_url": "/api/scenes/render/de948c716f5e/video.mp4",
+ "focal": {
+  "name": "Etihad Arena",
+  "lat": 24.46036,
+  "lon": 54.60422,
+  "kind": "venue",
+  "waterfront": true,
+  "source": "caller-coordinates",
+  "precision": "exact-input",
+  "approximate": true
+ },
+ "time_of_day": "midday",
+ "land_patch": {
+  "source": "Esri World Imagery tiles + OSM buildings/roads via Overpass (no Google Maps key on host)",
+  "half_extent_m": 260,
+  "buildings": 30,
+  "roads": 100,
+  "overpass": "ok",
+  "tiles_ok": 25
+ },
+ "seed": 1094358417,
+ "prompt_hash": "413a95917c22c2f0157063ff0a0ebe9dc6275127a5e0898459a2855274d90b9b",
+ "spec": {
+  "scenarioType": "crowd_event",
+  "focalEntity": {
+   "name": "Etihad Arena",
+   "kind": "venue"
+  },
+  "elements": [
+   {
+    "type": "crowd_zone",
+    "params": {
+     "radius_m": 150,
+     "count": null,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "inner_cordon",
+    "params": {
+     "radius_m": 180,
+     "count": null,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "outer_cordon",
+    "params": {
+     "radius_m": 350,
+     "count": null,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "screening_lane",
+    "params": {
+     "radius_m": null,
+     "count": 6,
+     "spacing_m": 5,
+     "direction": null
+    }
+   },
+   {
+    "type": "barriers",
+    "params": {
+     "radius_m": null,
+     "count": 30,
+     "spacing_m": 3,
+     "direction": null
+    }
+   },
+   {
+    "type": "egress_route",
+    "params": {
+     "radius_m": null,
+     "count": 4,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "event_command_post",
+    "params": {
+     "radius_m": null,
+     "count": 1,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "medical_point",
+    "params": {
+     "radius_m": null,
+     "count": 2,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "foot_patrol",
+    "params": {
+     "radius_m": null,
+     "count": 8,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "cctv_signal",
+    "params": {
+     "radius_m": 200,
+     "count": 4,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "route_line",
+    "params": {
+     "radius_m": 400
+    }
+   },
+   {
+    "type": "start_finish",
+    "params": {
+     "count": 1
+    }
+   },
+   {
+    "type": "perimeter_unit",
+    "params": {
+     "count": 4
+    }
+   },
+   {
+    "type": "staging_point",
+    "params": {
+     "direction": "N"
+    }
+   },
+   {
+    "type": "escort_motorcycle",
+    "params": {
+     "count": 2
+    }
+   },
+   {
+    "type": "shuttle_bus",
+    "params": {
+     "count": 2
+    }
+   }
+  ],
+  "confidence": 0.8,
+  "seed": 1094358417,
+  "prompt_hash": "413a95917c22c2f0157063ff0a0ebe9dc6275127a5e0898459a2855274d90b9b",
+  "_prompt": "concert crowd at Etihad Arena"
+ },
+ "model": {
+  "provider": "ondemand",
+  "endpointId": "predefined-kimi-k3-fast",
+  "attempts": [
+   {
+    "endpointId": "predefined-kimi-k3-fast",
+    "http": 200,
+    "latency_s": 8.01,
+    "valid": true,
+    "answer_chars": 1064,
+    "repaired_with_template": [
+     "route_line",
+     "start_finish",
+     "perimeter_unit",
+     "staging_point",
+     "escort_motorcycle",
+     "shuttle_bus"
+    ]
+   }
+  ],
+  "fallback": false,
+  "repaired_with_template": [
+   "route_line",
+   "start_finish",
+   "perimeter_unit",
+   "staging_point",
+   "escort_motorcycle",
+   "shuttle_bus"
+  ]
+ },
+ "placement": {
+  "instances": 188,
+  "by_asset": {
+   "ambulance_medical_point": 2,
+   "cctv_camera": 4,
+   "city_bus": 2,
+   "crowd_control_barrier": 149,
+   "event_command_post": 1,
+   "foot_patrol_officer": 8,
+   "police_escort_motorcycle": 2,
+   "police_patrol_car": 5,
+   "spectator_crowd_cluster": 14,
+   "start_finish_gate": 1
+  }
+ },
+ "prep_s": 12.44,
+ "total_frames": 96,
+ "shards": [
+  {
+   "frames": [
+    49,
+    96
+   ],
+   "gpu": "6",
+   "pid": 3823912,
+   "started_utc": "2026-11-04T22:20:15Z"
+  },
+  {
+   "frames": [
+    1,
+    48
+   ],
+   "gpu": "2",
+   "pid": 3823914,
+   "started_utc": "2026-11-04T22:20:15Z"
+  }
+ ],
+ "ttff_s": 33.47,
+ "ttff_render_only_s": 21.03,
+ "wall_clock_render_s": 58.09,
+ "wall_clock_total_s": 70.53,
+ "fps_sustained": 1.653,
+ "fps_after_first_frame": 2.597,
+ "realtime_factor": 0.0689,
+ "gpu_metrics": {
+  "2": {
+   "util_pct_mean": 28.1,
+   "util_pct_max": 100,
+   "mem_used_mib_max": 4417,
+   "mem_total_mib": 81559,
+   "samples": 28
+  },
+  "6": {
+   "util_pct_mean": 47.1,
+   "util_pct_max": 100,
+   "mem_used_mib_max": 4417,
+   "mem_total_mib": 81559,
+   "samples": 28
+  }
+ },
+ "encoder": "libx264 (CPU)",
+ "encode_s": 1.52,
+ "mp4_bytes": 3776525,
+ "finished_utc": "2026-11-04T22:21:14Z",
+ "events_tail": [
+  {
+   "utc": "2026-11-04T22:20:36Z",
+   "stage": "first_frame",
+   "data": {
+    "ttff_s": 33.47,
+    "frame": "f_0001.png"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:21:13Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_49_96.log",
+    "line": "SCENE_READY seed=1094358417 cuda_visible=6 order=PCI_BUS_ID devices=['NVIDIA H100 80GB HBM3'] buildings=30 instances=188 assets=10 setup_s=18.85 frames=49-96"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:21:13Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_49_96.log",
+    "line": "SHARD_DONE frames=48 render_s=38.11 setup_s=18.85"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:21:13Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_1_48.log",
+    "line": "SCENE_READY seed=1094358417 cuda_visible=2 order=PCI_BUS_ID devices=['NVIDIA H100 80GB HBM3'] buildings=30 instances=188 assets=10 setup_s=18.23 frames=1-48"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:21:13Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_1_48.log",
+    "line": "SHARD_DONE frames=48 render_s=26.1 setup_s=18.23"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:21:14Z",
+   "stage": "done",
+   "data": {
+    "stage": "complete",
+    "frames": 96,
+    "ttff_s": 33.47,
+    "fps_sustained": 1.653,
+    "mp4_bytes": 3776525
+   }
+  }
+ ]
+}

@@ -1,0 +1,269 @@
+{
+ "yas": {
+  "job": "82ff33725f54",
+  "gpu_metrics": {
+   "2": {
+    "util_pct_mean": 94.2,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 14234,
+    "mem_total_mib": 81559,
+    "samples": 48
+   },
+   "6": {
+    "util_pct_mean": 38.9,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4417,
+    "mem_total_mib": 81559,
+    "samples": 48
+   }
+  },
+  "shards": [
+   [
+    "6",
+    [
+     49,
+     96
+    ]
+   ],
+   [
+    "2",
+    [
+     1,
+     48
+    ]
+   ]
+  ],
+  "ttff_s": 29.5,
+  "fps_sustained": 0.949,
+  "fps_after_first_frame": 1.188,
+  "wall_clock_total_s": 110.64,
+  "references": null,
+  "placement": {
+   "instances": 96,
+   "by_asset": {
+    "ambulance_medical_point": 2,
+    "cctv_camera": 2,
+    "city_bus": 1,
+    "civilian_taxi": 2,
+    "crowd_control_barrier": 12,
+    "debris_bumper": 2,
+    "debris_door": 2,
+    "debris_plate": 2,
+    "debris_tire": 2,
+    "foot_patrol_officer": 4,
+    "police_patrol_car": 7,
+    "road_closed_barricade": 2,
+    "traffic_cone_cluster": 56
+   }
+  },
+  "focal": {
+   "name": "Yas Mall",
+   "lat": 24.4886,
+   "lon": 54.6085,
+   "kind": "mall",
+   "waterfront": false,
+   "source": "caller-coordinates",
+   "precision": "exact-input",
+   "approximate": true
+  },
+  "encoder": "libx264 (CPU)",
+  "model": "predefined-kimi-k3-fast"
+ },
+ "palace": {
+  "job": "4fe0fe187038",
+  "gpu_metrics": {
+   "2": {
+    "util_pct_mean": 13.3,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4417,
+    "mem_total_mib": 81559,
+    "samples": 29
+   },
+   "6": {
+    "util_pct_mean": 40.8,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4417,
+    "mem_total_mib": 81559,
+    "samples": 29
+   }
+  },
+  "shards": [
+   [
+    "6",
+    [
+     49,
+     96
+    ]
+   ],
+   [
+    "2",
+    [
+     1,
+     48
+    ]
+   ]
+  ],
+  "ttff_s": 35.96,
+  "fps_sustained": 1.546,
+  "fps_after_first_frame": 2.307,
+  "wall_clock_total_s": 77.03,
+  "references": null,
+  "placement": {
+   "instances": 100,
+   "by_asset": {
+    "ambulance_medical_point": 1,
+    "cctv_camera": 3,
+    "city_bus": 1,
+    "crowd_control_barrier": 49,
+    "event_command_post": 1,
+    "foot_patrol_officer": 4,
+    "marine_patrol_boat": 1,
+    "police_escort_motorcycle": 2,
+    "police_patrol_car": 10,
+    "spectator_crowd_cluster": 28
+   }
+  },
+  "focal": {
+   "name": "Emirates Palace",
+   "lat": 24.4617,
+   "lon": 54.3173,
+   "kind": "venue",
+   "waterfront": true,
+   "source": "caller-coordinates",
+   "precision": "exact-input",
+   "approximate": true
+  },
+  "encoder": "libx264 (CPU)",
+  "model": "predefined-kimi-k3-fast"
+ },
+ "kanes": {
+  "job": "3bfce0be48ab",
+  "gpu_metrics": {
+   "2": {
+    "util_pct_mean": 48.1,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4407,
+    "mem_total_mib": 81559,
+    "samples": 15
+   },
+   "6": {
+    "util_pct_mean": 36.1,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4407,
+    "mem_total_mib": 81559,
+    "samples": 15
+   }
+  },
+  "shards": [
+   [
+    "6",
+    [
+     49,
+     96
+    ]
+   ],
+   [
+    "2",
+    [
+     1,
+     48
+    ]
+   ]
+  ],
+  "ttff_s": 21.75,
+  "fps_sustained": 2.995,
+  "fps_after_first_frame": 4.212,
+  "wall_clock_total_s": 44.79,
+  "references": null,
+  "placement": {
+   "instances": 105,
+   "by_asset": {
+    "cctv_camera": 3,
+    "crowd_control_barrier": 20,
+    "event_command_post": 1,
+    "foot_patrol_officer": 6,
+    "police_patrol_car": 13,
+    "traffic_cone_cluster": 62
+   }
+  },
+  "focal": {
+   "name": "Kane's Boxing Gym Abu Dhabi (city-level)",
+   "lat": 24.4539,
+   "lon": 54.3773,
+   "kind": "gym",
+   "waterfront": false,
+   "source": "caller-coordinates",
+   "precision": "exact-input",
+   "approximate": true
+  },
+  "encoder": "libx264 (CPU)",
+  "model": "predefined-kimi-k3-fast"
+ },
+ "etihad": {
+  "job": "de948c716f5e",
+  "gpu_metrics": {
+   "2": {
+    "util_pct_mean": 28.1,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4417,
+    "mem_total_mib": 81559,
+    "samples": 28
+   },
+   "6": {
+    "util_pct_mean": 47.1,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4417,
+    "mem_total_mib": 81559,
+    "samples": 28
+   }
+  },
+  "shards": [
+   [
+    "6",
+    [
+     49,
+     96
+    ]
+   ],
+   [
+    "2",
+    [
+     1,
+     48
+    ]
+   ]
+  ],
+  "ttff_s": 33.47,
+  "fps_sustained": 1.653,
+  "fps_after_first_frame": 2.597,
+  "wall_clock_total_s": 70.53,
+  "references": null,
+  "placement": {
+   "instances": 188,
+   "by_asset": {
+    "ambulance_medical_point": 2,
+    "cctv_camera": 4,
+    "city_bus": 2,
+    "crowd_control_barrier": 149,
+    "event_command_post": 1,
+    "foot_patrol_officer": 8,
+    "police_escort_motorcycle": 2,
+    "police_patrol_car": 5,
+    "spectator_crowd_cluster": 14,
+    "start_finish_gate": 1
+   }
+  },
+  "focal": {
+   "name": "Etihad Arena",
+   "lat": 24.46036,
+   "lon": 54.60422,
+   "kind": "venue",
+   "waterfront": true,
+   "source": "caller-coordinates",
+   "precision": "exact-input",
+   "approximate": true
+  },
+  "encoder": "libx264 (CPU)",
+  "model": "predefined-kimi-k3-fast"
+ }
+}

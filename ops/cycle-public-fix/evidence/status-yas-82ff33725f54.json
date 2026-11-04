@@ -1,0 +1,279 @@
+{
+ "job_id": "82ff33725f54",
+ "illustrative": true,
+ "label": "Illustrative render \u00b7 not evidence",
+ "created_utc": "2026-11-04T22:13:27Z",
+ "request": {
+  "prompt": "car crash yas mall",
+  "lat": 24.4886,
+  "lng": 54.6085,
+  "time_of_day": null,
+  "duration_s": 4,
+  "seed": 1139210381,
+  "samples": 24
+ },
+ "stage": "complete",
+ "progress": 1,
+ "frames_done": 96,
+ "status_url": "/api/scenes/render/82ff33725f54/status",
+ "stream_url": "/api/scenes/render/82ff33725f54/stream",
+ "latest_frame_url": "/api/scenes/render/82ff33725f54/latest.jpg",
+ "frames_url_template": "/api/scenes/render/82ff33725f54/frames/{n}.png",
+ "mp4_url": "/api/scenes/render/82ff33725f54/video.mp4",
+ "focal": {
+  "name": "Yas Mall",
+  "lat": 24.4886,
+  "lon": 54.6085,
+  "kind": "mall",
+  "waterfront": false,
+  "source": "caller-coordinates",
+  "precision": "exact-input",
+  "approximate": true
+ },
+ "time_of_day": "midday",
+ "land_patch": {
+  "source": "Esri World Imagery tiles + OSM buildings/roads via Overpass (no Google Maps key on host)",
+  "half_extent_m": 260,
+  "buildings": 45,
+  "roads": 217,
+  "overpass": "ok",
+  "tiles_ok": 25
+ },
+ "seed": 1139210381,
+ "prompt_hash": "c3e6f88d8e48b18e63aee723430acd7a199d50ba9aca76ba95724b7260fda33b",
+ "spec": {
+  "scenarioType": "route_closure",
+  "focalEntity": {
+   "name": "Yas Mall",
+   "kind": "venue"
+  },
+  "elements": [
+   {
+    "type": "road_closed_barricade",
+    "params": {
+     "radius_m": null,
+     "count": 2,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "cones",
+    "params": {
+     "radius_m": null,
+     "count": 12,
+     "spacing_m": 10,
+     "direction": null
+    }
+   },
+   {
+    "type": "perimeter_unit",
+    "params": {
+     "radius_m": 60,
+     "count": 4,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "medical_point",
+    "params": {
+     "radius_m": null,
+     "count": 1,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "inner_cordon",
+    "params": {
+     "radius_m": 60
+    }
+   },
+   {
+    "type": "barriers",
+    "params": {
+     "spacing_m": 30
+    }
+   },
+   {
+    "type": "checkpoint",
+    "params": {
+     "count": 2
+    }
+   },
+   {
+    "type": "cctv_signal",
+    "params": {
+     "count": 2
+    }
+   },
+   {
+    "type": "foot_patrol",
+    "params": {
+     "count": 4
+    }
+   },
+   {
+    "type": "shuttle_bus",
+    "params": {
+     "count": 1
+    }
+   }
+  ],
+  "confidence": 0.6,
+  "seed": 1139210381,
+  "prompt_hash": "c3e6f88d8e48b18e63aee723430acd7a199d50ba9aca76ba95724b7260fda33b",
+  "_prompt": "car crash yas mall"
+ },
+ "model": {
+  "provider": "ondemand",
+  "endpointId": "predefined-kimi-k3-fast",
+  "attempts": [
+   {
+    "endpointId": "predefined-kimi-k3-fast",
+    "http": 200,
+    "latency_s": 4.85,
+    "valid": true,
+    "answer_chars": 493,
+    "repaired_with_template": [
+     "inner_cordon",
+     "barriers",
+     "checkpoint",
+     "cctv_signal",
+     "foot_patrol",
+     "shuttle_bus"
+    ]
+   }
+  ],
+  "fallback": false,
+  "repaired_with_template": [
+   "inner_cordon",
+   "barriers",
+   "checkpoint",
+   "cctv_signal",
+   "foot_patrol",
+   "shuttle_bus"
+  ]
+ },
+ "placement": {
+  "instances": 96,
+  "by_asset": {
+   "ambulance_medical_point": 2,
+   "cctv_camera": 2,
+   "city_bus": 1,
+   "civilian_taxi": 2,
+   "crowd_control_barrier": 12,
+   "debris_bumper": 2,
+   "debris_door": 2,
+   "debris_plate": 2,
+   "debris_tire": 2,
+   "foot_patrol_officer": 4,
+   "police_patrol_car": 7,
+   "road_closed_barricade": 2,
+   "traffic_cone_cluster": 56
+  }
+ },
+ "prep_s": 9.47,
+ "total_frames": 96,
+ "shards": [
+  {
+   "frames": [
+    49,
+    96
+   ],
+   "gpu": "6",
+   "pid": 3771924,
+   "started_utc": "2026-11-04T22:13:36Z"
+  },
+  {
+   "frames": [
+    1,
+    48
+   ],
+   "gpu": "2",
+   "pid": 3771926,
+   "started_utc": "2026-11-04T22:13:36Z"
+  }
+ ],
+ "ttff_s": 29.5,
+ "ttff_render_only_s": 20.03,
+ "wall_clock_render_s": 101.16,
+ "wall_clock_total_s": 110.64,
+ "fps_sustained": 0.949,
+ "fps_after_first_frame": 1.188,
+ "realtime_factor": 0.0395,
+ "gpu_metrics": {
+  "2": {
+   "util_pct_mean": 94.2,
+   "util_pct_max": 100,
+   "mem_used_mib_max": 14234,
+   "mem_total_mib": 81559,
+   "samples": 48
+  },
+  "6": {
+   "util_pct_mean": 38.9,
+   "util_pct_max": 100,
+   "mem_used_mib_max": 4417,
+   "mem_total_mib": 81559,
+   "samples": 48
+  }
+ },
+ "encoder": "libx264 (CPU)",
+ "encode_s": 1.6,
+ "mp4_bytes": 4383403,
+ "finished_utc": "2026-11-04T22:15:19Z",
+ "events_tail": [
+  {
+   "utc": "2026-11-04T22:13:56Z",
+   "stage": "first_frame",
+   "data": {
+    "ttff_s": 29.5,
+    "frame": "f_0049.png"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:15:17Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_49_96.log",
+    "line": "SCENE_READY seed=1139210381 cuda_visible=6 order=PCI_BUS_ID devices=['NVIDIA H100 80GB HBM3'] buildings=45 instances=96 assets=13 setup_s=17.54 frames=49-96"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:15:17Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_49_96.log",
+    "line": "SHARD_DONE frames=48 render_s=35.75 setup_s=17.54"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:15:17Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_1_48.log",
+    "line": "SCENE_READY seed=1139210381 cuda_visible=2 order=PCI_BUS_ID devices=['NVIDIA H100 80GB HBM3'] buildings=45 instances=96 assets=13 setup_s=17.05 frames=1-48"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:15:17Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_1_48.log",
+    "line": "SHARD_DONE frames=48 render_s=82.57 setup_s=17.05"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:15:19Z",
+   "stage": "done",
+   "data": {
+    "stage": "complete",
+    "frames": 96,
+    "ttff_s": 29.5,
+    "fps_sustained": 0.949,
+    "mp4_bytes": 4383403
+   }
+  }
+ ]
+}
