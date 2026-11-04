@@ -16,6 +16,8 @@
  * The result travels with the job so the UI can say how the place was found.
  */
 
+import { matchKnownPlace } from '../scene-plans/known-places.js';
+
 export const KNOWN_PLACES = Object.freeze([
   {
     name: 'Yas Mall',
@@ -108,6 +110,23 @@ export async function resolvePromptLocation(
         approximate: true,
         query: null,
       };
+  }
+  // 1b. The app's full known-places table (scene-plans) — covers venues such as
+  // "kanes boxing gym abu dhabi" that Nominatim has no record of. Never throws.
+  try {
+    const kp = matchKnownPlace(String(prompt || ''));
+    if (kp && Number.isFinite(kp.lat) && Number.isFinite(kp.lon))
+      return {
+        name: kp.name,
+        lat: kp.lat,
+        lng: kp.lon,
+        source: 'known-place-table',
+        precision: kp.precision || 'landmark',
+        approximate: true,
+        query: null,
+      };
+  } catch {
+    /* table lookup is best-effort */
   }
   const ladder = queryLadder(cleanPlaceQuery(prompt), 4);
   for (const q of ladder) {

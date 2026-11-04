@@ -107,7 +107,7 @@ def run_job(jid):
             L("seed", {"warning": "client seed differs from prompt hash; using prompt hash", "client": j["request"]["seed"]})
         j["seed"] = seed; j["prompt_hash"] = P.prompt_hash(j["request"]["prompt"])
         spec, model = P.ondemand_spec(j["request"]["prompt"], focal["name"], L)
-        spec["seed"] = seed; spec["prompt_hash"] = j["prompt_hash"]
+        spec["seed"] = seed; spec["prompt_hash"] = j["prompt_hash"]; spec["_prompt"] = j["request"]["prompt"][:200]
         j["spec"] = spec; j["model"] = model
         j["stage"] = "placement"
         inst, shapes, roads = P.place(spec, focal, osm, half, seed=seed, log=L)
@@ -127,9 +127,9 @@ def run_job(jid):
         for gi in range(n):
             a = gi * per + 1; b = total if gi == n - 1 else (gi + 1) * per
             ranges.append((a, b))
-        # split GPU0's range into a 1-frame warm shard + remainder so frame 1 lands ASAP
-        a, b = ranges[0]; ranges = [(a, a)] + ([(a + 1, b)] if b > a else []) + ranges[1:]
-        gpu_for = [GPUS[0], GPUS[0]] + GPUS[1:] if len(ranges) > n else GPUS[:len(ranges)]
+        # One contiguous shard per GPU: each Blender process renders its range in order, so frame 1 is the
+        # first frame GPU0 produces (a separate 1-frame warm shard only paid the ~15 s scene setup twice).
+        gpu_for = GPUS[:len(ranges)]
         j["shards"] = []
         sample_thread_stop = threading.Event(); samples_log = []
         def sampler():
@@ -166,6 +166,9 @@ def run_job(jid):
         done = sorted(glob.glob(os.path.join(frames_dir, "f_*.png"))); j["frames_done"] = len(done)
         j["wall_clock_render_s"] = round(time.time() - t_render, 2); j["wall_clock_total_s"] = round(time.time() - t_start, 2)
         j["fps_sustained"] = round(len(done) / max(0.001, j["wall_clock_render_s"]), 3)
+        # steady-state rate once Blender scene setup is over: frames after the first / time since the first
+        mt = sorted(os.path.getmtime(f) for f in done)
+        j["fps_after_first_frame"] = round((len(mt) - 1) / max(0.001, mt[-1] - mt[0]), 3) if len(mt) > 1 else None
         j["realtime_factor"] = round(j["fps_sustained"] / FPS, 4)
         json.dump(samples_log, open(os.path.join(d, "nvidia-smi-samples.json"), "w"))
         def agg(rows):

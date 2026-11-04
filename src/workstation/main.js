@@ -52,6 +52,17 @@ const ws = {
 };
 window.__ws = ws;
 
+// Guard: an allocation failure while decoding/analysing a frame ("RangeError: Array buffer
+// allocation failed" took down the old Cesium renderer) must never stop the Build loop. The
+// workstation only ever holds one 1280x720 frame plus a 64x36 analysis canvas.
+ws.errors = [];
+window.addEventListener('error', (event) => {
+  if (event?.error instanceof RangeError) {
+    ws.errors.push(String(event.error.message).slice(0, 160));
+    event.preventDefault();
+  }
+});
+
 let run = 0;
 let frames = { total: 0, done: 0, current: 0, template: '' };
 let playTimer = null;
@@ -131,6 +142,7 @@ function renderProps(job, extra = {}) {
       ws.result?.clientTtffS ? `${ws.result.clientTtffS} s` : '—',
     ],
     ['Sustained fps', job?.fps_sustained ?? '—'],
+    ['Steady fps', job?.fps_after_first_frame ?? '—'],
     ['Job', job?.job_id || '—'],
   ];
   props.innerHTML = entries
@@ -170,7 +182,8 @@ function analyseFrame() {
       lumStd: Math.round(std * 10) / 10,
       ahash: hash,
     };
-  } catch {
+  } catch (error) {
+    if (error instanceof RangeError) ws.errors.push(String(error.message));
     return null;
   }
 }
@@ -311,6 +324,7 @@ async function build(prompt) {
         ws.result.objects = job.placement?.instances ?? null;
         ws.result.byAsset = job.placement?.by_asset ?? null;
         ws.result.fpsSustained = job.fps_sustained ?? null;
+        ws.result.fpsAfterFirstFrame = job.fps_after_first_frame ?? null;
         ws.result.serviceTtffS = job.ttff_s ?? null;
         ws.result.totalS = job.wall_clock_total_s ?? null;
         ws.result.gpus = (job.shards || []).map((s) => s.gpu);

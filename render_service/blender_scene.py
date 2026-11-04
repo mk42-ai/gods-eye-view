@@ -107,6 +107,7 @@ def building_material(name, wall_rgb, rough, metal):
     return m
 bmat = building_material("Building", (0.72, 0.70, 0.66), 0.55, 0.0); bglass = building_material("Glass", (0.35, 0.45, 0.55), 0.2, 0.5)
 bcount = 0
+BUILDINGS = []
 for b in S["buildings"][:900]:
     pts = b["pts"]
     if len(pts) < 3: continue
@@ -115,7 +116,7 @@ for b in S["buildings"][:900]:
     verts = [(x, y, 0) for x, y in pts] + [(x, y, h) for x, y in pts]
     n = len(pts); faces = [tuple(range(n)), tuple(range(n, 2 * n))] + [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)]
     me.from_pydata(verts, [], faces); me.update()
-    ob.data.materials.append(bglass if h > 60 else bmat); bcount += 1
+    ob.data.materials.append(bglass if h > 60 else bmat); bcount += 1; BUILDINGS.append((ob, pts, h))
 
 # ---- roads: the satellite ground texture already shows the real carriageways; opaque
 # synthetic road strips (first Phase-F pass) covered the imagery almost entirely in dense
@@ -150,7 +151,8 @@ for s in S["shapes"]:
 cache = {}
 TARGET = {"police_patrol_car": 4.8, "police_escort_motorcycle": 2.2, "ambulance_medical_point": 5.6, "crowd_control_barrier": 2.0, "road_closed_barricade": 1.6,
           "traffic_cone_cluster": 0.7, "checkpoint_cordon_node": 1.6, "event_command_post": 6.0, "start_finish_gate": 9.0, "foot_patrol_officer": 1.8,
-          "spectator_crowd_cluster": 1.75, "city_bus": 11.5, "cctv_camera": 0.5, "marine_patrol_boat": 7.5}
+          "spectator_crowd_cluster": 1.75, "city_bus": 11.5, "cctv_camera": 0.5, "marine_patrol_boat": 7.5,
+          "civilian_sedan": 4.6, "civilian_suv": 4.9, "civilian_taxi": 4.6, "debris_bumper": 1.7, "debris_tire": 0.65, "debris_door": 1.1, "debris_plate": 0.8}
 def load_asset(key):
     if key in cache: return cache[key]
     p = os.path.join(S["assets_root"], "glb", f"{key}.glb")
@@ -206,12 +208,58 @@ co = bpy.data.objects.new("Cam", cam); sc.collection.objects.link(co); sc.camera
 tgt = bpy.data.objects.new("Target", None); sc.collection.objects.link(tgt); tgt.location = (0, 0, 8)
 tc = co.constraints.new("TRACK_TO"); tc.target = tgt; tc.track_axis = "TRACK_NEGATIVE_Z"; tc.up_axis = "UP_Y"
 R0, R1, Z0, Z1 = 260.0, 170.0, 150.0, 95.0
+# Frame the subject: a crash tableau gets a close street-level crane (the reference frames show the
+# vehicles filling ~1/3 of the frame); other scenarios keep the wide establishing orbit.
+crash = [it for it in S["instances"] if str(it.get("element", "")).startswith("crash_vehicle")]
+if crash:
+    cx = sum(it["x"] for it in crash) / len(crash); cy = sum(it["y"] for it in crash) / len(crash)
+    tgt.location = (cx, cy, 1.2); R0, R1, Z0, Z1 = 48.0, 30.0, 26.0, 14.0
+else:
+    cx = cy = 0.0
+def _inside(x, y, pts):
+    c = False; n = len(pts)
+    for i in range(n):
+        x1, y1 = pts[i]; x2, y2 = pts[(i + 1) % n]
+        if (y1 > y) != (y2 > y) and x < (x2 - x1) * (y - y1) / ((y2 - y1) or 1e-9) + x1: c = not c
+    return c
+def _path_blocked(a0):
+    for k in range(9):
+        u = k / 8; a = math.radians(a0 + 150 * u); r = R0 + (R1 - R0) * u; z = Z0 + (Z1 - Z0) * u
+        px, py = cx + r * math.cos(a), cy + r * math.sin(a)
+        for t in (0.0, 0.25, 0.5, 0.75):
+            sx, sy, sz = px + (cx - px) * t, py + (cy - py) * t, z + (tgt.location.z - z) * t
+            for _ob, pts, h in BUILDINGS:
+                if h > sz - 1.0 and _inside(sx, sy, pts): return True
+    return False
 A0 = -120 + (SEED % 360)  # orbit start angle derived from the prompt seed
+if crash:
+    # keep the seed-derived phase but rotate to the first orbit whose camera path and sight line stay
+    # out of building footprints (e.g. the 40 m Yas Mall slab next to the crash road)
+    for off in range(0, 360, 15):
+        if not _path_blocked(A0 + off): A0 = A0 + off; break
+    else:
+        Z0, Z1 = 60.0, 48.0
 for f in range(f0, f1 + 1):
     u = f / max(1, total - 1)
     a = math.radians(A0 + 150 * u); r = R0 + (R1 - R0) * u; z = Z0 + (Z1 - Z0) * u
-    co.location = (r * math.cos(a), r * math.sin(a), z); co.keyframe_insert("location", frame=f)
+    co.location = (cx + r * math.cos(a), cy + r * math.sin(a), z); co.keyframe_insert("location", frame=f)
 
+# Cutaway: a close crane shot can start inside (or behind) a large footprint such as the Yas Mall
+# roof slab, which rendered pure black. Any building that contains the camera or blocks the
+# camera->subject sight line on a sampled frame is hidden from camera rays (it still casts shadows).
+hidden = 0
+samples_f = list(range(f0, f1 + 1, max(1, (f1 - f0) // 12))) + [f1]
+for ob, pts, h in BUILDINGS:
+    blocked = False
+    for f in samples_f:
+        u = f / max(1, total - 1); a = math.radians(A0 + 150 * u); r = R0 + (R1 - R0) * u; z = Z0 + (Z1 - Z0) * u
+        px, py = cx + r * math.cos(a), cy + r * math.sin(a)
+        for t in (0.0, 0.2, 0.4, 0.6, 0.8):
+            sx, sy, sz = px + (tgt.location.x - px) * t, py + (tgt.location.y - py) * t, z + (tgt.location.z - z) * t
+            if h > sz - 1.0 and _inside(sx, sy, pts): blocked = True; break
+        if blocked: break
+    if blocked: ob.visible_camera = False; ob.visible_shadow = False; hidden += 1
+print(f"CUTAWAY hidden_buildings={hidden}", flush=True)
 sc.render.filepath = os.path.join(out_dir, "f_")
 setup_s = round(time.time() - T0, 2)
 print(f"SCENE_READY seed={SEED} cuda_visible={os.environ.get('CUDA_VISIBLE_DEVICES')} order={os.environ.get('CUDA_DEVICE_ORDER')} devices={used} buildings={bcount} instances={inst_count} assets={len(cache)} setup_s={setup_s} frames={f0}-{f1}", flush=True)

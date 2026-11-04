@@ -31,6 +31,8 @@ KNOWN_PLACES = [
     {"name": "Emirates Palace", "aliases": ["emirates palace"], "lat": 24.4617, "lon": 54.3173, "kind": "venue", "waterfront": True},
     {"name": "Burj Khalifa", "aliases": ["burj khalifa", "burjkhalifa"], "lat": 25.1972, "lon": 55.2744, "kind": "landmark", "waterfront": False},
     {"name": "Umm Suqeim", "aliases": ["umm suqeim", "um suqeim"], "lat": 25.1535, "lon": 55.206, "kind": "district", "waterfront": True},
+    {"name": "Etihad Arena", "aliases": ["etihad arena"], "lat": 24.46036, "lon": 54.60422, "kind": "venue", "waterfront": True},
+    {"name": "Kane's Boxing Gym Abu Dhabi (city-level)", "aliases": ["kanes boxing", "kane's boxing", "kanes gym"], "lat": 24.4539, "lon": 54.3773, "kind": "gym", "waterfront": False},
 ]
 SCENARIO_RULES = [
     ("police_raid", r"\braid|bust|warrant|arrest"),
@@ -336,12 +338,23 @@ def place(spec, focal, osm, half_m, seed, log=None):
             if roads:
                 ln = max(roads, key=lambda r: r[0].length)[0]; q = ln.interpolate(ln.length / 2); add("start_finish_gate", q, hdg=heading_along(ln, q) + 90, el=t, snap=False)
             else: add("start_finish_gate", Point(0, 40), el=t, snap=False)
-    if spec["scenarioType"] == "route_closure":  # crash tableau at the focal road
+    if spec["scenarioType"] == "route_closure" or re.search(r"crash|collision|accident", str(spec.get("_prompt", "")), re.I):
+        # Crash tableau on the nearest drivable road (layout follows the Yas Mall crash reference frames:
+        # two civilian cars at an angle across the carriageway, debris field, responders upstream).
         pt, ln = on_road(Point(0, 0), r=200)
         h = heading_along(ln, pt)
-        add("police_patrol_car", Point(pt.x - 6, pt.y - 2), hdg=h + 35, el="crash_vehicle_a", snap=False)
-        add("city_bus", Point(pt.x + 7, pt.y + 1), hdg=h - 20, el="crash_vehicle_b", snap=False)
-        add("ambulance_medical_point", Point(pt.x - 14, pt.y + 5), hdg=h, el="responder", snap=False)
+        civ = [k for k in ("civilian_sedan", "civilian_suv", "civilian_taxi") if k in ASSET_KEYS]
+        a_key = civ[seed % len(civ)] if civ else "police_patrol_car"
+        b_key = civ[(seed // 7 + 1) % len(civ)] if civ else "city_bus"
+        add(a_key, Point(pt.x - 2.5, pt.y - 1.0), hdg=h + 25 + rnd.uniform(-10, 10), el="crash_vehicle_a", snap=False)
+        add(b_key, Point(pt.x + 2.8, pt.y + 1.6), hdg=h - 70 + rnd.uniform(-15, 15), el="crash_vehicle_b", snap=False)
+        for k in [d for d in ("debris_bumper", "debris_tire", "debris_door", "debris_plate") if d in ASSET_KEYS] * 2:
+            add(k, Point(pt.x + rnd.gauss(0, 3.5), pt.y + rnd.gauss(0, 3.5)), hdg=rnd.uniform(0, 360), el="debris", snap=False)
+        ux, uy = math.cos(math.radians(h)), math.sin(math.radians(h))
+        add("police_patrol_car", Point(pt.x - 16 * ux, pt.y - 16 * uy), hdg=h + 12, el="responder_police", snap=False)
+        add("ambulance_medical_point", Point(pt.x + 18 * ux + 3, pt.y + 18 * uy + 3), hdg=h, el="responder_ems", snap=False)
+        for i in range(6):
+            add("traffic_cone_cluster", Point(pt.x - (24 + 3 * i) * ux + (i - 2.5) * 1.2 * uy, pt.y - (24 + 3 * i) * uy - (i - 2.5) * 1.2 * ux), hdg=h, el="lane_closure", snap=False)
     log("placement", {"instances": len(inst), "shapes": len(shapes), "roads": len(roads), "water_polys": len(water)})
     return inst, shapes, roads
 

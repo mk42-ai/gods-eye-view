@@ -156,3 +156,28 @@ test('GPU policy: health listing GPU 1 is flagged and POST /render refuses with 
   assert.equal(hb.ok, false);
   assert.deepEqual(hb.gpu_policy.violations, ['1']);
 });
+
+test('proxy forwards the server-side bearer upstream, never the browser Authorization header, and passes [2,6] hosts', async () => {
+  const calls = [];
+  const fetchImpl = async (url, init = {}) => {
+    calls.push({ url, auth: init.headers?.authorization });
+    if (url.endsWith('/health')) return { ok: true, status: 200, json: async () => ({ ok: true, gpus: ['2', '6'] }) };
+    if (url.endsWith('/render')) return { ok: true, status: 200, json: async () => ({ job_id: 'abcdef123456' }) };
+    return { ok: true, status: 200, headers: new Map(), json: async () => ({ job_id: 'abcdef123456', stage: 'render' }) };
+  };
+  const h = createSceneRenderRoutes({
+    env: { RENDER_SERVICE_URL: 'https://gpu.example', RENDER_SERVICE_TOKEN: 'srv-token' },
+    fetchImpl,
+    geocode: async () => ({ name: 'Yas Mall', lat: 24.4886, lng: 54.6085, source: 'known-place-table' }),
+  });
+  const r1 = fakeRes();
+  await h(req('POST', '/render', { prompt: 'car crash outside yas mall', duration_s: 4 }, { authorization: 'Bearer browser-supplied' }), r1, () => {});
+  assert.equal(r1.statusCode, 202);
+  const r2 = fakeRes();
+  await h(req('GET', '/render/abcdef123456/status', undefined, { authorization: 'Bearer browser-supplied' }), r2, () => {});
+  assert.equal(r2.statusCode, 200);
+  const upstream = calls.filter((c) => !c.url.endsWith('/health'));
+  assert.ok(upstream.length >= 2);
+  for (const c of upstream) assert.equal(c.auth, 'Bearer srv-token');
+  assert.ok(!calls.some((c) => c.auth === 'Bearer browser-supplied'));
+});
