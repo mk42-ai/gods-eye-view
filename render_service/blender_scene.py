@@ -13,7 +13,13 @@ W = int(argv[5]) if len(argv) > 5 else 1280
 H = int(argv[6]) if len(argv) > 6 else 720
 S = json.load(open(scene_json))
 T0 = time.time()
-rnd = random.Random(7)
+SEED = int(S.get("seed") or S.get("spec", {}).get("seed") or 7)
+rnd = random.Random(SEED)  # prompt-hash seed -> unique, reproducible staging per prompt
+
+_vis = os.environ.get("CUDA_VISIBLE_DEVICES", "")
+if os.environ.get("CUDA_DEVICE_ORDER") != "PCI_BUS_ID" or _vis not in ("2", "6"):
+    print(f"GPU_POLICY_VIOLATION cuda_visible={_vis!r} order={os.environ.get('CUDA_DEVICE_ORDER')!r}; only GPUs 2,6 allowed", flush=True)
+    sys.exit(3)
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 sc = bpy.context.scene
@@ -200,14 +206,15 @@ co = bpy.data.objects.new("Cam", cam); sc.collection.objects.link(co); sc.camera
 tgt = bpy.data.objects.new("Target", None); sc.collection.objects.link(tgt); tgt.location = (0, 0, 8)
 tc = co.constraints.new("TRACK_TO"); tc.target = tgt; tc.track_axis = "TRACK_NEGATIVE_Z"; tc.up_axis = "UP_Y"
 R0, R1, Z0, Z1 = 260.0, 170.0, 150.0, 95.0
+A0 = -120 + (SEED % 360)  # orbit start angle derived from the prompt seed
 for f in range(f0, f1 + 1):
     u = f / max(1, total - 1)
-    a = math.radians(-120 + 150 * u); r = R0 + (R1 - R0) * u; z = Z0 + (Z1 - Z0) * u
+    a = math.radians(A0 + 150 * u); r = R0 + (R1 - R0) * u; z = Z0 + (Z1 - Z0) * u
     co.location = (r * math.cos(a), r * math.sin(a), z); co.keyframe_insert("location", frame=f)
 
 sc.render.filepath = os.path.join(out_dir, "f_")
 setup_s = round(time.time() - T0, 2)
-print(f"SCENE_READY devices={used} buildings={bcount} instances={inst_count} assets={len(cache)} setup_s={setup_s} frames={f0}-{f1}", flush=True)
+print(f"SCENE_READY seed={SEED} cuda_visible={os.environ.get('CUDA_VISIBLE_DEVICES')} order={os.environ.get('CUDA_DEVICE_ORDER')} devices={used} buildings={bcount} instances={inst_count} assets={len(cache)} setup_s={setup_s} frames={f0}-{f1}", flush=True)
 t = time.time()
 bpy.ops.render.render(animation=True)
 print(f"SHARD_DONE frames={f1 - f0 + 1} render_s={round(time.time() - t, 2)} setup_s={setup_s}", flush=True)

@@ -17,12 +17,42 @@
  */
 
 export const KNOWN_PLACES = Object.freeze([
-  { name: 'Yas Mall', lat: 24.4886, lng: 54.6085, aliases: ['yas mall', 'yasmall'] },
-  { name: 'Etihad Arena', lat: 24.46036, lng: 54.60422, aliases: ['etihad arena'] },
-  { name: 'Emirates Palace', lat: 24.4617, lng: 54.3173, aliases: ['emirates palace'] },
-  { name: 'Dubai Marina', lat: 25.0805, lng: 55.1403, aliases: ['dubai marina', 'marina dubai'] },
-  { name: 'Burj Khalifa', lat: 25.1972, lng: 55.2744, aliases: ['burj khalifa', 'burjkhalifa'] },
-  { name: 'Umm Suqeim', lat: 25.1556, lng: 55.2122, aliases: ['umm suqeim', 'um suqeim'] },
+  {
+    name: 'Yas Mall',
+    lat: 24.4886,
+    lng: 54.6085,
+    aliases: ['yas mall', 'yasmall'],
+  },
+  {
+    name: 'Etihad Arena',
+    lat: 24.46036,
+    lng: 54.60422,
+    aliases: ['etihad arena'],
+  },
+  {
+    name: 'Emirates Palace',
+    lat: 24.4617,
+    lng: 54.3173,
+    aliases: ['emirates palace'],
+  },
+  {
+    name: 'Dubai Marina',
+    lat: 25.0805,
+    lng: 55.1403,
+    aliases: ['dubai marina', 'marina dubai'],
+  },
+  {
+    name: 'Burj Khalifa',
+    lat: 25.1972,
+    lng: 55.2744,
+    aliases: ['burj khalifa', 'burjkhalifa'],
+  },
+  {
+    name: 'Umm Suqeim',
+    lat: 25.1556,
+    lng: 55.2122,
+    aliases: ['umm suqeim', 'um suqeim'],
+  },
 ]);
 
 const CITIES = Object.freeze([
@@ -51,7 +81,11 @@ export function queryLadder(query, maxQueries = 6) {
   const words = query.split(' ').filter(Boolean);
   const out = [];
   for (let len = words.length; len >= 1 && out.length < maxQueries; len -= 1) {
-    for (let i = 0; i + len <= words.length && out.length < maxQueries; i += 1) {
+    for (
+      let i = 0;
+      i + len <= words.length && out.length < maxQueries;
+      i += 1
+    ) {
       const q = words.slice(i, i + len).join(' ');
       if (q.length >= 3 && !out.includes(q)) out.push(q);
     }
@@ -66,17 +100,28 @@ export async function resolvePromptLocation(
   const p = String(prompt || '').toLowerCase();
   for (const kp of KNOWN_PLACES) {
     if (kp.aliases.some((a) => p.includes(a)))
-      return { name: kp.name, lat: kp.lat, lng: kp.lng, source: 'known-place-table', approximate: true, query: null };
+      return {
+        name: kp.name,
+        lat: kp.lat,
+        lng: kp.lng,
+        source: 'known-place-table',
+        approximate: true,
+        query: null,
+      };
   }
   const ladder = queryLadder(cleanPlaceQuery(prompt), 4);
   for (const q of ladder) {
-    if (CITIES.some((c) => c.re.test(q) && q.replace(c.re, '').trim() === '')) continue; // city-only: handled below
+    if (CITIES.some((c) => c.re.test(q) && q.replace(c.re, '').trim() === ''))
+      continue; // city-only: handled below
     try {
       const url =
         'https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=ae&q=' +
         encodeURIComponent(q);
       const r = await fetchImpl(url, {
-        headers: { 'user-agent': 'gods-eye-view-render-proxy/1.0 (scene builder)', accept: 'application/json' },
+        headers: {
+          'user-agent': 'gods-eye-view-render-proxy/1.0 (scene builder)',
+          accept: 'application/json',
+        },
         signal: AbortSignal.timeout(timeoutMs),
       });
       if (!r.ok) {
@@ -89,7 +134,10 @@ export async function resolvePromptLocation(
         const lng = Number(rows[0].lon);
         if (Number.isFinite(lat) && Number.isFinite(lng))
           return {
-            name: String(rows[0].name || rows[0].display_name || q).slice(0, 80),
+            name: String(rows[0].name || rows[0].display_name || q).slice(
+              0,
+              80,
+            ),
             lat,
             lng,
             source: 'nominatim',
@@ -98,13 +146,23 @@ export async function resolvePromptLocation(
           };
       }
     } catch (error) {
-      log('nominatim_error', { q, error: String(error?.message || error).slice(0, 120) });
+      log('nominatim_error', {
+        q,
+        error: String(error?.message || error).slice(0, 120),
+      });
       break; // network trouble: do not burn the budget on more lookups
     }
   }
   const city = CITIES.find((c) => c.re.test(p));
   if (city)
-    return { name: city.name, lat: city.lat, lng: city.lng, source: 'city-fallback', approximate: true, query: null };
+    return {
+      name: city.name,
+      lat: city.lat,
+      lng: city.lng,
+      source: 'city-fallback',
+      approximate: true,
+      query: null,
+    };
   return {
     name: DEFAULT_CITY.name,
     lat: DEFAULT_CITY.lat,

@@ -26,7 +26,13 @@ ROOT = os.environ.get("GEV_ROOT", "/localstorage/mk.thomas/gev")
 JOBS_DIR = os.path.join(ROOT, "jobs"); os.makedirs(JOBS_DIR, exist_ok=True)
 BLENDER = os.path.join(ROOT, "blender-4.2.3-linux-x64", "blender")
 TOKEN = os.environ.get("RENDER_SERVICE_TOKEN", "")
-GPUS = [g for g in os.environ.get("RENDER_GPUS", "2,6").split(",") if g.strip()]
+# GPU policy: Blender may ONLY use GPUs 2 and 6 (PCI bus order). GPUs 0,3,4,5 belong to the
+# Kubernetes DeepSeek pods and GPU 1 to the Gemma server -- never schedule work there, whatever
+# RENDER_GPUS says. Indices are PCI_BUS_ID order so they match nvidia-smi.
+ALLOWED_GPUS = ("2", "6")
+_REQ_GPUS = [g.strip() for g in os.environ.get("RENDER_GPUS", "2,6").split(",") if g.strip()]
+GPUS = [g for g in _REQ_GPUS if g in ALLOWED_GPUS] or list(ALLOWED_GPUS)
+REJECTED_GPUS = [g for g in _REQ_GPUS if g not in ALLOWED_GPUS]
 FPS = int(os.environ.get("RENDER_FPS", "24"))
 SAMPLES = int(os.environ.get("RENDER_SAMPLES", "24"))
 RES_W, RES_H = [int(v) for v in os.environ.get("RENDER_RES", "1280x720").split("x")]
@@ -50,6 +56,7 @@ class RenderBody(BaseModel):
     lng: Optional[float] = Field(default=None, ge=-180, le=180)
     time_of_day: Optional[str] = Field(default=None, pattern="^(dusk|night|midday|auto)$")
     duration_s: int = Field(default=60, ge=2, le=120)
+    seed: Optional[int] = Field(default=None, ge=0, le=2**31 - 1)
     samples: Optional[int] = Field(default=None, ge=4, le=256)
 
 def job_urls(jid):
@@ -95,10 +102,15 @@ def run_job(jid):
         j["land_patch"] = {"source": "Esri World Imagery tiles + OSM buildings/roads via Overpass (no Google Maps key on host)", "half_extent_m": half,
                            "buildings": len(osm["buildings"]), "roads": len(osm["highways"]), "overpass": osm["status"], "tiles_ok": img["tiles_ok"]}
         j["stage"] = "scene_spec"
+        seed = P.prompt_seed(j["request"]["prompt"])
+        if j["request"].get("seed") is not None and j["request"]["seed"] != seed:
+            L("seed", {"warning": "client seed differs from prompt hash; using prompt hash", "client": j["request"]["seed"]})
+        j["seed"] = seed; j["prompt_hash"] = P.prompt_hash(j["request"]["prompt"])
         spec, model = P.ondemand_spec(j["request"]["prompt"], focal["name"], L)
+        spec["seed"] = seed; spec["prompt_hash"] = j["prompt_hash"]
         j["spec"] = spec; j["model"] = model
         j["stage"] = "placement"
-        inst, shapes, roads = P.place(spec, focal, osm, half, seed=jid, log=L)
+        inst, shapes, roads = P.place(spec, focal, osm, half, seed=seed, log=L)
         scene = P.build_scene_json(jid, focal, spec, model, osm, img, inst, shapes, roads, tod, j["request"]["duration_s"], FPS, GPUS)
         scene_path = os.path.join(d, "scene.json"); json.dump(scene, open(scene_path, "w"))
         j["placement"] = {"instances": len(inst), "by_asset": {k: sum(1 for i in inst if i["asset"] == k) for k in sorted({i["asset"] for i in inst})}}
@@ -126,7 +138,8 @@ def run_job(jid):
         threading.Thread(target=sampler, daemon=True).start()
         t_render = time.time()
         def launch(rng, gpu):
-            env = dict(os.environ, CUDA_VISIBLE_DEVICES=str(gpu))
+            if str(gpu) not in ALLOWED_GPUS: raise RuntimeError(f"GPU policy: refusing to launch Blender on GPU {gpu}")
+            env = dict(os.environ, CUDA_DEVICE_ORDER="PCI_BUS_ID", CUDA_VISIBLE_DEVICES=str(gpu))
             lf = open(os.path.join(d, f"blender_{rng[0]}_{rng[1]}.log"), "w")
             p = subprocess.Popen([BLENDER, "-b", "--factory-startup", "-noaudio", "-P", os.path.join(os.path.dirname(__file__), "blender_scene.py"), "--",
                                   scene_path, frames_dir, str(rng[0]), str(rng[1]), str(samples), str(RES_W), str(RES_H)], env=env, stdout=lf, stderr=subprocess.STDOUT)
@@ -169,15 +182,10 @@ def run_job(jid):
         j["stage"] = "encode"
         mp4 = os.path.join(d, "video.mp4"); t_enc = time.time()
         enc = ["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", os.path.join(frames_dir, "f_%04d.png"),
-               "-c:v", "h264_nvenc", "-preset", "p4", "-b:v", "8M", "-pix_fmt", "yuv420p", mp4]
-        r = subprocess.run(enc, capture_output=True, text=True, env=dict(os.environ, CUDA_VISIBLE_DEVICES=str(GPUS[0])))
-        if r.returncode != 0:
-            L("encode", {"nvenc_error": r.stderr[-300:], "fallback": "libx264"})
-            enc[enc.index("h264_nvenc")] = "libx264"; enc.remove("-preset"); enc.remove("p4")
-            r = subprocess.run(enc, capture_output=True, text=True)
-            j["encoder"] = "libx264 (NVENC failed)"
-        else:
-            j["encoder"] = "h264_nvenc p4 8 Mbps"
+               "-c:v", "libx264", "-b:v", "8M", "-pix_fmt", "yuv420p", mp4]
+        # CPU encode only: NVENC is unsupported on this host and a CUDA context must never open outside GPUs 2/6.
+        r = subprocess.run(enc, capture_output=True, text=True, env=dict(os.environ, CUDA_VISIBLE_DEVICES=""))
+        j["encoder"] = "libx264 (CPU)"
         j["encode_s"] = round(time.time() - t_enc, 2)
         j["mp4_bytes"] = os.path.getsize(mp4) if os.path.exists(mp4) else 0
         j["stage"] = "complete" if j["mp4_bytes"] and len(done) >= total else "partial"
@@ -190,7 +198,9 @@ def run_job(jid):
 
 @app.get("/health")
 def health():
-    return {"ok": True, "service": "gods-eye-view-render", "utc": P.utc(), "gpus": GPUS, "fps": FPS, "resolution": [RES_W, RES_H], "samples": SAMPLES,
+    return {"ok": True, "service": "gods-eye-view-render", "utc": P.utc(), "gpus": GPUS,
+            "gpu_policy": {"allowed": list(ALLOWED_GPUS), "rejected_from_env": REJECTED_GPUS, "device_order": "PCI_BUS_ID", "backend": "OPTIX", "mode": "blender -b"},
+            "seeding": "sha256(prompt)", "fps": FPS, "resolution": [RES_W, RES_H], "samples": SAMPLES,
             "blender": os.path.exists(BLENDER), "assets": len(P.ASSET_KEYS), "ondemand_configured": bool(os.environ.get("ONDEMAND_API_KEY")),
             "nvidia": nvidia_sample(), "jobs": len(JOBS), "illustrative": True, "label": LABEL}
 

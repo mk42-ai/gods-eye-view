@@ -25,6 +25,12 @@
  */
 import { readJsonBody, sendJson, rejectCrossOrigin } from '../ondemand/http.js';
 import { resolvePromptLocation } from './geocode.js';
+import {
+  promptSeed,
+  promptHash,
+  gpuPolicyViolations,
+  ALLOWED_RENDER_GPUS,
+} from './promptSeed.js';
 
 export const RENDER_LABEL = 'Illustrative render · not evidence';
 const JOB_RE = /^[a-f0-9]{6,32}$/;
@@ -97,6 +103,29 @@ export function createSceneRenderRoutes({
   const cfg = renderServiceConfig(env);
   const headers = () =>
     cfg.token ? { authorization: `Bearer ${cfg.token}` } : {};
+  // GPU policy guard: the render host must advertise only GPUs 2 and 6. If its
+  // /health lists any other GPU (e.g. Gemma's GPU 1), refuse to start jobs so
+  // the proxy never schedules Blender onto a GPU it must not touch.
+  let policyCache = { at: 0, violations: null, gpus: null };
+  async function checkGpuPolicy() {
+    if (Date.now() - policyCache.at < 30000 && policyCache.violations)
+      return policyCache;
+    try {
+      const r = await fetchImpl(`${cfg.url}/health`, {
+        headers: headers(),
+        signal: AbortSignal.timeout(8000),
+      });
+      const body = await r.json().catch(() => ({}));
+      policyCache = {
+        at: Date.now(),
+        violations: gpuPolicyViolations(body),
+        gpus: body?.gpus || null,
+      };
+    } catch {
+      policyCache = { at: 0, violations: null, gpus: null };
+    }
+    return policyCache;
+  }
   const notConfigured = (res) =>
     sendJson(res, 503, {
       error: 'not_configured',
@@ -158,9 +187,15 @@ export function createSceneRenderRoutes({
           signal: AbortSignal.timeout(8000),
         });
         const body = await r.json().catch(() => ({}));
+        const violations = gpuPolicyViolations(body);
         return sendJson(res, 200, {
           ...body,
-          ok: r.ok && body?.ok !== false,
+          gpu_policy: {
+            ...(body?.gpu_policy || {}),
+            allowed: ALLOWED_RENDER_GPUS,
+            violations,
+          },
+          ok: r.ok && body?.ok !== false && violations.length === 0,
           configured: true,
           illustrative: true,
           label: RENDER_LABEL,
@@ -188,6 +223,17 @@ export function createSceneRenderRoutes({
       }
       const v = validateRenderRequest(body);
       if (v.error) return sendJson(res, 400, { error: v.error });
+      v.value.seed = promptSeed(v.value.prompt);
+      const promptSha = promptHash(v.value.prompt);
+      const policy = await checkGpuPolicy();
+      if (policy.violations && policy.violations.length)
+        return sendJson(res, 409, {
+          error: 'gpu_policy_violation',
+          message: `Render host advertises GPU(s) ${policy.violations.join(', ')}; Blender may only use GPUs ${ALLOWED_RENDER_GPUS.join(', ')}. Redeploy render_service with RENDER_GPUS=2,6.`,
+          advertised_gpus: policy.gpus,
+          seed: v.value.seed,
+          prompt_hash: promptSha,
+        });
       // Never let a geocoder miss kill the Blender job: resolve coordinates
       // here (known place -> Nominatim ladder -> city -> prompt-only) and hand
       // them to the service, which then skips its own failing geocode step.
@@ -198,7 +244,11 @@ export function createSceneRenderRoutes({
         } catch {
           location = null;
         }
-        if (location && Number.isFinite(location.lat) && Number.isFinite(location.lng)) {
+        if (
+          location &&
+          Number.isFinite(location.lat) &&
+          Number.isFinite(location.lng)
+        ) {
           v.value.lat = location.lat;
           v.value.lng = location.lng;
         }
@@ -217,7 +267,12 @@ export function createSceneRenderRoutes({
             status: r.status,
             detail: data?.detail || null,
           });
-        return sendJson(res, 202, { ...rewriteJobUrls(data, data.job_id), location });
+        return sendJson(res, 202, {
+          ...rewriteJobUrls(data, data.job_id),
+          location,
+          seed: v.value.seed,
+          prompt_hash: promptSha,
+        });
       } catch (error) {
         return sendJson(res, 502, {
           error: 'render_service_unreachable',

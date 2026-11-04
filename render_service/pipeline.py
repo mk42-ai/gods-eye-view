@@ -191,6 +191,18 @@ def osm_features(lat, lon, half_m, log=None):
     log("overpass", {"status": "unavailable", "error": last})
     return {"buildings": [], "highways": [], "water": [], "endpoint": None, "status": "unavailable", "error": last}
 
+# ---------------------------------------------------------------- prompt-derived seed
+def _norm_prompt(prompt):
+    return re.sub(r"\s+", " ", str(prompt or "").strip().lower())
+
+def prompt_hash(prompt):
+    """sha256 hex of the whitespace/case-normalised prompt (same as server/scene-render/promptSeed.js)."""
+    return hashlib.sha256(_norm_prompt(prompt).encode("utf-8")).hexdigest()
+
+def prompt_seed(prompt):
+    """31-bit deterministic seed: first 8 hex chars of prompt_hash, masked to 0x7fffffff."""
+    return int(prompt_hash(prompt)[:8], 16) & 0x7FFFFFFF
+
 # ---------------------------------------------------------------- scene spec via OnDemand
 def ondemand_spec(prompt, focal, log=None):
     """Returns (spec, model_record). Falls back along kimi-k3-fast -> cerebras qwen -> template."""
@@ -349,7 +361,7 @@ def build_scene_json(job, focal, spec, model_rec, osm, img, inst, shapes, roads,
     rd = [{"pts": [[round(x, 1), round(y, 1)] for x, y in ln.coords], "kind": k} for ln, k, _ in roads]
     w, s, e, n = img["bounds_wsen"]
     x0, y0 = L(s, w); x1, y1 = L(n, e)
-    return {"job_id": job, "illustrative": True, "label": "Illustrative render · not evidence", "created_utc": utc(), "focal": focal, "spec": spec, "model": model_rec,
+    return {"job_id": job, "seed": spec.get("seed"), "prompt_hash": spec.get("prompt_hash"), "illustrative": True, "label": "Illustrative render · not evidence", "created_utc": utc(), "focal": focal, "spec": spec, "model": model_rec,
             "time_of_day": time_of_day, "duration_s": duration_s, "fps": fps, "gpus": gpus, "imagery": {"png": img["png"], "local_bounds": [x0, y0, x1, y1], "attribution": img["attribution"]},
             "buildings": bl, "roads": rd, "instances": inst, "shapes": shapes, "assets_root": os.path.join(ROOT, "assets"),
             "hdri": {"dusk": "kiara_9_dusk_2k.hdr", "night": "dikhololo_night_2k.hdr", "midday": "clarens_midday_2k.hdr"}.get(time_of_day, "clarens_midday_2k.hdr")}

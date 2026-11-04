@@ -7,6 +7,7 @@ import {
   renderServiceConfig,
   RENDER_LABEL,
 } from './routes.js';
+import { promptSeed, promptHash, gpuPolicyViolations } from './promptSeed.js';
 
 function fakeRes() {
   const res = { statusCode: 200, headers: {}, body: '', ended: false, listeners: {} };
@@ -78,8 +79,10 @@ test('configured service: POST /render forwards the bearer token server-side and
   assert.equal(body.job_id, 'deadbeef1234');
   assert.equal(body.stream_url, '/api/scenes/render/deadbeef1234/stream');
   assert.equal(body.label, RENDER_LABEL);
-  assert.equal(calls[0].url, 'https://gpu.example/render');
-  assert.equal(calls[0].init.headers.authorization, 'Bearer secret-token');
+  const renderCall = calls.find((c) => c.url === 'https://gpu.example/render');
+  assert.ok(renderCall);
+  assert.equal(renderCall.init.headers.authorization, 'Bearer secret-token');
+  assert.equal(JSON.parse(renderCall.init.body).seed, promptSeed('dubai marina raid'));
   assert.ok(!res.body.includes('secret-token'), 'token never reaches the client');
   res = fakeRes();
   await h(req('GET', '/render/deadbeef1234/status'), res, () => assert.fail('next'));
@@ -105,6 +108,7 @@ test('cross-origin POST /render is rejected and unknown sub-paths fall through t
 test('POST /render resolves coordinates server-side so a geocoder miss never blocks the Blender job', async () => {
   const sent = [];
   const fetchImpl = async (url, init = {}) => {
+    if (url.endsWith('/health')) return { ok: true, status: 200, json: async () => ({ ok: true, gpus: ['2', '6'] }) };
     sent.push({ url, body: init.body ? JSON.parse(init.body) : null });
     return { ok: true, status: 200, json: async () => ({ job_id: 'abc123def456' }) };
   };
@@ -117,4 +121,38 @@ test('POST /render resolves coordinates server-side so a geocoder miss never blo
   assert.equal(sent[0].body.lat, 24.4539);
   assert.equal(sent[0].body.lng, 54.3773);
   assert.equal(JSON.parse(res.body).location.source, 'prompt-only-fallback');
+});
+
+test('promptSeed is a deterministic 31-bit sha256 seed, unique per prompt and case/space-insensitive', () => {
+  const prompts = ['car crash outside yas mall', 'police at emirates palace', 'kanes boxing gym abu dhabi', 'concert crowd at etihad arena'];
+  const seeds = prompts.map(promptSeed);
+  assert.equal(new Set(seeds).size, 4);
+  for (const s of seeds) assert.ok(Number.isInteger(s) && s >= 0 && s <= 0x7fffffff);
+  assert.equal(promptSeed('  Car  Crash outside YAS mall '), seeds[0]);
+  // cross-language parity with render_service/pipeline.py prompt_seed (python3 hashlib.sha256)
+  assert.equal(promptHash('car crash outside yas mall'), '924f6a2af17654f91e077e2a32422a8223328413dff8305a411c74ebfff80b13');
+  assert.equal(seeds[0], 307194410);
+});
+
+test('GPU policy: health listing GPU 1 is flagged and POST /render refuses with 409 without starting a job', async () => {
+  assert.deepEqual(gpuPolicyViolations({ gpus: ['2', '6'] }), []);
+  assert.deepEqual(gpuPolicyViolations({ gpus: ['2', '6', '1'] }), ['1']);
+  const calls = [];
+  const fetchImpl = async (url) => {
+    calls.push(url);
+    if (url.endsWith('/health')) return { ok: true, status: 200, json: async () => ({ ok: true, gpus: ['2', '6', '1'] }) };
+    return { ok: true, status: 200, json: async () => ({ job_id: 'abc123def456' }) };
+  };
+  const geocode = async () => null;
+  const h = createSceneRenderRoutes({ env: { RENDER_SERVICE_URL: 'https://gpu.example' }, fetchImpl, geocode });
+  let res = fakeRes();
+  await h(req('POST', '/render', { prompt: 'police at emirates palace' }), res, () => assert.fail('next'));
+  assert.equal(res.statusCode, 409);
+  assert.equal(JSON.parse(res.body).error, 'gpu_policy_violation');
+  assert.ok(!calls.some((u) => u.endsWith('/render')), 'no job started on a policy-violating host');
+  res = fakeRes();
+  await h(req('GET', '/render/health'), res, () => assert.fail('next'));
+  const hb = JSON.parse(res.body);
+  assert.equal(hb.ok, false);
+  assert.deepEqual(hb.gpu_policy.violations, ['1']);
 });

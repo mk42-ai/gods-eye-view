@@ -65,17 +65,27 @@ function renderOutliner(job) {
   const by = job?.placement?.by_asset || {};
   const rows = [];
   rows.push('<li class="ws-group">Environment</li>');
-  rows.push(`<li data-object="land_patch"><span>Ground · satellite patch</span><span class="ws-count">1</span></li>`);
+  rows.push(
+    `<li data-object="land_patch"><span>Ground · satellite patch</span><span class="ws-count">1</span></li>`,
+  );
   if (job?.land_patch?.buildings)
-    rows.push(`<li data-object="buildings"><span>OSM buildings (extruded)</span><span class="ws-count">${job.land_patch.buildings}</span></li>`);
-  rows.push(`<li data-object="sun_sky"><span>Sun + sky (${job?.time_of_day || 'auto'})</span><span class="ws-count">1</span></li>`);
-  rows.push(`<li data-object="camera"><span>Camera</span><span class="ws-count">1</span></li>`);
+    rows.push(
+      `<li data-object="buildings"><span>OSM buildings (extruded)</span><span class="ws-count">${job.land_patch.buildings}</span></li>`,
+    );
+  rows.push(
+    `<li data-object="sun_sky"><span>Sun + sky (${job?.time_of_day || 'auto'})</span><span class="ws-count">1</span></li>`,
+  );
+  rows.push(
+    `<li data-object="camera"><span>Camera</span><span class="ws-count">1</span></li>`,
+  );
   const keys = Object.keys(by);
   if (keys.length) {
     rows.push('<li class="ws-group">Placed assets</li>');
     for (const k of keys.sort()) {
       const label = ASSET_LABELS[k] || k.replace(/_/g, ' ');
-      rows.push(`<li data-object="${k}" class="ws-asset"><span>${label}</span><span class="ws-count">${by[k]}</span></li>`);
+      rows.push(
+        `<li data-object="${k}" class="ws-asset"><span>${label}</span><span class="ws-count">${by[k]}</span></li>`,
+      );
     }
   }
   outliner.innerHTML = rows.join('');
@@ -89,20 +99,43 @@ function renderProps(job, extra = {}) {
   const entries = [
     ['Renderer', 'Blender Cycles · OptiX'],
     ['Device', dev ? dev.replace(/'/g, '') : 'GPU (OptiX)'],
-    ['GPUs', (job?.shards || []).map((s) => s.gpu).filter((v, i, a) => a.indexOf(v) === i).join(', ') || '—'],
-    ['Place', job?.focal ? `${job.focal.name} (${job.focal.lat.toFixed(4)}, ${job.focal.lon.toFixed(4)})` : extra.place || '—'],
+    [
+      'GPUs',
+      (job?.shards || [])
+        .map((s) => s.gpu)
+        .filter((v, i, a) => a.indexOf(v) === i)
+        .join(', ') || '—',
+    ],
+    [
+      'Place',
+      job?.focal
+        ? `${job.focal.name} (${job.focal.lat.toFixed(4)}, ${job.focal.lon.toFixed(4)})`
+        : extra.place || '—',
+    ],
     ['Located by', extra.locationSource || job?.focal?.source || '—'],
-    ['Scene spec', job?.model?.attempts?.[0]?.endpointId || job?.model?.endpointId || '—'],
+    [
+      'Scene spec',
+      job?.model?.attempts?.[0]?.endpointId || job?.model?.endpointId || '—',
+    ],
     ['Scenario', job?.spec?.scenarioType || '—'],
+    ['Prompt seed', job?.seed ?? extra.seed ?? '—'],
     ['Objects', job?.placement?.instances ?? '—'],
     ['Stage', job?.stage || '—'],
-    ['Frames', job?.total_frames ? `${job.frames_done || 0} / ${job.total_frames}` : '—'],
+    [
+      'Frames',
+      job?.total_frames ? `${job.frames_done || 0} / ${job.total_frames}` : '—',
+    ],
     ['First frame', job?.ttff_s ? `${job.ttff_s} s (service)` : '—'],
-    ['Client first frame', ws.result?.clientTtffS ? `${ws.result.clientTtffS} s` : '—'],
+    [
+      'Client first frame',
+      ws.result?.clientTtffS ? `${ws.result.clientTtffS} s` : '—',
+    ],
     ['Sustained fps', job?.fps_sustained ?? '—'],
     ['Job', job?.job_id || '—'],
   ];
-  props.innerHTML = entries.map(([k, v]) => `<dt>${k}</dt><dd>${String(v)}</dd>`).join('');
+  props.innerHTML = entries
+    .map(([k, v]) => `<dt>${k}</dt><dd>${String(v)}</dd>`)
+    .join('');
 }
 
 /** Average-hash (8x8) + luminance stddev of the frame currently shown. */
@@ -117,16 +150,26 @@ function analyseFrame() {
     ctx.drawImage(img, 0, 0, 64, 36);
     const data = ctx.getImageData(0, 0, 64, 36).data;
     const lum = [];
-    for (let i = 0; i < data.length; i += 4) lum.push(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
+    for (let i = 0; i < data.length; i += 4)
+      lum.push(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
     const mean = lum.reduce((a, b) => a + b, 0) / lum.length;
-    const std = Math.sqrt(lum.reduce((a, b) => a + (b - mean) ** 2, 0) / lum.length);
+    const std = Math.sqrt(
+      lum.reduce((a, b) => a + (b - mean) ** 2, 0) / lum.length,
+    );
     ctx.drawImage(img, 0, 0, 8, 8);
     const small = ctx.getImageData(0, 0, 8, 8).data;
     const g = [];
-    for (let i = 0; i < small.length; i += 4) g.push(0.299 * small[i] + 0.587 * small[i + 1] + 0.114 * small[i + 2]);
+    for (let i = 0; i < small.length; i += 4)
+      g.push(0.299 * small[i] + 0.587 * small[i + 1] + 0.114 * small[i + 2]);
     const gm = g.reduce((a, b) => a + b, 0) / g.length;
     const hash = g.map((v) => (v > gm ? '1' : '0')).join('');
-    return { width: w, height: h, lumMean: Math.round(mean * 10) / 10, lumStd: Math.round(std * 10) / 10, ahash: hash };
+    return {
+      width: w,
+      height: h,
+      lumMean: Math.round(mean * 10) / 10,
+      lumStd: Math.round(std * 10) / 10,
+      ahash: hash,
+    };
   } catch {
     return null;
   }
@@ -170,7 +213,10 @@ async function build(prompt) {
   buildBtn.disabled = true;
   renderOutliner(null);
   renderProps(null);
-  setStatus(`Building “${prompt}” — locating, planning scene, starting Blender…`, 'building');
+  setStatus(
+    `Building “${prompt}” — locating, planning scene, starting Blender…`,
+    'building',
+  );
   const t0 = performance.now();
   let start;
   try {
@@ -178,10 +224,16 @@ async function build(prompt) {
     const r = await fetch('/api/scenes/render', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ prompt, duration_s: DURATION_S, samples: SAMPLES }),
+      body: JSON.stringify({
+        prompt,
+        duration_s: DURATION_S,
+        samples: SAMPLES,
+      }),
     });
     start = await r.json().catch(() => ({}));
-    if (!r.ok || !start.job_id) throw new Error(start.message || start.error || `HTTP ${r.status}`);
+    if (!r.ok || !start.job_id)
+      throw new Error(start.message || start.error || `HTTP ${r.status}`);
+    app.dataset.seed = String(start.seed ?? '');
   } catch (error) {
     if (mine !== run) return;
     buildBtn.disabled = false;
@@ -189,8 +241,17 @@ async function build(prompt) {
     return;
   }
   if (mine !== run) return;
-  ws.history.push({ prompt, jobId: start.job_id, at: new Date().toISOString() });
-  const extra = { place: start.location?.name, locationSource: start.location?.source };
+  ws.history.push({
+    prompt,
+    jobId: start.job_id,
+    at: new Date().toISOString(),
+  });
+  const extra = {
+    place: start.location?.name,
+    locationSource: start.location?.source,
+    seed: start.seed,
+    promptHash: start.prompt_hash,
+  };
   let firstFrame = false;
   let lastFrames = -1;
   for (;;) {
@@ -199,7 +260,9 @@ async function build(prompt) {
     let job;
     try {
       ws.statusPolls += 1;
-      const r = await fetch(`/api/scenes/render/${start.job_id}/status`, { cache: 'no-store' });
+      const r = await fetch(`/api/scenes/render/${start.job_id}/status`, {
+        cache: 'no-store',
+      });
       job = await r.json();
     } catch {
       continue;
@@ -210,7 +273,9 @@ async function build(prompt) {
     setFrameTimeline(job);
     if ((job.frames_done || 0) > 0 && job.frames_done !== lastFrames) {
       lastFrames = job.frames_done;
-      const ok = await showFrame(`/api/scenes/render/${start.job_id}/latest.jpg?n=${job.frames_done}`);
+      const ok = await showFrame(
+        `/api/scenes/render/${start.job_id}/latest.jpg?n=${job.frames_done}`,
+      );
       if (mine !== run) return;
       if (ok) {
         frames.current = job.frames_done;
@@ -251,11 +316,26 @@ async function build(prompt) {
         ws.result.gpus = (job.shards || []).map((s) => s.gpu);
         ws.result.complete = true;
       }
-      setStatus(`Scene ready · ${job.placement?.instances ?? 0} objects · ${job.frames_done} Cycles frames · ${job.wall_clock_total_s ?? '?'} s`, 'ready');
+      setStatus(
+        `Scene ready · ${job.placement?.instances ?? 0} objects · ${job.frames_done} Cycles frames · ${job.wall_clock_total_s ?? '?'} s`,
+        'ready',
+      );
       return;
     }
-    const label = { queued: 'Queued', geocode: 'Locating', land_patch: 'Fetching land patch', scene_spec: 'Planning scene (Kimi K3 Fast)', placement: 'Placing assets', render: 'Rendering (Cycles · OptiX)', encode: 'Encoding' }[stage] || stage;
-    setStatus(`${label}… ${job.frames_done ? `${job.frames_done}/${job.total_frames} frames` : ''}`, 'building');
+    const label =
+      {
+        queued: 'Queued',
+        geocode: 'Locating',
+        land_patch: 'Fetching land patch',
+        scene_spec: 'Planning scene (Kimi K3 Fast)',
+        placement: 'Placing assets',
+        render: 'Rendering (Cycles · OptiX)',
+        encode: 'Encoding',
+      }[stage] || stage;
+    setStatus(
+      `${label}… ${job.frames_done ? `${job.frames_done}/${job.total_frames} frames` : ''}`,
+      'building',
+    );
   }
 }
 
@@ -289,13 +369,15 @@ form.addEventListener('submit', (event) => {
 for (const btn of document.querySelectorAll('.ws-mode')) {
   btn.addEventListener('click', () => {
     app.dataset.mode = btn.dataset.mode;
-    for (const b of document.querySelectorAll('.ws-mode')) b.setAttribute('aria-checked', String(b === btn));
+    for (const b of document.querySelectorAll('.ws-mode'))
+      b.setAttribute('aria-checked', String(b === btn));
   });
 }
 
 for (const btn of document.querySelectorAll('[data-drawer]')) {
   btn.addEventListener('click', () => {
-    app.dataset.drawer = app.dataset.drawer === btn.dataset.drawer ? '' : btn.dataset.drawer;
+    app.dataset.drawer =
+      app.dataset.drawer === btn.dataset.drawer ? '' : btn.dataset.drawer;
   });
 }
 
@@ -311,7 +393,10 @@ document.querySelector('.ws-transport').addEventListener('click', (event) => {
     if (playTimer) return stopPlayback();
     if (frames.done < 2) return;
     event.target.textContent = 'Pause';
-    playTimer = setInterval(() => seek(frames.current >= frames.done ? 1 : frames.current + 1), 1000 / 12);
+    playTimer = setInterval(
+      () => seek(frames.current >= frames.done ? 1 : frames.current + 1),
+      1000 / 12,
+    );
     return;
   }
   stopPlayback();
@@ -324,4 +409,5 @@ document.querySelector('.ws-transport').addEventListener('click', (event) => {
 // Deep link: ?prompt=... pre-fills; &build=1 presses the real Build button once.
 const params = new URLSearchParams(location.search);
 if (params.get('prompt')) input.value = params.get('prompt').slice(0, 600);
-if (params.get('build') === '1' && input.value.trim().length >= 3) buildBtn.click();
+if (params.get('build') === '1' && input.value.trim().length >= 3)
+  buildBtn.click();
