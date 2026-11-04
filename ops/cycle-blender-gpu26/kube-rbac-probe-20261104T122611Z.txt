@@ -1,0 +1,13 @@
+# kube RBAC probe 2026-11-04T12:26:16Z
+ATTRIBUTE   VALUE
+Username    system:node:school-hack-h100-100
+Groups      [system:nodes system:authenticated]
+can-i list deployments.apps -n byom: no
+can-i list deployments.apps -n default: no
+can-i list replicasets.apps -n byom: no
+can-i patch deployments.apps -n byom: no
+can-i update deployments.apps/scale -n byom: no
+can-i update deployments.apps/scale -n default: no
+can-i delete pods -n byom: yes
+--- get deploy -n byom:
+Error from server (Forbidden): deployments.apps is forbidden: User "system:node:school-hack-h100-100" cannot list resource "deployments" in API group "apps" in the namespace "byom"

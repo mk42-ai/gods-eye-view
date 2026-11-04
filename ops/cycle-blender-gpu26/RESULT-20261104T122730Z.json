@@ -1,0 +1,299 @@
+{
+ "generated_utc": "2026-11-04T12:27:30Z",
+ "preview_url": "https://ondemand-agent-od4dxd8pa-schoolhack-web-team.vercel.app",
+ "deployment_id": "dpl_58gizpmnWc9oVC6MeJGfmxoV99Yu",
+ "pr_url": "https://github.com/mk42-ai/gods-eye-view/pull/4",
+ "branch": "feat/scene-video-evidence",
+ "new_commits": [
+  "4ba6a0d",
+  "ddcdfa7"
+ ],
+ "render_host": {
+  "health_gpus": [
+   "2",
+   "6"
+  ],
+  "gpu_policy": "PCI_BUS_ID, per-shard CUDA_VISIBLE_DEVICES=2|6, blender -b Cycles OptiX, libx264 CPU encode",
+  "gemma_gpu1": "untouched"
+ },
+ "runs": [
+  {
+   "run": "yas-1440x900",
+   "prompt": "car crash outside Yas Mall",
+   "job_id": "ec31df4b7f83",
+   "created_utc": "2026-11-04T12:17:24Z",
+   "finished_utc": "2026-11-04T12:19:06Z",
+   "place": "Yas Mall",
+   "seed": 307194410,
+   "objects": 83,
+   "gpus": [
+    "2",
+    "6"
+   ],
+   "build_requests": 1,
+   "client_ttff_s": 34.0,
+   "service_ttff_s": 31.11,
+   "fps_sustained_incl_setup": 1.089,
+   "fps_after_first_frame": 1.399,
+   "frames": 96,
+   "total_s": 100.22,
+   "encoder": "libx264 (CPU)",
+   "screenshot": ".ui-proof/after-yas-1440x900.png",
+   "ui_validator": "pass"
+  },
+  {
+   "run": "palace-1440x900",
+   "prompt": "police at Emirates Palace",
+   "job_id": "e7ceb1b2cca1",
+   "created_utc": "2026-11-04T12:17:29Z",
+   "finished_utc": "2026-11-04T12:19:14Z",
+   "place": "Emirates Palace",
+   "seed": 2086886635,
+   "objects": 101,
+   "gpus": [
+    "2",
+    "6"
+   ],
+   "build_requests": 1,
+   "client_ttff_s": 36.4,
+   "service_ttff_s": 34.43,
+   "fps_sustained_incl_setup": 1.031,
+   "fps_after_first_frame": 1.385,
+   "frames": 96,
+   "total_s": 103.54,
+   "encoder": "libx264 (CPU)",
+   "screenshot": ".ui-proof/after-palace-1440x900.png",
+   "ui_validator": "pass"
+  },
+  {
+   "run": "kanes-1440x900",
+   "prompt": "Kane's Boxing Gym Abu Dhabi",
+   "job_id": "c05e87f05d2b",
+   "created_utc": "2026-11-04T12:19:18Z",
+   "finished_utc": "2026-11-04T12:20:06Z",
+   "place": "Kane's Boxing Gym Abu Dhabi (city-level)",
+   "seed": 932872024,
+   "objects": 100,
+   "gpus": [
+    "2",
+    "6"
+   ],
+   "build_requests": 1,
+   "client_ttff_s": 21.4,
+   "service_ttff_s": 19.91,
+   "fps_sustained_incl_setup": 2.659,
+   "fps_after_first_frame": 3.65,
+   "frames": 96,
+   "total_s": 46.96,
+   "encoder": "libx264 (CPU)",
+   "screenshot": ".ui-proof/after-kanes-1440x900.png",
+   "ui_validator": "pass"
+  },
+  {
+   "run": "etihad-1440x900",
+   "prompt": "concert crowd at Etihad Arena",
+   "job_id": "bb22bb57f783",
+   "created_utc": "2026-11-04T12:19:22Z",
+   "finished_utc": "2026-11-04T12:20:39Z",
+   "place": "Etihad Arena",
+   "seed": 1094358417,
+   "objects": 267,
+   "gpus": [
+    "2",
+    "6"
+   ],
+   "build_requests": 1,
+   "client_ttff_s": 36.1,
+   "service_ttff_s": 34.8,
+   "fps_sustained_incl_setup": 1.497,
+   "fps_after_first_frame": 2.407,
+   "frames": 96,
+   "total_s": 74.86,
+   "encoder": "libx264 (CPU)",
+   "screenshot": ".ui-proof/after-etihad-1440x900.png",
+   "ui_validator": "pass"
+  },
+  {
+   "run": "yas-390x844",
+   "prompt": "car crash outside Yas Mall",
+   "job_id": "9760ade90289",
+   "created_utc": "2026-11-04T12:20:43Z",
+   "finished_utc": "2026-11-04T12:22:28Z",
+   "place": "Yas Mall",
+   "seed": 307194410,
+   "objects": 141,
+   "gpus": [
+    "2",
+    "6"
+   ],
+   "build_requests": 1,
+   "client_ttff_s": 35.0,
+   "service_ttff_s": 32.68,
+   "fps_sustained_incl_setup": 1.077,
+   "fps_after_first_frame": 1.359,
+   "frames": 96,
+   "total_s": 102.79,
+   "encoder": "libx264 (CPU)",
+   "screenshot": ".ui-proof/after-yas-390x844.png",
+   "ui_validator": "pass"
+  },
+  {
+   "run": "palace-390x844",
+   "prompt": "police at Emirates Palace",
+   "job_id": "ffded11eae2b",
+   "created_utc": "2026-11-04T12:20:48Z",
+   "finished_utc": "2026-11-04T12:22:35Z",
+   "place": "Emirates Palace",
+   "seed": 2086886635,
+   "objects": 93,
+   "gpus": [
+    "2",
+    "6"
+   ],
+   "build_requests": 1,
+   "client_ttff_s": 37.8,
+   "service_ttff_s": 36.0,
+   "fps_sustained_incl_setup": 1.031,
+   "fps_after_first_frame": 1.369,
+   "frames": 96,
+   "total_s": 105.11,
+   "encoder": "libx264 (CPU)",
+   "screenshot": ".ui-proof/after-palace-390x844.png",
+   "ui_validator": "pass"
+  },
+  {
+   "run": "kanes-390x844",
+   "prompt": "Kane's Boxing Gym Abu Dhabi",
+   "job_id": "7d7d7f8e850d",
+   "created_utc": "2026-11-04T12:22:39Z",
+   "finished_utc": "2026-11-04T12:23:29Z",
+   "place": "Kane's Boxing Gym Abu Dhabi (city-level)",
+   "seed": 932872024,
+   "objects": 100,
+   "gpus": [
+    "2",
+    "6"
+   ],
+   "build_requests": 1,
+   "client_ttff_s": 21.4,
+   "service_ttff_s": 19.31,
+   "fps_sustained_incl_setup": 2.522,
+   "fps_after_first_frame": 3.25,
+   "frames": 96,
+   "total_s": 48.36,
+   "encoder": "libx264 (CPU)",
+   "screenshot": ".ui-proof/after-kanes-390x844.png",
+   "ui_validator": "pass"
+  },
+  {
+   "run": "etihad-390x844",
+   "prompt": "concert crowd at Etihad Arena",
+   "job_id": "b0f2086eccd1",
+   "created_utc": "2026-11-04T12:22:44Z",
+   "finished_utc": "2026-11-04T12:23:57Z",
+   "place": "Etihad Arena",
+   "seed": 1094358417,
+   "objects": 118,
+   "gpus": [
+    "2",
+    "6"
+   ],
+   "build_requests": 1,
+   "client_ttff_s": 33.3,
+   "service_ttff_s": 32.35,
+   "fps_sustained_incl_setup": 1.546,
+   "fps_after_first_frame": 2.482,
+   "frames": 96,
+   "total_s": 71.41,
+   "encoder": "libx264 (CPU)",
+   "screenshot": ".ui-proof/after-etihad-390x844.png",
+   "ui_validator": "pass"
+  }
+ ],
+ "uniqueness": [
+  {
+   "a": "yas",
+   "b": "palace",
+   "ssim_8x8_block": 0.2814,
+   "mean_abs_pixel_diff": 0.1687
+  },
+  {
+   "a": "yas",
+   "b": "kanes",
+   "ssim_8x8_block": 0.1737,
+   "mean_abs_pixel_diff": 0.2467
+  },
+  {
+   "a": "yas",
+   "b": "etihad",
+   "ssim_8x8_block": 0.4023,
+   "mean_abs_pixel_diff": 0.1749
+  },
+  {
+   "a": "palace",
+   "b": "kanes",
+   "ssim_8x8_block": 0.1129,
+   "mean_abs_pixel_diff": 0.2196
+  },
+  {
+   "a": "palace",
+   "b": "etihad",
+   "ssim_8x8_block": 0.2149,
+   "mean_abs_pixel_diff": 0.1851
+  },
+  {
+   "a": "kanes",
+   "b": "etihad",
+   "ssim_8x8_block": 0.1381,
+   "mean_abs_pixel_diff": 0.2625
+  }
+ ],
+ "uniqueness_note": "frame 48 of each 1440x900 job; max SSIM 0.40 (yas vs etihad), all pairs far below 0.9",
+ "gpu_during": {
+  "samples_per_gpu": 229,
+  "max_util_pct": {
+   "0": 0,
+   "1": 0,
+   "2": 100,
+   "3": 0,
+   "4": 0,
+   "5": 0,
+   "6": 100
+  }
+ },
+ "tests": {
+  "frontend_unit": {
+   "pass": 4942,
+   "fail": 0,
+   "skipped_node24_microbench": 2
+  },
+  "backend": {
+   "pass": 839,
+   "fail": 0
+  },
+  "format_check": "pass",
+  "build": "pass",
+  "secret_scan": "pass",
+  "run_utc": "2026-11-04T04:52:37Z"
+ },
+ "blocked": [
+  {
+   "item": "Scale DeepSeek Deployments to 0 / back up Deployment+ReplicaSet YAML",
+   "error": "Error from server (Forbidden): deployments.apps is forbidden: User \"system:node:school-hack-h100-100\" cannot list resource \"deployments\" in API group \"apps\" in the namespace \"byom\"",
+   "need": "cluster-admin or namespace-admin kubeconfig for byom+default: API server URL, cluster CA, token or client cert+key"
+  },
+  {
+   "item": "Blender MCP tool server empty response",
+   "error": "no MCP server process on the host; 127.0.0.1:9879 answers '404 page not found' (not Blender MCP). The render path does not use MCP: Build -> /api/scenes/render proxy -> render service -> blender -b"
+  },
+  {
+   "item": "Hyper3D/Hunyuan3D/Sketchfab model generation",
+   "error": "no credentials/endpoints available; scenes use CC0 Kenney/OGA glTF assets (21 keys incl. new civilian sedan/SUV/taxi + 4 debris props) and Poly Haven HDRIs"
+  },
+  {
+   "item": "Real-time 24 fps",
+   "error": "measured 1.0-3.7 fps steady on 2 GPUs at 1280x720/24 spp"
+  }
+ ],
+ "restore_command": "none needed: nothing was scaled (DeepSeek untouched). Render-host rollback: cp /localstorage/mk.thomas/gev/backup-20261104/{*.py,render_service.env} back and bash restart.sh"
+}

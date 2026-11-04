@@ -1,0 +1,94 @@
+{
+  "url": "https://ondemand-agent-od4dxd8pa-schoolhack-web-team.vercel.app/?prompt=car%20crash%20outside%20Yas%20Mall&build=1",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-yas-1440x900.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-od4dxd8pa-schoolhack-web-team.vercel.app/?prompt=car%20crash%20outside%20Yas%20Mall&build=1",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#ws-app[data-state=\"ready\"]",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "gpu_policy_violation",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "geocoder candidate is required",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__ws.buildRequests===1",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelector(\"#ws-frame\").dataset.loaded===\"1\" && document.querySelector(\"#ws-frame\").naturalWidth===1280",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "!!(window.__ws.result && window.__ws.result.lumStd>5 && window.__ws.result.complete)",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "(window.__ws.result.gpus||[]).every(g=>[\"2\",\"6\"].includes(String(g)))",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "!document.querySelector(\".cesium-viewer,.cesium-widget,[class*=legend],[class*=sprite]\")",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "![...document.querySelectorAll(\"*\")].some(e=>{const c=getComputedStyle(e);return [c.color,c.backgroundColor,c.borderTopColor].some(v=>{const m=v.match(/\\d+/g);if(!m)return false;const[r,g,b]=m.map(Num",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "(window.__ws.errors||[]).length===0",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "JSON.stringify(window.__ws.result)",
+      "ok": true,
+      "detail": "\"{\\\"prompt\\\":\\\"car crash outside Yas Mall\\\",\\\"jobId\\\":\\\"ec31df4b7f83\\\",\\\"clientTtffS\\\":34,\\\"frameSource\\\":\\\"/api/scenes/render/ec31df4b7f83/latest.jpg\\\",\\\"renderer\\\":\\\"cycles-optix\\\",\\\"width\\\":1280,\\\"height\\\":720,\\\"lumMean\\\":153.7,\\\"lumStd\\\":13.8,\\\"ahash\\\":\\\"0000111000011110001111100011111000100110011111100111111000101110\\\",\\\"objects\\\":83,\\\"byAsset\\\":{\\\"ambulance_medical_point\\\":2,\\\"cctv_camera\\\":2,\\\"city_bus\\\":1,\\\"civilian_suv\\\":1,\\\"civilian_taxi\\\":1,\\\"crowd_control_barrier\\\":12,\\\"debris_bumper\\\":2,\\\"debris_door\\\":2,\\\"debris_plate\\\":2,\\\"debris_tire\\\":2,\\\"foot_patrol_officer\\\":4,\\\"police_patrol_car\\\":7,\\\"road_closed_barricade\\\":2,\\\"traffic_cone_cluster\\\":43},\\\"fpsSustained\\\":1.089,\\\"fpsAfterFirstFrame\\\":1.399,\\\"serviceTtffS\\\":31.11,\\\"totalS\\\":100.22,\\\"gpus\\\":[\\\"6\\\",\\\"2\\\"],\\\"complete\\\":true}\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=870 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation \u00b7 Scene Workstation",
+  "textLength": 870
+}
