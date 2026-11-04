@@ -1,0 +1,104 @@
+{
+ "generated_utc": "2026-11-04T03:45Z",
+ "commit_base": "e389965",
+ "preview": "https://ondemand-agent-r21abo6ax-schoolhack-web-team.vercel.app",
+ "note": "No SSH connection attached to this request: render host not redeployed, nvidia-smi not captured. Live host /health still advertises gpus [2,6,1].",
+ "checks": [
+  {
+   "viewport": "1440x900",
+   "check": "one_request_per_build",
+   "status": "pass",
+   "evidence": "window.__ws.buildRequests===1 for all 4 prompts"
+  },
+  {
+   "viewport": "1440x900",
+   "check": "non_blank_blender_frame",
+   "status": "blocked",
+   "evidence": "proxy 409 gpu_policy_violation: live host advertises GPU 1"
+  },
+  {
+   "viewport": "1440x900",
+   "check": "ttff_recorded",
+   "status": "blocked",
+   "evidence": "no frame rendered"
+  },
+  {
+   "viewport": "1440x900",
+   "check": "phash_differs_between_prompts",
+   "status": "blocked",
+   "evidence": "no frames; prompt seeds differ (unit test: 4 distinct sha256 seeds)"
+  },
+  {
+   "viewport": "1440x900",
+   "check": "outliner_lists_scene_objects",
+   "status": "partial",
+   "evidence": "environment rows only (ground, sun/sky, camera); placed assets need a completed job"
+  },
+  {
+   "viewport": "1440x900",
+   "check": "no_teal_mint",
+   "status": "pass",
+   "evidence": "computed-style scan, 0 elements"
+  },
+  {
+   "viewport": "1440x900",
+   "check": "no_legend_sprite_cesium",
+   "status": "pass",
+   "evidence": "no legend/sprite/.cesium-viewer nodes"
+  },
+  {
+   "viewport": "1440x900",
+   "check": "gpu_isolation_nvidia_smi",
+   "status": "blocked",
+   "evidence": "no SSH connection attached"
+  },
+  {
+   "viewport": "390x844",
+   "check": "one_request_per_build",
+   "status": "pass",
+   "evidence": "window.__ws.buildRequests===1 for all 4 prompts"
+  },
+  {
+   "viewport": "390x844",
+   "check": "non_blank_blender_frame",
+   "status": "blocked",
+   "evidence": "proxy 409 gpu_policy_violation: live host advertises GPU 1"
+  },
+  {
+   "viewport": "390x844",
+   "check": "ttff_recorded",
+   "status": "blocked",
+   "evidence": "no frame rendered"
+  },
+  {
+   "viewport": "390x844",
+   "check": "phash_differs_between_prompts",
+   "status": "blocked",
+   "evidence": "no frames; prompt seeds differ (unit test: 4 distinct sha256 seeds)"
+  },
+  {
+   "viewport": "390x844",
+   "check": "outliner_lists_scene_objects",
+   "status": "partial",
+   "evidence": "environment rows only (ground, sun/sky, camera); placed assets need a completed job"
+  },
+  {
+   "viewport": "390x844",
+   "check": "no_teal_mint",
+   "status": "pass",
+   "evidence": "computed-style scan, 0 elements"
+  },
+  {
+   "viewport": "390x844",
+   "check": "no_legend_sprite_cesium",
+   "status": "pass",
+   "evidence": "no legend/sprite/.cesium-viewer nodes"
+  },
+  {
+   "viewport": "390x844",
+   "check": "gpu_isolation_nvidia_smi",
+   "status": "blocked",
+   "evidence": "no SSH connection attached"
+  }
+ ]
+}
