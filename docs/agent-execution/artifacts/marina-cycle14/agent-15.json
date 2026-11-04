@@ -1,0 +1,242 @@
+{
+  "agent": 15,
+  "role": "existing scene-video evidence regression investigation",
+  "root": "/home/appuser/work/6692b763e851d28a036ab30e/6ad9daa8a32a07124b4a9356/gods-eye-view",
+  "inspection_started_utc": "2026-10-24T01:51:48Z",
+  "finished_utc": "2026-10-24T01:54:49.856Z",
+  "application_read_only": true,
+  "browser_used": false,
+  "direct_provider_calls": 0,
+  "same_origin_api_calls": 1,
+  "artifacts": [
+    "/tmp/gev-agent-15.json",
+    "/tmp/gev-agent-15-video.json"
+  ],
+  "inspected_files": [
+    "server/scene-videos/routes.js",
+    "server/scene-videos/orchestrator.js",
+    "config/scene-videos/incident-hints.json",
+    "src/sceneVideos/evidence.js",
+    "src/sceneVideos/labels.js",
+    "src/sceneVideos/rail.js",
+    "src/sceneVideos/index.js",
+    "src/sceneVideos/evidence.test.mjs",
+    "src/sceneVideos/rail.test.mjs",
+    "server/scene-videos/scene-videos.test.mjs",
+    "scripts/qa-scene-videos.mjs"
+  ],
+  "tests": {
+    "command": "node --test src/sceneVideos/evidence.test.mjs src/sceneVideos/rail.test.mjs server/scene-videos/scene-videos.test.mjs",
+    "started_utc": "2026-10-24T01:54:49.493Z",
+    "finished_utc": "2026-10-24T01:54:49.856Z",
+    "duration_seconds": 0.363,
+    "exit_code": 0,
+    "statistics": {
+      "tests": 47,
+      "suites": 10,
+      "pass": 47,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "failure_lines": [],
+    "mode": "Existing deterministic tests and fake DOM/provider fixtures; not real-browser playback"
+  },
+  "commands": [
+    {
+      "command": "date -u; wc/find/sed/grep/cat/node package.json inspection",
+      "exit_code": 2,
+      "note": "Initial root-level qa-scene-videos.mjs lookup absent; located existing file at scripts/qa-scene-videos.mjs. Read-only."
+    },
+    {
+      "command": "find/sed/grep/cat read-only source inspection",
+      "exit_code": 0
+    },
+    {
+      "command": "python - <<PY (inline single-request collector)",
+      "exit_code": 127,
+      "note": "python executable missing; process did not start, no HTTP call made"
+    },
+    {
+      "command": "python3 - <<PY (urllib POST SSE collector; no redirects/retry; SIGALRM 180s)",
+      "exit_code": 0,
+      "http_status": 200,
+      "started_utc": "2026-10-24T01:52:21.074Z",
+      "finished_utc": "2026-10-24T01:54:37.301Z",
+      "actual_duration_seconds": 136.227
+    },
+    {
+      "command": "node --test src/sceneVideos/evidence.test.mjs src/sceneVideos/rail.test.mjs server/scene-videos/scene-videos.test.mjs",
+      "exit_code": 0
+    }
+  ],
+  "live_summary": {
+    "http_status": 200,
+    "content_type": "text/event-stream; charset=utf-8",
+    "done_received": true,
+    "stream_completed": true,
+    "observed_unique_total": 10,
+    "observed_platform_counts": {
+      "instagram": 2,
+      "tiktok": 3,
+      "youtube": 5
+    },
+    "observed_tier_counts": {
+      "ARCHIVAL": 10
+    },
+    "observed_playable_kind_counts": {
+      "mp4": 2,
+      "iframe": 8
+    },
+    "latest_sources": {
+      "tiktok": {
+        "state": "done",
+        "clips": 3,
+        "relevant": 3,
+        "verified": 3,
+        "at": "2026-10-24T01:52:52.000Z",
+        "primary": "skipped (circuit open: monthly quota exhausted (RapidAPI tiktok-scraper7 BASIC))",
+        "fallback": "search (11)",
+        "errors": []
+      },
+      "instagram": {
+        "state": "done",
+        "clips": 2,
+        "candidates": 6,
+        "videos": 2,
+        "imagesSkipped": 4,
+        "at": "2026-10-24T01:52:53.483Z",
+        "errors": []
+      },
+      "youtube": {
+        "state": "done",
+        "clips": 5,
+        "searched": 20,
+        "relevant": 5,
+        "verified": 5,
+        "at": "2026-10-24T01:52:59.073Z",
+        "captions": "skipped (circuit open: field key is missing in agent plugin config)",
+        "errors": []
+      }
+    },
+    "event_counts": {
+      "plan": 1,
+      "incident": 1,
+      "source": 6,
+      "clip": 10,
+      "ranked": 3,
+      "verification": 1,
+      "done": 1
+    },
+    "server_done": {
+      "total": 10,
+      "counts": {
+        "youtube": 5,
+        "tiktok": 3,
+        "instagram": 2
+      },
+      "tiers": {
+        "LIVE": 0,
+        "RECENT": 0,
+        "ARCHIVAL": 10
+      },
+      "durationMs": 136102
+    },
+    "candidate_media_proxy_path": "/api/ondemand/v2/scene/media?u=https%3A%2F%2Fis.gd%2Fsh2RJj",
+    "playback_verified": false,
+    "plugin_call_counts": {
+      "plugin-1716164040": {
+        "total": 3,
+        "ok": 3,
+        "failed": 0,
+        "errors": []
+      },
+      "plugin-1762980461": {
+        "total": 6,
+        "ok": 6,
+        "failed": 0,
+        "errors": []
+      },
+      "plugin-1740745780": {
+        "total": 5,
+        "ok": 5,
+        "failed": 0,
+        "errors": []
+      },
+      "plugin-1792727179": {
+        "total": 1,
+        "ok": 1,
+        "failed": 0,
+        "errors": []
+      },
+      "plugin-1792727178": {
+        "total": 1,
+        "ok": 1,
+        "failed": 0,
+        "errors": []
+      },
+      "plugin-1722260873": {
+        "total": 3,
+        "ok": 1,
+        "failed": 2,
+        "errors": [
+          "ondemand_http_409"
+        ]
+      }
+    }
+  },
+  "findings": [
+    {
+      "type": "verified_api_result",
+      "detail": "Current old-preview request completed HTTP 200 and SSE done: 10 unique clips, YouTube 5, TikTok 3, Instagram 2. All 10 ARCHIVAL. Exact incident id and date match 26 Sep 2026; no fixed 13-14 count assumed."
+    },
+    {
+      "type": "verified_degraded_dependencies",
+      "detail": "TikTok primary skipped with circuit open for monthly quota exhaustion; fallback search returned 11 hits. YouTube caption plugin skipped with circuit open for missing plugin configuration. Perplexity call log: three calls, two ondemand_http_409 failures and one success; verification event itself has no errors."
+    },
+    {
+      "type": "verified_model_only_not_playback",
+      "detail": "Two returned Instagram entries have mp4 targets expressed through short-link proxy paths; eight are platform iframe targets. No proxy/media request made, so playableKind does not demonstrate network availability or decoding."
+    },
+    {
+      "type": "static_behavior",
+      "locations": [
+        "src/sceneVideos/evidence.js:113",
+        "src/sceneVideos/labels.js:56",
+        "src/sceneVideos/labels.js:87"
+      ],
+      "detail": "Final LIVE/RECENT eligibility requires freshness AND a dated outlet match; older/undated/unmatched clips remain ARCHIVAL. Archival banner uses incident date. Current API observation aligns with this rule."
+    },
+    {
+      "type": "static_diagnostic_gap",
+      "locations": [
+        "src/sceneVideos/rail.js:404",
+        "src/sceneVideos/rail.js:413",
+        "src/sceneVideos/rail.js:422"
+      ],
+      "detail": "Rail consumes basic source/clip/done status but ignores verification and ranked events and does not surface done.pluginCalls or source.errors/captions/primary. A done chip with nonzero clips therefore hides upstream degraded dependencies."
+    },
+    {
+      "type": "static_stream_completion_gap",
+      "locations": [
+        "src/sceneVideos/rail.js:506"
+      ],
+      "detail": "EOF without explicit done synthesizes done with counts {}, so a prematurely ended SSE can appear completed with zero per-platform counts although clips arrived. This was NOT reproduced in the live call (real done received)."
+    },
+    {
+      "type": "qa_scope_limit",
+      "locations": [
+        "scripts/qa-scene-videos.mjs:270",
+        "scripts/qa-scene-videos.mjs:296"
+      ],
+      "detail": "Existing QA requires >=2 platforms plus real advancing muted video and correct badges, not a fixed total. It was inspected only, not executed, because browser use is prohibited."
+    }
+  ],
+  "limitations": [
+    "No browser or media GET/HEAD: UI rendering, audio/video decoding, proxy status and playback unverified.",
+    "No earlier comparable API capture supplied: current 10 does not prove a reduction/regression from a historical 13-14.",
+    "Application source and runtime files were not changed. No external provider called directly.",
+    "Only sanitized summaries retained; full API response, signed CDN URL, auth/cookie/session fields not stored."
+  ]
+}

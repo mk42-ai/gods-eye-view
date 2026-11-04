@@ -1,0 +1,166 @@
+[
+  {
+    "check": "failure",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 2937,
+    "run_at_iso8601": "2026-10-21T09:52:05.550Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent3/check-failure-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "intercepted": 1,
+      "status": "TURN FAILED",
+      "emptyState": {
+        "kind": "source-unavailable",
+        "text": "upstream_error · Synthetic 502 (HTTP 502)"
+      },
+      "errorMsgs": 1,
+      "transcript": [
+        {
+          "role": "user",
+          "history": null,
+          "len": 15,
+          "text": "Trigger failure"
+        },
+        {
+          "role": "error",
+          "history": null,
+          "len": 41,
+          "text": "upstream_error · Synthetic 502 (HTTP 502)"
+        }
+      ]
+    }
+  },
+  {
+    "check": "retry-recovery",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 6154,
+    "run_at_iso8601": "2026-10-21T09:52:08.491Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent3/check-recovery-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "status": "READY · inferred",
+      "chatResponse": {
+        "status": 200,
+        "keySource": "server",
+        "at": "2026-10-21T09:52:09.093Z"
+      },
+      "assistantLen": 104,
+      "assistantPreview": "Confirmed: This object is a fire labeled “Parity Fire”; its location and other details are not provided.",
+      "retryAffordance": "none (recovery via composer)"
+    }
+  },
+  {
+    "check": "cancel",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 3166,
+    "run_at_iso8601": "2026-10-21T09:52:14.645Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent3/check-cancel-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "status": "CANCELLED",
+      "cancel_latency_ms": 5,
+      "lenAfterCancel": 9,
+      "lenAfter3s": 9
+    }
+  },
+  {
+    "check": "isolation",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 8834,
+    "run_at_iso8601": "2026-10-21T09:52:17.811Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent3/check-isolation-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "alertMsgs": 0,
+      "alertEmptyState": {
+        "kind": "no-sessions",
+        "text": "No prior investigation for this object"
+      },
+      "alertContainsFire": false,
+      "fireMsgsBefore": 6,
+      "fireMsgsReplayed": 2,
+      "fireReplayHistoryAttr": 2,
+      "fireReplayLive": 0,
+      "alertScreenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent3/check-isolation-alert-390x844.png"
+    }
+  },
+  {
+    "check": "reload-persistence",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 10804,
+    "run_at_iso8601": "2026-10-21T09:52:26.645Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent3/check-reload-persist-390x844.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "restoredMsgs": 2,
+      "historyAttr": 2,
+      "messagesResponses": [
+        {
+          "status": 200,
+          "at": "2026-10-21T09:52:34.924Z"
+        }
+      ],
+      "preview": [
+        "Recover: summarize this object in one sentence.",
+        "Confirmed: This object is a fire labeled “Parity Fire”; its "
+      ]
+    }
+  },
+  {
+    "check": "3way-isolation",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 40759,
+    "run_at_iso8601": "2026-10-21T09:52:37.462Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent3/check-3way-isolation-1440x900.png",
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "storageKey": "ondemand.v2.externalUserId.default",
+      "externalUserIds": [
+        "iso-user-1-0917",
+        "iso-user-2-0917",
+        "iso-user-3-0917"
+      ],
+      "perPage": [
+        {
+          "page": 1,
+          "userId": "iso-user-1-0917",
+          "userMsgs": 1,
+          "own": 1,
+          "foreign": 0,
+          "status": "READY · inferred",
+          "assistantLen": 2
+        },
+        {
+          "page": 2,
+          "userId": "iso-user-2-0917",
+          "userMsgs": 1,
+          "own": 1,
+          "foreign": 0,
+          "status": "READY · inferred",
+          "assistantLen": 2
+        },
+        {
+          "page": 3,
+          "userId": "iso-user-3-0917",
+          "userMsgs": 1,
+          "own": 1,
+          "foreign": 0,
+          "status": "READY · inferred",
+          "assistantLen": 2
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,77 @@
+{
+  "agent": 14,
+  "subagent_id": "20261024_15",
+  "task": "incident-search freshness/error-state implementation",
+  "root": "/home/appuser/work/6692b763e851d28a036ab30e/6ad9daa8a32a07124b4a9356/gods-eye-view",
+  "completed_at_utc": "2026-10-24T01:52:11.934048Z",
+  "status": "implemented; all scoped tests passed; broader run has two out-of-scope UI test failures",
+  "owned_files_changed": [
+    "server/incidents/search.js",
+    "server/incidents/search.test.mjs"
+  ],
+  "report_path": "/tmp/gev-agent-14.json",
+  "prior_report": "No /tmp/gev-agent-14.json existed before this task. Existing search.js/search.test.mjs were read before editing; scope and report qualification retained.",
+  "changes": [
+    "Classify OnDemandHttpError (including actual HTTP 409, 499, and 504) as upstream_http with upstreamStatus; never derive upstream origin from an arbitrary status property.",
+    "Classify OnDemandAbortError timeout as local_timeout and aborted as local_cancel/local_cancelled. Preserve TimeoutError caller-signal reasons despite client wrapping as aborted/status499.",
+    "Add source phase (create_session, submit_query, parse_response), capped/redacted/control-character-stripped upstream traceId, and factual unavailability notes. Never expose raw upstream body or URL and never speculate on HTTP409 cause.",
+    "Use one monotonic deadline shared by parallel sources and all phases, default/cap 35000ms; tests/callers may shorten via timeoutMs. Remaining request budgets are capped to 10000ms create and 30000ms query.",
+    "An abort-aware promise boundary settles even a client or body read that ignores AbortSignal; clear local timers/listeners in finally. Pre-aborted signals do no work and late sessions cannot start queries.",
+    "Keep existing response keys and status vocabulary. Additive per-source diagnostics only; source.error remains a string and unavailable message explains known failure categories.",
+    "Keep fresh per-source/per-search principals and sessions, no result replay/cache, no fake successful results, no complete/empty result when providers fail.",
+    "Preserve exact-location/radius/date/source qualification, publication-only timeBasis with null incident_time_utc, date-preserving dedupe, and successful-source reports when another source fails."
+  ],
+  "tests": [
+    {
+      "command": "node --test server/incidents/search.test.mjs (before changes)",
+      "result": "PASS",
+      "tests": 16,
+      "passed": 16,
+      "failed": 0,
+      "duration_ms": 180.621977
+    },
+    {
+      "command": "node --check server/incidents/search.js",
+      "result": "PASS"
+    },
+    {
+      "command": "node --test server/incidents/search.test.mjs src/incidents/*.test.mjs server/ondemand/foundation/foundation.test.mjs",
+      "result": "FAIL outside owned files; all 33 incident-search tests and all 25 foundation tests passed",
+      "tests": 119,
+      "passed": 117,
+      "failed": 2,
+      "duration_ms": 436.207243,
+      "scoped_search_tests": 33,
+      "new_search_tests": 17,
+      "out_of_scope_failures": [
+        {
+          "file": "src/incidents/composer.test.mjs:303",
+          "test": "out-of-AOI: explicit reason shown, Add anyway (override) offered, override ingests with override:true",
+          "error": "AssertionError: override button exists"
+        },
+        {
+          "file": "src/incidents/marinaAccessibility.test.mjs:291",
+          "test": "candidate choices are named native buttons and detached stale choices cannot act",
+          "error": "AssertionError: 0 !== 2"
+        }
+      ]
+    }
+  ],
+  "validation_details": [
+    "Actual upstream 409 is tested at both create_session and submit_query; real upstream499/504 remain upstream while synthetic local statuses do not.",
+    "25ms/15ms test deadlines prove bounded settlement, shared remaining request budgets, abort cleanup and no late query after session timeout.",
+    "Successful source survives another provider timeout with exact coordinates/window, excluded stale/distant rows, known incident date and separate publication date, and unknown incident time preserved as null.",
+    "A formerly successful source cannot leak stale results into a subsequent all-failed search; every call creates a new principal.",
+    "Malformed responses, absent contracts, unavailable providers and missing credentials stay terminal unavailable; clean all-source empty behavior retained."
+  ],
+  "limitations": [
+    "No live external/provider calls were performed; coordinator-supplied live-doc validation was used as instructed.",
+    "No shared routes/client/frontend files were edited, and the two broader UI assertion failures were not changed or attributed to a specific cause.",
+    "No local Prettier executable was available; no dependency installation or external formatter call was made.",
+    "Application-level deadline returns promptly, but an injected/non-cooperative client can only be signalled to abort; the search does not forcibly terminate foreign promises."
+  ],
+  "sha256": {
+    "server/incidents/search.js": "eff85e2013db96cc58c7c52e9c9e05c79f1369945d85c00930b8cf0c107dbeae",
+    "server/incidents/search.test.mjs": "343d969feba7ce00a418dd1a9150f501efee08f77b34e1cac33eef4236eb917d"
+  }
+}

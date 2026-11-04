@@ -70,7 +70,7 @@ test('dev-fresh passes names-only boot provenance before resolving file fallback
   const dotenvResolution = source.indexOf('GOOGLE_MAPS_API_KEY_ENV="${GOOGLE_MAPS_API_KEY:-}"');
   assert.ok(capture >= 0 && capture < dotenvResolution, 'parent-shell provenance must be captured first');
   for (const name of [
-    'GOOGLE_MAPS_API_KEY', 'CESIUM_ION_TOKEN', 'OPENAI_API_KEY', 'AISSTREAM_API_KEY',
+    'GOOGLE_MAPS_API_KEY', 'CESIUM_ION_TOKEN', 'ONDEMAND_API_KEY', 'AISSTREAM_API_KEY',
     'FIRMS_MAP_KEY', 'TOMTOM_API_KEY', 'OPENSKY_CLIENT_ID',
     'OPENSKY_CLIENT_SECRET', 'LL2_API_TOKEN',
   ]) {

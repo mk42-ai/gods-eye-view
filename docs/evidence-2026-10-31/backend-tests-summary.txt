@@ -1,0 +1,390 @@
+# Subtest: seed + screening
+# Subtest: /incidents routes
+# Subtest: plugin-mediated refresh + locate (fake OnDemand client)
+# Subtest: locate geocodes the extracted place, not the natural-language query
+# Subtest: unavailable geocoder is reported as unavailable rather than no places
+# Subtest: scoped search route returns missing-credentials coverage without writing an incident
+# Subtest: cycle 16: Burj Khalifa resolves offline from the verified gazetteer even when the geocoder is down
+# Subtest: cycle 16: trailing noise still reaches the exact Dubai Marina area
+# Subtest: cycle 16: conversational text never calls a provider
+# Subtest: production incident list has no automatic historical fixture seeding
+# Subtest: scope extracts location/intent, five-km radius and real explicit interval
+# Subtest: invalid coordinate cannot be coerced: {"lat":null,"lon":55}
+# Subtest: invalid coordinate cannot be coerced: {"lat":25,"lon":""}
+# Subtest: invalid coordinate cannot be coerced: {"lat":91,"lon":55}
+# Subtest: invalid coordinate cannot be coerced: {"lat":25,"lon":181}
+# Subtest: malformed/provider prose is not an empty success
+# Subtest: publication time and incident time remain distinct
+# Subtest: unknown incident date is retained as unknown, never stamped as now
+# Subtest: reject sources without dates, stale events, city-only locations, distant events and unsafe URLs
+# Subtest: signed source credentials are removed, not returned to the client
+# Subtest: a clean zero-result search from every source is scoped empty, with an absence disclaimer
+# Subtest: one source failure prevents a false empty claim
+# Subtest: all unavailable sources and absent credentials are disclosed
+# Subtest: provider-declared unavailable is not converted to empty
+# Subtest: unverifiable reports keep coverage partial, not empty
+# Subtest: matching reports are deduplicated without changing source dates
+# Subtest: actual upstream HTTP 409 stays upstream, without guessing a cause
+# Subtest: actual upstream HTTP 499 stays upstream, without guessing a cause
+# Subtest: actual upstream HTTP 504 stays upstream, without guessing a cause
+# Subtest: 409 during session creation preserves the actual phase and stops that query
+# Subtest: client synthetic aborted status is local, not upstream HTTP
+# Subtest: client synthetic timeout status is local, not upstream HTTP
+# Subtest: local validation status 400 is not mislabeled as upstream HTTP
+# Subtest: already-AbortError caller signal skips all upstream calls and preserves its origin
+# Subtest: already-TimeoutError caller signal skips all upstream calls and preserves its origin
+# Subtest: caller TimeoutError remains a timeout when the client wraps it as aborted/499
+# Subtest: bounded search deadline returns even if query clients ignore abort signals
+# Subtest: late session completion after deadline cannot start a query
+# Subtest: caller cancellation settles non-cooperative queries without waiting for the deadline
+# Subtest: the 35-second budget cannot be extended by a larger timeout option
+# Subtest: a qualified successful source survives another source deadline, without changing dates or scope
+# Subtest: previous successful reports are never replayed when a fresh search now fails
+# Subtest: all malformed answers and no source contracts are unavailable, never complete or empty
+# Subtest: camera-chat-config — defaults and env overrides (non-secret)
+# Subtest: api/ondemand/chat.js — profile camera
+# Subtest: api/ondemand/sessions.js — cursor-paginated message history
+# Subtest: api/ondemand/media.js — frame upload (multipart raw, §5.2)
+# Subtest: server/ondemand/capability-loop.js — buildCatalogue
+# Subtest: server/ondemand/capability-loop.js — validateDecision (strict)
+# Subtest: server/ondemand/capability-loop.js — runCapabilityLoop
+# Subtest: server/ondemand/config.js
+# Subtest: server/ondemand/config.js — getConfig()
+# Subtest: server/ondemand/config.js — DOCUMENTED_REASONING_MODES / reasoningMode validation
+# Subtest: server/ondemand/config.js — TIER_DEFAULTS / tierDefaults() (benchmark 2026-09-18, docs/audit/endpoint-benchmark.md)
+# Subtest: server/ondemand/config.js — flowVersion (ONDEMAND_SPATIAL_FLOW_VERSION, alias GODS_EYE_FLOW_VERSION checked FIRST)
+# Subtest: server/ondemand/config.js — accepted env-var aliases (docs/ONDEMAND_PROXY_DESIGN.md §5b)
+# Subtest: server/ondemand/config.js — FLOW_DEFAULTS (OnDemand Spatial Advanced Workflow v1, 2026-09-18)
+# Subtest: server/ondemand/config.js — platform-registration ids (2026-09-19: env → registration pack → unset)
+# Subtest: server/ondemand/contract-steps.js
+# Subtest: server/ondemand/deny-list.test.mjs — (a) static source scan
+# Subtest: server/ondemand/deny-list.test.mjs — (b)/(c) runtime enforcement
+# Subtest: server/ondemand/errors.js
+# Subtest: cursor iteration follows the live documented pagination.next field with a hard page cap
+# Subtest: single-message polling GET preserves identifiers and never invokes a query
+# Subtest: types
+# Subtest: client
+# {"at":"2026-10-31T12:41:24.897Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"aircraft:A1","sessionId":"6ad7ddc47bb80aa7c2d9757f","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:24.900Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"aircraft:A1","sessionId":"6ad7ddc47bb80aa7c2d9757f","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:24.903Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"global","sessionId":"6ad7ddc47bb80aa7c2d9757f","responseMode":"stream","pluginIds":"plugin-1713924030","injectionFlags":0}
+# {"at":"2026-10-31T12:41:24.903Z","audit":"ondemand-v2","event":"plugin_state","pluginId":"plugin-1713924030","from":"discovered","to":"invoking"}
+# {"at":"2026-10-31T12:41:24.908Z","audit":"ondemand-v2","event":"plugin_state","pluginId":"plugin-1713924030","from":"invoking","to":"ready"}
+# Subtest: plugin contract
+# Subtest: conversation store
+# Subtest: proxy route (/api/ondemand/v2)
+# Subtest: source-level guards
+# Subtest: intelligence-object
+# Subtest: guards
+# Subtest: orchestrator
+# {"at":"2026-10-31T12:41:25.205Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"global","sessionId":"000000000000000000000001","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:25.206Z","audit":"ondemand-v2","event":"rate_limited","path":"/chat","peer":"10.0.0.1"}
+# {"at":"2026-10-31T12:41:25.207Z","audit":"ondemand-v2","event":"authz_denied","path":"/chat","reason":"user_mismatch","peer":"10.0.0.1"}
+# {"at":"2026-10-31T12:41:25.207Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"global","sessionId":"000000000000000000000001","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:25.208Z","audit":"ondemand-v2","event":"authz_denied","path":"/chat","reason":"user_header_required","peer":"10.0.0.1"}
+# {"at":"2026-10-31T12:41:25.209Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"alert:7","sessionId":"000000000000000000000001","responseMode":"sync","pluginIds":"","injectionFlags":1}
+# {"at":"2026-10-31T12:41:25.210Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"graphEdge:a-b","sessionId":"000000000000000000000001","responseMode":"stream","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:25.211Z","audit":"ondemand-v2","event":"investigate","externalUserId":"u1","objectType":"newsArticle","objectId":"n1"}
+# {"at":"2026-10-31T12:41:25.215Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"organization:acme","sessionId":"000000000000000000000001","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:25.215Z","audit":"ondemand-v2","event":"chat","externalUserId":"u2","objectContextKey":"organization:acme","sessionId":"000000000000000000000002","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:25.215Z","audit":"ondemand-v2","event":"chat","externalUserId":"u3","objectContextKey":"organization:acme","sessionId":"000000000000000000000003","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:25.216Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"tableRow:a","sessionId":"000000000000000000000004","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:25.216Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"tableRow:b","sessionId":"000000000000000000000005","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:25.216Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"tableRow:c","sessionId":"000000000000000000000006","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# {"at":"2026-10-31T12:41:25.217Z","audit":"ondemand-v2","event":"chat","externalUserId":"u1","objectContextKey":"tableRow:a","sessionId":"000000000000000000000004","responseMode":"sync","pluginIds":"","injectionFlags":0}
+# Subtest: proxy-route v2 — Phase C/E/G surfaces
+# Subtest: miniChat (browser) helpers
+# Subtest: plugin-lifecycle
+# Subtest: tool-contracts (registry-derived PluginContracts + in-process invoker)
+# Subtest: voice-route — createVoiceTurnHandler
+# Subtest: api/ondemand/health.js
+# Subtest: api/ondemand/health.js — speech probe (POST text_to_speech §6.2, cached 10 min per warm instance)
+# Subtest: api/ondemand/health.js — ?envNames=1 diagnostic (docs/ONDEMAND_PROXY_DESIGN.md §5b)
+# Subtest: api/ondemand/health.js — platform-registration ids (2026-09-19: config.spatialAgentId / config.spatialToolId, presence + source only)
+# Subtest: api/ondemand/sessions.js
+# Subtest: api/ondemand/chat.js — validation (no network)
+# Subtest: api/ondemand/chat.js — smoke with stubbed fetch
+# Subtest: api/ondemand/chat.js — mode "capability-loop" (server/ondemand/capability-loop.js)
+# Subtest: api/ondemand/media.js — smoke
+# Subtest: api/ondemand/stt.js — smoke
+# Subtest: api/ondemand/tts.js — smoke (json format)
+# Subtest: api/ondemand/workflow.js — smoke
+# Subtest: server/ondemand/http.js
+# Subtest: server/ondemand/client.js — resolveRequestKey / isValidKeyOverride
+# Subtest: api/ondemand/sessions.js — x-ondemand-key
+# Subtest: api/ondemand/chat.js — x-ondemand-key
+# Subtest: health.js / selftest.js ignore x-ondemand-key
+# Subtest: api/ondemand/selftest.js
+# Subtest: server key: canonical env name resolves as env:persistent
+# Subtest: server key: alias used only when canonical is empty
+# Subtest: server key: fails closed on unset, empty, quoted-empty and placeholder values
+# Subtest: server key: status never carries the value
+# Subtest: dotenv loader: parses quotes/comments/export and never overrides a real env value
+# Subtest: no transient key-file loading path remains in server/api runtime code
+# Subtest: local secrets files are git-ignored
+# Subtest: server/ondemand/sessions-store.js
+# Subtest: server/ondemand/sse.js
+# Subtest: wireAbortOnClose
+# Subtest: server/ondemand/workflow-definition.js — OnDemand Spatial Advanced Workflow v1
+# Subtest: TTL ages reports and reads do not extend it; duplicate/conflicting times never append
+# Subtest: 128-fix ring and bounded epoch contexts preserve breaks, never scene heights
+# Subtest: allocated key, metadata and chunk bytes obey feed/process ceilings across stores
+# Subtest: accelerated two-hour ingestion plateaus and expires idle keys
+# Subtest: retention is opt-in and entire decoded identifiers are bounded
+# Subtest: unref sweep is owned and clear closes the cache
+# Subtest: three identical-order 15000-vehicle snapshots retain paths within a bounded ingestion time
+# 15000-vehicle ingestion ms: 192.9/141.0/141.5
+# Subtest: snapshot capacity pressure preserves members not yet visited and discloses recreated history
+# Subtest: prompt platform policy never invokes X or Snapchat providers
+# Subtest: aborted prompt evidence cannot publish a late result
+# Subtest: parallel providers stream qualified items and candidates separately; failures independent
+# Subtest: Build/rebuild never silently returns cached footage as fresh
+# Subtest: abort stops pipeline side effects even if adapter ignores signal
+# Subtest: all production source calls use OnDemand; direct provider fetch is never used
+# Subtest: LLM output cannot manufacture verified metadata or authors
+# Subtest: diagnostics redact exact secrets, bearer values and signed query strings
+# Subtest: documented OnDemand session/query shapes carry abort and sanitized correlation
+# Subtest: HTTP validation rejects partial/invalid coords and invalid windows before a provider call
+# Subtest: SSE includes request identity, exact interval and truthful empty result
+# Subtest: parsePublicationTime: plugin human string → UTC ISO (assumption checked vs Spotlight JSON-LD)
+# Subtest: parseSasExpiry + media allowlist + redaction
+# Subtest: sanitizeCaption strips markup/controls/bidi and bounds length
+# Subtest: extractPluginJson from fenced answer and from bare object; null on garbage
+# Subtest: normalizePluginResponse: honest fields (captureTime null, isLive false, thumbnail/attribution null)
+# Subtest: normalizePluginResponse rejects invalid/expired/foreign/weak items and never fabricates
+# Subtest: JBR weak match: "\#jbrtvusa" is NOT accepted as a JBR location match
+# Subtest: FootageClipSchema refuses isLive without explicit confirmation and unknown keys
+# Subtest: dedupeClips by storyId, sourceUrl, media hash and SAS-independent blob path
+# Subtest: placeForPoint / ladder narrow→wide with configurable cap
+# Subtest: buildQuery carries the instruction VERBATIM, structured context and the exact plugin call
+# Subtest: footageConfig env parsing + clamps
+# Subtest: retrieve: narrow level hit → one plugin call, pluginIds include the Snapchat plugin
+# Subtest: retrieve: empty narrow level → expands once within cap and discloses coverage
+# Subtest: retrieve: cap respected → explicit empty result, never wider than configured
+# Subtest: media verifier: HEAD-verified hash, non-video/403 rejected, aborted signal handled
+# Subtest: cache: TTL and near-expiry SAS eviction
+# Subtest: validateFootageRequest
+# Subtest: route: ok path returns validated clips, trace with plugin id, never the key
+# Subtest: route: credentials required, upstream 429, plugin error, timeout, 405, bad path, cross-origin, rate limit
+# Subtest: route: concurrent identical requests coalesce into one plugin call
+# Subtest: spotlightUrl only for plausible story ids
+# Subtest: withBackoff: exponential delays on 429/409/5xx, honours Retry-After, stops on non-retryable
+# Subtest: retrieve: transient 409 (busy session) retried with a FRESH session, then succeeds
+# Subtest: plugin per-item error ({error, storyId}) is rejected, not fabricated into a clip
+# Subtest: retrieve: every match failed inside the plugin → plugin_error (never "no footage")
+# Subtest: retrieve: every candidate fails media verification → ONE fresh-session retry, then ok (cycle 20)
+# Subtest: retrieve: media retry is bounded to one extra call
+# Subtest: dedupeClips drops near-identical re-uploads (same caption, same 1 s duration bucket) but keeps untitled clips apart
+# Subtest: locationEvidenceFor: untitled clip accepted ONLY as plugin-text-match when the plugin asserted a clip-text-match for a requested name (cycle 20)
+# Subtest: dedup and ranking: drops exact, URL, hash, blob and near-duplicates while ranking by proximity then recency
+# Subtest: UTC / capture-vs-upload: publication time parsed as UTC ISO; capture time strictly null and never substituted
+# Subtest: strict bounds: radius limits and strictBounds prevent silent widening to wider levels
+# Subtest: retrieveSnapchatFootage under strictBounds: returns empty if narrow step has no clips and never widens
+# Subtest: pagination capability unavailable and query accounting are explicitly surfaced
+# Subtest: per-item failures from plugin are recorded in rejected and handled terminally if all fail
+# Subtest: validateFootageRequest accepts radius, strictBounds, timeWindow and preserves validation
+# Subtest: strict recording or geographic boundaries reject unknown source metadata but retain real returned/unique counts
+# Subtest: malformed hard bounds fail closed instead of silently widening
+# Subtest: processing message is polled once by identity without another query submission
+# Subtest: generic model prose is a source error, never empty or successful Snapchat retrieval
+# Subtest: LLM/Perplexity names features; OSM grounds them; road route is snapped; model coordinates ignored
+# Subtest: no route from the router falls back to mapped road geometry or reports unresolved, never invented
+# Subtest: empty research is an explicit empty geometry; identical prompts are cached
+# Subtest: construct returns validated geometry beside the plan and feeds grounded points to the planner
+# Subtest: a failing geometry provider yields an explicit unavailable state, not placeholder geometry
+# Subtest: helpers: decimation keeps endpoints; outer ring closes; offsets are local metres
+# Subtest: validated LLM plan preserves candidate coordinates, revision, actual scene entities
+# Subtest: one corrective retry, no template fallback
+# Subtest: one correction can replace an invalid plan with actual model JSON
+# Subtest: model cannot substitute invented coordinates
+# Subtest: key order does not change semantic validity
+# Subtest: candidate rejects unverified, coerced, unbounded and secret data
+# Subtest: construct rejects client-supplied credentials in body before providers
+# Subtest: documented transport uses pluginIds and server client, never request secrets
+# Subtest: provider errors never echo upstream body or thrown secrets
+# Subtest: missing server key is actionable and does not call network
+# Subtest: strict provider JSON allows only a whole JSON object or whole fenced JSON
+# Subtest: ambiguous named marathon never constructs an invented edition
+# Subtest: named event cannot be mislabeled generic to bypass research
+# Subtest: research deduplicates event lookups within a revision and skips clearly generic staging
+# Subtest: event research needs retrieved citation evidence and matching venue
+# Subtest: citation verification checks real fetched text rather than a model URL
+# Subtest: private IP ranges are forbidden during source downloads
+# Subtest: beat transcript includes scene-specific narration and bounded schedule
+# Subtest: duration is measured from WAV bytes and malformed audio is unknown
+# Subtest: MPEG duration uses complete frame count, not guessed text timing
+# Subtest: voice config exposes George multilingual default and validates settings
+# Subtest: prose-only or old-session audio never becomes narration success
+# Subtest: fresh session-matched bytes succeed and honestly report duration mismatch
+# Subtest: HTML behind an audio URL is rejected
+# Subtest: middleware supports mounted and full paths, errors are structured
+# Subtest: middleware rejects oversized bodies and safely handles unknown failures
+# Subtest: actual provider billing rejection becomes an actionable safe 503
+# Subtest: same-city citation about a different venue does not verify the requested venue
+# Subtest: a model cannot replace the requested marathon with an unrelated Dubai event
+# Subtest: request AbortSignal reaches session and query HTTP requests
+# Subtest: a NOT a real incident disclaimer in an illustrative police scene is not an event claim
+# Subtest: negated-incident disclaimers cannot bypass a named dated marathon verification
+# Subtest: processing polls the documented GET message endpoint, never resubmits the POST
+# Subtest: failed terminal output is never accepted as successful scene content
+# Subtest: status polling has a hard count limit
+# Subtest: a processing reply with no message identity is not blindly retried
+# Subtest: a different message/session cannot satisfy this construction request
+# Subtest: unknown polling status is a failure rather than fabricated completion
+# Subtest: caller cancellation during polling does not start another GET
+# Subtest: expired absolute polling deadline never starts a GET
+# Subtest: query planner
+# Subtest: parsing helpers
+# Subtest: orchestrateSceneVideos
+# Subtest: routes
+# Subtest: serverless /api/ais-live is served by the bounded collector: keyless Galveston scene answers 200 demo replay (degraded), not 501
+# Subtest: serverless /api/ais-live: an inland (Austin) scene is a legitimate empty scene with guidance, not a fault
+# Subtest: serverless /api/ais-live without any scene hint answers idle (never 501); /track sub-path is mounted
+# Subtest: serverless alias: /api/voice/health answers 200 with voice health shape
+# Subtest: liveness alias: GET /api/health answers with the foundation health payload
+# Subtest: key setup is never mounted: /api/setup/status falls through to the not-found layer
+# Subtest: an unknown /api route gets the same 404 JSON as the Vite dev server
+# Subtest: getServerlessApi() memoises: two calls return the same instance
+# Subtest: POST /api/ondemand/workflow/execute maps onto ?action=execute (upstream POST …/workflow/{id}/execute, no body)
+# Subtest: GET /api/ondemand/workflow/status|logs|outputs carry the original query onto the action url
+# Subtest: GET /api/ondemand/workflow/status without executionId is the handler’s own 400 (delegation, not a shadow route)
+# Subtest: an unknown /api/ondemand/workflow sub-path is a 404 listing the supported ones; the bare path falls through
+# Subtest: GET /api/ondemand/workflow/stream re-shapes status/logs polling as SSE: open → status → log → done (+ structuredResponse)
+# Subtest: GET /api/ondemand/workflow/stream requires executionId (400) and only GET (405)
+# Subtest: streamExecution polls with the injected sleep until terminal, dedupes logs and reports its own timeout budget
+# [earthquakes-route] unhandled error: Error: boom
+#     at fetchEarthquakes (file:///home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/gods-eye-view/server/serverless/earthquakes-route.test.mjs:177:13)
+#     at earthquakesHandler (file:///home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/gods-eye-view/server/serverless/earthquakes-route.js:41:28)
+#     at TestContext.<anonymous> (file:///home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/gods-eye-view/server/serverless/earthquakes-route.test.mjs:181:9)
+#     at Test.runInAsyncScope (node:async_hooks:214:14)
+#     at Test.run (node:internal/test_runner/test:1047:25)
+#     at Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+#     at Test.postRun (node:internal/test_runner/test:1173:19)
+#     at Test.run (node:internal/test_runner/test:1101:12)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+# Subtest: GET ?foo=bar: 400 invalid_query listing the unknown param (real default adapter, no network call)
+# Subtest: POST: 405 with an Allow header, using the real default adapter
+# Subtest: DELETE: also 405 (GET/HEAD only)
+# Subtest: GET: 200 body shape with an injected fake adapter
+# Subtest: HEAD: 200 with headers set but an empty body
+# Subtest: adapter error passthrough: a 503 from the adapter is forwarded as-is
+# Subtest: adapter error passthrough: usgs_rejected (400 from USGS itself) keeps its detail, not the invalid_query shape
+# Subtest: never throws out of the handler: an adapter rejection becomes a 502 sources_error
+# Subtest: exact mount: handler sees "/" and originalUrl is preserved
+# Subtest: sub-path: remainder after the mount is passed through
+# Subtest: "." boundary: a mount matches a dotted suffix immediately after it
+# Subtest: non-match: /api/firmsx must NOT match a mount at /api/firms
+# Subtest: query preservation: the query string survives the mount rewrite
+# Subtest: leading-slash normalisation: an empty remainder becomes "/" and a bare query becomes "/?..."
+# Subtest: next() fallthrough: req.url is restored to the original path for the next layer
+# Subtest: error handling: a thrown error yields a 500 with a generic body (no stack leak)
+# Subtest: error handling: an async handler that rejects also yields the 500 proxy_error body
+# Subtest: error handling: next(err) with no error-handling layer left reaches the default 500
+# Subtest: no layer matches and no `done` was supplied: default 404 JSON
+# Subtest: a custom `done` callback overrides the default terminal handler
+# Subtest: use() without a path defaults to root and matches every request
+# [sources-route] unhandled error: Error: boom
+#     at file:///home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/gods-eye-view/server/serverless/sources-route.test.mjs:97:13
+#     at sourceHandler (file:///home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/gods-eye-view/server/serverless/sources-route.js:58:24)
+#     at TestContext.<anonymous> (file:///home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/gods-eye-view/server/serverless/sources-route.test.mjs:100:11)
+#     at Test.runInAsyncScope (node:async_hooks:214:14)
+#     at Test.run (node:internal/test_runner/test:1047:25)
+#     at Suite.processPendingSubtests (node:internal/test_runner/test:744:18)
+#     at Test.postRun (node:internal/test_runner/test:1173:19)
+#     at Test.run (node:internal/test_runner/test:1101:12)
+#     at async Suite.processPendingSubtests (node:internal/test_runner/test:744:7)
+# Subtest: server/serverless/sources-route.js — createSourceHandler
+# Subtest: rehydrateBody is a no-op when req.body is undefined
+# Subtest: rehydrateBody replays a parsed JSON object through the async-iterator style
+# Subtest: rehydrateBody replays a string body through the on("data"/"end") style
+# Subtest: rehydrateBody handles a Buffer body unchanged
+# Subtest: rehydrateBody is idempotent: calling it twice does not double the payload
+# Subtest: resolveRequestUrl prefers req.url when it already looks like an API path
+# Subtest: resolveRequestUrl rebuilds the path from req.query.route (array) when req.url is not an API path
+# Subtest: resolveRequestUrl rebuilds the path from req.query.route (string) and preserves other query params
+# Subtest: resolveRequestUrl falls back to bare /api with no route segments
+# Subtest: resolveRequestUrl strips the query keys Vercel injects via the /api/:path* rewrite and the [...route] match
+# Subtest: stripVercelInjectedQuery leaves the caller's own parameters byte-for-byte and drops the whole query when nothing is left
+# Subtest: resolveRequestUrl (fallback rebuild) ignores the injected keys in req.query too
+# Subtest: rehydrateBody re-encodes a Vercel-pre-parsed form body (application/x-www-form-urlencoded) as the form string, not JSON
+# Subtest: server/sources/_shared.js — validateParams
+# Subtest: server/sources/_shared.js — fetchWithRetry
+# Subtest: server/sources/_shared.js — parseJson / provenance / helpers
+# Subtest: server/sources/nasa-firms.js — fires.search (10 cases)
+# Subtest: server/sources/nasa-firms.js — helpers and parity with src/data/firmsCsv.js (the existing FIRMS parser used by server/providers/firms.js)
+# Subtest: validateQuery: accepts a full valid set (circle form) and forwards it
+# Subtest: validateQuery: rejects unknown params and lists their names
+# Subtest: validateQuery: rejects mixed circle + bbox as mutually exclusive
+# Subtest: validateQuery: rejects an incomplete circle (missing maxradiuskm)
+# Subtest: validateQuery: rejects bbox with min > max
+# Subtest: validateQuery: caps limit to 200 but does not error
+# Subtest: validateQuery: rejects a non-integer / too-low limit
+# Subtest: validateQuery: defaults orderby=time, limit=100 and adds format=geojson exactly once
+# Subtest: validateQuery: rejects an invalid orderby value
+# Subtest: validateQuery: rejects out-of-range magnitude/lat/lon/radius
+# Subtest: validateQuery: rejects a malformed starttime/endtime
+# Subtest: ALLOWED_PARAMS is frozen and matches the documented list
+# Subtest: normalizeFeature: maps a GeoJSON feature to the flat event shape
+# Subtest: fetchEarthquakes: happy path normalises a 2-feature GeoJSON response
+# Subtest: fetchEarthquakes: empty feature list is still ok:true with count 0
+# Subtest: fetchEarthquakes: validation failure short-circuits before any fetch
+# Subtest: fetchEarthquakes: USGS 400 plain-text body is surfaced as usgs_rejected, no retry
+# Subtest: fetchEarthquakes: a 500 followed by a 200 succeeds after exactly one retry
+# Subtest: fetchEarthquakes: a timeout on every attempt returns 504 usgs_timeout after one retry
+# Subtest: fetchEarthquakes: a non-timeout network error maps to usgs_unavailable
+# Subtest: fetchEarthquakes: mode=count uses the count URL and returns the upstream count
+# Subtest: countEarthquakes: convenience wrapper forces mode=count
+# Subtest: cctv plugin descriptor
+# Subtest: cameras_in_bbox tool spec
+# Subtest: cameras_in_bbox validation: rejects inverted bbox
+# Subtest: cameras_in_bbox happy path with mock catalog
+# Subtest: fires plugin descriptor
+# Subtest: fire_detection_search tool spec and validation
+# Subtest: fire_detection_search missing auth: returns 503 not_configured
+# Subtest: fire_detection_search happy path with confidence filter
+# Subtest: gbfs plugin descriptor
+# Subtest: bike_share_status_near tool spec
+# Subtest: findNearestGbfsSystem matches known coordinates
+# Subtest: bike_share_status_near unknown system_id rejection
+# Subtest: bike_share_status_near happy path with mock stations
+# Subtest: military_installations plugin descriptor
+# Subtest: military_installations_in_bbox tool spec
+# Subtest: military_installations_in_bbox validation: rejects bbox > 10 deg or inverted
+# Subtest: military_installations_in_bbox happy path with mock data
+# Subtest: overpass plugin descriptor
+# Subtest: osm_features_near query building and element normalization
+# Subtest: osm_features_near mirror failure maps to degraded status
+# Subtest: osm_features_near happy path with mock payload
+# Subtest: places plugin descriptor
+# Subtest: geocode_place tool spec
+# Subtest: geocode_place empty query rejection
+# Subtest: geocode_place happy path with candidate results
+# Subtest: radio plugin descriptor
+# Subtest: radio_stations_near tool spec
+# Subtest: radio_stations_near upstream failure mapping
+# Subtest: radio_stations_near happy path with distance and tag filter
+# Subtest: regional plugin descriptor
+# Subtest: regional_brief tool spec
+# Subtest: regional_brief upstream failure mapping
+# Subtest: regional_brief happy path with mock brief
+# Subtest: space plugin descriptor
+# Subtest: rocket_launches_recent tool spec
+# Subtest: rocket_launches_recent upstream failure mapping
+# Subtest: rocket_launches_recent status filtering with mock launches
+# Subtest: terrain plugin descriptor
+# Subtest: terrain_height_at tool spec
+# Subtest: terrain_height_at validation: rejects missing parameters and >50 points
+# Subtest: terrain_height_at happy path with mock heights
+# Subtest: transit plugin descriptor
+# Subtest: transit_vehicles_in_bbox tool spec
+# Subtest: transit_vehicles_in_bbox upstream failure mapping
+# Subtest: transit_vehicles_in_bbox happy path with bbox filter
+# tests 661
+# suites 89
+# pass 661
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1710.706596
+2026-10-31T12:41:24Z
+2026-10-31T12:41:25Z

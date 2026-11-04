@@ -1,0 +1,98 @@
+{
+  "startedAt": "2026-10-21T06:16:16.190Z",
+  "endedAt": "2026-10-21T06:17:43.300Z",
+  "baseUrl": "https://ondemand-eand-spatial-qrli9v1uy-schoolhack-web-team.vercel.app",
+  "viewports": {
+    "1440x900": {
+      "p1": {
+        "question": "Describe this object in three sentences.",
+        "deltaEvents": 57,
+        "literalDeltaEvents": 0,
+        "turnTokens": 57,
+        "rafCalls": 36,
+        "mutationBatches": 3,
+        "deltasToMutationBatchesRatio": 19,
+        "medianIntervalMs": 2543.05,
+        "mutationIntervalsSample": [
+          3542,
+          1544.1000000238419
+        ],
+        "pass": true
+      },
+      "p2": {
+        "initial": {
+          "activityInMemory": 0,
+          "rowsRendered": 0
+        },
+        "afterStress": {
+          "activityInMemory": 0,
+          "rowsRendered": 0
+        },
+        "pass": true
+      },
+      "p3": {
+        "longQuestion": "Explain, in at least twelve sentences, how earthquakes are measured and reported.",
+        "minScrollTop": 0,
+        "maxScrollTop": 0,
+        "samplesCount": 25,
+        "anchoringHeld": true,
+        "followUp": {
+          "question": "One word: acknowledged.",
+          "scrollHeight": 904,
+          "scrollTop": 0,
+          "clientHeight": 420,
+          "diff": 484,
+          "pinned": false
+        },
+        "pass": false
+      }
+    },
+    "390x844": {
+      "p1": {
+        "question": "Describe this object in three sentences.",
+        "deltaEvents": 34,
+        "literalDeltaEvents": 0,
+        "turnTokens": 34,
+        "rafCalls": 84,
+        "mutationBatches": 6,
+        "deltasToMutationBatchesRatio": 5.667,
+        "medianIntervalMs": 511.8,
+        "mutationIntervalsSample": [
+          145.29999995231628,
+          2522,
+          40,
+          511.80000001192093,
+          1629.699999988079
+        ],
+        "pass": true
+      },
+      "p2": {
+        "initial": {
+          "activityInMemory": 0,
+          "rowsRendered": 0
+        },
+        "afterStress": {
+          "activityInMemory": 0,
+          "rowsRendered": 0
+        },
+        "pass": true
+      },
+      "p3": {
+        "longQuestion": "Explain, in at least twelve sentences, how earthquakes are measured and reported.",
+        "minScrollTop": 0,
+        "maxScrollTop": 0,
+        "samplesCount": 22,
+        "anchoringHeld": true,
+        "followUp": {
+          "question": "One word: acknowledged.",
+          "scrollHeight": 1841,
+          "scrollTop": 0,
+          "clientHeight": 434,
+          "diff": 1407,
+          "pinned": false
+        },
+        "pass": false
+      }
+    }
+  }
+}

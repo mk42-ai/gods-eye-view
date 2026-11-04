@@ -1,0 +1,146 @@
+{
+  "agent": 13,
+  "runtime_subagent_id": "20261024_14",
+  "task": "Read-only keyboard/touch accessibility review and isolated exported-DOM-module Node tests",
+  "root": "/home/appuser/work/6692b763e851d28a036ab30e/6ad9daa8a32a07124b4a9356/gods-eye-view",
+  "started_at_utc": "2026-10-24T01:50:40Z",
+  "finished_at_utc": "2026-10-24T01:51:37.160Z",
+  "outcome": "PARTIAL: nine accessibility regression tests pass; one candidate-fixture test remains failing. No all-green claim; stopped after three executions with the same assertion error.",
+  "repository_files_written": [
+    "src/incidents/marinaAccessibility.test.mjs"
+  ],
+  "report_path": "/tmp/gev-agent-13.json",
+  "application_files_modified": [],
+  "browser_launched": false,
+  "secrets_read": false,
+  "tests": {
+    "command": "node --test src/incidents/marinaAccessibility.test.mjs",
+    "latest_execution_started_at_utc": "2026-10-24T01:51:24Z",
+    "latest_execution_finished_at_utc": "2026-10-24T01:51:24Z",
+    "executions": 3,
+    "latest_result": {
+      "passed": 9,
+      "failed": 1,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    "failing_test": "candidate choices are named native buttons and detached stale choices cannot act",
+    "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal: 0 !== 2",
+    "location": "src/incidents/marinaAccessibility.test.mjs:291:10",
+    "qualification": "The fixture did not enter the picker: zero candidate controls instead of two. This does NOT establish an application accessibility bug. The two candidates have distinct names but identical coordinates; the planning contract was not independently verified. Coordinator must inspect planFromCandidates, correct or remove this fixture, and rerun before merge.",
+    "last_failing_test_source": "test('candidate choices are named native buttons and detached stale choices cannot act', async (t) => {\n  const gate = deferred();\n  let calls = 0;\n  let builds = 0;\n  const { composer } = composerFixture(t, {\n    client: { locate() { calls += 1; return calls === 1 ? Promise.resolve(located([{ ...MARINA, confidence: 0.7 }, { ...MARINA, name: 'Other Marina', confidence: 0.7 }])) : gate.promise; } },\n    createGeographicScene: async () => { builds += 1; return SCENE; },\n  });\n  await composer.submit(QUERY);\n  const choices = composer.element.find((node) => node.className === 'incident-composer__candidate');\n  assert.equal(choices.length, 2);\n  choices.forEach((node) => assertNativeButton(node));\n  const currentRun = composer.submit('Build a scene of Abu Dhabi');\n  choices[0].fire('click');\n  await flush();\n  assert.equal(builds, 0);\n  gate.resolve(located());\n  await currentRun;\n  assert.equal(builds, 1);\n});",
+    "retry_history": [
+      "Initial run: 9 passed, 1 failed; candidate fixture uses confidences 1 and 0.7.",
+      "Second run: intended patch did not execute because python command was unavailable; same 9/1 result. No application changes.",
+      "Third run: Node applied a single fixture change making both confidences 0.7; same 9/1 result. Hard cap reached; no fourth run or further fix."
+    ],
+    "test_runner_discovery": "scripts/run-unit-tests.mjs recursively discovers src/**/*.test.mjs, so the new file is automatically included and its failing fixture currently blocks the ordinary unit suite.",
+    "harness": "Minimal DOM based on composer.test.mjs, with event bubbling, independent defaultPrevented/propagationStopped, label and ARIA attribute inspection, injected deferred promises, and focus-call tracking. Imports actual createIncidentComposer and createSceneLibrary exports. No source-string pass claims.",
+    "passed_coverage": [
+      "Native FORM/INPUT/submit BUTTON semantics and non-empty labels; Enter/Tab/Space/arrow/Escape defaults are not prevented on composer input, while keydown bubbling stops.",
+      "Only real submit events invoke locate; native-submit navigation prevented; busy duplicate form submissions suppressed; current text retained.",
+      "Blank submit performs no request and leaves aria-busy false.",
+      "Cancel is a visible enabled real button while busy; immediately aborts signal, releases busy UI, exposes enabled Retry, marks active steps cancelled, and announces cancellation in a polite live region.",
+      "Late locate does not overwrite cancellation; late onScene completion does not reset a newer request or publish stale Play UI.",
+      "Retry uses previous failed request without discarding a subsequently edited unsent draft.",
+      "Scene-library inputs have associated LABELs, native select/save controls, aria-describedby, polite live status, atomic summary, trimmed names, busy save guard and completion announcements.",
+      "Late scene-save response does not overwrite a newer active-scene summary/name.",
+      "Native sidebar tab buttons reference real tabpanels; ArrowLeft/Right, Home/End update roving tabindex, aria-selected, hidden/aria-hidden and invoke focus on selected tab.",
+      "Tab and modifier shortcuts retain defaults; consumed Escape is respected; panel Escape closes drawer and explicitly returns focus to toggle; toggle reopens selected panel."
+    ]
+  },
+  "existing_suite": {
+    "command": "node --test src/incidents/composer.test.mjs",
+    "executed_at_utc": "2026-10-24T01:51:19Z",
+    "passed": 18,
+    "failed": 1,
+    "exit_code": 1,
+    "failure": "AssertionError: override button exists",
+    "location": "src/incidents/composer.test.mjs:303:12",
+    "context": "Legacy test still demands Add anyway (override). Agent 4 intentionally removed out-of-AOI override. Independently reproduced; shared tests not modified."
+  },
+  "audit_findings": [
+    {
+      "severity": "verified unit behavior",
+      "subject": "Native Enter versus preventDefault",
+      "evidence": [
+        "src/incidents/ui/composer.js:582-591",
+        "src/incidents/marinaAccessibility.test.mjs"
+      ],
+      "finding": "Composer keydown calls stopPropagation only; submit handler calls preventDefault. This avoids a duplicate keydown submit pathway. Real browser implicit Enter submission remains untested."
+    },
+    {
+      "severity": "review required",
+      "subject": "Touch target dimensions",
+      "evidence": [
+        "src/ui/styles/marina-mobile.css:108-124",
+        "src/ui/styles/marina-mobile.css:173-176",
+        "src/ui/styles/marina-mobile.css:206-219",
+        "src/ui/styles/marina-mobile.css:316-343",
+        "src/ui/styles/marina-workstation.css:148",
+        "src/ui/styles/marina-workstation.css:222-225"
+      ],
+      "finding": "Mobile stylesheet now declares 44px minimums for tabs/toggle, primary scene controls, scene-name/select/save, and composer input/actions/candidates. Desktop CSS permits 28px buttons and 32px library fields. These are stylesheet observations only, not verified rendered hitboxes. CSS cascade/order, clipping, zoom and real two-dimensional 44px targets still need the browser owner."
+    },
+    {
+      "severity": "review required",
+      "subject": "Focus after cancellation or async button replacement",
+      "evidence": [
+        "src/incidents/ui/composer.js:128-134",
+        "src/incidents/ui/composer.js:190-205",
+        "src/incidents/ui/composer.js:253-275"
+      ],
+      "finding": "Cancellation hides its button and reveals Retry without an explicit focus transfer; sceneSuccess replaces Play markup. Actual browser focus after the focused node hides/is removed was not tested. Verify and, if needed, intentionally focus a surviving input/Retry/Play control."
+    },
+    {
+      "severity": "integration limitation",
+      "subject": "Keyboard propagation boundary",
+      "evidence": [
+        "src/ui/surfaceKeyboard.js:25-66",
+        "src/ui/applicationShortcuts.js:26-42",
+        "src/incidents/ui/composer.js:588-591"
+      ],
+      "finding": "Composer stops bubble-phase input keydowns, but cannot block document capture-phase surface handlers. Application-shortcut guard excludes select/input/textarea, not BUTTON; no finding is claimed about actual active overlays. Test combined active surfaces and button shortcuts in integration."
+    },
+    {
+      "severity": "integration limitation",
+      "subject": "Screen-reader announcements and native focus",
+      "evidence": [
+        "src/incidents/marinaAccessibility.test.mjs",
+        "src/incidents/ui/sceneLibrary.js:99-110",
+        "src/incidents/ui/sceneLibrary.js:291-333"
+      ],
+      "finding": "Actual DOM attributes and module-issued focus changes tested. Real Tab traversal, browser default activation/Enter, assistive-technology delivery of busy/live updates, drawer visibility under CSS, and touch interaction are intentionally outside the fake DOM."
+    },
+    {
+      "severity": "known integration ownership",
+      "subject": "Independent disclosure controllers",
+      "evidence": [
+        "/tmp/gev-agent-09.json"
+      ],
+      "finding": "Agent 9 reports scene-library tabs do not subscribe to existing independent panel-disclosure controllers; coordinator must centralize disclosure ownership. Isolated tab tests cannot establish synchronization in the application."
+    }
+  ],
+  "agent2_root_cause_crosscheck": {
+    "status": "UNAVAILABLE; no root causes invented",
+    "checked_patterns": [
+      "/tmp/gev-agent-02*",
+      "/tmp/gev-agent-2.*",
+      "/tmp/gev-agent-2-*"
+    ],
+    "reports_found": [],
+    "note": "No Agent 2 artifact existed at the inspected checkpoints. Compare the outstanding focus/touch/capture/disclosure findings against Agent 2 when available."
+  },
+  "source_observed_mtimes_utc": {
+    "src/incidents/ui/composer.js": "2026-10-24T01:49:03.651Z",
+    "src/incidents/ui/sceneLibrary.js": "2026-10-24T01:49:53.586Z",
+    "src/ui/styles/marina-workstation.css": "2026-10-24T01:50:41.943Z",
+    "src/ui/styles/marina-mobile.css": "2026-10-24T01:51:18.676Z"
+  },
+  "next_actions_for_coordinator": [
+    "Inspect the candidate planning contract; fix or remove the single failing picker fixture and rerun the new test file before merging. Last version and exact failure are above; this agent stopped at the mandated cap.",
+    "Resolve the separately reproduced legacy override-test expectation with Agent 4; do not restore disallowed out-of-AOI override just to make a stale test pass.",
+    "Have the browser/CSS owner verify rendered 44px targets, native Enter/Tab traversal, visible focus and focus persistence on cancellation/async Play replacement.",
+    "Reconcile this review with Agent 2 report when published."
+  ]
+}

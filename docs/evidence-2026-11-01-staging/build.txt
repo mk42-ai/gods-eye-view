@@ -1,0 +1,20 @@
+2026-11-01T05:39:36Z
+dist/assets/dams-B2lCjFgp.geojsonl                        730.28 kB
+dist/assets/datacenters-CtzejECr.geojsonl               2,561.98 kB
+dist/assets/index-aOhoOm5-.css                            341.47 kB │ gzip:    58.64 kB
+dist/assets/driver.js-DgYmvLa3.js                          28.60 kB │ gzip:     8.29 kB
+dist/assets/san-francisco-B-TUYeaR.js                     222.26 kB │ gzip:    54.87 kB
+dist/assets/marine-BJ61ZZ9E.js                            633.39 kB │ gzip:   223.23 kB
+dist/assets/regions-RPMKg9pq.js                         1,987.15 kB │ gzip:   683.53 kB
+dist/assets/egm96-universal.esm-D6y_VLZc.js             2,770.50 kB │ gzip: 1,849.99 kB
+dist/assets/index-BI6_TibE.js                           4,322.32 kB │ gzip: 1,334.63 kB
+
+(!) Some chunks are larger than 1500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 7.80s
+exit 0
+2026-11-01T05:39:45Z
+10
+-rw-r--r-- 1 appuser appuser 83507 Nov  1 05:39 dist/index.html

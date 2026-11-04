@@ -1,0 +1,394 @@
+{
+ "cone": {
+  "x": 0,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "police_unit": {
+  "x": 64,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "barrier": {
+  "x": 128,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "cctv_signal": {
+  "x": 192,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "checkpoint": {
+  "x": 256,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "staging_point": {
+  "x": 320,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "perimeter_unit": {
+  "x": 384,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "crowd_zone": {
+  "x": 448,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "start_finish": {
+  "x": 512,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "egress": {
+  "x": 576,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "command_post": {
+  "x": 640,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "cctv": {
+  "x": 704,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "cordon_node": {
+  "x": 768,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "route_start": {
+  "x": 832,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "route_finish": {
+  "x": 896,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "generic": {
+  "x": 960,
+  "y": 0,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_police_car": {
+  "x": 0,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_ambulance": {
+  "x": 64,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_fire_engine": {
+  "x": 128,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_civilian_sedan": {
+  "x": 192,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "aircraft_helicopter": {
+  "x": 256,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "aircraft_fixed_wing": {
+  "x": 320,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "person_runner": {
+  "x": 384,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "person_police_officer": {
+  "x": 448,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "signage_road_closed": {
+  "x": 512,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "effect_smoke_fire": {
+  "x": 576,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "alert_state_1": {
+  "x": 640,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "alert_state_2": {
+  "x": 704,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "alert_state_3": {
+  "x": 768,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "alert_state_4": {
+  "x": 832,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "barrier_crowd": {
+  "x": 896,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "cone_cluster": {
+  "x": 960,
+  "y": 64,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "crowd_spectators": {
+  "x": 0,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "person_responder": {
+  "x": 64,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_city_bus": {
+  "x": 128,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_police_motorcycle": {
+  "x": 192,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "sensor_cctv_feed": {
+  "x": 256,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "evidence_pin_verified": {
+  "x": 320,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "marker_air_raid_impact_sim": {
+  "x": 384,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vessel_marine_patrol": {
+  "x": 448,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "medical_point": {
+  "x": 512,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "marine_patrol": {
+  "x": 576,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "vehicle_checkpoint": {
+  "x": 640,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "screening_lane": {
+  "x": 704,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "road_closed": {
+  "x": 768,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "civilian_sedan": {
+  "x": 832,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "event_command_post": {
+  "x": 896,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "checkpoint_cordon_node": {
+  "x": 960,
+  "y": 128,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ },
+ "road_closed_barricade": {
+  "x": 0,
+  "y": 192,
+  "width": 64,
+  "height": 64,
+  "pixelRatio": 1,
+  "sdf": false
+ }
+}

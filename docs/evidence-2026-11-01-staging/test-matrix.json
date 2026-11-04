@@ -1,0 +1,183 @@
+{
+ "generatedAtUtc": "2026-11-01T06:21:42Z",
+ "repository": "mk42-ai/gods-eye-view",
+ "branch": "feat/scene-video-evidence",
+ "baseCommit": "948b962",
+ "commits": [
+  "5c7712c",
+  "41d3e85"
+ ],
+ "previewUrl": "https://ondemand-agent-hw1klznal-schoolhack-web-team.vercel.app",
+ "deploymentId": "dpl_GFH4w7Y3TaXtVUCbwqSHzX1ozZKE",
+ "modelUsed": {
+  "effectivePrimary": "ondemand:predefined-cerebras-qwen-3.8-27b (model_id qwen-3.8-27b)",
+  "ultraFastSolEndpointExists": false,
+  "cerebrasDirect": "inactive (CEREBRAS_API_KEY not configured)",
+  "chain": [
+   "cerebras-direct qwen-3.8-27b (when key present)",
+   "cerebras-direct qwen-3-235b-a22b-instruct-2507",
+   "ondemand predefined-cerebras-qwen-3.8-27b",
+   "ondemand predefined-gpt-6.1-sol medium",
+   "scenario template"
+  ]
+ },
+ "checks": [
+  {
+   "id": "build-to-source-mapping",
+   "status": "passed",
+   "detail": "Workspace clone HEAD 948b962 == origin/feat/scene-video-evidence; f20fab6 (approved checkpoint, restore of dpl_H9yVA3kDuV8ekgs7xzj7AjDPgaSH) and b698032 are ancestors; branch baseline/approved-k8v6snzk7 does not exist on origin (not created, not touched); cca89df ancestor OK"
+  },
+  {
+   "id": "live-registry-gpt61-ultra-fast",
+   "status": "passed",
+   "detail": "GET /config/v1/public/endpoints lists predefined-gpt-6.1-sol and predefined-gpt-6.1-terra only; query probes with endpointId predefined-gpt-6.1-ultra-fast and predefined-gpt-6.1-sol-ultra-fast returned HTTP 400 \"endpointId ... is invalid\" -> no ultra-fast sol endpoint exists",
+   "utc": "2026-11-01T05:0xZ"
+  },
+  {
+   "id": "cerebras-key",
+   "status": "blocked",
+   "detail": "CEREBRAS_API_KEY is not configured in the execution environment or the Vercel project; direct Cerebras tier inactive; credential request surfaced in /scene-plans/health and construct responses; OnDemand-hosted predefined-cerebras-qwen-3.8-27b (model_id qwen-3.8-27b) used as the effective primary"
+  },
+  {
+   "id": "frontend-unit-tests",
+   "status": "passed",
+   "detail": "npm test: 4,762 tests, 4,761 pass, 0 fail, 1 skipped (pre-existing Node-24 allocation budget skip on Node 22); +61 new frontend tests",
+   "utc": "2026-11-01T06:18:20Z/06:19:20Z"
+  },
+  {
+   "id": "backend-tests",
+   "status": "passed",
+   "detail": "node --test server/**/*.test.mjs: 712 pass, 0 fail (env with platform key unset, as the unit runner does); +41 new backend tests",
+   "utc": "2026-11-01T06:19:20Z/06:20:22Z"
+  },
+  {
+   "id": "check-boundaries",
+   "status": "passed",
+   "detail": "npm run check:boundaries exit 0 (zod + new modules registered in application-components)"
+  },
+  {
+   "id": "check-secrets",
+   "status": "passed",
+   "detail": "source tree and dist: no key material"
+  },
+  {
+   "id": "format-check",
+   "status": "qualified",
+   "detail": "node scripts/format.mjs --check: all new/changed files formatted; src/ui/walkthrough.js was already unformatted on 948b962 (pre-existing, untouched)"
+  },
+  {
+   "id": "production-build",
+   "status": "passed",
+   "detail": "vite build 7.8 s, dist/scene-icons/png 10 files",
+   "utc": "2026-11-01T05:39:36Z"
+  },
+  {
+   "id": "deploy-1",
+   "status": "passed",
+   "detail": "dpl_AgmSekUY79g5u3vyxVZiXcPHpXyS ondemand-agent-laxif7h9v",
+   "utc": "2026-11-01T05:42:19Z"
+  },
+  {
+   "id": "live-run1-desktop",
+   "status": "failed-then-fixed",
+   "detail": "Both OnDemand tiers returned schema-shorthand (params flattened, confidence missing) -> template fallback used; fixed by normalising provider shorthand in parseSceneSpec (+ schema example in the instructions); scene still built (fallback proved)",
+   "utc": "2026-11-01T05:43Z"
+  },
+  {
+   "id": "deploy-2",
+   "status": "passed",
+   "detail": "dpl_J4x4tR91KWtvU5PTTfCoHGwoseMw ondemand-agent-e1ksm6lt6",
+   "utc": "2026-11-01T05:53:54Z"
+  },
+  {
+   "id": "live-run2-kanes",
+   "status": "failed-then-fixed",
+   "detail": "\"kanes boxing gym abu dhabi police raid\" -> location ladder geocoded \"police raid\" to a Mumbai locality, AOI gate rejected the scene (Scene request failed). Fixed in location.js (strip scenario vocabulary; city guesses must match tokens) + regression test",
+   "utc": "2026-11-01T05:56Z"
+  },
+  {
+   "id": "deploy-3-final",
+   "status": "passed",
+   "detail": "dpl_GFH4w7Y3TaXtVUCbwqSHzX1ozZKE ondemand-agent-hw1klznal",
+   "utc": "2026-11-01T06:06:41Z"
+  },
+  {
+   "id": "live-police-raid-at-burj-al-arab-1440x900",
+   "status": "passed",
+   "detail": "calls after typing 0, construct calls 1, state done, spec valid (police_raid), layers {'areas': 3, 'lines': 4, 'points': 152, 'labels': 8}, label overlaps 0, min label 13px halo 4, badge count 1, ILLUSTRATIVE labels 0, citation-token labels 0, location badge verified, model ondemand:predefined-cerebras-qwen-3.8-27b, spec 2878 ms / geometry 141 ms / render 1472 ms / wall 122491 ms",
+   "screenshot": "after-police-raid-at-burj-al-arab-1440x900.png"
+  },
+  {
+   "id": "live-kanes-boxing-gym-abu-dhabi-police-raid-1440x900",
+   "status": "passed",
+   "detail": "calls after typing 0, construct calls 1, state done, spec valid (police_raid), layers {'areas': 3, 'lines': 4, 'points': 246, 'labels': 8}, label overlaps 0, min label 13px halo 4, badge count 1, ILLUSTRATIVE labels 0, citation-token labels 0, location badge approximate, model ondemand:predefined-cerebras-qwen-3.8-27b, spec 3421 ms / geometry 96 ms / render 1730 ms / wall 93617 ms",
+   "screenshot": "after-kanes-boxing-gym-abu-dhabi-police-raid-1440x900.png"
+  },
+  {
+   "id": "live-im-doing-a-raid-in-the-dubai-marina-1440x900",
+   "status": "passed",
+   "detail": "calls after typing 0, construct calls 1, state done, spec valid (police_raid), layers {'areas': 3, 'lines': 4, 'points': 246, 'labels': 8}, label overlaps 0, min label 13px halo 4, badge count 1, ILLUSTRATIVE labels 0, citation-token labels 0, location badge verified, model ondemand:predefined-cerebras-qwen-3.8-27b, spec 2609 ms / geometry 84 ms / render 2379 ms / wall 84646 ms",
+   "screenshot": "after-im-doing-a-raid-in-the-dubai-marina-1440x900.png"
+  },
+  {
+   "id": "live-dubai-run-on-sheikh-zayed-road-1440x900",
+   "status": "passed",
+   "detail": "calls after typing 0, construct calls 1, state done, spec valid (crowd_event), layers {'areas': 2, 'lines': 1, 'points': 82, 'labels': 3}, label overlaps 0, min label 13px halo 4, badge count 1, ILLUSTRATIVE labels 0, citation-token labels 0, location badge approximate, model ondemand:predefined-cerebras-qwen-3.8-27b, spec 4074 ms / geometry 20 ms / render 957 ms / wall 159814 ms",
+   "screenshot": "after-dubai-run-on-sheikh-zayed-road-1440x900.png"
+  },
+  {
+   "id": "live-police-raid-at-burj-al-arab-390x844",
+   "status": "passed",
+   "detail": "calls after typing 0, construct calls 1, state done, spec valid (police_raid), layers {'areas': 3, 'lines': 4, 'points': 152, 'labels': 8}, label overlaps 0, min label 13px halo 4, badge count 1, ILLUSTRATIVE labels 0, citation-token labels 0, location badge verified, model ondemand:predefined-cerebras-qwen-3.8-27b, spec 2736 ms / geometry 59 ms / render 1070 ms / wall 119465 ms",
+   "screenshot": "after-police-raid-at-burj-al-arab-390x844.png"
+  },
+  {
+   "id": "live-kanes-boxing-gym-abu-dhabi-police-raid-390x844",
+   "status": "passed",
+   "detail": "calls after typing 0, construct calls 1, state done, spec valid (police_raid), layers {'areas': 3, 'lines': 4, 'points': 246, 'labels': 8}, label overlaps 0, min label 13px halo 4, badge count 1, ILLUSTRATIVE labels 0, citation-token labels 0, location badge approximate, model ondemand:predefined-cerebras-qwen-3.8-27b, spec 2824 ms / geometry 77 ms / render 1618 ms / wall 96643 ms",
+   "screenshot": "after-kanes-boxing-gym-abu-dhabi-police-raid-390x844.png"
+  },
+  {
+   "id": "live-im-doing-a-raid-in-the-dubai-marina-390x844",
+   "status": "passed",
+   "detail": "calls after typing 0, construct calls 1, state done, spec valid (police_raid), layers {'areas': 3, 'lines': 4, 'points': 246, 'labels': 8}, label overlaps 0, min label 13px halo 4, badge count 1, ILLUSTRATIVE labels 0, citation-token labels 0, location badge verified, model ondemand:predefined-cerebras-qwen-3.8-27b, spec 3343 ms / geometry 70 ms / render 1199 ms / wall 91147 ms",
+   "screenshot": "after-im-doing-a-raid-in-the-dubai-marina-390x844.png"
+  },
+  {
+   "id": "live-dubai-run-on-sheikh-zayed-road-390x844",
+   "status": "passed",
+   "detail": "calls after typing 0, construct calls 1, state done, spec valid (crowd_event), layers {'areas': 2, 'lines': 1, 'points': 53, 'labels': 3}, label overlaps 0, min label 13px halo 4, badge count 1, ILLUSTRATIVE labels 0, citation-token labels 0, location badge approximate, model ondemand:predefined-cerebras-qwen-3.8-27b, spec 4403 ms / geometry 2 ms / render 2008 ms / wall 156220 ms",
+   "screenshot": "after-dubai-run-on-sheikh-zayed-road-390x844.png"
+  },
+  {
+   "id": "ui-validator-smoke-final",
+   "status": "passed",
+   "detail": "after-smoke-1440x900/390x844: exactly one hidden #scene-illustrative-badge before a build, #scene-panel present hidden, health.staging.enabled true + ultraFastEndpointExists false + first tier predefined-cerebras-qwen-3.8-27b, sprite.json 10 icons 48 px, PNG served; no \"ILLUSTRATIVE \u00b7\" text, no \"Scene request failed\""
+  },
+  {
+   "id": "ui-validator-full-build",
+   "status": "qualified",
+   "detail": "ui_validate.py --eval cannot await a 2-minute build (Runtime.evaluate 30 s cap), so the build assertions were run by scripts/qa-scene-staging.mjs (puppeteer, repo devDependency, process-group cleanup); after-1440x900/390x844 PNGs show the composer mid-build"
+  },
+  {
+   "id": "cctv-signal-markers",
+   "status": "qualified",
+   "detail": "cctv_signal markers are drawn only from verified camera-discovery candidates (sceneCamera usable=true); on all 8 live runs no verified camera qualified -> element shown as \"not derived\" in the panel; nothing invented"
+  },
+  {
+   "id": "recording-window-recolour-no-request",
+   "status": "not-run",
+   "detail": "unchanged code path (geometryLayer.setTimeWindow); covered by existing unit tests, not re-exercised live this turn"
+  },
+  {
+   "id": "27-hash-keys-save-reload-narration-snapchat",
+   "status": "not-run",
+   "detail": "unchanged code paths; staging block is persisted/validated with saved scenes (unit-tested), live reload not re-exercised this turn"
+  },
+  {
+   "id": "pr-update",
+   "status": "see-report",
+   "detail": "PR #4 already exists for mk42-ai:feat/scene-video-evidence; description updated via API (no new PR)"
+  }
+ ]
+}

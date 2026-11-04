@@ -1,0 +1,482 @@
+[
+  {
+    "viewport": "1440x900",
+    "run_at": "2026-10-21T09:48:25.426Z",
+    "overlay": {
+      "panel": {
+        "sel": "section#ondemand-plugin-panel.od-plugins",
+        "rect": {
+          "x": 1038,
+          "y": 500,
+          "w": 384,
+          "h": 376
+        },
+        "position": "static",
+        "zIndex": "auto",
+        "pointerEvents": "auto",
+        "display": "flex",
+        "opacity": "1"
+      },
+      "slot": {
+        "sel": "div#ondemand-plugin-dock.",
+        "rect": {
+          "x": 1038,
+          "y": 500,
+          "w": 384,
+          "h": 376
+        },
+        "position": "fixed",
+        "zIndex": "184",
+        "pointerEvents": "auto",
+        "display": "block",
+        "opacity": "1"
+      },
+      "chat": {
+        "sel": "aside#ondemand-mini-chat.od-chat.od-chat--mini",
+        "rect": {
+          "x": 990,
+          "y": 421,
+          "w": 432,
+          "h": 391
+        },
+        "position": "fixed",
+        "zIndex": "186",
+        "pointerEvents": "auto",
+        "display": "flex",
+        "opacity": "1"
+      },
+      "probes": {
+        "summary.od-plugins__summary": {
+          "rect": {
+            "x": 1039,
+            "y": 501,
+            "w": 382,
+            "h": 27
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "div#ondemand-mini-chat-starters.od-chat__starters",
+            "rect": {
+              "x": 991,
+              "y": 492,
+              "w": 430,
+              "h": 60
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "opacity": "1"
+          }
+        },
+        "button.od-plugins__refresh-btn": {
+          "rect": {
+            "x": 1359,
+            "y": 534,
+            "w": 52,
+            "h": 14
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "div#ondemand-mini-chat-starters.od-chat__starters",
+            "rect": {
+              "x": 991,
+              "y": 492,
+              "w": 430,
+              "h": 60
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "opacity": "1"
+          }
+        },
+        "li.od-plugin__row:first-child .od-plugin__toggle": {
+          "rect": {
+            "x": 1049,
+            "y": 566,
+            "w": 14,
+            "h": 14
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "div.od-empty-state.od-empty-state--no-sessions",
+            "rect": {
+              "x": 1003,
+              "y": 562,
+              "w": 406,
+              "h": 155
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "grid",
+            "opacity": "1"
+          }
+        },
+        "button.od-plugin__verify[data-plugin-name=\"perplexity_research\"]": {
+          "rect": {
+            "x": 1361,
+            "y": 565,
+            "w": 50,
+            "h": 16
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "div.od-empty-state.od-empty-state--no-sessions",
+            "rect": {
+              "x": 1003,
+              "y": 562,
+              "w": 406,
+              "h": 155
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "grid",
+            "opacity": "1"
+          }
+        },
+        "button.od-plugin__verify[data-plugin-name=\"internet_web_search\"]": {
+          "rect": {
+            "x": 1361,
+            "y": 617,
+            "w": 50,
+            "h": 16
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "div.od-empty-state.od-empty-state--no-sessions",
+            "rect": {
+              "x": 1003,
+              "y": 562,
+              "w": 406,
+              "h": 155
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "grid",
+            "opacity": "1"
+          }
+        },
+        "button.od-plugin__verify[data-plugin-name=\"x_mcp_connector\"]": {
+          "rect": {
+            "x": 1361,
+            "y": 773,
+            "w": 50,
+            "h": 16
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "button#ondemand-mini-chat-send.od-chat__btn.od-chat__send",
+            "rect": {
+              "x": 1195,
+              "y": 769,
+              "w": 208,
+              "h": 32
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "block",
+            "opacity": "1"
+          }
+        }
+      },
+      "blockers": [
+        {
+          "sel": "div#ondemand-mini-chat-starters.od-chat__starters",
+          "rect": {
+            "x": 991,
+            "y": 492,
+            "w": 430,
+            "h": 60
+          },
+          "position": "static",
+          "zIndex": "auto",
+          "pointerEvents": "auto",
+          "display": "flex",
+          "opacity": "1"
+        },
+        {
+          "sel": "div#ondemand-mini-chat-transcript.od-chat__transcript",
+          "rect": {
+            "x": 991,
+            "y": 552,
+            "w": 430,
+            "h": 175
+          },
+          "position": "static",
+          "zIndex": "auto",
+          "pointerEvents": "auto",
+          "display": "flex",
+          "opacity": "1"
+        },
+        {
+          "sel": "div.od-empty-state.od-empty-state--no-sessions",
+          "rect": {
+            "x": 1003,
+            "y": 562,
+            "w": 406,
+            "h": 155
+          },
+          "position": "static",
+          "zIndex": "auto",
+          "pointerEvents": "auto",
+          "display": "grid",
+          "opacity": "1"
+        }
+      ]
+    },
+    "screenshot": "/home/appuser/work/6692b763e851d28a036ab30e/6ad7d892f922b50dc6673071/gods-eye-view/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent4/browser/check-plugins-overlay-1440x900.png",
+    "finished_at": "2026-10-21T09:48:37.525Z"
+  },
+  {
+    "viewport": "390x844",
+    "run_at": "2026-10-21T09:48:37.608Z",
+    "overlay": {
+      "panel": {
+        "sel": "section#ondemand-plugin-panel.od-plugins",
+        "rect": {
+          "x": 14,
+          "y": 444,
+          "w": 358,
+          "h": 376
+        },
+        "position": "static",
+        "zIndex": "auto",
+        "pointerEvents": "auto",
+        "display": "flex",
+        "opacity": "1"
+      },
+      "slot": {
+        "sel": "div#ondemand-plugin-dock.",
+        "rect": {
+          "x": 14,
+          "y": 444,
+          "w": 358,
+          "h": 376
+        },
+        "position": "fixed",
+        "zIndex": "184",
+        "pointerEvents": "auto",
+        "display": "block",
+        "opacity": "1"
+      },
+      "chat": {
+        "sel": "aside#ondemand-mini-chat.od-chat.od-chat--mini",
+        "rect": {
+          "x": 0,
+          "y": 453,
+          "w": 390,
+          "h": 391
+        },
+        "position": "fixed",
+        "zIndex": "186",
+        "pointerEvents": "auto",
+        "display": "flex",
+        "opacity": "1"
+      },
+      "probes": {
+        "summary.od-plugins__summary": {
+          "rect": {
+            "x": 15,
+            "y": 445,
+            "w": 356,
+            "h": 27
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "header.od-chat__header.od-chat__header--mini",
+            "rect": {
+              "x": 1,
+              "y": 454,
+              "w": 388,
+              "h": 44
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "grid",
+            "opacity": "1"
+          }
+        },
+        "button.od-plugins__refresh-btn": {
+          "rect": {
+            "x": 309,
+            "y": 478,
+            "w": 52,
+            "h": 14
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "button#ondemand-mini-chat-expand.od-chat__icon-btn",
+            "rect": {
+              "x": 252,
+              "y": 464,
+              "w": 85,
+              "h": 24
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "block",
+            "opacity": "1"
+          }
+        },
+        "li.od-plugin__row:first-child .od-plugin__toggle": {
+          "rect": {
+            "x": 25,
+            "y": 510,
+            "w": 14,
+            "h": 14
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "div.od-chat__status-row",
+            "rect": {
+              "x": 1,
+              "y": 498,
+              "w": 388,
+              "h": 27
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "opacity": "1"
+          }
+        },
+        "button.od-plugin__verify[data-plugin-name=\"perplexity_research\"]": {
+          "rect": {
+            "x": 311,
+            "y": 509,
+            "w": 50,
+            "h": 16
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "span.od-chat__key-state",
+            "rect": {
+              "x": 309,
+              "y": 503,
+              "w": 68,
+              "h": 16
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "block",
+            "opacity": "1"
+          }
+        },
+        "button.od-plugin__verify[data-plugin-name=\"internet_web_search\"]": {
+          "rect": {
+            "x": 311,
+            "y": 561,
+            "w": 50,
+            "h": 16
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "div#ondemand-mini-chat-starters.od-chat__starters",
+            "rect": {
+              "x": 1,
+              "y": 524,
+              "w": 388,
+              "h": 60
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "flex",
+            "opacity": "1"
+          }
+        },
+        "button.od-plugin__verify[data-plugin-name=\"x_mcp_connector\"]": {
+          "rect": {
+            "x": 311,
+            "y": 717,
+            "w": 50,
+            "h": 16
+          },
+          "inViewport": true,
+          "hitTestReachesTarget": false,
+          "topmostAtCenter": {
+            "sel": "div.od-empty-state.od-empty-state--no-sessions",
+            "rect": {
+              "x": 13,
+              "y": 594,
+              "w": 364,
+              "h": 155
+            },
+            "position": "static",
+            "zIndex": "auto",
+            "pointerEvents": "auto",
+            "display": "grid",
+            "opacity": "1"
+          }
+        }
+      },
+      "blockers": [
+        {
+          "sel": "div#ondemand-mini-chat-starters.od-chat__starters",
+          "rect": {
+            "x": 1,
+            "y": 524,
+            "w": 388,
+            "h": 60
+          },
+          "position": "static",
+          "zIndex": "auto",
+          "pointerEvents": "auto",
+          "display": "flex",
+          "opacity": "1"
+        },
+        {
+          "sel": "div#ondemand-mini-chat-transcript.od-chat__transcript",
+          "rect": {
+            "x": 1,
+            "y": 584,
+            "w": 388,
+            "h": 175
+          },
+          "position": "static",
+          "zIndex": "auto",
+          "pointerEvents": "auto",
+          "display": "flex",
+          "opacity": "1"
+        },
+        {
+          "sel": "div.od-empty-state.od-empty-state--no-sessions",
+          "rect": {
+            "x": 13,
+            "y": 594,
+            "w": 364,
+            "h": 155
+          },
+          "position": "static",
+          "zIndex": "auto",
+          "pointerEvents": "auto",
+          "display": "grid",
+          "opacity": "1"
+        }
+      ]
+    },
+    "screenshot": "/home/appuser/work/6692b763e851d28a036ab30e/6ad7d892f922b50dc6673071/gods-eye-view/docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent4/browser/check-plugins-overlay-390x844.png",
+    "finished_at": "2026-10-21T09:48:47.276Z"
+  }
+]

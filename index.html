@@ -3,37 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>God's Eye View</title>
-  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <!-- Icon font subset to the glyphs this app renders. Keep `icon_names` in sync
-       with the sources: src/materialSymbolsSubset.test.mjs fails when a source
-       names a glyph this list is missing, because a missing glyph does not draw
-       a box — the ligature never forms and the element renders the literal word. -->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=adjust,arrow_drop_down,arrow_forward,arrow_left,arrow_right,bolt,chevron_left,chevron_right,close,close_fullscreen,dark_mode,draw,east,flare,flight,layers_clear,light_mode,local_fire_department,my_location,navigation,normal,on,open_in_full,public,radar,radio,right_panel_close,right_panel_open,rocket_launch,skip_next,skip_previous,view_in_ar" rel="stylesheet" />
+  <title>{{PRODUCT_NAME}} · Scene Workstation</title>
+  <meta name="description" content="{{PRODUCT_NAME}} — {{PRODUCT_DESCRIPTION}}" />
+  <meta name="build-id" content="%VITE_BUILD_REFERENCE%" />
+  <meta name="theme-color" content="#1b1b1d" />
+  <link rel="icon" href="/assets/brand/favicon.ico" sizes="any" />
 </head>
-<body>
-  <!-- gev:template scene-chrome -->
+<body class="ws-body">
+  <div id="ws-app" class="ws-app" data-mode="render" data-state="idle">
+    <header class="ws-topbar">
+      <div class="ws-brand">Scene Workstation</div>
+      <form id="ws-prompt-form" class="ws-prompt" autocomplete="off">
+        <label class="ws-sr" for="ws-prompt">Scene prompt</label>
+        <input id="ws-prompt" name="prompt" type="text" maxlength="600"
+               placeholder="Describe a scene, e.g. car crash outside yas mall" />
+        <button id="ws-build" class="ws-btn ws-btn-accent" type="submit">Build</button>
+      </form>
+      <div class="ws-modes" role="radiogroup" aria-label="Viewport shading">
+        <button type="button" class="ws-mode" data-mode="render" role="radio" aria-checked="true">Render</button>
+        <button type="button" class="ws-mode" data-mode="solid" role="radio" aria-checked="false">Solid</button>
+        <button type="button" class="ws-mode" data-mode="wire" role="radio" aria-checked="false">Wireframe</button>
+      </div>
+      <div class="ws-drawer-toggles">
+        <button type="button" class="ws-btn" data-drawer="outliner" aria-controls="ws-outliner">Outliner</button>
+        <button type="button" class="ws-btn" data-drawer="properties" aria-controls="ws-properties">Properties</button>
+      </div>
+    </header>
 
-  <!-- gev:template cockpit -->
+    <aside id="ws-outliner" class="ws-panel ws-outliner" aria-label="Outliner">
+      <h2 class="ws-panel-title">Outliner</h2>
+      <ul id="ws-outliner-list" class="ws-tree"><li class="ws-empty">No scene yet. Type a prompt and press Build.</li></ul>
+    </aside>
 
-  <!-- gev:template display-controls -->
+    <main id="ws-viewport" class="ws-viewport" aria-label="Render viewport">
+      <img id="ws-frame" class="ws-frame" alt="Blender Cycles render" hidden />
+      <canvas id="ws-frame-canvas" class="ws-frame-canvas" hidden></canvas>
+      <div id="ws-status" class="ws-status" role="status" aria-live="polite">Ready — Blender Cycles renderer</div>
+      <div id="ws-hud" class="ws-hud" hidden></div>
+    </main>
 
-  <!-- gev:template command-dock -->
+    <aside id="ws-properties" class="ws-panel ws-properties" aria-label="Properties">
+      <h2 class="ws-panel-title">Properties</h2>
+      <dl id="ws-props" class="ws-props"><dt>Renderer</dt><dd>Blender Cycles · OptiX</dd></dl>
+    </aside>
 
-  <!-- gev:template layer-panels -->
-
-  <!-- gev:template context -->
-
-  <!-- gev:template welcome -->
-
-  <!-- gev:template provider-settings -->
-
-  <!-- gev:template hud-loading -->
-
-  <script type="module" src="/src/main.js"></script>
+    <footer class="ws-timeline" aria-label="Timeline">
+      <div class="ws-transport">
+        <button type="button" class="ws-btn" data-transport="first" aria-label="First frame">|&lt;</button>
+        <button type="button" class="ws-btn" data-transport="prev" aria-label="Previous frame">&lt;</button>
+        <button type="button" class="ws-btn ws-btn-accent" data-transport="play" aria-label="Play">Play</button>
+        <button type="button" class="ws-btn" data-transport="next" aria-label="Next frame">&gt;</button>
+        <button type="button" class="ws-btn" data-transport="last" aria-label="Last frame">&gt;|</button>
+      </div>
+      <input id="ws-scrub" class="ws-scrub" type="range" min="1" max="1" value="1" aria-label="Frame" disabled />
+      <div id="ws-frame-readout" class="ws-readout">0 / 0</div>
+    </footer>
+  </div>
+  <script type="module" src="/src/workstation/main.js"></script>
 </body>
 </html>

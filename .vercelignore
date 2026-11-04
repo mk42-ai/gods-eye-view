@@ -1,0 +1,9 @@
+# Large evidence/media archives are not needed by the Vercel build or functions.
+docs/media
+docs/agent-execution/artifacts
+docs/verification
+docs/audit
+dist
+.ui-proof
+screenshots
+qa-shots

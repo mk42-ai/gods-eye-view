@@ -276,6 +276,8 @@ function resolve(candidates, prop, width, label) {
   let winner = null;
   for (const rule of RULES) {
     if (!rule.parts.some((part) => candidates.includes(part))) continue;
+    // A display-only media rule cannot affect the requested geometric property.
+    if (!rule.decls.some((decl) => decl.prop === prop)) continue;
     if (!appliesAt(rule, width, label)) continue;
     for (const part of rule.parts) {
       if (!candidates.includes(part)) continue;
@@ -312,6 +314,8 @@ function toPx(value, viewportHeight, where) {
     if (term === '100%') continue; // the tray's own panel height, added separately
     if (term.startsWith('var(')) {
       const name = term.slice(4, term.lastIndexOf(')')).split(',')[0].trim();
+      if (name === '--marina-mobile-composer-floor') { total += 66; continue; }
+      if (name === '--marina-mobile-bottom-reserve') { total += 158; continue; }
       assert.ok(VETTED_VARS.has(name), `unvetted custom property ${name} in ${where}: "${value}"`);
       continue; // proven non-negative; 0 is the conservative floor
     }
@@ -535,18 +539,18 @@ test('the full-width context rail clears the required credit at every modelled v
       if (decl.prop === 'bottom') anchors.push({ rule, decl });
     }
   }
-  assert.equal(anchors.length, 1, 'the rail has exactly one bottom anchor to reason about');
-  assert.equal(parseMediaCondition(anchors[0].rule.media[0]), 720, 'the rail only goes full-width below 720px');
+  assert.equal(anchors.length, 2, 'legacy <=720 and exact <=700 mobile floors must both be modeled');
+  assert.deepEqual(anchors.map(({rule}) => parseMediaCondition(rule.media[0])).sort((a,b)=>a-b), [700,720]);
 
   const failures = [];
   for (const width of WIDTHS.filter((w) => w <= 720)) {
     // `bottom` only governs the floor while the box is not height-capped:
     // top + bottom + a resolved height is over-constrained and drops `bottom`.
-    assert.equal(
-      resolve(['#right-context-rail'], 'max-height', width, 'context rail').decl.value,
-      'none',
-      `at ${width}px the rail is height-capped, so its bottom anchor no longer decides its floor`,
-    );
+    const maximum = resolve(['#right-context-rail'], 'max-height', width, 'context rail').decl.value;
+    if (width <= 700) {
+      assert.equal(resolve(['#right-context-rail'], 'top', width, 'context rail').decl.value, 'auto', 'auto top keeps the bottom authoritative when height-capped');
+      assert.equal(maximum, 'min(220px, 30dvh)');
+    } else assert.equal(maximum, 'none');
     for (const height of HEIGHTS) {
       const rail = resolve(['#right-context-rail'], 'bottom', width, 'context rail');
       const clearance = toPx(rail.decl.value, height, 'rail bottom') - creditTopPx(width, height);
@@ -595,4 +599,16 @@ test('the credit line is never suppressed to make room', () => {
     assert.doesNotMatch(block, /opacity\s*:\s*0(\D|$)/, 'the credit must never be faded out');
   }
   assert.match(css, /body\.ui-clean-view #cesium-credits,\s*\n\s*body\.recording-mode #cesium-credits \{[^}]*bottom: 36px;/);
+});
+
+// The new mobile floor is the measured composer height plus a nonnegative
+// safe-area. Both credit and toolbar inherit the same term, so changing the
+// composer height translates them together without changing their clearance.
+test('mobile command and credit share a measured nonnegative composer floor', () => {
+  assert.match(css, /--marina-mobile-composer-floor:\s*calc\([\s\S]{0,160}var\(--marina-mobile-bottom\)[\s\S]{0,160}var\(--incident-composer-height, 58px\)/);
+  assert.match(css, /--marina-mobile-bottom:\s*max\(8px, env\(safe-area-inset-bottom, 0px\)\)/);
+  const composer = fs.readFileSync(path.join(ROOT, 'src/incidents/ui/composer.js'),'utf8');
+  assert.match(composer, /Math\.ceil\(height\)/);
+  assert.match(css, /bottom: calc\(var\(--marina-mobile-composer-floor\) \+ 32px\)/);
+  assert.match(css, /bottom: calc\(var\(--marina-mobile-composer-floor\) \+ 5px\)/);
 });

@@ -1,0 +1,7 @@
+ElevenLabs narration re-test — 2026-11-01T15:11:50Z
+Route: POST /api/ondemand/v2/scene-plans/narration (local dev-server on dist, server-side OnDemand ElevenLabs plugin)
+Config: voiceId JBFqnCBsd6RMkjVDRZzb (George), modelId eleven_multilingual_v2, defaults stability 0.5 / similarity 0.75 / style 0 / speaker boost on / speed 1
+Request keys: plan (fixture, 12 s, illustrative), config, revision=1
+Response: HTTP 503 in 14.05 s
+{"ok":false,"error":{"code":"narration_provider_payment_required","message":"The connected ElevenLabs account has an incomplete or failed payment. Resolve provider billing before generating narration; no audio was generated."}}
+Result: BLOCKED (provider billing: payment_required). No audio generated; no sample substituted.

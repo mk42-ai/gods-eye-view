@@ -1,0 +1,57 @@
+{
+  "url": "https://ondemand-agent-crkpv87jb-schoolhack-web-team.vercel.app",
+  "ok": false,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/before-1440x900.png",
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/before-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-crkpv87jb-schoolhack-web-team.vercel.app",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#incident-composer-input",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "expect-selector",
+      "target": "#incident-composer-input",
+      "ok": true,
+      "detail": "visible"
+    },
+    {
+      "kind": "eval",
+      "target": "(async()=>{const m=await (await fetch('/scene-icons/manifest.json')).json();const bad=[];for(const k of m.keys){for(const p of [k.png,k.png2x,k.png4x].filter(Boolean)){const img=new Image();img.src='/",
+      "ok": false,
+      "detail": "false"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__iconAlpha && JSON.stringify(window.__iconAlpha)",
+      "ok": true,
+      "detail": "\"{\\\"version\\\":6,\\\"keys\\\":46,\\\"bad\\\":[],\\\"has4x\\\":false}\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=432 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-crkpv87jb-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "pageErrors": [],
+  "failedRequests": [
+    "Fetch: net::ERR_ABORTED https://ondemand-agent-crkpv87jb-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation",
+  "textLength": 432
+}

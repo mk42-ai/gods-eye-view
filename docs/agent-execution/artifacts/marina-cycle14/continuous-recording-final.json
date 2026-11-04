@@ -1,0 +1,1611 @@
+{
+  "agent": 20,
+  "status": "passed",
+  "ok": true,
+  "startedUtc": "2026-10-24T02:29:27.054Z",
+  "endedUtc": "2026-10-24T02:30:42.148Z",
+  "url": "https://sb-2nei6kyp3xva.vercel.run/",
+  "navigation": "Supplied live URL with welcome=0",
+  "prompt": "Create a waterfront orbit scene around Dubai Marina",
+  "savedName": "Dubai Marina — Waterfront Orbit",
+  "viewport": {
+    "width": 375,
+    "height": 739,
+    "deviceScaleFactor": 1,
+    "isMobile": true,
+    "hasTouch": true
+  },
+  "requiredSelectors": [
+    "#incident-composer-input",
+    "#incident-composer-play",
+    "#scene-library-name",
+    "#scene-library-save",
+    "#scene-library-status",
+    "#scene-library-saved",
+    "#scene-library .scene-library__meta",
+    "#sidebar-layers-tab",
+    "#sidebar-scenes-tab",
+    "#scene-drawer-toggle",
+    "#data-panel",
+    "#scene-panel",
+    "#incident-playback-play",
+    "#incident-playback-pause",
+    "#incident-playback-next",
+    "#incident-playback-prev"
+  ],
+  "assertions": [
+    {
+      "id": "ready-real-mobile-workstation",
+      "startedUtc": "2026-10-24T02:29:27.647Z",
+      "endedUtc": "2026-10-24T02:29:30.859Z",
+      "pass": true,
+      "data": {
+        "status": 200,
+        "viewport": {
+          "width": 375,
+          "height": 739,
+          "scale": 1,
+          "visualWidth": 375,
+          "visualHeight": 739,
+          "documentWidth": 375,
+          "touchPoints": 1
+        }
+      }
+    },
+    {
+      "id": "continuous-screencast-started-before-any-typing",
+      "startedUtc": "2026-10-24T02:29:30.860Z",
+      "endedUtc": "2026-10-24T02:29:32.464Z",
+      "pass": true,
+      "data": {
+        "startedUtc": "2026-10-24T02:29:30.862Z",
+        "fps": 20,
+        "source": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999.webm"
+      }
+    },
+    {
+      "id": "native-page-type-exact-prompt-and-keyboard-enter",
+      "startedUtc": "2026-10-24T02:29:32.465Z",
+      "endedUtc": "2026-10-24T02:29:45.196Z",
+      "pass": true,
+      "data": {
+        "prompt": "Create a waterfront orbit scene around Dubai Marina"
+      }
+    },
+    {
+      "id": "scene-created-and-resolved-to-dubai-marina",
+      "startedUtc": "2026-10-24T02:29:45.197Z",
+      "endedUtc": "2026-10-24T02:29:48.789Z",
+      "pass": true,
+      "data": {
+        "state": {
+          "viewport": {
+            "width": 375,
+            "height": 739,
+            "scale": 1,
+            "visualWidth": 375,
+            "visualHeight": 739,
+            "documentWidth": 375,
+            "touchPoints": 1
+          },
+          "ready": true,
+          "busy": false,
+          "composerState": "done",
+          "composerInput": "Create a waterfront orbit scene around Dubai Marina",
+          "running": false,
+          "paused": false,
+          "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "selectedShotId": "shot-ur4881pk",
+          "clock": "0.0s / 31.4s · paused",
+          "scrub": 0,
+          "anchor": {
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "name": "Dubai Marina"
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "keyframes": 4,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "status": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ],
+          "layersSelected": "false",
+          "scenesSelected": "true",
+          "drawerExpanded": "true",
+          "layersShown": false,
+          "scenesShown": true,
+          "camera": {
+            "x": -742897.2382877241,
+            "y": -5463629.833118254,
+            "z": 3196293.5259137894,
+            "heading": 0.26179938779915,
+            "pitch": -0.5235987755983009,
+            "roll": 6.283185307179586,
+            "lat": 0.5282622953596275,
+            "lon": -1.7059389161060692,
+            "height": 600.0000000002616
+          }
+        },
+        "screenshot": {
+          "stage": "created",
+          "path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999-created.png",
+          "at": "2026-10-24T02:29:48.780Z",
+          "width": 375,
+          "height": 739
+        }
+      }
+    },
+    {
+      "id": "composer-play-and-six-seconds-genuine-camera-motion",
+      "startedUtc": "2026-10-24T02:29:48.791Z",
+      "endedUtc": "2026-10-24T02:29:57.199Z",
+      "pass": true,
+      "data": {
+        "evidence": {
+          "observedSeconds": 6.677,
+          "transitions": 6,
+          "distanceMeters": 1249.9269187866514,
+          "angularRadians": 1.5707963267948957,
+          "samples": [
+            {
+              "at": "2026-10-24T02:29:50.093Z",
+              "elapsedMs": 152,
+              "clock": "0.3s / 31.4s",
+              "camera": {
+                "x": 3305515.434858506,
+                "y": 4744563.602201354,
+                "z": 2687984.404655535,
+                "heading": 0.5235987755982991,
+                "pitch": -1.082104136236484,
+                "roll": 6.283185307179585,
+                "lat": 0.43770486610228926,
+                "lon": 0.9622916882981049,
+                "height": 2400.0000000015757
+              }
+            },
+            {
+              "at": "2026-10-24T02:29:51.168Z",
+              "elapsedMs": 1227,
+              "clock": "3.9s / 31.4s",
+              "camera": {
+                "x": 3305512.5592545155,
+                "y": 4744560.885140125,
+                "z": 2687983.477352495,
+                "heading": 0.5287052834431147,
+                "pitch": -1.0813097905717353,
+                "roll": 6.283185307179586,
+                "lat": 0.43770499238532695,
+                "lon": 0.9622918277291918,
+                "height": 2396.0989153670057
+              }
+            },
+            {
+              "at": "2026-10-24T02:29:52.248Z",
+              "elapsedMs": 2307,
+              "clock": "5.1s / 31.4s",
+              "camera": {
+                "x": 3305432.383952063,
+                "y": 4744485.129639119,
+                "z": 2687957.622519816,
+                "heading": 0.6710815928822251,
+                "pitch": -1.0591623646589845,
+                "roll": 6.283185307179586,
+                "lat": 0.43770851332633015,
+                "lon": 0.9622957152554931,
+                "height": 2287.331426919842
+              }
+            },
+            {
+              "at": "2026-10-24T02:29:53.335Z",
+              "elapsedMs": 3394,
+              "clock": "6.2s / 31.4s",
+              "camera": {
+                "x": 3305139.4015820995,
+                "y": 4744208.289203902,
+                "z": 2687863.1335986136,
+                "heading": 1.1913752012403256,
+                "pitch": -0.9782278033588354,
+                "roll": 6.283185307179585,
+                "lat": 0.4377213800954345,
+                "lon": 0.9623099216574921,
+                "height": 1889.856388698259
+              }
+            },
+            {
+              "at": "2026-10-24T02:29:54.353Z",
+              "elapsedMs": 4412,
+              "clock": "7.2s / 31.4s",
+              "camera": {
+                "x": 3304780.832731402,
+                "y": 4743869.456082265,
+                "z": 2687747.4747684035,
+                "heading": 1.8281660476477732,
+                "pitch": -0.8791714494732328,
+                "roll": 6.283185307179586,
+                "lat": 0.43773712782067414,
+                "lon": 0.9623273089684409,
+                "height": 1403.384016276491
+              }
+            },
+            {
+              "at": "2026-10-24T02:29:55.479Z",
+              "elapsedMs": 5538,
+              "clock": "8.4s / 31.4s",
+              "camera": {
+                "x": 3304642.6723036184,
+                "y": 4743738.894252814,
+                "z": 2687702.9049508935,
+                "heading": 2.073535827850354,
+                "pitch": -0.8410028169972761,
+                "roll": 6.283185307179586,
+                "lat": 0.43774319577203147,
+                "lon": 0.9623340086889065,
+                "height": 1215.9353119320883
+              }
+            },
+            {
+              "at": "2026-10-24T02:29:56.618Z",
+              "elapsedMs": 6677,
+              "clock": "9.5s / 31.4s",
+              "camera": {
+                "x": 3304630.9271736653,
+                "y": 4743727.794937316,
+                "z": 2687699.115900435,
+                "heading": 2.094395102393195,
+                "pitch": -0.8377580409572771,
+                "roll": 6.283185307179586,
+                "lat": 0.4377437116182093,
+                "lon": 0.9623345782427791,
+                "height": 1199.9999999999068
+              }
+            }
+          ]
+        },
+        "screenshot": {
+          "stage": "playing",
+          "path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999-playing.png",
+          "at": "2026-10-24T02:29:57.198Z",
+          "width": 375,
+          "height": 739
+        }
+      }
+    },
+    {
+      "id": "visible-playback-pause",
+      "startedUtc": "2026-10-24T02:29:57.203Z",
+      "endedUtc": "2026-10-24T02:29:58.739Z",
+      "pass": true,
+      "data": {
+        "viewport": {
+          "width": 375,
+          "height": 739,
+          "scale": 1,
+          "visualWidth": 375,
+          "visualHeight": 739,
+          "documentWidth": 375,
+          "touchPoints": 1
+        },
+        "ready": true,
+        "busy": false,
+        "composerState": "done",
+        "composerInput": "Create a waterfront orbit scene around Dubai Marina",
+        "running": false,
+        "paused": true,
+        "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+        "selectedShotId": "shot-1befk52g",
+        "clock": "11.4s / 31.4s · paused",
+        "scrub": 363,
+        "anchor": {
+          "lat": 25.0786415,
+          "lon": 55.1352524,
+          "name": "Dubai Marina"
+        },
+        "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+        "sceneTitle": "Dubai Marina — Waterfront Orbit",
+        "keyframes": 4,
+        "name": "Dubai Marina — Waterfront Orbit",
+        "activeTitle": "Dubai Marina — Waterfront Orbit",
+        "meta": "4 keyframes · Unsaved",
+        "status": "",
+        "savedOptions": [
+          {
+            "value": "",
+            "title": "No saved scenes yet"
+          }
+        ],
+        "layersSelected": "false",
+        "scenesSelected": "true",
+        "drawerExpanded": "true",
+        "layersShown": false,
+        "scenesShown": true,
+        "camera": {
+          "x": 3304630.9271736653,
+          "y": 4743727.794937316,
+          "z": 2687699.115900435,
+          "heading": 2.0943951023931797,
+          "pitch": -0.8377580409572656,
+          "roll": 6.283185307179586,
+          "lat": 0.4377437116182093,
+          "lon": 0.9623345782427791,
+          "height": 1199.9999999999068
+        }
+      }
+    },
+    {
+      "id": "type-visible-scene-name-and-save",
+      "startedUtc": "2026-10-24T02:29:58.740Z",
+      "endedUtc": "2026-10-24T02:30:07.768Z",
+      "pass": true,
+      "data": {
+        "state": {
+          "viewport": {
+            "width": 375,
+            "height": 739,
+            "scale": 1,
+            "visualWidth": 375,
+            "visualHeight": 739,
+            "documentWidth": 375,
+            "touchPoints": 1
+          },
+          "ready": true,
+          "busy": false,
+          "composerState": "done",
+          "composerInput": "Create a waterfront orbit scene around Dubai Marina",
+          "running": false,
+          "paused": true,
+          "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "selectedShotId": "shot-5kgt46zd",
+          "clock": "11.4s / 31.4s · paused",
+          "scrub": 363,
+          "anchor": {
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "name": "Dubai Marina"
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "keyframes": 4,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Saved",
+          "status": "Scene saved.",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "Choose a saved scene…"
+            },
+            {
+              "value": "0",
+              "title": "Dubai Marina — Waterfront Orbit"
+            }
+          ],
+          "layersSelected": "false",
+          "scenesSelected": "true",
+          "drawerExpanded": "true",
+          "layersShown": false,
+          "scenesShown": true,
+          "camera": {
+            "x": 3304630.9271736653,
+            "y": 4743727.794937316,
+            "z": 2687699.115900435,
+            "heading": 2.0943951023931415,
+            "pitch": -0.8377580409572372,
+            "roll": 6.283185307179584,
+            "lat": 0.4377437116182093,
+            "lon": 0.9623345782427791,
+            "height": 1199.9999999999068
+          }
+        },
+        "screenshot": {
+          "stage": "saved",
+          "path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999-saved.png",
+          "at": "2026-10-24T02:30:07.768Z",
+          "width": 375,
+          "height": 739
+        }
+      }
+    },
+    {
+      "id": "clean-visible-layers-scenes-buttons-and-real-switching",
+      "startedUtc": "2026-10-24T02:30:07.772Z",
+      "endedUtc": "2026-10-24T02:30:10.029Z",
+      "pass": true,
+      "data": {
+        "layers": {
+          "selector": "#sidebar-layers-tab",
+          "exists": true,
+          "visible": true,
+          "disabled": false,
+          "text": "Layers",
+          "value": "",
+          "focused": false,
+          "rect": {
+            "left": 135.5,
+            "top": 73,
+            "right": 254,
+            "bottom": 117,
+            "width": 118.5,
+            "height": 44
+          },
+          "center": {
+            "x": 194.75,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 267
+          },
+          "hitOK": true,
+          "hitId": "sidebar-layers-tab",
+          "centerInside": true,
+          "fullyInside": true,
+          "scroll": null
+        },
+        "scenes": {
+          "selector": "#sidebar-scenes-tab",
+          "exists": true,
+          "visible": true,
+          "disabled": false,
+          "text": "Scenes",
+          "value": "",
+          "focused": false,
+          "rect": {
+            "left": 13,
+            "top": 73,
+            "right": 131.5,
+            "bottom": 117,
+            "width": 118.5,
+            "height": 44
+          },
+          "center": {
+            "x": 72.25,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 267
+          },
+          "hitOK": true,
+          "hitId": "sidebar-scenes-tab",
+          "centerInside": true,
+          "fullyInside": true,
+          "scroll": null
+        },
+        "layersState": {
+          "viewport": {
+            "width": 375,
+            "height": 739,
+            "scale": 1,
+            "visualWidth": 375,
+            "visualHeight": 739,
+            "documentWidth": 375,
+            "touchPoints": 1
+          },
+          "ready": true,
+          "busy": false,
+          "composerState": "done",
+          "composerInput": "Create a waterfront orbit scene around Dubai Marina",
+          "running": false,
+          "paused": true,
+          "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "selectedShotId": "shot-5kgt46zd",
+          "clock": "11.4s / 31.4s · paused",
+          "scrub": 363,
+          "anchor": {
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "name": "Dubai Marina"
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "keyframes": 4,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Saved",
+          "status": "Scene saved.",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "Choose a saved scene…"
+            },
+            {
+              "value": "0",
+              "title": "Dubai Marina — Waterfront Orbit"
+            }
+          ],
+          "layersSelected": "true",
+          "scenesSelected": "false",
+          "drawerExpanded": "true",
+          "layersShown": true,
+          "scenesShown": false,
+          "camera": {
+            "x": 3304630.9271736653,
+            "y": 4743727.794937316,
+            "z": 2687699.115900435,
+            "heading": 2.0943951023931415,
+            "pitch": -0.8377580409572372,
+            "roll": 6.2831853071795765,
+            "lat": 0.4377437116182093,
+            "lon": 0.9623345782427791,
+            "height": 1199.9999999999068
+          }
+        },
+        "screenshot": {
+          "stage": "layers",
+          "path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999-layers.png",
+          "at": "2026-10-24T02:30:08.781Z",
+          "width": 375,
+          "height": 739
+        }
+      }
+    },
+    {
+      "id": "visible-playback-play-resumes-six-seconds-camera-motion",
+      "startedUtc": "2026-10-24T02:30:10.030Z",
+      "endedUtc": "2026-10-24T02:30:18.085Z",
+      "pass": true,
+      "data": {
+        "observedSeconds": 6.91,
+        "transitions": 6,
+        "distanceMeters": 1036.5622342425268,
+        "angularRadians": 1.5706902185749816,
+        "samples": [
+          {
+            "at": "2026-10-24T02:30:11.381Z",
+            "elapsedMs": 206,
+            "clock": "11.8s / 31.4s",
+            "camera": {
+              "x": 3304630.966709052,
+              "y": 4743727.765175796,
+              "z": 2687699.076687557,
+              "heading": 2.094490774246167,
+              "pitch": -0.837751662833703,
+              "roll": 6.283185307179586,
+              "lat": 0.4377437061451626,
+              "lon": 0.9623345696890484,
+              "height": 1199.9817280219775
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:12.426Z",
+            "elapsedMs": 1251,
+            "clock": "12.7s / 31.4s",
+            "camera": {
+              "x": 3304646.724269645,
+              "y": 4743715.903102702,
+              "z": 2687683.4476442994,
+              "heading": 2.132622643035381,
+              "pitch": -0.835209538247756,
+              "roll": 6.283185307179585,
+              "lat": 0.43774152475654904,
+              "lon": 0.9623311604340831,
+              "height": 1192.6990775328763
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:13.494Z",
+            "elapsedMs": 2319,
+            "clock": "13.7s / 31.4s",
+            "camera": {
+              "x": 3304727.334500494,
+              "y": 4743655.218719617,
+              "z": 2687603.494094895,
+              "heading": 2.327694590699908,
+              "pitch": -0.822204741736793,
+              "roll": 6.283185307179586,
+              "lat": 0.4377303653841128,
+              "lon": 0.9623137196417144,
+              "height": 1155.4430798578237
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:14.628Z",
+            "elapsedMs": 3453,
+            "clock": "15.0s / 31.4s",
+            "camera": {
+              "x": 3304924.4687913544,
+              "y": 4743506.798639005,
+              "z": 2687407.9603152014,
+              "heading": 2.8047653854031473,
+              "pitch": -0.7904000220899241,
+              "roll": 6.283185307179585,
+              "lat": 0.43770307386044577,
+              "lon": 0.9622710661860272,
+              "height": 1064.3292696376889
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:15.754Z",
+            "elapsedMs": 4579,
+            "clock": "16.1s / 31.4s",
+            "camera": {
+              "x": 3305165.0435441956,
+              "y": 4743325.644015089,
+              "z": 2687169.3283368493,
+              "heading": 3.3869971887675074,
+              "pitch": -0.7515845685323157,
+              "roll": 6.283185307179586,
+              "lat": 0.4376697664494335,
+              "lon": 0.9622190106028723,
+              "height": 953.1311862033704
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:16.922Z",
+            "elapsedMs": 5747,
+            "clock": "17.3s / 31.4s",
+            "camera": {
+              "x": 3305264.1399342273,
+              "y": 4743251.014491883,
+              "z": 2687071.02887197,
+              "heading": 3.6268381106012666,
+              "pitch": -0.7355951737434063,
+              "roll": 6.283185307179585,
+              "lat": 0.43765604600318664,
+              "lon": 0.9621975671520365,
+              "height": 907.3249442848066
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:18.085Z",
+            "elapsedMs": 6910,
+            "clock": "18.3s / 31.4s",
+            "camera": {
+              "x": 3305279.9820316667,
+              "y": 4743239.083306259,
+              "z": 2687055.313995061,
+              "heading": 3.6651809928211487,
+              "pitch": -0.7330389815954144,
+              "roll": 6.283185307179586,
+              "lat": 0.4376538525432449,
+              "lon": 0.9621941390309992,
+              "height": 900.0019931974776
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "pause-before-native-keyframe-stepping",
+      "startedUtc": "2026-10-24T02:30:18.086Z",
+      "endedUtc": "2026-10-24T02:30:18.416Z",
+      "pass": true,
+      "data": {
+        "viewport": {
+          "width": 375,
+          "height": 739,
+          "scale": 1,
+          "visualWidth": 375,
+          "visualHeight": 739,
+          "documentWidth": 375,
+          "touchPoints": 1
+        },
+        "ready": true,
+        "busy": false,
+        "composerState": "done",
+        "composerInput": "Create a waterfront orbit scene around Dubai Marina",
+        "running": false,
+        "paused": true,
+        "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+        "selectedShotId": "shot-6pfyaom4",
+        "clock": "18.6s / 31.4s · paused",
+        "scrub": 594,
+        "anchor": {
+          "lat": 25.0786415,
+          "lon": 55.1352524,
+          "name": "Dubai Marina"
+        },
+        "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+        "sceneTitle": "Dubai Marina — Waterfront Orbit",
+        "keyframes": 4,
+        "name": "Dubai Marina — Waterfront Orbit",
+        "activeTitle": "Dubai Marina — Waterfront Orbit",
+        "meta": "4 keyframes · Saved",
+        "status": "Scene saved.",
+        "savedOptions": [
+          {
+            "value": "",
+            "title": "Choose a saved scene…"
+          },
+          {
+            "value": "0",
+            "title": "Dubai Marina — Waterfront Orbit"
+          }
+        ],
+        "layersSelected": "false",
+        "scenesSelected": "true",
+        "drawerExpanded": "true",
+        "layersShown": false,
+        "scenesShown": true,
+        "camera": {
+          "x": 3305279.9863436436,
+          "y": 4743239.0800587535,
+          "z": 2687055.309717705,
+          "heading": 3.665191429188092,
+          "pitch": -0.7330382858376172,
+          "roll": 6.283185307179586,
+          "lat": 0.4376538519462173,
+          "lon": 0.9621941380979149,
+          "height": 899.9999999981704
+        }
+      }
+    },
+    {
+      "id": "visible-next-keyframe",
+      "startedUtc": "2026-10-24T02:30:18.417Z",
+      "endedUtc": "2026-10-24T02:30:19.837Z",
+      "pass": true,
+      "data": {
+        "before": {
+          "viewport": {
+            "width": 375,
+            "height": 739,
+            "scale": 1,
+            "visualWidth": 375,
+            "visualHeight": 739,
+            "documentWidth": 375,
+            "touchPoints": 1
+          },
+          "ready": true,
+          "busy": false,
+          "composerState": "done",
+          "composerInput": "Create a waterfront orbit scene around Dubai Marina",
+          "running": false,
+          "paused": true,
+          "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "selectedShotId": "shot-6pfyaom4",
+          "clock": "18.6s / 31.4s · paused",
+          "scrub": 594,
+          "anchor": {
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "name": "Dubai Marina"
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "keyframes": 4,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Saved",
+          "status": "Scene saved.",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "Choose a saved scene…"
+            },
+            {
+              "value": "0",
+              "title": "Dubai Marina — Waterfront Orbit"
+            }
+          ],
+          "layersSelected": "false",
+          "scenesSelected": "true",
+          "drawerExpanded": "true",
+          "layersShown": false,
+          "scenesShown": true,
+          "camera": {
+            "x": 3305279.9863436436,
+            "y": 4743239.0800587535,
+            "z": 2687055.309717705,
+            "heading": 3.665191429188092,
+            "pitch": -0.7330382858376172,
+            "roll": 6.283185307179586,
+            "lat": 0.4376538519462173,
+            "lon": 0.9621941380979149,
+            "height": 899.9999999981704
+          }
+        },
+        "after": {
+          "viewport": {
+            "width": 375,
+            "height": 739,
+            "scale": 1,
+            "visualWidth": 375,
+            "visualHeight": 739,
+            "documentWidth": 375,
+            "touchPoints": 1
+          },
+          "ready": true,
+          "busy": false,
+          "composerState": "done",
+          "composerInput": "Create a waterfront orbit scene around Dubai Marina",
+          "running": false,
+          "paused": false,
+          "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "selectedShotId": "shot-67v3cnux",
+          "clock": "21.4s / 31.4s · paused",
+          "scrub": 682,
+          "anchor": {
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "name": "Dubai Marina"
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "keyframes": 4,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Saved",
+          "status": "Scene saved.",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "Choose a saved scene…"
+            },
+            {
+              "value": "0",
+              "title": "Dubai Marina — Waterfront Orbit"
+            }
+          ],
+          "layersSelected": "false",
+          "scenesSelected": "true",
+          "drawerExpanded": "true",
+          "layersShown": false,
+          "scenesShown": true,
+          "camera": {
+            "x": 3305279.986343644,
+            "y": 4743239.080058753,
+            "z": 2687055.309717704,
+            "heading": 3.6651914291880914,
+            "pitch": -0.7330382858376177,
+            "roll": 6.283185307179586,
+            "lat": 0.4376538519462173,
+            "lon": 0.9621941380979149,
+            "height": 899.9999999979732
+          }
+        }
+      }
+    },
+    {
+      "id": "visible-previous-keyframe",
+      "startedUtc": "2026-10-24T02:30:19.844Z",
+      "endedUtc": "2026-10-24T02:30:21.859Z",
+      "pass": true,
+      "data": {
+        "before": {
+          "viewport": {
+            "width": 375,
+            "height": 739,
+            "scale": 1,
+            "visualWidth": 375,
+            "visualHeight": 739,
+            "documentWidth": 375,
+            "touchPoints": 1
+          },
+          "ready": true,
+          "busy": false,
+          "composerState": "done",
+          "composerInput": "Create a waterfront orbit scene around Dubai Marina",
+          "running": false,
+          "paused": false,
+          "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "selectedShotId": "shot-67v3cnux",
+          "clock": "22.8s / 31.4s · paused",
+          "scrub": 728,
+          "anchor": {
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "name": "Dubai Marina"
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "keyframes": 4,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Saved",
+          "status": "Scene saved.",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "Choose a saved scene…"
+            },
+            {
+              "value": "0",
+              "title": "Dubai Marina — Waterfront Orbit"
+            }
+          ],
+          "layersSelected": "false",
+          "scenesSelected": "true",
+          "drawerExpanded": "true",
+          "layersShown": false,
+          "scenesShown": true,
+          "camera": {
+            "x": 3305226.2450948744,
+            "y": 4743867.177144818,
+            "z": 2687537.6718591084,
+            "heading": 4.788086758538765,
+            "pitch": -0.9326641221666261,
+            "roll": 6.283185307179586,
+            "lat": 0.437690319791607,
+            "lon": 0.962263872577365,
+            "height": 1543.3716320669137
+          }
+        },
+        "after": {
+          "viewport": {
+            "width": 375,
+            "height": 739,
+            "scale": 1,
+            "visualWidth": 375,
+            "visualHeight": 739,
+            "documentWidth": 375,
+            "touchPoints": 1
+          },
+          "ready": true,
+          "busy": false,
+          "composerState": "done",
+          "composerInput": "Create a waterfront orbit scene around Dubai Marina",
+          "running": false,
+          "paused": false,
+          "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "selectedShotId": "shot-6pfyaom4",
+          "clock": "11.4s / 31.4s · paused",
+          "scrub": 363,
+          "anchor": {
+            "lat": 25.0786415,
+            "lon": 55.1352524,
+            "name": "Dubai Marina"
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "keyframes": 4,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Saved",
+          "status": "Scene saved.",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "Choose a saved scene…"
+            },
+            {
+              "value": "0",
+              "title": "Dubai Marina — Waterfront Orbit"
+            }
+          ],
+          "layersSelected": "false",
+          "scenesSelected": "true",
+          "drawerExpanded": "true",
+          "layersShown": false,
+          "scenesShown": true,
+          "camera": {
+            "x": 3305205.5876309886,
+            "y": 4744108.336901375,
+            "z": 2687722.8880420662,
+            "heading": 5.2192291284417305,
+            "pitch": -1.0093116545938217,
+            "roll": 6.283185307179586,
+            "lat": 0.4377043218387039,
+            "lon": 0.9622906475473446,
+            "height": 1790.3980137141396
+          }
+        }
+      }
+    },
+    {
+      "id": "final-play-with-six-seconds-real-camera-motion",
+      "startedUtc": "2026-10-24T02:30:21.861Z",
+      "endedUtc": "2026-10-24T02:30:29.917Z",
+      "pass": true,
+      "data": {
+        "observedSeconds": 6.79,
+        "transitions": 6,
+        "distanceMeters": 2467.400817527804,
+        "angularRadians": 4.187306123307945,
+        "samples": [
+          {
+            "at": "2026-10-24T02:30:23.333Z",
+            "elapsedMs": 206,
+            "clock": "0.3s / 31.4s",
+            "camera": {
+              "x": 3305280.084403316,
+              "y": 4743239.631371786,
+              "z": 2687055.6964162504,
+              "heading": 3.663883774440911,
+              "pitch": -0.7331835808095266,
+              "roll": 6.283185307179586,
+              "lat": 0.43765387318032073,
+              "lon": 0.9621941787021551,
+              "height": 900.6243591486475
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:24.418Z",
+            "elapsedMs": 1291,
+            "clock": "1.2s / 31.4s",
+            "camera": {
+              "x": 3305360.320931518,
+              "y": 4743690.829298413,
+              "z": 2687372.179461437,
+              "heading": 2.593694726400134,
+              "pitch": -0.8520934750362796,
+              "roll": 6.283185307179586,
+              "lat": 0.4376712512420692,
+              "lon": 0.9622274093489603,
+              "height": 1411.6019902630253
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:25.489Z",
+            "elapsedMs": 2362,
+            "clock": "2.4s / 31.4s",
+            "camera": {
+              "x": 3305512.096618657,
+              "y": 4744544.81193782,
+              "z": 2687971.223303288,
+              "heading": 0.5681663907298269,
+              "pitch": -1.0771521789996488,
+              "roll": 6.283185307179586,
+              "lat": 0.4377041423995294,
+              "lon": 0.9622903044204812,
+              "height": 2378.7205312474202
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:26.622Z",
+            "elapsedMs": 3495,
+            "clock": "3.4s / 31.4s",
+            "camera": {
+              "x": 3305515.434858501,
+              "y": 4744563.602201354,
+              "z": 2687984.4046555334,
+              "heading": 0.5235987755982983,
+              "pitch": -1.0821041362364836,
+              "roll": 6.283185307179586,
+              "lat": 0.4377048661022893,
+              "lon": 0.9622916882981056,
+              "height": 2399.9999999986785
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:27.733Z",
+            "elapsedMs": 4606,
+            "clock": "4.4s / 31.4s",
+            "camera": {
+              "x": 3305496.7494962974,
+              "y": 4744545.947007861,
+              "z": 2687978.3791186684,
+              "heading": 0.5567803405673812,
+              "pitch": -1.0769425594635154,
+              "roll": 6.283185307179585,
+              "lat": 0.4377056866765345,
+              "lon": 0.962292594307027,
+              "height": 2374.651151591291
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:28.841Z",
+            "elapsedMs": 5714,
+            "clock": "5.5s / 31.4s",
+            "camera": {
+              "x": 3305334.7321453467,
+              "y": 4744392.85959142,
+              "z": 2687926.1305628847,
+              "heading": 0.8444947778641438,
+              "pitch": -1.0321869803284636,
+              "roll": 6.283185307179586,
+              "lat": 0.43771280180378785,
+              "lon": 0.9623004502308582,
+              "height": 2154.8535120988067
+            }
+          },
+          {
+            "at": "2026-10-24T02:30:29.917Z",
+            "elapsedMs": 6790,
+            "clock": "6.6s / 31.4s",
+            "camera": {
+              "x": 3304925.851813281,
+              "y": 4744006.495886297,
+              "z": 2687794.2540224004,
+              "heading": 1.5706199000636305,
+              "pitch": -0.9192341835418776,
+              "roll": 6.283185307179586,
+              "lat": 0.43773075874990075,
+              "lon": 0.9623202767772956,
+              "height": 1600.134780093683
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "final-visible-pause-and-real-idle-tail",
+      "startedUtc": "2026-10-24T02:30:29.918Z",
+      "endedUtc": "2026-10-24T02:30:32.562Z",
+      "pass": true,
+      "data": {
+        "viewport": {
+          "width": 375,
+          "height": 739,
+          "scale": 1,
+          "visualWidth": 375,
+          "visualHeight": 739,
+          "documentWidth": 375,
+          "touchPoints": 1
+        },
+        "ready": true,
+        "busy": false,
+        "composerState": "done",
+        "composerInput": "Create a waterfront orbit scene around Dubai Marina",
+        "running": false,
+        "paused": true,
+        "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+        "selectedShotId": "shot-we7o0c5m",
+        "clock": "7.6s / 31.4s · paused",
+        "scrub": 242,
+        "anchor": {
+          "lat": 25.0786415,
+          "lon": 55.1352524,
+          "name": "Dubai Marina"
+        },
+        "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+        "sceneTitle": "Dubai Marina — Waterfront Orbit",
+        "keyframes": 4,
+        "name": "Dubai Marina — Waterfront Orbit",
+        "activeTitle": "Dubai Marina — Waterfront Orbit",
+        "meta": "4 keyframes · Saved",
+        "status": "Scene saved.",
+        "savedOptions": [
+          {
+            "value": "",
+            "title": "Choose a saved scene…"
+          },
+          {
+            "value": "0",
+            "title": "Dubai Marina — Waterfront Orbit"
+          }
+        ],
+        "layersSelected": "false",
+        "scenesSelected": "true",
+        "drawerExpanded": "true",
+        "layersShown": false,
+        "scenesShown": true,
+        "camera": {
+          "x": 3304668.2597916727,
+          "y": 4743763.074713759,
+          "z": 2687711.1595576033,
+          "heading": 2.0280927186204174,
+          "pitch": -0.8480717450997091,
+          "roll": 6.283185307179586,
+          "lat": 0.43774207197196074,
+          "lon": 0.9623327678835855,
+          "height": 1250.6512901578333
+        }
+      }
+    },
+    {
+      "id": "saved-scene-survives-reload-after-recording",
+      "startedUtc": "2026-10-24T02:30:33.191Z",
+      "endedUtc": "2026-10-24T02:30:40.599Z",
+      "pass": true,
+      "data": {
+        "selected": {
+          "viewport": {
+            "width": 375,
+            "height": 739,
+            "scale": 1,
+            "visualWidth": 375,
+            "visualHeight": 739,
+            "documentWidth": 375,
+            "touchPoints": 1
+          },
+          "ready": true,
+          "busy": false,
+          "composerState": "idle",
+          "composerInput": "",
+          "running": false,
+          "paused": false,
+          "selectedSceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "selectedShotId": "shot-0jxn4mi1",
+          "clock": "3.4s / 31.4s · paused",
+          "scrub": 108,
+          "anchor": null,
+          "sceneId": null,
+          "sceneTitle": null,
+          "keyframes": null,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Saved",
+          "status": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "Choose a saved scene…"
+            },
+            {
+              "value": "0",
+              "title": "Dubai Marina — Waterfront Orbit"
+            }
+          ],
+          "layersSelected": "false",
+          "scenesSelected": "true",
+          "drawerExpanded": "true",
+          "layersShown": false,
+          "scenesShown": true,
+          "camera": {
+            "x": 3305515.4348585047,
+            "y": 4744563.602201351,
+            "z": 2687984.4046555334,
+            "heading": 0.5235987755983,
+            "pitch": -1.082104136236484,
+            "roll": 6.283185307179585,
+            "lat": 0.4377048661022895,
+            "lon": 0.9622916882981047,
+            "height": 2399.9999999971096
+          }
+        },
+        "screenshot": {
+          "stage": "reloaded",
+          "path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999-reloaded.png",
+          "at": "2026-10-24T02:30:40.598Z",
+          "width": 375,
+          "height": 739
+        }
+      }
+    },
+    {
+      "id": "continuous-source-to-browser-compatible-h264-mp4",
+      "startedUtc": "2026-10-24T02:30:40.605Z",
+      "endedUtc": "2026-10-24T02:30:42.147Z",
+      "pass": true,
+      "data": {
+        "source": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "vp9",
+              "width": 375,
+              "height": 739,
+              "pix_fmt": "gbrp",
+              "r_frame_rate": "20/1"
+            }
+          ],
+          "format": {
+            "format_name": "matroska,webm",
+            "size": "11689664"
+          }
+        },
+        "mp4": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 376,
+              "height": 740,
+              "pix_fmt": "yuv420p",
+              "r_frame_rate": "20/1",
+              "nb_frames": "1224"
+            }
+          ],
+          "format": {
+            "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+            "duration": "61.200000",
+            "size": "9716594"
+          }
+        },
+        "atoms": [
+          "ftyp",
+          "moov",
+          "free",
+          "mdat"
+        ],
+        "wallDurationSeconds": 61.702
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "stage": "created",
+      "path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999-created.png",
+      "at": "2026-10-24T02:29:48.780Z",
+      "width": 375,
+      "height": 739
+    },
+    {
+      "stage": "playing",
+      "path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999-playing.png",
+      "at": "2026-10-24T02:29:57.198Z",
+      "width": 375,
+      "height": 739
+    },
+    {
+      "stage": "saved",
+      "path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999-saved.png",
+      "at": "2026-10-24T02:30:07.768Z",
+      "width": 375,
+      "height": 739
+    },
+    {
+      "stage": "layers",
+      "path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999-layers.png",
+      "at": "2026-10-24T02:30:08.781Z",
+      "width": 375,
+      "height": 739
+    },
+    {
+      "stage": "reloaded",
+      "path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999-reloaded.png",
+      "at": "2026-10-24T02:30:40.598Z",
+      "width": 375,
+      "height": 739
+    }
+  ],
+  "failures": [],
+  "actions": [
+    {
+      "at": "2026-10-24T02:29:33.923Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#incident-composer-input",
+      "x": 140.5,
+      "y": 702
+    },
+    {
+      "at": "2026-10-24T02:29:45.171Z",
+      "method": "page.type",
+      "selector": "#incident-composer-input",
+      "value": "Create a waterfront orbit scene around Dubai Marina"
+    },
+    {
+      "at": "2026-10-24T02:29:45.196Z",
+      "method": "page.keyboard.press",
+      "key": "Enter",
+      "purpose": "submit exact Marina prompt"
+    },
+    {
+      "at": "2026-10-24T02:29:48.035Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#sidebar-scenes-tab",
+      "x": 72.25,
+      "y": 95
+    },
+    {
+      "at": "2026-10-24T02:29:49.822Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#incident-composer-play",
+      "x": 37,
+      "y": 631.40625
+    },
+    {
+      "at": "2026-10-24T02:29:57.437Z",
+      "method": "page.mouse.wheel",
+      "selector": "#incident-playback-pause",
+      "deltaY": 180
+    },
+    {
+      "at": "2026-10-24T02:29:57.826Z",
+      "method": "page.mouse.wheel",
+      "selector": "#incident-playback-pause",
+      "deltaY": 180
+    },
+    {
+      "at": "2026-10-24T02:29:58.564Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#incident-playback-pause",
+      "x": 144.375,
+      "y": 213.4375
+    },
+    {
+      "at": "2026-10-24T02:29:59.214Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#sidebar-scenes-tab",
+      "x": 72.25,
+      "y": 95
+    },
+    {
+      "at": "2026-10-24T02:29:59.720Z",
+      "method": "page.mouse.wheel",
+      "selector": "#scene-library-name",
+      "deltaY": -180
+    },
+    {
+      "at": "2026-10-24T02:30:00.223Z",
+      "method": "page.mouse.wheel",
+      "selector": "#scene-library-name",
+      "deltaY": -180
+    },
+    {
+      "at": "2026-10-24T02:30:00.919Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#scene-library-name",
+      "x": 144.5,
+      "y": 254.984375
+    },
+    {
+      "at": "2026-10-24T02:30:06.545Z",
+      "method": "page.type",
+      "selector": "#scene-library-name",
+      "value": "Dubai Marina — Waterfront Orbit"
+    },
+    {
+      "at": "2026-10-24T02:30:06.630Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#scene-library-save",
+      "x": 318,
+      "y": 247.984375
+    },
+    {
+      "at": "2026-10-24T02:30:07.151Z",
+      "method": "page.mouse.wheel",
+      "selector": "#scene-library .scene-library__meta",
+      "deltaY": 180
+    },
+    {
+      "at": "2026-10-24T02:30:08.219Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#sidebar-layers-tab",
+      "x": 194.75,
+      "y": 95
+    },
+    {
+      "at": "2026-10-24T02:30:09.172Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#sidebar-scenes-tab",
+      "x": 72.25,
+      "y": 95
+    },
+    {
+      "at": "2026-10-24T02:30:10.325Z",
+      "method": "page.mouse.wheel",
+      "selector": "#incident-playback-play",
+      "deltaY": 180
+    },
+    {
+      "at": "2026-10-24T02:30:11.004Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#incident-playback-play",
+      "x": 58.125,
+      "y": 230.28125
+    },
+    {
+      "at": "2026-10-24T02:30:18.314Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#incident-playback-pause",
+      "x": 144.375,
+      "y": 230.28125
+    },
+    {
+      "at": "2026-10-24T02:30:18.483Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#incident-playback-next",
+      "x": 316.875,
+      "y": 230.28125
+    },
+    {
+      "at": "2026-10-24T02:30:20.532Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#incident-playback-prev",
+      "x": 230.625,
+      "y": 230.28125
+    },
+    {
+      "at": "2026-10-24T02:30:22.995Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#incident-playback-play",
+      "x": 58.125,
+      "y": 230.28125
+    },
+    {
+      "at": "2026-10-24T02:30:31.189Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#incident-playback-pause",
+      "x": 144.375,
+      "y": 230.28125
+    },
+    {
+      "at": "2026-10-24T02:30:37.256Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#sidebar-scenes-tab",
+      "x": 72.25,
+      "y": 95
+    },
+    {
+      "at": "2026-10-24T02:30:38.035Z",
+      "method": "page.mouse.wheel",
+      "selector": "#scene-library-saved",
+      "deltaY": 180
+    },
+    {
+      "at": "2026-10-24T02:30:39.175Z",
+      "method": "page.touchscreen.tap",
+      "selector": "#scene-library-saved",
+      "x": 187.5,
+      "y": 265.4375
+    }
+  ],
+  "missingSelectors": [],
+  "blockedSelectors": [],
+  "recording": {
+    "method": "Puppeteer page.screencast (continuous live compositor stream), then ffmpeg transcode",
+    "sourcePath": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999.webm",
+    "mp4Path": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999.mp4",
+    "startedUtc": "2026-10-24T02:29:30.862Z",
+    "endedUtc": "2026-10-24T02:30:33.190Z",
+    "sourceReady": true,
+    "mp4Verified": true,
+    "pixels": "375x739 browser viewport and PNG/WebM; 376x740 MP4 with 1px right/bottom black padding for H.264 yuv420p",
+    "checkpointImagesUsedAsVideo": false,
+    "syntheticFrames": false,
+    "firstTypingUtc": "2026-10-24T02:29:32.467Z",
+    "stoppingUtc": "2026-10-24T02:30:32.564Z",
+    "sourceBytes": 11689664,
+    "metadata": {
+      "source": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "vp9",
+            "width": 375,
+            "height": 739,
+            "pix_fmt": "gbrp",
+            "r_frame_rate": "20/1"
+          }
+        ],
+        "format": {
+          "format_name": "matroska,webm",
+          "size": "11689664"
+        }
+      },
+      "mp4": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 376,
+            "height": 740,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "20/1",
+            "nb_frames": "1224"
+          }
+        ],
+        "format": {
+          "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+          "duration": "61.200000",
+          "size": "9716594"
+        }
+      },
+      "atoms": [
+        "ftyp",
+        "moov",
+        "free",
+        "mdat"
+      ],
+      "wallDurationSeconds": 61.702
+    },
+    "completeUserFlow": true
+  },
+  "policy": {
+    "nativeTyping": true,
+    "nativePointer": true,
+    "readOnlyEvaluate": true,
+    "networkInterception": false,
+    "stateInjection": false,
+    "overlayOrCssChanges": false,
+    "networkBodiesOrCredentialsLogged": false
+  },
+  "processCleanup": {
+    "workerProcessGroup": 101010,
+    "chromiumPid": 101024,
+    "chromiumProcessGroup": 101010,
+    "scope": "Chromium and ffmpeg inherit the dedicated worker process group; whole group receives SIGKILL after worker exit.",
+    "attempted": true,
+    "exitCode": 0,
+    "signal": null,
+    "hardWallClockCapSeconds": 358
+  },
+  "reportPath": "/tmp/gev-marina-recording-final/marina-recording-2026-10-24T02-29-26-875Z-100999.json"
+}

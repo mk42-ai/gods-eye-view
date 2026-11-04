@@ -1,0 +1,62 @@
+{
+  "url": "https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/final-burj-mobile-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#incident-composer-input",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__gevMobile = (async () => {\n  const wait = (ms) => new Promise((r) => setTimeout(r, ms));\n  for (let i = 0; i < 240 && !(window.__gevIncidents?.composer && document.querySelector('#incident-co",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevMobileResult||Date.now()-t>165000) r(true); else setTimeout(p,1000)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "new Promise(r=>{const t=Date.now();(function p(){ if(window.__gevMobileResult||Date.now()-t>165000) r(true); else setTimeout(p,1000)})()})",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "(function(){const r=window.__gevMobileResult;return r&&r.ok?JSON.stringify(r):false})()",
+      "ok": true,
+      "detail": "\"{\\\"startedAtUtc\\\":\\\"2026-10-31T16:12:01.732Z\\\",\\\"callsAfterPaste\\\":0,\\\"calls\\\":1,\\\"state\\\":\\\"done\\\",\\\"status\\\":\\\"grounded\\\",\\\"points\\\":1,\\\"lines\\\":0,\\\"areas\\\":1,\\\"citations\\\":2,\\\"legend\\\":{\\\"left\\\":8,\\\"right\\\":382,\\\"top\\\":340,\\\"bottom\\\":526},\\\"innerWidth\\\":390,\\\"innerHeight\\\":844,\\\"scrollWidth\\\":390,\\\"ok\\\":true,\\\"finishedAtUtc\\\":\\\"2026-10-31T16:14:12.684Z\\\"}\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=309 chars, bodyHeight=844px"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "pageErrors": [],
+  "failedRequests": [
+    "Fetch: net::ERR_ABORTED https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation",
+  "textLength": 309
+}

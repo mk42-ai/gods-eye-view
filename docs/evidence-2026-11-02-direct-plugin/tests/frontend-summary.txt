@@ -1,0 +1,7 @@
+FRONTEND npm test (Node v22.23.4) start=2026-11-02T16:05:54Z end=2026-11-02T16:07:02Z exit=0
+# tests 4940
+# suites 56
+# pass 4939
+# fail 0
+# skipped 1
+[unit] SKIPPED 2 allocation microbenchmarks: budgets are calibrated for Node 24, running 22.23.4. Run under Node 24 (or set GEV_REQUIRE_ALLOCATION_GATE=1 to fail instead).

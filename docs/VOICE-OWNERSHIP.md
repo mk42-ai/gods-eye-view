@@ -1,48 +1,27 @@
-# Realtime voice ownership
+# OnDemand Voice Ownership & Architecture
 
-`realtimeController.js` composes the session and owns its status, UI bindings and
-overall lifetime. It coordinates startup and shutdown. `realtimeFacade.js`
-preserves existing methods and properties by delegation, without copying state.
-The session adapter, action runner and backend interfaces remain unchanged.
+The voice system is routed exclusively through the OnDemand platform (no OpenAI WebRTC/Realtime dependencies).
+The legacy WebRTC session controllers and OpenAI proxy providers have been retired.
 
-| Owner | State and responsibility |
-| --- | --- |
-| `realtimeConnection.js` | Start generation, request cancellation, peer/data channel, acquired microphone stream and playback element |
-| `realtimeTurns.js` | Active and superseded responses, pending confirmations, deduplicated calls and action cancellation |
-| `realtimeRadio.js` | Speaker ducking, prepared playback, stronger-action reservations and playback observers |
-| `realtimeInput.js` | Physical Space gesture, microphone mute, input/output meters and their frame/listener lifetime |
-| `realtimeCost.js` | Next-session preferences and the current session's model-bound meter |
-| `realtimeViewport.js` | One retained image, bounded deletion identities and capture generation |
-| `realtimeDiagnostics.js` | Bounded error history and sanitized optional diagnostics |
+## Module Ownership & Responsibilities
 
-Pure input policy, preferences and protocol-response policy have separate modules.
-Owners receive named readers, operations or focused collaborators. Cross-owner
-cancellation uses operations; response handling does not own Radio's reservations
-or viewport deletion bookkeeping.
+| Subsystem / Module                          | Responsibility                                                                                                                                                                                                                                                                                               |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/voice/ondemand/ui.js`                  | Push-to-talk button, status chip (IDLE / LISTENING / TRANSCRIBING / THINKING / SPEAKING / ERROR), route toggle (AUTO / WF / CHAT), transcript, answer, and live workflow/activity telemetry lines in `#command-dock`.                                                                                        |
+| `src/voice/ondemand/pipeline.js`            | Turn-based state machine (`idle → listening → transcribing → thinking → speaking → idle`), energy-based silence detection, barge-in interrupt handling, coordination between audio recording, transport, and map actions.                                                                                    |
+| `src/voice/ondemand/transport.js`           | HTTP/SSE transport client for the same-origin OnDemand proxy (`/api/ondemand/v2/voice/turn`, `/api/ondemand/media`, `/api/tools`). Implements `voiceTurn` SSE relay.                                                                                                                                         |
+| `src/voice/ondemand/audio.js`               | Browser audio recording (`MediaRecorder`), silence/energy analysis (`AnalyserNode`), and audio playback with barge-in support (`HTMLAudioElement`).                                                                                                                                                          |
+| `src/voice/ondemand/intents.js`             | Local fast-path intent matching (direct layer toggling without network delay), route classification (`auto` vs `workflow` vs `chat`), and `MAPACTIONS` line extraction.                                                                                                                                      |
+| `src/voice/ondemand/index.js`               | App bootstrap and integration: reads scene context, connects map layer manager, wires `createGevActionRunner`, exposes `window.__odVoice`.                                                                                                                                                                   |
+| `src/voice/gevActions.js`                   | Canonical MapAction execution runner (28 map actions covering camera, layers, context, annotations, HUD, flight selection, cockpit, radio, CCTV).                                                                                                                                                            |
+| `src/voice/actionSchemas.js`                | Parameter and schema definitions for all 28 map actions.                                                                                                                                                                                                                                                     |
+| `src/voice/layerSummary.js`                 | Layer lifecycle state summarisation helper for voice feedback.                                                                                                                                                                                                                                               |
+| `server/ondemand/foundation/voice-route.js` | Server-side voice turn handler (`POST /api/ondemand/v2/voice/turn` & `GET /api/ondemand/v2/voice/health`). Coordinates STT (`speech_to_text`), streaming chat query, workflow execution (`POST /workflow/{id}/execute` + `follow()`), and TTS (`text_to_speech`) with abort propagation and same-origin SSE. |
+| `server/voice/`                             | Voice instructions and tool descriptions used by prompt systems (`instructions.js`, `toolDescriptions.js`, `tools.js`).                                                                                                                                                                                      |
 
-Shutdown first invalidates acquisition and action work, then closes transport,
-stops audio analysis, releases media and clears conversation/input state. Full
-removal also detaches UI, keyboard, annotation and Radio observers. Radio takeover
-retains confirmed playback through that same shutdown path. A late offer, peer callback,
-viewport capture or cancelled meter frame cannot enter a replacement session.
-Action and post-capture continuations retain their conversation identity before
-publishing output, queueing a response or changing status.
+## Invariants & Rules
 
-Behavioral invariants remain in force: a 500 ms Space hold claims push-to-talk;
-short control taps and text entry remain native; a click-started session stays
-open-mic. Every accepted or refused tool call receives its terminal output once.
-New typed input supersedes old intent. Radio waits for the spoken confirmation and
-verified muted playback. A live cost meter stays bound to its negotiated model,
-even when the next-session preference changes.
-
-Run the unit suite and both live recorded-audio modes against a configured local
-server:
-
-```sh
-node scripts/qa-voice-wav.mjs http://localhost:4173
-node scripts/qa-voice-wav.mjs http://localhost:4173 --push-to-talk
-```
-
-The second mode uses the actual Space shortcut, verifies microphone acquisition
-and release, and checks the same globe/Radio outcome. Tracking and scene-control
-acceptance exercise voice's shared application operations separately.
+1. **Single AI Gateway:** All speech-to-text, LLM inference, and text-to-speech are routed through OnDemand (`ONDEMAND_API_KEY`).
+2. **Turn-based with Streaming Playback:** Audio input is captured and uploaded, then streamed through the voice-turn route with SSE events (`turn`, `transcript`, `session`, `status`, `delta`, `answer`, `tts`, `done`).
+3. **Barge-in:** Pressing TALK or detecting voice while audio is speaking immediately stops playback, aborts in-flight server requests via `AbortController`, and initiates a new listening turn.
+4. **Local Fast Path:** Direct layer toggle requests (e.g. "turn on satellites") execute locally against `dataManager` immediately before upstream network processing.

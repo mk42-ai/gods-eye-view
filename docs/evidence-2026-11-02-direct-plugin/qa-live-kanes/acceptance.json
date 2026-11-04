@@ -1,0 +1,4306 @@
+{
+  "label": "after-kanes",
+  "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app",
+  "startedAtUtc": "2026-11-02T16:33:07.339Z",
+  "finishedAtUtc": "2026-11-02T16:35:25.177Z",
+  "checks": [
+    {
+      "name": "icon-sprites-transparent-1440x900",
+      "status": "passed",
+      "detail": "manifest v7 49 keys · 588 corner samples alpha=0 · black-square files=0 · new types [[\"event_command_post\",\"event_command_post\",true],[\"checkpoint_cordon_node\",\"checkpoint_cordon_node\",true],[\"road_closed_barricade\",\"road_closed_barricade\",true]]",
+      "at": "2026-11-02T16:34:59.892Z"
+    },
+    {
+      "name": "units-fly-in-kanes-1440x900",
+      "status": "passed",
+      "detail": "state=done/succeeded in 20177 ms · billboards=69 (69 backplated canvases) · keys={\"geographic-scene-anchor\":1,\"planned-command_post\":1,\"planned-police_car_1\":1,\"planned-police_motorcycle_1\":1,\"planned-officer_1\":1,\"planned-barrier_cordon\":8,\"planned-cone_cluster_1\":12,\"planned-road_closed_sign\":1,\"lo · camera [30.2672,-97.7431]@600m → [24.4494,54.3773]@300m · legend=true [[\"inner_cordon\",\"cordon_node\"],[\"outer_cordon\",\"cordon_node\"],[\"approach_route\",\"vehicle_police_car\"],[\"egress_route\",\"egress\"],[\"staging_point\",\"staging_point · after-kanes-1440x900-kanes-built.png",
+      "at": "2026-11-02T16:35:21.891Z"
+    },
+    {
+      "name": "network-zero-batch-1440x900",
+      "status": "passed",
+      "detail": "608 browser requests · 0 matching /batch/i · 0 direct browser→on-demand.io requests (expected 0: the key stays server-side) · consoleErrors=1",
+      "at": "2026-11-02T16:35:24.927Z"
+    }
+  ],
+  "network": {
+    "1440x900": {
+      "total": 608,
+      "batchMatches": [],
+      "snapchatRequests": [],
+      "ondemandRequests": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "log": [
+        {
+          "t": "2026-11-02T16:33:07.386Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/",
+          "type": "document",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:07.491Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Widgets/widgets.css",
+          "type": "stylesheet",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:07.491Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Cesium.js",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:07.492Z",
+          "method": "GET",
+          "url": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap",
+          "type": "stylesheet",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:07.492Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/assets/index-CMQqoMyh.js",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:07.492Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/assets/index-Bgs2Nj08.css",
+          "type": "stylesheet",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:07.492Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/brand/mark-light.svg",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:07.492Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/pin.svg",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:08.148Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/assets/brand/backdrop-network.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:08.148Z",
+          "method": "GET",
+          "url": "https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbV2o-flEEny0FZhsfKu5WU4xD7OwE.woff2",
+          "type": "font",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:08.148Z",
+          "method": "GET",
+          "url": "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+          "type": "font",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:08.950Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/brand/mark-light.svg",
+          "type": "fetch",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:33:08.951Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/approximateTerrainHeights.json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:08.952Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/?f=json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.089Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/IAU2006_XYS/IAU2006_XYS_18.json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.089Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/Images/ion-credit.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.091Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/brand/site.webmanifest",
+          "type": "manifest",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.151Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/f3b727b7-6395-486f-9393-ff035b8e3937",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.154Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/057a2f5e-b24a-4e32-998f-1d4bfcc89a0c",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.163Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/99064f12-beaa-40a8-aee7-906b97e58a81",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.170Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/Textures/SkyBox/tycho2t3_80_px.jpg",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.170Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/Textures/SkyBox/tycho2t3_80_mx.jpg",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.171Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/Textures/SkyBox/tycho2t3_80_py.jpg",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.171Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/Textures/SkyBox/tycho2t3_80_my.jpg",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.171Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/Textures/SkyBox/tycho2t3_80_pz.jpg",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.171Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/Textures/SkyBox/tycho2t3_80_mz.jpg",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.171Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/Textures/moonSmall.jpg",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.172Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/brand/mark.svg",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.173Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/assets/brand/android-chrome-192.png",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.174Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/555f47da-6f2b-42bb-a6ec-cef508a35893",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.188Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/assets/brand/favicon.ico",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.370Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/23/0/0",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.370Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/layer.json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.626Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/1/0/1",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.626Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/1/1/1",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.626Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/1/0/0",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.626Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/1/1/0",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.805Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/assets/egm96-universal.esm-D6y_VLZc.js",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.805Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/setup/status",
+          "type": "fetch",
+          "status": 404
+        },
+        {
+          "t": "2026-11-02T16:33:09.805Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/ondemand/v2/plugins",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.805Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/ondemand/v2/scene-plans/models",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.805Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/ondemand/v2/incidents/list?aoi=all&externalUserId=ws-default-mvzh9t34-fc94378e",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:09.805Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/ondemand/v2/incidents/aoi",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:10.020Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/0/0/0.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:10.021Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/0/1/0.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.105Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/49863c98-9671-44a0-830e-3aaf3cf41a70",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.115Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/1ae7415e-83b8-4b71-8d4f-18a20b0f4876",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.120Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/58093d0d-2294-4fe6-ac40-f16798f51148",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.137Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/3293e17d-b25f-4dff-a7f8-baba0a2549be",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.141Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/636a2284-4d85-44a6-813e-93a547d1b74f",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.144Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/90d48dcd-472b-42f8-82dd-28d9dd889bbc",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.169Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/1c7b71cd-6b38-4ea7-bc9e-a4e7443fc651",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.179Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/d0425ea2-57d4-469a-926d-997cd229f858",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.196Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/google/nearby-places?lat=30.267197&lon=-97.7431&radiusM=5000",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.196Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/1/0/0",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.196Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/1/1/0",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.223Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/783630c3-575a-415f-9eb3-a5aefe8c69fb",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.224Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/7a173533-6e77-44ad-afb8-f77138304d77",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.232Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/e0e99750-c900-4c65-9cc3-026d3ea34fe3",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.233Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/c1be45fd-94e1-4e96-8b2a-c31d01b43683",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.236Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/9339a75e-9749-4cc0-b433-b1849dab23de",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.243Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cecd6da4-151b-4319-a6f2-755180c7b5a5",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.257Z",
+          "method": "POST",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/ondemand/v2/summaries/hud",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.258Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/414188ee-8dfd-4252-924d-dffef67a5adf",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.260Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/06a03430-c31f-4050-bc1f-8ab44dcbfae8",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.351Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/approximateTerrainHeights.json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.401Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/approximateTerrainHeights.json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.401Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/approximateTerrainHeights.json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.408Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/approximateTerrainHeights.json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.419Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/approximateTerrainHeights.json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.421Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/approximateTerrainHeights.json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.426Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/cesium/Assets/approximateTerrainHeights.json",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.554Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/9ea184c0-db81-47ad-b6c5-a69839bbd621",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.568Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/1/0/1",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.569Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/1/1/1",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.591Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/83194d64-4721-48b7-bfe3-3bebd7ccd9bf",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:11.977Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/17dade13-c44c-445a-86f7-229903763bf1",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:12.315Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/ece5b0a8-5e4f-4832-bead-01f04aab4b92",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.351Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/7/58/85.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.351Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/1/0/1.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.352Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/3/3/5.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.353Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/assets/driver.js-DgYmvLa3.js",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.767Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/104/58",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.767Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/105/58",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.769Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/106/58",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.769Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/4/5/3",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.770Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/4/6/3",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.770Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/2/0/0",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.770Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/2/1/0",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.770Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/5/14/21.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.770Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/2/1/2.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.771Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/4/7/10.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:13.771Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/6/29/42.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:14.203Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/3744/5476.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:14.204Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/3745/5476.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:14.209Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/manifest.json",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:14.282Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:15.089Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:15.102Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7487/10947.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:15.757Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.013Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7486/10947.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.013Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/3743/5474.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.013Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7488/10948.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.013Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7488/10947.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.014Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7488/10949.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.017Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7487/10946.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.017Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7489/10949.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.017Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7489/10948.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.017Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/6/25/14",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.019Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/6/26/14",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.045Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13489/7487",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.049Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13490/7487",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.050Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13491/7487",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.786Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/police_unit.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:16.817Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/11/935/1368.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:17.392Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/police_unit@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:17.409Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/22bdda4b-4406-43cd-9ca3-6d8bdbca1bda",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:17.997Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/police_unit@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.011Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1685/935",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.011Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1686/935",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.011Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/5/12/7",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.011Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/5/13/7",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.011Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/3/2/1",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.011Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/3/3/1",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.026Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13488/7488",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.027Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13489/7488",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.028Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/7/52/29",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.029Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/7/53/29",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.029Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13487/7488",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.048Z",
+          "method": "GET",
+          "url": "blob:https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/c5303090-6abc-4574-94a6-03c95f06573c",
+          "type": "other",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.688Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/barrier.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.712Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/8/117/171.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.727Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/3744/5474.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.727Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/9/234/342.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.727Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/1872/2737.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.727Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/8/116/171.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.727Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/9/233/342.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.728Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13490/7488",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.728Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13491/7488",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.728Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/10/468/684.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.729Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/10/467/684.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:18.729Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/11/936/1368.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.463Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/barrier@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.476Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26978/14976",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.476Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26979/14976",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.476Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26977/14976",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.476Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26976/14976",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.477Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26977/14977",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.479Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26978/14977",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.480Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/10/420/233",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.482Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/10/421/233",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.482Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/11/842/467",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.482Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/11/843/467",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.482Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26980/14976",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.483Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26981/14976",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.483Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/9/209/117",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.485Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/9/210/117",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.499Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/9/209/116",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.501Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/9/210/116",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.501Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6743/3744",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.501Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6744/3744",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.527Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/3744/5473.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:19.537Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/1872/2736.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:20.253Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/barrier@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:20.600Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7487/10948.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:20.601Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7487/10949.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:20.601Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7486/10948.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:20.601Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/7486/10949.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:20.601Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/1871/2737.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:20.602Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/3743/5473.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.409Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cctv_signal.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.417Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53959/29952",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.418Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53960/29952",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.418Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53961/29952",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.418Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53962/29952",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.418Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53959/29953",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.419Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53960/29953",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.419Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53961/29953",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.419Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26979/14977",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.420Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26977/14978",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.420Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26978/14978",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.420Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/1871/2736.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.449Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13488/7487",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.450Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6743/3743",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.450Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6744/3743",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.450Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13487/7487",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.450Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13489/7486",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.450Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13490/7486",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.450Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13491/7486",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:21.454Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/10/420/234",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:22.120Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cctv_signal@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:22.860Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cctv_signal@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:22.900Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26977/14975",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:22.900Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26978/14975",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:22.901Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26977/14974",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:22.901Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26978/14974",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:22.901Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26976/14975",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:22.901Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26979/14975",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:22.901Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26979/14974",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.593Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/checkpoint.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.610Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26979/14973",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.610Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26980/14973",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.632Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26980/14974",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.633Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26981/14974",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.633Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26980/14975",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.633Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26981/14975",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.633Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26982/14974",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.633Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26982/14975",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.633Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53962/29947",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.633Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53963/29947",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:23.636Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26981/14973",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:24.328Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/checkpoint@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:24.383Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53958/29950",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:24.383Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53959/29950",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:24.383Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53958/29949",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:24.383Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53959/29949",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:24.384Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53957/29950",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:24.384Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53958/29951",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:24.384Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53959/29951",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:25.181Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/checkpoint@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:25.209Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53961/29949",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:25.211Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53962/29949",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:25.211Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53957/29949",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:25.558Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/google/nearby-places?lat=30.274182&lon=-97.740945&radiusM=500",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:25.588Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53960/29949",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:25.589Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53960/29950",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:25.589Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53961/29950",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:25.590Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53962/29950",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:25.590Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53963/29949",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.160Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/staging_point.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.175Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53962/29948",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.176Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53963/29948",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.176Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53963/29950",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.856Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/staging_point@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.873Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107924/59898",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.874Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107925/59898",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.874Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107924/59899",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.875Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107925/59899",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.875Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53961/29948",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.902Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107924/59897",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.903Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107925/59897",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.903Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107926/59898",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.903Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107924/59900",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.905Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107925/59900",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.906Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107926/59899",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.906Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107926/59897",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.906Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53959/29948",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:26.906Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53960/29948",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:27.587Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/staging_point@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:27.605Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53960/29951",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:27.605Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53961/29951",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:27.605Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/10/421/234",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:27.629Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26982/14973",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.294Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/perimeter_unit.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.307Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107926/59900",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.308Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107924/59901",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.309Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107925/59901",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.336Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107924/59896",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.337Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107925/59896",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.337Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53957/29951",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.337Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3371/1872",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.337Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3372/1872",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.337Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6745/3743",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.337Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6746/3743",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.337Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13488/7486",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.337Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3371/1871",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:28.341Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3372/1871",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.005Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/perimeter_unit@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.023Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53958/29948",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.023Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107926/59896",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.023Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53962/29951",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.049Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107926/59901",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.049Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53964/29950",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.706Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/perimeter_unit@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.733Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53957/29948",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.733Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107924/59895",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.733Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107925/59895",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:29.733Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53961/29947",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.388Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/crowd_zone.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.401Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107927/59900",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.402Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53959/29947",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.403Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53960/29947",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.404Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53963/29951",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.404Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/11/842/468",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.405Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/11/843/468",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.406Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13487/7486",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.406Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1685/936",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.406Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1686/936",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.423Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107926/59895",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.423Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13488/7489",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.424Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/13489/7489",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.425Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6745/3744",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:30.425Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/6746/3744",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.103Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/crowd_zone@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.788Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/crowd_zone@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.802Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/107927/59901",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.803Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26976/14974",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.834Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53958/29947",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.834Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53957/29947",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.838Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26977/14973",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.838Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26978/14973",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.838Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53957/29946",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.838Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/53958/29946",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.839Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26976/14973",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.839Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26976/14972",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.839Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/26977/14972",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.839Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3373/1871",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:31.839Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3373/1872",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:32.526Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/start_finish.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:33.253Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/start_finish@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:33.959Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/start_finish@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:34.690Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/egress.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:35.420Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/egress@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:36.102Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/egress@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:36.792Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/command_post.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:37.506Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/command_post@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:38.188Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/command_post@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:38.869Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cctv.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:39.480Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cctv@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:40.255Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cctv@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:40.933Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cordon_node.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:41.645Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cordon_node@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:42.346Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cordon_node@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:43.073Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/route_start.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:43.746Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/route_start@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:44.459Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/route_start@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:45.158Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/route_finish.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:45.892Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/route_finish@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:46.619Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/route_finish@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:47.429Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/generic.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:48.108Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/generic@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:48.797Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/generic@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:49.522Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_car.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:50.208Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_car@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:50.894Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_car@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:51.585Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_ambulance.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:52.273Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_ambulance@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:52.969Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_ambulance@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:53.655Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_fire_engine.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:54.342Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_fire_engine@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:55.111Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_fire_engine@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:55.857Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_civilian_sedan.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:56.548Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_civilian_sedan@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:57.234Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_civilian_sedan@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:57.911Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/aircraft_helicopter.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:58.609Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/aircraft_helicopter@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:33:59.362Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/aircraft_helicopter@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:00.059Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/aircraft_fixed_wing.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:00.764Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/aircraft_fixed_wing@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:01.465Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/aircraft_fixed_wing@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:02.192Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_runner.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:02.890Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_runner@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:03.597Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_runner@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:04.278Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_police_officer.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:05.021Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_police_officer@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:05.792Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_police_officer@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:06.489Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/signage_road_closed.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:07.269Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/signage_road_closed@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:08.010Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/signage_road_closed@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:08.736Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/effect_smoke_fire.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:09.471Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/effect_smoke_fire@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:10.183Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/effect_smoke_fire@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:10.862Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_1.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:11.559Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_1@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:12.260Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_1@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:12.964Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_2.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:13.654Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_2@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:14.356Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_2@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:15.116Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_3.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:15.893Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_3@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:16.604Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_3@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:17.321Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_4.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:18.025Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_4@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:18.710Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/alert_state_4@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:19.436Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/barrier_crowd.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:20.140Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/barrier_crowd@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:20.828Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/barrier_crowd@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:21.525Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone_cluster.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:22.238Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone_cluster@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:22.925Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone_cluster@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:23.627Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/crowd_spectators.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:24.351Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/crowd_spectators@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:25.124Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/crowd_spectators@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:25.926Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_responder.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:26.616Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_responder@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:27.319Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_responder@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:28.024Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_city_bus.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:28.712Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_city_bus@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:29.417Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_city_bus@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:30.122Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_motorcycle.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:30.795Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_motorcycle@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:31.513Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_motorcycle@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:32.242Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/sensor_cctv_feed.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:32.984Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/sensor_cctv_feed@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:33.696Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/sensor_cctv_feed@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:34.410Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/evidence_pin_verified.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:35.173Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/evidence_pin_verified@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:35.961Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/evidence_pin_verified@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:36.644Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/marker_air_raid_impact_sim.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:37.362Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/marker_air_raid_impact_sim@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:38.042Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/marker_air_raid_impact_sim@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:38.718Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vessel_marine_patrol.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:39.432Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vessel_marine_patrol@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:40.131Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vessel_marine_patrol@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:40.811Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/medical_point.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:41.513Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/medical_point@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:42.205Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/medical_point@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:42.899Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/marine_patrol.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:43.592Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/marine_patrol@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:44.275Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/marine_patrol@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:45.005Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_checkpoint.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:45.824Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_checkpoint@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:46.535Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_checkpoint@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:47.274Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/screening_lane.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:47.953Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/screening_lane@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:48.637Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/screening_lane@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:49.343Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/road_closed.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:50.027Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/road_closed@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:50.722Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/road_closed@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:51.448Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/civilian_sedan.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:52.139Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/civilian_sedan@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:52.846Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/civilian_sedan@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:53.553Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/event_command_post.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:54.239Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/event_command_post@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:54.937Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/event_command_post@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:55.752Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/checkpoint_cordon_node.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:56.453Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/checkpoint_cordon_node@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:57.140Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/checkpoint_cordon_node@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:57.828Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/road_closed_barricade.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:58.536Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/road_closed_barricade@2x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:59.158Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/road_closed_barricade@4x.png",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:34:59.953Z",
+          "method": "POST",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/ondemand/v2/incidents/locate",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:04.635Z",
+          "method": "POST",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/ondemand/v2/scene-plans/construct/stream",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:10.706Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:10.706Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/police_unit.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:10.706Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/staging_point.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:10.706Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/egress.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.453Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21332/10418.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.453Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21334/10418.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.453Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21333/10418.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.453Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/14/21333/10417.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.453Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/1/2/1.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.453Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/3/10/5.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.453Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/4/20/10.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.453Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/5/41/20.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.454Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/10/1333/651.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.454Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/7/166/81.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.454Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/2/5/2.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.454Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/11/2666/1302.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.454Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/command_post@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.454Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_car@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.454Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_motorcycle@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.454Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_police_officer@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.556Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10667/5209.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.556Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10666/5209.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.556Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/9/666/325.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.556Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/12/5333/2604.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.557Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/6/83/40.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.557Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/8/333/162.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:14.557Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/command_post@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.557Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_car@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.557Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_motorcycle@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.557Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/person_police_officer@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.557Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/barrier@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.557Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone_cluster@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:14.557Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/signage_road_closed@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:16.572Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/14087/21333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:16.572Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/14088/21333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:16.573Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/7/54/83",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:16.573Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/7/55/83",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:16.573Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/6/26/41",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:16.573Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/6/27/41",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:16.573Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/5/12/20",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:16.573Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/5/13/20",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:16.573Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/4/5/10",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:16.574Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/4/6/10",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:17.245Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/google/nearby-places?lat=24.454821&lon=54.3773&radiusM=500",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:17.250Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/generic@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/perimeter_unit@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/barrier_crowd@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/police_unit@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/staging_point@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/egress@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cordon_node.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/vehicle_police_car.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/egress.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/staging_point.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/perimeter_unit.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone_cluster.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.251Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/barrier.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.252Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cctv.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.508Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/3/2/5",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:17.510Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/3/3/5",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:17.510Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/2/0/2",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:17.510Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/2/1/2",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:17.510Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3521/5333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:17.510Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/13/3522/5333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:17.510Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/11/879/1333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:17.511Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/11/880/1333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:17.511Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/generic@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.511Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/perimeter_unit@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.511Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/barrier_crowd@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.511Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/cone@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.512Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/police_unit@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.512Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/staging_point@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:17.512Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/png/egress@2x.png",
+          "type": "image",
+          "status": 304
+        },
+        {
+          "t": "2026-11-02T16:35:18.482Z",
+          "method": "GET",
+          "url": "https://terrain.reearth.land/cesium-mesh/ellipsoid/13/10666/5208.terrain",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:18.552Z",
+          "method": "POST",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/ondemand/v2/summaries/hud",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:18.919Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/28173/42667",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:18.920Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/28174/42667",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:18.920Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1760/2666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:18.920Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/12/1761/2666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:18.920Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/14086/21333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:18.920Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/28173/42666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:18.920Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/28174/42666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.238Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56347/85334",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.239Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56348/85334",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.239Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56347/85333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.239Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56348/85333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.239Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56347/85335",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.239Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56348/85335",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.239Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/28175/42667",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.239Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/28175/42666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.239Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/109/166",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.239Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/8/110/166",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.239Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/7042/10666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.282Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/assets/sceneFlyIn-Bz_cNjn6.js",
+          "type": "script",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.527Z",
+          "method": "POST",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/ondemand/v2/scene/evidence",
+          "type": "fetch",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.527Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/svg/perimeter_unit.svg",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.527Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/svg/egress.svg",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.527Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/svg/staging_point.svg",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.527Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/svg/police_unit.svg",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.527Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/svg/cone.svg",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.527Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/svg/barrier.svg",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.527Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/scene-icons/svg/cctv_signal.svg",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.528Z",
+          "method": "GET",
+          "url": "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB2aWV3Qm94PSIwIDAgMjQgMjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDI0IDI0OyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgZmlsbD0iV2luZG93VGV4dCI+CjxnPgoJPGNpcmNsZSBjeD0iMTIiIGN5PSI2IiByPSIyIi8+Cgk8Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIyIi8+Cgk8Y2lyY2xlIGN4PSIxMiIgY3k9IjE4IiByPSIyIi8+CjwvZz4KPC9zdmc+Cg==",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.895Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56347/85332",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:19.895Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56348/85332",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.080Z",
+          "method": "GET",
+          "url": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSJXaW5kb3dUZXh0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik04IDV2MTRsMTEtN3oiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.081Z",
+          "method": "GET",
+          "url": "data:image/svg+xml;base64,PHN2ZyBmaWxsPSJXaW5kb3dUZXh0IiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0zIDl2Nmg0bDUgNVY0TDcgOUgzem0xMy41IDNjMC0xLjc3LTEuMDItMy4yOS0yLjUtNC4wM3Y4LjA1YzEuNDgtLjczIDIuNS0yLjI1IDIuNS00LjAyek0xNCAzLjIzdjIuMDZjMi44OS44NiA1IDMuNTQgNSA2Ljcxcy0yLjExIDUuODUtNSA2LjcxdjIuMDZjNC4wMS0uOTEgNy00LjQ5IDctOC43N3MtMi45OS03Ljg2LTctOC43N3oiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+",
+          "type": "image",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.207Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56347/85336",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.208Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56348/85336",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.208Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56349/85334",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.215Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56350/85334",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.215Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56349/85333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.770Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112699/170668",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.770Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112700/170668",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.770Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112698/170668",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.770Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112699/170667",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.770Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112700/170667",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:20.771Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112698/170667",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.086Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112699/170669",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.086Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112700/170669",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.086Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112698/170669",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.086Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112697/170668",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.128Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225401/341336",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.128Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225402/341336",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.128Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225401/341337",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.129Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225402/341337",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.129Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112701/170668",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.459Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225401/341335",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.459Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225402/341335",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.884Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225403/341336",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.884Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112697/170667",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.884Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225403/341337",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.884Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225401/341334",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.884Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225402/341334",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.884Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112701/170667",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.884Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56350/85333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:21.885Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112701/170669",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.172Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225401/341338",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.172Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225402/341338",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.176Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225403/341335",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.177Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112697/170669",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.177Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225403/341338",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.177Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112698/170666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.177Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112699/170666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.473Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225401/341339",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.474Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225402/341339",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.474Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112700/170666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.475Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/19/225403/341334",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.475Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112697/170666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.476Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112698/170670",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.476Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112699/170670",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.773Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112700/170670",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.773Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112697/170670",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.773Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112701/170666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.773Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112698/170665",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.774Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112699/170665",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.774Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56349/85335",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:22.774Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56350/85335",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:23.223Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112697/170665",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:23.224Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112697/170671",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:23.224Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/18/112698/170671",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.089Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/17/56349/85332",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.093Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/7043/10666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.093Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/28173/42668",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.093Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/16/28174/42668",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.147Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/14086/21334",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.148Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/15/14087/21334",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.149Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/7042/10667",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.150Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/7043/10667",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.151Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/9/219/333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.154Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/9/220/333",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.154Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/10/439/666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.154Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/10/440/666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:24.154Z",
+          "method": "GET",
+          "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/14/7044/10666",
+          "type": "xhr",
+          "status": 200
+        },
+        {
+          "t": "2026-11-02T16:35:25.106Z",
+          "method": "GET",
+          "url": "https://ondemand-agent-ffaqr6hnw-schoolhack-web-team.vercel.app/api/google/nearby-places?lat=24.452358&lon=54.3773&radiusM=500",
+          "type": "fetch"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "blocked": 0
+  }
+}

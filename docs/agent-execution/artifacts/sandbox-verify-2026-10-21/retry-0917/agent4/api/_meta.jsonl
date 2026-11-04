@@ -1,0 +1,10 @@
+{"name":"01-health-v2","method":"GET","path":"/api/ondemand/v2/health","status":200,"latency_ms":97,"run_at":"2026-10-21T09:33:47Z","user_header":"","body":null}
+{"name":"01-health","method":"GET","path":"/api/health","status":200,"latency_ms":81,"run_at":"2026-10-21T09:33:47Z","user_header":"","body":null}
+{"name":"02-contracts","method":"GET","path":"/api/ondemand/v2/contracts","status":200,"latency_ms":78,"run_at":"2026-10-21T09:33:47Z","user_header":"","body":null}
+{"name":"03-plugins-before","method":"GET","path":"/api/ondemand/v2/plugins","status":200,"latency_ms":86,"run_at":"2026-10-21T09:33:47Z","user_header":"","body":null}
+{"name":"04-verify-internet","method":"POST","path":"/api/ondemand/v2/plugins/verify","status":200,"latency_ms":4905,"run_at":"2026-10-21T09:34:07Z","user_header":"agent4-probe","body":{"externalUserId":"agent4-probe","names":["internet_web_search"]}}
+{"name":"05-verify-xmcp","method":"POST","path":"/api/ondemand/v2/plugins/verify","status":200,"latency_ms":88,"run_at":"2026-10-21T09:34:11Z","user_header":"agent4-probe","body":{"externalUserId":"agent4-probe","names":["x_mcp_connector"]}}
+{"name":"06-verify-all","method":"POST","path":"/api/ondemand/v2/plugins/verify","status":200,"latency_ms":6085,"run_at":"2026-10-21T09:34:12Z","user_header":"agent4-probe","body":{"externalUserId":"agent4-probe","names":[]}}
+{"name":"07-plugins-after","method":"GET","path":"/api/ondemand/v2/plugins","status":200,"latency_ms":177,"run_at":"2026-10-21T09:34:18Z","user_header":"","body":null}
+{"name":"08-verify-mismatch","method":"POST","path":"/api/ondemand/v2/plugins/verify","status":403,"latency_ms":113,"run_at":"2026-10-21T09:34:18Z","user_header":"someone-else","body":{"externalUserId":"agent4-probe","names":["internet_web_search"]}}
+{"name":"09-verify-unknown","method":"POST","path":"/api/ondemand/v2/plugins/verify","status":500,"latency_ms":100,"run_at":"2026-10-21T09:34:18Z","user_header":"agent4-probe","body":{"externalUserId":"agent4-probe","names":["does_not_exist"]}}

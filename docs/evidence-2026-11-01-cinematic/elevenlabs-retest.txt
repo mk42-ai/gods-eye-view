@@ -1,0 +1,5 @@
+ElevenLabs narration re-test — 2026-11-01T13:30:11Z (UTC)
+Method: OnDemand chat session with pluginIds ['plugin-1789123753'] (the app's existing server-side ElevenLabs plugin, server/scene-plans/narration.js), sync query on predefined-claude-sonnet-5.5 asking for synthesis with voice_id JBFqnCBsd6RMkjVDRZzb, model_id eleven_multilingual_v2.
+HTTP 200 from OnDemand; the plugin returned the provider error verbatim:
+{"details":{"detail":{"code":"payment_issue","message":"Your subscription has a failed or incomplete payment. Complete the latest invoice to continue usage.","request_id":"f6803ea65aeadd087e0bc4e520c17f4b","status":"payment_issue","type":"payment_required"}},"error":"Your subscription has a failed or incomplete payment. Complete the latest invoice to continue usage.","success":false}
+Result: BLOCKED (provider billing). No audio was generated; the app's narration route keeps answering narration_provider_payment_required (503) and no sample audio is substituted.

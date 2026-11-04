@@ -1,0 +1,18 @@
+{
+  "plugins": [
+    {
+      "name": "internet_web_search",
+      "pluginId": "plugin-1713924030",
+      "provider": "OnDemand \u00b7 Internet web search",
+      "kind": "ondemand-plugin",
+      "availability": "active",
+      "state": "ready",
+      "verifiedAt": "2026-10-21T08:07:04.013Z",
+      "latencyMs": 6075,
+      "error": null,
+      "lastInvokedAt": null,
+      "invocations": 0,
+      "answerPreview": "READY"
+    }
+  ]
+}

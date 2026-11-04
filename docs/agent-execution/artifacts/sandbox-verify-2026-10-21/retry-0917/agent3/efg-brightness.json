@@ -1,0 +1,50 @@
+{
+ "E-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 67.19,
+  "ok": true
+ },
+ "E-390x844.png": {
+  "size": [
+   390,
+   844
+  ],
+  "mean_gray": 67.65,
+  "ok": true
+ },
+ "F-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 67.14,
+  "ok": true
+ },
+ "F-390x844.png": {
+  "size": [
+   390,
+   844
+  ],
+  "mean_gray": 67.52,
+  "ok": true
+ },
+ "G-1440x900.png": {
+  "size": [
+   1440,
+   900
+  ],
+  "mean_gray": 68.74,
+  "ok": true
+ },
+ "G-390x844.png": {
+  "size": [
+   390,
+   844
+  ],
+  "mean_gray": 61.74,
+  "ok": true
+ }
+}

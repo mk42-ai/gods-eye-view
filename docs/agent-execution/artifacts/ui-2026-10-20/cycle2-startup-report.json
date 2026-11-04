@@ -1,0 +1,75 @@
+{
+ "url": "https://sb-74qv32j82zmp.vercel.run/",
+ "ok": true,
+ "screenshots": [
+  "cycle2-startup-1440x900.png",
+  "cycle2-startup-390x844.png"
+ ],
+ "assertions": [
+  {
+   "kind": "http-status",
+   "target": "https://sb-74qv32j82zmp.vercel.run/",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "kind": "wait-selector",
+   "target": "#title-bar",
+   "ok": true,
+   "detail": "appeared"
+  },
+  {
+   "kind": "expect-text",
+   "target": "OnDemand Intelligence",
+   "ok": true,
+   "detail": "found"
+  },
+  {
+   "kind": "forbid-text",
+   "target": "OnDemand Spatial",
+   "ok": true,
+   "detail": "absent"
+  },
+  {
+   "kind": "forbid-text",
+   "target": "GEV MIC",
+   "ok": true,
+   "detail": "absent"
+  },
+  {
+   "kind": "expect-selector",
+   "target": "#title-bar .brand-product .title-accent",
+   "ok": true,
+   "detail": "visible"
+  },
+  {
+   "kind": "eval",
+   "target": "document.title === 'OnDemand Intelligence Workstation'",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "kind": "eval",
+   "target": "document.querySelector('link[rel=icon][href=\"/assets/brand/favicon.ico\"]') !== null",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "kind": "page-rendered",
+   "target": "document.body",
+   "ok": true,
+   "detail": "innerText=1575 chars, bodyHeight=757px"
+  }
+ ],
+ "consoleErrors": [
+  "Failed to load resource: the server responded with a status of 404 () https://sb-74qv32j82zmp.vercel.run/api/setup/status"
+ ],
+ "pageErrors": [],
+ "failedRequests": [
+  "Fetch: net::ERR_ABORTED https://sb-74qv32j82zmp.vercel.run/api/setup/status"
+ ],
+ "browser": "/tmp/chromium-swiftshader.sh",
+ "httpStatus": 200,
+ "title": "OnDemand Intelligence Workstation",
+ "textLength": 1575
+}

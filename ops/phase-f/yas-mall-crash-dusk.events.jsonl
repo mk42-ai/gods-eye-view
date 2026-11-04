@@ -1,0 +1,16 @@
+{"utc": "2026-11-03T09:48:33Z", "stage": "geocode", "data": {"name": "Yas Mall", "lat": 24.4885, "lon": 54.6088, "kind": "mall", "waterfront": false, "source": "caller-coordinates", "precision": "exact-input", "approximate": true}}
+{"utc": "2026-11-03T09:48:35Z", "stage": "imagery", "data": {"tiles": 16, "ok": 16, "zoom": 18, "px": [1024, 1024], "bounds_wsen": [54.606170654296875, 24.485898787621508, 54.611663818359375, 24.490897815331078], "source": "Esri World Imagery (keyless tiles)"}}
+{"utc": "2026-11-03T09:48:37Z", "stage": "osm", "data": {"endpoint": "api.openstreetmap.org/api/0.6/map", "buildings": 40, "highways": 230, "water": 5, "nodes": 4977, "latency_s": 1.2}}
+{"utc": "2026-11-03T09:48:43Z", "stage": "spec_model", "data": {"endpointId": "predefined-kimi-k3-fast", "http": 200, "latency_s": 6.61, "valid": true, "answer_chars": 587}}
+{"utc": "2026-11-03T09:48:43Z", "stage": "placement", "data": {"instances": 37, "shapes": 2, "roads": 133, "water_polys": 5}}
+{"utc": "2026-11-03T09:48:57Z", "stage": "first_frame", "data": {"ttff_s": 24.64, "frame": "f_0961.png"}}
+{"utc": "2026-11-03T09:52:21Z", "stage": "blender", "data": {"log": "blender_2_480.log", "line": "SCENE_READY devices=['NVIDIA H100 80GB HBM3'] buildings=40 instances=37 assets=5 setup_s=13.26 frames=2-480"}}
+{"utc": "2026-11-03T09:52:21Z", "stage": "blender", "data": {"log": "blender_2_480.log", "line": "SHARD_DONE frames=479 render_s=188.34 setup_s=13.26"}}
+{"utc": "2026-11-03T09:52:21Z", "stage": "blender", "data": {"log": "blender_481_960.log", "line": "SCENE_READY devices=['NVIDIA H100 80GB HBM3'] buildings=40 instances=37 assets=5 setup_s=12.64 frames=481-960"}}
+{"utc": "2026-11-03T09:52:21Z", "stage": "blender", "data": {"log": "blender_481_960.log", "line": "SHARD_DONE frames=480 render_s=179.65 setup_s=12.64"}}
+{"utc": "2026-11-03T09:52:21Z", "stage": "blender", "data": {"log": "blender_1_1.log", "line": "SCENE_READY devices=['NVIDIA H100 80GB HBM3'] buildings=40 instances=37 assets=5 setup_s=11.75 frames=1-1"}}
+{"utc": "2026-11-03T09:52:21Z", "stage": "blender", "data": {"log": "blender_1_1.log", "line": "SHARD_DONE frames=1 render_s=2.31 setup_s=11.75"}}
+{"utc": "2026-11-03T09:52:21Z", "stage": "blender", "data": {"log": "blender_961_1440.log", "line": "SCENE_READY devices=['NVIDIA H100 80GB HBM3'] buildings=40 instances=37 assets=5 setup_s=10.76 frames=961-1440"}}
+{"utc": "2026-11-03T09:52:21Z", "stage": "blender", "data": {"log": "blender_961_1440.log", "line": "SHARD_DONE frames=480 render_s=178.78 setup_s=10.76"}}
+{"utc": "2026-11-03T09:52:22Z", "stage": "encode", "data": {"nvenc_error": "c @ 0x562413c511c0] OpenEncodeSessionEx failed: unsupported device (2): (no details)\n[h264_nvenc @ 0x562413c511c0] No capable devices found\nError initializing output stream 0:0 -- Error while opening encoder for output stream #0:0 - maybe incorrect parameters such as bit_rate, rate, width or height\n", "fallback": "libx264"}}
+{"utc": "2026-11-03T09:52:32Z", "stage": "done", "data": {"stage": "complete", "frames": 1440, "ttff_s": 24.64, "fps_sustained": 6.605, "mp4_bytes": 48955108}}

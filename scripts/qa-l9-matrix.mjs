@@ -1101,7 +1101,7 @@ check({
       // Evidence-gated: only when its console assertion is the failing one AND
       // the transcript actually shows a 503. Explains, never excuses.
       when: /no console errors[\s\S]{0,300}?503/,
-      note: 'not key-tolerant — its "no console errors" assertion counts the honest keyless 503s (e.g. /api/openai/hud-summary) as errors; expected to PASS on the fully keyed server. Still a FAIL here.',
+      note: 'not key-tolerant — its "no console errors" assertion counts the honest keyless 503s (e.g. /api/ondemand/v2/summaries/hud) as errors; expected to PASS on the fully keyed server. Still a FAIL here.',
     }],
   }),
 });

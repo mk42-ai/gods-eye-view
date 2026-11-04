@@ -1,0 +1,166 @@
+{
+  "url": "https://sb-4asza5droe1u.vercel.run",
+  "generated_utc": "2026-10-21T10:24:14.754Z",
+  "results": [
+    {
+      "check": "mobile_composer_not_occluded_by_banner",
+      "scenario": "A/fix",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 1703,
+      "run_at_iso8601": "2026-10-21T10:23:54.380Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-1440x900.png",
+      "evidence": "bannerBefore={\"present\":true,\"hidden\":false,\"z\":\"180\"} bannerWhileChatOpen={\"present\":true,\"hidden\":true,\"display\":\"flex\"} hit={\"ondemand-mini-chat-input\":{\"rect\":{\"x\":1003,\"y\":769,\"w\":186,\"h\":32},\"topId\":\"ondemand-mini-chat-input\",\"topTag\":\"INPUT\",\"hitsSelf\":true},\"ondemand-mini-chat-send\":{\"rect\":{\"x\":1195,\"y\":769,\"w\":208,\"h\":32},\"topId\":\"ondemand-mini-chat-send\",\"topTag\":\"BUTTON\",\"hitsSelf\":true}}"
+    },
+    {
+      "check": "real_pointer_send_delivers_message",
+      "scenario": "A/fix",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 339,
+      "run_at_iso8601": "2026-10-21T10:23:54.719Z",
+      "screenshot": null,
+      "evidence": "pointer=mouse.click userMessages=1 settled=true"
+    },
+    {
+      "check": "media_deliverables_render_thumb_poster_doc_no_autoplay",
+      "scenario": "A/fix",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 1574,
+      "run_at_iso8601": "2026-10-21T10:23:56.293Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-1440x900.png",
+      "evidence": "{\"anchors\":4,\"imgs\":1,\"videos\":1,\"autoplayVideos\":0,\"videoAutoplayProp\":false,\"videoControls\":false,\"videoPaused\":true,\"gridDisplay\":\"grid\",\"gridCols\":3,\"cards\":[{\"media\":\"document\",\"x\":1013,\"y\":610,\"w\":113,\"h\":99},{\"media\":\"image\",\"x\":1134,\"y\":610,\"w\":113,\"h\":99},{\"media\":\"video\",\"x\":1254,\"y\":610,\"w\":113,\"h\":99}],\"docCards\":1,\"thumbs\":1,\"posters\":1,\"lightboxInDom\":false,\"paneInDom\":false} sideBySide=true"
+    },
+    {
+      "check": "image_thumbnail_opens_lightbox",
+      "scenario": "A/fix",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 1483,
+      "run_at_iso8601": "2026-10-21T10:23:57.776Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-1440x900.png",
+      "evidence": "lightbox={\"open\":\"true\",\"hidden\":false,\"display\":\"grid\",\"src\":\"https://example.com/figure.png\",\"z\":\"188\",\"role\":\"dialog\"} closedAfterX=true"
+    },
+    {
+      "check": "video_poster_opens_side_pane_no_autoplay",
+      "scenario": "A/fix",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 1711,
+      "run_at_iso8601": "2026-10-21T10:23:59.488Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-1440x900.png",
+      "evidence": "{\"open\":\"true\",\"display\":\"flex\",\"media\":\"video\",\"hasVideo\":true,\"controls\":true,\"autoplay\":false,\"paused\":true,\"rect\":{\"x\":498,\"y\":504,\"w\":480,\"h\":308},\"overlapsChat\":false,\"streamAutoplay\":0}"
+    },
+    {
+      "check": "document_card_opens_pdf_preview",
+      "scenario": "A/fix",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 1614,
+      "run_at_iso8601": "2026-10-21T10:24:01.102Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-1440x900.png",
+      "evidence": "{\"open\":\"true\",\"media\":\"document\",\"iframe\":true,\"iframeSrc\":\"https://example.com/brief.pdf\",\"sandbox\":\"\"}"
+    },
+    {
+      "check": "plugin_dock_reachable_while_chat_open",
+      "scenario": "A/fix",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 1205,
+      "run_at_iso8601": "2026-10-21T10:24:02.307Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-1440x900.png",
+      "evidence": "{\"present\":true,\"dockRect\":{\"x\":594,\"y\":500,\"w\":384,\"h\":376},\"chatRect\":{\"x\":990,\"y\":436,\"w\":432,\"h\":376},\"verifyHitsSelf\":true,\"topId\":\"od-plugin__verify\",\"overlapsChat\":false,\"right\":\"462px\"}"
+    },
+    {
+      "check": "banner_restored_after_chat_close",
+      "scenario": "A/fix",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 304,
+      "run_at_iso8601": "2026-10-21T10:24:02.611Z",
+      "screenshot": null,
+      "evidence": "{\"hidden\":false}"
+    },
+    {
+      "check": "mobile_composer_not_occluded_by_banner",
+      "scenario": "A/fix",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 673,
+      "run_at_iso8601": "2026-10-21T10:24:11.977Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-composer-hittest-390x844.png",
+      "evidence": "bannerBefore={\"present\":true,\"hidden\":false,\"z\":\"180\"} bannerWhileChatOpen={\"present\":true,\"hidden\":true,\"display\":\"flex\"} hit={\"ondemand-mini-chat-input\":{\"rect\":{\"x\":13,\"y\":801,\"w\":186,\"h\":32},\"topId\":\"ondemand-mini-chat-input\",\"topTag\":\"INPUT\",\"hitsSelf\":true},\"ondemand-mini-chat-send\":{\"rect\":{\"x\":205,\"y\":801,\"w\":166,\"h\":32},\"topId\":\"ondemand-mini-chat-send\",\"topTag\":\"BUTTON\",\"hitsSelf\":true}}"
+    },
+    {
+      "check": "real_pointer_send_delivers_message",
+      "scenario": "A/fix",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 160,
+      "run_at_iso8601": "2026-10-21T10:24:12.137Z",
+      "screenshot": null,
+      "evidence": "pointer=touchscreen.tap userMessages=1 settled=true"
+    },
+    {
+      "check": "media_deliverables_render_thumb_poster_doc_no_autoplay",
+      "scenario": "A/fix",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 327,
+      "run_at_iso8601": "2026-10-21T10:24:12.464Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-media-rendering-390x844.png",
+      "evidence": "{\"anchors\":4,\"imgs\":1,\"videos\":1,\"autoplayVideos\":0,\"videoAutoplayProp\":false,\"videoControls\":false,\"videoPaused\":true,\"gridDisplay\":\"grid\",\"gridCols\":3,\"cards\":[{\"media\":\"document\",\"x\":23,\"y\":652,\"w\":100,\"h\":89},{\"media\":\"image\",\"x\":131,\"y\":652,\"w\":100,\"h\":89},{\"media\":\"video\",\"x\":238,\"y\":652,\"w\":100,\"h\":89}],\"docCards\":1,\"thumbs\":1,\"posters\":1,\"lightboxInDom\":false,\"paneInDom\":false} sideBySide=true"
+    },
+    {
+      "check": "image_thumbnail_opens_lightbox",
+      "scenario": "A/fix",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 722,
+      "run_at_iso8601": "2026-10-21T10:24:13.186Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-lightbox-390x844.png",
+      "evidence": "lightbox={\"open\":\"true\",\"hidden\":false,\"display\":\"grid\",\"src\":\"https://example.com/figure.png\",\"z\":\"188\",\"role\":\"dialog\"} closedAfterX=true"
+    },
+    {
+      "check": "video_poster_opens_side_pane_no_autoplay",
+      "scenario": "A/fix",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 652,
+      "run_at_iso8601": "2026-10-21T10:24:13.838Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-video-sidepane-390x844.png",
+      "evidence": "{\"open\":\"true\",\"display\":\"flex\",\"media\":\"video\",\"hasVideo\":true,\"controls\":true,\"autoplay\":false,\"paused\":true,\"rect\":{\"x\":0,\"y\":17,\"w\":390,\"h\":236},\"overlapsChat\":false,\"streamAutoplay\":0}"
+    },
+    {
+      "check": "document_card_opens_pdf_preview",
+      "scenario": "A/fix",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 431,
+      "run_at_iso8601": "2026-10-21T10:24:14.269Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-doc-preview-390x844.png",
+      "evidence": "{\"open\":\"true\",\"media\":\"document\",\"iframe\":true,\"iframeSrc\":\"https://example.com/brief.pdf\",\"sandbox\":\"\"}"
+    },
+    {
+      "check": "plugin_dock_reachable_while_chat_open",
+      "scenario": "A/fix",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 168,
+      "run_at_iso8601": "2026-10-21T10:24:14.437Z",
+      "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/fixes-after/check-plugin-dock-hittest-390x844.png",
+      "evidence": "{\"present\":true,\"dockRect\":{\"x\":0,\"y\":17,\"w\":390,\"h\":236},\"chatRect\":{\"x\":0,\"y\":462,\"w\":390,\"h\":382},\"verifyHitsSelf\":true,\"topId\":\"od-plugin__verify\",\"overlapsChat\":false,\"right\":\"0px\"}"
+    },
+    {
+      "check": "banner_restored_after_chat_close",
+      "scenario": "A/fix",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 302,
+      "run_at_iso8601": "2026-10-21T10:24:14.739Z",
+      "screenshot": null,
+      "evidence": "{\"hidden\":false}"
+    }
+  ]
+}

@@ -1131,7 +1131,7 @@ export function createGevActionRunner({
       return clearAnnotations(annotations);
     }
 
-    throw new Error(`Unknown GEV tool: ${name}`);
+    throw new Error(`Unknown voice tool: ${name}`);
   };
 }
 

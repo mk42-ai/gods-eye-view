@@ -1,0 +1,660 @@
+{
+  "startedAt": "2026-10-21T05:33:22.089Z",
+  "endedAt": "2026-10-21T05:34:19.351Z",
+  "baseUrl": "https://ondemand-eand-spatial-qrli9v1uy-schoolhack-web-team.vercel.app",
+  "summary": {
+    "total": 14,
+    "passed": 14,
+    "failed": 0,
+    "byViewport": {
+      "1440x900": {
+        "total": 7,
+        "passed": 7,
+        "failed": 0
+      },
+      "390x844": {
+        "total": 7,
+        "passed": 7,
+        "failed": 0
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "id": "A",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "app_boots",
+          "pass": true,
+          "detail": "Loading screen hidden or globe canvas active"
+        },
+        {
+          "name": "title_contains_product_name",
+          "pass": true,
+          "detail": "document.title=\"OnDemand Intelligence Workstation\""
+        },
+        {
+          "name": "no_legacy_brand_terms",
+          "pass": true,
+          "detail": "No forbidden terms visible"
+        },
+        {
+          "name": "brand_mark_present",
+          "pass": true,
+          "detail": "Found 2 [data-brand-mark] element(s)"
+        },
+        {
+          "name": "foundation_health_200",
+          "pass": true,
+          "detail": "status 200, ok=true, keySource=server"
+        },
+        {
+          "name": "foundation_contracts_min_13",
+          "pass": true,
+          "detail": "status 200, 33 contracts"
+        }
+      ],
+      "durationMs": 1019,
+      "screenshot": "A-1440x900.jpg",
+      "startedAt": "2026-10-21T05:33:26.845Z",
+      "endedAt": "2026-10-21T05:33:27.864Z"
+    },
+    {
+      "id": "B",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "mini_chat_opens_earthquake",
+          "pass": true,
+          "detail": "Mini chat opened with data-open=\"true\""
+        },
+        {
+          "name": "status_streaming_and_stop_visible",
+          "pass": true,
+          "detail": "streamingStatusSeen=true, stopButtonSeen=true"
+        },
+        {
+          "name": "assistant_message_and_settle",
+          "pass": true,
+          "detail": "settled within 90s, assistant message chars: 132"
+        },
+        {
+          "name": "key_source_server_header",
+          "pass": true,
+          "detail": "x-ondemand-key-source header: \"server\""
+        },
+        {
+          "name": "no_client_api_key_in_localstorage",
+          "pass": true,
+          "detail": "localStorage ondemand.apiKey is null"
+        }
+      ],
+      "durationMs": 5661,
+      "screenshot": "B-1440x900.jpg",
+      "startedAt": "2026-10-21T05:33:28.231Z",
+      "endedAt": "2026-10-21T05:33:33.892Z"
+    },
+    {
+      "id": "C",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "citations_query_completed",
+          "pass": true,
+          "detail": "Turn completed within 90s"
+        },
+        {
+          "name": "citations_or_honest_state",
+          "pass": true,
+          "detail": "links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+        }
+      ],
+      "durationMs": 5644,
+      "screenshot": "C-1440x900.jpg",
+      "startedAt": "2026-10-21T05:33:34.734Z",
+      "endedAt": "2026-10-21T05:33:40.378Z"
+    },
+    {
+      "id": "D",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "desktop_no_hud_brand_mark_overlap",
+          "pass": true,
+          "detail": "overlap=false, checked against 2 brand mark(s)"
+        },
+        {
+          "name": "close_button_sets_closed",
+          "pass": true,
+          "detail": "Mini chat closed (data-open=\"false\")"
+        },
+        {
+          "name": "reopen_restores_transcript",
+          "pass": true,
+          "detail": "Transcript replayed 4 messages upon reopen (expected >= 2)"
+        }
+      ],
+      "durationMs": 10,
+      "screenshot": "D-1440x900.jpg",
+      "startedAt": "2026-10-21T05:33:40.498Z",
+      "endedAt": "2026-10-21T05:33:40.508Z"
+    },
+    {
+      "id": "E",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "history_messages_present_before_switch",
+          "pass": true,
+          "detail": "Found 4 prior messages in transcript"
+        },
+        {
+          "name": "session_isolated_for_different_object",
+          "pass": true,
+          "detail": "Isolated transcript: containsEarthquake=false, msgs=0"
+        }
+      ],
+      "durationMs": 6,
+      "screenshot": "E-1440x900.jpg",
+      "startedAt": "2026-10-21T05:33:40.633Z",
+      "endedAt": "2026-10-21T05:33:40.639Z"
+    },
+    {
+      "id": "F",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "active_plugins_cap_and_id_regex",
+          "pass": true,
+          "detail": "activePlugins=10/10, validPluginIds=33/33"
+        },
+        {
+          "name": "plugin_panel_lifecycle_states",
+          "pass": true,
+          "detail": "present, 32 badges, allValid=true"
+        },
+        {
+          "name": "plugins_api_probe",
+          "pass": true,
+          "detail": "probe result: 200 mounted (obj)"
+        }
+      ],
+      "durationMs": 134,
+      "screenshot": "F-1440x900.jpg",
+      "startedAt": "2026-10-21T05:33:40.910Z",
+      "endedAt": "2026-10-21T05:33:41.044Z"
+    },
+    {
+      "id": "G",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "synthetic_502_error_ui",
+          "pass": true,
+          "detail": "Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable"
+        },
+        {
+          "name": "retry_recovery_turn_success",
+          "pass": true,
+          "detail": "Recovered turn completed (status READY)"
+        },
+        {
+          "name": "globe_and_hud_interactive_stability",
+          "pass": true,
+          "detail": "canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+        }
+      ],
+      "durationMs": 7634,
+      "screenshot": "G-1440x900.jpg",
+      "startedAt": "2026-10-21T05:33:41.163Z",
+      "endedAt": "2026-10-21T05:33:48.797Z"
+    },
+    {
+      "id": "A",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "app_boots",
+          "pass": true,
+          "detail": "Loading screen hidden or globe canvas active"
+        },
+        {
+          "name": "title_contains_product_name",
+          "pass": true,
+          "detail": "document.title=\"OnDemand Intelligence Workstation\""
+        },
+        {
+          "name": "no_legacy_brand_terms",
+          "pass": true,
+          "detail": "No forbidden terms visible"
+        },
+        {
+          "name": "brand_mark_present",
+          "pass": true,
+          "detail": "Found 2 [data-brand-mark] element(s)"
+        },
+        {
+          "name": "foundation_health_200",
+          "pass": true,
+          "detail": "status 200, ok=true, keySource=server"
+        },
+        {
+          "name": "foundation_contracts_min_13",
+          "pass": true,
+          "detail": "status 200, 33 contracts"
+        }
+      ],
+      "durationMs": 179,
+      "screenshot": "A-390x844.jpg",
+      "startedAt": "2026-10-21T05:33:52.915Z",
+      "endedAt": "2026-10-21T05:33:53.094Z"
+    },
+    {
+      "id": "B",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "mini_chat_opens_earthquake",
+          "pass": true,
+          "detail": "Mini chat opened with data-open=\"true\""
+        },
+        {
+          "name": "status_streaming_and_stop_visible",
+          "pass": true,
+          "detail": "streamingStatusSeen=true, stopButtonSeen=true"
+        },
+        {
+          "name": "assistant_message_and_settle",
+          "pass": true,
+          "detail": "settled within 90s, assistant message chars: 749"
+        },
+        {
+          "name": "key_source_server_header",
+          "pass": true,
+          "detail": "x-ondemand-key-source header: \"server\""
+        },
+        {
+          "name": "no_client_api_key_in_localstorage",
+          "pass": true,
+          "detail": "localStorage ondemand.apiKey is null"
+        }
+      ],
+      "durationMs": 10993,
+      "screenshot": "B-390x844.jpg",
+      "startedAt": "2026-10-21T05:33:53.852Z",
+      "endedAt": "2026-10-21T05:34:04.845Z"
+    },
+    {
+      "id": "C",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "citations_query_completed",
+          "pass": true,
+          "detail": "Turn completed within 90s"
+        },
+        {
+          "name": "citations_or_honest_state",
+          "pass": true,
+          "detail": "links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+        }
+      ],
+      "durationMs": 5803,
+      "screenshot": "C-390x844.jpg",
+      "startedAt": "2026-10-21T05:34:05.024Z",
+      "endedAt": "2026-10-21T05:34:10.827Z"
+    },
+    {
+      "id": "D",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "mobile_viewport_fit_and_input_visible",
+          "pass": true,
+          "detail": "fitsViewport=true, inputVisible=true, noHScroll=true"
+        },
+        {
+          "name": "close_button_sets_closed",
+          "pass": true,
+          "detail": "Mini chat closed (data-open=\"false\")"
+        },
+        {
+          "name": "reopen_restores_transcript",
+          "pass": true,
+          "detail": "Transcript replayed 10 messages upon reopen (expected >= 2)"
+        }
+      ],
+      "durationMs": 12,
+      "screenshot": "D-390x844.jpg",
+      "startedAt": "2026-10-21T05:34:10.958Z",
+      "endedAt": "2026-10-21T05:34:10.970Z"
+    },
+    {
+      "id": "E",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "history_messages_present_before_switch",
+          "pass": true,
+          "detail": "Found 10 prior messages in transcript"
+        },
+        {
+          "name": "session_isolated_for_different_object",
+          "pass": true,
+          "detail": "Isolated transcript: containsEarthquake=false, msgs=0"
+        }
+      ],
+      "durationMs": 15,
+      "screenshot": "E-390x844.jpg",
+      "startedAt": "2026-10-21T05:34:11.054Z",
+      "endedAt": "2026-10-21T05:34:11.069Z"
+    },
+    {
+      "id": "F",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "active_plugins_cap_and_id_regex",
+          "pass": true,
+          "detail": "activePlugins=10/10, validPluginIds=33/33"
+        },
+        {
+          "name": "plugin_panel_lifecycle_states",
+          "pass": true,
+          "detail": "present, 32 badges, allValid=true"
+        },
+        {
+          "name": "plugins_api_probe",
+          "pass": true,
+          "detail": "probe result: 200 mounted (obj)"
+        }
+      ],
+      "durationMs": 142,
+      "screenshot": "F-390x844.jpg",
+      "startedAt": "2026-10-21T05:34:11.332Z",
+      "endedAt": "2026-10-21T05:34:11.474Z"
+    },
+    {
+      "id": "G",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "synthetic_502_error_ui",
+          "pass": true,
+          "detail": "Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable"
+        },
+        {
+          "name": "retry_recovery_turn_success",
+          "pass": true,
+          "detail": "Recovered turn completed (status READY)"
+        },
+        {
+          "name": "globe_and_hud_interactive_stability",
+          "pass": true,
+          "detail": "canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+        }
+      ],
+      "durationMs": 7663,
+      "screenshot": "G-390x844.jpg",
+      "startedAt": "2026-10-21T05:34:11.581Z",
+      "endedAt": "2026-10-21T05:34:19.244Z"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T05:33:25.406Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T05:33:28.296Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T05:33:40.672Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+      "atUtc": "2026-10-21T05:33:41.179Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T05:33:50.545Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T05:34:11.094Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+      "atUtc": "2026-10-21T05:34:11.601Z"
+    }
+  ],
+  "failedRequests": [
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T05:33:25.406Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T05:33:25.406Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhof4zm-51274043&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "atUtc": "2026-10-21T05:33:28.296Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhof4zm-51274043&objectContextKey=trafficLayer%3Atraffic-austin-live&limit=20&sort=asc",
+      "atUtc": "2026-10-21T05:33:40.672Z"
+    },
+    {
+      "status": 502,
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "atUtc": "2026-10-21T05:33:41.179Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T05:33:50.545Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T05:33:50.621Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhof4zm-51274043&objectContextKey=trafficLayer%3Atraffic-austin-live&limit=20&sort=asc",
+      "atUtc": "2026-10-21T05:34:11.093Z"
+    },
+    {
+      "status": 502,
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "atUtc": "2026-10-21T05:34:11.601Z"
+    }
+  ],
+  "ondemandCalls": [
+    {
+      "atUtc": "2026-10-21T05:33:25.455Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 839,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:28.296Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhof4zm-51274043&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 404,
+      "ms": 48,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:28.915Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 585,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:31.075Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 4986,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:35.200Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 458,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:40.672Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhof4zm-51274043&objectContextKey=trafficLayer%3Atraffic-austin-live&limit=20&sort=asc",
+      "status": 404,
+      "ms": 36,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:41.179Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 502,
+      "ms": 3,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:41.377Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhof4zm-51274043&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 200,
+      "ms": 212,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:41.633Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 244,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:50.551Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 77,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:54.205Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhof4zm-51274043&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 200,
+      "ms": 340,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:54.842Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 907,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:54.842Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 2895,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:33:59.354Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 3275,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:34:05.489Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 455,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:34:11.093Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhof4zm-51274043&objectContextKey=trafficLayer%3Atraffic-austin-live&limit=20&sort=asc",
+      "status": 404,
+      "ms": 35,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:34:11.601Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 502,
+      "ms": 1,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:34:11.760Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhof4zm-51274043&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 200,
+      "ms": 173,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T05:34:12.163Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 340,
+      "keySource": "server"
+    }
+  ]
+}

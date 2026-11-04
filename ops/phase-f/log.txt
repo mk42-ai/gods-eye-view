@@ -1,0 +1,33 @@
+[2026-11-03T09:48:33Z] submit yas-mall-crash-dusk
+yas-mall-crash-dusk job=c4c4919ac7ea
+[2026-11-03T09:52:35Z] yas-mall-crash-dusk done stage=complete
+[2026-11-03T09:52:35Z] submit dubai-marina-raid-night
+dubai-marina-raid-night job=ee86c262aa2f
+[2026-11-03T09:58:29Z] dubai-marina-raid-night done stage=complete
+[2026-11-03T09:58:29Z] submit emirates-palace-crowd-midday
+emirates-palace-crowd-midday job=01e0d2366aaf
+[2026-11-03T10:03:42Z] emirates-palace-crowd-midday done stage=complete
+[2026-11-03T10:03:42Z] ALL DONE
+[2026-11-03T10:11:42Z] submit dubai-marina-raid-night-v2 (after template repair)
+dubai-marina-raid-night-v2 job=fe7aa5a24ca9
+[2026-11-03T10:16:53Z] submit yas-mall-crash-dusk-p2 (pass 2)
+yas-mall-crash-dusk-p2 job=f18d1cdceba7
+[2026-11-03T10:19:11Z] dubai-marina-raid-night-v2 done stage=complete
+[2026-11-03T10:21:31Z] yas-mall-crash-dusk-p2 done stage=complete
+[2026-11-03T10:21:31Z] submit dubai-marina-raid-night-p2 (pass 2)
+dubai-marina-raid-night-p2 job=36f1cbfa48d2
+[2026-11-03T10:27:54Z] dubai-marina-raid-night-p2 done stage=complete
+[2026-11-03T10:27:54Z] submit emirates-palace-crowd-midday-p2 (pass 2)
+emirates-palace-crowd-midday-p2 job=9ab743ffbb7c
+[2026-11-03T10:33:23Z] emirates-palace-crowd-midday-p2 done stage=complete
+[2026-11-03T10:33:23Z] PASS2 DONE
+[2026-11-03T10:34:36Z] submit yas-mall-crash-dusk-p3 (pass 3: roof imagery + faint roads)
+yas-mall-crash-dusk-p3 job=32a3969d7aef
+[2026-11-03T10:39:04Z] yas-mall-crash-dusk-p3 done stage=complete
+[2026-11-03T10:39:04Z] submit dubai-marina-raid-night-p3 (pass 3: roof imagery + faint roads)
+dubai-marina-raid-night-p3 job=770b2a7562c0
+[2026-11-03T10:45:23Z] dubai-marina-raid-night-p3 done stage=complete
+[2026-11-03T10:45:23Z] submit emirates-palace-crowd-midday-p3 (pass 3: roof imagery + faint roads)
+emirates-palace-crowd-midday-p3 job=959ffb7e097c
+[2026-11-03T10:50:51Z] emirates-palace-crowd-midday-p3 done stage=complete
+[2026-11-03T10:50:51Z] PASS3 DONE

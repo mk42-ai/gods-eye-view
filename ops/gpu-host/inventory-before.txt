@@ -1,0 +1,71 @@
+utc=2026-11-03T08:39:29Z
+=== compute apps
+pid, process_name, used_gpu_memory [MiB], gpu_uuid
+3628308, VLLM::EngineCore, 76346 MiB, GPU-65f873ca-92ee-21d8-07b3-4496e59c1070
+797110, /localstorage/mk.thomas/src/llama.cpp/build/bin/llama-server, 4652 MiB, GPU-65f873ca-92ee-21d8-07b3-4496e59c1070
+3706681, python, 11270 MiB, GPU-f80dbdd9-9ce0-5824-10bd-02e070d354d1
+797110, /localstorage/mk.thomas/src/llama.cpp/build/bin/llama-server, 64626 MiB, GPU-f80dbdd9-9ce0-5824-10bd-02e070d354d1
+797110, /localstorage/mk.thomas/src/llama.cpp/build/bin/llama-server, 77556 MiB, GPU-b2aff670-0bcc-b834-af70-421466084d30
+941514, /usr/bin/python3, 72854 MiB, GPU-1eecec41-2458-d4ee-25f1-76f6aae0b1fb
+797110, /localstorage/mk.thomas/src/llama.cpp/build/bin/llama-server, 3730 MiB, GPU-1eecec41-2458-d4ee-25f1-76f6aae0b1fb
+939753, /usr/bin/python3, 72848 MiB, GPU-f8034cf3-9850-e864-946e-60de923b58d0
+797110, /localstorage/mk.thomas/src/llama.cpp/build/bin/llama-server, 3590 MiB, GPU-f8034cf3-9850-e864-946e-60de923b58d0
+2734634, VLLM::EngineCore, 76346 MiB, GPU-4aa5d32a-06ea-79e5-65b5-708d31dff263
+797110, /localstorage/mk.thomas/src/llama.cpp/build/bin/llama-server, 3808 MiB, GPU-4aa5d32a-06ea-79e5-65b5-708d31dff263
+=== ps for serving procs
+ 797110       1 mk.thom+  250368 126915368 /localstorage/mk.thomas/src/llama.cpp/build/bin/llama-server -m /localstorage/mk.thomas/models/dsv41-gguf/Mix-128G/DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00001-of-00005.gguf --mmproj /localstorage/mk.thomas/models/dsv41-gguf/mmproj-DeepSeek-V4.1-Flash-1017-abliterated-BF16.gguf --alias orcarouter/DeepSeek-V4.1-Flash-1017-abliterated-GGUF,deepseek-ai/DeepSeek-V4.1-Flash-1017,deepseek-v4.1-flash-1017-abliterated --device CUDA0,CUDA3,CUDA1,CUDA2,CUDA4,CUDA5 -ngl 999 --split-mode layer --tensor-split 1,1,18,20,0,1 -ot blk\.19\.ffn_.*_exps\.weight=CUDA4,blk\.39\.ffn_.*_exps\.weight=CUDA5 --flash-attn on -cb -kvu -c 1048576 -np 6 -b 8192 -ub 512 --cache-type-k f16 --cache-type-v f16 --threads 56 --threads-batch 112 --numa distribute --poll 100 --prio 2 --jinja --no-reasoning-preserve --metrics --slots --host 0.0.0.0 --port 8000
+2734166 2734066 root      602207 995412 python3 -m vllm.entrypoints.openai.api_server deepseek-ai/DeepSeek-R1-0528-Qwen3-8B --no-enable-log-requests --trust-remote-code --model=deepseek-ai/DeepSeek-R1-0528-Qwen3-8B --dtype=bfloat16 --port=8000 --chat-template={% if not add_generation_prompt is defined %}{% set add_generation_prompt = false %}{% endif %}{% set ns = namespace(is_first=false, is_tool=false, is_output_first=true, system_prompt='', is_first_sp=true, is_last_user=false) %}{%- for message in messages %}{%- if message['role'] == 'system' %}{%- if ns.is_first_sp %}{% set ns.system_prompt = ns.system_prompt + message['content'] %}{% set ns.is_first_sp = false %}{%- else %}{% set ns.system_prompt = ns.system_prompt + '  ' + message['content'] %}{%- endif %}{%- endif %}{%- endfor %}{{ bos_token }}{{ ns.system_prompt }}{%- for message in messages %}{% set content = message['content'] %}{%- if message['role'] == 'user' %}{%- set ns.is_tool = false -%}{%- set ns.is_first = false -%}{%- set ns.is_last_user = true -%}{{'<｜User｜>' + content + '<｜Assistant｜>'}}{%- endif %}{%- if message['role'] == 'assistant' %}{% if '</think>' in content %}{% set content = content.split('</think>')[-1] %}{% endif %}{% endif %}{%- if message['role'] == 'assistant' and message['tool_calls'] is defined and message['tool_calls'] is not none %}{%- set ns.is_last_user = false -%}{%- if ns.is_tool %}{{'<｜tool▁outputs▁end｜>'}}{%- endif %}{%- set ns.is_first = false %}{%- set ns.is_tool = false -%}{%- set ns.is_output_first = true %}{%- for tool in message['tool_calls'] %}{%- if not ns.is_first %}{%- if content is none %}{{'<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + ' ' + '```json' + ' ' + tool['function']['arguments'] + ' ' + '```' + '<｜tool▁call▁end｜>'}}{%- else %}{{content + '<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + ' ' + '```json' + ' ' + tool['function']['arguments'] + ' ' + '```' + '<｜tool▁call▁end｜>'}}{%- endif %}{%- set ns.is_first = true -%}{%- else %}{{' ' + '<｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + ' ' + '```json' + ' ' + tool['function']['arguments'] + ' ' + '```' + '<｜tool▁call▁end｜>'}}{%- endif %}{%- endfor %}{{'<｜tool▁calls▁end｜><｜end▁of▁sentence｜>'}}{%- endif %}{%- if message['role'] == 'assistant' and (message['tool_calls'] is not defined or message['tool_calls'] is none)%}{%- set ns.is_last_user = false -%}{%- if ns.is_tool %}{{'<｜tool▁outputs▁end｜>' + content + '<｜end▁of▁sentence｜>'}}{%- set ns.is_tool = false -%}{%- else %}{{content + '<｜end▁of▁sentence｜>'}}{%- endif %}{%- endif %}{%- if message['role'] == 'tool' %}{%- set ns.is_last_user = false -%}{%- set ns.is_tool = true -%}{%- if ns.is_output_first %}{{'<｜tool▁outputs▁begin｜><｜tool▁output▁begin｜>' + content + '<｜tool▁output▁end｜>'}}{%- set ns.is_output_first = false %}{%- else %}{{' <｜tool▁output▁begin｜>' + content + '<｜tool▁output▁end｜>'}}{%- endif %}{%- endif %}{%- endfor -%}{% if ns.is_tool %}{{'<｜tool▁outputs▁end｜>'}}{% endif %}{% if add_generation_prompt and not ns.is_last_user and not ns.is_tool %}{{'<｜Assistant｜>'}}{% endif %} --gpu-memory-utilization=0.92
+2734634 2734166 root      602182 2847936 VLLM::EngineCore
+3627851 3627755 root     1117276 998996 python3 -m vllm.entrypoints.openai.api_server deepseek-ai/DeepSeek-R1-0528-Qwen3-8B --no-enable-log-requests --trust-remote-code --model=deepseek-ai/DeepSeek-R1-0528-Qwen3-8B --dtype=bfloat16 --port=8000 --chat-template={% if not add_generation_prompt is defined %}{% set add_generation_prompt = false %}{% endif %}{% set ns = namespace(is_first=false, is_tool=false, is_output_first=true, system_prompt='', is_first_sp=true, is_last_user=false) %}{%- for message in messages %}{%- if message['role'] == 'system' %}{%- if ns.is_first_sp %}{% set ns.system_prompt = ns.system_prompt + message['content'] %}{% set ns.is_first_sp = false %}{%- else %}{% set ns.system_prompt = ns.system_prompt + '  ' + message['content'] %}{%- endif %}{%- endif %}{%- endfor %}{{ bos_token }}{{ ns.system_prompt }}{%- for message in messages %}{% set content = message['content'] %}{%- if message['role'] == 'user' %}{%- set ns.is_tool = false -%}{%- set ns.is_first = false -%}{%- set ns.is_last_user = true -%}{{'<｜User｜>' + content + '<｜Assistant｜>'}}{%- endif %}{%- if message['role'] == 'assistant' %}{% if '</think>' in content %}{% set content = content.split('</think>')[-1] %}{% endif %}{% endif %}{%- if message['role'] == 'assistant' and message['tool_calls'] is defined and message['tool_calls'] is not none %}{%- set ns.is_last_user = false -%}{%- if ns.is_tool %}{{'<｜tool▁outputs▁end｜>'}}{%- endif %}{%- set ns.is_first = false %}{%- set ns.is_tool = false -%}{%- set ns.is_output_first = true %}{%- for tool in message['tool_calls'] %}{%- if not ns.is_first %}{%- if content is none %}{{'<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + ' ' + '```json' + ' ' + tool['function']['arguments'] + ' ' + '```' + '<｜tool▁call▁end｜>'}}{%- else %}{{content + '<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + ' ' + '```json' + ' ' + tool['function']['arguments'] + ' ' + '```' + '<｜tool▁call▁end｜>'}}{%- endif %}{%- set ns.is_first = true -%}{%- else %}{{' ' + '<｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + ' ' + '```json' + ' ' + tool['function']['arguments'] + ' ' + '```' + '<｜tool▁call▁end｜>'}}{%- endif %}{%- endfor %}{{'<｜tool▁calls▁end｜><｜end▁of▁sentence｜>'}}{%- endif %}{%- if message['role'] == 'assistant' and (message['tool_calls'] is not defined or message['tool_calls'] is none)%}{%- set ns.is_last_user = false -%}{%- if ns.is_tool %}{{'<｜tool▁outputs▁end｜>' + content + '<｜end▁of▁sentence｜>'}}{%- set ns.is_tool = false -%}{%- else %}{{content + '<｜end▁of▁sentence｜>'}}{%- endif %}{%- endif %}{%- if message['role'] == 'tool' %}{%- set ns.is_last_user = false -%}{%- set ns.is_tool = true -%}{%- if ns.is_output_first %}{{'<｜tool▁outputs▁begin｜><｜tool▁output▁begin｜>' + content + '<｜tool▁output▁end｜>'}}{%- set ns.is_output_first = false %}{%- else %}{{' <｜tool▁output▁begin｜>' + content + '<｜tool▁output▁end｜>'}}{%- endif %}{%- endif %}{%- endfor -%}{% if ns.is_tool %}{{'<｜tool▁outputs▁end｜>'}}{% endif %}{% if add_generation_prompt and not ns.is_last_user and not ns.is_tool %}{{'<｜Assistant｜>'}}{% endif %} --gpu-memory-utilization=0.92
+3628308 3627851 root     1117253 2853196 VLLM::EngineCore
+=== cmdline of GPU pids
+--- PID 797110 user=mk.thomas cwd=/localstorage/mk.thomas
+/localstorage/mk.thomas/src/llama.cpp/build/bin/llama-server -m /localstorage/mk.thomas/models/dsv41-gguf/Mix-128G/DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00001-of-00005.gguf --mmproj /localstorage/mk.thomas/models/dsv41-gguf/mmproj-DeepSeek-V4.1-Flash-1017-abliterated-BF16.gguf --alias orcarouter/DeepSeek-V4.1-Flash-1017-abliterated-GGUF,deepseek-ai/DeepSeek-V4.1-Flash-1017,deepseek-v4.1-flash-1017-abliterated --device CUDA0,CUDA3,CUDA1,CUDA2,CUDA4,CUDA5 -ngl 999 --split-mode layer --tensor-split 1,1,18,20,0,1 -ot blk\.19\.ffn_.*_exps\.weight=CUDA4,blk\.39\.ffn_.*_exps\.weight=CUDA5 --flash-attn on -cb -kvu -c 1048576 -np 6 -b 8192 -ub 512 --cache-type-k f16 --cache-type-v f16 --threads 56 --threads-batch 112 --numa distribute --poll 100 --prio 2 --jinja --no-reasoning-preserve --metrics --slots --host 0.0.0.0 --port 8000 
+
+--- PID 3628308 user=root cwd=/vllm-workspace
+VLLM::EngineCore                                                                                                                   
+
+--- PID 3706681 user=root cwd=/root
+python -u /root/gemma4_serve.py 
+
+--- PID 941514 user=root cwd=/app
+/usr/bin/python3 /app/start_server.py 
+
+--- PID 939753 user=root cwd=/app
+/usr/bin/python3 /app/start_server.py 
+
+--- PID 2734634 user=root cwd=/vllm-workspace
+VLLM::EngineCore                                                                                                                   
+
+=== ollama
+=== docker
+bash: line 6: docker: command not found
+=== sudo?
+SUDO_OK
+=== df before
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md125p3    1.7T  1.1T  519G  68% /
+/dev/md126      539M  6.1M  533M   2% /boot/efi
+/dev/md127       18T  212G   17T   2% /localstorage
+shm              64M  4.0K   64M   1% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/0bef0ccb5420e243ec335d8dd1cf9e0ee66b444d73d6bb9243499618968c8ba3/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/cdb454b102915aa96188f12819a65df126632e9029b6b2ed2509eeaa2f5d9961/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/1aaf2737acda883bd4cf0c98a879d50159a7ada6702f41dd10dcef019828683c/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/de676c8dbaa19f28856b17982d9b4cfc11898f3c9e1285bfe2525d8e5a6fdd2c/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/519537b4cb3ec29f80cd443f0512d9a48890e8b7c489c2e55a36b32eb2edc27d/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/81b220121fe22c96df9886114b8973dc386af1440854924d2d1e3a694b74716d/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/442d6ca0fa6779e9c54a0f9baf6e84c63fbc48d17f9a28362c8bed5e95727427/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/7140cf06363538ecae9329567100e21e75958f1f632730272515478e8d1e7fc2/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/ea1454be7f03c132803f993c6216bca36073663d651bd0cfe8399e4e6d84434b/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/55347c1928b6a10c6fbc4b853babad0500e90b8f6bec5eaa9ef70eddd3b8580a/shm
+shm              64M  4.0K   64M   1% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/551718450452791fd050aa4ccd76b814c7f55a49be208a4a3ccf85905fe2ffd0/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/b04399ab71dc38f6f5ef239a9c675aceb7a53d62581f2f1c17d3f971a01f56fa/shm
+shm              64M  4.0K   64M   1% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/072865e5f51002a07c5dde8ef51044b88d834afa0e67173586c7fda7569611d1/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/46bf62ae1bf7a158ff3b5bb5c2afd36abbe6798aeae6a71122ec3c9c49e0fe10/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/13f92f4d9bf5e3d4d5484846b4e4c6b23a18418fca001418fa2b94918ba67381/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/7c615d6d7b4812c61d640a5806228266803cd8ab3e50571b85bf7029619c7cf0/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/abba5b4cbe25bfbb0e9ffa0255beafe5bf1acf15db0c2bce9c1bf6419ece2f52/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/804048704d10b6cce6a14f05f968885a5dd8b64ca113a5a4233817fcae76cb84/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/6206ff0d7839a95d4950383748183a3d37ec1fc7ea4905c6f65fbbb9f8189c96/shm
+shm              64M     0   64M   0% /run/containerd/io.containerd.grpc.v1.cri/sandboxes/c20a2db4b68748f8682b99cacc7d78e57b5d7eabec51366d1efbf117f9e183f5/shm
+=== HF caches
+HF_HOME=

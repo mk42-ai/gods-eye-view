@@ -1,0 +1,23 @@
+HTTP/2 200 
+date: Wed, 21 Oct 2026 08:07:03 GMT
+content-type: application/json; charset=utf-8
+content-length: 316
+cache-control: no-store
+x-ondemand-key-source: server
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 59
+server: Vercel
+x-vercel-id: iad1::5fd8l-1792570017837-82a01361dcfa
+strict-transport-security: max-age=63072000
+x-vercel-internal-path-type: sandbox
+x-vercel-internal-metadata-state: origin_fresh
+x-vercel-internal-cache-level: unknown
+x-vercel-internal-project-id: u
+x-vercel-internal-owner-id: u
+x-vercel-internal-deployment-id: u
+x-vercel-internal-proxy-pool: green
+x-vercel-internal-request-cpu-ms: 2
+x-vercel-internal-proxy-cpu-load: 36
+x-vercel-internal-timing: vcoe_from_proxy=6115
+
+{"plugins":[{"name":"internet_web_search","pluginId":"plugin-1713924030","provider":"OnDemand · Internet web search","kind":"ondemand-plugin","availability":"active","state":"ready","verifiedAt":"2026-10-21T08:07:04.013Z","latencyMs":6075,"error":null,"lastInvokedAt":null,"invocations":0,"answerPreview":"READY"}]}

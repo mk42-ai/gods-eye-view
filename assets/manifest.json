@@ -1,0 +1,319 @@
+{
+ "generated_utc": "2026-11-03T09:08:58Z",
+ "converter": "Blender 4.2.3 LTS headless (glTF 2.0 exporter + USD exporter)",
+ "units": "metres",
+ "assets": [
+  {
+   "key": "police_patrol_car",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/police_patrol_car.glb",
+   "asset_file_usd": "assets/usd/police_patrol_car.usdc",
+   "source_url": "https://kenney.nl/assets/car-kit",
+   "license": "CC0 1.0",
+   "author": "Kenney (www.kenney.nl)",
+   "polycount_tris": 2304,
+   "bbox_m": [
+    1.5,
+    3.1,
+    1.3
+   ],
+   "scale_applied": 1.0,
+   "source_file": "x/kenney_car-kit/Models/GLB format/police.glb",
+   "glb_bytes": 141608,
+   "glb_sha256": "751d9da8b8b09ec245acdcc984e4ba117d162bca748e8db2874ee05e8f235b66",
+   "notes": "Car Kit 3.1 police.glb (stylised low-poly, vertex-colour/colormap PBR)"
+  },
+  {
+   "key": "police_escort_motorcycle",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/police_escort_motorcycle.glb",
+   "asset_file_usd": "assets/usd/police_escort_motorcycle.usdc",
+   "source_url": "https://opengameart.org/content/fancy-motorcycle",
+   "license": "CC0 1.0",
+   "author": "tehbucket (OpenGameArt)",
+   "polycount_tris": 10110,
+   "bbox_m": [
+    0.078,
+    0.019,
+    0.027
+   ],
+   "scale_applied": 0.02,
+   "source_file": "oga_bike.obj",
+   "glb_bytes": 414444,
+   "glb_sha256": "54bf1e18dbf8c4151a21e3d56ef960daa1df95d920b1044a810ac2e345d75b16",
+   "notes": "OBJ, material-only; rescaled so length ~2.2 m (source units arbitrary)"
+  },
+  {
+   "key": "ambulance_medical_point",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/ambulance_medical_point.glb",
+   "asset_file_usd": "assets/usd/ambulance_medical_point.usdc",
+   "source_url": "https://kenney.nl/assets/car-kit",
+   "license": "CC0 1.0",
+   "author": "Kenney (www.kenney.nl)",
+   "polycount_tris": 2804,
+   "bbox_m": [
+    1.5,
+    3.25,
+    1.8
+   ],
+   "scale_applied": 1.0,
+   "source_file": "x/kenney_car-kit/Models/GLB format/ambulance.glb",
+   "glb_bytes": 166848,
+   "glb_sha256": "5822e260cacdcc95d969b1984eefb9cdffb0da256abd52ae35e039b26e4de066",
+   "notes": "Car Kit 3.1 ambulance.glb"
+  },
+  {
+   "key": "crowd_control_barrier",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/crowd_control_barrier.glb",
+   "asset_file_usd": "assets/usd/crowd_control_barrier.usdc",
+   "source_url": "https://kenney.nl/assets/city-kit-roads",
+   "license": "CC0 1.0",
+   "author": "Kenney (www.kenney.nl)",
+   "polycount_tris": 136,
+   "bbox_m": [
+    0.075,
+    0.375,
+    0.179
+   ],
+   "scale_applied": 1.0,
+   "source_file": "x/kenney_city-kit-roads/Models/GLB format/construction-fence.glb",
+   "glb_bytes": 21804,
+   "glb_sha256": "efcac835aee5467997cec10afb6021fc794ccec00bf26095abbfe387ef0c454c",
+   "notes": "City Kit Roads construction-fence.glb used as pedestrian crowd-control barrier"
+  },
+  {
+   "key": "road_closed_barricade",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/road_closed_barricade.glb",
+   "asset_file_usd": "assets/usd/road_closed_barricade.usdc",
+   "source_url": "https://kenney.nl/assets/city-kit-roads",
+   "license": "CC0 1.0",
+   "author": "Kenney (www.kenney.nl)",
+   "polycount_tris": 60,
+   "bbox_m": [
+    0.135,
+    0.225,
+    0.13
+   ],
+   "scale_applied": 1.0,
+   "source_file": "x/kenney_city-kit-roads/Models/GLB format/construction-barrier.glb",
+   "glb_bytes": 16484,
+   "glb_sha256": "197da61836773d2f279f7fb47137ae29166b487500907261affdbda058a510ef",
+   "notes": "City Kit Roads construction-barrier.glb"
+  },
+  {
+   "key": "traffic_cone_cluster",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/traffic_cone_cluster.glb",
+   "asset_file_usd": "assets/usd/traffic_cone_cluster.usdc",
+   "source_url": "https://kenney.nl/assets/car-kit",
+   "license": "CC0 1.0",
+   "author": "Kenney (www.kenney.nl)",
+   "polycount_tris": 172,
+   "bbox_m": [
+    0.476,
+    0.476,
+    0.595
+   ],
+   "scale_applied": 1.0,
+   "source_file": "x/kenney_car-kit/Models/GLB format/cone.glb",
+   "glb_bytes": 23960,
+   "glb_sha256": "5a5d77ffcee21c63102f4e7707a7508228af7c6682166cf6bb700f310194baf3",
+   "notes": "single cone; the service instances it in clusters"
+  },
+  {
+   "key": "checkpoint_cordon_node",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/checkpoint_cordon_node.glb",
+   "asset_file_usd": "assets/usd/checkpoint_cordon_node.usdc",
+   "source_url": "https://polyhaven.com/a/concrete_road_barrier",
+   "license": "CC0 1.0",
+   "author": "Poly Haven",
+   "polycount_tris": 60928,
+   "bbox_m": [
+    1.545,
+    0.639,
+    0.831
+   ],
+   "scale_applied": 1.0,
+   "source_file": "polyhaven/concrete_road_barrier/concrete_road_barrier.gltf",
+   "glb_bytes": 3750556,
+   "glb_sha256": "d7c26552a597caf1cf603381fd338dc0ab6804176f7f6b97129000a180e19c22",
+   "notes": "photoscanned PBR concrete road barrier, 1k textures"
+  },
+  {
+   "key": "event_command_post",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/event_command_post.glb",
+   "asset_file_usd": "assets/usd/event_command_post.usdc",
+   "source_url": "https://kenney.nl/assets/survival-kit",
+   "license": "CC0 1.0",
+   "author": "Kenney (www.kenney.nl)",
+   "polycount_tris": 124,
+   "bbox_m": [
+    1.402,
+    1.403,
+    1.228
+   ],
+   "scale_applied": 2.5,
+   "source_file": "x/kenney_survival-kit/Models/GLB format/tent.glb",
+   "glb_bytes": 17496,
+   "glb_sha256": "77f78460935e4fb355f48b2180afd09977645efd96e1e14fe65e377c3afc0913",
+   "notes": "Survival Kit tent.glb scaled x2.5 as command-post tent"
+  },
+  {
+   "key": "start_finish_gate",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/start_finish_gate.glb",
+   "asset_file_usd": "assets/usd/start_finish_gate.usdc",
+   "source_url": "https://kenney.nl/assets/watercraft-kit",
+   "license": "CC0 1.0",
+   "author": "Kenney (www.kenney.nl)",
+   "polycount_tris": 104,
+   "bbox_m": [
+    18.6,
+    3.6,
+    13.95
+   ],
+   "scale_applied": 3.0,
+   "source_file": "x/kenney_watercraft-kit/Models/GLB format/gate-finish.glb",
+   "glb_bytes": 15472,
+   "glb_sha256": "0108f57d4e51476f2ef738255735ff157ab7e10dc2f9707d77b0fdcc91ffd627",
+   "notes": "Watercraft Kit gate-finish.glb (start/finish arch) scaled x3"
+  },
+  {
+   "key": "foot_patrol_officer",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/foot_patrol_officer.glb",
+   "asset_file_usd": "assets/usd/foot_patrol_officer.usdc",
+   "source_url": "https://kenney.nl/assets/mini-characters",
+   "license": "CC0 1.0",
+   "author": "Kenney (www.kenney.nl)",
+   "polycount_tris": 803,
+   "bbox_m": [
+    1.902,
+    2.0,
+    2.0
+   ],
+   "scale_applied": 1.0,
+   "source_file": "x/kenney_mini-characters/Models/GLB format/character-male-a.glb",
+   "glb_bytes": 279244,
+   "glb_sha256": "2c3ac172cff1ad174078e1a41680b4a5197a0d584d6789fcc0c24660e57554e9",
+   "notes": "Mini Characters; recoloured navy by the service material override"
+  },
+  {
+   "key": "spectator_crowd_cluster",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/spectator_crowd_cluster.glb",
+   "asset_file_usd": "assets/usd/spectator_crowd_cluster.usdc",
+   "source_url": "https://kenney.nl/assets/blocky-characters",
+   "license": "CC0 1.0",
+   "author": "Kenney (www.kenney.nl)",
+   "polycount_tris": 72,
+   "bbox_m": [
+    1.6,
+    0.8,
+    2.7
+   ],
+   "scale_applied": 1.0,
+   "source_file": "x/kenney_blocky-characters/Models/GLB format/character-a.glb",
+   "glb_bytes": 86480,
+   "glb_sha256": "f7d627b0a1c1bd2f49ee1746aa8dfeccc4ff279e2efd31d4eef98b0af39ad76c",
+   "notes": "Blocky Characters; instanced in jittered clusters by the service"
+  },
+  {
+   "key": "city_bus",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/city_bus.glb",
+   "asset_file_usd": "assets/usd/city_bus.usdc",
+   "source_url": "https://opengameart.org/content/3d-bus",
+   "license": "CC0 1.0",
+   "author": "ajanhallinta (OpenGameArt)",
+   "polycount_tris": 14507,
+   "bbox_m": [
+    9.551,
+    2.119,
+    2.351
+   ],
+   "scale_applied": 1.0,
+   "source_file": "x/oga_3DBus_by_ajanhallinta/OBJ/BUS.obj",
+   "glb_bytes": 414304,
+   "glb_sha256": "11c8142fcfa732a68622351cdd68944e33f7b8faae470342c22b7314e2b23b98",
+   "notes": "5,669 faces, materials only, no interior"
+  },
+  {
+   "key": "cctv_camera",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/cctv_camera.glb",
+   "asset_file_usd": "assets/usd/cctv_camera.usdc",
+   "source_url": "https://polyhaven.com/a/security_camera_01",
+   "license": "CC0 1.0",
+   "author": "Poly Haven",
+   "polycount_tris": 13571,
+   "bbox_m": [
+    0.17,
+    0.554,
+    0.286
+   ],
+   "scale_applied": 1.0,
+   "source_file": "polyhaven/security_camera_01/security_camera_01.gltf",
+   "glb_bytes": 3013284,
+   "glb_sha256": "ad209ff262b97edda0fea22a5720fdf513eb8c240e4cd7db6b32dd273a0cabce",
+   "notes": "photoscanned PBR security camera, 1k textures"
+  },
+  {
+   "key": "marine_patrol_boat",
+   "status": "ok",
+   "asset_file_glb": "assets/glb/marine_patrol_boat.glb",
+   "asset_file_usd": "assets/usd/marine_patrol_boat.usdc",
+   "source_url": "https://kenney.nl/assets/watercraft-kit",
+   "license": "CC0 1.0",
+   "author": "Kenney (www.kenney.nl)",
+   "polycount_tris": 156,
+   "bbox_m": [
+    2.678,
+    5.055,
+    2.25
+   ],
+   "scale_applied": 1.5,
+   "source_file": "x/kenney_watercraft-kit/Models/GLB format/boat-speed-a.glb",
+   "glb_bytes": 20324,
+   "glb_sha256": "6238264e9128b3fbde3893aaf97f9f5922f0f21c21a94721284696eec94d61fc",
+   "notes": "Watercraft Kit boat-speed-a.glb scaled x1.5 as patrol RIB"
+  }
+ ],
+ "hdris": [
+  {
+   "key": "kiara_9_dusk",
+   "time_of_day": "dusk",
+   "file": "assets/polyhaven/kiara_9_dusk_2k.hdr",
+   "bytes": 6286402,
+   "source_url": "https://polyhaven.com/a/kiara_9_dusk",
+   "license": "CC0 1.0",
+   "author": "Poly Haven",
+   "resolution": "2k"
+  },
+  {
+   "key": "dikhololo_night",
+   "time_of_day": "night",
+   "file": "assets/polyhaven/dikhololo_night_2k.hdr",
+   "bytes": 7050455,
+   "source_url": "https://polyhaven.com/a/dikhololo_night",
+   "license": "CC0 1.0",
+   "author": "Poly Haven",
+   "resolution": "2k"
+  },
+  {
+   "key": "clarens_midday",
+   "time_of_day": "midday",
+   "file": "assets/polyhaven/clarens_midday_2k.hdr",
+   "bytes": 6476415,
+   "source_url": "https://polyhaven.com/a/clarens_midday",
+   "license": "CC0 1.0",
+   "author": "Poly Haven",
+   "resolution": "2k"
+  }
+ ]
+}

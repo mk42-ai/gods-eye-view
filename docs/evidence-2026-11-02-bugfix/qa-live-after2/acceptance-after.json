@@ -1,0 +1,2845 @@
+{
+  "url": "https://ondemand-agent-crkpv87jb-schoolhack-web-team.vercel.app",
+  "label": "after",
+  "startedUtc": "2026-11-02T12:48:23.092Z",
+  "finishedUtc": "2026-11-02T12:55:46.189Z",
+  "checks": [
+    {
+      "name": "build-kanes-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-kanes-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=22784 entities=45 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":5,\"scene-research-geometry\":2,\"scene-staging\":6,\"scene-stream-preview\":0,\"cinematic-scene\":4,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=9 buildRequests=1 requestCountAttr=1 chip=\"predefined-cerebras-qwen-3.8-27b · ~2140 tok/s (est.) · 14.9 s\" errors=0 result=\"Play Scene ready Kane's Boxing Gym Abu Dhabi Approximate · location:known_place_match:known_place predefined-cerebras-qw\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "1",
+          "runState": "succeeded",
+          "cinematicEntities": 4,
+          "entityTotal": 45,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 5,
+            "scene-research-geometry": 2,
+            "scene-staging": 6,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 4,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-sedan_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-bus_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-pedestrian_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-overwatch-1",
+              "w": 44,
+              "h": 44,
+              "kind": "canvas"
+            },
+            {
+              "id": "gym_marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "bus_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 9,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": true,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~2140 tok/s (est.) · 14.9 s",
+          "chipTokens": "6501",
+          "chipElapsed": "14873",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyKane's Boxing Gym Abu DhabiApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~2140 tok/s (est.) · 14.9 s",
+          "resultText": "Play\n\nScene ready\nKane's Boxing Gym Abu Dhabi\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~2140 tok/s (est.) · 14.9 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 22784
+      },
+      "timestamp_utc": "2026-11-02T12:48:56.851Z"
+    },
+    {
+      "name": "icons-kanes-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-kanes-built.png",
+      "detail": "billboards=9 sizePx=[32,44] backplateCanvas=9 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:48:56.852Z"
+    },
+    {
+      "name": "play-kanes-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-kanes-playing.png",
+      "detail": "before=paused/false playing=true pos=4.2→7.2s moved=3/4 pauseAnim=false range=",
+      "timestamp_utc": "2026-11-02T12:49:05.388Z"
+    },
+    {
+      "name": "build-marina-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-marina-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=85615 entities=121 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":21,\"scene-research-geometry\":2,\"scene-staging\":55,\"scene-stream-preview\":0,\"cinematic-scene\":15,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=57 buildRequests=1 requestCountAttr=2 chip=\"predefined-cerebras-qwen-3.8-27b · ~84 tok/s (est.) · 84.8 s\" errors=0 result=\"Play Scene ready dubai marina predefined-cerebras-qwen-3.8-27b · ~84 tok/s (est.) · 84.8 s\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "2",
+          "runState": "succeeded",
+          "cinematicEntities": 11,
+          "entityTotal": 121,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 21,
+            "scene-research-geometry": 2,
+            "scene-staging": 55,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 15,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cp_main-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-staging_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_node_w-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_node_e-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police_car_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police_car_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police_moto_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officer_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-responder_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-marine_patrol_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-1",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-2",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-3",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-4",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-5",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-6",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-7",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-8",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-9",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-10",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-11",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-12",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-13",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-14",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-15",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-16",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-1",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-2",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-staging-point",
+              "w": 44,
+              "h": 44,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-egress-marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cp_main",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_node_w",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_node_e",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_car_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_car_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_moto_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "officer_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "responder_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "marine_patrol_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 57,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": true,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~84 tok/s (est.) · 84.8 s",
+          "chipTokens": "6505",
+          "chipElapsed": "84843",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readydubai marinapredefined-cerebras-qwen-3.8-27b · ~84 tok/s (est.) · 84.8 s",
+          "resultText": "Play\n\nScene ready\ndubai marina\n\npredefined-cerebras-qwen-3.8-27b · ~84 tok/s (est.) · 84.8 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 85615
+      },
+      "timestamp_utc": "2026-11-02T12:50:36.431Z"
+    },
+    {
+      "name": "one-request-marina-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-marina-built.png",
+      "detail": "network construct requests=1 (click + Ctrl/Cmd+Enter fired back-to-back)",
+      "timestamp_utc": "2026-11-02T12:50:36.431Z"
+    },
+    {
+      "name": "icons-marina-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-marina-built.png",
+      "detail": "billboards=57 sizePx=[28,44] backplateCanvas=57 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:50:36.436Z"
+    },
+    {
+      "name": "play-marina-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-marina-playing.png",
+      "detail": "before=paused/false playing=true pos=4.0→7.0s moved=5/11 pauseAnim=false range=",
+      "timestamp_utc": "2026-11-02T12:50:46.276Z"
+    },
+    {
+      "name": "build-yas-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-yas-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=34036 entities=72 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":20,\"scene-research-geometry\":2,\"scene-staging\":5,\"scene-stream-preview\":0,\"cinematic-scene\":17,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=36 buildRequests=1 requestCountAttr=3 chip=\"predefined-cerebras-qwen-3.8-27b · ~516 tok/s (est.) · 29.1 s\" errors=0 result=\"Play Scene ready Yas Mall Approximate · location:known_place_match:known_place predefined-cerebras-qwen-3.8-27b · ~516 t\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "3",
+          "runState": "succeeded",
+          "cinematicEntities": 12,
+          "entityTotal": 72,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 20,
+            "scene-research-geometry": 2,
+            "scene-staging": 5,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 17,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-sedan_crash_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-sedan_crash_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-ambulance_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-fire_engine_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police_car_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_node_w-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_node_e-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cp_main-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-responder_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officer_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cctv-pick-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "mall_marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_crash_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_crash_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "ambulance_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "fire_engine_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_car_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_node_w",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_node_e",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cp_main",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "responder_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "officer_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 36,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": true,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~516 tok/s (est.) · 29.1 s",
+          "chipTokens": "9442",
+          "chipElapsed": "29080",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyYas MallApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~516 tok/s (est.) · 29.1 s",
+          "resultText": "Play\n\nScene ready\nYas Mall\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~516 tok/s (est.) · 29.1 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 34036
+      },
+      "timestamp_utc": "2026-11-02T12:51:23.983Z"
+    },
+    {
+      "name": "icons-yas-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-yas-built.png",
+      "detail": "billboards=36 sizePx=[32,36] backplateCanvas=36 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:51:23.984Z"
+    },
+    {
+      "name": "play-yas-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-yas-playing.png",
+      "detail": "before=paused/false playing=true pos=4.3→7.3s moved=2/12 pauseAnim=false range=",
+      "timestamp_utc": "2026-11-02T12:51:32.794Z"
+    },
+    {
+      "name": "fallback-geocoder-no-verified-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-force-research-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=13367 entities=70 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":19,\"scene-research-geometry\":2,\"scene-staging\":5,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=34 buildRequests=1 requestCountAttr=4 chip=\"predefined-cerebras-qwen-3.8-27b · ~2420 tok/s (est.) · 9.8 s\" errors=0 result=\"Play Scene ready Yas Mall Approximate · location:known_place_match:known_place predefined-cerebras-qwen-3.8-27b · ~2420 \"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "4",
+          "runState": "succeeded",
+          "cinematicEntities": 11,
+          "entityTotal": 70,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 19,
+            "scene-research-geometry": 2,
+            "scene-staging": 5,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 16,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-sedan_a-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-sedan_b-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police_car-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-ambulance-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-fire_engine-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cone_cluster-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-command_post-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-responder-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officer-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cctv-pick-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "mall_marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_a",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_b",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_car",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "ambulance",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "fire_engine",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cone_cluster",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "command_post",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "responder",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "officer",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 34,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": true,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~2420 tok/s (est.) · 9.8 s",
+          "chipTokens": "6899",
+          "chipElapsed": "9768",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyYas MallApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~2420 tok/s (est.) · 9.8 s",
+          "resultText": "Play\n\nScene ready\nYas Mall\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~2420 tok/s (est.) · 9.8 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 13367
+      },
+      "timestamp_utc": "2026-11-02T12:51:49.772Z"
+    },
+    {
+      "name": "fallback-llm-sse-fail-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-force-llm-built.png",
+      "detail": "state=done fallback=template ms=7109 entities=146 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":32,\"scene-research-geometry\":2,\"scene-staging\":68,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=77 buildRequests=1 requestCountAttr=5 chip=\"predefined-cerebras-qwen-3.8-27b · ~102 tok/s (est.) · 6.8 s\" errors=0 result=\"Play Scene ready dubai marina Approximate · director:director_forced_failure:template predefined-cerebras-qwen-3.8-27b ·\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "template",
+          "requestCount": "5",
+          "runState": "idle",
+          "cinematicEntities": null,
+          "entityTotal": 146,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 32,
+            "scene-research-geometry": 2,
+            "scene-staging": 68,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 16,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police-command-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police-perimeter-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police-perimeter-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officers-entry-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officers-entry-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officers-entry-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officers-entry-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officers-entry-1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officers-entry-1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officers-cordon-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officers-cordon-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officers-cordon-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officers-cordon-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-barrier-outer-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-barrier-outer-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-barrier-outer-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-barrier-outer-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-barrier-outer-1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-barrier-outer-1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-barrier-outer-1-7",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-barrier-outer-1-8",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-1",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-2",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-3",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-4",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-5",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-6",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-7",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-8",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-9",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-10",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-11",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-12",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-13",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-14",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-15",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-16",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-17",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-18",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-19",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-20",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-1",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-2",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-3",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-4",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-5",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-7",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-8",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-9",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-10",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-11",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-12",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-staging-point",
+              "w": 44,
+              "h": 44,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-egress-marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "mall_marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_a",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_b",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_car",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "ambulance",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "fire_engine",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cone_cluster",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "command_post",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "responder",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "officer",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 77,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": true,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~102 tok/s (est.) · 6.8 s",
+          "chipTokens": "107",
+          "chipElapsed": "6780",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readydubai marinaApproximate · director:director_forced_failure:templatepredefined-cerebras-qwen-3.8-27b · ~102 tok/s (est.) · 6.8 s",
+          "resultText": "Play\n\nScene ready\ndubai marina\n\nApproximate · director:director_forced_failure:template\npredefined-cerebras-qwen-3.8-27b · ~102 tok/s (est.) · 6.8 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 7109
+      },
+      "timestamp_utc": "2026-11-02T12:52:02.797Z"
+    },
+    {
+      "name": "fallback-llm-timeout-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-force-timeout-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=93207 entities=101 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":47,\"scene-research-geometry\":2,\"scene-staging\":8,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=47 buildRequests=1 requestCountAttr=6 chip=\"scenario-template:observation · ~109 tok/s (est.) · 89.4 s\" errors=0 result=\"Play Scene ready Kane's Boxing Gym Abu Dhabi Approximate · location:known_place_match:known_place scenario-template:obse\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "6",
+          "runState": "idle",
+          "cinematicEntities": null,
+          "entityTotal": 101,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 47,
+            "scene-research-geometry": 2,
+            "scene-staging": 8,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 16,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-security-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-security-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-access-control-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-access-control-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-access-control-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-access-control-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-access-control-1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-access-control-1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-access-control-1-7",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-access-control-1-8",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-7",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-8",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-9",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-10",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-11",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-venue-visitors-1-12",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-crowd-zone-marker-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "mall_marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_a",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_b",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_car",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "ambulance",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "fire_engine",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cone_cluster",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "command_post",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "responder",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "officer",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 47,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": true,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "scenario-template:observation · ~109 tok/s (est.) · 89.4 s",
+          "chipTokens": "96",
+          "chipElapsed": "89379",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyKane's Boxing Gym Abu DhabiApproximate · location:known_place_match:known_placescenario-template:observation · ~109 tok/s (est.) · 89.4 s",
+          "resultText": "Play\n\nScene ready\nKane's Boxing Gym Abu Dhabi\n\nApproximate · location:known_place_match:known_place\nscenario-template:observation · ~109 tok/s (est.) · 89.4 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 93207
+      },
+      "timestamp_utc": "2026-11-02T12:53:39.966Z"
+    },
+    {
+      "name": "snapchat-plugin-echo-1440x900",
+      "status": "passed",
+      "detail": "HTTP 200 pluginIdInResponse=true body={\"locationId\":\"dubai-marina\",\"requestId\":\"82506b41-fcf1-4ee5-a076-ec80cf051bea\",\"plugin\":{\"id\":\"plugin-1792945050\",\"operation\":\"fetchSnapchatVideosByPlace\"},\"refresh\":{\"defaultMs\":120000,\"minMs\":30000",
+      "timestamp_utc": "2026-11-02T12:54:44.917Z"
+    },
+    {
+      "name": "build-kanes-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-kanes-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=12359 entities=44 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":5,\"scene-research-geometry\":2,\"scene-staging\":5,\"scene-stream-preview\":0,\"cinematic-scene\":4,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=9 buildRequests=1 requestCountAttr=1 chip=\"predefined-cerebras-qwen-3.8-27b · ~652 tok/s (est.) · 7.7 s\" errors=0 result=\"Play Scene ready Kane's Boxing Gym Abu Dhabi Approximate · location:known_place_match:known_place predefined-cerebras-qw\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "1",
+          "runState": "succeeded",
+          "cinematicEntities": 4,
+          "entityTotal": 44,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 5,
+            "scene-research-geometry": 2,
+            "scene-staging": 5,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 4,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-sedan_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-bus_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-pedestrian_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cctv-pick-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "gym_marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "bus_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 9,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": true,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~652 tok/s (est.) · 7.7 s",
+          "chipTokens": "1793",
+          "chipElapsed": "7700",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyKane's Boxing Gym Abu DhabiApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~652 tok/s (est.) · 7.7 s",
+          "resultText": "Play\n\nScene ready\nKane's Boxing Gym Abu Dhabi\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~652 tok/s (est.) · 7.7 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 12359
+      },
+      "timestamp_utc": "2026-11-02T12:55:05.145Z"
+    },
+    {
+      "name": "icons-kanes-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-kanes-built.png",
+      "detail": "billboards=9 sizePx=[32,36] backplateCanvas=9 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:55:05.146Z"
+    },
+    {
+      "name": "build-marina-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-marina-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=13415 entities=129 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":21,\"scene-research-geometry\":2,\"scene-staging\":63,\"scene-stream-preview\":0,\"cinematic-scene\":15,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=65 buildRequests=1 requestCountAttr=2 chip=\"predefined-cerebras-qwen-3.8-27b · ~386 tok/s (est.) · 13.0 s\" errors=0 result=\"Play Scene ready dubai marina predefined-cerebras-qwen-3.8-27b · ~386 tok/s (est.) · 13.0 s\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "2",
+          "runState": "succeeded",
+          "cinematicEntities": 11,
+          "entityTotal": 129,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 21,
+            "scene-research-geometry": 2,
+            "scene-staging": 63,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 15,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cp_main-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-staging_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier_1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_node_w-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_node_e-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police_car_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police_car_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police_moto_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officer_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-responder_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-marine_patrol_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-1",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-2",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-3",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-4",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-5",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-6",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-7",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-8",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-9",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-10",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-11",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-12",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-13",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-cones-14",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-1",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-2",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-3",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-4",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-5",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-barriers-6",
+              "w": 28,
+              "h": 28,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-7",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-8",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-9",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-10",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-11",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-perimeter-unit-12",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-staging-point",
+              "w": 44,
+              "h": 44,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging-egress-marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cp_main",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "staging_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier_1__member_4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_node_w",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_node_e",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_car_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_car_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_moto_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "officer_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "responder_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "marine_patrol_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 65,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": true,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~386 tok/s (est.) · 13.0 s",
+          "chipTokens": "3065",
+          "chipElapsed": "12995",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readydubai marinapredefined-cerebras-qwen-3.8-27b · ~386 tok/s (est.) · 13.0 s",
+          "resultText": "Play\n\nScene ready\ndubai marina\n\npredefined-cerebras-qwen-3.8-27b · ~386 tok/s (est.) · 13.0 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 13415
+      },
+      "timestamp_utc": "2026-11-02T12:55:22.679Z"
+    },
+    {
+      "name": "one-request-marina-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-marina-built.png",
+      "detail": "network construct requests=1 (click + Ctrl/Cmd+Enter fired back-to-back)",
+      "timestamp_utc": "2026-11-02T12:55:22.680Z"
+    },
+    {
+      "name": "icons-marina-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-marina-built.png",
+      "detail": "billboards=65 sizePx=[28,44] backplateCanvas=65 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:55:22.683Z"
+    },
+    {
+      "name": "play-marina-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-marina-playing.png",
+      "detail": "before=paused/false playing=true pos=4.9→7.8s moved=5/11 pauseAnim=false range=",
+      "timestamp_utc": "2026-11-02T12:55:32.323Z"
+    },
+    {
+      "name": "build-yas-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-yas-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=10625 entities=69 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":19,\"scene-research-geometry\":2,\"scene-staging\":4,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=33 buildRequests=1 requestCountAttr=3 chip=\"predefined-cerebras-qwen-3.8-27b · ~1231 tok/s (est.) · 7.7 s\" errors=0 result=\"Play Scene ready Yas Mall Approximate · location:known_place_match:known_place predefined-cerebras-qwen-3.8-27b · ~1231 \"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "3",
+          "runState": "succeeded",
+          "cinematicEntities": 11,
+          "entityTotal": 69,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 19,
+            "scene-research-geometry": 2,
+            "scene-staging": 4,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 16,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-sedan_a-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-sedan_b-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-police_car-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-ambulance-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-fire_engine-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cordon_barrier-6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-cone_cluster-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-command_post-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-responder-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "planned-officer-1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "canvas"
+            },
+            {
+              "id": "mall_marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_a",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_b",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_car",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "ambulance",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "fire_engine",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_barrier__member_5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cone_cluster",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "command_post",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "responder",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "officer",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 33,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": true,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~1231 tok/s (est.) · 7.7 s",
+          "chipTokens": "3692",
+          "chipElapsed": "7716",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyYas MallApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~1231 tok/s (est.) · 7.7 s",
+          "resultText": "Play\n\nScene ready\nYas Mall\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~1231 tok/s (est.) · 7.7 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 10625
+      },
+      "timestamp_utc": "2026-11-02T12:55:46.017Z"
+    },
+    {
+      "name": "icons-yas-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-yas-built.png",
+      "detail": "billboards=33 sizePx=[32,36] backplateCanvas=33 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:55:46.019Z"
+    }
+  ],
+  "summary": {
+    "passed": 22,
+    "failed": 0,
+    "blocked": 0
+  }
+}

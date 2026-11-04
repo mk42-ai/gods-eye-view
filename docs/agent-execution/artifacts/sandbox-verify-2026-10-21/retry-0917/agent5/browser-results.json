@@ -1,0 +1,1668 @@
+[
+  {
+    "check": "identity",
+    "scenario": "title+wordmark+brand-mark+favicon-link",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 11931,
+    "run_at_iso8601": "2026-10-21T09:34:42.545Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "title": "OnDemand Intelligence Workstation",
+      "wordmark": "OnDemand Intelligence Workstation",
+      "marks": [
+        {
+          "tag": "span",
+          "w": 52,
+          "h": 34.875,
+          "src": ""
+        },
+        {
+          "tag": "span",
+          "w": 127.14263916015625,
+          "h": 85.2998046875,
+          "src": ""
+        }
+      ],
+      "icons": [
+        {
+          "rel": "icon",
+          "href": "/assets/brand/favicon.ico",
+          "type": "",
+          "sizes": "any"
+        },
+        {
+          "rel": "icon",
+          "href": "/assets/brand/favicon-16.png",
+          "type": "image/png",
+          "sizes": "16x16"
+        },
+        {
+          "rel": "icon",
+          "href": "/assets/brand/favicon-32.png",
+          "type": "image/png",
+          "sizes": "32x32"
+        },
+        {
+          "rel": "icon",
+          "href": "/assets/brand/favicon-48.png",
+          "type": "image/png",
+          "sizes": "48x48"
+        },
+        {
+          "rel": "icon",
+          "href": "/brand/mark.svg",
+          "type": "image/svg+xml",
+          "sizes": null
+        }
+      ],
+      "manifest": "/brand/site.webmanifest",
+      "loadingScreenBg": "linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\")",
+      "loadingHidden": true,
+      "titleOk": true,
+      "wmOk": true,
+      "markOk": true,
+      "iconOk": true
+    }
+  },
+  {
+    "check": "loading-screen-backdrop",
+    "scenario": "#loading-screen computed background-image",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:34:54.752Z",
+    "screenshot": null,
+    "evidence": {
+      "backgroundImage": "linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\")"
+    }
+  },
+  {
+    "check": "legacy-terms",
+    "scenario": "base page (chat closed)",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:34:54.788Z",
+    "screenshot": null,
+    "evidence": {
+      "count": 0,
+      "hits": [],
+      "internal": [
+        "style[id=\"gev-screen-whiteboard-styles\"]",
+        "input[class=\"gev-quantitative-slider\"]",
+        "output[class=\"gev-slider-value\"]",
+        "div[class=\"gev-screen-whiteboard\"]",
+        "svg[class=\"gev-screen-whiteboard-svg\"]",
+        "filter[id=\"gev-sketch\"]",
+        "window.__godsEyeView"
+      ]
+    }
+  },
+  {
+    "check": "eye-motif",
+    "scenario": "base page (chat closed)",
+    "viewport": "1440x900",
+    "status": "DEFECT",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:34:54.890Z",
+    "screenshot": null,
+    "evidence": {
+      "total": 54,
+      "assets": [
+        {
+          "kind": "img",
+          "url": "https://sb-4asza5droe1u.vercel.run/pin.svg",
+          "alt": ""
+        },
+        {
+          "kind": "img",
+          "url": "",
+          "alt": "CCTV feed frame"
+        },
+        {
+          "kind": "img",
+          "url": "https://sb-4asza5droe1u.vercel.run/cesium/Assets/Images/ion-credit.png",
+          "alt": ""
+        },
+        {
+          "kind": "svg",
+          "url": "inline-svg",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "layers-minus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "link",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cockpit-route-chevron",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "chevron-left",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "skip-back",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "play",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "skip-forward",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "circle",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "tv",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "moon",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "thermometer",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "sparkles",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "contrast",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "snowflake",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "plus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "map-pin",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "search",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "satellite",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "plane",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "shield",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "ship",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "car",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "bus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "bike",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cctv",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "camera",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "radar",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "server",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cable",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "dam",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "rocket",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "activity",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "flame",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "compass",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "radio",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "scan",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "minus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "square",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "sun",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "focus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "message-square",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "triangle",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "rotate-ccw",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "gev-screen-whiteboard-svg",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "css-mask::after",
+          "url": "https://sb-4asza5droe1u.vercel.run/brand/icons/chevron-left.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask",
+          "url": "https://sb-4asza5droe1u.vercel.run/visual-presets.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask::after",
+          "url": "https://sb-4asza5droe1u.vercel.run/brand/icons/chevron-right.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask",
+          "url": "https://sb-4asza5droe1u.vercel.run/location.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-bg",
+          "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png",
+          "el": "div#loading-screen"
+        }
+      ],
+      "flagged": [
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        }
+      ]
+    }
+  },
+  {
+    "check": "mini-chat-open",
+    "scenario": "gev:ask-object earthquake",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 4886,
+    "run_at_iso8601": "2026-10-21T09:34:59.776Z",
+    "screenshot": "check-branding-1440x900.png",
+    "evidence": {
+      "chatOpen": true,
+      "pluginPanel": {
+        "present": true,
+        "open": true,
+        "rows": 32,
+        "summary": "PLUGINS10 ready"
+      },
+      "keySetup": {
+        "chipPresent": false,
+        "rootPresent": false
+      },
+      "keySetupVisible": false
+    }
+  },
+  {
+    "check": "legacy-terms",
+    "scenario": "chat open + plugins panel open (settings/key-setup not present)",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:34:59.776Z",
+    "screenshot": "check-branding-1440x900.png",
+    "evidence": {
+      "count": 0,
+      "hits": [],
+      "internal": [
+        "style[id=\"gev-screen-whiteboard-styles\"]",
+        "input[class=\"gev-quantitative-slider\"]",
+        "output[class=\"gev-slider-value\"]",
+        "div[class=\"gev-screen-whiteboard\"]",
+        "svg[class=\"gev-screen-whiteboard-svg\"]",
+        "filter[id=\"gev-sketch\"]",
+        "window.__godsEyeView"
+      ]
+    }
+  },
+  {
+    "check": "eye-motif",
+    "scenario": "chat open + plugins panel open",
+    "viewport": "1440x900",
+    "status": "DEFECT",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:34:59.776Z",
+    "screenshot": "check-branding-1440x900.png",
+    "evidence": {
+      "total": 56,
+      "assets": [
+        {
+          "kind": "img",
+          "url": "https://sb-4asza5droe1u.vercel.run/pin.svg",
+          "alt": ""
+        },
+        {
+          "kind": "img",
+          "url": "",
+          "alt": "CCTV feed frame"
+        },
+        {
+          "kind": "img",
+          "url": "https://sb-4asza5droe1u.vercel.run/cesium/Assets/Images/ion-credit.png",
+          "alt": ""
+        },
+        {
+          "kind": "svg",
+          "url": "inline-svg",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "layers-minus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "link",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cockpit-route-chevron",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "chevron-left",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "skip-back",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "play",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "skip-forward",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "circle",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "tv",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "moon",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "thermometer",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "sparkles",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "contrast",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "snowflake",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "plus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "map-pin",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "search",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "satellite",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "plane",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "shield",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "ship",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "car",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "bus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "bike",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cctv",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "camera",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "radar",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "server",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cable",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "dam",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "rocket",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "activity",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "flame",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "compass",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "radio",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "scan",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "minus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "square",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "sun",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "focus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "message-square",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "triangle",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "rotate-ccw",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "gev-screen-whiteboard-svg",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "x",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "css-mask::after",
+          "url": "https://sb-4asza5droe1u.vercel.run/brand/icons/chevron-left.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask",
+          "url": "https://sb-4asza5droe1u.vercel.run/visual-presets.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask::after",
+          "url": "https://sb-4asza5droe1u.vercel.run/brand/icons/chevron-right.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask",
+          "url": "https://sb-4asza5droe1u.vercel.run/location.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-bg",
+          "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png",
+          "el": "div#loading-screen"
+        },
+        {
+          "kind": "css-bg::before",
+          "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/empty-no-sessions.png",
+          "el": "div"
+        }
+      ],
+      "flagged": [
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        }
+      ]
+    }
+  },
+  {
+    "check": "identity",
+    "scenario": "title+wordmark+brand-mark+favicon-link",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 9543,
+    "run_at_iso8601": "2026-10-21T09:35:00.337Z",
+    "screenshot": null,
+    "evidence": {
+      "url": "https://sb-4asza5droe1u.vercel.run/?welcome=0#lat=30.2811&lon=-97.7226&alt=600&heading=0&pitch=-40&v=2&hv=1&hud=tactical",
+      "title": "OnDemand Intelligence Workstation",
+      "wordmark": "OnDemand Intelligence Workstation",
+      "marks": [
+        {
+          "tag": "span",
+          "w": 36,
+          "h": 24.140625,
+          "src": ""
+        },
+        {
+          "tag": "span",
+          "w": 125.46502685546875,
+          "h": 84.17431640625,
+          "src": ""
+        }
+      ],
+      "icons": [
+        {
+          "rel": "icon",
+          "href": "/assets/brand/favicon.ico",
+          "type": "",
+          "sizes": "any"
+        },
+        {
+          "rel": "icon",
+          "href": "/assets/brand/favicon-16.png",
+          "type": "image/png",
+          "sizes": "16x16"
+        },
+        {
+          "rel": "icon",
+          "href": "/assets/brand/favicon-32.png",
+          "type": "image/png",
+          "sizes": "32x32"
+        },
+        {
+          "rel": "icon",
+          "href": "/assets/brand/favicon-48.png",
+          "type": "image/png",
+          "sizes": "48x48"
+        },
+        {
+          "rel": "icon",
+          "href": "/brand/mark.svg",
+          "type": "image/svg+xml",
+          "sizes": null
+        }
+      ],
+      "manifest": "/brand/site.webmanifest",
+      "loadingScreenBg": "linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\")",
+      "loadingHidden": true,
+      "titleOk": true,
+      "wmOk": true,
+      "markOk": true,
+      "iconOk": true
+    }
+  },
+  {
+    "check": "loading-screen-backdrop",
+    "scenario": "#loading-screen computed background-image",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:35:09.898Z",
+    "screenshot": null,
+    "evidence": {
+      "backgroundImage": "linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\")"
+    }
+  },
+  {
+    "check": "legacy-terms",
+    "scenario": "base page (chat closed)",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:35:09.925Z",
+    "screenshot": null,
+    "evidence": {
+      "count": 0,
+      "hits": [],
+      "internal": [
+        "style[id=\"gev-screen-whiteboard-styles\"]",
+        "input[class=\"gev-quantitative-slider\"]",
+        "output[class=\"gev-slider-value\"]",
+        "div[class=\"gev-screen-whiteboard\"]",
+        "svg[class=\"gev-screen-whiteboard-svg\"]",
+        "filter[id=\"gev-sketch\"]",
+        "window.__godsEyeView"
+      ]
+    }
+  },
+  {
+    "check": "eye-motif",
+    "scenario": "base page (chat closed)",
+    "viewport": "390x844",
+    "status": "DEFECT",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:35:10.006Z",
+    "screenshot": null,
+    "evidence": {
+      "total": 54,
+      "assets": [
+        {
+          "kind": "img",
+          "url": "https://sb-4asza5droe1u.vercel.run/pin.svg",
+          "alt": ""
+        },
+        {
+          "kind": "img",
+          "url": "",
+          "alt": "CCTV feed frame"
+        },
+        {
+          "kind": "img",
+          "url": "https://sb-4asza5droe1u.vercel.run/cesium/Assets/Images/ion-credit.png",
+          "alt": ""
+        },
+        {
+          "kind": "svg",
+          "url": "inline-svg",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "layers-minus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "link",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cockpit-route-chevron",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "chevron-left",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "skip-back",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "play",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "skip-forward",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "circle",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "tv",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "moon",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "thermometer",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "sparkles",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "contrast",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "snowflake",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "plus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "map-pin",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "search",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "satellite",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "plane",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "shield",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "ship",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "car",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "bus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "bike",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cctv",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "camera",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "radar",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "server",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cable",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "dam",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "rocket",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "activity",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "flame",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "compass",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "radio",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "scan",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "minus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "square",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "sun",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "focus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "message-square",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "triangle",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "rotate-ccw",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "gev-screen-whiteboard-svg",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "css-mask::after",
+          "url": "https://sb-4asza5droe1u.vercel.run/brand/icons/chevron-left.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask",
+          "url": "https://sb-4asza5droe1u.vercel.run/visual-presets.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask::after",
+          "url": "https://sb-4asza5droe1u.vercel.run/brand/icons/chevron-right.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask",
+          "url": "https://sb-4asza5droe1u.vercel.run/location.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-bg",
+          "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png",
+          "el": "div#loading-screen"
+        }
+      ],
+      "flagged": [
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        }
+      ]
+    }
+  },
+  {
+    "check": "mini-chat-open",
+    "scenario": "gev:ask-object earthquake",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 3716,
+    "run_at_iso8601": "2026-10-21T09:35:13.722Z",
+    "screenshot": "check-branding-390x844.png",
+    "evidence": {
+      "chatOpen": true,
+      "pluginPanel": {
+        "present": true,
+        "open": true,
+        "rows": 32,
+        "summary": "PLUGINS10 ready"
+      },
+      "keySetup": {
+        "chipPresent": false,
+        "rootPresent": false
+      },
+      "keySetupVisible": false
+    }
+  },
+  {
+    "check": "legacy-terms",
+    "scenario": "chat open + plugins panel open (settings/key-setup not present)",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:35:13.722Z",
+    "screenshot": "check-branding-390x844.png",
+    "evidence": {
+      "count": 0,
+      "hits": [],
+      "internal": [
+        "style[id=\"gev-screen-whiteboard-styles\"]",
+        "input[class=\"gev-quantitative-slider\"]",
+        "output[class=\"gev-slider-value\"]",
+        "div[class=\"gev-screen-whiteboard\"]",
+        "svg[class=\"gev-screen-whiteboard-svg\"]",
+        "filter[id=\"gev-sketch\"]",
+        "window.__godsEyeView"
+      ]
+    }
+  },
+  {
+    "check": "eye-motif",
+    "scenario": "chat open + plugins panel open",
+    "viewport": "390x844",
+    "status": "DEFECT",
+    "duration_ms": 0,
+    "run_at_iso8601": "2026-10-21T09:35:13.722Z",
+    "screenshot": "check-branding-390x844.png",
+    "evidence": {
+      "total": 56,
+      "assets": [
+        {
+          "kind": "img",
+          "url": "https://sb-4asza5droe1u.vercel.run/pin.svg",
+          "alt": ""
+        },
+        {
+          "kind": "img",
+          "url": "",
+          "alt": "CCTV feed frame"
+        },
+        {
+          "kind": "img",
+          "url": "https://sb-4asza5droe1u.vercel.run/cesium/Assets/Images/ion-credit.png",
+          "alt": ""
+        },
+        {
+          "kind": "svg",
+          "url": "inline-svg",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "layers-minus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "link",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cockpit-route-chevron",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "chevron-left",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "skip-back",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "play",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "skip-forward",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "circle",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "tv",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "moon",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "thermometer",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "sparkles",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "contrast",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "snowflake",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "plus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "map-pin",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "search",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "satellite",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "plane",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "shield",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "ship",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "car",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "bus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "bike",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cctv",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "camera",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "radar",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "server",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "cable",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "dam",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "rocket",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "activity",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "flame",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "compass",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "radio",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "scan",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "minus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "square",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "sun",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "focus",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "message-square",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "triangle",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "rotate-ccw",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "gev-screen-whiteboard-svg",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "svg",
+          "url": "x",
+          "title": "",
+          "desc": ""
+        },
+        {
+          "kind": "css-mask::after",
+          "url": "https://sb-4asza5droe1u.vercel.run/brand/icons/chevron-left.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask",
+          "url": "https://sb-4asza5droe1u.vercel.run/visual-presets.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask::after",
+          "url": "https://sb-4asza5droe1u.vercel.run/brand/icons/chevron-right.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-mask",
+          "url": "https://sb-4asza5droe1u.vercel.run/location.svg",
+          "el": "span"
+        },
+        {
+          "kind": "css-bg",
+          "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png",
+          "el": "div#loading-screen"
+        },
+        {
+          "kind": "css-bg::before",
+          "url": "https://sb-4asza5droe1u.vercel.run/assets/brand/empty-no-sessions.png",
+          "el": "div"
+        }
+      ],
+      "flagged": [
+        {
+          "kind": "svg",
+          "url": "scan-eye",
+          "title": "",
+          "desc": ""
+        }
+      ]
+    }
+  }
+]

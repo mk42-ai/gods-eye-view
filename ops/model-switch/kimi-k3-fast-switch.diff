@@ -1,0 +1,242 @@
+diff --git a/.env.example b/.env.example
+index bc3396a..e33331c 100644
+--- a/.env.example
++++ b/.env.example
+@@ -471,7 +471,13 @@ SCENE_PLAN_REASONING_EFFORT=medium
+ # CEREBRAS_API_KEY=
+ # SCENE_SPEC_CEREBRAS_MODEL=qwen-3.8-27b
+ # SCENE_SPEC_CEREBRAS_FALLBACK_MODEL=qwen-3-235b-a22b-instruct-2507
+-# SCENE_SPEC_ONDEMAND_FAST_ENDPOINT_ID=predefined-cerebras-qwen-3.8-27b
++# Fast Scene-Spec tier (default: Kimi K3 fast, resolved from the live registry
++# 2026-11-03 — endpoint predefined-kimi-k3-fast, model accounts/fireworks/routers/kimi-k3-fast).
++# SCENE_SPEC_ONDEMAND_FAST_ENDPOINT_ID=predefined-kimi-k3-fast
++# Fallback fast tier when Kimi fails (default: the Cerebras-hosted qwen-3.8-27b endpoint).
++# SCENE_SPEC_ONDEMAND_FAST_FALLBACK_ENDPOINT_ID=predefined-cerebras-qwen-3.8-27b
++# Scene-evidence intent/summary endpoint (default predefined-kimi-k3-fast).
++# SCENE_EVIDENCE_ONDEMAND_ENDPOINT_ID=predefined-kimi-k3-fast
+ # SCENE_SPEC_ONDEMAND_ENDPOINT_ID=predefined-gpt-6.1-sol
+ # Comma-separated Overpass mirrors for footprints/roads (around: queries).
+ # SCENE_OVERPASS_ENDPOINTS=https://overpass.openstreetmap.fr/api/interpreter,https://overpass.osm.ch/api/interpreter
+@@ -483,3 +489,12 @@ SCENE_LOCATION_RESEARCH_TIMEOUT_MS=25000
+ # sessions reused through a per-run pool (set 1 for strict single-session mode).
+ SNAPCHAT_FANOUT_CONCURRENCY=3
+ SNAPCHAT_SESSIONS_PER_RUN=3
++
++# ── Hyper-real Render (GPU render service proxy) ──────────────────────────
++# Optional. Base URL + bearer token of the render_service/ FastAPI (runs on the
++# H100 host; see render_service/README.md and ops/render-service/). Both stay
++# SERVER-SIDE: the browser only talks to /api/scenes/render/* and every payload
++# is labelled "Illustrative render · not evidence". Unset → the UI shows an
++# honest "render service not connected" state and nothing is rendered.
++# RENDER_SERVICE_URL=https://<tunnel-or-host>:8791
++# RENDER_SERVICE_TOKEN=
+diff --git a/server/ondemand/camera-chat-config.js b/server/ondemand/camera-chat-config.js
+index 300a1c5..1b91236 100644
+--- a/server/ondemand/camera-chat-config.js
++++ b/server/ondemand/camera-chat-config.js
+@@ -8,7 +8,7 @@
+  * by the health endpoint. The API key never lives here.
+  *
+  * Env (canonical name → default → evidence):
+- *   ONDEMAND_CAMERA_CHAT_ENDPOINT_ID        'predefined-cerebras-qwen-3.8-27b'
++ *   ONDEMAND_CAMERA_CHAT_ENDPOINT_ID        'predefined-kimi-k3-fast' (was predefined-cerebras-qwen-3.8-27b)
+  *       text-only turns. LIVE-verified Cerebras endpoint from the quick-fire
+  *       contract (docs/ONDEMAND_QUICKFIRE_CHAT_CONTRACT_2026-09-19.md §0/§d);
+  *       NOT in the docs' predefined table (docs/fulfillment-models, 18 rows,
+@@ -51,7 +51,7 @@ export const CAMERA_CHAT_ENV = Object.freeze({
+ });
+ 
+ export const CAMERA_CHAT_DEFAULTS = Object.freeze({
+-  endpointId: 'predefined-cerebras-qwen-3.8-27b',
++  endpointId: 'predefined-kimi-k3-fast',
+   visionEndpointId: '',
+   pluginIds: Object.freeze(['agent-1713924030']),
+   reasoningMode: 'low',
+diff --git a/server/ondemand/runtime/model-registry.js b/server/ondemand/runtime/model-registry.js
+index b3fbf1e..a8e23e8 100644
+--- a/server/ondemand/runtime/model-registry.js
++++ b/server/ondemand/runtime/model-registry.js
+@@ -8,6 +8,10 @@
+ import { ondemandFetch } from '../client.js';
+ import { config } from '../config.js';
+ 
++/** Fast tier default (live registry 2026-11-03); Cerebras qwen-3.8-27b stays the fallback. */
++export const KIMI_FAST_ENDPOINT_ID = 'predefined-kimi-k3-fast';
++export const CEREBRAS_FALLBACK_ENDPOINT_ID = 'predefined-cerebras-qwen-3.8-27b';
++
+ export const MODEL_TASKS = Object.freeze([
+   'scene_direction',
+   'camera_direction',
+@@ -243,13 +247,21 @@ export function createModelRegistry({
+     }
+ 
+     // Default preference order:
+-    // 1. Cerebras active streaming endpoints
++    // 1. Kimi K3 fast (predefined-kimi-k3-fast, resolved 2026-11-03 from the
++    //    live registry: model accounts/fireworks/routers/kimi-k3-fast)
++    const kimiFast = models.find(
++      (m) =>
++        m.endpointId === KIMI_FAST_ENDPOINT_ID && m.available && m.streaming,
++    );
++    if (kimiFast) return kimiFast;
++
++    // 2. Cerebras active streaming endpoints (kept as the fallback tier)
+     const cerebras = models.find(
+       (m) => m.cerebras && m.available && m.streaming,
+     );
+     if (cerebras) return cerebras;
+ 
+-    // 2. predefined-gpt-6.1-sol
++    // 3. predefined-gpt-6.1-sol
+     const gptSol = models.find(
+       (m) =>
+         m.endpointId === 'predefined-gpt-6.1-sol' && m.available && m.streaming,
+@@ -289,7 +301,15 @@ export function createModelRegistry({
+         }
+       }
+ 
+-      // Default order: cerebras -> gpt-6.1-sol -> any
++      // Default order: kimi-k3-fast -> cerebras -> gpt-6.1-sol -> any
++      const kimiFast = models.find(
++        (m) =>
++          m.endpointId === KIMI_FAST_ENDPOINT_ID && m.available && m.streaming,
++      );
++      if (kimiFast) {
++        result[task] = kimiFast.endpointId;
++        continue;
++      }
+       const cerebras = models.find(
+         (m) => m.cerebras && m.available && m.streaming,
+       );
+@@ -319,7 +339,7 @@ export function createModelRegistry({
+       result[task] =
+         task === 'planner' && env.SCENE_PLAN_ENDPOINT_ID
+           ? env.SCENE_PLAN_ENDPOINT_ID
+-          : 'predefined-cerebras-qwen-3.8-27b';
++          : KIMI_FAST_ENDPOINT_ID;
+     }
+ 
+     return result;
+diff --git a/server/scene-evidence/inference.js b/server/scene-evidence/inference.js
+index 7c29806..ced230d 100644
+--- a/server/scene-evidence/inference.js
++++ b/server/scene-evidence/inference.js
+@@ -9,9 +9,11 @@
+  *
+  * Engines, in order of preference:
+  *   'cerebras-direct'   CEREBRAS_API_KEY set → https://api.cerebras.ai/v1/chat/completions
+- *   'cerebras-ondemand' OnDemand endpoint predefined-cerebras-qwen-3.8-27b
+- *                       (Cerebras-hosted model served through the existing
+- *                       OnDemand key; enabled unless SCENE_EVIDENCE_CEREBRAS=off)
++ *   'cerebras-ondemand' OnDemand fast endpoint: predefined-kimi-k3-fast by default
++ *                       (SCENE_EVIDENCE_ONDEMAND_ENDPOINT_ID overrides; the
++ *                       previous default predefined-cerebras-qwen-3.8-27b stays
++ *                       as the documented fallback id); enabled unless
++ *                       SCENE_EVIDENCE_CEREBRAS=off
+  *   'deterministic'     regex parser + template summary
+  */
+ import { parseIncidentQuery } from '../../src/incidents/query.js';
+@@ -19,7 +21,9 @@ import { deterministicSummary } from '../../src/sceneEvidence/model.js';
+ 
+ export const CEREBRAS_URL = 'https://api.cerebras.ai/v1/chat/completions';
+ export const CEREBRAS_DIRECT_MODEL = 'gpt-oss-120b';
++export const KIMI_FAST_ONDEMAND_ENDPOINT = 'predefined-kimi-k3-fast';
+ export const CEREBRAS_ONDEMAND_ENDPOINT = 'predefined-cerebras-qwen-3.8-27b';
++export const DEFAULT_ONDEMAND_ENDPOINT = KIMI_FAST_ONDEMAND_ENDPOINT;
+ 
+ export function inferenceEngine(
+   env = process.env,
+@@ -87,7 +91,14 @@ async function callDirect({
+   return String(j?.choices?.[0]?.message?.content || '');
+ }
+ 
+-async function callOnDemand({ client, messages, signal, timeoutMs }) {
++function ondemandEndpointId(env = process.env) {
++  return (
++    String(env.SCENE_EVIDENCE_ONDEMAND_ENDPOINT_ID || '').trim() ||
++    DEFAULT_ONDEMAND_ENDPOINT
++  );
++}
++
++async function callOnDemand({ client, messages, signal, timeoutMs, env }) {
+   const session = await client.sessions.create({
+     externalUserId: `scene-evidence-inf-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
+     pluginIds: [],
+@@ -100,7 +111,7 @@ async function callOnDemand({ client, messages, signal, timeoutMs }) {
+           m.role === 'system' ? `INSTRUCTIONS: ${m.content}` : m.content,
+         )
+         .join('\n\n'),
+-      endpointId: CEREBRAS_ONDEMAND_ENDPOINT,
++      endpointId: ondemandEndpointId(env),
+       responseMode: 'sync',
+       pluginIds: [],
+       reasoningEffort: 'low',
+@@ -121,7 +132,7 @@ export function createInference({
+   const call = (messages, opts) =>
+     chosen === 'cerebras-direct'
+       ? callDirect({ env, fetchImpl, messages, ...opts })
+-      : callOnDemand({ client, messages, ...opts });
++      : callOnDemand({ client, messages, env, ...opts });
+ 
+   return {
+     engine: chosen,
+diff --git a/server/scene-plans/specModel.js b/server/scene-plans/specModel.js
+index fe5a57c..b9b56a1 100644
+--- a/server/scene-plans/specModel.js
++++ b/server/scene-plans/specModel.js
+@@ -6,9 +6,12 @@
+  *   1. Cerebras direct   qwen-3.8-27b, strict json_schema, 2 s timeout, 1 retry
+  *      (fallback model qwen-3-235b-a22b-instruct-2507, non-strict + validation)
+  *      — only when CEREBRAS_API_KEY is configured on the server.
+- *   2. OnDemand          predefined-cerebras-qwen-3.8-27b (Cerebras-hosted, existing key)
+- *   3. OnDemand          predefined-gpt-6.1-sol, medium reasoning
+- *   4. Scenario template — ALWAYS succeeds, so a scene always builds.
++ *   2. OnDemand          predefined-kimi-k3-fast (Kimi K3 fast — resolved from the
++ *                        live endpoint registry 2026-11-03: endpoint_name "kimi-k3-fast",
++ *                        model_id "accounts/fireworks/routers/kimi-k3-fast")
++ *   3. OnDemand          predefined-cerebras-qwen-3.8-27b (Cerebras-hosted, kept as fallback)
++ *   4. OnDemand          predefined-gpt-6.1-sol, medium reasoning
++ *   5. Scenario template — ALWAYS succeeds, so a scene always builds.
+  *
+  * The brief's "GPT 6.1 sol ultra-fast" endpoint does not exist in the live
+  * OnDemand registry (probed 2026-11-01: `predefined-gpt-6.1-ultra-fast` and
+@@ -37,6 +40,7 @@ import { parseProviderJson } from './transport.js';
+ export const CEREBRAS_URL = 'https://api.cerebras.ai/v1/chat/completions';
+ export const CEREBRAS_PRIMARY_MODEL = 'qwen-3.8-27b';
+ export const CEREBRAS_FALLBACK_MODEL = 'qwen-3-235b-a22b-instruct-2507';
++export const ONDEMAND_KIMI_FAST_ENDPOINT = 'predefined-kimi-k3-fast';
+ export const ONDEMAND_CEREBRAS_ENDPOINT = 'predefined-cerebras-qwen-3.8-27b';
+ export const ONDEMAND_GPT_ENDPOINT = 'predefined-gpt-6.1-sol';
+ export const CEREBRAS_TIMEOUT_MS = 2000;
+@@ -60,6 +64,9 @@ export function specModelConfig(env = process.env) {
+       CEREBRAS_FALLBACK_MODEL,
+     ondemandFast:
+       (env.SCENE_SPEC_ONDEMAND_FAST_ENDPOINT_ID || '').trim() ||
++      ONDEMAND_KIMI_FAST_ENDPOINT,
++    ondemandFastFallback:
++      (env.SCENE_SPEC_ONDEMAND_FAST_FALLBACK_ENDPOINT_ID || '').trim() ||
+       ONDEMAND_CEREBRAS_ENDPOINT,
+     ondemandPlanner:
+       (
+@@ -237,6 +244,21 @@ export function createSpecModel({
+         run: (p, f, o) =>
+           ondemandTier(config.ondemandFast, p, f, { signal: o.signal }),
+       });
++      if (
++        config.ondemandFastFallback &&
++        config.ondemandFastFallback !== config.ondemandFast
++      ) {
++        list.push({
++          provider: 'ondemand',
++          id: config.ondemandFastFallback,
++          endpointId: config.ondemandFastFallback,
++          retries: 0,
++          run: (p, f, o) =>
++            ondemandTier(config.ondemandFastFallback, p, f, {
++              signal: o.signal,
++            }),
++        });
++      }
+       list.push({
+         provider: 'ondemand',
+         id: config.ondemandPlanner,

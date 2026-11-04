@@ -1,0 +1,11 @@
+{
+ "utc": "2026-10-21T10:26:15Z",
+ "http": 404,
+ "body": {
+  "error": "unknown_plugin",
+  "message": "Unknown plugin contract(s): does_not_exist",
+  "unknown": [
+   "does_not_exist"
+  ]
+ }
+}

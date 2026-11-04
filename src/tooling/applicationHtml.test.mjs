@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { expandApplicationHtml, APPLICATION_TEMPLATES } from '../../build/application-html.js';
 
 test('the standalone document expands every component once and preserves unique element ids', () => {
-  const source = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
+  const source = readFileSync(new URL('../../legacy.html', import.meta.url), 'utf8');
   const html = expandApplicationHtml(source);
   assert.equal([...source.matchAll(/gev:template /g)].length, APPLICATION_TEMPLATES.length);
   assert.doesNotMatch(html, /gev:template/);
@@ -15,8 +15,9 @@ test('the standalone document expands every component once and preserves unique 
 });
 
 test('component selection includes only requested markup and refuses filesystem traversal', () => {
-  const html = expandApplicationHtml('<!-- gev:template welcome -->\n');
-  assert.match(html, /id="first-run-launcher"/);
+  const html = expandApplicationHtml('<!-- gev:template provider-settings -->\n');
+  assert.match(html, /id="/);
+  assert.throws(() => expandApplicationHtml('<!-- gev:template welcome -->'), /Unknown application template/, 'the four-card first-launch modal was removed (cycle 21)');
   assert.doesNotMatch(html, /id="cesiumContainer"/);
   assert.throws(() => expandApplicationHtml('<!-- gev:template ../../.env -->'), /Unknown application template/);
 });

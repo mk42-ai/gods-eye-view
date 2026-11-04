@@ -1,0 +1,913 @@
+{
+  "startedAtUtc": "2026-11-02T16:40:08.357Z",
+  "finishedAtUtc": "2026-11-02T16:42:59.463Z",
+  "pluginId": "plugin-1792945050",
+  "endpointId": "predefined-openai-gpt4.1-mini",
+  "transport": "direct-plugin-query",
+  "perRequestTimeoutMs": 30000,
+  "concurrencyCap": 3,
+  "legacyTransportEndpointsReferenced": 0,
+  "requestShape": {
+    "createSession": {
+      "method": "POST",
+      "path": "/chat/v1/sessions",
+      "headers": {
+        "apikey": "[REDACTED]",
+        "content-type": "application/json"
+      },
+      "body": {
+        "externalUserId": "gev-scene-footage",
+        "pluginIds": [
+          "plugin-1792945050"
+        ]
+      }
+    },
+    "submitQuery": {
+      "method": "POST",
+      "path": "/chat/v1/sessions/{sessionId}/query",
+      "headers": {
+        "apikey": "[REDACTED]",
+        "content-type": "application/json"
+      },
+      "body": {
+        "endpointId": "predefined-openai-gpt4.1-mini",
+        "query": "<AGENT_INSTRUCTION + scene context + fetchSnapchatVideosByPlace({places:[variant],limit})>",
+        "responseMode": "sync",
+        "pluginIds": [
+          "plugin-1792945050"
+        ]
+      }
+    }
+  },
+  "probes": [
+    {
+      "prompt": "Dubai Marina raid",
+      "placeName": "Dubai Marina",
+      "startedAtUtc": "2026-11-02T16:40:08.360Z",
+      "finishedAtUtc": "2026-11-02T16:41:08.600Z",
+      "totalMs": 60240,
+      "state": "ok",
+      "fatal": null,
+      "transport": {
+        "mode": "direct-plugin-query",
+        "sessionIds": [
+          "6ae8bce8979386222883dd9d",
+          "6ae8bcfb6d94a31eb6a5ec7d",
+          "6ae8bcfb979386222883dda3"
+        ],
+        "sessionPoolSize": 3,
+        "sessionsCreated": 3,
+        "directQueries": 6,
+        "concurrency": 3,
+        "perRequestTimeoutMs": 30000
+      },
+      "counts": {
+        "verified": 0,
+        "candidate": 1,
+        "raw": 1,
+        "unique": 1,
+        "variantsTried": 6,
+        "truncatedVariants": 0
+      },
+      "accounting": {
+        "returnedCount": 1,
+        "uniqueCount": 1,
+        "matchingCount": 1,
+        "rejectedCount": 0,
+        "queriesCount": 6,
+        "logicalQueriesCount": 6,
+        "pollsCount": 0,
+        "pagesCount": 5,
+        "attemptsCount": 6,
+        "sessionsCreated": 3,
+        "directQueries": 6,
+        "partial": false,
+        "truncated": false
+      },
+      "variants": [
+        {
+          "variant": "Dubai Marina",
+          "raw": 1,
+          "unique": 1,
+          "ms": 18771
+        },
+        {
+          "variant": "Dubai Marina raid",
+          "raw": 0,
+          "unique": 0,
+          "ms": 18181,
+          "fanout": true
+        },
+        {
+          "variant": "Marina Dubai",
+          "raw": 0,
+          "unique": 0,
+          "ms": 15655,
+          "fanout": true
+        },
+        {
+          "variant": "Dubai Marina Walk",
+          "raw": 0,
+          "unique": 0,
+          "ms": 14443,
+          "fanout": true
+        },
+        {
+          "variant": "JBR Dubai Marina",
+          "raw": 0,
+          "unique": 0,
+          "ms": 17412,
+          "fanout": true
+        },
+        {
+          "variant": "Marina",
+          "raw": 0,
+          "unique": 0,
+          "ms": 25796,
+          "error": "plugin_source_records_missing_or_invalid",
+          "fanout": true
+        }
+      ],
+      "verifiedCount": 0,
+      "approximateCount": 1,
+      "maxInflightObserved": 3,
+      "requests": [
+        {
+          "at": "2026-11-02T16:40:08.363Z",
+          "endpoint": "POST /chat/v1/sessions",
+          "kind": "session",
+          "attempt": 1,
+          "status": 201,
+          "latencyMs": null,
+          "sessionId": "6ae8bce8979386222883dd9d"
+        },
+        {
+          "at": "2026-11-02T16:40:08.952Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Dubai Marina"
+          ],
+          "attempt": 1,
+          "sessionReused": false,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 18771,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:40:27.149Z",
+          "endpoint": "POST /chat/v1/sessions",
+          "kind": "session",
+          "attempt": 1,
+          "status": 201,
+          "latencyMs": null,
+          "sessionId": "6ae8bcfb979386222883dda3"
+        },
+        {
+          "at": "2026-11-02T16:40:27.150Z",
+          "endpoint": "POST /chat/v1/sessions",
+          "kind": "session",
+          "attempt": 1,
+          "status": 201,
+          "latencyMs": null,
+          "sessionId": "6ae8bcfb6d94a31eb6a5ec7d"
+        },
+        {
+          "at": "2026-11-02T16:40:27.150Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Dubai Marina raid"
+          ],
+          "attempt": 1,
+          "sessionReused": true,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 18180,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:40:27.543Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Dubai Marina Walk"
+          ],
+          "attempt": 1,
+          "sessionReused": false,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 14442,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:40:27.609Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Marina Dubai"
+          ],
+          "attempt": 1,
+          "sessionReused": false,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 15655,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:40:41.592Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "JBR Dubai Marina"
+          ],
+          "attempt": 1,
+          "sessionReused": true,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 17412,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:40:42.804Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Marina"
+          ],
+          "attempt": 1,
+          "sessionReused": true,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 25795,
+          "upstreamStatus": "completed"
+        }
+      ],
+      "rawExcerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"matchType\":\"clip-text-match\",\"matchedQuery\":\"Dubai Marina\",\"place\":\"Dubai Marina\",\"uploaded\":1,\"videos\":[{\"commentCount\":1,\"description\":\"#dubaimarina\",\"durationMs\":16100,\"hashtags\":[\"#dubaimarina\"],\"sha",
+      "rawAnswers": [
+        {
+          "at": "2026-11-02T16:40:27.132Z",
+          "sessionId": "6ae8bce8979386222883dd9d",
+          "places": "[\"Dubai Marina\"]",
+          "httpStatus": 200,
+          "latencyMs": 18180,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bceb979386222883dd9e",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"matchType\":\"clip-text-match\",\"matchedQuery\":\"Dubai Marina\",\"place\":\"Dubai Marina\",\"uploaded\":1,\"videos\":[{\"commentCount\":1,\"description\":\"#dubaimarina\",\"durationMs\":16100,\"hashtags\":[\"#dubaimarina\"],\"sha"
+        },
+        {
+          "at": "2026-11-02T16:40:41.591Z",
+          "sessionId": "6ae8bcfb6d94a31eb6a5ec7d",
+          "places": "[\"Dubai Marina Walk\"]",
+          "httpStatus": 200,
+          "latencyMs": 14048,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bcfc979386222883dda4",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Dubai Marina Walk\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:40:42.804Z",
+          "sessionId": "6ae8bcfb979386222883dda3",
+          "places": "[\"Marina Dubai\"]",
+          "httpStatus": 200,
+          "latencyMs": 15195,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bcfd979386222883dda6",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Marina Dubai\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:40:45.328Z",
+          "sessionId": "6ae8bce8979386222883dd9d",
+          "places": "[\"Dubai Marina raid\"]",
+          "httpStatus": 200,
+          "latencyMs": 18178,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bcfc659e9e8ce683184a",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Dubai Marina raid\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:40:59.004Z",
+          "sessionId": "6ae8bcfb6d94a31eb6a5ec7d",
+          "places": "[\"JBR Dubai Marina\"]",
+          "httpStatus": 200,
+          "latencyMs": 17412,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd0b6d94a31eb6a5ec89",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"JBR Dubai Marina\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:41:08.599Z",
+          "sessionId": "6ae8bcfb979386222883dda3",
+          "places": "[\"Marina\"]",
+          "httpStatus": 200,
+          "latencyMs": 25795,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd0c979386222883ddac",
+          "excerpt": "I couldn’t retrieve results for “Marina”: the Snapchat plugin call wasn’t available, so I can’t provide a verified footage result or an empty-results response."
+        }
+      ],
+      "clips": [
+        {
+          "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+          "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+          "tier": "candidate",
+          "locationEvidence": "hashtag-match",
+          "matchedPlaceName": "Dubai Marina",
+          "caption": "#dubaimarina",
+          "publicationTime": "2026-09-09T17:13:12.000Z",
+          "mediaUrlRedacted": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/S95E7vE1Kf.mp4"
+        }
+      ]
+    },
+    {
+      "prompt": "boxing gym",
+      "placeName": "Kane's Boxing Gym Abu Dhabi",
+      "startedAtUtc": "2026-11-02T16:41:08.601Z",
+      "finishedAtUtc": "2026-11-02T16:42:04.740Z",
+      "totalMs": 56139,
+      "state": "ok",
+      "fatal": null,
+      "transport": {
+        "mode": "direct-plugin-query",
+        "sessionIds": [
+          "6ae8bd24659e9e8ce6831852",
+          "6ae8bd36659e9e8ce6831857",
+          "6ae8bd36979386222883ddbf"
+        ],
+        "sessionPoolSize": 3,
+        "sessionsCreated": 3,
+        "directQueries": 6,
+        "concurrency": 3,
+        "perRequestTimeoutMs": 30000
+      },
+      "counts": {
+        "verified": 0,
+        "candidate": 2,
+        "raw": 4,
+        "unique": 4,
+        "variantsTried": 6,
+        "truncatedVariants": 0
+      },
+      "accounting": {
+        "returnedCount": 4,
+        "uniqueCount": 4,
+        "matchingCount": 2,
+        "rejectedCount": 2,
+        "queriesCount": 6,
+        "logicalQueriesCount": 6,
+        "pollsCount": 0,
+        "pagesCount": 6,
+        "attemptsCount": 6,
+        "sessionsCreated": 3,
+        "directQueries": 6,
+        "partial": false,
+        "truncated": false
+      },
+      "variants": [
+        {
+          "variant": "Kane's Boxing Gym Abu Dhabi",
+          "raw": 0,
+          "unique": 0,
+          "ms": 17122
+        },
+        {
+          "variant": "boxing gym",
+          "raw": 0,
+          "unique": 0,
+          "ms": 20934,
+          "fanout": true
+        },
+        {
+          "variant": "Al Zahiyah",
+          "raw": 0,
+          "unique": 0,
+          "ms": 14091,
+          "fanout": true
+        },
+        {
+          "variant": "Abu Dhabi",
+          "raw": 4,
+          "unique": 4,
+          "ms": 23512,
+          "fanout": true
+        },
+        {
+          "variant": "boxing gym Abu Dhabi",
+          "raw": 0,
+          "unique": 0,
+          "ms": 13923,
+          "fanout": true
+        },
+        {
+          "variant": "Kanes Boxing Gym Abu Dhabi",
+          "raw": 0,
+          "unique": 0,
+          "ms": 18078,
+          "fanout": true
+        }
+      ],
+      "verifiedCount": 0,
+      "approximateCount": 2,
+      "maxInflightObserved": 3,
+      "requests": [
+        {
+          "at": "2026-11-02T16:41:08.601Z",
+          "endpoint": "POST /chat/v1/sessions",
+          "kind": "session",
+          "attempt": 1,
+          "status": 201,
+          "latencyMs": null,
+          "sessionId": "6ae8bd24659e9e8ce6831852"
+        },
+        {
+          "at": "2026-11-02T16:41:09.009Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Kane's Boxing Gym Abu Dhabi"
+          ],
+          "attempt": 1,
+          "sessionReused": false,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 17122,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:41:25.725Z",
+          "endpoint": "POST /chat/v1/sessions",
+          "kind": "session",
+          "attempt": 1,
+          "status": 201,
+          "latencyMs": null,
+          "sessionId": "6ae8bd36979386222883ddbf"
+        },
+        {
+          "at": "2026-11-02T16:41:25.726Z",
+          "endpoint": "POST /chat/v1/sessions",
+          "kind": "session",
+          "attempt": 1,
+          "status": 201,
+          "latencyMs": null,
+          "sessionId": "6ae8bd36659e9e8ce6831857"
+        },
+        {
+          "at": "2026-11-02T16:41:25.727Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "boxing gym"
+          ],
+          "attempt": 1,
+          "sessionReused": true,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 20934,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:41:26.032Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Abu Dhabi"
+          ],
+          "attempt": 1,
+          "sessionReused": false,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 23512,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:41:26.244Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Al Zahiyah"
+          ],
+          "attempt": 1,
+          "sessionReused": false,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 14091,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:41:39.816Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "boxing gym Abu Dhabi"
+          ],
+          "attempt": 1,
+          "sessionReused": true,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 13923,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:41:46.659Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Kanes Boxing Gym Abu Dhabi"
+          ],
+          "attempt": 1,
+          "sessionReused": true,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 18078,
+          "upstreamStatus": "completed"
+        }
+      ],
+      "rawExcerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Kane's Boxing Gym Abu Dhabi\",\"uploaded\":0,\"videos\":[]}]} ```",
+      "rawAnswers": [
+        {
+          "at": "2026-11-02T16:41:25.723Z",
+          "sessionId": "6ae8bd24659e9e8ce6831852",
+          "places": "[\"Kane's Boxing Gym Abu Dhabi\"]",
+          "httpStatus": 200,
+          "latencyMs": 16714,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd26979386222883ddb6",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Kane's Boxing Gym Abu Dhabi\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:41:39.816Z",
+          "sessionId": "6ae8bd36979386222883ddbf",
+          "places": "[\"Al Zahiyah\"]",
+          "httpStatus": 200,
+          "latencyMs": 13572,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd37659e9e8ce6831858",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Al Zahiyah\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:41:46.659Z",
+          "sessionId": "6ae8bd24659e9e8ce6831852",
+          "places": "[\"boxing gym\"]",
+          "httpStatus": 200,
+          "latencyMs": 20932,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd376d94a31eb6a5ec95",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"boxing gym\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:41:49.236Z",
+          "sessionId": "6ae8bd36659e9e8ce6831857",
+          "places": "[\"Abu Dhabi\"]",
+          "httpStatus": 200,
+          "latencyMs": 23204,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd37659e9e8ce683185b",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"matchType\":\"clip-text-match\",\"matchedQuery\":\"Abu Dhabi\",\"place\":\"Abu Dhabi\",\"uploaded\":4,\"videos\":[{\"commentCount\":59,\"description\":\"Mushriff abu dhabi 📍🇦🇪🇵🇭\",\"durationMs\":9930,\"hashtags\":[],\"shareC"
+        },
+        {
+          "at": "2026-11-02T16:41:53.739Z",
+          "sessionId": "6ae8bd36979386222883ddbf",
+          "places": "[\"boxing gym Abu Dhabi\"]",
+          "httpStatus": 200,
+          "latencyMs": 13923,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd45979386222883ddc7",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"boxing gym Abu Dhabi\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:42:04.737Z",
+          "sessionId": "6ae8bd24659e9e8ce6831852",
+          "places": "[\"Kanes Boxing Gym Abu Dhabi\"]",
+          "httpStatus": 200,
+          "latencyMs": 18078,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd4c6d94a31eb6a5ec9b",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Kanes Boxing Gym Abu Dhabi\",\"uploaded\":0,\"videos\":[]}]} ```"
+        }
+      ],
+      "clips": [
+        {
+          "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYZHVyZGNvc3JxAaFrmsBkAaFrmq2SAAAAAA",
+          "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYZHVyZGNvc3JxAaFrmsBkAaFrmq2SAAAAAA",
+          "tier": "candidate",
+          "locationEvidence": "place-name-match",
+          "matchedPlaceName": "boxing gym",
+          "caption": "Mushriff abu dhabi 📍🇦🇪🇵🇭",
+          "publicationTime": "2026-10-24T01:51:01.000Z",
+          "mediaUrlRedacted": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/e6E669pwAM.mp4"
+        },
+        {
+          "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYZ3hleHlmaXhxAaEmom5qAaEmom4-AAAAAQ",
+          "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYZ3hleHlmaXhxAaEmom5qAaEmom4-AAAAAQ",
+          "tier": "candidate",
+          "locationEvidence": "place-name-match",
+          "matchedPlaceName": "boxing gym",
+          "caption": "The most beautiful view in Abu Dhabi #inabudhabi",
+          "publicationTime": "2026-10-10T16:25:41.000Z",
+          "mediaUrlRedacted": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/9klDRj73Lf.mp4"
+        }
+      ]
+    },
+    {
+      "prompt": "Yas Mall crash",
+      "placeName": "Yas Mall",
+      "startedAtUtc": "2026-11-02T16:42:04.740Z",
+      "finishedAtUtc": "2026-11-02T16:42:59.463Z",
+      "totalMs": 54723,
+      "state": "ok",
+      "fatal": null,
+      "transport": {
+        "mode": "direct-plugin-query",
+        "sessionIds": [
+          "6ae8bd5c979386222883ddcb",
+          "6ae8bd6c659e9e8ce6831876",
+          "6ae8bd6d979386222883ddd3"
+        ],
+        "sessionPoolSize": 3,
+        "sessionsCreated": 3,
+        "directQueries": 6,
+        "concurrency": 3,
+        "perRequestTimeoutMs": 30000
+      },
+      "counts": {
+        "verified": 0,
+        "candidate": 3,
+        "raw": 4,
+        "unique": 4,
+        "variantsTried": 6,
+        "truncatedVariants": 0
+      },
+      "accounting": {
+        "returnedCount": 4,
+        "uniqueCount": 4,
+        "matchingCount": 3,
+        "rejectedCount": 1,
+        "queriesCount": 6,
+        "logicalQueriesCount": 6,
+        "pollsCount": 0,
+        "pagesCount": 5,
+        "attemptsCount": 6,
+        "sessionsCreated": 3,
+        "directQueries": 6,
+        "partial": false,
+        "truncated": false
+      },
+      "variants": [
+        {
+          "variant": "Yas Mall",
+          "raw": 0,
+          "unique": 0,
+          "ms": 15854
+        },
+        {
+          "variant": "Yas Mall crash",
+          "raw": 0,
+          "unique": 0,
+          "ms": 19152,
+          "fanout": true
+        },
+        {
+          "variant": "Yas Island",
+          "raw": 4,
+          "unique": 4,
+          "ms": 24489,
+          "fanout": true
+        },
+        {
+          "variant": "Yas Mall Abu Dhabi",
+          "raw": 0,
+          "unique": 0,
+          "ms": 14731,
+          "fanout": true
+        },
+        {
+          "variant": "Ya's Mall",
+          "raw": 0,
+          "unique": 0,
+          "ms": 21963,
+          "fanout": true
+        },
+        {
+          "variant": "Yas",
+          "raw": 0,
+          "unique": 0,
+          "ms": 19712,
+          "error": "plugin_source_records_missing_or_invalid",
+          "fanout": true
+        }
+      ],
+      "verifiedCount": 0,
+      "approximateCount": 3,
+      "maxInflightObserved": 3,
+      "requests": [
+        {
+          "at": "2026-11-02T16:42:04.741Z",
+          "endpoint": "POST /chat/v1/sessions",
+          "kind": "session",
+          "attempt": 1,
+          "status": 201,
+          "latencyMs": null,
+          "sessionId": "6ae8bd5c979386222883ddcb"
+        },
+        {
+          "at": "2026-11-02T16:42:05.002Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Yas Mall"
+          ],
+          "attempt": 1,
+          "sessionReused": false,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 15854,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:42:20.596Z",
+          "endpoint": "POST /chat/v1/sessions",
+          "kind": "session",
+          "attempt": 1,
+          "status": 201,
+          "latencyMs": null,
+          "sessionId": "6ae8bd6d979386222883ddd3"
+        },
+        {
+          "at": "2026-11-02T16:42:20.596Z",
+          "endpoint": "POST /chat/v1/sessions",
+          "kind": "session",
+          "attempt": 1,
+          "status": 201,
+          "latencyMs": null,
+          "sessionId": "6ae8bd6c659e9e8ce6831876"
+        },
+        {
+          "at": "2026-11-02T16:42:20.596Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Yas Mall crash"
+          ],
+          "attempt": 1,
+          "sessionReused": true,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 19152,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:42:20.907Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Yas Mall Abu Dhabi"
+          ],
+          "attempt": 1,
+          "sessionReused": false,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 14731,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:42:21.126Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Yas Island"
+          ],
+          "attempt": 1,
+          "sessionReused": false,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 24488,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:42:35.327Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Ya's Mall"
+          ],
+          "attempt": 1,
+          "sessionReused": true,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 21963,
+          "upstreamStatus": "completed"
+        },
+        {
+          "at": "2026-11-02T16:42:39.748Z",
+          "endpoint": "POST /chat/v1/sessions/{id}/query",
+          "kind": "query",
+          "places": [
+            "Yas"
+          ],
+          "attempt": 1,
+          "sessionReused": true,
+          "transport": "direct-plugin-query",
+          "status": 200,
+          "latencyMs": 19712,
+          "upstreamStatus": "completed"
+        }
+      ],
+      "rawExcerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Yas Mall\",\"uploaded\":0,\"videos\":[]}]} ```",
+      "rawAnswers": [
+        {
+          "at": "2026-11-02T16:42:20.595Z",
+          "sessionId": "6ae8bd5c979386222883ddcb",
+          "places": "[\"Yas Mall\"]",
+          "httpStatus": 200,
+          "latencyMs": 15593,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd5e979386222883ddcc",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Yas Mall\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:42:35.327Z",
+          "sessionId": "6ae8bd6c659e9e8ce6831876",
+          "places": "[\"Yas Mall Abu Dhabi\"]",
+          "httpStatus": 200,
+          "latencyMs": 14420,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd6f6d94a31eb6a5eca1",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Yas Mall Abu Dhabi\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:42:39.748Z",
+          "sessionId": "6ae8bd5c979386222883ddcb",
+          "places": "[\"Yas Mall crash\"]",
+          "httpStatus": 200,
+          "latencyMs": 19152,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd6e659e9e8ce6831879",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"note\":\"No spotlight videos matching this place name were found.\",\"place\":\"Yas Mall crash\",\"uploaded\":0,\"videos\":[]}]} ```"
+        },
+        {
+          "at": "2026-11-02T16:42:45.084Z",
+          "sessionId": "6ae8bd6d979386222883ddd3",
+          "places": "[\"Yas Island\"]",
+          "httpStatus": 200,
+          "latencyMs": 23958,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd6e979386222883ddd6",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Results are filtered to spotlights whose caption/hashtags mention the place name; these are text matches, not geotagged/verified-location Snap Map videos.\",\"results\":[{\"matchType\":\"clip-text-match\",\"matchedQuery\":\"Yas Island\",\"place\":\"Yas Island\",\"uploaded\":4,\"videos\":[{\"commentCount\":7,\"description\":null,\"durationMs\":19980,\"hashtags\":[],\"shareCount\":1,\"storageUrl\":\"htt"
+        },
+        {
+          "at": "2026-11-02T16:42:57.290Z",
+          "sessionId": "6ae8bd6c659e9e8ce6831876",
+          "places": "[\"Ya's Mall\"]",
+          "httpStatus": 200,
+          "latencyMs": 21963,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd7c6d94a31eb6a5ecae",
+          "excerpt": "```json {\"limit\":25,\"note\":\"Snapchat plugin call could not be made; no verified footage results are available.\",\"results\":[]} ```"
+        },
+        {
+          "at": "2026-11-02T16:42:59.460Z",
+          "sessionId": "6ae8bd5c979386222883ddcb",
+          "places": "[\"Yas\"]",
+          "httpStatus": 200,
+          "latencyMs": 19712,
+          "upstreamStatus": "completed",
+          "messageId": "6ae8bd81979386222883dddd",
+          "excerpt": "I couldn’t call the Snapchat plugin for this request, so I can’t provide a verified JSON result."
+        }
+      ],
+      "clips": [
+        {
+          "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYdGdua3docHNiAaFjsON2AaFjsNWuAAAAAA",
+          "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYdGdua3docHNiAaFjsON2AaFjsNWuAAAAAA",
+          "tier": "candidate",
+          "locationEvidence": "hashtag-match",
+          "matchedPlaceName": "Yas Mall crash",
+          "caption": "#abudhabi #yasisland #gouter #brunch",
+          "publicationTime": "2026-10-22T12:58:15.000Z",
+          "mediaUrlRedacted": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/m8fyx8rA7m.mp4"
+        },
+        {
+          "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYZmhkdWJnZnlqAaFI08a5AaFI06QqAAAAAw",
+          "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYZmhkdWJnZnlqAaFI08a5AaFI06QqAAAAAw",
+          "tier": "candidate",
+          "locationEvidence": "place-name-match",
+          "matchedPlaceName": "Yas Mall crash",
+          "caption": "Shahid Kapoor is ready to set the stage on fire at #IIFA2027! 🔥 Ethiad Arena, Yas Island, Abu Dhabi. Don’t miss out! 23rd January. Book your tickets now!",
+          "publicationTime": "2026-10-17T07:46:32.000Z",
+          "mediaUrlRedacted": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/E1UEqaFFWm.mp4"
+        },
+        {
+          "id": "snap-W7_EDlXWTBiXAEEniNoMPwAAYamh0emhkdmN5AZxdKH9wAZxdJjOgAAAAAQ",
+          "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYamh0emhkdmN5AZxdKH9wAZxdJjOgAAAAAQ",
+          "tier": "candidate",
+          "locationEvidence": "hashtag-match",
+          "matchedPlaceName": "Yas Mall crash",
+          "caption": "#reaction #theflintstones #themepark #amusementpark #yasisland #abudhabi #fyp #travel",
+          "publicationTime": "2026-02-14T17:15:10.000Z",
+          "mediaUrlRedacted": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/xJ5noLNwp0.mp4"
+        }
+      ]
+    }
+  ]
+}

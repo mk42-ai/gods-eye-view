@@ -78,8 +78,8 @@ test('the status payload reports presence without any credential material', () =
 });
 
 test('whitespace-only env values do not count as configured', () => {
-  const status = keySetupStatus({ OPENAI_API_KEY: '   ' });
-  assert.equal(status.keys.find((key) => key.id === 'openai').set, false);
+  const status = keySetupStatus({ AISSTREAM_API_KEY: '   ' });
+  assert.equal(status.keys.find((key) => key.id === 'aisstream').set, false);
 });
 
 test('subprocess success requires a clean zero exit', () => {
@@ -117,22 +117,28 @@ test('validation accepts every registry env var and only those', () => {
 });
 
 test('validation trims, and refuses empties, newlines, spaces, and oversize values', () => {
-  const trimmed = validateKeySetupUpdates({ OPENAI_API_KEY: '  sk-abc123  ' });
+  const trimmed = validateKeySetupUpdates({ AISSTREAM_API_KEY: '  sk-abc123  ' });
   assert.equal(trimmed.ok, true);
-  assert.equal(trimmed.updates.OPENAI_API_KEY, 'sk-abc123');
-  assert.equal(validateKeySetupUpdates({ OPENAI_API_KEY: '' }).ok, false);
-  assert.equal(validateKeySetupUpdates({ OPENAI_API_KEY: '   ' }).ok, false);
-  assert.equal(validateKeySetupUpdates({ OPENAI_API_KEY: 'a\nb' }).ok, false, 'newline injection');
-  assert.equal(validateKeySetupUpdates({ OPENAI_API_KEY: 'a b' }).ok, false, 'inner space');
-  assert.equal(validateKeySetupUpdates({ OPENAI_API_KEY: 'kéy' }).ok, false, 'non-ASCII');
+  assert.equal(trimmed.updates.AISSTREAM_API_KEY, 'sk-abc123');
+  assert.equal(validateKeySetupUpdates({ AISSTREAM_API_KEY: '' }).ok, false);
+  assert.equal(validateKeySetupUpdates({ AISSTREAM_API_KEY: '   ' }).ok, false);
+  assert.equal(validateKeySetupUpdates({ AISSTREAM_API_KEY: 'a\nb' }).ok, false, 'newline injection');
+  assert.equal(validateKeySetupUpdates({ AISSTREAM_API_KEY: 'a b' }).ok, false, 'inner space');
+  assert.equal(validateKeySetupUpdates({ AISSTREAM_API_KEY: 'kéy' }).ok, false, 'non-ASCII');
   assert.equal(
-    validateKeySetupUpdates({ OPENAI_API_KEY: 'x'.repeat(KEY_SETUP_VALUE_LIMIT + 1) }).ok,
+    validateKeySetupUpdates({ AISSTREAM_API_KEY: 'x'.repeat(KEY_SETUP_VALUE_LIMIT + 1) }).ok,
     false,
   );
   assert.equal(validateKeySetupUpdates(null).ok, false);
   assert.equal(validateKeySetupUpdates([]).ok, false);
   assert.equal(validateKeySetupUpdates({}).ok, false);
-  assert.equal(validateKeySetupUpdates({ OPENAI_API_KEY: 42 }).ok, false);
+  assert.equal(validateKeySetupUpdates({ AISSTREAM_API_KEY: 42 }).ok, false);
+});
+
+test('the retired OpenAI provider row is gone — voice and HUD summary run on OnDemand (server-side ONDEMAND_API_KEY)', () => {
+  assert.equal(KEY_SETUP_KEYS.some((entry) => entry.id === 'openai'), false);
+  assert.equal(knownKeySetupEnvVars().has('OPENAI_API_KEY'), false);
+  assert.equal(validateKeySetupUpdates({ OPENAI_API_KEY: 'sk-abc123' }).ok, false, 'unknown key refused');
 });
 
 test('upsert replaces the last active assignment in place', () => {
@@ -276,10 +282,10 @@ test('the admission gate refuses every non-local shape, one assertion per refusa
 });
 
 test('a null value validates as a removal; an empty string still does not', () => {
-  const removal = validateKeySetupUpdates({ OPENAI_API_KEY: null });
+  const removal = validateKeySetupUpdates({ AISSTREAM_API_KEY: null });
   assert.equal(removal.ok, true);
-  assert.equal(removal.updates.OPENAI_API_KEY, null);
-  assert.equal(validateKeySetupUpdates({ OPENAI_API_KEY: '' }).ok, false, 'empty is a mistake, not a removal');
+  assert.equal(removal.updates.AISSTREAM_API_KEY, null);
+  assert.equal(validateKeySetupUpdates({ AISSTREAM_API_KEY: '' }).ok, false, 'empty is a mistake, not a removal');
   assert.equal(validateKeySetupUpdates({ PATH: null }).ok, false, 'removal is registry-bound too');
 });
 
@@ -334,11 +340,11 @@ test('the gate refuses proxied requests even from a loopback socket with local h
 
 test('validation rejects dotenv metacharacters that would round-trip wrong', () => {
   for (const bad of ['abc#def', 'ab"cd', "ab'cd", 'ab$cd', 'ab\\cd', 'ab`cd']) {
-    assert.equal(validateKeySetupUpdates({ OPENAI_API_KEY: bad }).ok, false, `${JSON.stringify(bad)} refused`);
+    assert.equal(validateKeySetupUpdates({ AISSTREAM_API_KEY: bad }).ok, false, `${JSON.stringify(bad)} refused`);
   }
   // Real key alphabets still pass: base64url, JWT dots, hex, plus/slash.
   for (const good of ['sk-AbC0-9_x', 'eyJhbGc.eyJzdWI.QWxpY2U', 'a1b2c3d4e5f6', 'AB+cd/ef=']) {
-    assert.equal(validateKeySetupUpdates({ OPENAI_API_KEY: good }).ok, true, `${good} accepted`);
+    assert.equal(validateKeySetupUpdates({ AISSTREAM_API_KEY: good }).ok, true, `${good} accepted`);
   }
 });
 

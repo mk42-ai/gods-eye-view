@@ -1,0 +1,66 @@
+{
+ "scenarioType": "police_raid",
+ "focalEntity": {
+  "name": "Burj Al Arab",
+  "kind": "building"
+ },
+ "elements": [
+  {
+   "type": "inner_cordon",
+   "params": {
+    "radius_m": 80
+   }
+  },
+  {
+   "type": "outer_cordon",
+   "params": {
+    "radius_m": 250
+   }
+  },
+  {
+   "type": "approach_route",
+   "params": {
+    "count": 3
+   }
+  },
+  {
+   "type": "egress_route",
+   "params": {
+    "count": 1
+   }
+  },
+  {
+   "type": "staging_point",
+   "params": {
+    "count": 1
+   }
+  },
+  {
+   "type": "perimeter_unit",
+   "params": {
+    "count": 4
+   }
+  },
+  {
+   "type": "cones",
+   "params": {
+    "count": 20,
+    "spacing_m": 5
+   }
+  },
+  {
+   "type": "barriers",
+   "params": {
+    "count": 10,
+    "spacing_m": 10
+   }
+  },
+  {
+   "type": "cctv_signal",
+   "params": {
+    "count": 4
+   }
+  }
+ ],
+ "confidence": 0.95
+}

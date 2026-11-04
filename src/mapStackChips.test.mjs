@@ -484,7 +484,7 @@ test('the keyboard focus ring survives on the ACTIVE chip', () => {
 
 test('the Visual Presets tray owns Map Source and the retired left panel is absent', () => {
   const html = expandApplicationHtml(
-    readFileSync(new URL('../index.html', import.meta.url), 'utf8'),
+    readFileSync(new URL('../legacy.html', import.meta.url), 'utf8'),
   );
   const ui = readShellSource();
 
@@ -504,7 +504,7 @@ test('the Visual Presets tray owns Map Source and the retired left panel is abse
   );
   assert.match(
     html,
-    /id="map-source-label">MAP SOURCE<[\s\S]*?id="map-stack-status"/,
+    /id="map-source-label">Map source<[\s\S]*?id="map-stack-status"/,
   );
   assert.match(
     html,

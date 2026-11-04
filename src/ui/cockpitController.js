@@ -169,6 +169,58 @@ export class CockpitViewController {
     this.briefAutoToggle = document.getElementById('cockpit-brief-auto');
     this.briefPosition = document.getElementById('cockpit-brief-position');
     this.briefSource = document.getElementById('cockpit-brief-source');
+    this.briefAsk = document.getElementById('cockpit-brief-ask');
+    // ASK ONDEMAND on the regional brief (Phase E, FRONTEND_RECON #22): the
+    // rendered place / weather / signals / headlines become the object context.
+    this.briefAsk?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const payload = this.regionalBrief || null;
+      const place =
+        payload?.place?.label ||
+        payload?.place?.country ||
+        document.getElementById('cockpit-local-place')?.textContent ||
+        'region';
+      window.dispatchEvent(
+        new CustomEvent('gev:ask-object', {
+          detail: {
+            objectType: 'regionalBrief',
+            objectId:
+              String(place)
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .slice(0, 48) || 'current',
+            label: `Regional brief · ${place}`,
+            fields: {
+              place,
+              weather: payload?.weather || null,
+              news: Array.isArray(payload?.articles)
+                ? payload.articles.slice(0, 6).map((a) => ({
+                    title: a.title,
+                    source: a.domain,
+                    url: a.url,
+                    publishedAt: a.publishedAt,
+                  }))
+                : [],
+              newsStatus: payload?.newsStatus || null,
+              signals: Array.from(
+                document.querySelectorAll('#cockpit-signal-list li'),
+              )
+                .slice(0, 8)
+                .map((li) => li.textContent?.trim()),
+              briefSource: this.briefSource?.textContent || null,
+              page: this.briefPageIndex,
+            },
+            sourceRefs: Array.isArray(payload?.articles)
+              ? payload.articles.slice(0, 6).map((a) => a.url)
+              : [],
+            provenance: {
+              provider: 'regional-brief (Open-Meteo · GDELT/Google News)',
+              fetchedAt: payload?.generatedAt || new Date().toISOString(),
+            },
+          },
+        }),
+      );
+    });
     this.briefPages = Array.from(
       document.querySelectorAll('[data-cockpit-brief-page]'),
     );

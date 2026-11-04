@@ -1,0 +1,9 @@
+2026-11-01T10:44:28Z
+command: set -a; . ./.env; set +a; npm run build
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 7.90s
+exit 0
+✓ no key material in the source tree + dist/
+2026-11-01T10:44:42Z

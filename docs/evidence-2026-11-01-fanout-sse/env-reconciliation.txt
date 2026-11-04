@@ -1,0 +1,6 @@
+captured 2026-11-01T09:52:13Z
+Browser-read env (grep import.meta.env in src): VITE_GOOGLE_MAPS_API_KEY, VITE_CESIUM_ION_TOKEN (both injected by build/vite.js define from GOOGLE_MAPS_API_KEY / CESIUM_ION_TOKEN; absent → keyless Esri imagery fallback, documented in .env.example), import.meta.env.DEV.
+Server env names read (server/api/build): 75 distinct; .env declares 41 names (values redacted).
+New code reads: CEREBRAS_API_KEY (optional; absent → credentialRequest surfaced, fallback chain continues) — NOT added to .env (no key available; never fabricated).
+Secrets: ONDEMAND_API_KEY is NOT in .env — it is provisioned on the Vercel project, as on every prior deploy (server-key.js accepts ONDEMAND_API_KEY/ON_DEMAND_API_KEY). No platform credential copied into .env or source (check-no-secrets passes).
+Placeholder scan of .env values: 0 hits.

@@ -1,0 +1,489 @@
+[
+  {
+    "slot": "event_command_post",
+    "source_file": "tools/scene-icons/sources/event_command_post.png",
+    "key(s)": [
+      "command_post",
+      "staging_point",
+      "event_command_post"
+    ],
+    "keys": [
+      "command_post",
+      "staging_point",
+      "event_command_post"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 640,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 1280,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "police_patrol_car",
+    "source_file": "tools/scene-icons/sources/police_patrol_car.png",
+    "key(s)": [
+      "police_unit",
+      "vehicle_police_car"
+    ],
+    "keys": [
+      "police_unit",
+      "vehicle_police_car"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 64,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 128,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "crowd_control_barrier",
+    "source_file": "tools/scene-icons/sources/crowd_control_barrier.png",
+    "key(s)": [
+      "barrier_crowd",
+      "screening_lane"
+    ],
+    "keys": [
+      "barrier_crowd",
+      "screening_lane"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 896,
+        "y": 64,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 1792,
+        "y": 128,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "ambulance_medical_point",
+    "source_file": "tools/scene-icons/sources/ambulance_medical_point.png",
+    "key(s)": [
+      "medical_point",
+      "vehicle_ambulance"
+    ],
+    "keys": [
+      "medical_point",
+      "vehicle_ambulance"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 512,
+        "y": 128,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 1024,
+        "y": 256,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "civilian_sedan",
+    "source_file": "tools/scene-icons/sources/civilian_sedan.png",
+    "key(s)": [
+      "civilian_sedan",
+      "vehicle_civilian_sedan"
+    ],
+    "keys": [
+      "civilian_sedan",
+      "vehicle_civilian_sedan"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 832,
+        "y": 128,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 1664,
+        "y": 256,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "foot_patrol_officer",
+    "source_file": "tools/scene-icons/sources/foot_patrol_officer.png",
+    "key(s)": [
+      "perimeter_unit",
+      "person_police_officer"
+    ],
+    "keys": [
+      "perimeter_unit",
+      "person_police_officer"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 384,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 768,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "start_finish_gate",
+    "source_file": "tools/scene-icons/sources/start_finish_gate.png",
+    "key(s)": "start_finish",
+    "keys": [
+      "start_finish"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 512,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 1024,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "checkpoint_cordon_node",
+    "source_file": "tools/scene-icons/sources/checkpoint_cordon_node.png",
+    "key(s)": [
+      "checkpoint",
+      "cordon_node",
+      "vehicle_checkpoint",
+      "checkpoint_cordon_node"
+    ],
+    "keys": [
+      "checkpoint",
+      "cordon_node",
+      "vehicle_checkpoint",
+      "checkpoint_cordon_node"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 256,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 512,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "spectator_crowd_cluster",
+    "source_file": "tools/scene-icons/sources/spectator_crowd_cluster.png",
+    "key(s)": [
+      "crowd_spectators",
+      "crowd_zone"
+    ],
+    "keys": [
+      "crowd_spectators",
+      "crowd_zone"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 0,
+        "y": 128,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 0,
+        "y": 256,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "road_closed_barricade",
+    "source_file": "tools/scene-icons/sources/road_closed_barricade.png",
+    "key(s)": [
+      "signage_road_closed",
+      "road_closed",
+      "road_closed_barricade"
+    ],
+    "keys": [
+      "signage_road_closed",
+      "road_closed",
+      "road_closed_barricade"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 512,
+        "y": 64,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 1024,
+        "y": 128,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "vessel_marine_patrol",
+    "source_file": "tools/scene-icons/sources/vessel_marine_patrol.png",
+    "key(s)": [
+      "vessel_marine_patrol",
+      "marine_patrol"
+    ],
+    "keys": [
+      "vessel_marine_patrol",
+      "marine_patrol"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 448,
+        "y": 128,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 896,
+        "y": 256,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "cone_cluster",
+    "source_file": "tools/scene-icons/sources/cone_cluster.png",
+    "key(s)": "cone_cluster",
+    "keys": [
+      "cone_cluster"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 960,
+        "y": 64,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 1920,
+        "y": 128,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "vehicle_police_motorcycle",
+    "source_file": "tools/scene-icons/sources/vehicle_police_motorcycle.png",
+    "key(s)": "vehicle_police_motorcycle",
+    "keys": [
+      "vehicle_police_motorcycle"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 192,
+        "y": 128,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 384,
+        "y": 256,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "vehicle_city_bus",
+    "source_file": "tools/scene-icons/sources/vehicle_city_bus.png",
+    "key(s)": "vehicle_city_bus",
+    "keys": [
+      "vehicle_city_bus"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 128,
+        "y": 128,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 256,
+        "y": 256,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  },
+  {
+    "slot": "cctv",
+    "source_file": "tools/scene-icons/sources/cctv.png",
+    "key(s)": [
+      "cctv",
+      "cctv_signal"
+    ],
+    "keys": [
+      "cctv",
+      "cctv_signal"
+    ],
+    "atlas_coords": {
+      "1x": {
+        "x": 704,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "2x": {
+        "x": 1408,
+        "y": 0,
+        "w": 128,
+        "h": 128
+      }
+    },
+    "fringe_pixels": 0,
+    "corner_alpha_max": 0,
+    "sizes": [
+      64,
+      128,
+      256
+    ]
+  }
+]

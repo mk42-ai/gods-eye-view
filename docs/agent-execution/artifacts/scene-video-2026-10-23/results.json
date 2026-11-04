@@ -1,0 +1,225 @@
+{
+  "url": "https://sb-5c67af3inbu0.vercel.run",
+  "prompt": "rebuild the car crash reported in Umm Suqeim",
+  "startedUtc": "2026-10-23T04:19:22.578Z",
+  "viewports": {
+    "1440x900": {
+      "checks": [
+        {
+          "id": "1-boot-hash-roundtrip",
+          "pass": true,
+          "detail": "booted=true; hash keys 27, mismatched=[]",
+          "data": {
+            "after": "#v=2&lat=13.9425&lon=48.9231&alt=712168&heading=0&pitch=-55&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0"
+          },
+          "screenshot": "1-boot-1440x900.png",
+          "startedUtc": "2026-10-23T04:19:22.615Z",
+          "finishedUtc": "2026-10-23T04:19:36.237Z"
+        },
+        {
+          "id": "2-clips-stream-while-building",
+          "pass": true,
+          "detail": "submitted 2026-10-23T04:19:36.966Z; ≥2 platforms at 2026-10-23T04:20:15.047Z; rail=searching platforms=youtube,instagram clips=8; stream still running=true; composer=done/done",
+          "data": {
+            "railState": "searching",
+            "platforms": "youtube,instagram",
+            "clips": 8,
+            "composerState": "done",
+            "buildingChip": "done",
+            "submittedAt": "2026-10-23T04:19:36.966Z",
+            "searchingShot": "2a-searching-1440x900.png"
+          },
+          "screenshot": "2b-clips-arriving-1440x900.png",
+          "startedUtc": "2026-10-23T04:19:36.237Z",
+          "finishedUtc": "2026-10-23T04:20:15.842Z"
+        },
+        {
+          "id": "3-video-playback",
+          "pass": true,
+          "detail": "clip instagram:Ddyb6fvQ-Yn readyState=4 currentTime 29.34→30.84 muted=true duration=31.273375 src=https://sb-5c67af3inbu0.vercel.run/api/ondemand/v2/scene/media?u=https%3A%2F%2Fis.gd%2FzMU",
+          "data": {
+            "readyState": 4,
+            "t0": 29.339634,
+            "t1": 30.839649,
+            "muted": true,
+            "paused": false,
+            "src": "https://sb-5c67af3inbu0.vercel.run/api/ondemand/v2/scene/media?u=https%3A%2F%2Fis.gd%2FzMU",
+            "clip": "instagram:Ddyb6fvQ-Yn",
+            "duration": 31.273375
+          },
+          "screenshot": "3-playback-1440x900.png",
+          "startedUtc": "2026-10-23T04:20:15.842Z",
+          "finishedUtc": "2026-10-23T04:20:23.892Z"
+        },
+        {
+          "id": "4-archival-labels",
+          "pass": true,
+          "detail": "14 clips {\"tiktok\":6,\"instagram\":2,\"youtube\":6}; badges=ARCHIVAL; LIVE=0; banner=\"REBUILT FROM ARCHIVAL FOOTAGE: recorded 26 Sep 2026, not live\"; source links 14/14",
+          "data": {
+            "clips": 14,
+            "badges": [
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL"
+            ],
+            "everyClipBadged": true,
+            "liveCount": 0,
+            "bannerVisible": true,
+            "bannerText": "REBUILT FROM ARCHIVAL FOOTAGE: recorded 26 Sep 2026, not live",
+            "dateLines": [
+              "recorded ≈26 Sep 2026 · not live",
+              "recorded ≈28 Sep 2026 · not live",
+              "recorded ≈26 Mar 2026 · not live",
+              "recording date unknown · not live"
+            ],
+            "sourceLinks": 14,
+            "counts": {
+              "tiktok": 6,
+              "instagram": 2,
+              "youtube": 6
+            },
+            "status": "14 clips · YT 6 · TT 6 · IG 2"
+          },
+          "screenshot": "4-archival-labels-1440x900.png",
+          "startedUtc": "2026-10-23T04:20:23.892Z",
+          "finishedUtc": "2026-10-23T04:20:24.195Z"
+        },
+        {
+          "id": "5-iframe-embed",
+          "pass": true,
+          "detail": "iframe title=\"OnDemand Intelligence Workstation\" composer=true rail=true; harness x-frame-options=none",
+          "data": {
+            "title": "OnDemand Intelligence Workstation",
+            "composer": true,
+            "rail": true
+          },
+          "screenshot": "5-iframe-1440x900.png",
+          "startedUtc": "2026-10-23T04:20:24.195Z",
+          "finishedUtc": "2026-10-23T04:20:30.402Z"
+        }
+      ]
+    },
+    "390x844": {
+      "checks": [
+        {
+          "id": "1-boot-hash-roundtrip",
+          "pass": true,
+          "detail": "booted=true; hash keys 27, mismatched=[]",
+          "data": {
+            "after": "#v=2&lat=13.9425&lon=48.9231&alt=712168&heading=0&pitch=-55&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0"
+          },
+          "screenshot": "1-boot-390x844.png",
+          "startedUtc": "2026-10-23T04:20:31.064Z",
+          "finishedUtc": "2026-10-23T04:20:41.340Z"
+        },
+        {
+          "id": "2-clips-stream-while-building",
+          "pass": true,
+          "detail": "submitted 2026-10-23T04:20:41.807Z; ≥2 platforms at 2026-10-23T04:21:14.600Z; rail=searching platforms=youtube,instagram clips=7; stream still running=true; composer=done/done",
+          "data": {
+            "railState": "searching",
+            "platforms": "youtube,instagram",
+            "clips": 7,
+            "composerState": "done",
+            "buildingChip": "done",
+            "submittedAt": "2026-10-23T04:20:41.807Z",
+            "searchingShot": "2a-searching-390x844.png"
+          },
+          "screenshot": "2b-clips-arriving-390x844.png",
+          "startedUtc": "2026-10-23T04:20:41.340Z",
+          "finishedUtc": "2026-10-23T04:21:14.766Z"
+        },
+        {
+          "id": "3-video-playback",
+          "pass": true,
+          "detail": "clip instagram:Ddyb6fvQ-Yn readyState=4 currentTime 23.30→24.80 muted=true duration=31.273375 src=https://sb-5c67af3inbu0.vercel.run/api/ondemand/v2/scene/media?u=https%3A%2F%2Fis.gd%2FKlc",
+          "data": {
+            "readyState": 4,
+            "t0": 23.29932,
+            "t1": 24.799501,
+            "muted": true,
+            "paused": false,
+            "src": "https://sb-5c67af3inbu0.vercel.run/api/ondemand/v2/scene/media?u=https%3A%2F%2Fis.gd%2FKlc",
+            "clip": "instagram:Ddyb6fvQ-Yn",
+            "duration": 31.273375
+          },
+          "screenshot": "3-playback-390x844.png",
+          "startedUtc": "2026-10-23T04:21:14.766Z",
+          "finishedUtc": "2026-10-23T04:21:20.635Z"
+        },
+        {
+          "id": "4-archival-labels",
+          "pass": true,
+          "detail": "13 clips {\"tiktok\":6,\"instagram\":1,\"youtube\":6}; badges=ARCHIVAL; LIVE=0; banner=\"REBUILT FROM ARCHIVAL FOOTAGE: recorded 26 Sep 2026, not live\"; source links 13/13",
+          "data": {
+            "clips": 13,
+            "badges": [
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL"
+            ],
+            "everyClipBadged": true,
+            "liveCount": 0,
+            "bannerVisible": true,
+            "bannerText": "REBUILT FROM ARCHIVAL FOOTAGE: recorded 26 Sep 2026, not live",
+            "dateLines": [
+              "recorded ≈26 Sep 2026 · not live",
+              "recorded ≈28 Sep 2026 · not live",
+              "recorded ≈26 Mar 2026 · not live",
+              "recording date unknown · not live"
+            ],
+            "sourceLinks": 13,
+            "counts": {
+              "tiktok": 6,
+              "instagram": 1,
+              "youtube": 6
+            },
+            "status": "13 clips · YT 6 · TT 6 · IG 1"
+          },
+          "screenshot": "4-archival-labels-390x844.png",
+          "startedUtc": "2026-10-23T04:21:20.635Z",
+          "finishedUtc": "2026-10-23T04:21:20.788Z"
+        },
+        {
+          "id": "5-iframe-embed",
+          "pass": true,
+          "detail": "iframe title=\"OnDemand Intelligence Workstation\" composer=true rail=true; harness x-frame-options=none",
+          "data": {
+            "title": "OnDemand Intelligence Workstation",
+            "composer": true,
+            "rail": true
+          },
+          "screenshot": "5-iframe-390x844.png",
+          "startedUtc": "2026-10-23T04:21:20.788Z",
+          "finishedUtc": "2026-10-23T04:21:24.062Z"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "pass": 10,
+    "fail": 0
+  },
+  "finishedUtc": "2026-10-23T04:21:24.079Z"
+}

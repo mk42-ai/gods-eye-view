@@ -1,0 +1,1203 @@
+[
+ [
+  "plan",
+  {
+   "prompt": "rebuild the car crash reported in Umm Suqeim (Umm Suqeim Street towards Jumeirah Street, driver fainted) حادث أم سقيم",
+   "places": [
+    "Umm Suqeim",
+    "Umm Suqeim Street",
+    "Jumeirah Street",
+    "Al Sufouh",
+    "Al Barsha South",
+    "Jumeirah",
+    "Jumeirah Beach Road"
+   ],
+   "placesAr": [
+    "أم سقيم",
+    "شارع أم سقيم",
+    "شارع جميرا",
+    "جميرا"
+   ],
+   "regions": [
+    "Dubai",
+    "Dubai Police"
+   ],
+   "anchor": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "source": "gazetteer"
+   },
+   "bbox": [
+    55.17,
+    25.12,
+    55.24,
+    25.17
+   ],
+   "keywordsEn": [
+    "Umm Suqeim",
+    "Umm Suqeim Street",
+    "Jumeirah Street",
+    "Al Sufouh",
+    "crash",
+    "accident",
+    "collision",
+    "driver fainted",
+    "lost consciousness",
+    "Dubai Police",
+    "Dubai"
+   ],
+   "keywordsAr": [
+    "حادث",
+    "حادث مروري",
+    "تصادم",
+    "فقدان وعي",
+    "أم سقيم",
+    "شارع أم سقيم",
+    "شارع جميرا",
+    "شرطة دبي"
+   ],
+   "queriesEn": [
+    "Umm Suqeim crash",
+    "Umm Suqeim crash Dubai video",
+    "Dubai Police crash Umm Suqeim"
+   ],
+   "queriesAr": [
+    "حادث أم سقيم",
+    "شرطة دبي حادث أم سقيم"
+   ],
+   "timeWindow": {
+    "start": "2026-08-24T04:49:49.971Z",
+    "end": "2026-10-23T04:49:49.971Z",
+    "days": 60
+   },
+   "sceneHash": {
+    "lat": null,
+    "lon": null,
+    "alt": null
+   }
+  }
+ ],
+ [
+  "incident",
+  {
+   "id": "dxb-umm-suqeim-fainted-driver-2026-09-26",
+   "title": "Crash on Umm Suqeim Street towards Jumeirah Street — driver lost consciousness, veered off and hit other vehicles (Dubai Police)",
+   "reported_at": "2026-09-26T00:00:00Z",
+   "place": "Umm Suqeim",
+   "lat": 25.1425,
+   "lon": 55.2055,
+   "sources": [
+    "https://www.gulftoday.ae/news/2026/09/26/dubai-police-warn-of-dangers-of-driving-while-fatigued-after-a-driver-faints-causing-an-accident-in-umm-suqeim",
+    "https://www.khaleejtimes.com/uae/dubai-police-warning-tired-driver-faints-causes-collision",
+    "https://www.facebook.com/khaleejtimes/posts/the-driver-fell-unconscious-and-lost-control-of-the-vehicle-causing-it-to-veer-o/1634956428291176"
+   ],
+   "rebuild": true,
+   "outletRecords": 5,
+   "provenance": "operator-supplied incident context (task brief 2026-10-23) — every URL is still resolved live through OnDemand plugins"
+  }
+ ],
+ [
+  "source",
+  {
+   "platform": "youtube",
+   "state": "searching",
+   "at": "2026-10-23T04:49:49.985Z"
+  }
+ ],
+ [
+  "source",
+  {
+   "platform": "tiktok",
+   "state": "searching",
+   "at": "2026-10-23T04:49:49.987Z"
+  }
+ ],
+ [
+  "source",
+  {
+   "platform": "instagram",
+   "state": "searching",
+   "at": "2026-10-23T04:49:49.988Z"
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "instagram:Ddyb6fvQ-Yn",
+   "platform": "instagram",
+   "platformId": "Ddyb6fvQ-Yn",
+   "isShort": false,
+   "sourceUrl": "https://www.instagram.com/p/Ddyb6fvQ-Yn/",
+   "playableUrl": "https://is.gd/M5lK6b",
+   "playableKind": "mp4",
+   "title": "Dubai multi-car collision reel (regional match)",
+   "caption": "Dubai multi-car collision reel (regional match)",
+   "author": "",
+   "durationS": 31,
+   "mediaExpiresAt": "2026-10-24T14:16:05.000Z",
+   "published_at": "2026-09-28T04:50:02.501Z",
+   "published_at_source": "instagram-asset-age-days",
+   "undated": false,
+   "fetched_at": "2026-10-23T04:50:02.501Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "older than 72 h",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": null,
+   "ageHours": 600,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1762980461",
+    "plugin": "Instagram Content Downloader Tool",
+    "operation": "downloadInstagramMedia",
+    "query": "shortcode Ddyb6fvQ-Yn",
+    "timestamp": "2026-10-23T04:50:02.448Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.491,
+   "scoreParts": {
+    "recency": 0.48,
+    "geo": 0.5,
+    "keyword": 0.5,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "instagram:DWqgnQzDZ_R",
+   "platform": "instagram",
+   "platformId": "DWqgnQzDZ_R",
+   "isShort": false,
+   "sourceUrl": "https://www.instagram.com/p/DWqgnQzDZ_R/",
+   "playableUrl": "https://is.gd/6KEhmp",
+   "playableKind": "mp4",
+   "title": "Dubai Police reckless-driving warning reel (archival)",
+   "caption": "Dubai Police reckless-driving warning reel (archival)",
+   "author": "",
+   "durationS": 46,
+   "mediaExpiresAt": "2026-10-24T13:33:21.000Z",
+   "published_at": "2026-04-04T04:50:03.741Z",
+   "published_at_source": "instagram-asset-age-days",
+   "undated": false,
+   "fetched_at": "2026-10-23T04:50:03.741Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "older than 72 h",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": null,
+   "ageHours": 4848,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1762980461",
+    "plugin": "Instagram Content Downloader Tool",
+    "operation": "downloadInstagramMedia",
+    "query": "shortcode DWqgnQzDZ_R",
+    "timestamp": "2026-10-23T04:50:03.710Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.206,
+   "scoreParts": {
+    "recency": 0.001,
+    "geo": 0.5,
+    "keyword": 0.15,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "source",
+  {
+   "platform": "instagram",
+   "state": "done",
+   "clips": 2,
+   "errors": [],
+   "candidates": 6,
+   "videos": 2,
+   "imagesSkipped": 4,
+   "at": "2026-10-23T04:50:16.210Z"
+  }
+ ],
+ [
+  "ranked",
+  {
+   "clips": [
+    "instagram:Ddyb6fvQ-Yn",
+    "instagram:DWqgnQzDZ_R"
+   ]
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "tiktok:7627044985581374741",
+   "platform": "tiktok",
+   "platformId": "7627044985581374741",
+   "isShort": false,
+   "sourceUrl": "https://www.tiktok.com/@emirates_news/video/7627044985581374741",
+   "playableUrl": "https://www.tiktok.com/player/v1/7627044985581374741?autoplay=1&muted=1&loop=0&description=1",
+   "playableKind": "iframe",
+   "title": "Dubai Police lane-change crash footage (archival)",
+   "caption": "Dubai Police lane-change crash footage (archival)",
+   "author": "",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": "2026-04-10T08:29:53.000Z",
+   "published_at_source": "tiktok-id-snowflake",
+   "undated": false,
+   "fetched_at": "2026-10-23T04:50:32.037Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "older than 72 h",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "emirates_news",
+   "ageHours": 4700.3,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727179",
+    "plugin": "TikTok oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.tiktok.com/@emirates_news/video/7627044985581374741",
+    "timestamp": "2026-10-23T04:50:32.036Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.326,
+   "scoreParts": {
+    "recency": 0.001,
+    "geo": 0.5,
+    "keyword": 0.75,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "tiktok:7621530117717658902",
+   "platform": "tiktok",
+   "platformId": "7621530117717658902",
+   "isShort": false,
+   "sourceUrl": "https://www.tiktok.com/@60v_benji/video/7621530117717658902",
+   "playableUrl": "https://www.tiktok.com/player/v1/7621530117717658902?autoplay=1&muted=1&loop=0&description=1",
+   "playableKind": "iframe",
+   "title": "AI-Generated Long Day Fail: E-Scooter Crash",
+   "caption": "The rider was spotted on Umm Suqeim Street, where e-scooters are not permitted. Violations can lead to a AED 300 fine and scooter confiscation.",
+   "author": "",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": "2026-03-26T11:49:22.000Z",
+   "published_at_source": "tiktok-id-snowflake",
+   "undated": false,
+   "fetched_at": "2026-10-23T04:50:32.037Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "older than 72 h",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "60v_benji",
+   "ageHours": 5057,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727179",
+    "plugin": "TikTok oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.tiktok.com/@60v_benji/video/7621530117717658902",
+    "timestamp": "2026-10-23T04:50:32.036Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.465,
+   "scoreParts": {
+    "recency": 0.001,
+    "geo": 0.9,
+    "keyword": 0.75,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "tiktok:7458690515530157330",
+   "platform": "tiktok",
+   "platformId": "7458690515530157330",
+   "isShort": false,
+   "sourceUrl": "https://www.tiktok.com/@kumar_tharesh/video/7458690515530157330",
+   "playableUrl": "https://www.tiktok.com/player/v1/7458690515530157330?autoplay=1&muted=1&loop=0&description=1",
+   "playableKind": "iframe",
+   "title": "High-Speed Race Crash at Dubai Autodrome",
+   "caption": "Witness the thrilling high-speed car race crash at Dubai Autodrome, featuring stunning cars. @Tharesh.",
+   "author": "",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": "2025-01-11T16:08:33.000Z",
+   "published_at_source": "tiktok-id-snowflake",
+   "undated": false,
+   "fetched_at": "2026-10-23T04:50:32.037Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "older than 72 h",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "kumar_tharesh",
+   "ageHours": 15588.7,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727179",
+    "plugin": "TikTok oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.tiktok.com/@kumar_tharesh/video/7458690515530157330",
+    "timestamp": "2026-10-23T04:50:32.036Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.275,
+   "scoreParts": {
+    "recency": 0,
+    "geo": 0.5,
+    "keyword": 0.5,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "tiktok:7351875077924801808",
+   "platform": "tiktok",
+   "platformId": "7351875077924801808",
+   "isShort": false,
+   "sourceUrl": "https://www.tiktok.com/@affordablegroupofficial/video/7351875077924801808",
+   "playableUrl": "https://www.tiktok.com/player/v1/7351875077924801808?autoplay=1&muted=1&loop=0&description=1",
+   "playableKind": "iframe",
+   "title": "Home Elevator Lift Accident - Viral Dubai Lift Video",
+   "caption": "This footage captures a concerning incident involving a home elevator lift. The video showcases various types of elevators, including stage elevators and",
+   "author": "",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": "2024-03-29T19:50:06.000Z",
+   "published_at_source": "tiktok-id-snowflake",
+   "undated": false,
+   "fetched_at": "2026-10-23T04:50:32.038Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "older than 72 h",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "affordablegroupofficial",
+   "ageHours": 22497,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727179",
+    "plugin": "TikTok oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.tiktok.com/@affordablegroupofficial/video/7351875077924801808",
+    "timestamp": "2026-10-23T04:50:32.036Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.275,
+   "scoreParts": {
+    "recency": 0,
+    "geo": 0.5,
+    "keyword": 0.5,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "tiktok:7657080194712341790",
+   "platform": "tiktok",
+   "platformId": "7657080194712341790",
+   "isShort": false,
+   "sourceUrl": "https://www.tiktok.com/@71c4ddg/video/7657080194712341790",
+   "playableUrl": "https://www.tiktok.com/player/v1/7657080194712341790?autoplay=1&muted=1&loop=0&description=1",
+   "playableKind": "iframe",
+   "title": "Sometimes the best places are the ones you discover by ...",
+   "caption": "TikTok video from onnhs (@71c4ddg): “Sometimes the best places are the ones you discover by accident. Check the location tag to book your experience.",
+   "author": "",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": "2026-06-30T07:01:50.000Z",
+   "published_at_source": "tiktok-id-snowflake",
+   "undated": false,
+   "fetched_at": "2026-10-23T04:50:32.038Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "older than 72 h",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "71c4ddg",
+   "ageHours": 2757.8,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727179",
+    "plugin": "TikTok oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.tiktok.com/@71c4ddg/video/7657080194712341790",
+    "timestamp": "2026-10-23T04:50:32.036Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.095,
+   "scoreParts": {
+    "recency": 0.022,
+    "geo": 0.1,
+    "keyword": 0.25,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "tiktok:7689822370613169415",
+   "platform": "tiktok",
+   "platformId": "7689822370613169415",
+   "isShort": false,
+   "sourceUrl": "https://www.tiktok.com/@nasnews_ar/video/7689822370613169415",
+   "playableUrl": "https://www.tiktok.com/player/v1/7689822370613169415?autoplay=1&muted=1&loop=0&description=1",
+   "playableKind": "iframe",
+   "title": "‏🔵 #الكويت تتطلع للتعويض أمام العراق.. و #السعودية تسعى ...",
+   "caption": "حادث على شارع أم سقيم نتيجة فقدان السائق السيطرة على المركبة بشكل مفاجئ إثر تعرضه لحالة فقدان وعي، ما أدى إلى انحرافها واصطدامها بمركبات أخرى.",
+   "author": "",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": "2026-09-26T12:38:12.000Z",
+   "published_at_source": "tiktok-id-snowflake",
+   "undated": false,
+   "fetched_at": "2026-10-23T04:50:32.039Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "older than 72 h",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "nasnews_ar",
+   "ageHours": 640.2,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727179",
+    "plugin": "TikTok oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.tiktok.com/@nasnews_ar/video/7689822370613169415",
+    "timestamp": "2026-10-23T04:50:32.036Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.613,
+   "scoreParts": {
+    "recency": 0.839,
+    "geo": 0.1,
+    "keyword": 1,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "source",
+  {
+   "platform": "tiktok",
+   "state": "done",
+   "clips": 6,
+   "primary": "quota_exhausted",
+   "fallback": "search (20)",
+   "errors": [],
+   "relevant": 6,
+   "verified": 6,
+   "at": "2026-10-23T04:50:32.039Z"
+  }
+ ],
+ [
+  "ranked",
+  {
+   "clips": [
+    "tiktok:7689822370613169415",
+    "instagram:Ddyb6fvQ-Yn",
+    "tiktok:7621530117717658902",
+    "tiktok:7627044985581374741",
+    "tiktok:7351875077924801808",
+    "tiktok:7458690515530157330",
+    "instagram:DWqgnQzDZ_R",
+    "tiktok:7657080194712341790"
+   ]
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "youtube:tyZCXRV9Cgw",
+   "platform": "youtube",
+   "platformId": "tyZCXRV9Cgw",
+   "isShort": false,
+   "sourceUrl": "https://www.youtube.com/watch?v=tyZCXRV9Cgw",
+   "playableUrl": "https://www.youtube-nocookie.com/embed/tyZCXRV9Cgw?autoplay=1&mute=1&playsinline=1&rel=0",
+   "playableKind": "iframe",
+   "title": "Dubai Rocked By Iran Drone Attack; Car Engulfed In Fire On Busy Road, 90-Story Marina Building Hit",
+   "caption": "A car was seen engulfed in flames in the Umm Suqeim district, with thick black smoke rising into the night sky. The exact cause of the blaze remains unclear, but reports suggest that drone debris from intercepted aerial projectiles may have fallen on the streets, setting multiple vehicles on fire. [0:46] Dramatic visuals now emerge of a fire in the middle of a busy road, triggering panic in the city. [0:54] The video emerged from the UMS district in Dubai.",
+   "author": "Times Of India",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": null,
+   "published_at_source": null,
+   "undated": true,
+   "fetched_at": "2026-10-23T04:50:36.528Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "missing or untrusted create/upload timestamp",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "Times Of India",
+   "ageHours": null,
+   "captionStartOffset": 54,
+   "captionOffsetSource": "search-transcript-snippet",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727178",
+    "plugin": "YouTube oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.youtube.com/watch?v=tyZCXRV9Cgw",
+    "timestamp": "2026-10-23T04:50:29.307Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.175,
+   "scoreParts": {
+    "recency": 0.05,
+    "geo": 0.9,
+    "keyword": 0.5,
+    "offTopic": true
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "youtube:RHjCaPIWJVc",
+   "platform": "youtube",
+   "platformId": "RHjCaPIWJVc",
+   "isShort": false,
+   "sourceUrl": "https://www.youtube.com/watch?v=RHjCaPIWJVc",
+   "playableUrl": "https://www.youtube-nocookie.com/embed/RHjCaPIWJVc?autoplay=1&mute=1&playsinline=1&rel=0",
+   "playableKind": "iframe",
+   "title": "Dubai Real Estate Over Supply | 2026 Crash Explained | Shocking Reality",
+   "caption": "The Valley, Emaar South, Tilal Al Ghaf, Mudon, Town Square, Nad Al Sheba, Umm Suqeim, Al Sufouh, Al Satwa, and other Dubai areas.",
+   "author": "Suhaib Sells Dubai",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": null,
+   "published_at_source": null,
+   "undated": true,
+   "fetched_at": "2026-10-23T04:50:36.528Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "missing or untrusted create/upload timestamp",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "Suhaib Sells Dubai",
+   "ageHours": null,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727178",
+    "plugin": "YouTube oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.youtube.com/watch?v=RHjCaPIWJVc",
+    "timestamp": "2026-10-23T04:50:29.307Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.215,
+   "scoreParts": {
+    "recency": 0.05,
+    "geo": 0.9,
+    "keyword": 1,
+    "offTopic": true
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "youtube:8CEx-SDkw_A",
+   "platform": "youtube",
+   "platformId": "8CEx-SDkw_A",
+   "isShort": false,
+   "sourceUrl": "https://www.youtube.com/watch?v=8CEx-SDkw_A",
+   "playableUrl": "https://www.youtube-nocookie.com/embed/8CEx-SDkw_A?autoplay=1&mute=1&playsinline=1&rel=0",
+   "playableKind": "iframe",
+   "title": "LAMBORGHINI ACCIDENT CAUSED BY DUBAI RENTAL COMPANY’S NEGLIGENCE",
+   "caption": "[2:14] We were ripping it last night but it was complete blah. Today we're about to rip down it in daytime. [2:31] Give us the quick rundown, the ordeal at the Abu Dhabi exiting border.",
+   "author": "DailyDrivenExotics",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": null,
+   "published_at_source": null,
+   "undated": true,
+   "fetched_at": "2026-10-23T04:50:36.528Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "missing or untrusted create/upload timestamp",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "DailyDrivenExotics",
+   "ageHours": null,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727178",
+    "plugin": "YouTube oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.youtube.com/watch?v=8CEx-SDkw_A",
+    "timestamp": "2026-10-23T04:50:29.307Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.298,
+   "scoreParts": {
+    "recency": 0.05,
+    "geo": 0.5,
+    "keyword": 0.5,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "youtube:dV4uVkinbEI",
+   "platform": "youtube",
+   "platformId": "dV4uVkinbEI",
+   "isShort": false,
+   "sourceUrl": "https://www.youtube.com/watch?v=dV4uVkinbEI",
+   "playableUrl": "https://www.youtube-nocookie.com/embed/dV4uVkinbEI?autoplay=1&mute=1&playsinline=1&rel=0",
+   "playableKind": "iframe",
+   "title": "Chiropractic Treatment of Peripheral Pain | Dr. Sharik Ali",
+   "caption": "Dr. Sharik Ali practices at Spinal Health Clinic, Dubai. [0:33] The patient says the pain has been present for two years since a major accident.",
+   "author": "Dr. Sharik Ali - Spinal Health Centre, Dubai",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": null,
+   "published_at_source": null,
+   "undated": true,
+   "fetched_at": "2026-10-23T04:50:36.528Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "missing or untrusted create/upload timestamp",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "Dr. Sharik Ali - Spinal Health Centre, Dubai",
+   "ageHours": null,
+   "captionStartOffset": 33,
+   "captionOffsetSource": "search-transcript-snippet",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727178",
+    "plugin": "YouTube oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.youtube.com/watch?v=dV4uVkinbEI",
+    "timestamp": "2026-10-23T04:50:29.307Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.298,
+   "scoreParts": {
+    "recency": 0.05,
+    "geo": 0.5,
+    "keyword": 0.5,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "youtube:NRJg0AMv8dE",
+   "platform": "youtube",
+   "platformId": "NRJg0AMv8dE",
+   "isShort": false,
+   "sourceUrl": "https://www.youtube.com/watch?v=NRJg0AMv8dE",
+   "playableUrl": "https://www.youtube-nocookie.com/embed/NRJg0AMv8dE?autoplay=1&mute=1&playsinline=1&rel=0",
+   "playableKind": "iframe",
+   "title": "Dubai Attack Shocking Details: Debris Shower As UAE Intercepts IRGC Missiles| War Rages, Gulf Burns",
+   "caption": "IRGC missile barrage over Dubai—UAE intercepts 10 ballistics/45 drones in latest wave, but flaming debris showers Palm Jumeirah, Burj Khalifa & DXB, shattering windows and igniting fires amid Day 37 Gulf war rage.",
+   "author": "Times Now",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": "2026-03-18T00:00:00.000Z",
+   "published_at_source": "plugin",
+   "undated": false,
+   "fetched_at": "2026-10-23T04:50:36.528Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "older than 72 h",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "Times Now",
+   "ageHours": 5260.8,
+   "captionStartOffset": 0,
+   "captionOffsetSource": "none",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727178",
+    "plugin": "YouTube oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.youtube.com/watch?v=NRJg0AMv8dE",
+    "timestamp": "2026-10-23T04:50:29.307Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.365,
+   "scoreParts": {
+    "recency": 0.001,
+    "geo": 0.9,
+    "keyword": 0.25,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "clip",
+  {
+   "id": "youtube:NP_D_tApFks",
+   "platform": "youtube",
+   "platformId": "NP_D_tApFks",
+   "isShort": false,
+   "sourceUrl": "https://www.youtube.com/watch?v=NP_D_tApFks",
+   "playableUrl": "https://www.youtube-nocookie.com/embed/NP_D_tApFks?autoplay=1&mute=1&playsinline=1&rel=0",
+   "playableKind": "iframe",
+   "title": "محمد العباسي | مرثيه بعنوان جروح الزمن | وفات المغفور بإذن الله عبدالله علي مصلح رحمه الله 777024292",
+   "caption": "مرثية عن حادث مروري أليم راح فيه ابن عم الشاعر. [0:22] من جور الحزن والفراق والجروح الزمن ثابته في حادث مروري اليم",
+   "author": "المنشد محمد العباسي تسجيلات العباسي",
+   "durationS": null,
+   "mediaExpiresAt": null,
+   "published_at": null,
+   "published_at_source": null,
+   "undated": true,
+   "fetched_at": "2026-10-23T04:50:36.529Z",
+   "tier": "ARCHIVAL",
+   "ageTier": "ARCHIVAL",
+   "tierReason": "missing or untrusted create/upload timestamp",
+   "verification": {
+    "matched": false,
+    "by": null,
+    "record": null,
+    "outlet": null,
+    "recordPublishedAt": null
+   },
+   "sourceHandle": "المنشد محمد العباسي تسجيلات العباسي",
+   "ageHours": null,
+   "captionStartOffset": 22,
+   "captionOffsetSource": "search-transcript-snippet",
+   "geo": {
+    "lat": 25.1425,
+    "lon": 55.2055,
+    "precision": "incident-anchor"
+   },
+   "provenance": {
+    "pluginId": "plugin-1792727178",
+    "plugin": "YouTube oEmbed API",
+    "operation": "oembed",
+    "query": "https://www.youtube.com/watch?v=NP_D_tApFks",
+    "timestamp": "2026-10-23T04:50:29.307Z",
+    "via": "platform-plugin"
+   },
+   "score": 0.158,
+   "scoreParts": {
+    "recency": 0.05,
+    "geo": 0.1,
+    "keyword": 0.5,
+    "offTopic": false
+   }
+  }
+ ],
+ [
+  "source",
+  {
+   "platform": "youtube",
+   "state": "done",
+   "clips": 6,
+   "searched": 20,
+   "relevant": 6,
+   "verified": 6,
+   "captions": "config_error: field key is missing in agent plugin config",
+   "errors": [],
+   "at": "2026-10-23T04:50:36.529Z"
+  }
+ ],
+ [
+  "ranked",
+  {
+   "clips": [
+    "tiktok:7689822370613169415",
+    "instagram:Ddyb6fvQ-Yn",
+    "tiktok:7621530117717658902",
+    "youtube:NRJg0AMv8dE",
+    "tiktok:7627044985581374741",
+    "youtube:8CEx-SDkw_A",
+    "youtube:dV4uVkinbEI",
+    "tiktok:7351875077924801808",
+    "tiktok:7458690515530157330",
+    "youtube:RHjCaPIWJVc",
+    "instagram:DWqgnQzDZ_R",
+    "youtube:tyZCXRV9Cgw",
+    "youtube:NP_D_tApFks",
+    "tiktok:7657080194712341790"
+   ]
+  }
+ ],
+ [
+  "verification",
+  {
+   "perplexity": {
+    "rows": [],
+    "empty": false,
+    "at": "2026-10-23T04:51:17.030Z"
+   },
+   "handles": {
+    "dubaipolice": {
+     "found": false,
+     "error": null,
+     "verified": false,
+     "followers": null,
+     "at": "2026-10-23T04:50:03.306Z"
+    },
+    "dubaipolicehq": {
+     "found": true,
+     "error": null,
+     "verified": true,
+     "followers": 1117822,
+     "at": "2026-10-23T04:50:03.371Z"
+    },
+    "net_ad": {
+     "found": false,
+     "error": null,
+     "verified": false,
+     "followers": null,
+     "at": "2026-10-23T04:50:03.498Z"
+    }
+   },
+   "errors": []
+  }
+ ],
+ [
+  "done",
+  {
+   "counts": {
+    "youtube": 6,
+    "tiktok": 6,
+    "instagram": 2
+   },
+   "tiers": {
+    "LIVE": 0,
+    "RECENT": 0,
+    "ARCHIVAL": 14
+   },
+   "sources": {
+    "instagram": {
+     "state": "done",
+     "clips": 2,
+     "errors": [],
+     "candidates": 6,
+     "videos": 2,
+     "imagesSkipped": 4,
+     "at": "2026-10-23T04:50:16.210Z"
+    },
+    "tiktok": {
+     "state": "done",
+     "clips": 6,
+     "primary": "quota_exhausted",
+     "fallback": "search (20)",
+     "errors": [],
+     "relevant": 6,
+     "verified": 6,
+     "at": "2026-10-23T04:50:32.039Z"
+    },
+    "youtube": {
+     "state": "done",
+     "clips": 6,
+     "searched": 20,
+     "relevant": 6,
+     "verified": 6,
+     "captions": "config_error: field key is missing in agent plugin config",
+     "errors": [],
+     "at": "2026-10-23T04:50:36.529Z"
+    }
+   },
+   "durationMs": 87060,
+   "total": 14,
+   "pluginCalls": [
+    {
+     "pluginId": "plugin-1716372717",
+     "startedAt": "2026-10-23T04:49:49.987Z",
+     "finishedAt": "2026-10-23T04:49:59.318Z",
+     "ok": false,
+     "error": "You have exceeded the MONTHLY quota for Scraping API on your current plan, BASIC. Upgrade your plan at https://rapidapi.com/tikwm-tikwm-default/api/tiktok-scraper7"
+    },
+    {
+     "pluginId": "plugin-1762980461",
+     "startedAt": "2026-10-23T04:49:49.991Z",
+     "finishedAt": "2026-10-23T04:50:02.448Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1716164040",
+     "startedAt": "2026-10-23T04:49:49.983Z",
+     "finishedAt": "2026-10-23T04:50:03.306Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1716164040",
+     "startedAt": "2026-10-23T04:49:49.983Z",
+     "finishedAt": "2026-10-23T04:50:03.371Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1716164040",
+     "startedAt": "2026-10-23T04:49:49.984Z",
+     "finishedAt": "2026-10-23T04:50:03.498Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1762980461",
+     "startedAt": "2026-10-23T04:49:49.991Z",
+     "finishedAt": "2026-10-23T04:50:03.710Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1762980461",
+     "startedAt": "2026-10-23T04:49:49.989Z",
+     "finishedAt": "2026-10-23T04:50:04.382Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1762980461",
+     "startedAt": "2026-10-23T04:49:49.989Z",
+     "finishedAt": "2026-10-23T04:50:04.421Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1740745780",
+     "startedAt": "2026-10-23T04:49:49.991Z",
+     "finishedAt": "2026-10-23T04:50:05.241Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1740745780",
+     "startedAt": "2026-10-23T04:49:49.986Z",
+     "finishedAt": "2026-10-23T04:50:07.131Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1740745780",
+     "startedAt": "2026-10-23T04:49:49.985Z",
+     "finishedAt": "2026-10-23T04:50:10.481Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1740745780",
+     "startedAt": "2026-10-23T04:49:59.319Z",
+     "finishedAt": "2026-10-23T04:50:13.449Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1762980461",
+     "startedAt": "2026-10-23T04:50:05.242Z",
+     "finishedAt": "2026-10-23T04:50:15.610Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1762980461",
+     "startedAt": "2026-10-23T04:50:05.242Z",
+     "finishedAt": "2026-10-23T04:50:16.210Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1740745780",
+     "startedAt": "2026-10-23T04:49:59.319Z",
+     "finishedAt": "2026-10-23T04:50:17.599Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1792727178",
+     "startedAt": "2026-10-23T04:50:10.482Z",
+     "finishedAt": "2026-10-23T04:50:29.307Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1792727179",
+     "startedAt": "2026-10-23T04:50:17.599Z",
+     "finishedAt": "2026-10-23T04:50:32.036Z",
+     "ok": true,
+     "error": null
+    },
+    {
+     "pluginId": "plugin-1722260873",
+     "startedAt": "2026-10-23T04:49:49.975Z",
+     "finishedAt": "2026-10-23T04:50:36.314Z",
+     "ok": false,
+     "error": "ondemand_http_409"
+    },
+    {
+     "pluginId": "plugin-1784356219",
+     "startedAt": "2026-10-23T04:50:29.307Z",
+     "finishedAt": "2026-10-23T04:50:36.527Z",
+     "ok": false,
+     "error": "field key is missing in agent plugin config"
+    },
+    {
+     "pluginId": "plugin-1722260873",
+     "startedAt": "2026-10-23T04:50:40.314Z",
+     "finishedAt": "2026-10-23T04:51:17.030Z",
+     "ok": true,
+     "error": null
+    }
+   ]
+  }
+ ]
+]

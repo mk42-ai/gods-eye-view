@@ -1,0 +1,134 @@
+/* Hyper-real Render: opt-in toggle beside Build scene + right-rail Render panel.
+ * The illustrative badge is part of the panel chrome and the viewport carries a
+ * permanent watermark — a render is never shown without the label. */
+.incident-composer__hyperreal {
+  background: transparent;
+  color: #bfe9da;
+  border: 1px solid rgba(59, 183, 149, 0.55);
+  white-space: nowrap;
+}
+.incident-composer__hyperreal.is-active,
+.incident-composer__hyperreal[aria-pressed='true'] {
+  background: rgba(59, 183, 149, 0.22);
+  color: #e9fff7;
+  box-shadow: inset 0 0 0 1px rgba(59, 183, 149, 0.9);
+}
+.incident-composer__hyperreal:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.hyperreal-panel {
+  position: relative;
+  width: 100%;
+  max-width: 330px;
+  pointer-events: auto;
+  background: rgba(16, 17, 18, 0.92);
+  border: 1px solid rgba(153, 154, 155, 0.2);
+  border-radius: 10px;
+  padding: 8px 10px 10px;
+  color: #dfe0e1;
+  font: 11px/1.4 var(--font-sans, 'Inter', system-ui, sans-serif);
+  backdrop-filter: blur(6px);
+}
+.hyperreal-panel[hidden] {
+  display: none;
+}
+.hyperreal-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.hyperreal-panel__title {
+  font: 600 11px/1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9fa0a1;
+}
+.hyperreal-panel__badge {
+  flex: 1 1 auto;
+  font: 600 9px/1.2 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #ffd166;
+  border: 1px solid rgba(255, 209, 102, 0.55);
+  border-radius: 999px;
+  padding: 3px 7px;
+  text-align: center;
+}
+.hyperreal-panel__close {
+  background: transparent;
+  border: 0;
+  color: #9fa0a1;
+  font-size: 16px;
+  cursor: pointer;
+}
+.hyperreal-panel__status {
+  font-size: 11px;
+  color: #cfd0d1;
+  margin-bottom: 6px;
+}
+.hyperreal-panel__status[data-stage='failed'],
+.hyperreal-panel__status[data-stage='error'],
+.hyperreal-panel__status[data-stage='not_configured'] {
+  color: #ff9f8f;
+}
+.hyperreal-panel__status[data-stage='complete'] {
+  color: #8ff0c9;
+}
+.hyperreal-panel__viewport {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #050607;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.hyperreal-panel__viewport img,
+.hyperreal-panel__viewport video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.hyperreal-panel__viewport [hidden] {
+  display: none;
+}
+.hyperreal-panel__watermark {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffd166;
+  font: 600 9px/1.2 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.hyperreal-panel__meta {
+  margin-top: 6px;
+  color: #9fa0a1;
+  font-size: 10px;
+}
+.hyperreal-panel__links {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+.hyperreal-panel__links a {
+  color: #8ff0c9;
+  font-size: 10px;
+}
+.hyperreal-panel__links a[hidden] {
+  display: none;
+}
+@media (max-width: 700px) {
+  .incident-composer__hyperreal {
+    order: 5;
+    flex: 0 0 auto;
+  }
+  .hyperreal-panel {
+    max-width: 100%;
+  }
+}

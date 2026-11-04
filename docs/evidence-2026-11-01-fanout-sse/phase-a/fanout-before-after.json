@@ -1,0 +1,320 @@
+{
+  "generatedAtUtc": "2026-11-01T07:40:03.296Z",
+  "startedAtUtc": "2026-11-01T07:37:57.868Z",
+  "legacy multi-query transportCapability": {
+    "available": false,
+    "status": 405,
+    "body": "{\"message\":\"legacy multi-query transport creation is currently unavailable\",\"errorCode\":\"method_not_allowed\"}"
+  },
+  "scenes": [
+    {
+      "scene": "Dubai Marina",
+      "coordinates": {
+        "lat": 25.0805,
+        "lon": 55.1403,
+        "approximate": false
+      },
+      "timestampUtc": "2026-11-01T07:38:39.621Z",
+      "before": {
+        "strategy": "single-name",
+        "query": "Dubai Marina",
+        "limit": 5,
+        "elapsedMs": 18723,
+        "raw": 1,
+        "unique": 1,
+        "storyIds": [
+          "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+        ],
+        "videos": [
+          {
+            "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "caption": "#dubaimarina",
+            "durationMs": 16100,
+            "storageUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/6zNmS8BWP5.mp4",
+            "uploadDateMs": "September 9, 2026 at 5:13:12 PM"
+          }
+        ],
+        "error": null
+      },
+      "after": {
+        "strategy": "fan-out",
+        "variantsTried": [
+          "Dubai Marina",
+          "dubaimarina",
+          "مرسى دبي"
+        ],
+        "limit": 25,
+        "concurrency": 4,
+        "elapsedMs": 22635,
+        "counts": {
+          "verified": 0,
+          "candidate": 1,
+          "raw": 2,
+          "unique": 1,
+          "variantsTried": 3,
+          "truncatedVariants": 0
+        },
+        "variantStats": [
+          {
+            "variant": "Dubai Marina",
+            "raw": 1,
+            "unique": 1,
+            "ms": 15532
+          },
+          {
+            "variant": "dubaimarina",
+            "raw": 1,
+            "unique": 0,
+            "ms": 22634
+          },
+          {
+            "variant": "مرسى دبي",
+            "raw": 0,
+            "unique": 0,
+            "ms": 18588
+          }
+        ],
+        "storyIds": [
+          "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+        ],
+        "videos": [
+          {
+            "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+            "caption": "#dubaimarina",
+            "durationMs": 16100,
+            "storageUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/VCyOYetcSQ.mp4",
+            "uploadDateMs": "September 9, 2026 at 5:13:12 PM"
+          }
+        ],
+        "error": null
+      },
+      "delta": {
+        "rawDiff": 1,
+        "uniqueDiff": 0
+      }
+    },
+    {
+      "scene": "Burj Al Arab",
+      "coordinates": {
+        "lat": 25.1412,
+        "lon": 55.1853,
+        "approximate": false
+      },
+      "timestampUtc": "2026-11-01T07:39:19.728Z",
+      "before": {
+        "strategy": "single-name",
+        "query": "Burj Al Arab",
+        "limit": 5,
+        "elapsedMs": 21315,
+        "raw": 2,
+        "unique": 2,
+        "storyIds": [
+          "W7_EDlXWTBiXAEEniNoMPwAAYa3VqZHZtZHRoAaEOB4lVAaEOB4lCAAAAAw",
+          "W7_EDlXWTBiXAEEniNoMPwAAYcHBqdmJnb3h4AZ2QAP1HAZ2QAP0SAAAAAQ"
+        ],
+        "videos": [
+          {
+            "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYa3VqZHZtZHRoAaEOB4lVAaEOB4lCAAAAAw",
+            "caption": "Emiratos Árabes - Dubai (Burj Al Arab) #motivacion #fe #paz #cristo #jesus ",
+            "durationMs": 10030,
+            "storageUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/Qnt5lsIeqK.mp4",
+            "uploadDateMs": "October 5, 2026 at 9:45:37 PM"
+          },
+          {
+            "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYcHBqdmJnb3h4AZ2QAP1HAZ2QAP0SAAAAAQ",
+            "caption": "Burj Al Arab is closing for approximately 18 months for renovations 🥹 It'll be missed! #lovindubai",
+            "durationMs": 27560,
+            "storageUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/8paQt3190i.mp4",
+            "uploadDateMs": "April 15, 2026 at 7:17:57 AM"
+          }
+        ],
+        "error": null
+      },
+      "after": {
+        "strategy": "fan-out",
+        "variantsTried": [
+          "Burj Al Arab",
+          "burjalarab",
+          "برج العرب"
+        ],
+        "limit": 25,
+        "concurrency": 4,
+        "elapsedMs": 18790,
+        "counts": {
+          "verified": 0,
+          "candidate": 3,
+          "raw": 3,
+          "unique": 3,
+          "variantsTried": 3,
+          "truncatedVariants": 0
+        },
+        "variantStats": [
+          {
+            "variant": "Burj Al Arab",
+            "raw": 2,
+            "unique": 2,
+            "ms": 18790
+          },
+          {
+            "variant": "burjalarab",
+            "raw": 1,
+            "unique": 1,
+            "ms": 16368
+          },
+          {
+            "variant": "برج العرب",
+            "raw": 0,
+            "unique": 0,
+            "ms": 16742
+          }
+        ],
+        "storyIds": [
+          "W7_EDlXWTBiXAEEniNoMPwAAYa3RqaWtxanNqAZp-PivlAZp-PisRAAAAAQ",
+          "W7_EDlXWTBiXAEEniNoMPwAAYa3VqZHZtZHRoAaEOB4lVAaEOB4lCAAAAAw",
+          "W7_EDlXWTBiXAEEniNoMPwAAYcHBqdmJnb3h4AZ2QAP1HAZ2QAP0SAAAAAQ"
+        ],
+        "videos": [
+          {
+            "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYa3RqaWtxanNqAZp-PivlAZp-PisRAAAAAQ",
+            "caption": "Yo check out the tour of my 7 Star Suite in Dubai at the Burj Al Arab!!! It’s was 2 Stories too sheesh!!! #dubai #burjalarab #tmt #foryoupage ##fyp",
+            "durationMs": 167190,
+            "storageUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/pNnlUUjdS9.mp4",
+            "uploadDateMs": "November 13, 2025 at 5:23:14 PM"
+          },
+          {
+            "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYa3VqZHZtZHRoAaEOB4lVAaEOB4lCAAAAAw",
+            "caption": "Emiratos Árabes - Dubai (Burj Al Arab) #motivacion #fe #paz #cristo #jesus ",
+            "durationMs": 10030,
+            "storageUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/f8sxmf0d9v.mp4",
+            "uploadDateMs": "October 5, 2026 at 9:45:37 PM"
+          },
+          {
+            "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYcHBqdmJnb3h4AZ2QAP1HAZ2QAP0SAAAAAQ",
+            "caption": "Burj Al Arab is closing for approximately 18 months for renovations 🥹 It'll be missed! #lovindubai",
+            "durationMs": 27560,
+            "storageUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/C1SYiAcSlo.mp4",
+            "uploadDateMs": "April 15, 2026 at 7:17:57 AM"
+          }
+        ],
+        "error": null
+      },
+      "delta": {
+        "rawDiff": 1,
+        "uniqueDiff": 1
+      }
+    },
+    {
+      "scene": "kanes boxing gym abu dhabi",
+      "coordinates": {
+        "lat": 24.495,
+        "lon": 54.378,
+        "approximate": true
+      },
+      "timestampUtc": "2026-11-01T07:40:03.296Z",
+      "before": {
+        "strategy": "single-name",
+        "query": "kanes boxing gym abu dhabi",
+        "limit": 5,
+        "elapsedMs": 12673,
+        "raw": 0,
+        "unique": 0,
+        "storyIds": [],
+        "videos": [],
+        "error": null
+      },
+      "after": {
+        "strategy": "fan-out",
+        "variantsTried": [
+          "kanes boxing gym abu dhabi",
+          "kane's boxing gym abu dhabi",
+          "kanes boxing gym",
+          "kane's boxing gym",
+          "kanes",
+          "kane's"
+        ],
+        "limit": 25,
+        "concurrency": 4,
+        "elapsedMs": 30894,
+        "counts": {
+          "verified": 0,
+          "candidate": 3,
+          "raw": 3,
+          "unique": 3,
+          "variantsTried": 6,
+          "truncatedVariants": 0
+        },
+        "variantStats": [
+          {
+            "variant": "kanes boxing gym abu dhabi",
+            "raw": 0,
+            "unique": 0,
+            "ms": 17370
+          },
+          {
+            "variant": "kane's boxing gym abu dhabi",
+            "raw": 0,
+            "unique": 0,
+            "ms": 15156
+          },
+          {
+            "variant": "kanes boxing gym",
+            "raw": 0,
+            "unique": 0,
+            "ms": 11787
+          },
+          {
+            "variant": "kane's boxing gym",
+            "raw": 0,
+            "unique": 0,
+            "ms": 12731
+          },
+          {
+            "variant": "kanes",
+            "raw": 1,
+            "unique": 1,
+            "ms": 15569
+          },
+          {
+            "variant": "kane's",
+            "raw": 2,
+            "unique": 2,
+            "ms": 18162
+          }
+        ],
+        "storyIds": [
+          "W7_EDlXWTBiXAEEniNoMPwAAYcWVqcnJzYnN5AZ_eyL6zAZ_ex__5AAAAAQ",
+          "W7_EDlXWTBiXAEEniNoMPwAAYdWFhcHlzeHRtAaGIJG7yAaGIJG3tAAAAAA",
+          "W7_EDlXWTBiXAEEniNoMPwAAYb3FxaGF4d2VoAZ1o4UzjAZ1o3enlAAAAAQ"
+        ],
+        "videos": [
+          {
+            "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYcWVqcnJzYnN5AZ_eyL6zAZ_ex__5AAAAAQ",
+            "caption": "(none)",
+            "durationMs": 15540,
+            "storageUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/NUzJnTtAUo.mp4",
+            "uploadDateMs": "August 8, 2026 at 12:31:16 AM"
+          },
+          {
+            "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYdWFhcHlzeHRtAaGIJG7yAaGIJG3tAAAAAA",
+            "caption": "Someone should commission a study on Harry Kane's tracking back",
+            "durationMs": 61810,
+            "storageUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/DdoDepmAve.mp4",
+            "uploadDateMs": "October 29, 2026 at 2:50:51 PM"
+          },
+          {
+            "storyId": "W7_EDlXWTBiXAEEniNoMPwAAYb3FxaGF4d2VoAZ1o4UzjAZ1o3enlAAAAAQ",
+            "caption": "Harry Kane's 5 tips to level up your striker skills 📈 #football #soccer #fyp",
+            "durationMs": 110930,
+            "storageUrl": "https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/apm5YvRwvq.mp4",
+            "uploadDateMs": "April 7, 2026 at 4:54:27 PM"
+          }
+        ],
+        "error": null
+      },
+      "delta": {
+        "rawDiff": 3,
+        "uniqueDiff": 3
+      }
+    }
+  ]
+}

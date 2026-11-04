@@ -1,0 +1,75 @@
+{
+  "agent": 12,
+  "completedAtUTC": "2026-10-24T01:51:18.749Z",
+  "status": "implemented-static-checks-passed",
+  "file": "src/ui/styles/marina-mobile.css",
+  "scope": "Only new src/ui/styles/marina-mobile.css; no other CSS or JavaScript edited. No browser used.",
+  "breakpoints": [
+    "max-width:700px",
+    "max-width:700px and max-height:520px"
+  ],
+  "readStyles": [
+    "responsive.css",
+    "incidents.css",
+    "plugin-panel.css",
+    "marina-workstation.css"
+  ],
+  "importantSelectors": [
+    "#left-panel-stack",
+    ".workstation-sidebar-tabs",
+    ".workstation-sidebar-tabs__tab[aria-selected=\"true\"]",
+    "#scene-drawer-toggle",
+    "body.scene-drawer-collapsed",
+    "#left-panel-stack:has(> .workstation-sidebar-tabs[data-expanded=\"false\"])",
+    "#incident-playback",
+    "#scene-library-name",
+    "#scene-library-save",
+    "#incident-composer",
+    "#incident-composer-input",
+    "#incident-composer-submit",
+    ".incident-composer__result",
+    "#ondemand-plugin-dock",
+    ".od-plugin__row",
+    ".od-plugins__details:not([open])",
+    "#right-context-rail",
+    "#command-dock",
+    "#cesium-credits",
+    "#intel-hud"
+  ],
+  "implemented": [
+    "Bounded 42dvh/325px top drawer, one internal panel scroll, 54px collapsed tab strip, 44px Scenes/Layers/toggle targets.",
+    "Two-row playback: four 44px buttons then 44px scrub/clock row. Compact accessible name/save grid and saved-scene picker.",
+    "Fixed safe-area bottom composer; primary row does not shrink and sits below scrollable 90px results. Inputs use 16px text to avoid focus zoom; cancel/retry stay in their own row.",
+    "Geometry separates composer, source-credit strip and command dock without raising z-index.",
+    "Plugin rows use minmax(0,1fr), wrapping and layout/paint containment. Native closed details hide descendants and shrink the dock hit region.",
+    "Closed secondary panels removed from layout, active panels bounded, decorative HUD compacted while keeping navigation and source attribution.",
+    "Dvh/short-height fallbacks constrain the drawer/results when viewport space contracts."
+  ],
+  "validation": {
+    "method": "PostCSS parse + static contract assertions; no browser per coordinator instruction",
+    "passed": true,
+    "ruleCount": 125,
+    "allRulesMobileScoped": true,
+    "noZIndexDeclarations": true,
+    "widthArithmetic": {
+      "viewport": {
+        "width": 375,
+        "height": 739
+      },
+      "gutter": 8,
+      "contentWidth": 359,
+      "composerInputApproxWidth": 245,
+      "playbackCellApproxWidth": 78.25,
+      "normalDrawerMaxHeight": 310.38
+    },
+    "widthArithmeticIsNotBrowserProof": true,
+    "desktopFileRead": true
+  },
+  "limitations": [
+    "Coordinator must import marina-mobile.css LAST after desktop styles; this agent did not edit the import file.",
+    "No screenshot, real 375x739 rendering, hit-test or interaction test performed; coordinator owns browser validation.",
+    "CSS cannot read visualViewport.offsetTop/height. Dvh follows keyboard resizing only where the browser resizes the CSS viewport; overlay-only iOS keyboards need a coordinator-owned JS visualViewport bridge or interactive-widget viewport policy.",
+    "Existing full-width chat intentionally retains priority over the incident composer at <=640px; floating plugins are hidden during chat.",
+    "Agent 9 currently exposes data-expanded and hidden state; body.scene-drawer-collapsed is additionally supported if the coordinator module applies it."
+  ]
+}

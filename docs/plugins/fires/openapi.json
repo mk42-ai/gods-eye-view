@@ -1,0 +1,295 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "OnDemand Spatial Active Fire Search (NASA FIRMS)",
+    "version": "1.0.0",
+    "description": "Search near-real-time satellite active fire detections from NASA FIRMS (LANCE NRT) by geographic area — bounding box or circle (lat + lon + radius_km) — and time window (1–10 days back or specific start date). Returns observed hotspot detections (latitude, longitude, brightness temperature, fire radiative power MW, confidence, acquisition timestamp, satellite instrument, day/night) and provenance metadata. Sourced from VIIRS (NOAA-20, NOAA-21, Suomi-NPP) and MODIS instruments. Requires NASA_FIRMS_MAP_KEY (or FIRMS_MAP_KEY) on the deployment; answers honest 503 `not_configured` when absent. Detections capped at 200 per call.",
+    "x-ondemand-spatial": {
+      "pluginId": "fires",
+      "category": "Research",
+      "conversationStarters": [
+        "Are there any active fire detections near Los Angeles (lat 34.05, lon -118.25) in the last 2 days?",
+        "Search active fires in the Texas Panhandle box -103,34,-100,36 for today",
+        "List high-confidence fire hotspots around Athens, Greece within 100 km",
+        "Show recent fire detections from NOAA-20 VIIRS in western Canada"
+      ],
+      "auth": "none — same-origin proxy; upstream credentials stay server-side",
+      "generatedBy": "scripts/generate-tool-openapi.mjs"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://ondemand-eand-spatial-opal.vercel.app",
+      "description": "OnDemand Spatial deployment (preview or production)"
+    }
+  ],
+  "paths": {
+    "/api/tools/fire_detection_search": {
+      "get": {
+        "operationId": "fire_detection_search",
+        "summary": "Search NASA FIRMS active fire hotspots by bounding box or circle and time range",
+        "description": "Queries NASA FIRMS active fire detections by bounding box (bbox=\"west,south,east,north\") or circle (latitude + longitude + radius_km, all three required together). Supports day_range (1–10 days back, default 1), specific start date (YYYY-MM-DD), source satellite instrument (VIIRS_NOAA20_NRT, VIIRS_NOAA21_NRT, VIIRS_SNPP_NRT, MODIS_NRT), optional min_confidence filter (low, nominal, high), and limit (1–200, default 100). Returns normalised hotspot events with observed coordinates, brightness Kelvin, FRP (MW), confidence, satellite, and acquisition time. Requires server NASA_FIRMS_MAP_KEY; answers 503 `not_configured` without it.",
+        "parameters": [
+          {
+            "name": "bbox",
+            "in": "query",
+            "required": false,
+            "description": "Bounding box as \"west,south,east,north\" in decimal degrees (WGS84). Exclusive with circle parameters.",
+            "schema": {
+              "type": "string",
+              "maxLength": 80
+            }
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "required": false,
+            "description": "Circle-search centre latitude in decimal degrees. Requires longitude and radius_km together.",
+            "schema": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "required": false,
+            "description": "Circle-search centre longitude in decimal degrees. Requires latitude and radius_km together.",
+            "schema": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          {
+            "name": "radius_km",
+            "in": "query",
+            "required": false,
+            "description": "Circle-search radius in kilometres (1–1000). Requires latitude and longitude together.",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "description": "FIRMS satellite sensor product. Default VIIRS_NOAA20_NRT.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "VIIRS_NOAA20_NRT",
+                "VIIRS_NOAA21_NRT",
+                "VIIRS_SNPP_NRT",
+                "MODIS_NRT"
+              ],
+              "default": "VIIRS_NOAA20_NRT"
+            }
+          },
+          {
+            "name": "day_range",
+            "in": "query",
+            "required": false,
+            "description": "Number of days to search back (1–10). Default 1 (current UTC day).",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 1
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "description": "Optional start date in YYYY-MM-DD format (UTC). If omitted, searches backwards from now.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "min_confidence",
+            "in": "query",
+            "required": false,
+            "description": "Minimum detection confidence filter: \"low\", \"nominal\", or \"high\". Optional.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "low",
+                "nominal",
+                "high"
+              ]
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of fire detections to return (1–200). Default 100.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tool result envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error (unknown/missing/invalid parameter)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Upstream failure with a structured reason",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Provider unavailable (missing key / no data) with a structured reason",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ToolError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Provider": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "live",
+              "stale",
+              "degraded",
+              "unavailable"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "fetchedAt": {
+            "type": "string",
+            "nullable": true
+          },
+          "ageSec": {
+            "type": "integer",
+            "nullable": true
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "nullable": true
+          }
+        }
+      },
+      "ToolResult": {
+        "type": "object",
+        "required": [
+          "ok",
+          "tool",
+          "data"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "tool": {
+            "type": "string"
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "provider": {
+            "$ref": "#/components/schemas/Provider"
+          },
+          "provenance": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "generatedAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ToolError": {
+        "type": "object",
+        "required": [
+          "ok",
+          "error"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "tool": {
+            "type": "string"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "param": {
+                "type": "string"
+              }
+            }
+          },
+          "provider": {
+            "$ref": "#/components/schemas/Provider"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,447 @@
+{
+  "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app",
+  "startedUtc": "2026-11-01T17:06:49.425Z",
+  "finishedUtc": "2026-11-01T17:16:53.825Z",
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "blocked": 0,
+    "not_run": 0
+  },
+  "demos": [
+    {
+      "id": "A",
+      "viewport": "1440x900",
+      "status": "passed",
+      "reason": null,
+      "durationSec": 128,
+      "screenshots": [
+        "demo-A-1440x900-final.png"
+      ],
+      "metrics": {
+        "metrics": {
+          "ttftMs": 7931,
+          "firstSceneInstructionMs": 8329,
+          "firstRenderedObjectMs": 8395,
+          "firstPlayableShotMs": 10006,
+          "evidenceToVisualMs": null,
+          "answerChars": 5770,
+          "staleOpsCount": 0,
+          "intelligenceReceivedCount": 0,
+          "intelligenceValidatedCount": 0,
+          "totalMs": 10943,
+          "invalidLines": 0,
+          "repairs": 0
+        },
+        "fps": null,
+        "heap": 82.56
+      },
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/setup/status",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "runStateDetail": {
+        "runState": "succeeded",
+        "stage": "D",
+        "sceneVersion": 15,
+        "invalid": [],
+        "error": null,
+        "model": {
+          "endpointId": "predefined-cerebras-qwen-3.8-27b",
+          "modelId": "qwen-3.8-27b",
+          "provider": "cerebras",
+          "ttftMs": 7931,
+          "tokensPerSec": 3218.91,
+          "outputTokens": 8646,
+          "visibleChars": 5770,
+          "visibleTokensEst": 1443,
+          "visibleTokensPerSecEst": 537.23,
+          "deltas": 126,
+          "latencyMs": 10617
+        }
+      }
+    },
+    {
+      "id": "E",
+      "viewport": "1440x900",
+      "status": "passed",
+      "reason": null,
+      "durationSec": 165,
+      "screenshots": [
+        "demo-E-1440x900-snapchat.png"
+      ],
+      "metrics": {
+        "snapchatMetrics": "Requests 3 attempted · 3 ok · 0 failed · 2 results · 1 unique · 1 duplicates · 1 relevant · batch: unavailable (405) · rate limit: ok · unverified: no capture time / coordinates",
+        "status": "0 verified · 1 unverified candidate · 3 variants · +1 new on last refresh",
+        "matchedPlace": "Matched place: “Dubai Marina” · coverage: district",
+        "clipCount": 1,
+        "footageApi": {
+          "state": "ready",
+          "metrics": {
+            "requestsAttempted": 3,
+            "requestsSucceeded": 3,
+            "requestsFailed": 0,
+            "results": 2,
+            "unique": 1,
+            "duplicates": 1,
+            "relevant": 1,
+            "activeBatchJobs": 0,
+            "batchState": "unavailable (405)",
+            "rateLimit": {
+              "state": "ok",
+              "resetAt": null
+            },
+            "startedAt": "2026-11-01T17:10:56.427Z",
+            "finishedAt": "2026-11-01T17:11:39.296Z",
+            "errors": []
+          },
+          "accounting": {
+            "returnedCount": 2,
+            "uniqueCount": 1,
+            "matchingCount": 1,
+            "rejectedCount": 0,
+            "queriesCount": 3,
+            "logicalQueriesCount": 3,
+            "pollsCount": 0,
+            "pagesCount": 3,
+            "attemptsCount": 3,
+            "partial": false,
+            "truncated": false
+          },
+          "clips": 1,
+          "coverageLabel": "Dubai Marina",
+          "error": null,
+          "message": null
+        },
+        "waitedMs": 46556
+      },
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/setup/status",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "discover": {
+        "clicked": true,
+        "scope": "balanced"
+      },
+      "runStateDetail": {
+        "runState": "succeeded",
+        "stage": "D",
+        "sceneVersion": 20,
+        "error": null,
+        "model": {
+          "endpointId": "predefined-cerebras-qwen-3.8-27b",
+          "modelId": "qwen-3.8-27b",
+          "provider": "cerebras",
+          "ttftMs": 4868,
+          "tokensPerSec": 1594.2,
+          "outputTokens": 4451,
+          "visibleChars": 8052,
+          "visibleTokensEst": 2013,
+          "visibleTokensPerSecEst": 720.99,
+          "deltas": 157,
+          "latencyMs": 7660
+        },
+        "invalid": [],
+        "entities": 10,
+        "tail": [
+          {
+            "event": "run.started",
+            "t": "2026-11-01T17:09:05.473Z",
+            "summary": "{\"runId\":\"3bfd7682-ec90-487e-a9a7-a14a8fa5db4f\",\"sceneId\":\"scene-3bfd7682-ec90-487e-a9a7-a14a8fa5db4f\",\"sceneVersion\":0,\"seq\":1,\"mode\":\"cinematic_simulation\",\"origin\":{\"name\":\"Dubai Marina\",\"lat\":25.0786415,\"lon\":55.1352524,\"approximate\":false},\"title\":\"Cinematic police response simulation at Dubai Marina with units arriving and a cordon\",\"t\":\"2026-11-01T17:09:05.473Z\",\"elapsedMs\":2}"
+          },
+          {
+            "event": "model.selected",
+            "t": "2026-11-01T17:09:05.475Z",
+            "summary": "{\"runId\":\"3bfd7682-ec90-487e-a9a7-a14a8fa5db4f\",\"sceneId\":\"scene-3bfd7682-ec90-487e-a9a7-a14a8fa5db4f\",\"sceneVersion\":0,\"seq\":2,\"endpointId\":\"predefined-cerebras-qwen-3.8-27b\",\"modelId\":\"qwen-3.8-27b\",\"provider\":\"cerebras\",\"cerebras\":true,\"reason\":\"task_default\",\"t\":\"2026-11-01T17:09:05.475Z\",\"elapsedMs\":4}"
+          },
+          {
+            "event": "scene.ready",
+            "t": "2026-11-01T17:09:13.137Z",
+            "summary": "{\"runId\":\"3bfd7682-ec90-487e-a9a7-a14a8fa5db4f\",\"sceneId\":\"scene-3bfd7682-ec90-487e-a9a7-a14a8fa5db4f\",\"sceneVersion\":20,\"seq\":182,\"entities\":10,\"shots\":3,\"beats\":3,\"t\":\"2026-11-01T17:09:13.137Z\",\"elapsedMs\":7666}"
+          },
+          {
+            "event": "run.completed",
+            "t": "2026-11-01T17:10:49.176Z",
+            "summary": "{\"runId\":\"3bfd7682-ec90-487e-a9a7-a14a8fa5db4f\",\"sceneId\":\"scene-3bfd7682-ec90-487e-a9a7-a14a8fa5db4f\",\"sceneVersion\":0,\"scene\":{\"schema\":\"gev-cinematic-scene\",\"schemaVersion\":1,\"sceneId\":\"scene-3bfd7682-ec90-487e-a9a7-a14a8fa5db4f\",\"sceneVersion\":0,\"runId\":\"3bfd7682-ec90-487e-a9a7-a14a8fa5db4f\",\"mode\":\"cinematic_simulation\",\"title\":\"HYPOTHETICAL Police Response Simulation at Dubai Marina\",\"origin"
+          },
+          {
+            "event": "done",
+            "t": "2026-11-01T17:10:49.176Z",
+            "summary": "{\"result\":{\"ok\":true,\"plan\":{\"version\":1,\"title\":\"HYPOTHETICAL Police Response Simulation at Dubai Marina\",\"illustrative\":true,\"durationSec\":60,\"location\":{\"name\":\"Dubai Marina\",\"lat\":25.0786415,\"lon\":55.1352524,\"sourceUrl\":\"https://nominatim.openstreetmap.org/search\"},\"camera\":{\"distanceM\":900,\"heading\":45,\"pitch\":-18,\"framing\":\"medium\"},\"entities\":[{\"id\":\"police_car_1\",\"type\":\"police_vehicle\",\"l"
+          }
+        ]
+      }
+    },
+    {
+      "id": "I",
+      "viewport": "1440x900",
+      "status": "passed",
+      "reason": null,
+      "durationSec": 9,
+      "screenshots": [],
+      "metrics": null,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/setup/status",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "runStateDetail": {
+        "runState": "failed",
+        "stage": "A",
+        "sceneVersion": 0,
+        "error": "model_unavailable",
+        "model": null,
+        "invalid": [],
+        "entities": 0,
+        "tail": [
+          {
+            "event": "run.started",
+            "t": "2026-11-01T17:11:50.147Z",
+            "summary": "{\"runId\":\"6e732f30-8351-4273-b11b-0ef71682c9ed\",\"sceneId\":\"scene-6e732f30-8351-4273-b11b-0ef71682c9ed\",\"sceneVersion\":0,\"seq\":1,\"mode\":\"cinematic_simulation\",\"origin\":{\"name\":\"Burj Khalifa\",\"lat\":25.1970336,\"lon\":55.2741329,\"approximate\":false},\"title\":\"Police response simulation at Burj Khalifa, Downtown Dubai\",\"t\":\"2026-11-01T17:11:50.147Z\",\"elapsedMs\":1}"
+          },
+          {
+            "event": "run.failed",
+            "t": "2026-11-01T17:11:50.148Z",
+            "summary": "{\"runId\":\"6e732f30-8351-4273-b11b-0ef71682c9ed\",\"sceneId\":\"scene-6e732f30-8351-4273-b11b-0ef71682c9ed\",\"sceneVersion\":0,\"seq\":2,\"code\":\"model_unavailable\",\"message\":\"Requested endpoint predefined-does-not-exist is not available in the live OnDemand registry.\",\"t\":\"2026-11-01T17:11:50.148Z\",\"elapsedMs\":2}"
+          },
+          {
+            "event": "error",
+            "t": "2026-11-01T17:11:50.148Z",
+            "summary": "{\"code\":\"model_unavailable\",\"message\":\"Requested endpoint predefined-does-not-exist is not available in the live OnDemand registry.\",\"t\":\"2026-11-01T17:11:50.148Z\",\"elapsedMs\":2}"
+          }
+        ]
+      }
+    },
+    {
+      "id": "A",
+      "viewport": "390x844",
+      "status": "passed",
+      "reason": null,
+      "durationSec": 130,
+      "screenshots": [
+        "demo-A-390x844-final.png"
+      ],
+      "metrics": {
+        "metrics": {
+          "ttftMs": 5366,
+          "firstSceneInstructionMs": 5766,
+          "firstRenderedObjectMs": 5809,
+          "firstPlayableShotMs": 6119,
+          "evidenceToVisualMs": null,
+          "answerChars": 6288,
+          "staleOpsCount": 0,
+          "intelligenceReceivedCount": 0,
+          "intelligenceValidatedCount": 0,
+          "totalMs": 8266,
+          "invalidLines": 0,
+          "repairs": 0
+        },
+        "fps": null,
+        "heap": 99.8
+      },
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/setup/status",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "runStateDetail": {
+        "runState": "succeeded",
+        "stage": "D",
+        "sceneVersion": 17,
+        "invalid": [],
+        "error": null,
+        "model": {
+          "endpointId": "predefined-cerebras-qwen-3.8-27b",
+          "modelId": "qwen-3.8-27b",
+          "provider": "cerebras",
+          "ttftMs": 5366,
+          "tokensPerSec": 2967.14,
+          "outputTokens": 7584,
+          "visibleChars": 6288,
+          "visibleTokensEst": 1572,
+          "visibleTokensPerSecEst": 615.02,
+          "deltas": 106,
+          "latencyMs": 7922
+        }
+      }
+    },
+    {
+      "id": "E",
+      "viewport": "390x844",
+      "status": "passed",
+      "reason": null,
+      "durationSec": 162,
+      "screenshots": [
+        "demo-E-390x844-snapchat.png"
+      ],
+      "metrics": {
+        "snapchatMetrics": "Requests 3 attempted · 3 ok · 0 failed · 2 results · 1 unique · 1 duplicates · 1 relevant · batch: unavailable (405) · rate limit: ok · unverified: no capture time / coordinates",
+        "status": "0 verified · 1 unverified candidate · 3 variants · +1 new on last refresh",
+        "matchedPlace": "Matched place: “Dubai Marina” · coverage: district",
+        "clipCount": 1,
+        "footageApi": {
+          "state": "ready",
+          "metrics": {
+            "requestsAttempted": 3,
+            "requestsSucceeded": 3,
+            "requestsFailed": 0,
+            "results": 2,
+            "unique": 1,
+            "duplicates": 1,
+            "relevant": 1,
+            "activeBatchJobs": 0,
+            "batchState": "unavailable (405)",
+            "rateLimit": {
+              "state": "ok",
+              "resetAt": null
+            },
+            "startedAt": "2026-11-01T17:16:04.898Z",
+            "finishedAt": "2026-11-01T17:16:40.709Z",
+            "errors": []
+          },
+          "accounting": {
+            "returnedCount": 2,
+            "uniqueCount": 1,
+            "matchingCount": 1,
+            "rejectedCount": 0,
+            "queriesCount": 3,
+            "logicalQueriesCount": 3,
+            "pollsCount": 0,
+            "pagesCount": 3,
+            "attemptsCount": 3,
+            "partial": false,
+            "truncated": false
+          },
+          "clips": 1,
+          "coverageLabel": "Dubai Marina",
+          "error": null,
+          "message": null
+        },
+        "waitedMs": 38390
+      },
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/setup/status",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "discover": {
+        "clicked": true,
+        "scope": "balanced"
+      },
+      "runStateDetail": {
+        "runState": "succeeded",
+        "stage": "D",
+        "sceneVersion": 18,
+        "error": null,
+        "model": {
+          "endpointId": "predefined-cerebras-qwen-3.8-27b",
+          "modelId": "qwen-3.8-27b",
+          "provider": "cerebras",
+          "ttftMs": 4272,
+          "tokensPerSec": 1930.8,
+          "outputTokens": 5078,
+          "visibleChars": 6950,
+          "visibleTokensEst": 1738,
+          "visibleTokensPerSecEst": 660.84,
+          "deltas": 119,
+          "latencyMs": 6902
+        },
+        "invalid": [],
+        "entities": 9,
+        "tail": [
+          {
+            "event": "run.started",
+            "t": "2026-11-01T17:14:15.352Z",
+            "summary": "{\"runId\":\"a8f1c093-7e5f-4fd9-b0d5-547454f31b98\",\"sceneId\":\"scene-a8f1c093-7e5f-4fd9-b0d5-547454f31b98\",\"sceneVersion\":0,\"seq\":1,\"mode\":\"cinematic_simulation\",\"origin\":{\"name\":\"Dubai Marina\",\"lat\":25.0786415,\"lon\":55.1352524,\"approximate\":false},\"title\":\"Cinematic police response simulation at Dubai Marina with units arriving and a cordon\",\"t\":\"2026-11-01T17:14:15.352Z\",\"elapsedMs\":3}"
+          },
+          {
+            "event": "model.selected",
+            "t": "2026-11-01T17:14:15.354Z",
+            "summary": "{\"runId\":\"a8f1c093-7e5f-4fd9-b0d5-547454f31b98\",\"sceneId\":\"scene-a8f1c093-7e5f-4fd9-b0d5-547454f31b98\",\"sceneVersion\":0,\"seq\":2,\"endpointId\":\"predefined-cerebras-qwen-3.8-27b\",\"modelId\":\"qwen-3.8-27b\",\"provider\":\"cerebras\",\"cerebras\":true,\"reason\":\"task_default\",\"t\":\"2026-11-01T17:14:15.354Z\",\"elapsedMs\":5}"
+          },
+          {
+            "event": "scene.ready",
+            "t": "2026-11-01T17:14:22.258Z",
+            "summary": "{\"runId\":\"a8f1c093-7e5f-4fd9-b0d5-547454f31b98\",\"sceneId\":\"scene-a8f1c093-7e5f-4fd9-b0d5-547454f31b98\",\"sceneVersion\":18,\"seq\":142,\"entities\":9,\"shots\":3,\"beats\":3,\"t\":\"2026-11-01T17:14:22.258Z\",\"elapsedMs\":6909}"
+          },
+          {
+            "event": "run.completed",
+            "t": "2026-11-01T17:16:01.150Z",
+            "summary": "{\"runId\":\"a8f1c093-7e5f-4fd9-b0d5-547454f31b98\",\"sceneId\":\"scene-a8f1c093-7e5f-4fd9-b0d5-547454f31b98\",\"sceneVersion\":0,\"scene\":{\"schema\":\"gev-cinematic-scene\",\"schemaVersion\":1,\"sceneId\":\"scene-a8f1c093-7e5f-4fd9-b0d5-547454f31b98\",\"sceneVersion\":0,\"runId\":\"a8f1c093-7e5f-4fd9-b0d5-547454f31b98\",\"mode\":\"cinematic_simulation\",\"title\":\"Cinematic Hypothetical Police Response Simulation at Dubai Marin"
+          },
+          {
+            "event": "done",
+            "t": "2026-11-01T17:16:01.150Z",
+            "summary": "{\"result\":{\"ok\":true,\"plan\":{\"version\":1,\"title\":\"Cinematic Hypothetical Police Response Simulation at Dubai Marina\",\"illustrative\":true,\"durationSec\":60,\"location\":{\"name\":\"Dubai Marina\",\"lat\":25.0786415,\"lon\":55.1352524,\"sourceUrl\":\"https://nominatim.openstreetmap.org/search\"},\"camera\":{\"distanceM\":900,\"heading\":180,\"pitch\":-35,\"framing\":\"medium\"},\"entities\":[{\"id\":\"command_post\",\"type\":\"person\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "I",
+      "viewport": "390x844",
+      "status": "passed",
+      "reason": null,
+      "durationSec": 10,
+      "screenshots": [],
+      "metrics": null,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "failedRequests": [
+        {
+          "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/setup/status",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "runStateDetail": {
+        "runState": "failed",
+        "stage": "A",
+        "sceneVersion": 0,
+        "error": "model_unavailable",
+        "model": null,
+        "invalid": [],
+        "entities": 0,
+        "tail": [
+          {
+            "event": "run.started",
+            "t": "2026-11-01T17:16:53.065Z",
+            "summary": "{\"runId\":\"b6ce3ee0-1abd-4623-b126-9972cee83d54\",\"sceneId\":\"scene-b6ce3ee0-1abd-4623-b126-9972cee83d54\",\"sceneVersion\":0,\"seq\":1,\"mode\":\"cinematic_simulation\",\"origin\":{\"name\":\"Burj Khalifa\",\"lat\":25.1970336,\"lon\":55.2741329,\"approximate\":false},\"title\":\"Police response simulation at Burj Khalifa, Downtown Dubai\",\"t\":\"2026-11-01T17:16:53.065Z\",\"elapsedMs\":2}"
+          },
+          {
+            "event": "run.failed",
+            "t": "2026-11-01T17:16:53.325Z",
+            "summary": "{\"runId\":\"b6ce3ee0-1abd-4623-b126-9972cee83d54\",\"sceneId\":\"scene-b6ce3ee0-1abd-4623-b126-9972cee83d54\",\"sceneVersion\":0,\"seq\":2,\"code\":\"model_unavailable\",\"message\":\"Requested endpoint predefined-does-not-exist is not available in the live OnDemand registry.\",\"t\":\"2026-11-01T17:16:53.325Z\",\"elapsedMs\":262}"
+          },
+          {
+            "event": "error",
+            "t": "2026-11-01T17:16:53.325Z",
+            "summary": "{\"code\":\"model_unavailable\",\"message\":\"Requested endpoint predefined-does-not-exist is not available in the live OnDemand registry.\",\"t\":\"2026-11-01T17:16:53.325Z\",\"elapsedMs\":262}"
+          }
+        ]
+      }
+    }
+  ]
+}

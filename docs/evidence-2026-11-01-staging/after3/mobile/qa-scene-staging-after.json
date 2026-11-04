@@ -1,0 +1,817 @@
+{
+  "url": "https://ondemand-agent-hw1klznal-schoolhack-web-team.vercel.app",
+  "mode": "after",
+  "startedUtc": "2026-11-01T06:07:07.474Z",
+  "timeoutSec": 300,
+  "viewports": {
+    "390x844": {
+      "width": 390,
+      "height": 844,
+      "prompts": [
+        "police raid at Burj Al Arab",
+        "kanes boxing gym abu dhabi police raid",
+        "im doing a raid in the dubai marina",
+        "Dubai Run on Sheikh Zayed Road"
+      ]
+    }
+  },
+  "perPrompt": [
+    {
+      "prompt": "police raid at Burj Al Arab",
+      "viewport": "390x844",
+      "startedUtc": "2026-11-01T06:07:15.647Z",
+      "booted": true,
+      "callsAfterTyping": 0,
+      "constructCalls": 1,
+      "constructError": null,
+      "driveError": null,
+      "formState": "done",
+      "timedOut": false,
+      "spec": {
+        "scenarioType": "police_raid",
+        "focalEntity": {
+          "name": "Burj Al Arab",
+          "kind": "building"
+        },
+        "elements": [
+          {
+            "type": "inner_cordon",
+            "params": {
+              "radius_m": 80
+            }
+          },
+          {
+            "type": "outer_cordon",
+            "params": {
+              "radius_m": 250
+            }
+          },
+          {
+            "type": "approach_route",
+            "params": {
+              "count": 3
+            }
+          },
+          {
+            "type": "egress_route",
+            "params": {
+              "count": 1
+            }
+          },
+          {
+            "type": "staging_point",
+            "params": {
+              "count": 1
+            }
+          },
+          {
+            "type": "perimeter_unit",
+            "params": {
+              "count": 4
+            }
+          },
+          {
+            "type": "cones",
+            "params": {
+              "count": 20,
+              "spacing_m": 5
+            }
+          },
+          {
+            "type": "barriers",
+            "params": {
+              "count": 10,
+              "spacing_m": 10
+            }
+          },
+          {
+            "type": "cctv_signal",
+            "params": {
+              "count": 4
+            }
+          }
+        ],
+        "confidence": 0.95
+      },
+      "specValid": true,
+      "specIssues": [],
+      "modelUsed": {
+        "provider": "ondemand",
+        "id": "predefined-cerebras-qwen-3.8-27b",
+        "latencyMs": 2736,
+        "attempts": [
+          {
+            "provider": "ondemand",
+            "id": "predefined-cerebras-qwen-3.8-27b",
+            "ok": true,
+            "ms": 2736
+          }
+        ],
+        "repaired": false,
+        "endpointId": "predefined-cerebras-qwen-3.8-27b",
+        "reasons": []
+      },
+      "timing": {
+        "specMs": 2736,
+        "overpassMs": 1718,
+        "routingMs": 0,
+        "geometryMs": 59,
+        "totalMs": 4513
+      },
+      "specMs": 2736,
+      "geometryMs": 59,
+      "renderMs": 1070,
+      "totalMs": 4513,
+      "totalWallMs": 119465,
+      "layerCounts": {
+        "areas": 3,
+        "lines": 4,
+        "points": 152,
+        "labels": 8
+      },
+      "raidAssertions": {
+        "lines": 4,
+        "innerCordon": true,
+        "outerCordon": true
+      },
+      "sceneStaging": {
+        "status": "staged",
+        "scenario": "police_raid",
+        "counts": {
+          "focal": 1,
+          "inner_cordon": 1,
+          "outer_cordon": 1,
+          "approach_route": 3,
+          "egress_route": 1,
+          "cones": 97,
+          "barriers": 49,
+          "perimeter_unit": 4,
+          "staging_point": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1,
+        "model": {
+          "provider": "ondemand",
+          "id": "predefined-cerebras-qwen-3.8-27b",
+          "latencyMs": 2736
+        },
+        "labels": 8
+      },
+      "resultKeys": [
+        "ok",
+        "plan",
+        "geometry",
+        "staging",
+        "credentialRequest",
+        "locationResolution",
+        "anchor",
+        "revision",
+        "requestId",
+        "research",
+        "provenance"
+      ],
+      "labelFontPx": 13,
+      "haloWidth": 4,
+      "labelOverlaps": 0,
+      "labelCount": 8,
+      "visibleLabelCount": 8,
+      "projectedLabels": 8,
+      "labelTexts": [
+        "Burj Al Arab",
+        "Inner cordon · 80 m",
+        "Outer cordon · 250 m",
+        "Staging point (N)",
+        "Approach route 1",
+        "Approach route 2",
+        "Approach route 3",
+        "Egress route (out)"
+      ],
+      "stagingSourceFound": true,
+      "badgeCount": 1,
+      "badgeVisible": true,
+      "illustrativeLabelCount": 0,
+      "citationTokenLabels": 0,
+      "panel": {
+        "title": "Burj Al Arab: illustrative, non-operational police-scene overview",
+        "summary": "Police raid (illustrative) around Burj Al Arab Jumeirah: inner and outer cordons, 3 approach routes, an egress route, 4 perimeter units, 97 cones, 49 barriers.",
+        "scenario": "Police raid (illustrative)",
+        "locationBadge": "verified",
+        "elements": [
+          "Inner cordon× 1",
+          "Outer cordon× 1",
+          "Approach routes× 3",
+          "Egress route× 1",
+          "Staging point× 1",
+          "Perimeter units× 4",
+          "Traffic cones× 97",
+          "Barriers× 49",
+          "Camera / signal markersnot derived"
+        ],
+        "sourcesCount": 3,
+        "caveat": "Illustrative staging derived from OpenStreetMap data and a scenario template — not a verified deployment, operation or incident.",
+        "builtLine": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 2736 ms",
+        "builtLatencyMs": "2736",
+        "builtTotalMs": "4513",
+        "hasCitationTokens": false
+      },
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404
+        },
+        {
+          "url": "/api/ondemand/v2/summaries/hud",
+          "status": 409
+        }
+      ],
+      "screenshot": "after-police-raid-at-burj-al-arab-390x844.png",
+      "pass": true,
+      "failures": [],
+      "finishedUtc": "2026-11-01T06:09:20.903Z"
+    },
+    {
+      "prompt": "kanes boxing gym abu dhabi police raid",
+      "viewport": "390x844",
+      "startedUtc": "2026-11-01T06:09:25.729Z",
+      "booted": true,
+      "callsAfterTyping": 0,
+      "constructCalls": 1,
+      "constructError": null,
+      "driveError": null,
+      "formState": "done",
+      "timedOut": false,
+      "spec": {
+        "scenarioType": "police_raid",
+        "focalEntity": {
+          "name": "kanes boxing gym abu dhabi",
+          "kind": "building"
+        },
+        "elements": [
+          {
+            "type": "inner_cordon",
+            "params": {
+              "radius_m": 40
+            }
+          },
+          {
+            "type": "outer_cordon",
+            "params": {
+              "radius_m": 120
+            }
+          },
+          {
+            "type": "approach_route",
+            "params": {
+              "count": 3
+            }
+          },
+          {
+            "type": "egress_route",
+            "params": {
+              "count": 1
+            }
+          },
+          {
+            "type": "staging_point",
+            "params": {
+              "count": 1
+            }
+          },
+          {
+            "type": "perimeter_unit",
+            "params": {
+              "count": 4
+            }
+          },
+          {
+            "type": "cones",
+            "params": {
+              "count": 20,
+              "spacing_m": 5
+            }
+          },
+          {
+            "type": "barriers",
+            "params": {
+              "count": 8,
+              "spacing_m": 10
+            }
+          },
+          {
+            "type": "cctv_signal",
+            "params": {
+              "count": 4
+            }
+          }
+        ],
+        "confidence": 0.95
+      },
+      "specValid": true,
+      "specIssues": [],
+      "modelUsed": {
+        "provider": "ondemand",
+        "id": "predefined-cerebras-qwen-3.8-27b",
+        "latencyMs": 2824,
+        "attempts": [
+          {
+            "provider": "ondemand",
+            "id": "predefined-cerebras-qwen-3.8-27b",
+            "ok": true,
+            "ms": 2824
+          }
+        ],
+        "repaired": false,
+        "endpointId": "predefined-cerebras-qwen-3.8-27b",
+        "reasons": []
+      },
+      "timing": {
+        "specMs": 2824,
+        "overpassMs": 1964,
+        "routingMs": 118,
+        "geometryMs": 77,
+        "totalMs": 4984
+      },
+      "specMs": 2824,
+      "geometryMs": 77,
+      "renderMs": 1618,
+      "totalMs": 4984,
+      "totalWallMs": 96643,
+      "layerCounts": {
+        "areas": 3,
+        "lines": 4,
+        "points": 246,
+        "labels": 8
+      },
+      "raidAssertions": {
+        "lines": 4,
+        "innerCordon": true,
+        "outerCordon": true
+      },
+      "sceneStaging": {
+        "status": "staged",
+        "scenario": "police_raid",
+        "counts": {
+          "focal": 1,
+          "inner_cordon": 1,
+          "outer_cordon": 1,
+          "approach_route": 3,
+          "egress_route": 1,
+          "cones": 160,
+          "barriers": 80,
+          "perimeter_unit": 4,
+          "staging_point": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1,
+        "model": {
+          "provider": "ondemand",
+          "id": "predefined-cerebras-qwen-3.8-27b",
+          "latencyMs": 2824
+        },
+        "labels": 8
+      },
+      "resultKeys": [
+        "ok",
+        "plan",
+        "geometry",
+        "staging",
+        "credentialRequest",
+        "locationResolution",
+        "anchor",
+        "revision",
+        "requestId",
+        "research",
+        "provenance"
+      ],
+      "labelFontPx": 13,
+      "haloWidth": 4,
+      "labelOverlaps": 0,
+      "labelCount": 8,
+      "visibleLabelCount": 7,
+      "projectedLabels": 7,
+      "labelTexts": [
+        "kanes boxing gym abu dhabi",
+        "Inner cordon · 40 m",
+        "Outer cordon · 120 m",
+        "Staging point (N)",
+        "Approach route 1",
+        "Approach route 2",
+        "Egress route (out)"
+      ],
+      "stagingSourceFound": true,
+      "badgeCount": 1,
+      "badgeVisible": true,
+      "illustrativeLabelCount": 0,
+      "citationTokenLabels": 0,
+      "panel": {
+        "title": "overview near an approximate Abu Dhabi location",
+        "summary": "Police raid (illustrative) around kanes boxing gym abu dhabi: inner and outer cordons, 3 approach routes, an egress route, 4 perimeter units, 160 cones, 80 barriers.",
+        "scenario": "Police raid (illustrative)",
+        "locationBadge": "approximate",
+        "elements": [
+          "Inner cordon× 1",
+          "Outer cordon× 1",
+          "Approach routes× 3",
+          "Egress route× 1",
+          "Staging point× 1",
+          "Perimeter units× 4",
+          "Traffic cones× 160",
+          "Barriers× 80",
+          "Camera / signal markersnot derived"
+        ],
+        "sourcesCount": 1,
+        "caveat": "Illustrative staging derived from OpenStreetMap data and a scenario template — not a verified deployment, operation or incident.",
+        "builtLine": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 2824 ms",
+        "builtLatencyMs": "2824",
+        "builtTotalMs": "4984",
+        "hasCitationTokens": false
+      },
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404
+        }
+      ],
+      "screenshot": "after-kanes-boxing-gym-abu-dhabi-police-raid-390x844.png",
+      "pass": true,
+      "failures": [],
+      "finishedUtc": "2026-11-01T06:11:09.228Z"
+    },
+    {
+      "prompt": "im doing a raid in the dubai marina",
+      "viewport": "390x844",
+      "startedUtc": "2026-11-01T06:11:14.582Z",
+      "booted": true,
+      "callsAfterTyping": 0,
+      "constructCalls": 1,
+      "constructError": null,
+      "driveError": null,
+      "formState": "done",
+      "timedOut": false,
+      "spec": {
+        "scenarioType": "police_raid",
+        "focalEntity": {
+          "name": "dubai marina",
+          "kind": "area"
+        },
+        "elements": [
+          {
+            "type": "inner_cordon",
+            "params": {
+              "radius_m": 80
+            }
+          },
+          {
+            "type": "outer_cordon",
+            "params": {
+              "radius_m": 250
+            }
+          },
+          {
+            "type": "approach_route",
+            "params": {
+              "count": 3
+            }
+          },
+          {
+            "type": "egress_route",
+            "params": {
+              "count": 1
+            }
+          },
+          {
+            "type": "staging_point",
+            "params": {
+              "count": 1
+            }
+          },
+          {
+            "type": "perimeter_unit",
+            "params": {
+              "count": 4
+            }
+          },
+          {
+            "type": "cones",
+            "params": {
+              "count": 20,
+              "spacing_m": 8
+            }
+          },
+          {
+            "type": "barriers",
+            "params": {
+              "count": 8,
+              "spacing_m": 10
+            }
+          },
+          {
+            "type": "cctv_signal",
+            "params": {
+              "count": 4
+            }
+          }
+        ],
+        "confidence": 0.95
+      },
+      "specValid": true,
+      "specIssues": [],
+      "modelUsed": {
+        "provider": "ondemand",
+        "id": "predefined-cerebras-qwen-3.8-27b",
+        "latencyMs": 3343,
+        "attempts": [
+          {
+            "provider": "ondemand",
+            "id": "predefined-cerebras-qwen-3.8-27b",
+            "ok": true,
+            "ms": 3343
+          }
+        ],
+        "repaired": false,
+        "endpointId": "predefined-cerebras-qwen-3.8-27b",
+        "reasons": []
+      },
+      "timing": {
+        "specMs": 3343,
+        "overpassMs": 1134,
+        "routingMs": 349,
+        "geometryMs": 70,
+        "totalMs": 4897
+      },
+      "specMs": 3343,
+      "geometryMs": 70,
+      "renderMs": 1199,
+      "totalMs": 4897,
+      "totalWallMs": 91147,
+      "layerCounts": {
+        "areas": 3,
+        "lines": 4,
+        "points": 246,
+        "labels": 8
+      },
+      "raidAssertions": {
+        "lines": 4,
+        "innerCordon": true,
+        "outerCordon": true
+      },
+      "sceneStaging": {
+        "status": "staged",
+        "scenario": "police_raid",
+        "counts": {
+          "focal": 1,
+          "inner_cordon": 1,
+          "outer_cordon": 1,
+          "approach_route": 3,
+          "egress_route": 1,
+          "cones": 160,
+          "barriers": 80,
+          "perimeter_unit": 4,
+          "staging_point": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1,
+        "model": {
+          "provider": "ondemand",
+          "id": "predefined-cerebras-qwen-3.8-27b",
+          "latencyMs": 3343
+        },
+        "labels": 8
+      },
+      "resultKeys": [
+        "ok",
+        "plan",
+        "geometry",
+        "staging",
+        "credentialRequest",
+        "locationResolution",
+        "anchor",
+        "revision",
+        "requestId",
+        "research",
+        "provenance"
+      ],
+      "labelFontPx": 13,
+      "haloWidth": 4,
+      "labelOverlaps": 0,
+      "labelCount": 8,
+      "visibleLabelCount": 7,
+      "projectedLabels": 7,
+      "labelTexts": [
+        "dubai marina",
+        "Inner cordon · 80 m",
+        "Outer cordon · 250 m",
+        "Staging point (N)",
+        "Approach route 1",
+        "Approach route 3",
+        "Egress route (out)"
+      ],
+      "stagingSourceFound": true,
+      "badgeCount": 1,
+      "badgeVisible": true,
+      "illustrativeLabelCount": 0,
+      "citationTokenLabels": 0,
+      "panel": {
+        "title": "Dubai Marina — illustrative, non-operational overview",
+        "summary": "Police raid (illustrative) around dubai marina: inner and outer cordons, 3 approach routes, an egress route, 4 perimeter units, 160 cones, 80 barriers.",
+        "scenario": "Police raid (illustrative)",
+        "locationBadge": "verified",
+        "elements": [
+          "Inner cordon× 1",
+          "Outer cordon× 1",
+          "Approach routes× 3",
+          "Egress route× 1",
+          "Staging point× 1",
+          "Perimeter units× 4",
+          "Traffic cones× 160",
+          "Barriers× 80",
+          "Camera / signal markersnot derived"
+        ],
+        "sourcesCount": 2,
+        "caveat": "Illustrative staging derived from OpenStreetMap data and a scenario template — not a verified deployment, operation or incident.",
+        "builtLine": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 3343 ms",
+        "builtLatencyMs": "3343",
+        "builtTotalMs": "4897",
+        "hasCitationTokens": false
+      },
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404
+        },
+        {
+          "url": "/api/ondemand/v2/summaries/hud",
+          "status": 409
+        }
+      ],
+      "screenshot": "after-im-doing-a-raid-in-the-dubai-marina-390x844.png",
+      "pass": true,
+      "failures": [],
+      "finishedUtc": "2026-11-01T06:12:52.484Z"
+    },
+    {
+      "prompt": "Dubai Run on Sheikh Zayed Road",
+      "viewport": "390x844",
+      "startedUtc": "2026-11-01T06:12:58.123Z",
+      "booted": true,
+      "callsAfterTyping": 0,
+      "constructCalls": 1,
+      "constructError": null,
+      "driveError": null,
+      "formState": "done",
+      "timedOut": false,
+      "spec": {
+        "scenarioType": "crowd_event",
+        "focalEntity": {
+          "name": "Dubai Run Sheikh Zayed Road",
+          "kind": "event"
+        },
+        "elements": [
+          {
+            "type": "route_line",
+            "params": {}
+          },
+          {
+            "type": "start_finish",
+            "params": {}
+          },
+          {
+            "type": "crowd_zone",
+            "params": {}
+          },
+          {
+            "type": "barriers",
+            "params": {}
+          }
+        ],
+        "confidence": 0.9
+      },
+      "specValid": true,
+      "specIssues": [],
+      "modelUsed": {
+        "provider": "ondemand",
+        "id": "predefined-cerebras-qwen-3.8-27b",
+        "latencyMs": 4403,
+        "attempts": [
+          {
+            "provider": "ondemand",
+            "id": "predefined-cerebras-qwen-3.8-27b",
+            "ok": true,
+            "ms": 4401
+          }
+        ],
+        "repaired": false,
+        "endpointId": "predefined-cerebras-qwen-3.8-27b",
+        "reasons": []
+      },
+      "timing": {
+        "specMs": 4403,
+        "overpassMs": 3369,
+        "routingMs": 0,
+        "geometryMs": 2,
+        "totalMs": 7776
+      },
+      "specMs": 4403,
+      "geometryMs": 2,
+      "renderMs": 2008,
+      "totalMs": 7776,
+      "totalWallMs": 156220,
+      "layerCounts": {
+        "areas": 2,
+        "lines": 1,
+        "points": 53,
+        "labels": 3
+      },
+      "raidAssertions": null,
+      "sceneStaging": {
+        "status": "staged",
+        "scenario": "crowd_event",
+        "counts": {
+          "focal": 1,
+          "crowd_zone": 1,
+          "route_line": 1,
+          "barriers": 51,
+          "start_finish": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1,
+        "model": {
+          "provider": "ondemand",
+          "id": "predefined-cerebras-qwen-3.8-27b",
+          "latencyMs": 4403
+        },
+        "labels": 3
+      },
+      "resultKeys": [
+        "ok",
+        "plan",
+        "geometry",
+        "staging",
+        "credentialRequest",
+        "locationResolution",
+        "anchor",
+        "revision",
+        "requestId",
+        "research",
+        "provenance"
+      ],
+      "labelFontPx": 13,
+      "haloWidth": 4,
+      "labelOverlaps": 0,
+      "labelCount": 3,
+      "visibleLabelCount": 3,
+      "projectedLabels": 3,
+      "labelTexts": [
+        "Dubai Run Sheikh Zayed Road",
+        "Sheikh Zayed Road",
+        "Start / finish"
+      ],
+      "stagingSourceFound": true,
+      "badgeCount": 1,
+      "badgeVisible": true,
+      "illustrativeLabelCount": 0,
+      "citationTokenLabels": 0,
+      "panel": {
+        "title": "Dubai Run — Illustrative Sheikh Zayed Road Start",
+        "summary": "Crowd / mass-participation event (illustrative) around Dubai Run — Sheikh Zayed Road starting area: 51 barriers, a routed course corridor, 1 crowd zones.",
+        "scenario": "Crowd / mass-participation event (illustrative)",
+        "locationBadge": "approximate",
+        "elements": [
+          "Route corridor× 1",
+          "Start / finish× 1",
+          "Crowd zones× 1",
+          "Barriers× 51"
+        ],
+        "sourcesCount": 5,
+        "caveat": "Illustrative staging derived from OpenStreetMap data and a scenario template — not a verified deployment, operation or incident.",
+        "builtLine": "Built with OnDemand predefined-cerebras-qwen-3.8-27b in 4403 ms",
+        "builtLatencyMs": "4403",
+        "builtTotalMs": "7776",
+        "hasCitationTokens": false
+      },
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404
+        },
+        {
+          "url": "/api/ondemand/v2/summaries/hud",
+          "status": 409
+        }
+      ],
+      "screenshot": "after-dubai-run-on-sheikh-zayed-road-390x844.png",
+      "pass": true,
+      "failures": [],
+      "finishedUtc": "2026-11-01T06:15:40.785Z"
+    }
+  ],
+  "summary": {
+    "pass": 4,
+    "fail": 0
+  },
+  "finishedUtc": "2026-11-01T06:15:40.843Z"
+}

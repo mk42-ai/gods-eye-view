@@ -1,0 +1,65 @@
+{
+ "createchatsession": {
+  "fetchedAt": "2026-11-02T00:3xZ",
+  "security": {
+   "apikey": {
+    "type": "apiKey",
+    "in": "header",
+    "name": "apikey"
+   }
+  },
+  "operations": [
+   {
+    "method": "POST",
+    "path": "/chat/v1/sessions",
+    "server": "https://api.on-demand.io",
+    "required": [
+     "externalUserId"
+    ],
+    "bodyFields": [
+     "externalUserId",
+     "pluginIds"
+    ],
+    "pathParams": []
+   }
+  ]
+ },
+ "submitquery": {
+  "fetchedAt": "2026-11-02T00:3xZ",
+  "security": {
+   "apikey": {
+    "type": "apiKey",
+    "in": "header",
+    "name": "apikey"
+   }
+  },
+  "operations": [
+   {
+    "method": "POST",
+    "path": "/chat/v1/sessions/{sessionId}/query",
+    "server": "https://api.on-demand.io",
+    "required": [
+     "query",
+     "endpointId",
+     "responseMode"
+    ],
+    "bodyFields": [
+     "query",
+     "endpointId",
+     "responseMode",
+     "pluginIds",
+     "fulfillmentOnly",
+     "modelConfigs"
+    ],
+    "pathParams": [
+     "sessionId"
+    ]
+   }
+  ]
+ },
+ "_meta": {
+  "fetchedAtUtc": "2026-11-02T00:42:58.698427Z",
+  "source": "GET https://api.on-demand.io/config/v1/public/docs/reference/api/<slug> (apikey header)",
+  "note": "Live public docs; apikey never recorded."
+ }
+}

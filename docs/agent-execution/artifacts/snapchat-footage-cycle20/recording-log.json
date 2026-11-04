@@ -1,0 +1,133 @@
+[
+  {
+    "utc": "2026-10-27T04:07:27.662Z",
+    "event": "recording-start"
+  },
+  {
+    "utc": "2026-10-27T04:08:05.110Z",
+    "event": "BUILD SCENE clicked: Dubai Marina"
+  },
+  {
+    "utc": "2026-10-27T04:08:41.275Z",
+    "event": "footage playing: Dubai Marina",
+    "a": {
+      "rs": 4,
+      "t": 1.640911,
+      "muted": true,
+      "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ",
+      "locationId": "snap-dubai-marina",
+      "clips": 1
+    },
+    "b": {
+      "rs": 4,
+      "t": 8.661724,
+      "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+    }
+  },
+  {
+    "utc": "2026-10-27T04:08:41.395Z",
+    "event": "CHECK NOW clicked (refresh): Dubai Marina"
+  },
+  {
+    "utc": "2026-10-27T04:09:01.413Z",
+    "event": "refresh done: Dubai Marina",
+    "state": {
+      "lastCheckedAt": "2026-10-27T04:09:01.043Z",
+      "keptClip": true,
+      "clips": 1,
+      "t": 12.617086
+    }
+  },
+  {
+    "utc": "2026-10-27T04:09:18.983Z",
+    "event": "BUILD SCENE clicked: Burj Khalifa"
+  },
+  {
+    "utc": "2026-10-27T04:09:56.565Z",
+    "event": "footage playing: Burj Khalifa",
+    "a": {
+      "rs": 4,
+      "t": 0.595491,
+      "muted": true,
+      "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ",
+      "locationId": "snap-burj-khalifa",
+      "clips": 3
+    },
+    "b": {
+      "rs": 4,
+      "t": 7.599529,
+      "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYcXFhY3RnamljAaD3UdZ4AaD3UdZFAAAAAQ"
+    }
+  },
+  {
+    "utc": "2026-10-27T04:10:01.123Z",
+    "event": "clip selector → second clip: Burj Khalifa",
+    "video": {
+      "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbm50aGh2Ymd2AaCFkW5PAaCFkWC8AAAAAw",
+      "rs": 4,
+      "t": 4.365407
+    }
+  },
+  {
+    "utc": "2026-10-27T04:10:01.221Z",
+    "event": "CHECK NOW clicked (refresh): Burj Khalifa"
+  },
+  {
+    "utc": "2026-10-27T04:10:37.768Z",
+    "event": "refresh done: Burj Khalifa",
+    "state": {
+      "lastCheckedAt": "2026-10-27T04:10:37.397Z",
+      "keptClip": true,
+      "clips": 3,
+      "t": 11.769354
+    }
+  },
+  {
+    "utc": "2026-10-27T04:10:56.314Z",
+    "event": "BUILD SCENE clicked: Downtown Dubai"
+  },
+  {
+    "utc": "2026-10-27T04:11:37.756Z",
+    "event": "footage playing: Downtown Dubai",
+    "a": {
+      "rs": 4,
+      "t": 0.614177,
+      "muted": true,
+      "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ",
+      "locationId": "snap-downtown-dubai",
+      "clips": 3
+    },
+    "b": {
+      "rs": 4,
+      "t": 7.619256,
+      "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYemlsYnJ6aXFqAaEqCNWXAaEqCJzTAAAAAQ"
+    }
+  },
+  {
+    "utc": "2026-10-27T04:11:42.350Z",
+    "event": "clip selector → second clip: Downtown Dubai",
+    "video": {
+      "clipId": "snap-W7_EDlXWTBiXAEEniNoMPwAAYbG9wc2Z4dmNqAZu2kUxyAZu2kUxEAAAAAQ",
+      "rs": 4,
+      "t": 4.33416
+    }
+  },
+  {
+    "utc": "2026-10-27T04:11:42.532Z",
+    "event": "CHECK NOW clicked (refresh): Downtown Dubai"
+  },
+  {
+    "utc": "2026-10-27T04:12:11.572Z",
+    "event": "refresh done: Downtown Dubai",
+    "state": {
+      "lastCheckedAt": "2026-10-27T04:12:11.235Z",
+      "keptClip": true,
+      "clips": 3,
+      "t": 1.5584
+    }
+  },
+  {
+    "utc": "2026-10-27T04:14:10.540Z",
+    "event": "recording-stop"
+  }
+]

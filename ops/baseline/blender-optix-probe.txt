@@ -1,0 +1,19 @@
+Fra:1 Mem:10.97M (Peak 10.97M) | Time:00:00.52 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Cube
+Fra:1 Mem:10.97M (Peak 10.97M) | Time:00:00.52 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:10.79M (Peak 10.97M) | Time:00:00.52 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:10.79M (Peak 10.97M) | Time:00:00.52 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+ls: cannot access '/tmp/gev_probe.png': No such file or directory
+exit=0
+Fra:1 Mem:10.88M (Peak 37.72M) | Time:04:12.29 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Geometry BVH Cube 1/1 | Building OptiX acceleration structure
+Fra:1 Mem:10.88M (Peak 37.72M) | Time:04:12.29 | Mem:0.01M, Peak:0.01M | Scene, ViewLayer | Updating Scene BVH | Building OptiX acceleration structure
+Fra:1 Mem:27.39M (Peak 37.72M) | Time:04:12.30 | Mem:1419.10M, Peak:1419.10M | Scene, ViewLayer | Sample 0/32
+Fra:1 Mem:94.19M (Peak 94.19M) | Time:04:12.30 | Remaining:00:00.07 | Mem:1485.90M, Peak:1485.90M | Scene, ViewLayer | Sample 1/32
+Fra:1 Mem:122.32M (Peak 164.51M) | Time:04:12.62 | Mem:1928.86M, Peak:1949.95M | Scene, ViewLayer | Sample 32/32
+DEV NVIDIA H100 80GB HBM3 CUDA False CUDA_NVIDIA H100 80GB HBM3_0000:45:00
+DEV Intel Xeon Platinum 8480+ CPU False CPU
+DEV NVIDIA H100 80GB HBM3 OPTIX True CUDA_NVIDIA H100 80GB HBM3_0000:45:00_OptiX
+RENDER_S 252.9
+RENDER_S 252.9
+
+Blender quit
+-rw-rw-r-- 1 mk.thomas mk.thomas 472599 Nov  3 09:04 /tmp/gev_probe.png

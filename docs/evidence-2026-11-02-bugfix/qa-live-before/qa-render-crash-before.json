@@ -1,0 +1,193 @@
+{
+  "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app",
+  "label": "before",
+  "prompt": "kanes boxing gym abu dhabi",
+  "cycles": 1,
+  "viewport": "1440x900",
+  "startedUtc": "2026-11-02T10:21:22.393Z",
+  "finishedUtc": "2026-11-02T10:27:34.124Z",
+  "results": [
+    {
+      "cycle": 1,
+      "prompt": "kanes boxing gym abu dhabi",
+      "startedUtc": "2026-11-02T10:21:29.478Z",
+      "heapBeforeMb": 61,
+      "heapAfterBuildMb": 73.3,
+      "heapAfterPlayMb": 232.1,
+      "buildMs": 108668,
+      "runState": "succeeded",
+      "errorPanel": null,
+      "recovery": null,
+      "budget": null,
+      "fps": 5,
+      "playDisabledBeforePlay": false,
+      "playbackAfterPlay": {
+        "state": "playing",
+        "positionSec": 2.8236000000179047,
+        "durationSec": 60,
+        "speed": 1,
+        "cameraMode": "cinematic",
+        "followEntityId": null,
+        "live": false
+      },
+      "screenshots": [
+        "before-c1-built.png",
+        "before-c1-playing.png"
+      ],
+      "consoleErrorsDelta": 0,
+      "status": "passed",
+      "invalid": 0,
+      "entities": 4,
+      "errorPanelAfterPlay": null,
+      "recoveryAfterPlay": null,
+      "consoleErrors": [],
+      "finishedUtc": "2026-11-02T10:23:28.986Z"
+    }
+  ],
+  "extra": [
+    {
+      "cycle": 2,
+      "prompt": "im doinga. raid in the dubai marina",
+      "startedUtc": "2026-11-02T10:23:28.987Z",
+      "heapBeforeMb": 136.3,
+      "heapAfterBuildMb": 97.5,
+      "heapAfterPlayMb": 102.5,
+      "buildMs": 110466,
+      "runState": "succeeded",
+      "errorPanel": null,
+      "recovery": null,
+      "budget": null,
+      "fps": 2,
+      "playDisabledBeforePlay": false,
+      "playbackAfterPlay": {
+        "state": "paused",
+        "positionSec": 60,
+        "durationSec": 60,
+        "speed": 1,
+        "cameraMode": "cinematic",
+        "followEntityId": null,
+        "live": false
+      },
+      "screenshots": [
+        "before-c2-built.png",
+        "before-c2-playing.png"
+      ],
+      "consoleErrorsDelta": 0,
+      "status": "passed",
+      "invalid": 0,
+      "entities": 11,
+      "errorPanelAfterPlay": null,
+      "recoveryAfterPlay": null,
+      "consoleErrors": [],
+      "finishedUtc": "2026-11-02T10:25:31.198Z"
+    },
+    {
+      "cycle": 3,
+      "prompt": "car crash outside yas mall",
+      "startedUtc": "2026-11-02T10:25:31.198Z",
+      "heapBeforeMb": 102.5,
+      "heapAfterBuildMb": 122.5,
+      "heapAfterPlayMb": 100.8,
+      "buildMs": 109135,
+      "runState": "succeeded",
+      "errorPanel": null,
+      "recovery": null,
+      "budget": null,
+      "fps": 4,
+      "playDisabledBeforePlay": false,
+      "playbackAfterPlay": {
+        "state": "playing",
+        "positionSec": 2.286500000001979,
+        "durationSec": 60,
+        "speed": 1,
+        "cameraMode": "cinematic",
+        "followEntityId": null,
+        "live": false
+      },
+      "screenshots": [
+        "before-c3-built.png",
+        "before-c3-playing.png"
+      ],
+      "consoleErrorsDelta": 0,
+      "status": "passed",
+      "invalid": 0,
+      "entities": 16,
+      "errorPanelAfterPlay": null,
+      "recoveryAfterPlay": null,
+      "consoleErrors": [],
+      "finishedUtc": "2026-11-02T10:27:31.092Z"
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "renderErrorPanels": 0,
+    "heapSeriesMb": [
+      232.1
+    ],
+    "consoleErrorsTotal": 1,
+    "failedRequests": [
+      {
+        "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/setup/status",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/ondemand/v2/scene/evidence",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/ondemand/v2/scene/evidence",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  "initialProbe": {
+    "errorPanel": null,
+    "recoveryToast": null,
+    "render": null,
+    "budget": null,
+    "heapMb": 49.8,
+    "heapLimitMb": 4192,
+    "runState": "idle",
+    "sceneVersion": 0,
+    "entities": null,
+    "invalid": 0,
+    "playback": {
+      "state": "paused",
+      "positionSec": 0,
+      "durationSec": 86400,
+      "speed": 1,
+      "cameraMode": "cinematic",
+      "followEntityId": null,
+      "live": false
+    },
+    "playDisabled": false
+  },
+  "screenshotsInitial": [
+    "before-initial.png"
+  ],
+  "spaceShortcut": {
+    "before": {
+      "state": "playing",
+      "positionSec": 2.286500000001979,
+      "durationSec": 60,
+      "speed": 1,
+      "cameraMode": "cinematic",
+      "followEntityId": null,
+      "live": false
+    },
+    "afterPause": "paused",
+    "afterSpace": {
+      "state": "paused",
+      "positionSec": 2.286500000001979,
+      "durationSec": 60,
+      "speed": 1,
+      "cameraMode": "cinematic",
+      "followEntityId": null,
+      "live": false
+    }
+  },
+  "screenshotsFinal": [
+    "before-final.png"
+  ]
+}

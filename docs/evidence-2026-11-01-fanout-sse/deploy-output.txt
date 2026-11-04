@@ -1,0 +1,13 @@
+2026-11-01T09:55:52Z
+deploying to Vercel; a cold build takes minutes...
+DEPLOYMENT_ID: dpl_6isgdz7F3A6apmUMwciiYzU2A8hM
+PREVIEW_URL: https://ondemand-agent-hgrybwgt6-schoolhack-web-team.vercel.app
+exit 0
+2026-11-01T09:57:16Z
+2026-11-01T10:44:48Z
+deploy #2 (after live-QA fixes: sparse-spec top-up, fan-out wired into the route, telemetry non-enumerable)
+deploying to Vercel; a cold build takes minutes...
+DEPLOYMENT_ID: dpl_FwuDoiN3vit4m8iVjXbocf1h5Cdd
+PREVIEW_URL: https://ondemand-agent-4nv1jlmuy-schoolhack-web-team.vercel.app
+exit 0
+2026-11-01T10:46:09Z

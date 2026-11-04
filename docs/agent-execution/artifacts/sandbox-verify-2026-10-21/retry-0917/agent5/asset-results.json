@@ -1,0 +1,829 @@
+[
+  {
+    "file": "mark-primary.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 828607,
+    "sha256": "43abf5cc21779088c665d9b9b3d9e58f28d08e20974d75716304b637b919bd3d",
+    "catalog_sha256": "43abf5cc21779088c665d9b9b3d9e58f28d08e20974d75716304b637b919bd3d",
+    "catalog_bytes": 828607,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 0,
+    "ocr_psm11_text": "<>",
+    "ocr_psm6_text": "",
+    "ocr_no_text": true,
+    "hough_circles": 198,
+    "concentric_pairs": 7,
+    "concentric_detail": [
+      [
+        505,
+        482,
+        214,
+        87,
+        0.407
+      ],
+      [
+        508,
+        475,
+        206,
+        71,
+        0.345
+      ],
+      [
+        531,
+        517,
+        172,
+        64,
+        0.372
+      ],
+      [
+        487,
+        524,
+        182,
+        73,
+        0.401
+      ],
+      [
+        487,
+        524,
+        182,
+        78,
+        0.429
+      ],
+      [
+        487,
+        524,
+        182,
+        69,
+        0.379
+      ],
+      [
+        547,
+        512,
+        157,
+        85,
+        0.541
+      ]
+    ],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:02Z",
+    "duration_ms": 1288,
+    "status": "DEFECT"
+  },
+  {
+    "file": "mark-mono.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 882285,
+    "sha256": "e38da23ac4f292dc57555af16258f7c22e54cfc50545e6d59c499afbb7133b5a",
+    "catalog_sha256": "e38da23ac4f292dc57555af16258f7c22e54cfc50545e6d59c499afbb7133b5a",
+    "catalog_bytes": 882285,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 2,
+    "ocr_psm11_text": "",
+    "ocr_psm6_text": "Bi",
+    "ocr_no_text": true,
+    "hough_circles": 147,
+    "concentric_pairs": 6,
+    "concentric_detail": [
+      [
+        514,
+        541,
+        184,
+        79,
+        0.429
+      ],
+      [
+        514,
+        541,
+        184,
+        82,
+        0.446
+      ],
+      [
+        508,
+        523,
+        183,
+        81,
+        0.443
+      ],
+      [
+        533,
+        511,
+        204,
+        92,
+        0.451
+      ],
+      [
+        539,
+        518,
+        212,
+        148,
+        0.698
+      ],
+      [
+        505,
+        508,
+        188,
+        94,
+        0.5
+      ]
+    ],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:03Z",
+    "duration_ms": 1490,
+    "status": "DEFECT"
+  },
+  {
+    "file": "empty-no-results.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 854662,
+    "sha256": "91c63a81ed15f52ade8dff2bca6a8d03888eae88c2aca72bbb58b24b28f2363d",
+    "catalog_sha256": "91c63a81ed15f52ade8dff2bca6a8d03888eae88c2aca72bbb58b24b28f2363d",
+    "catalog_bytes": 854662,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 2,
+    "ocr_psm11_text": "",
+    "ocr_psm6_text": "ee\n=",
+    "ocr_no_text": true,
+    "hough_circles": 969,
+    "concentric_pairs": 36,
+    "concentric_detail": [
+      [
+        496,
+        436,
+        120,
+        71,
+        0.592
+      ],
+      [
+        563,
+        615,
+        130,
+        56,
+        0.431
+      ],
+      [
+        485,
+        433,
+        124,
+        58,
+        0.468
+      ],
+      [
+        541,
+        430,
+        126,
+        62,
+        0.492
+      ],
+      [
+        532,
+        435,
+        122,
+        57,
+        0.467
+      ],
+      [
+        525,
+        373,
+        129,
+        56,
+        0.434
+      ],
+      [
+        538,
+        435,
+        127,
+        57,
+        0.449
+      ],
+      [
+        513,
+        388,
+        110,
+        76,
+        0.691
+      ],
+      [
+        523,
+        941,
+        390,
+        200,
+        0.513
+      ],
+      [
+        435,
+        663,
+        84,
+        45,
+        0.536
+      ]
+    ],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:05Z",
+    "duration_ms": 4939,
+    "status": "DEFECT"
+  },
+  {
+    "file": "empty-no-sessions.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 833892,
+    "sha256": "99986406498b95f24f70557a203369b71d2a65921196fac8decfe3c2d4add732",
+    "catalog_sha256": "99986406498b95f24f70557a203369b71d2a65921196fac8decfe3c2d4add732",
+    "catalog_bytes": 833892,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 2,
+    "ocr_psm6_alnum": 2,
+    "ocr_psm11_text": "an",
+    "ocr_psm6_text": "(og",
+    "ocr_no_text": true,
+    "hough_circles": 1653,
+    "concentric_pairs": 59,
+    "concentric_detail": [
+      [
+        494,
+        349,
+        288,
+        95,
+        0.33
+      ],
+      [
+        496,
+        463,
+        290,
+        129,
+        0.445
+      ],
+      [
+        496,
+        469,
+        291,
+        129,
+        0.443
+      ],
+      [
+        501,
+        478,
+        197,
+        95,
+        0.482
+      ],
+      [
+        501,
+        478,
+        197,
+        112,
+        0.569
+      ],
+      [
+        501,
+        478,
+        197,
+        98,
+        0.497
+      ],
+      [
+        653,
+        415,
+        226,
+        134,
+        0.593
+      ],
+      [
+        285,
+        479,
+        162,
+        49,
+        0.302
+      ],
+      [
+        556,
+        463,
+        178,
+        63,
+        0.354
+      ],
+      [
+        653,
+        451,
+        133,
+        65,
+        0.489
+      ]
+    ],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:10Z",
+    "duration_ms": 10362,
+    "status": "DEFECT"
+  },
+  {
+    "file": "empty-source-unavailable.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 851438,
+    "sha256": "9722bbf35ca0dfcdffd1598378751f2f405a7a86ac100d2a84c0cb464ec28d04",
+    "catalog_sha256": "9722bbf35ca0dfcdffd1598378751f2f405a7a86ac100d2a84c0cb464ec28d04",
+    "catalog_bytes": 851438,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 3,
+    "ocr_psm11_text": "-----",
+    "ocr_psm6_text": "Sre",
+    "ocr_no_text": true,
+    "hough_circles": 226,
+    "concentric_pairs": 10,
+    "concentric_detail": [
+      [
+        263,
+        391,
+        174,
+        96,
+        0.552
+      ],
+      [
+        263,
+        321,
+        159,
+        239,
+        0.665
+      ],
+      [
+        259,
+        321,
+        239,
+        160,
+        0.669
+      ],
+      [
+        253,
+        519,
+        85,
+        43,
+        0.506
+      ],
+      [
+        260,
+        298,
+        261,
+        179,
+        0.686
+      ],
+      [
+        257,
+        327,
+        233,
+        160,
+        0.687
+      ],
+      [
+        263,
+        385,
+        141,
+        96,
+        0.681
+      ],
+      [
+        280,
+        513,
+        86,
+        54,
+        0.628
+      ],
+      [
+        274,
+        343,
+        218,
+        138,
+        0.633
+      ],
+      [
+        255,
+        482,
+        83,
+        49,
+        0.59
+      ]
+    ],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:20Z",
+    "duration_ms": 866,
+    "status": "DEFECT"
+  },
+  {
+    "file": "backdrop-network.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 1243829,
+    "sha256": "cba96745119c9aa84b8383aed402f3349788d8896d5d2753e246448df5710b03",
+    "catalog_sha256": "cba96745119c9aa84b8383aed402f3349788d8896d5d2753e246448df5710b03",
+    "catalog_bytes": 1243829,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 10,
+    "ocr_psm6_alnum": 0,
+    "ocr_psm11_text": "Ta\n\nme\n\nke <\n\nax\n\n>\n\neo",
+    "ocr_psm6_text": "",
+    "ocr_no_text": false,
+    "hough_circles": 0,
+    "concentric_pairs": 0,
+    "concentric_detail": [],
+    "backdrop_text_regions": [
+      0,
+      []
+    ],
+    "run_at_iso8601": "2026-10-21T09:36:21Z",
+    "duration_ms": 1050,
+    "status": "PASS"
+  },
+  {
+    "file": "mark-variant-a.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 770292,
+    "sha256": "0556ca19503c624cce8670cfd17aa9d9ea69e2d2e3ba37ef14aea0cb73aaeb51",
+    "catalog_sha256": "0556ca19503c624cce8670cfd17aa9d9ea69e2d2e3ba37ef14aea0cb73aaeb51",
+    "catalog_bytes": 770292,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 2,
+    "ocr_psm11_text": "",
+    "ocr_psm6_text": "cs",
+    "ocr_no_text": true,
+    "hough_circles": 235,
+    "concentric_pairs": 22,
+    "concentric_detail": [
+      [
+        511,
+        475,
+        210,
+        80,
+        0.381
+      ],
+      [
+        577,
+        457,
+        259,
+        85,
+        0.328
+      ],
+      [
+        509,
+        493,
+        227,
+        94,
+        0.414
+      ],
+      [
+        484,
+        472,
+        225,
+        85,
+        0.378
+      ],
+      [
+        509,
+        520,
+        172,
+        54,
+        0.314
+      ],
+      [
+        509,
+        520,
+        172,
+        58,
+        0.337
+      ],
+      [
+        517,
+        475,
+        207,
+        80,
+        0.386
+      ],
+      [
+        473,
+        520,
+        191,
+        95,
+        0.497
+      ],
+      [
+        511,
+        469,
+        204,
+        74,
+        0.363
+      ],
+      [
+        461,
+        508,
+        186,
+        84,
+        0.452
+      ]
+    ],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:22Z",
+    "duration_ms": 1158,
+    "status": "DEFECT"
+  },
+  {
+    "file": "mark-variant-b.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 848084,
+    "sha256": "f7ea09b785ea93a3897241b805584852be3dc67ebc04ed1d978e22855bea8efa",
+    "catalog_sha256": "f7ea09b785ea93a3897241b805584852be3dc67ebc04ed1d978e22855bea8efa",
+    "catalog_bytes": 848084,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 2,
+    "ocr_psm11_text": "",
+    "ocr_psm6_text": "cs",
+    "ocr_no_text": true,
+    "hough_circles": 198,
+    "concentric_pairs": 10,
+    "concentric_detail": [
+      [
+        521,
+        475,
+        213,
+        80,
+        0.376
+      ],
+      [
+        515,
+        496,
+        227,
+        95,
+        0.419
+      ],
+      [
+        517,
+        490,
+        228,
+        95,
+        0.417
+      ],
+      [
+        543,
+        512,
+        254,
+        158,
+        0.622
+      ],
+      [
+        499,
+        481,
+        210,
+        87,
+        0.414
+      ],
+      [
+        509,
+        463,
+        195,
+        69,
+        0.354
+      ],
+      [
+        557,
+        466,
+        239,
+        117,
+        0.49
+      ],
+      [
+        525,
+        515,
+        180,
+        60,
+        0.333
+      ],
+      [
+        525,
+        515,
+        180,
+        65,
+        0.361
+      ],
+      [
+        533,
+        515,
+        215,
+        71,
+        0.33
+      ]
+    ],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:23Z",
+    "duration_ms": 1121,
+    "status": "DEFECT"
+  },
+  {
+    "file": "favicon.ico",
+    "http_status": 200,
+    "content_type": "image/x-icon",
+    "bytes": 655,
+    "sha256": "fdd1dc86e6bfcf25f22df8edf59af02bf979b38fb99a6dbbbf4cc6c3fe8757d0",
+    "catalog_sha256": "fdd1dc86e6bfcf25f22df8edf59af02bf979b38fb99a6dbbbf4cc6c3fe8757d0",
+    "catalog_bytes": 655,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 0,
+    "ocr_psm11_text": "",
+    "ocr_psm6_text": "&",
+    "ocr_no_text": true,
+    "hough_circles": 1,
+    "concentric_pairs": 0,
+    "concentric_detail": [],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:24Z",
+    "duration_ms": 571,
+    "status": "PASS"
+  },
+  {
+    "file": "apple-touch-icon.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 30314,
+    "sha256": "ca5a07dc2d5a3ab67546837dcd3ba9526112ad1f44f6b12d360cc877422e13c6",
+    "catalog_sha256": "ca5a07dc2d5a3ab67546837dcd3ba9526112ad1f44f6b12d360cc877422e13c6",
+    "catalog_bytes": 30314,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 2,
+    "ocr_psm11_text": "~~",
+    "ocr_psm6_text": "Ss",
+    "ocr_no_text": true,
+    "hough_circles": 3,
+    "concentric_pairs": 0,
+    "concentric_detail": [],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:25Z",
+    "duration_ms": 561,
+    "status": "PASS"
+  },
+  {
+    "file": "android-chrome-192.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 34284,
+    "sha256": "0d8df8839bdda401a4e605120f7bc4d8de3735469c18e9e09e73bb9d1d87a204",
+    "catalog_sha256": "0d8df8839bdda401a4e605120f7bc4d8de3735469c18e9e09e73bb9d1d87a204",
+    "catalog_bytes": 34284,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 2,
+    "ocr_psm11_text": "~~",
+    "ocr_psm6_text": "es",
+    "ocr_no_text": true,
+    "hough_circles": 2,
+    "concentric_pairs": 0,
+    "concentric_detail": [],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:25Z",
+    "duration_ms": 427,
+    "status": "PASS"
+  },
+  {
+    "file": "android-chrome-512.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 231053,
+    "sha256": "bc5d55abb81cd40ec72759fea9ba6f23e77fe35322fbf350fecd618b731a2f6d",
+    "catalog_sha256": "bc5d55abb81cd40ec72759fea9ba6f23e77fe35322fbf350fecd618b731a2f6d",
+    "catalog_bytes": 231053,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 2,
+    "ocr_psm11_text": "",
+    "ocr_psm6_text": "Bi",
+    "ocr_no_text": true,
+    "hough_circles": 32,
+    "concentric_pairs": 0,
+    "concentric_detail": [],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:26Z",
+    "duration_ms": 500,
+    "status": "PASS"
+  },
+  {
+    "file": "favicon-16.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 638,
+    "sha256": "e9cab6f53df06debf1d6f9482996c6c0b784c1f438a2127ac8e8e741f0fdd068",
+    "catalog_sha256": "e9cab6f53df06debf1d6f9482996c6c0b784c1f438a2127ac8e8e741f0fdd068",
+    "catalog_bytes": 638,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 0,
+    "ocr_psm11_text": "",
+    "ocr_psm6_text": "&",
+    "ocr_no_text": true,
+    "hough_circles": 1,
+    "concentric_pairs": 0,
+    "concentric_detail": [],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:26Z",
+    "duration_ms": 521,
+    "status": "PASS"
+  },
+  {
+    "file": "favicon-32.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 1714,
+    "sha256": "c6666d54405b2c41652e9d26d24b34980301aec28e0c8cc56a8a69b588eed281",
+    "catalog_sha256": "c6666d54405b2c41652e9d26d24b34980301aec28e0c8cc56a8a69b588eed281",
+    "catalog_bytes": 1714,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 0,
+    "ocr_psm11_text": "",
+    "ocr_psm6_text": "&",
+    "ocr_no_text": true,
+    "hough_circles": 7,
+    "concentric_pairs": 0,
+    "concentric_detail": [],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:27Z",
+    "duration_ms": 754,
+    "status": "PASS"
+  },
+  {
+    "file": "favicon-48.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 3143,
+    "sha256": "b561065689cfc438ff27c8520da3a6f6ef3d68387eac731474a79d984b7b35fd",
+    "catalog_sha256": "b561065689cfc438ff27c8520da3a6f6ef3d68387eac731474a79d984b7b35fd",
+    "catalog_bytes": 3143,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 0,
+    "ocr_psm6_alnum": 0,
+    "ocr_psm11_text": "",
+    "ocr_psm6_text": "&",
+    "ocr_no_text": true,
+    "hough_circles": 10,
+    "concentric_pairs": 0,
+    "concentric_detail": [],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:28Z",
+    "duration_ms": 729,
+    "status": "PASS"
+  },
+  {
+    "file": "og-image.png",
+    "http_status": 200,
+    "content_type": "image/png",
+    "bytes": 515862,
+    "sha256": "93ddea86633a972d9481f60d17a3d21e3d555aa639c63b57cbeb75cb65a5e9d9",
+    "catalog_sha256": "93ddea86633a972d9481f60d17a3d21e3d555aa639c63b57cbeb75cb65a5e9d9",
+    "catalog_bytes": 515862,
+    "match_catalog": true,
+    "match_local": true,
+    "ocr_psm11_alnum": 9,
+    "ocr_psm6_alnum": 43,
+    "ocr_psm11_text": "Se\n\n\u00bb\n\nSS\n\nSw\n\nane",
+    "ocr_psm6_text": "\u00b0 p\ngi\nse Oy\n\u201ce\n. .\n5 ai\n<\nx \\\na \u2014\u2014\u2014 \\\nae S A\nVag a\n* J . WA ~\n= \\ Ge >\n~ / -\n. wd -\nbd oe\n. a Ca\na\n.\n\u00b0 Pa \u2018i\n* ~~\n\u00b0 a *",
+    "ocr_no_text": false,
+    "hough_circles": 41,
+    "concentric_pairs": 1,
+    "concentric_detail": [
+      [
+        511,
+        249,
+        78,
+        39,
+        0.5
+      ]
+    ],
+    "backdrop_text_regions": null,
+    "run_at_iso8601": "2026-10-21T09:36:28Z",
+    "duration_ms": 1235,
+    "status": "DEFECT"
+  }
+]

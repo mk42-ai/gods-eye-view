@@ -1,0 +1,64 @@
+{
+  "agent": 18,
+  "implementationStatus": "complete; syntax and static contract checked; browser execution intentionally deferred",
+  "files": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ad9daa8a32a07124b4a9356/gods-eye-view/scripts/qa-marina-mobile.mjs",
+    "/tmp/gev-agent-18.json"
+  ],
+  "exports": {
+    "runMobile": "async runMobile(puppeteerPage, {url, out, record?})",
+    "runIframe": "async runIframe(puppeteerPage, {url, out, record?})",
+    "MOBILE_VIEWPORT": {
+      "width": 375,
+      "height": 739,
+      "isMobile": true,
+      "hasTouch": true
+    },
+    "MARINA_PROMPT": "Create a waterfront orbit scene around Dubai Marina"
+  },
+  "callerRequirements": [
+    "Caller configures exact 375x739 isMobile:true hasTouch:true before invoking.",
+    "Caller supplies an already-created Puppeteer Page; owns browser cleanup and hard runtime cap.",
+    "Pass a live absolute http(s) app URL; use isolated/fresh browser context if unrelated preexisting state should be excluded.",
+    "record(row) is optional and awaitable; row = {id,mode,scope,startedUtc,finishedUtc,pass,status,detail,data,screenshot}.",
+    "Both functions return {ok,completed,checks,screenshots,reportPath,summary,...}; inspect ok rather than assuming no thrown exception means success."
+  ],
+  "artifacts": "Each UTC assertion row captures a viewport PNG; an incremental *-assertions.json is written under out (default .ui-proof/marina). No PNGs claimed before execution.",
+  "coverage": [
+    "Real touchscreen input focus and Build Scene button; keyboard typing of exact prompt",
+    "Read-only composer.state.lastScene.anchor check against 25.07864,55.13525 (1e-6 tolerance)",
+    "#incident-composer-play actual center elementFromPoint and native touch, with running director verified",
+    "Collapse/Expand drawer and Layers/Scenes native-touch tab transitions",
+    "Strict document and host scrollWidth <= 375; exact viewport check and touch capability",
+    "All six incident playback children contained within bar and viewport, unobscured; play/pause and live clock advancement",
+    "Real name typed into #scene-library-name and native touch on #scene-library-save",
+    "Visible Saved status plus read-only localStorage key evidence; full reload, persisted saved option, native-select keyboard selection, then actually visible Saved status"
+  ],
+  "iframe": {
+    "url": "/embed-harness.html",
+    "frame": "#app",
+    "sameWorkflow": true,
+    "nativeInputUsesFrameOffsetAndOuterHitTest": true,
+    "claim": "Equivalent same-origin iframe harness, NOT user host chat",
+    "hostChatTested": false
+  },
+  "safeguards": [
+    "No browser launch, closure, or viewport modification",
+    "No programmatic element clicks or DOM/internal-state injection",
+    "No timers replaced, mocks, interception, or overlays removed",
+    "Only read-only evaluate; bounded genuine-touch scrolling to reach drawer controls",
+    "Fails and captures evidence on wrong anchor, missing control, overflow, interception, persistence failure, or unsupported scene state"
+  ],
+  "tests": {
+    "syntax": "node --check: passed",
+    "importContract": "passed",
+    "forbiddenPrimitiveScan": "passed",
+    "browserExecuted": false
+  },
+  "warnings": [
+    "Live integration must be executed by coordinator/Agent20; this report is not a runtime PASS.",
+    "Existing embed harness has a 28px header, so inner viewport height is 711px while the caller viewport remains exactly 375x739.",
+    "Native saved-scene select is touched, then controlled by actual keyboard Home/ArrowDown/Enter; no DOM value assignment is used."
+  ],
+  "completedUtc": "2026-10-24T01:53:47.494Z"
+}

@@ -1,0 +1,191 @@
+{
+  "totalCalls": 8,
+  "totalDurationMs": 129856,
+  "totalUniqueRecords": 2,
+  "pluginCapabilities": {
+    "limitParamSupported": true,
+    "cursorSupported": false,
+    "paginationFieldsExposed": false,
+    "supportedParameters": [
+      "places",
+      "limit"
+    ],
+    "unsupportedParameters": [
+      "cursor",
+      "next",
+      "offset",
+      "timeWindow",
+      "coordinates",
+      "bbox"
+    ],
+    "honestAssessment": "Plugin supports `limit` parameter only; no cursor/next/offset keys are returned in JSON. Time-window filtering is model-evaluated only (no native plugin timestamp parameter). Geographic partitioning across place-name variants increases coverage and deduplicates across overlapping storyIds."
+  },
+  "calls": [
+    {
+      "test": "limit_escalation_5",
+      "utcStart": "2026-11-01T13:33:51.090Z",
+      "durationMs": 23627,
+      "httpStatus": 200,
+      "rawCount": 1,
+      "uniqueCount": 1,
+      "duplicateCount": 0,
+      "totalCumulativeUnique": 1,
+      "topLevelKeys": [
+        "limit",
+        "note",
+        "results"
+      ],
+      "cursorKeysDetected": [],
+      "error": null,
+      "storyIds": [
+        "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+      ],
+      "limitRequested": 5
+    },
+    {
+      "test": "limit_escalation_25",
+      "utcStart": "2026-11-01T13:34:14.718Z",
+      "durationMs": 19401,
+      "httpStatus": 200,
+      "rawCount": 1,
+      "uniqueCount": 0,
+      "duplicateCount": 1,
+      "totalCumulativeUnique": 1,
+      "topLevelKeys": [
+        "limit",
+        "note",
+        "results"
+      ],
+      "cursorKeysDetected": [],
+      "error": null,
+      "storyIds": [
+        "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+      ],
+      "limitRequested": 25
+    },
+    {
+      "test": "limit_escalation_50",
+      "utcStart": "2026-11-01T13:34:34.119Z",
+      "durationMs": 19451,
+      "httpStatus": 200,
+      "rawCount": 1,
+      "uniqueCount": 0,
+      "duplicateCount": 1,
+      "totalCumulativeUnique": 1,
+      "topLevelKeys": [
+        "limit",
+        "note",
+        "results"
+      ],
+      "cursorKeysDetected": [],
+      "error": null,
+      "storyIds": [
+        "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+      ],
+      "limitRequested": 50
+    },
+    {
+      "test": "time_window_24h",
+      "utcStart": "2026-11-01T13:34:53.570Z",
+      "durationMs": 25807,
+      "httpStatus": 200,
+      "rawCount": 1,
+      "uniqueCount": 0,
+      "duplicateCount": 1,
+      "totalCumulativeUnique": 1,
+      "topLevelKeys": [
+        "limit",
+        "note",
+        "results"
+      ],
+      "cursorKeysDetected": [],
+      "error": null,
+      "storyIds": [
+        "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+      ],
+      "timeWindow": "last 24 hours"
+    },
+    {
+      "test": "time_window_7d",
+      "utcStart": "2026-11-01T13:35:19.377Z",
+      "durationMs": 24912,
+      "httpStatus": 200,
+      "rawCount": 1,
+      "uniqueCount": 0,
+      "duplicateCount": 1,
+      "totalCumulativeUnique": 1,
+      "topLevelKeys": [
+        "limit",
+        "note",
+        "results"
+      ],
+      "cursorKeysDetected": [],
+      "error": null,
+      "storyIds": [
+        "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+      ],
+      "timeWindow": "last 7 days"
+    },
+    {
+      "test": "geo_partition_Jumeirah Beach Residence",
+      "utcStart": "2026-11-01T13:35:44.291Z",
+      "durationMs": 13559,
+      "httpStatus": 200,
+      "rawCount": 0,
+      "uniqueCount": 0,
+      "duplicateCount": 0,
+      "totalCumulativeUnique": 1,
+      "topLevelKeys": [
+        "limit",
+        "note",
+        "results"
+      ],
+      "cursorKeysDetected": [],
+      "error": null,
+      "storyIds": [],
+      "variant": "Jumeirah Beach Residence"
+    },
+    {
+      "test": "geo_partition_Dubai Marina",
+      "utcStart": "2026-11-01T13:35:44.290Z",
+      "durationMs": 16371,
+      "httpStatus": 200,
+      "rawCount": 1,
+      "uniqueCount": 0,
+      "duplicateCount": 1,
+      "totalCumulativeUnique": 1,
+      "topLevelKeys": [
+        "limit",
+        "note",
+        "results"
+      ],
+      "cursorKeysDetected": [],
+      "error": null,
+      "storyIds": [
+        "W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ"
+      ],
+      "variant": "Dubai Marina"
+    },
+    {
+      "test": "geo_partition_JBR",
+      "utcStart": "2026-11-01T13:35:44.291Z",
+      "durationMs": 16652,
+      "httpStatus": 200,
+      "rawCount": 1,
+      "uniqueCount": 1,
+      "duplicateCount": 0,
+      "totalCumulativeUnique": 2,
+      "topLevelKeys": [
+        "limit",
+        "note",
+        "results"
+      ],
+      "cursorKeysDetected": [],
+      "error": null,
+      "storyIds": [
+        "W7_EDlXWTBiXAEEniNoMPwAAYaGJzanhicmttAZ8-g0dVAZ8-g0dCAAAAAQ"
+      ],
+      "variant": "JBR"
+    }
+  ]
+}

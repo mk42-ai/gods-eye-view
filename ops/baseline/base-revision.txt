@@ -1,0 +1,14 @@
+utc=2026-11-03T08:39:05Z
+remote=https://github.com/mk42-ai/gods-eye-view.git
+branch=feat/scene-video-evidence
+head=3fdcc59e7c452468ffcb3fccf5688ead76c9022f
+origin_head=3fdcc59e7c452468ffcb3fccf5688ead76c9022f
+status:
+?? ops/
+f20fab6 reachable: yes
+last5:
+3fdcc59 Snapchat discovery: direct plugin queries only; icon family 64/128/256 with 3 new unit types
+a36639c Evidence: 2026-11-02 bug-fix turn — baseline, live acceptance (22/22 on final deploy), Snapchat probe, icon atlas record, test logs, side-by-side comparison
+b931c6f Live-QA fixes: Play clock ownership, icon backplates after decode, cone/barrier readability cap, SSE liveness
+9bb0c5e Guaranteed-render scene builds, functional Play, bold icon atlas v6, Snapchat plugin wiring
+ff678b8 Recover pre-existing uncommitted work as found (2026-11-02 render-fix contract: render guard, budgets, sprite atlas, manifest v5, spec/template extensions)

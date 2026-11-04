@@ -1,0 +1,92 @@
+{
+  "startedAt": "2026-10-21T08:08:00.204Z",
+  "endedAt": "2026-10-21T08:08:25.165Z",
+  "baseUrl": "https://sb-72vtzc1c6cf8.vercel.run",
+  "viewports": {
+    "1440x900": {
+      "name": "1440x900",
+      "width": 1440,
+      "height": 900,
+      "startedAt": "2026-10-21T08:08:00.204Z",
+      "endedAt": "2026-10-21T08:08:13.155Z",
+      "streaming": {
+        "ttftMs": 3332,
+        "stopButtonVisible": true,
+        "keySourceHeader": "server",
+        "finalStatusText": "READY · inferred",
+        "assistantCharCount": 96,
+        "assistantPreview": "Parity Earthquake is an earthquake object, but no location, time, or other details are provided.",
+        "localStorageApiKeyIsNull": true,
+        "screenshot": "check-streaming-1440x900.png",
+        "pass": true
+      },
+      "hud": {
+        "summaryText": "NORMAL STREET NEAR UT TOWER (AUSTIN) 2KM | NORTH AMERICA | ALT 627M | WINDOW 2x1KM | SUN -60° | ONA 50° | UTC-7",
+        "isAwaitingTelemetry": false,
+        "hudAskOpenedMiniChat": true,
+        "objectType": "hudSummary",
+        "kind": "HUD SUMMARY · global",
+        "screenshot": "check-hud-summary-1440x900.png",
+        "pass": true
+      },
+      "mobileSpecific": null
+    },
+    "390x844": {
+      "name": "390x844",
+      "width": 390,
+      "height": 844,
+      "startedAt": "2026-10-21T08:08:13.174Z",
+      "endedAt": "2026-10-21T08:08:25.144Z",
+      "streaming": {
+        "ttftMs": 4417,
+        "stopButtonVisible": true,
+        "keySourceHeader": "server",
+        "finalStatusText": "READY · inferred",
+        "assistantCharCount": 147,
+        "assistantPreview": "Confirmed: This object is labeled “Parity Earthquake” and identified as an earthquake, but no locati",
+        "localStorageApiKeyIsNull": true,
+        "screenshot": "check-streaming-390x844.png",
+        "pass": true
+      },
+      "hud": {
+        "summaryText": "NORMAL STREET NEAR UT TOWER (AUSTIN) 2KM | NORTH AMERICA | ALT 627M | WINDOW 2x3KM | SUN -60° | ONA 50° | UTC-7",
+        "isAwaitingTelemetry": false,
+        "hudAskOpenedMiniChat": true,
+        "objectType": "hudSummary",
+        "kind": "HUD SUMMARY · global",
+        "screenshot": "check-hud-summary-390x844.png",
+        "pass": true
+      },
+      "mobileSpecific": {
+        "boundingBox": {
+          "x": 0,
+          "y": 453,
+          "width": 390,
+          "height": 391,
+          "left": 0,
+          "right": 390,
+          "top": 453,
+          "bottom": 844
+        },
+        "fitsViewport": true,
+        "scrollWidth": 390,
+        "innerWidth": 390,
+        "noHorizontalOverflow": true,
+        "pass": true
+      }
+    }
+  },
+  "parity": {
+    "sameKeySource": true,
+    "desktopKeySource": "server",
+    "mobileKeySource": "server",
+    "bothStreamed": true,
+    "bothHudOpenable": true,
+    "desktopTtftMs": 3332,
+    "mobileTtftMs": 4417,
+    "ttftDifferenceMs": 1085,
+    "mobileFitsViewport": true,
+    "mobileNoHorizontalOverflow": true,
+    "overallParityPass": true
+  }
+}

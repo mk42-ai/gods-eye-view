@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "name": "Snapchat footage place-name ladder",
+  "notes": [
+    "Editable. Drives the narrow-to-wide place-name ladder for POST /api/scenes/:locationId/footage/snapchat (server/scene-footage/snapchat.js).",
+    "The Snapchat plugin (plugin-1792945050, fetchSnapchatVideosByPlace) accepts ONLY place-name strings. It has no coordinate, radius or bbox input, so these entries translate a map coordinate into the names that are searched.",
+    "level is one of landmark | neighborhood | district | city (narrow -> wide). parent links an entry to the next wider entry. radius_km is a planning radius around center used to decide which entry a coordinate falls in; it is NOT an official boundary.",
+    "Centers marked source 'gazetteer' are copied from config/aoi/scene-aois.json or config/aoi/uae-interest.json; others are approximate operator-curated centers (OpenStreetMap-derived, rounded) and should be treated as approximate.",
+    "names[0] is the display/matched name; every name in names is sent to the plugin in the same call for that level (aliases such as 'JBR')."
+  ],
+  "levels": ["landmark", "neighborhood", "district", "city"],
+  "places": [
+    { "id": "burj-khalifa", "level": "landmark", "names": ["Burj Khalifa"], "center": { "lat": 25.1970336, "lon": 55.2741329 }, "radius_km": 0.45, "parent": "downtown-dubai", "source": "gazetteer" },
+    { "id": "dubai-mall", "level": "landmark", "names": ["Dubai Mall"], "center": { "lat": 25.1985, "lon": 55.2796 }, "radius_km": 0.4, "parent": "downtown-dubai", "source": "approximate" },
+    { "id": "dubai-fountain", "level": "landmark", "names": ["Dubai Fountain"], "center": { "lat": 25.1955, "lon": 55.2754 }, "radius_km": 0.25, "parent": "downtown-dubai", "source": "approximate" },
+    { "id": "ain-dubai", "level": "landmark", "names": ["Ain Dubai", "Bluewaters"], "center": { "lat": 25.0806, "lon": 55.1205 }, "radius_km": 0.6, "parent": "dubai-marina", "source": "approximate" },
+    { "id": "the-walk-jbr", "level": "landmark", "names": ["The Walk JBR"], "center": { "lat": 25.0782, "lon": 55.1335 }, "radius_km": 0.3, "parent": "jumeirah-beach-residence", "source": "approximate" },
+    { "id": "jumeirah-beach-residence", "level": "neighborhood", "names": ["Jumeirah Beach Residence", "JBR"], "center": { "lat": 25.0775, "lon": 55.1327 }, "radius_km": 0.9, "parent": "dubai-marina", "source": "approximate" },
+    { "id": "downtown-dubai", "level": "neighborhood", "names": ["Downtown Dubai"], "center": { "lat": 25.1945, "lon": 55.2780 }, "radius_km": 1.6, "parent": "dubai", "source": "approximate" },
+    { "id": "palm-jumeirah", "level": "neighborhood", "names": ["Palm Jumeirah"], "center": { "lat": 25.1124, "lon": 55.1390 }, "radius_km": 4.0, "parent": "dubai", "source": "approximate" },
+    { "id": "dubai-marina", "level": "district", "names": ["Dubai Marina"], "center": { "lat": 25.0786415, "lon": 55.1352524 }, "radius_km": 2.5, "parent": "dubai", "source": "gazetteer" },
+    { "id": "abu-dhabi-corniche", "level": "neighborhood", "names": ["Abu Dhabi Corniche", "Corniche Abu Dhabi"], "center": { "lat": 24.4790, "lon": 54.3380 }, "radius_km": 3.6, "parent": "abu-dhabi", "source": "approximate" },
+    { "id": "dubai", "level": "city", "names": ["Dubai"], "center": { "lat": 25.2048, "lon": 55.2708 }, "radius_km": 32, "parent": null, "source": "gazetteer" },
+    { "id": "abu-dhabi", "level": "city", "names": ["Abu Dhabi"], "center": { "lat": 24.4539, "lon": 54.3773 }, "radius_km": 35, "parent": null, "source": "gazetteer" },
+    { "id": "sharjah", "level": "city", "names": ["Sharjah"], "center": { "lat": 25.3463, "lon": 55.4209 }, "radius_km": 18, "parent": null, "source": "gazetteer" },
+    { "id": "al-ain", "level": "city", "names": ["Al Ain"], "center": { "lat": 24.2249, "lon": 55.7452 }, "radius_km": 20, "parent": null, "source": "gazetteer" },
+    { "id": "fujairah", "level": "city", "names": ["Fujairah"], "center": { "lat": 25.1245, "lon": 56.3355 }, "radius_km": 15, "parent": null, "source": "gazetteer" },
+    { "id": "ras-al-khaimah", "level": "city", "names": ["Ras Al Khaimah"], "center": { "lat": 25.7738, "lon": 55.9382 }, "radius_km": 20, "parent": null, "source": "gazetteer" }
+  ]
+}

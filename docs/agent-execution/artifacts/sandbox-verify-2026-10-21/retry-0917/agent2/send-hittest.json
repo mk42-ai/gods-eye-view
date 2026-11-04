@@ -1,0 +1,605 @@
+{
+  "url": "https://sb-4asza5droe1u.vercel.run",
+  "at": "2026-10-21T09:41:26.185Z",
+  "out": {
+    "1440x900": {
+      "ondemand-mini-chat-send": {
+        "rect": {
+          "x": 1195,
+          "y": 768.703125,
+          "w": 208,
+          "h": 32.296875,
+          "bottom": 801
+        },
+        "hidden": false,
+        "disabled": false,
+        "hits": {
+          "center": {
+            "x": 1299,
+            "y": 784.8515625,
+            "inside": true,
+            "top": {
+              "tag": "BUTTON",
+              "id": "ondemand-mini-chat-send",
+              "cls": "od-chat__btn od-chat__send",
+              "text": "SEND",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "BUTTON#ondemand-mini-chat-send.od-chat__btn.od-chat__send",
+                "FORM.od-chat__composer",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "tl": {
+            "x": 1198,
+            "y": 771.703125,
+            "inside": true,
+            "top": {
+              "tag": "BUTTON",
+              "id": "ondemand-mini-chat-send",
+              "cls": "od-chat__btn od-chat__send",
+              "text": "SEND",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "BUTTON#ondemand-mini-chat-send.od-chat__btn.od-chat__send",
+                "FORM.od-chat__composer",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "br": {
+            "x": 1400,
+            "y": 798,
+            "inside": true,
+            "top": {
+              "tag": "BUTTON",
+              "id": "ondemand-mini-chat-send",
+              "cls": "od-chat__btn od-chat__send",
+              "text": "SEND",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "BUTTON#ondemand-mini-chat-send.od-chat__btn.od-chat__send",
+                "FORM.od-chat__composer",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          }
+        }
+      },
+      "ondemand-mini-chat-input": {
+        "rect": {
+          "x": 1003,
+          "y": 768.703125,
+          "w": 186,
+          "h": 32.296875,
+          "bottom": 801
+        },
+        "hidden": false,
+        "disabled": false,
+        "hits": {
+          "center": {
+            "x": 1096,
+            "y": 784.8515625,
+            "inside": true,
+            "top": {
+              "tag": "INPUT",
+              "id": "ondemand-mini-chat-input",
+              "cls": "od-chat__input",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "INPUT#ondemand-mini-chat-input.od-chat__input",
+                "FORM.od-chat__composer",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "tl": {
+            "x": 1006,
+            "y": 771.703125,
+            "inside": true,
+            "top": {
+              "tag": "INPUT",
+              "id": "ondemand-mini-chat-input",
+              "cls": "od-chat__input",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "INPUT#ondemand-mini-chat-input.od-chat__input",
+                "FORM.od-chat__composer",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "br": {
+            "x": 1186,
+            "y": 798,
+            "inside": true,
+            "top": {
+              "tag": "INPUT",
+              "id": "ondemand-mini-chat-input",
+              "cls": "od-chat__input",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "INPUT#ondemand-mini-chat-input.od-chat__input",
+                "FORM.od-chat__composer",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          }
+        }
+      },
+      "ondemand-mini-chat-stop": {
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "bottom": 0
+        },
+        "hidden": true,
+        "disabled": false,
+        "hits": {
+          "center": {
+            "x": 0,
+            "y": 0,
+            "inside": false,
+            "top": {
+              "tag": "CANVAS",
+              "id": null,
+              "cls": "",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "CANVAS",
+                "DIV.cesium-widget",
+                "DIV.cesium-viewer-cesiumWidgetContainer",
+                "DIV.cesium-viewer",
+                "DIV#cesiumContainer"
+              ]
+            }
+          },
+          "tl": {
+            "x": 3,
+            "y": 3,
+            "inside": false,
+            "top": {
+              "tag": "CANVAS",
+              "id": null,
+              "cls": "",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "CANVAS",
+                "DIV.cesium-widget",
+                "DIV.cesium-viewer-cesiumWidgetContainer",
+                "DIV.cesium-viewer",
+                "DIV#cesiumContainer"
+              ]
+            }
+          },
+          "br": {
+            "x": -3,
+            "y": -3,
+            "inside": false,
+            "top": null
+          }
+        }
+      },
+      "ondemand-mini-chat-close": {
+        "rect": {
+          "x": 1377,
+          "y": 460.515625,
+          "w": 34,
+          "h": 24,
+          "bottom": 484.515625
+        },
+        "hidden": false,
+        "disabled": false,
+        "hits": {
+          "center": {
+            "x": 1394,
+            "y": 472.515625,
+            "inside": true,
+            "top": {
+              "tag": "BUTTON",
+              "id": "ondemand-mini-chat-close",
+              "cls": "od-chat__icon-btn od-chat__close",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "BUTTON#ondemand-mini-chat-close.od-chat__icon-btn.od-chat__close",
+                "HEADER.od-chat__header.od-chat__header--mini",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "tl": {
+            "x": 1380,
+            "y": 463.515625,
+            "inside": true,
+            "top": {
+              "tag": "BUTTON",
+              "id": "ondemand-mini-chat-close",
+              "cls": "od-chat__icon-btn od-chat__close",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "BUTTON#ondemand-mini-chat-close.od-chat__icon-btn.od-chat__close",
+                "HEADER.od-chat__header.od-chat__header--mini",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "br": {
+            "x": 1408,
+            "y": 481.515625,
+            "inside": true,
+            "top": {
+              "tag": "BUTTON",
+              "id": "ondemand-mini-chat-close",
+              "cls": "od-chat__icon-btn od-chat__close",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "BUTTON#ondemand-mini-chat-close.od-chat__icon-btn.od-chat__close",
+                "HEADER.od-chat__header.od-chat__header--mini",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          }
+        }
+      },
+      "innerHeight": 900,
+      "visualViewport": {
+        "h": 900,
+        "w": 1440,
+        "top": 0
+      },
+      "pointerClick": {
+        "pre": 0,
+        "msgs": 2,
+        "status": "STREAMING…",
+        "inputValue": "",
+        "sent": true
+      }
+    },
+    "390x844": {
+      "ondemand-mini-chat-send": {
+        "rect": {
+          "x": 205,
+          "y": 800.703125,
+          "w": 166,
+          "h": 32.296875,
+          "bottom": 833
+        },
+        "hidden": false,
+        "disabled": false,
+        "hits": {
+          "center": {
+            "x": 288,
+            "y": 816.8515625,
+            "inside": false,
+            "top": {
+              "tag": "SPAN",
+              "id": null,
+              "cls": "",
+              "text": "OnDemand Intelligence Workstation is running as a serverless",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "SPAN",
+                "DIV",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "tl": {
+            "x": 208,
+            "y": 803.703125,
+            "inside": false,
+            "top": {
+              "tag": "SPAN",
+              "id": null,
+              "cls": "",
+              "text": "OnDemand Intelligence Workstation is running as a serverless",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "SPAN",
+                "DIV",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "br": {
+            "x": 368,
+            "y": 830,
+            "inside": false,
+            "top": {
+              "tag": "DIV",
+              "id": null,
+              "cls": "",
+              "text": "OnDemand Intelligence Workstation is running as a serverless",
+              "z": "2147483000",
+              "pe": "auto",
+              "pos": "fixed",
+              "parentChain": [
+                "DIV",
+                "BODY",
+                "HTML"
+              ]
+            }
+          }
+        }
+      },
+      "ondemand-mini-chat-input": {
+        "rect": {
+          "x": 13,
+          "y": 800.703125,
+          "w": 186,
+          "h": 32.296875,
+          "bottom": 833
+        },
+        "hidden": false,
+        "disabled": false,
+        "hits": {
+          "center": {
+            "x": 106,
+            "y": 816.8515625,
+            "inside": false,
+            "top": {
+              "tag": "SPAN",
+              "id": null,
+              "cls": "",
+              "text": "OnDemand Intelligence Workstation is running as a serverless",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "SPAN",
+                "DIV",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "tl": {
+            "x": 16,
+            "y": 803.703125,
+            "inside": false,
+            "top": {
+              "tag": "DIV",
+              "id": null,
+              "cls": "",
+              "text": "OnDemand Intelligence Workstation is running as a serverless",
+              "z": "2147483000",
+              "pe": "auto",
+              "pos": "fixed",
+              "parentChain": [
+                "DIV",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "br": {
+            "x": 196,
+            "y": 830,
+            "inside": false,
+            "top": {
+              "tag": "DIV",
+              "id": null,
+              "cls": "",
+              "text": "OnDemand Intelligence Workstation is running as a serverless",
+              "z": "2147483000",
+              "pe": "auto",
+              "pos": "fixed",
+              "parentChain": [
+                "DIV",
+                "BODY",
+                "HTML"
+              ]
+            }
+          }
+        }
+      },
+      "ondemand-mini-chat-stop": {
+        "rect": {
+          "x": 0,
+          "y": 0,
+          "w": 0,
+          "h": 0,
+          "bottom": 0
+        },
+        "hidden": true,
+        "disabled": false,
+        "hits": {
+          "center": {
+            "x": 0,
+            "y": 0,
+            "inside": false,
+            "top": {
+              "tag": "CANVAS",
+              "id": null,
+              "cls": "",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "CANVAS",
+                "DIV.cesium-widget",
+                "DIV.cesium-viewer-cesiumWidgetContainer",
+                "DIV.cesium-viewer",
+                "DIV#cesiumContainer"
+              ]
+            }
+          },
+          "tl": {
+            "x": 3,
+            "y": 3,
+            "inside": false,
+            "top": {
+              "tag": "CANVAS",
+              "id": null,
+              "cls": "",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "CANVAS",
+                "DIV.cesium-widget",
+                "DIV.cesium-viewer-cesiumWidgetContainer",
+                "DIV.cesium-viewer",
+                "DIV#cesiumContainer"
+              ]
+            }
+          },
+          "br": {
+            "x": -3,
+            "y": -3,
+            "inside": false,
+            "top": null
+          }
+        }
+      },
+      "ondemand-mini-chat-close": {
+        "rect": {
+          "x": 345,
+          "y": 554.515625,
+          "w": 34,
+          "h": 24,
+          "bottom": 578.515625
+        },
+        "hidden": false,
+        "disabled": false,
+        "hits": {
+          "center": {
+            "x": 362,
+            "y": 566.515625,
+            "inside": true,
+            "top": {
+              "tag": "BUTTON",
+              "id": "ondemand-mini-chat-close",
+              "cls": "od-chat__icon-btn od-chat__close",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "BUTTON#ondemand-mini-chat-close.od-chat__icon-btn.od-chat__close",
+                "HEADER.od-chat__header.od-chat__header--mini",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "tl": {
+            "x": 348,
+            "y": 557.515625,
+            "inside": true,
+            "top": {
+              "tag": "BUTTON",
+              "id": "ondemand-mini-chat-close",
+              "cls": "od-chat__icon-btn od-chat__close",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "BUTTON#ondemand-mini-chat-close.od-chat__icon-btn.od-chat__close",
+                "HEADER.od-chat__header.od-chat__header--mini",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          },
+          "br": {
+            "x": 376,
+            "y": 575.515625,
+            "inside": true,
+            "top": {
+              "tag": "BUTTON",
+              "id": "ondemand-mini-chat-close",
+              "cls": "od-chat__icon-btn od-chat__close",
+              "text": "",
+              "z": "auto",
+              "pe": "auto",
+              "pos": "static",
+              "parentChain": [
+                "BUTTON#ondemand-mini-chat-close.od-chat__icon-btn.od-chat__close",
+                "HEADER.od-chat__header.od-chat__header--mini",
+                "ASIDE#ondemand-mini-chat.od-chat.od-chat--mini",
+                "BODY",
+                "HTML"
+              ]
+            }
+          }
+        }
+      },
+      "innerHeight": 844,
+      "visualViewport": {
+        "h": 844,
+        "w": 390,
+        "top": 0
+      },
+      "pointerClick": {
+        "pre": 2,
+        "msgs": 2,
+        "status": "READY",
+        "inputValue": "hit test",
+        "sent": false
+      }
+    }
+  }
+}

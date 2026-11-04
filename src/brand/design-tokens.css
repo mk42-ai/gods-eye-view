@@ -1,0 +1,88 @@
+/*
+ * UI design tokens — cycle 21 "one colour" system (2026-10-30).
+ *
+ * Single source of truth for the cleaned-up workstation chrome. The TypeScript
+ * mirror is src/brand/designTokens.ts (kept in lock-step by
+ * src/brand/designTokens.test.mjs). Rules:
+ *   - ONE accent hue (OnDemand Primary 3, #3BB795, hue ≈163.5°). Tints exist only
+ *     for hover / active / focus / selected surfaces.
+ *   - A neutral dark greyscale ramp for every surface, border and text role.
+ *   - --ui-success / --ui-error are STATUS colours only (plugin state, failures,
+ *     verified badges) — never decoration.
+ *   - No glows, no scanlines, no decorative gradients anywhere in the chrome.
+ *   - One sans family for all UI text; the monospace family is reserved for
+ *     telemetry and coordinates (MGRS, lat/long, VIIRS, EL, AIS).
+ * Map imagery, Cesium entities and legend swatches are DATA colours and are out
+ * of scope for this file.
+ */
+:root {
+  /* ---- Accent (one hue) ---- */
+  --ui-accent: #3bb795; /* primary actions, selected state, links */
+  --ui-accent-hover: #62c9ac; /* hover on accent fills */
+  --ui-accent-active: #2e9479; /* pressed accent fills */
+  --ui-accent-subtle: rgba(59, 183, 149, 0.14); /* selected rows, active dock button ground */
+  --ui-accent-focus: rgba(59, 183, 149, 0.6); /* focus ring */
+  --ui-on-accent: #0b0c0d; /* text/icons on accent fills (7.6:1) */
+
+  /* ---- Neutral ramp ---- */
+  --ui-bg: #0b0c0d; /* app ground behind the globe */
+  --ui-surface-1: rgba(20, 21, 22, 0.94); /* panels, sheets, top bar, AOI bar */
+  --ui-surface-1-solid: #141516;
+  --ui-surface-2: #1d1e20; /* inputs, buttons, chips */
+  --ui-surface-3: #27292b; /* hover on surface-2 */
+  --ui-border: #2f3134; /* hairlines, panel borders */
+  --ui-border-strong: #4a4d51; /* input borders, dividers that must read */
+  --ui-text-primary: #f2f2f2; /* body + headings (15.9:1 on surface-1) */
+  --ui-text-secondary: #b7b9bc; /* labels, meta (9.0:1) */
+  --ui-text-muted: #8a8d91; /* hints, placeholders (5.4:1) */
+
+  /* ---- Status only ---- */
+  --ui-success: #5bbf7f; /* "Ready", verified */
+  --ui-error: #e5605a; /* "Error", failures */
+
+  /* ---- Typography ---- */
+  --ui-font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ui-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; /* telemetry only */
+  --ui-text-xs: 11px;
+  --ui-text-sm: 12px;
+  --ui-text-md: 13px;
+  --ui-text-lg: 15px;
+  --ui-text-xl: 18px;
+  --ui-weight-regular: 400;
+  --ui-weight-medium: 500;
+  --ui-weight-semibold: 600;
+  --ui-leading: 1.45;
+
+  /* ---- Spacing / radii / elevation ---- */
+  --ui-space-1: 4px;
+  --ui-space-2: 8px;
+  --ui-space-3: 12px;
+  --ui-space-4: 16px;
+  --ui-space-5: 24px;
+  --ui-space-6: 32px;
+  --ui-radius-sm: 6px;
+  --ui-radius-md: 10px;
+  --ui-radius-lg: 14px;
+  --ui-radius-pill: 999px;
+  --ui-shadow-1: 0 8px 24px rgba(0, 0, 0, 0.45); /* neutral elevation, never a glow */
+  --ui-blur: blur(12px);
+
+  /* ---- Layout ---- */
+  --ui-topbar-height: 48px;
+  --ui-dock-size: 44px;
+  --ui-sheet-width: 360px;
+
+  /* ---- z-index scale (ascending; every chrome surface picks one) ---- */
+  --ui-z-hud: 2;
+  --ui-z-map-label: 40;
+  --ui-z-panel: 100;
+  --ui-z-topbar: 120;
+  --ui-z-dock: 130;
+  --ui-z-composer: 150;
+  --ui-z-sheet: 184;
+  --ui-z-sheet-raised: 188;
+  --ui-z-menu: 195;
+  --ui-z-toast: 200;
+  --ui-z-loading: 1000;
+  --ui-z-tour: 10000;
+}

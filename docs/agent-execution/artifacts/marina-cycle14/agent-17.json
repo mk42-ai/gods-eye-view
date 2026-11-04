@@ -1,0 +1,51 @@
+{
+  "agent": 17,
+  "status": "implemented-not-browser-run",
+  "finishedUtc": "2026-10-24T01:53:16.642Z",
+  "files": [
+    "scripts/qa-marina-desktop.mjs",
+    "/tmp/gev-agent-17.json"
+  ],
+  "function": "export async function runDesktop(page, { url, out, record })",
+  "arguments": {
+    "page": "Existing caller-owned Puppeteer Page; use a fresh isolated context for reproducibility.",
+    "url": "Live HTTP(S) app URL; welcome=0 is added/replaced while preserving other query parameters.",
+    "out": "Screenshot directory, created recursively when absent.",
+    "record": "Caller-owned array; appended assertion entries have id, pass, detail, data, startedUtc, finishedUtc, utc, and viewport."
+  },
+  "returns": "Promise resolving to pass, UTC timing, viewport, query, saved sceneName, scene details, screenshot paths, and camera samples. Failure is recorded then rethrown.",
+  "checks": [
+    "1440x900 UI readiness and untouched baseline screenshot",
+    "Exact request typed using keyboard and submitted with Enter",
+    "Visible composer Play and scene name input",
+    "Read-only lastScene geographic anchor near 25.07864, 55.13525 (0.01-degree per-axis tolerance)",
+    "At least two keyframes and geographic=true",
+    "Actual name entry and save-button click; saved summary, feedback and selector option",
+    "Actual playback PLAY click; live clock advancement and camera movement",
+    "Actual PAUSE click; paused state and stable clock/camera",
+    "Actual NEXT and PREV clicks; selection changes, return to original shot, actual camera motion"
+  ],
+  "screenshots": [
+    "baseline",
+    "after",
+    "playing",
+    "after-controls",
+    "failure-<step> on error when page remains available"
+  ],
+  "mutationPolicy": "Only page navigation/viewport and native mouse/keyboard events. All evaluate/waitForFunction callbacks are read-only. No internal state injection, network mocks, overlay removal, rendering changes, or DOM input assignment.",
+  "verification": {
+    "syntax": "node --check passed",
+    "inertImportAndExport": "passed",
+    "browserLaunched": false,
+    "desktopFlowExecuted": false
+  },
+  "limitations": [
+    "No browser or deployed preview was available/requested for this implementation task; runtime pass is not claimed.",
+    "Coordinator/Agent20 must supply and clean up the browser/page and enforce a global wall-clock timeout.",
+    "Requires live composer/geocoder integration, scene library save wiring, and the existing debug read handles/selectors.",
+    "Uses finite per-step waits and bounded real-mouse scrolling; covered controls intentionally fail rather than bypass overlays.",
+    "NEXT/PREV settlement allows 2.8 seconds for the existing 2.2-second camera flight; materially different timing may require coordinator adjustment.",
+    "Saved-state checks prove UI save completion and selector presence, not persistence after reload.",
+    "No live network responses or screenshot contents were asserted during implementation."
+  ]
+}

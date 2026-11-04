@@ -1,0 +1,147 @@
+{
+  "startedAt": "2026-10-21T08:27:40.612Z",
+  "endedAt": "2026-10-21T08:28:09.341Z",
+  "baseUrl": "https://sb-72vtzc1c6cf8.vercel.run",
+  "viewports": {
+    "1440x900": {
+      "backdrop": {
+        "visibleAtDomContentLoaded": true,
+        "computedBackgroundImage": "linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\"https://sb-72vtzc1c6cf8.vercel.run/assets/brand/backdrop-network.png\")",
+        "containsBackdropAsset": true,
+        "screenshot": "check-backdrop-1440x900.png"
+      },
+      "title": "OnDemand Intelligence Workstation",
+      "brandMark": {
+        "tag": "svg",
+        "left": 49,
+        "top": 43,
+        "width": 52,
+        "height": 34.875
+      },
+      "noSessions": {
+        "pass": true,
+        "elementBg": "none",
+        "beforeBg": "url(\"https://sb-72vtzc1c6cf8.vercel.run/assets/brand/empty-no-sessions.png\")",
+        "containsAsset": true,
+        "rect": {
+          "left": 1003,
+          "top": 562.109375,
+          "width": 406,
+          "height": 155,
+          "bottom": 717.109375,
+          "right": 1409
+        },
+        "nonZeroSize": true,
+        "insideViewport": true,
+        "text": "No prior investigation for this object",
+        "screenshot": "check-empty-no-sessions-1440x900.png"
+      },
+      "noResults": {
+        "pass": true,
+        "elementBg": "none",
+        "beforeBg": "url(\"https://sb-72vtzc1c6cf8.vercel.run/assets/brand/empty-no-results.png\")",
+        "containsAsset": true,
+        "rect": {
+          "left": 1003,
+          "top": 562.109375,
+          "width": 406,
+          "height": 155,
+          "bottom": 717.109375,
+          "right": 1409
+        },
+        "nonZeroSize": true,
+        "insideViewport": true,
+        "text": "No results from the selected sources",
+        "screenshot": "check-empty-no-results-1440x900.png"
+      },
+      "sourceUnavailable": {
+        "pass": true,
+        "foundEmptyState": true,
+        "foundErrorMessage": true,
+        "elementBg": "none",
+        "beforeBg": "url(\"https://sb-72vtzc1c6cf8.vercel.run/assets/brand/empty-source-unavailable.png\")",
+        "containsAsset": true,
+        "rect": {
+          "left": 1003,
+          "top": 562.109375,
+          "width": 406,
+          "height": 155,
+          "bottom": 717.109375,
+          "right": 1409
+        },
+        "text": "upstream_unavailable (HTTP 502)",
+        "screenshot": "check-empty-source-unavailable-1440x900.png"
+      }
+    },
+    "390x844": {
+      "backdrop": {
+        "visibleAtDomContentLoaded": true,
+        "computedBackgroundImage": "linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\"https://sb-72vtzc1c6cf8.vercel.run/assets/brand/backdrop-network.png\")",
+        "containsBackdropAsset": true,
+        "screenshot": "check-backdrop-390x844.png"
+      },
+      "title": "OnDemand Intelligence Workstation",
+      "brandMark": {
+        "tag": "svg",
+        "left": 29,
+        "top": 25,
+        "width": 36,
+        "height": 24.140625
+      },
+      "noSessions": {
+        "pass": true,
+        "elementBg": "none",
+        "beforeBg": "url(\"https://sb-72vtzc1c6cf8.vercel.run/assets/brand/empty-no-sessions.png\")",
+        "containsAsset": true,
+        "rect": {
+          "left": 13,
+          "top": 594.109375,
+          "width": 364,
+          "height": 155,
+          "bottom": 749.109375,
+          "right": 377
+        },
+        "nonZeroSize": true,
+        "insideViewport": true,
+        "text": "No prior investigation for this object",
+        "screenshot": "check-empty-no-sessions-390x844.png"
+      },
+      "noResults": {
+        "pass": true,
+        "elementBg": "none",
+        "beforeBg": "url(\"https://sb-72vtzc1c6cf8.vercel.run/assets/brand/empty-no-results.png\")",
+        "containsAsset": true,
+        "rect": {
+          "left": 13,
+          "top": 594.109375,
+          "width": 364,
+          "height": 155,
+          "bottom": 749.109375,
+          "right": 377
+        },
+        "nonZeroSize": true,
+        "insideViewport": true,
+        "text": "No results from the selected sources",
+        "screenshot": "check-empty-no-results-390x844.png"
+      },
+      "sourceUnavailable": {
+        "pass": true,
+        "foundEmptyState": true,
+        "foundErrorMessage": true,
+        "elementBg": "none",
+        "beforeBg": "url(\"https://sb-72vtzc1c6cf8.vercel.run/assets/brand/empty-source-unavailable.png\")",
+        "containsAsset": true,
+        "rect": {
+          "left": 13,
+          "top": 594.109375,
+          "width": 364,
+          "height": 155,
+          "bottom": 749.109375,
+          "right": 377
+        },
+        "text": "upstream_unavailable (HTTP 502)",
+        "screenshot": "check-empty-source-unavailable-390x844.png"
+      }
+    }
+  }
+}

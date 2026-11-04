@@ -11,6 +11,7 @@ function withKeys({ server, browser }, fn) {
   const previous = {
     GOOGLE_MAPS_SERVER_API_KEY: process.env.GOOGLE_MAPS_SERVER_API_KEY,
     GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
+    VITE_GOOGLE_MAPS_API_KEY: process.env.VITE_GOOGLE_MAPS_API_KEY,
   };
   const apply = (name, value) => {
     if (value === undefined) delete process.env[name];
@@ -18,6 +19,7 @@ function withKeys({ server, browser }, fn) {
   };
   apply('GOOGLE_MAPS_SERVER_API_KEY', server);
   apply('GOOGLE_MAPS_API_KEY', browser);
+  apply('VITE_GOOGLE_MAPS_API_KEY', browser);
   try {
     return fn();
   } finally {
@@ -117,7 +119,7 @@ test('both Places routes select the intended key and keep it out of responses', 
 test('browser defines contain the browser key and exclude the server key', () => {
   withKeys({ server: 'server-secret', browser: 'browser-public' }, () => {
     const defines = config({ mode: 'test' }).define;
-    assert.equal(defines['import.meta.env.GOOGLE_MAPS_API_KEY'], '"browser-public"');
+    assert.equal(defines['import.meta.env.VITE_GOOGLE_MAPS_API_KEY'], '"browser-public"');
     assert.ok(!JSON.stringify(defines).includes('server-secret'));
     assert.ok(!Object.keys(defines).some((key) => key.includes('SERVER_API_KEY')));
   });
