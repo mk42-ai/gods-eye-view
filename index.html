@@ -3,49 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{PRODUCT_NAME}}</title>
+  <title>{{PRODUCT_NAME}} · Scene Workstation</title>
   <meta name="description" content="{{PRODUCT_NAME}} — {{PRODUCT_DESCRIPTION}}" />
-  <meta name="application-name" content="{{PRODUCT_NAME}}" />
   <meta name="build-id" content="%VITE_BUILD_REFERENCE%" />
-  <meta name="theme-color" content="#161616" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="{{PRODUCT_NAME}}" />
-  <meta property="og:title" content="{{PRODUCT_NAME}}" />
-  <meta property="og:description" content="{{PRODUCT_NAME}} — {{PRODUCT_DESCRIPTION}}" />
-  <meta property="og:image" content="/assets/brand/og-image.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{{PRODUCT_NAME}}" />
-  <meta name="twitter:description" content="{{PRODUCT_NAME}} — {{PRODUCT_DESCRIPTION}}" />
-  <meta name="twitter:image" content="/assets/brand/og-image.png" />
+  <meta name="theme-color" content="#1b1b1d" />
   <link rel="icon" href="/assets/brand/favicon.ico" sizes="any" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png" />
-  <link rel="icon" type="image/png" sizes="48x48" href="/assets/brand/favicon-48.png" />
-  <link rel="icon" type="image/svg+xml" href="/brand/mark.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png" />
-  <link rel="manifest" href="/brand/site.webmanifest" />
-  <link rel="stylesheet" href="/style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 </head>
-<body>
-  <!-- gev:template scene-chrome -->
+<body class="ws-body">
+  <div id="ws-app" class="ws-app" data-mode="render" data-state="idle">
+    <header class="ws-topbar">
+      <div class="ws-brand">Scene Workstation</div>
+      <form id="ws-prompt-form" class="ws-prompt" autocomplete="off">
+        <label class="ws-sr" for="ws-prompt">Scene prompt</label>
+        <input id="ws-prompt" name="prompt" type="text" maxlength="600"
+               placeholder="Describe a scene, e.g. car crash outside yas mall" />
+        <button id="ws-build" class="ws-btn ws-btn-accent" type="submit">Build</button>
+      </form>
+      <div class="ws-modes" role="radiogroup" aria-label="Viewport shading">
+        <button type="button" class="ws-mode" data-mode="render" role="radio" aria-checked="true">Render</button>
+        <button type="button" class="ws-mode" data-mode="solid" role="radio" aria-checked="false">Solid</button>
+        <button type="button" class="ws-mode" data-mode="wire" role="radio" aria-checked="false">Wireframe</button>
+      </div>
+      <div class="ws-drawer-toggles">
+        <button type="button" class="ws-btn" data-drawer="outliner" aria-controls="ws-outliner">Outliner</button>
+        <button type="button" class="ws-btn" data-drawer="properties" aria-controls="ws-properties">Properties</button>
+      </div>
+    </header>
 
-  <!-- gev:template cockpit -->
+    <aside id="ws-outliner" class="ws-panel ws-outliner" aria-label="Outliner">
+      <h2 class="ws-panel-title">Outliner</h2>
+      <ul id="ws-outliner-list" class="ws-tree"><li class="ws-empty">No scene yet. Type a prompt and press Build.</li></ul>
+    </aside>
 
-  <!-- gev:template display-controls -->
+    <main id="ws-viewport" class="ws-viewport" aria-label="Render viewport">
+      <img id="ws-frame" class="ws-frame" alt="Blender Cycles render" hidden />
+      <canvas id="ws-frame-canvas" class="ws-frame-canvas" hidden></canvas>
+      <div id="ws-status" class="ws-status" role="status" aria-live="polite">Ready — Blender Cycles renderer</div>
+      <div id="ws-hud" class="ws-hud" hidden></div>
+    </main>
 
-  <!-- gev:template command-dock -->
+    <aside id="ws-properties" class="ws-panel ws-properties" aria-label="Properties">
+      <h2 class="ws-panel-title">Properties</h2>
+      <dl id="ws-props" class="ws-props"><dt>Renderer</dt><dd>Blender Cycles · OptiX</dd></dl>
+    </aside>
 
-  <!-- gev:template layer-panels -->
-
-  <!-- gev:template context -->
-
-  <!-- gev:template provider-settings -->
-
-  <!-- gev:template hud-loading -->
-
-  <script type="module" src="/src/main.js"></script>
+    <footer class="ws-timeline" aria-label="Timeline">
+      <div class="ws-transport">
+        <button type="button" class="ws-btn" data-transport="first" aria-label="First frame">|&lt;</button>
+        <button type="button" class="ws-btn" data-transport="prev" aria-label="Previous frame">&lt;</button>
+        <button type="button" class="ws-btn ws-btn-accent" data-transport="play" aria-label="Play">Play</button>
+        <button type="button" class="ws-btn" data-transport="next" aria-label="Next frame">&gt;</button>
+        <button type="button" class="ws-btn" data-transport="last" aria-label="Last frame">&gt;|</button>
+      </div>
+      <input id="ws-scrub" class="ws-scrub" type="range" min="1" max="1" value="1" aria-label="Frame" disabled />
+      <div id="ws-frame-readout" class="ws-readout">0 / 0</div>
+    </footer>
+  </div>
+  <script type="module" src="/src/workstation/main.js"></script>
 </body>
 </html>

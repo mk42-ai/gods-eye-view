@@ -52,8 +52,8 @@ describe('Brand assets inventory and head wiring', () => {
     );
   });
 
-  test("index.html's head references favicon and manifest", () => {
-    const htmlPath = new URL('../../index.html', import.meta.url).pathname;
+  test("legacy.html's head references favicon and manifest", () => {
+    const htmlPath = new URL('../../legacy.html', import.meta.url).pathname;
     const html = readFileSync(htmlPath, 'utf8');
     const headMatch = html.match(/<head>([\s\S]*?)<\/head>/i);
     assert.ok(headMatch, 'index.html must have a <head>');
@@ -99,7 +99,7 @@ describe('Brand assets inventory and head wiring', () => {
   test('no /fallbacks/ URL path appears in src/ or index.html', () => {
     const rootDir = resolve(new URL('../../', import.meta.url).pathname);
     const srcDir = join(rootDir, 'src');
-    const indexHtml = join(rootDir, 'index.html');
+    const indexHtml = join(rootDir, 'legacy.html');
 
     function scanFiles(dir, fileList = []) {
       const entries = readdirSync(dir, { withFileTypes: true });

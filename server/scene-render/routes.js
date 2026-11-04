@@ -24,6 +24,7 @@
  * footage routes (same Connect-style mount, same strict path patterns).
  */
 import { readJsonBody, sendJson, rejectCrossOrigin } from '../ondemand/http.js';
+import { resolvePromptLocation } from './geocode.js';
 
 export const RENDER_LABEL = 'Illustrative render · not evidence';
 const JOB_RE = /^[a-f0-9]{6,32}$/;
@@ -91,6 +92,7 @@ export function rewriteJobUrls(payload, jobId) {
 export function createSceneRenderRoutes({
   env = process.env,
   fetchImpl = globalThis.fetch,
+  geocode = (prompt) => resolvePromptLocation(prompt, { fetchImpl }),
 } = {}) {
   const cfg = renderServiceConfig(env);
   const headers = () =>
@@ -186,6 +188,21 @@ export function createSceneRenderRoutes({
       }
       const v = validateRenderRequest(body);
       if (v.error) return sendJson(res, 400, { error: v.error });
+      // Never let a geocoder miss kill the Blender job: resolve coordinates
+      // here (known place -> Nominatim ladder -> city -> prompt-only) and hand
+      // them to the service, which then skips its own failing geocode step.
+      let location = null;
+      if (v.value.lat === undefined) {
+        try {
+          location = await geocode(v.value.prompt);
+        } catch {
+          location = null;
+        }
+        if (location && Number.isFinite(location.lat) && Number.isFinite(location.lng)) {
+          v.value.lat = location.lat;
+          v.value.lng = location.lng;
+        }
+      }
       try {
         const r = await fetchImpl(`${cfg.url}/render`, {
           method: 'POST',
@@ -200,7 +217,7 @@ export function createSceneRenderRoutes({
             status: r.status,
             detail: data?.detail || null,
           });
-        return sendJson(res, 202, rewriteJobUrls(data, data.job_id));
+        return sendJson(res, 202, { ...rewriteJobUrls(data, data.job_id), location });
       } catch (error) {
         return sendJson(res, 502, {
           error: 'render_service_unreachable',

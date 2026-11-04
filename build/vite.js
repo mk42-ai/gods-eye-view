@@ -2,6 +2,26 @@ import { applicationHtmlPlugin } from './application-html.js';
 import { productNamePlugin } from './product-name.js';
 import cesium from 'vite-plugin-cesium';
 
+/**
+ * The Scene Workstation page (index.html, body.ws-body) renders Blender frames
+ * only: strip the Cesium script tag vite-plugin-cesium injects so no WebGL
+ * globe (and no 'RangeError: Array buffer allocation failed') can start there.
+ */
+function workstationNoCesiumPlugin() {
+  return {
+    name: 'workstation-no-cesium',
+    transformIndexHtml: {
+      order: 'post',
+      handler(html) {
+        if (!html.includes('ws-body')) return html;
+        return html
+          .replace(/<script[^>]*src="[^"]*Cesium\.js"[^>]*><\/script>\s*/g, '')
+          .replace(/<link[^>]*cesium[^>]*widgets\.css"[^>]*>\s*/gi, '');
+      },
+    },
+  };
+}
+
 /** Build browser assets with explicit inputs; never load environment or providers. */
 export function createBrowserViteConfig({
   plugins = [],
@@ -16,6 +36,7 @@ export function createBrowserViteConfig({
       cesium(),
       applicationHtmlPlugin(),
       productNamePlugin(),
+      workstationNoCesiumPlugin(),
       ...plugins,
     ],
     ...(publicDir === undefined ? {} : { publicDir }),

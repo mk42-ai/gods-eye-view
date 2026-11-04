@@ -101,3 +101,20 @@ test('cross-origin POST /render is rejected and unknown sub-paths fall through t
   await h(req('GET', '/abc/footage/snapchat'), fakeRes(), () => (nexted = true));
   assert.equal(nexted, true);
 });
+
+test('POST /render resolves coordinates server-side so a geocoder miss never blocks the Blender job', async () => {
+  const sent = [];
+  const fetchImpl = async (url, init = {}) => {
+    sent.push({ url, body: init.body ? JSON.parse(init.body) : null });
+    return { ok: true, status: 200, json: async () => ({ job_id: 'abc123def456' }) };
+  };
+  const geocode = async () => ({ name: 'Abu Dhabi', lat: 24.4539, lng: 54.3773, source: 'prompt-only-fallback', approximate: true });
+  const h = createSceneRenderRoutes({ env: { RENDER_SERVICE_URL: 'https://gpu.example' }, fetchImpl, geocode });
+  const res = fakeRes();
+  await h(req('POST', '/render', { prompt: 'kanes boxing gym abu dhabi', duration_s: 4 }), res, () => assert.fail('next'));
+  assert.equal(res.statusCode, 202);
+  assert.equal(sent.length, 1, 'exactly one upstream render request');
+  assert.equal(sent[0].body.lat, 24.4539);
+  assert.equal(sent[0].body.lng, 54.3773);
+  assert.equal(JSON.parse(res.body).location.source, 'prompt-only-fallback');
+});
