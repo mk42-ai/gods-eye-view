@@ -23,6 +23,10 @@ UA = {"User-Agent": "gods-eye-view-render/0.1 (research; contact via repo)"}
 ROOT = os.environ.get("GEV_ROOT", "/localstorage/mk.thomas/gev")
 MANIFEST = json.load(open(os.path.join(ROOT, "assets", "manifest.json")))
 ASSET_KEYS = {a["key"] for a in MANIFEST["assets"] if a["status"] == "ok"}
+import references as REFS
+# Keys that have no glb of their own: the hatchback re-uses the sedan mesh with the reference
+# paint, the debris decal is an image plane built from the reference PNG (blender_scene.py).
+VIRTUAL_ASSETS = {"civilian_hatchback": "civilian_sedan", "debris_cluster_decal": None}
 
 # Mirror of the app's server/scene-plans/known-places.js anchors (approximate, OSM-derived).
 KNOWN_PLACES = [
@@ -289,7 +293,7 @@ def place(spec, focal, osm, half_m, seed, log=None):
     def ring(radius, count, phase=0.0):
         return [Point(radius * math.cos(phase + 2 * math.pi * i / count), radius * math.sin(phase + 2 * math.pi * i / count)) for i in range(count)]
     def add(key, pt, hdg=None, scale=1.0, el=None, snap=True):
-        if key not in ASSET_KEYS: return
+        if key not in ASSET_KEYS and key not in VIRTUAL_ASSETS: return
         ln = None
         if snap: pt, ln = on_road(pt)
         pt = Point(max(-half_m + 5, min(half_m - 5, pt.x)), max(-half_m + 5, min(half_m - 5, pt.y)))
@@ -343,13 +347,22 @@ def place(spec, focal, osm, half_m, seed, log=None):
         # two civilian cars at an angle across the carriageway, debris field, responders upstream).
         pt, ln = on_road(Point(0, 0), r=200)
         h = heading_along(ln, pt)
+        # Reference-driven crash pair: the silver sedan (D3IfJIiClM) and the blue hatchback
+        # (Rv6TULP5dW) when the sedan mesh exists; civilian_hatchback re-uses the sedan mesh with the
+        # reference paint (render_service/references.py). Falls back to whatever civilian key exists.
         civ = [k for k in ("civilian_sedan", "civilian_suv", "civilian_taxi") if k in ASSET_KEYS]
-        a_key = civ[seed % len(civ)] if civ else "police_patrol_car"
-        b_key = civ[(seed // 7 + 1) % len(civ)] if civ else "city_bus"
+        if "civilian_sedan" in ASSET_KEYS and REFS.reference_path("silver_sedan") and REFS.reference_path("blue_hatchback"):
+            a_key, b_key = "civilian_sedan", "civilian_hatchback"
+        else:
+            a_key = civ[seed % len(civ)] if civ else "police_patrol_car"
+            b_key = civ[(seed // 7 + 1) % len(civ)] if civ else "city_bus"
         add(a_key, Point(pt.x - 2.5, pt.y - 1.0), hdg=h + 25 + rnd.uniform(-10, 10), el="crash_vehicle_a", snap=False)
         add(b_key, Point(pt.x + 2.8, pt.y + 1.6), hdg=h - 70 + rnd.uniform(-15, 15), el="crash_vehicle_b", snap=False)
         for k in [d for d in ("debris_bumper", "debris_tire", "debris_door", "debris_plate") if d in ASSET_KEYS] * 2:
             add(k, Point(pt.x + rnd.gauss(0, 3.5), pt.y + rnd.gauss(0, 3.5)), hdg=rnd.uniform(0, 360), el="debris", snap=False)
+        if REFS.reference_path("debris_cluster"):
+            # ground decal plane carrying the debris reference between the two vehicles
+            add("debris_cluster_decal", Point(pt.x + 0.2, pt.y + 0.4), hdg=h + rnd.uniform(-30, 30), scale=1.0, el="debris_decal", snap=False)
         ux, uy = math.cos(math.radians(h)), math.sin(math.radians(h))
         add("police_patrol_car", Point(pt.x - 16 * ux, pt.y - 16 * uy), hdg=h + 12, el="responder_police", snap=False)
         add("ambulance_medical_point", Point(pt.x + 18 * ux + 3, pt.y + 18 * uy + 3), hdg=h, el="responder_ems", snap=False)
@@ -372,9 +385,13 @@ def build_scene_json(job, focal, spec, model_rec, osm, img, inst, shapes, roads,
             except ValueError: h = 0
         bl.append({"pts": [[round(x, 2), round(y, 2)] for x, y in pts], "h": round(h or 8.0, 1), "name": tg.get("name")})
     rd = [{"pts": [[round(x, 1), round(y, 1)] for x, y in ln.coords], "kind": k} for ln, k, _ in roads]
+    facade_idx = REFS.facade_building_indices(bl, focal) if REFS.reference_path("mall_facade_module") else []
+    for i in facade_idx: bl[i]["facade"] = "mall_facade_module"
+    references = REFS.bindings(inst, focal, spec.get("_prompt", ""), spec.get("scenarioType"), len(bl), len(facade_idx))
     w, s, e, n = img["bounds_wsen"]
     x0, y0 = L(s, w); x1, y1 = L(n, e)
     return {"job_id": job, "seed": spec.get("seed"), "prompt_hash": spec.get("prompt_hash"), "illustrative": True, "label": "Illustrative render · not evidence", "created_utc": utc(), "focal": focal, "spec": spec, "model": model_rec,
             "time_of_day": time_of_day, "duration_s": duration_s, "fps": fps, "gpus": gpus, "imagery": {"png": img["png"], "local_bounds": [x0, y0, x1, y1], "attribution": img["attribution"]},
             "buildings": bl, "roads": rd, "instances": inst, "shapes": shapes, "assets_root": os.path.join(ROOT, "assets"),
+            "references": references, "references_dir": REFS.REFERENCES_DIR, "virtual_assets": VIRTUAL_ASSETS,
             "hdri": {"dusk": "kiara_9_dusk_2k.hdr", "night": "dikhololo_night_2k.hdr", "midday": "clarens_midday_2k.hdr"}.get(time_of_day, "clarens_midday_2k.hdr")}

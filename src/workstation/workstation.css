@@ -11,6 +11,9 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
+/* The hidden attribute must beat every display rule below (the idle viewport once leaked a
+   broken <img> because .ws-frame{display:block} outranked the UA [hidden] rule). */
+[hidden] { display: none !important; }
 html, body { margin: 0; height: 100%; background: var(--ws-bg); color: var(--ws-ink);
   font: 13px/1.4 Inter, system-ui, -apple-system, 'Segoe UI', sans-serif; }
 .ws-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -50,7 +53,21 @@ html, body { margin: 0; height: 100%; background: var(--ws-bg); color: var(--ws-
 .ws-props dd { margin: 0; overflow-wrap: anywhere; }
 .ws-viewport { grid-area: view; position: relative; overflow: hidden; background: #0f0f11;
   display: flex; align-items: center; justify-content: center; }
+.ws-frame-slot { display: contents; }
 .ws-frame { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+.ws-frame:not([src]) { display: none; }
+.ws-progress { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(520px, 80%);
+  padding: 14px 16px; border-radius: 8px; background: rgba(20, 20, 22, .9); border: 1px solid var(--ws-line); }
+.ws-progress-track { height: 6px; border-radius: 3px; background: var(--ws-panel-2); overflow: hidden; }
+.ws-progress-bar { height: 100%; width: 2%; background: var(--ws-accent); transition: width .4s ease; }
+.ws-progress-text { margin-top: 8px; color: var(--ws-ink); font-variant-numeric: tabular-nums; }
+.ws-banner { position: absolute; left: 12px; right: 12px; top: 12px; display: flex; gap: 12px; align-items: center;
+  padding: 10px 12px; border-radius: 8px; background: rgba(60, 22, 16, .94); border: 1px solid var(--ws-danger);
+  color: var(--ws-ink); z-index: 3; }
+.ws-banner-text { flex: 1; overflow-wrap: anywhere; }
+.ws-tree .ws-ref-state { display: block; font-style: normal; font-size: 11px; color: var(--ws-muted); }
+.ws-tree .ws-ref-not-applied-on-render-host .ws-count,
+.ws-tree .ws-ref-not-used-in-this-scene .ws-count { color: var(--ws-muted); }
 .ws-frame-canvas { display: none !important; }
 .ws-app[data-mode='solid'] .ws-frame { filter: grayscale(1) contrast(1.15) brightness(1.05); }
 .ws-app[data-mode='wire'] .ws-frame { filter: grayscale(1) invert(1) contrast(3) brightness(.6); }

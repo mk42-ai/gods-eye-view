@@ -35,9 +35,17 @@
       <ul id="ws-outliner-list" class="ws-tree"><li class="ws-empty">No scene yet. Type a prompt and press Build.</li></ul>
     </aside>
 
-    <main id="ws-viewport" class="ws-viewport" aria-label="Render viewport">
-      <img id="ws-frame" class="ws-frame" alt="Blender Cycles render" hidden />
+    <main id="ws-viewport" class="ws-viewport" aria-label="Render viewport" data-has-frame="0">
+      <div id="ws-frame-slot" class="ws-frame-slot"></div>
       <canvas id="ws-frame-canvas" class="ws-frame-canvas" hidden></canvas>
+      <div id="ws-progress" class="ws-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden>
+        <div class="ws-progress-track"><div id="ws-progress-bar" class="ws-progress-bar"></div></div>
+        <div id="ws-progress-text" class="ws-progress-text">Building…</div>
+      </div>
+      <div id="ws-banner" class="ws-banner" role="alert" hidden>
+        <span id="ws-banner-text" class="ws-banner-text"></span>
+        <button id="ws-retry" class="ws-btn" type="button">Retry</button>
+      </div>
       <div id="ws-status" class="ws-status" role="status" aria-live="polite">Ready — Blender Cycles renderer</div>
       <div id="ws-hud" class="ws-hud" hidden></div>
     </main>

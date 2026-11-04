@@ -114,6 +114,8 @@ def run_job(jid):
         scene = P.build_scene_json(jid, focal, spec, model, osm, img, inst, shapes, roads, tod, j["request"]["duration_s"], FPS, GPUS)
         scene_path = os.path.join(d, "scene.json"); json.dump(scene, open(scene_path, "w"))
         j["placement"] = {"instances": len(inst), "by_asset": {k: sum(1 for i in inst if i["asset"] == k) for k in sorted({i["asset"] for i in inst})}}
+        j["references"] = scene.get("references", [])
+        L("references", {"applied": [r["id"] for r in j["references"] if r["applied"]], "counts": {r["id"]: r["applied_count"] for r in j["references"]}})
         j["prep_s"] = round(time.time() - t_start, 2)
         # ---- render: shard the frame range across GPUs, interleaved so early frames arrive first on every GPU
         j["stage"] = "render"
@@ -203,7 +205,7 @@ def run_job(jid):
 def health():
     return {"ok": True, "service": "gods-eye-view-render", "utc": P.utc(), "gpus": GPUS,
             "gpu_policy": {"allowed": list(ALLOWED_GPUS), "rejected_from_env": REJECTED_GPUS, "device_order": "PCI_BUS_ID", "backend": "OPTIX", "mode": "blender -b"},
-            "seeding": "sha256(prompt)", "fps": FPS, "resolution": [RES_W, RES_H], "samples": SAMPLES,
+            "seeding": "sha256(prompt)", "references": [r["id"] for r in P.REFS.REFERENCES if P.REFS.reference_path(r["id"])], "fps": FPS, "resolution": [RES_W, RES_H], "samples": SAMPLES,
             "blender": os.path.exists(BLENDER), "assets": len(P.ASSET_KEYS), "ondemand_configured": bool(os.environ.get("ONDEMAND_API_KEY")),
             "nvidia": nvidia_sample(), "jobs": len(JOBS), "illustrative": True, "label": LABEL}
 

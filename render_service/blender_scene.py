@@ -106,6 +106,46 @@ def building_material(name, wall_rgb, rough, metal):
     nt_.links.new(mix.outputs[0], b.inputs["Base Color"])
     return m
 bmat = building_material("Building", (0.72, 0.70, 0.66), 0.55, 0.0); bglass = building_material("Glass", (0.35, 0.45, 0.55), 0.2, 0.5)
+
+# ---- studio reference images (render_service/references.py): paint, decals, facade texture
+REFS = {r["id"]: r for r in S.get("references", [])}
+REF_DIR = S.get("references_dir", os.path.join(os.path.dirname(os.path.abspath(__file__)), "references"))
+def ref_image(ref_id):
+    r = REFS.get(ref_id)
+    if not r or not r.get("available_on_host"): return None
+    p = os.path.join(REF_DIR, r["file"])
+    if not os.path.exists(p): return None
+    key = f"ref_{ref_id}"
+    if key not in bpy.data.images:
+        im = bpy.data.images.load(p); im.name = key
+    return bpy.data.images[key]
+
+def facade_material():
+    """Mall entrance facade: the reference module (HrOVNUqLwL) tiled along the walls (one module
+    per ~12 m, 9 m high), roof keeps the satellite imagery like every other building."""
+    im = ref_image("mall_facade_module")
+    if im is None: return None
+    m = bpy.data.materials.new("MallFacade"); m.use_nodes = True; nt_ = m.node_tree; b = nt_.nodes["Principled BSDF"]
+    b.inputs["Roughness"].default_value = 0.6
+    geo = nt_.nodes.new("ShaderNodeNewGeometry"); sep = nt_.nodes.new("ShaderNodeSeparateXYZ"); nt_.links.new(geo.outputs["Position"], sep.inputs["Vector"])
+    # wall UV: u = along-wall distance (x+y projected), v = height / 9 m
+    addxy = nt_.nodes.new("ShaderNodeMath"); addxy.operation = "ADD"; nt_.links.new(sep.outputs["X"], addxy.inputs[0]); nt_.links.new(sep.outputs["Y"], addxy.inputs[1])
+    du = nt_.nodes.new("ShaderNodeMath"); du.operation = "DIVIDE"; du.inputs[1].default_value = 12.0; nt_.links.new(addxy.outputs[0], du.inputs[0])
+    dv = nt_.nodes.new("ShaderNodeMath"); dv.operation = "DIVIDE"; dv.inputs[1].default_value = 9.0; nt_.links.new(sep.outputs["Z"], dv.inputs[0])
+    comb = nt_.nodes.new("ShaderNodeCombineXYZ"); nt_.links.new(du.outputs[0], comb.inputs["X"]); nt_.links.new(dv.outputs[0], comb.inputs["Y"])
+    tex = nt_.nodes.new("ShaderNodeTexImage"); tex.image = im; tex.extension = "REPEAT"; nt_.links.new(comb.outputs[0], tex.inputs["Vector"])
+    # roof (normal.z > 0.7) takes the satellite patch, walls take the facade module
+    sat = nt_.nodes.new("ShaderNodeTexImage"); sat.image = bpy.data.images.load(S["imagery"]["png"]); sat.extension = "EXTEND"
+    texc = nt_.nodes.new("ShaderNodeTexCoord"); mapn = nt_.nodes.new("ShaderNodeMapping")
+    mapn.inputs["Location"].default_value = (-x0 / (x1 - x0), -y0 / (y1 - y0), 0); mapn.inputs["Scale"].default_value = (1 / (x1 - x0), 1 / (y1 - y0), 1)
+    nt_.links.new(texc.outputs["Object"], mapn.inputs["Vector"]); nt_.links.new(mapn.outputs["Vector"], sat.inputs["Vector"])
+    nsep = nt_.nodes.new("ShaderNodeSeparateXYZ"); nt_.links.new(geo.outputs["True Normal"], nsep.inputs["Vector"])
+    gt = nt_.nodes.new("ShaderNodeMath"); gt.operation = "GREATER_THAN"; gt.inputs[1].default_value = 0.7; nt_.links.new(nsep.outputs["Z"], gt.inputs[0])
+    mix = nt_.nodes.new("ShaderNodeMixRGB"); nt_.links.new(gt.outputs[0], mix.inputs["Fac"]); nt_.links.new(tex.outputs["Color"], mix.inputs[1]); nt_.links.new(sat.outputs["Color"], mix.inputs[2])
+    nt_.links.new(mix.outputs[0], b.inputs["Base Color"])
+    return m
+bfacade = facade_material()
+facade_applied = 0
 bcount = 0
 BUILDINGS = []
 for b in S["buildings"][:900]:
@@ -116,7 +156,12 @@ for b in S["buildings"][:900]:
     verts = [(x, y, 0) for x, y in pts] + [(x, y, h) for x, y in pts]
     n = len(pts); faces = [tuple(range(n)), tuple(range(n, 2 * n))] + [(i, (i + 1) % n, n + (i + 1) % n, n + i) for i in range(n)]
     me.from_pydata(verts, [], faces); me.update()
-    ob.data.materials.append(bglass if h > 60 else bmat); bcount += 1; BUILDINGS.append((ob, pts, h))
+    if b.get("facade") == "mall_facade_module" and bfacade is not None:
+        ob.data.materials.append(bfacade); ob.name = "mall_facade"; facade_applied += 1
+    else:
+        ob.data.materials.append(bglass if h > 60 else bmat)
+    bcount += 1; BUILDINGS.append((ob, pts, h))
+print(f"FACADE applied={facade_applied}", flush=True)
 
 # ---- roads: the satellite ground texture already shows the real carriageways; opaque
 # synthetic road strips (first Phase-F pass) covered the imagery almost entirely in dense
@@ -153,8 +198,67 @@ TARGET = {"police_patrol_car": 4.8, "police_escort_motorcycle": 2.2, "ambulance_
           "traffic_cone_cluster": 0.7, "checkpoint_cordon_node": 1.6, "event_command_post": 6.0, "start_finish_gate": 9.0, "foot_patrol_officer": 1.8,
           "spectator_crowd_cluster": 1.75, "city_bus": 11.5, "cctv_camera": 0.5, "marine_patrol_boat": 7.5,
           "civilian_sedan": 4.6, "civilian_suv": 4.9, "civilian_taxi": 4.6, "debris_bumper": 1.7, "debris_tire": 0.65, "debris_door": 1.1, "debris_plate": 0.8}
+VIRTUAL = S.get("virtual_assets", {"civilian_hatchback": "civilian_sedan", "debris_cluster_decal": None})
+
+def paint_material(name, rgb, ref_id):
+    """Car paint sampled from the studio reference + a damage decal (the reference image itself,
+    alpha-faded from the studio grey) blended onto the front third of the body."""
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt_ = m.node_tree; b = nt_.nodes["Principled BSDF"]
+    b.inputs["Roughness"].default_value = 0.25; b.inputs["Metallic"].default_value = 0.6
+    try: b.inputs["Coat Weight"].default_value = 0.6
+    except KeyError: pass
+    base = nt_.nodes.new("ShaderNodeRGB"); base.outputs[0].default_value = (*rgb, 1)
+    im = ref_image(ref_id)
+    if im is None:
+        nt_.links.new(base.outputs[0], b.inputs["Base Color"]); return m
+    texc = nt_.nodes.new("ShaderNodeTexCoord"); mapn = nt_.nodes.new("ShaderNodeMapping")
+    mapn.inputs["Scale"].default_value = (0.9, 0.9, 1.0); mapn.inputs["Location"].default_value = (0.05, 0.05, 0)
+    nt_.links.new(texc.outputs["Generated"], mapn.inputs["Vector"])
+    tex = nt_.nodes.new("ShaderNodeTexImage"); tex.image = im; tex.extension = "CLIP"; nt_.links.new(mapn.outputs["Vector"], tex.inputs["Vector"])
+    # keep the reference where it differs from the studio grey (~0.5) and only on the front of the body
+    sep = nt_.nodes.new("ShaderNodeSeparateXYZ"); nt_.links.new(texc.outputs["Generated"], sep.inputs["Vector"])
+    front = nt_.nodes.new("ShaderNodeMath"); front.operation = "GREATER_THAN"; front.inputs[1].default_value = 0.62; nt_.links.new(sep.outputs["X"], front.inputs[0])
+    diff = nt_.nodes.new("ShaderNodeMath"); diff.operation = "SUBTRACT"; diff.inputs[1].default_value = 0.5
+    lum = nt_.nodes.new("ShaderNodeRGBToBW"); nt_.links.new(tex.outputs["Color"], lum.inputs[0]); nt_.links.new(lum.outputs[0], diff.inputs[0])
+    absn = nt_.nodes.new("ShaderNodeMath"); absn.operation = "ABSOLUTE"; nt_.links.new(diff.outputs[0], absn.inputs[0])
+    gain = nt_.nodes.new("ShaderNodeMath"); gain.operation = "MULTIPLY"; gain.inputs[1].default_value = 4.0; nt_.links.new(absn.outputs[0], gain.inputs[0])
+    fac = nt_.nodes.new("ShaderNodeMath"); fac.operation = "MULTIPLY"; nt_.links.new(gain.outputs[0], fac.inputs[0]); nt_.links.new(front.outputs[0], fac.inputs[1])
+    clamp = nt_.nodes.new("ShaderNodeClamp"); nt_.links.new(fac.outputs[0], clamp.inputs["Value"])
+    mix = nt_.nodes.new("ShaderNodeMixRGB"); nt_.links.new(clamp.outputs[0], mix.inputs["Fac"]); nt_.links.new(base.outputs[0], mix.inputs[1]); nt_.links.new(tex.outputs["Color"], mix.inputs[2])
+    nt_.links.new(mix.outputs[0], b.inputs["Base Color"])
+    return m
+
+def decal_plane(key, ref_id, size_m):
+    """Ground decal: the reference PNG on a thin plane, studio grey keyed out as alpha."""
+    im = ref_image(ref_id)
+    bpy.ops.mesh.primitive_plane_add(size=size_m, location=(0, 0, 0.03)); src = bpy.context.object
+    m = bpy.data.materials.new(f"Decal_{key}"); m.use_nodes = True; m.blend_method = "BLEND"; nt_ = m.node_tree; b = nt_.nodes["Principled BSDF"]
+    b.inputs["Roughness"].default_value = 0.8
+    if im is not None:
+        tex = nt_.nodes.new("ShaderNodeTexImage"); tex.image = im
+        nt_.links.new(tex.outputs["Color"], b.inputs["Base Color"])
+        lum = nt_.nodes.new("ShaderNodeRGBToBW"); nt_.links.new(tex.outputs["Color"], lum.inputs[0])
+        diff = nt_.nodes.new("ShaderNodeMath"); diff.operation = "SUBTRACT"; diff.inputs[1].default_value = 0.53; nt_.links.new(lum.outputs[0], diff.inputs[0])
+        absn = nt_.nodes.new("ShaderNodeMath"); absn.operation = "ABSOLUTE"; nt_.links.new(diff.outputs[0], absn.inputs[0])
+        gain = nt_.nodes.new("ShaderNodeMath"); gain.operation = "MULTIPLY"; gain.inputs[1].default_value = 6.0; nt_.links.new(absn.outputs[0], gain.inputs[0])
+        clamp = nt_.nodes.new("ShaderNodeClamp"); nt_.links.new(gain.outputs[0], clamp.inputs["Value"]); nt_.links.new(clamp.outputs[0], b.inputs["Alpha"])
+    src.data.materials.append(m)
+    src.hide_render = True; src.hide_viewport = True; src.name = f"src_{key}"
+    return src
+
 def load_asset(key):
     if key in cache: return cache[key]
+    if key in VIRTUAL and VIRTUAL[key] is None:
+        cache[key] = decal_plane(key, "debris_cluster", 3.2); return cache[key]
+    if key in VIRTUAL:
+        base = load_asset(VIRTUAL[key])
+        src = bpy.data.objects.new(f"src_{key}", base.data.copy()); sc.collection.objects.link(src)
+        src.data.materials.clear()
+        rgb = REFS.get("blue_hatchback", {}).get("paint_rgb") if key == "civilian_hatchback" else None
+        src.data.materials.append(paint_material("HatchbackPaint", tuple(rgb) if rgb else (0.17, 0.26, 0.44), "blue_hatchback"))
+        for v in src.data.vertices: v.co = (v.co.x * 0.92, v.co.y * 0.92, v.co.z * 0.95)  # compact hatchback footprint (mesh data is what instances share)
+        src.hide_render = True; src.hide_viewport = True
+        cache[key] = src; return src
     p = os.path.join(S["assets_root"], "glb", f"{key}.glb")
     before = set(bpy.data.objects)
     bpy.ops.import_scene.gltf(filepath=p)
@@ -180,6 +284,9 @@ def load_asset(key):
     for v in src.data.vertices: v.co = ((v.co.x - (max(xs) + min(xs)) / 2) * s, (v.co.y - (max(ys) + min(ys)) / 2) * s, (v.co.z - min(zs)) * s)
     if key == "foot_patrol_officer":  # navy uniform override (Kenney mini character is generic)
         for slot in src.material_slots: slot.material = mat("Uniform", (0.07, 0.10, 0.28), 0.7)
+    if key == "civilian_sedan" and ref_image("silver_sedan") is not None:  # silver sedan reference paint + damage decal
+        rgb = tuple(REFS.get("silver_sedan", {}).get("paint_rgb") or (0.40, 0.41, 0.41))
+        for slot in src.material_slots: slot.material = paint_material("SedanPaint", rgb, "silver_sedan")
     src.hide_render = True; src.hide_viewport = True; src.name = f"src_{key}"
     cache[key] = src
     return src
@@ -189,7 +296,7 @@ flash = []
 for it in S["instances"]:
     src = load_asset(it["asset"])
     d = bpy.data.objects.new("i_" + it["asset"], src.data); sc.collection.objects.link(d)
-    d.location = (it["x"], it["y"], 0.0); d.rotation_euler = Euler((0, 0, math.radians(it["heading_deg"] - 90)), "XYZ")
+    d.location = (it["x"], it["y"], 0.04 if it["asset"] == "debris_cluster_decal" else 0.0); d.rotation_euler = Euler((0, 0, math.radians(it["heading_deg"] - 90)), "XYZ")
     k = float(it.get("scale", 1.0)); d.scale = (k, k, k); inst_count += 1
     if it["asset"] in ("police_patrol_car", "ambulance_medical_point", "police_escort_motorcycle"):
         L = bpy.data.lights.new("beacon", "POINT"); L.energy = 400 if tod != "midday" else 40; L.color = (0.1, 0.3, 1.0) if len(flash) % 2 == 0 else (1.0, 0.1, 0.1)
@@ -262,7 +369,7 @@ for ob, pts, h in BUILDINGS:
 print(f"CUTAWAY hidden_buildings={hidden}", flush=True)
 sc.render.filepath = os.path.join(out_dir, "f_")
 setup_s = round(time.time() - T0, 2)
-print(f"SCENE_READY seed={SEED} cuda_visible={os.environ.get('CUDA_VISIBLE_DEVICES')} order={os.environ.get('CUDA_DEVICE_ORDER')} devices={used} buildings={bcount} instances={inst_count} assets={len(cache)} setup_s={setup_s} frames={f0}-{f1}", flush=True)
+print(f"SCENE_READY seed={SEED} cuda_visible={os.environ.get('CUDA_VISIBLE_DEVICES')} order={os.environ.get('CUDA_DEVICE_ORDER')} devices={used} buildings={bcount} facade={facade_applied} instances={inst_count} assets={len(cache)} references={[k for k in bpy.data.images.keys() if k.startswith('ref_')]} setup_s={setup_s} frames={f0}-{f1}", flush=True)
 t = time.time()
 bpy.ops.render.render(animation=True)
 print(f"SHARD_DONE frames={f1 - f0 + 1} render_s={round(time.time() - t, 2)} setup_s={setup_s}", flush=True)

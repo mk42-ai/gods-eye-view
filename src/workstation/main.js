@@ -6,18 +6,41 @@
  * Cycles/OptiX frame from `/latest.jpg` in the viewport -> fill the outliner
  * from the job's real placement (`placement.by_asset`) and the properties panel
  * from the job record. No Cesium globe, no map legend, no sprite icons.
+ *
+ * Viewport states (data-state on #ws-app): idle | building | ready | error.
+ * - idle: no <img> is in the layout (the frame element is detached until a
+ *   frame has decoded, so a broken-image placeholder can never render).
+ * - building: a progress panel reports stage, frame i/N and the GPU(s).
+ * - error: a banner shows the HTTP status, error code and service message
+ *   plus a Retry button; the status badge never falls back to "Ready".
  */
 import './workstation.css';
+import {
+  progressText,
+  progressFraction,
+  buildFailure,
+  outlinerRows,
+  propertyEntries,
+  timelineState,
+  isCurrentRun,
+} from './model.js';
 
 const $ = (sel) => document.querySelector(sel);
 const app = $('#ws-app');
 const form = $('#ws-prompt-form');
 const input = $('#ws-prompt');
 const buildBtn = $('#ws-build');
-const img = $('#ws-frame');
+const viewport = $('#ws-viewport');
+const frameSlot = $('#ws-frame-slot');
 const canvas = $('#ws-frame-canvas');
 const statusEl = $('#ws-status');
 const hud = $('#ws-hud');
+const progressEl = $('#ws-progress');
+const progressBar = $('#ws-progress-bar');
+const progressTextEl = $('#ws-progress-text');
+const banner = $('#ws-banner');
+const bannerText = $('#ws-banner-text');
+const retryBtn = $('#ws-retry');
 const outliner = $('#ws-outliner-list');
 const props = $('#ws-props');
 const scrub = $('#ws-scrub');
@@ -26,21 +49,7 @@ const readout = $('#ws-frame-readout');
 const POLL_MS = 1500;
 const DURATION_S = 4;
 const SAMPLES = 24;
-
-const ASSET_LABELS = {
-  police_patrol_car: 'Police patrol car',
-  police_escort_motorcycle: 'Police motorcycle',
-  ambulance_medical_point: 'Ambulance',
-  crowd_control_barrier: 'Crowd barrier',
-  road_closed_barricade: 'Road barricade',
-  traffic_cone_cluster: 'Traffic cone',
-  foot_patrol_officer: 'Officer on foot',
-  spectator_crowd_cluster: 'Pedestrian group',
-  cctv_camera: 'CCTV camera',
-  city_bus: 'Bus',
-  event_command_post: 'Command post',
-  marine_patrol_boat: 'Patrol boat',
-};
+const PLAY_FPS = 12;
 
 /** Public QA surface (read by the validator). */
 const ws = {
@@ -48,14 +57,15 @@ const ws = {
   statusPolls: 0,
   job: null,
   result: null,
+  failure: null,
   history: [],
+  errors: [],
 };
 window.__ws = ws;
 
 // Guard: an allocation failure while decoding/analysing a frame ("RangeError: Array buffer
 // allocation failed" took down the old Cesium renderer) must never stop the Build loop. The
 // workstation only ever holds one 1280x720 frame plus a 64x36 analysis canvas.
-ws.errors = [];
 window.addEventListener('error', (event) => {
   if (event?.error instanceof RangeError) {
     ws.errors.push(String(event.error.message).slice(0, 160));
@@ -66,86 +76,94 @@ window.addEventListener('error', (event) => {
 let run = 0;
 let frames = { total: 0, done: 0, current: 0, template: '' };
 let playTimer = null;
+let lastPrompt = '';
+
+/** The viewport <img>: created lazily and attached only once a frame decoded. */
+let img = null;
+function frameElement() {
+  if (img) return img;
+  img = document.createElement('img');
+  img.id = 'ws-frame';
+  img.className = 'ws-frame';
+  img.alt = 'Blender Cycles render';
+  img.decoding = 'async';
+  return img;
+}
+function detachFrame() {
+  if (img && img.isConnected) img.remove();
+  if (img) {
+    img.removeAttribute('src');
+    img.removeAttribute('data-loaded');
+  }
+}
 
 function setStatus(text, state) {
   statusEl.textContent = text;
   if (state) app.dataset.state = state;
 }
 
+function showProgress(job, prompt) {
+  progressEl.hidden = false;
+  progressTextEl.textContent = progressText(job, prompt);
+  progressBar.style.width = `${Math.round(progressFraction(job) * 100)}%`;
+  progressEl.setAttribute(
+    'aria-valuenow',
+    String(Math.round(progressFraction(job) * 100)),
+  );
+}
+function hideProgress() {
+  progressEl.hidden = true;
+}
+
+function showBanner(failure) {
+  ws.failure = failure;
+  bannerText.textContent = failure.text;
+  banner.dataset.kind = failure.kind;
+  banner.dataset.status = String(failure.status ?? '');
+  banner.hidden = false;
+  hideProgress();
+  setStatus(`${failure.title} — see banner`, 'error');
+}
+function hideBanner() {
+  banner.hidden = true;
+  ws.failure = null;
+}
+
 function renderOutliner(job) {
-  const by = job?.placement?.by_asset || {};
-  const rows = [];
-  rows.push('<li class="ws-group">Environment</li>');
-  rows.push(
-    `<li data-object="land_patch"><span>Ground · satellite patch</span><span class="ws-count">1</span></li>`,
-  );
-  if (job?.land_patch?.buildings)
-    rows.push(
-      `<li data-object="buildings"><span>OSM buildings (extruded)</span><span class="ws-count">${job.land_patch.buildings}</span></li>`,
-    );
-  rows.push(
-    `<li data-object="sun_sky"><span>Sun + sky (${job?.time_of_day || 'auto'})</span><span class="ws-count">1</span></li>`,
-  );
-  rows.push(
-    `<li data-object="camera"><span>Camera</span><span class="ws-count">1</span></li>`,
-  );
-  const keys = Object.keys(by);
-  if (keys.length) {
-    rows.push('<li class="ws-group">Placed assets</li>');
-    for (const k of keys.sort()) {
-      const label = ASSET_LABELS[k] || k.replace(/_/g, ' ');
-      rows.push(
-        `<li data-object="${k}" class="ws-asset"><span>${label}</span><span class="ws-count">${by[k]}</span></li>`,
-      );
-    }
+  const rows = outlinerRows(job);
+  if (!rows.length) {
+    outliner.innerHTML =
+      '<li class="ws-empty">No scene yet. Type a prompt and press Build.</li>';
+    return;
   }
-  outliner.innerHTML = rows.join('');
+  const esc = (s) =>
+    String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/"/g, '&quot;');
+  outliner.innerHTML = rows
+    .map((r) => {
+      if (r.group) return `<li class="ws-group">${esc(r.group)}</li>`;
+      const cls = [
+        r.asset ? 'ws-asset' : '',
+        r.reference ? 'ws-ref' : '',
+        r.state ? `ws-ref-${r.state.replace(/[^a-z]+/g, '-')}` : '',
+      ]
+        .filter(Boolean)
+        .join(' ');
+      const title = r.reference
+        ? ` title="${esc(r.reference)}${r.state ? ` · ${esc(r.state)}` : ''}"`
+        : '';
+      const state = r.state
+        ? `<em class="ws-ref-state">${esc(r.state)}</em>`
+        : '';
+      return `<li data-object="${esc(r.object)}" class="${cls}"${title}><span>${esc(r.label)}${state}</span><span class="ws-count">${esc(r.count)}</span></li>`;
+    })
+    .join('');
 }
 
 function renderProps(job, extra = {}) {
-  const devices = (job?.events_tail || [])
-    .map((e) => e?.data?.line || '')
-    .find((l) => l.startsWith('SCENE_READY'));
-  const dev = devices ? (devices.match(/devices=\[([^\]]*)\]/) || [])[1] : null;
-  const entries = [
-    ['Renderer', 'Blender Cycles · OptiX'],
-    ['Device', dev ? dev.replace(/'/g, '') : 'GPU (OptiX)'],
-    [
-      'GPUs',
-      (job?.shards || [])
-        .map((s) => s.gpu)
-        .filter((v, i, a) => a.indexOf(v) === i)
-        .join(', ') || '—',
-    ],
-    [
-      'Place',
-      job?.focal
-        ? `${job.focal.name} (${job.focal.lat.toFixed(4)}, ${job.focal.lon.toFixed(4)})`
-        : extra.place || '—',
-    ],
-    ['Located by', extra.locationSource || job?.focal?.source || '—'],
-    [
-      'Scene spec',
-      job?.model?.attempts?.[0]?.endpointId || job?.model?.endpointId || '—',
-    ],
-    ['Scenario', job?.spec?.scenarioType || '—'],
-    ['Prompt seed', job?.seed ?? extra.seed ?? '—'],
-    ['Objects', job?.placement?.instances ?? '—'],
-    ['Stage', job?.stage || '—'],
-    [
-      'Frames',
-      job?.total_frames ? `${job.frames_done || 0} / ${job.total_frames}` : '—',
-    ],
-    ['First frame', job?.ttff_s ? `${job.ttff_s} s (service)` : '—'],
-    [
-      'Client first frame',
-      ws.result?.clientTtffS ? `${ws.result.clientTtffS} s` : '—',
-    ],
-    ['Sustained fps', job?.fps_sustained ?? '—'],
-    ['Steady fps', job?.fps_after_first_frame ?? '—'],
-    ['Job', job?.job_id || '—'],
-  ];
-  props.innerHTML = entries
+  props.innerHTML = propertyEntries(job, extra, ws.result)
     .map(([k, v]) => `<dt>${k}</dt><dd>${String(v)}</dd>`)
     .join('');
 }
@@ -153,8 +171,8 @@ function renderProps(job, extra = {}) {
 /** Average-hash (8x8) + luminance stddev of the frame currently shown. */
 function analyseFrame() {
   try {
-    const w = img.naturalWidth;
-    const h = img.naturalHeight;
+    const w = img?.naturalWidth || 0;
+    const h = img?.naturalHeight || 0;
     if (!w || !h) return null;
     canvas.width = 64;
     canvas.height = 36;
@@ -188,12 +206,18 @@ function analyseFrame() {
   }
 }
 
+/**
+ * Decode a frame off-DOM first; only a successfully decoded image is attached
+ * to the viewport, so a 404/5xx frame can never leave a broken placeholder.
+ */
 function showFrame(url) {
   return new Promise((resolve) => {
     const probe = new Image();
+    probe.decoding = 'async';
     probe.onload = () => {
-      img.src = probe.src;
-      img.hidden = false;
+      const el = frameElement();
+      el.src = probe.src;
+      if (!el.isConnected) frameSlot.appendChild(el);
       resolve(true);
     };
     probe.onerror = () => resolve(false);
@@ -206,30 +230,39 @@ function frameUrl(n) {
 }
 
 function setFrameTimeline(job) {
-  frames.total = job.total_frames || 0;
-  frames.done = job.frames_done || 0;
-  if (job.frames_url_template) frames.template = job.frames_url_template;
-  scrub.max = String(Math.max(1, frames.done));
-  scrub.disabled = frames.done < 1;
-  readout.textContent = `${frames.current || frames.done} / ${frames.total}`;
+  const t = timelineState(job, frames.current);
+  frames.total = t.total;
+  frames.done = t.done;
+  if (job?.frames_url_template) frames.template = job.frames_url_template;
+  scrub.max = String(t.max);
+  scrub.disabled = t.disabled;
+  if (!frames.current) scrub.value = String(Math.max(1, t.current || 1));
+  readout.textContent = t.readout;
 }
 
-async function build(prompt) {
-  const mine = ++run;
+function resetForBuild(prompt) {
   stopPlayback();
   ws.result = null;
   ws.job = null;
   frames = { total: 0, done: 0, current: 0, template: '' };
-  img.hidden = true;
-  img.removeAttribute('data-loaded');
+  detachFrame();
   hud.hidden = true;
+  hideBanner();
   buildBtn.disabled = true;
   renderOutliner(null);
   renderProps(null);
-  setStatus(
-    `Building “${prompt}” — locating, planning scene, starting Blender…`,
-    'building',
-  );
+  scrub.max = '1';
+  scrub.value = '1';
+  scrub.disabled = true;
+  readout.textContent = '0 / 0';
+  showProgress(null, prompt);
+  setStatus(progressText(null, prompt), 'building');
+}
+
+async function build(prompt) {
+  const mine = ++run;
+  lastPrompt = prompt;
+  resetForBuild(prompt);
   const t0 = performance.now();
   let start;
   try {
@@ -244,16 +277,27 @@ async function build(prompt) {
       }),
     });
     start = await r.json().catch(() => ({}));
-    if (!r.ok || !start.job_id)
-      throw new Error(start.message || start.error || `HTTP ${r.status}`);
+    if (!r.ok || !start.job_id) {
+      if (!isCurrentRun(mine, run)) return;
+      buildBtn.disabled = false;
+      showBanner(
+        buildFailure({
+          kind: 'request',
+          status: r.status,
+          body: start,
+          prompt,
+        }),
+      );
+      return;
+    }
     app.dataset.seed = String(start.seed ?? '');
   } catch (error) {
-    if (mine !== run) return;
+    if (!isCurrentRun(mine, run)) return;
     buildBtn.disabled = false;
-    setStatus(`Render service error: ${error.message}`, 'error');
+    showBanner(buildFailure({ kind: 'network', error, prompt }));
     return;
   }
-  if (mine !== run) return;
+  if (!isCurrentRun(mine, run)) return;
   ws.history.push({
     prompt,
     jobId: start.job_id,
@@ -267,31 +311,55 @@ async function build(prompt) {
   };
   let firstFrame = false;
   let lastFrames = -1;
+  let pollFailures = 0;
   for (;;) {
     await new Promise((res) => setTimeout(res, POLL_MS));
-    if (mine !== run) return;
+    if (!isCurrentRun(mine, run)) return;
     let job;
+    let pollStatus = 0;
     try {
       ws.statusPolls += 1;
       const r = await fetch(`/api/scenes/render/${start.job_id}/status`, {
         cache: 'no-store',
       });
+      pollStatus = r.status;
       job = await r.json();
-    } catch {
+      if (!r.ok)
+        throw new Error(job?.message || job?.error || `HTTP ${r.status}`);
+      pollFailures = 0;
+    } catch (error) {
+      pollFailures += 1;
+      if (pollFailures >= 8) {
+        if (!isCurrentRun(mine, run)) return;
+        buildBtn.disabled = false;
+        showBanner(
+          buildFailure({
+            kind: pollStatus ? 'request' : 'network',
+            status: pollStatus || null,
+            body: job,
+            error,
+            prompt,
+          }),
+        );
+        return;
+      }
       continue;
     }
-    if (mine !== run) return;
+    if (!isCurrentRun(mine, run)) return;
     ws.job = job;
-    if (job.stage && job.stage !== 'failed') renderOutliner(job);
+    const stage = job.stage || 'queued';
+    if (stage !== 'failed') renderOutliner(job);
     setFrameTimeline(job);
     if ((job.frames_done || 0) > 0 && job.frames_done !== lastFrames) {
       lastFrames = job.frames_done;
       const ok = await showFrame(
         `/api/scenes/render/${start.job_id}/latest.jpg?n=${job.frames_done}`,
       );
-      if (mine !== run) return;
+      if (!isCurrentRun(mine, run)) return;
       if (ok) {
         frames.current = job.frames_done;
+        scrub.value = String(job.frames_done);
+        readout.textContent = `${job.frames_done} / ${job.total_frames || 0}`;
         const metrics = analyseFrame();
         if (!firstFrame) {
           firstFrame = true;
@@ -312,44 +380,53 @@ async function build(prompt) {
       }
     }
     renderProps(job, extra);
-    const stage = job.stage || 'queued';
     if (stage === 'failed') {
       buildBtn.disabled = false;
-      setStatus(`Blender job failed: ${job.error || 'unknown error'}`, 'error');
+      showBanner(
+        buildFailure({
+          kind: 'job',
+          status: pollStatus,
+          body: { error: job.error || 'unknown error' },
+          prompt,
+        }),
+      );
       return;
     }
     if (stage === 'complete' || stage === 'partial') {
       buildBtn.disabled = false;
+      hideProgress();
       if (ws.result) {
         ws.result.objects = job.placement?.instances ?? null;
         ws.result.byAsset = job.placement?.by_asset ?? null;
+        ws.result.references = job.references ?? null;
         ws.result.fpsSustained = job.fps_sustained ?? null;
         ws.result.fpsAfterFirstFrame = job.fps_after_first_frame ?? null;
         ws.result.serviceTtffS = job.ttff_s ?? null;
         ws.result.totalS = job.wall_clock_total_s ?? null;
         ws.result.gpus = (job.shards || []).map((s) => s.gpu);
         ws.result.complete = true;
+        setStatus(
+          `Scene ready · ${job.placement?.instances ?? 0} objects · ${job.frames_done} Cycles frames · ${job.wall_clock_total_s ?? '?'} s`,
+          'ready',
+        );
+      } else {
+        // The service says complete but no frame ever decoded: that is a failure, not "Ready".
+        showBanner(
+          buildFailure({
+            kind: 'job',
+            status: pollStatus,
+            body: {
+              error: 'no_frame_decoded',
+              message: `Service reported stage ${stage} with ${job.frames_done || 0} frames but no frame image could be loaded from /api/scenes/render/${start.job_id}/latest.jpg.`,
+            },
+            prompt,
+          }),
+        );
       }
-      setStatus(
-        `Scene ready · ${job.placement?.instances ?? 0} objects · ${job.frames_done} Cycles frames · ${job.wall_clock_total_s ?? '?'} s`,
-        'ready',
-      );
       return;
     }
-    const label =
-      {
-        queued: 'Queued',
-        geocode: 'Locating',
-        land_patch: 'Fetching land patch',
-        scene_spec: 'Planning scene (Kimi K3 Fast)',
-        placement: 'Placing assets',
-        render: 'Rendering (Cycles · OptiX)',
-        encode: 'Encoding',
-      }[stage] || stage;
-    setStatus(
-      `${label}… ${job.frames_done ? `${job.frames_done}/${job.total_frames} frames` : ''}`,
-      'building',
-    );
+    showProgress(job, prompt);
+    setStatus(progressText(job, prompt), 'building');
   }
 }
 
@@ -357,15 +434,19 @@ function stopPlayback() {
   if (playTimer) clearInterval(playTimer);
   playTimer = null;
   const btn = document.querySelector('[data-transport="play"]');
-  if (btn) btn.textContent = 'Play';
+  if (btn) {
+    btn.textContent = 'Play';
+    btn.setAttribute('aria-pressed', 'false');
+  }
 }
 
 function seek(n) {
-  if (!frames.template || frames.done < 1) return;
+  if (!frames.template || frames.done < 1 || !img) return;
   const f = Math.min(Math.max(1, n), frames.done);
   frames.current = f;
   scrub.value = String(f);
   readout.textContent = `${f} / ${frames.total}`;
+  hud.textContent = `Cycles · OptiX · frame ${f}/${frames.total || '?'}`;
   img.src = frameUrl(f);
 }
 
@@ -377,6 +458,12 @@ form.addEventListener('submit', (event) => {
     return;
   }
   if (buildBtn.disabled) return; // one in-flight Build per press
+  build(prompt);
+});
+
+retryBtn.addEventListener('click', () => {
+  const prompt = input.value.trim() || lastPrompt;
+  if (prompt.length < 3 || buildBtn.disabled) return;
   build(prompt);
 });
 
@@ -407,9 +494,10 @@ document.querySelector('.ws-transport').addEventListener('click', (event) => {
     if (playTimer) return stopPlayback();
     if (frames.done < 2) return;
     event.target.textContent = 'Pause';
+    event.target.setAttribute('aria-pressed', 'true');
     playTimer = setInterval(
       () => seek(frames.current >= frames.done ? 1 : frames.current + 1),
-      1000 / 12,
+      1000 / PLAY_FPS,
     );
     return;
   }
@@ -419,6 +507,12 @@ document.querySelector('.ws-transport').addEventListener('click', (event) => {
   if (kind === 'prev') seek(frames.current - 1);
   if (kind === 'next') seek(frames.current + 1);
 });
+
+// Keep the viewport's empty state honest: nothing but the status badge until a frame decodes.
+viewport.dataset.hasFrame = '0';
+new MutationObserver(() => {
+  viewport.dataset.hasFrame = img && img.isConnected ? '1' : '0';
+}).observe(frameSlot, { childList: true });
 
 // Deep link: ?prompt=... pre-fills; &build=1 presses the real Build button once.
 const params = new URLSearchParams(location.search);
