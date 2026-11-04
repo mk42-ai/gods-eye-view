@@ -430,9 +430,36 @@ async function build(prompt) {
   }
 }
 
+/**
+ * Playback steps to the next frame only after the current one has decoded
+ * (each frame is a ~1 MB PNG through the proxy), at most PLAY_FPS per second,
+ * so a slow link never leaves a queue of aborted image requests behind.
+ */
+function startPlayback() {
+  const token = {};
+  playTimer = token;
+  const step = () => {
+    if (playTimer !== token || !img) return;
+    const started = performance.now();
+    const next = frames.current >= frames.done ? 1 : frames.current + 1;
+    const done = () => {
+      if (playTimer !== token) return;
+      const wait = Math.max(0, 1000 / PLAY_FPS - (performance.now() - started));
+      setTimeout(step, wait);
+    };
+    img.onload = done;
+    img.onerror = done;
+    seek(next);
+  };
+  step();
+}
+
 function stopPlayback() {
-  if (playTimer) clearInterval(playTimer);
   playTimer = null;
+  if (img) {
+    img.onload = null;
+    img.onerror = null;
+  }
   const btn = document.querySelector('[data-transport="play"]');
   if (btn) {
     btn.textContent = 'Play';
@@ -495,10 +522,7 @@ document.querySelector('.ws-transport').addEventListener('click', (event) => {
     if (frames.done < 2) return;
     event.target.textContent = 'Pause';
     event.target.setAttribute('aria-pressed', 'true');
-    playTimer = setInterval(
-      () => seek(frames.current >= frames.done ? 1 : frames.current + 1),
-      1000 / PLAY_FPS,
-    );
+    startPlayback();
     return;
   }
   stopPlayback();
