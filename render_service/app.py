@@ -241,7 +241,7 @@ def prepare(j):
         # reusable Blender state is addressed by immutable cacheKey, not session ID.
         sid=scene["sceneId"]+"_"+j["jobId"];scene["sceneId"]=sid;atomic_json(scene_path,scene)
         j.update(sceneId=sid,patchId=patch["id"],pose=pose,total_frames=total,timeline_fps=fps,
-                 references=scene["references"],time_of_day=tod,placement={"instances":len(instances),"by_asset":{a:sum(1 for i in instances if i["asset"]==a) for a in sorted({i["asset"] for i in instances})},"omissions":scene["placementOmissions"]})
+                 references=scene["references"],time_of_day=tod,placement={"instances":len(instances),"items":[{"id":f"staged_{n}",**item} for n,item in enumerate(instances)],"by_asset":{a:sum(1 for i in instances if i["asset"]==a) for a in sorted({i["asset"] for i in instances})},"omissions":scene["placementOmissions"]})
         j["jobHash"]=G.digest({"request":request,"scene":scene["cacheKey"],"pose":pose,"revision":0})
         j["_scene_path"]=str(scene_path)
         SCENES[sid]={"scene":scene,"path":str(scene_path),"pose":pose,"revision":0,"jobId":j["jobId"]}

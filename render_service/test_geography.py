@@ -155,3 +155,12 @@ def test_no_roads_no_car_or_fabricated_marine_placement(monkeypatch):
     spec={"scenarioType":"observation","elements":[{"type":"perimeter_unit"},{"type":"marine_patrol"}]}
     instances,_,_=P.place(spec,focal(),osm,260,5)
     assert not instances and osm["placementOmissions"]
+
+
+def test_explicit_cone_quantity_is_not_replaced_by_circumference(monkeypatch):
+    monkeypatch.setattr(P,"ASSET_KEYS",{"traffic_cone_cluster"})
+    p=patch();geometry=G.build_geometry(p,source());geometry["patch"]=p
+    spec={"scenarioType":"route_closure","elements":[{"type":"cones","params":{"count":2,"spacing_m":2}}]}
+    instances,_,_=P.place(spec,focal(),geometry,260,7)
+    assert len(instances)<=2
+    assert len(instances)+sum(geometry["placementOmissions"].values())==2

@@ -50,7 +50,7 @@ def by_id(ref_id: str) -> Optional[dict]:
 
 def is_crash_prompt(prompt: str, scenario_type: Optional[str]) -> bool:
     import re
-    return bool(re.search(r"crash|collision|accident|pile[- ]?up", str(prompt or ""), re.I)) or scenario_type == "route_closure"
+    return bool(re.search(r"\b(?:crash|collision|accident|pile[- ]?up)\b", str(prompt or ""), re.I))
 
 
 def bindings(instances: list, focal: dict, prompt: str, scenario_type: Optional[str], buildings_total: int = 0, facade_count: int = 0) -> list:

@@ -264,7 +264,7 @@ def place(spec, focal, osm, half_m, seed, log=None):
             continue
         key=ELEMENT_TO_ASSET.get(t)
         if not key:continue
-        if t in ("cones","barriers"):
+        if t in ("cones","barriers") and params.get("count") is None:
             count=min(40,max(4,int(2*math.pi*radius/_number(params.get("spacing_m"),20,2,200))))
         phase=rnd.random()*2*math.pi
         for k in range(count):

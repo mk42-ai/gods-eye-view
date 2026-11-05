@@ -183,7 +183,7 @@ function fail(error, kind = 'request', body = null, status = null) {
   render();
 }
 function renderOutliner() {
-  const key = `${state.job?.patch?.id}|${state.selection}|${JSON.stringify(state.job?.placement?.by_asset || {})}|${state.job?.patch?.features?.length || 0}`;
+  const key = `${state.job?.sceneId}|${state.job?.patch?.id}|${state.selection}|${JSON.stringify(state.job?.placement?.by_asset || {})}|${state.job?.patch?.features?.length || 0}`;
   if (lastOutlinerKey === key) return;
   lastOutlinerKey = key;
   const list = $('#ws-outliner-list');

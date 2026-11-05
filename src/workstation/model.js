@@ -186,6 +186,22 @@ export function outlinerRows(job) {
         verification: 'illustrative — not observed',
       },
     });
+  for (const [index, item] of (job.placement?.items || []).entries()) {
+    rows.push({
+      object: `instance:${item.id || index}`,
+      label: `${assetLabel(item.asset)} · ${index + 1}`,
+      count: 1,
+      asset: true,
+      data: {
+        asset: item.asset,
+        localPositionMetres: [item.x, item.y, item.z],
+        headingDegrees: item.heading_deg,
+        mappedSurface: item.sourceId,
+        placement: item.placement,
+        verification: 'Illustrative staging, not observed evidence',
+      },
+    });
+  }
   if (Array.isArray(job.references) && job.references.length)
     rows.push({ group: 'Reported reference bindings · not observations' });
   for (const ref of job.references || [])
