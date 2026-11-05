@@ -1,0 +1,100 @@
+{
+ "url": "https://sb-74qv32j82zmp.vercel.run/",
+ "ok": true,
+ "screenshots": [
+  "cycle2-minichat-stream-1440x900.png",
+  "cycle2-minichat-stream-390x844.png"
+ ],
+ "assertions": [
+  {
+   "kind": "http-status",
+   "target": "https://sb-74qv32j82zmp.vercel.run/",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "kind": "wait-selector",
+   "target": "#data-toggles .data-ask-btn",
+   "ok": true,
+   "detail": "appeared"
+  },
+  {
+   "kind": "click",
+   "target": "#data-panel .panel-collapse-btn",
+   "ok": true,
+   "detail": "clicked"
+  },
+  {
+   "kind": "click",
+   "target": "#data-toggles .data-toggle-row[data-layer-id='traffic'] .data-ask-btn",
+   "ok": true,
+   "detail": "clicked"
+  },
+  {
+   "kind": "click",
+   "target": "#ondemand-mini-chat-starters .od-chat__starter",
+   "ok": true,
+   "detail": "clicked"
+  },
+  {
+   "kind": "expect-selector",
+   "target": "#ondemand-mini-chat .od-chat__msg--assistant",
+   "ok": true,
+   "detail": "visible"
+  },
+  {
+   "kind": "eval",
+   "target": "(async()=>{const mc=window.__godsEyeView.miniChat;const t0=Date.now();while(Date.now()-t0<40000){const t=mc.getState().turns[0];if(t&&(t.ok||t.error))return JSON.stringify({ms:Date.now()-t0,events:t.e",
+   "ok": true,
+   "detail": "\"{\\\"ms\\\":7238,\\\"events\\\":139,\\\"firstTokenMs\\\":4259,\\\"totalMs\\\":7887,\\\"ok\\\":true}\""
+  },
+  {
+   "kind": "eval",
+   "target": "(document.querySelector('#ondemand-mini-chat .od-chat__msg--assistant')?.textContent||'').length > 20",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "kind": "eval",
+   "target": "/READY/.test(document.querySelector('#ondemand-mini-chat-status')?.textContent||'')",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "kind": "eval",
+   "target": "document.querySelectorAll('#ondemand-mini-chat .od-chat__msg--user').length === 1",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "kind": "eval",
+   "target": "!!document.querySelector('#ondemand-mini-chat .od-chat__msg--assistant[data-confidence]')",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "kind": "eval",
+   "target": "!localStorage.getItem('ondemand.apiKey')",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "kind": "page-rendered",
+   "target": "document.body",
+   "ok": true,
+   "detail": "innerText=2576 chars, bodyHeight=757px"
+  }
+ ],
+ "consoleErrors": [
+  "Failed to load resource: the server responded with a status of 404 () https://sb-74qv32j82zmp.vercel.run/api/setup/status",
+  "Failed to load resource: the server responded with a status of 404 () https://sb-74qv32j82zmp.vercel.run/api/ondemand/v2/messages?externalUserId=ws-default-mvhbak4o-198ce8b3&objectContextKey=trafficLayer%3Atraffic&limit=20&sort=asc"
+ ],
+ "pageErrors": [],
+ "failedRequests": [
+  "Fetch: net::ERR_ABORTED https://sb-74qv32j82zmp.vercel.run/api/setup/status"
+ ],
+ "browser": "/tmp/chromium-swiftshader.sh",
+ "httpStatus": 200,
+ "title": "OnDemand Intelligence Workstation",
+ "textLength": 2576
+}

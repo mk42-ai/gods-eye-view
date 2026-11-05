@@ -1,0 +1,70 @@
+{
+  "url": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-kanes-mobile-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#ws-app",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Illustrative",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Saved",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Outliner",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": ".cesium-viewer",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "eval",
+      "target": "(async () => {\n  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));\n  const log = [];\n  const mark = (action, extra = {}) => log.push({ action, utc: new Date().toISOString(), ...extra });\n  ",
+      "ok": true,
+      "detail": "\"{\\\"prompt\\\":\\\"Kane's Boxing Gym, Abu Dhabi\\\",\\\"typedNoBuild\\\":true,\\\"buildRequests\\\":1,\\\"state\\\":\\\"ready\\\",\\\"firstFrameClientS\\\":25.02,\\\"img\\\":{\\\"tag\\\":\\\"IMG\\\",\\\"w\\\":640,\\\"h\\\":360},\\\"displayed\\\":{\\\"w\\\":960,\\\"h\\\":540,\\\"media\\\":\\\"video\\\"},\\\"result\\\":{\\\"lumMean\\\":142.31406770833277,\\\"ahash\\\":\\\"1111101111110000111011001110100011001000110010001000000010000011\\\",\\\"clientTtffS\\\":24.532200000047684},\\\"outlinerRows\\\":704,\\\"outlinerGroups\\\":[\\\"Geographic data (service)\\\",\\\"Patch environment (service)\\\",\\\"Scenery \\u00b7 Poly Haven CC0 (illustrative)\\\",\\\"Reported reference bindings \\u00b7 not observations\\\"],\\\"job\\\":{\\\"id\\\":\\\"2445348deb6e4c54a0d2\\\",\\\"stage\\\":\\\"complete\\\",\\\"frames\\\":96,\\\"total\\\":96,\\\"ttff\\\":22.944,\\\"steady\\\":22.306,\\\"byGpu\\\":{\\\"2\\\":48,\\\"6\\\":47},\\\"camera\\\":{\\\"requested\\\":\\\"street\\\",\\\"used\\\":\\\"street\\\",\\\"label\\\":\\\"street-level (pedestrian/vehicle eye height band)\\\"},\\\"imagery\\\":\\\"esri-world-imagery\\\",\\\"scenery\\\":{\\\"bench\\\":22,\\\"shrub\\\":230,\\\"street_lamp\\\":242,\\\"street_tree\\\":156},\\\"land\\\":{\\\"source\\\":\\\"OpenStreetMap bounded geometry; no satellite substitute\\\",\\\"buildings\\\":161,\\\"roads\\\":525,\\\"status\\\":\\\"ok\\\"},\\\"focal\\\":\\\"Kane's Boxing Academy \\u00b7 Fotouh Al Khair Centre\\\",\\\"patch\\\":\\\"patch_f0ca43f521b4711ff325eb73\\\"},\\\"playAdvanced\\\":true,\\\"playMedia\\\":\\\"video\\\",\\\"readouts\\\":[\\\"Latest / 96\\\",\\\"0.5 / 4.0 s\\\",\\\"1.1 / 4.0 s\\\",\\\"1.6 / 4.0 s\\\",\\\"2.1 / 4.0 s\\\",\\\"2.7 / 4.0 s\\\",\\\"3.2 / 4.0 s\\\",\\\"3.4 / 4.0 s\\\",\\\"0.0 / 4.0 s\\\",\\\"0.5 / 4.0 s\\\",\\\"1.1 / 4.0 s\\\",\\\"1.6 / 4.0 s\\\",\\\"2.1 / 4.0 s\\\",\\\"2.4 / 4.0 s\\\",\\\"2.9 / 4.0 s\\\",\\\"3.5 / 4.0 s\\\",\\\"0.0 / 4.0 s\\\",\\\"0.5 / 4.0 s\\\",\\\"1.1 / 4.0 s\\\",\\\"1.3 / 4.0 s\\\"],\\\"viewport\\\":{\\\"w\\\":390,\\\"h\\\":553,\\\"winW\\\":390,\\\"winH\\\":844},\\\"banned\\\":{\\\"cesium\\\":false,\\\"legend\\\":false},\\\"buildBg\\\":\\\"rgb(245, 165, 36)\\\",\\\"errors\\\":[],\\\"log\\\":[{\\\"action\\\":\\\"page-ready\\\",\\\"utc\\\":\\\"2026-11-05T12:13:54.053Z\\\",\\\"href\\\":\\\"https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app/\\\"},{\\\"action\\\":\\\"prompt-typed\\\",\\\"utc\\\":\\\"2026-11-05T12:13:56.563Z\\\",\\\"buildRequestsAfterTyping\\\":0},{\\\"action\\\":\\\"build-clicked\\\",\\\"utc\\\":\\\"2026-11-05T12:13:57.767Z\\\"},{\\\"action\\\":\\\"first-frame-visible\\\",\\\"utc\\\":\\\"2026-11-05T12:14:22.784Z\\\",\\\"naturalWidth\\\":640},{\\\"action\\\":\\\"build-terminal\\\",\\\"utc\\\":\\\"2026-11-05T12:14:32.289Z\\\",\\\"state\\\":\\\"ready\\\",\\\"status\\\":\\\"Scene ready \\u00b7 96 rendered frames \\u00b7 illustrative staging, not evidence\\\"},{\\\"action\\\":\\\"play-clicked\\\",\\\"utc\\\":\\\"2026-11-05T12:14:33.790Z\\\"},{\\\"action\\\":\\\"play-observed\\\",\\\"utc\\\":\\\"2026-11-05T12:14:43.795Z\\\",\\\"readouts\\\":[\\\"0.0 / 4.0 s\\\",\\\"0.5 / 4.0 s\\\",\\\"1.1 / 4.0 s\\\",\\\"1.3 / 4.0 s\\\"],\\\"media\\\":\\\"video\\\",\\\"videoTime\\\":1.5859}]}\""
+    },
+    {
+      "kind": "eval",
+      "target": "(()=>{const el=document.querySelector('#ws-frame-slot > img, #ws-frame-slot > video');const r=el&&el.getBoundingClientRect();return !!el && r.width>100 && r.height>60 && document.querySelector('#ws-ap",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=613 chars, bodyHeight=844px"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation \u00b7 Scene Workstation",
+  "textLength": 613
+}

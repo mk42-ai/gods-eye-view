@@ -1,0 +1,109 @@
+{
+  "url": "https://ondemand-agent-56wy5f2wv-schoolhack-web-team.vercel.app",
+  "mode": "before",
+  "startedUtc": "2026-11-01T05:30:00.602Z",
+  "timeoutSec": 300,
+  "viewports": {
+    "1440x900": {
+      "width": 1440,
+      "height": 900,
+      "prompts": [
+        "police raid at Burj Al Arab"
+      ]
+    }
+  },
+  "perPrompt": [
+    {
+      "prompt": "police raid at Burj Al Arab",
+      "viewport": "1440x900",
+      "startedUtc": "2026-11-01T05:30:07.876Z",
+      "booted": true,
+      "callsAfterTyping": 0,
+      "constructCalls": 1,
+      "constructError": null,
+      "driveError": null,
+      "formState": "done",
+      "timedOut": false,
+      "spec": null,
+      "specValid": false,
+      "specIssues": [
+        "no spec"
+      ],
+      "modelUsed": null,
+      "timing": null,
+      "specMs": null,
+      "geometryMs": null,
+      "renderMs": 804,
+      "totalMs": null,
+      "totalWallMs": 116316,
+      "layerCounts": null,
+      "raidAssertions": {
+        "lines": 0,
+        "innerCordon": false,
+        "outerCordon": false
+      },
+      "sceneStaging": null,
+      "resultKeys": [
+        "ok",
+        "plan",
+        "geometry",
+        "locationResolution",
+        "anchor",
+        "revision",
+        "requestId",
+        "research",
+        "provenance"
+      ],
+      "labelFontPx": null,
+      "haloWidth": null,
+      "labelOverlaps": 0,
+      "labelCount": 0,
+      "visibleLabelCount": 0,
+      "projectedLabels": 0,
+      "labelTexts": [],
+      "stagingSourceFound": false,
+      "badgeCount": 0,
+      "badgeVisible": false,
+      "illustrativeLabelCount": 4,
+      "citationTokenLabels": 1,
+      "panel": {
+        "title": null,
+        "summary": null,
+        "scenario": null,
+        "locationBadge": null,
+        "elements": [],
+        "sourcesCount": 0,
+        "caveat": null,
+        "builtLine": null,
+        "builtLatencyMs": null,
+        "builtTotalMs": null,
+        "hasCitationTokens": false
+      },
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404
+        }
+      ],
+      "screenshot": "before-police-raid-at-burj-al-arab-1440x900.png",
+      "pass": false,
+      "failures": [
+        "staging missing",
+        "raid lines=0",
+        "raid cordons=none",
+        "minLabelPx=null",
+        "minHalo=null",
+        "badge count=0 visible=false",
+        "illustrativeLabels=4",
+        "citationTokenLabels=1"
+      ],
+      "finishedUtc": "2026-11-01T05:32:09.871Z"
+    }
+  ],
+  "summary": {
+    "pass": 0,
+    "fail": 1
+  },
+  "finishedUtc": "2026-11-01T05:32:09.909Z"
+}

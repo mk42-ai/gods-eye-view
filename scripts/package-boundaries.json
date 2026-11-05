@@ -26,7 +26,12 @@
   "vite-build": {
     "runtime": "node",
     "exports": ["./build/vite", "./build/html"],
-    "modules": ["build/vite.js", "build/application-html.js"],
+    "modules": [
+      "build/vite.js",
+      "build/application-html.js",
+      "build/product-name.js",
+      "server/brand/productName.js"
+    ],
     "external": ["vite-plugin-cesium"]
   },
   "live-providers": {
@@ -36,6 +41,7 @@
       "server/providers/live.js",
       "server/providers/common/http.js",
       "server/providers/common/query.js",
+      "server/providers/common/upstream.js",
       "server/providers/aircraft/opensky.js",
       "server/providers/aircraft/adsb-lol.js",
       "server/providers/aircraft/enrichment.js",
@@ -84,8 +90,10 @@
     "modules": [
       "server/providers/space.js",
       "server/providers/space/celestrak.js",
+      "server/providers/space/celestrak-snapshot.js",
       "server/providers/space/launch-library.js",
       "server/providers/common/http.js",
+      "server/providers/common/upstream.js",
       "src/data/spaceProviderRequests.js",
       "src/sources/httpBody.js"
     ],
@@ -113,7 +121,11 @@
   "traffic-provider": {
     "runtime": "node",
     "exports": ["./server/providers/traffic"],
-    "modules": ["server/providers/traffic.js", "src/data/tomtomTiles.js"],
+    "modules": [
+      "server/providers/traffic.js",
+      "server/providers/common/upstream.js",
+      "src/data/tomtomTiles.js"
+    ],
     "external": []
   },
   "traffic-source": {
@@ -196,6 +208,7 @@
       "server/providers/common/http.js",
       "server/providers/common/rate-limit.js",
       "server/providers/common/request.js",
+      "server/providers/common/upstream.js",
       "server/providers/overpass.js",
       "server/providers/overpass/cache.js",
       "server/providers/overpass/constants.js",
@@ -216,6 +229,7 @@
     "exports": ["./server/providers/military-installations"],
     "modules": [
       "server/providers/common/http.js",
+      "server/providers/common/upstream.js",
       "server/providers/common/query.js",
       "server/providers/common/rate-limit.js",
       "server/providers/military-installations.js",
@@ -248,29 +262,6 @@
       "src/data/regionalModel.js",
       "src/nominatimGeocode.js",
       "src/sources/httpBody.js",
-      "src/sources/rateLimit.js"
-    ],
-    "external": []
-  },
-  "openai-provider": {
-    "runtime": "node",
-    "exports": ["./server/providers/openai"],
-    "modules": [
-      "server/providers/common/rate-limit.js",
-      "server/providers/common/request.js",
-      "server/providers/common/source-root.js",
-      "server/providers/openai.js",
-      "server/providers/openai/constants.js",
-      "server/providers/openai/debug-log.js",
-      "server/providers/openai/hud-summary.js",
-      "server/providers/openai/instructions.js",
-      "server/providers/openai/rate-limit.js",
-      "server/providers/openai/realtime.js",
-      "server/providers/openai/tools.js",
-      "src/hudSummaryResponse.js",
-      "src/voice/voiceCost.js",
-      "src/voice/actionSchemas.js",
-      "server/providers/openai/toolDescriptions.js",
       "src/sources/rateLimit.js"
     ],
     "external": []
@@ -379,9 +370,12 @@
       "src/loadingFeedback.js",
       "src/data/installationFeedback.js",
       "src/keySetupCore.mjs",
-      "src/data/feedState.js"
+      "src/data/feedState.js",
+      "src/ui/icons/layerIcon.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": []
+    "external": ["lucide"]
   },
   "location-controls": {
     "exports": ["./ui/location"],
@@ -390,9 +384,12 @@
       "src/ui/locationControls.js",
       "src/ui/locationSearch.js",
       "src/locationStatus.js",
-      "src/app/stateChannel.js"
+      "src/app/stateChannel.js",
+      "src/ui/icons/layerIcon.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": []
+    "external": ["lucide"]
   },
   "radio-controls": {
     "exports": ["./ui/radio"],
@@ -401,9 +398,12 @@
       "src/ui/radioControls.js",
       "src/ui/radioBindings.js",
       "src/ui/radioPresentation.js",
-      "src/ui/radioTunerModel.js"
+      "src/ui/radioTunerModel.js",
+      "src/ui/icons/layerIcon.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": []
+    "external": ["lucide"]
   },
   "cctv-controls": {
     "exports": ["./ui/cctv"],
@@ -458,9 +458,12 @@
       "src/cockpitMath.js",
       "src/cockpitUtilityLayout.js",
       "src/cockpitVisionPolicy.js",
-      "src/ui/panelRailGeometry.js"
+      "src/ui/panelRailGeometry.js",
+      "src/ui/icons/lucideNodes.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/layerIcon.js"
     ],
-    "external": ["cesium"]
+    "external": ["cesium", "lucide"]
   },
   "scene-controls": {
     "exports": ["./ui/scenes"],
@@ -580,9 +583,12 @@
       "src/ui/aircraftDisplay.js",
       "src/ui/layerBindings.js",
       "src/ui/displayBindings.js",
-      "src/ui/shellFacade.js"
+      "src/ui/shellFacade.js",
+      "src/ui/icons/layerIcon.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": ["cesium"]
+    "external": ["cesium", "lucide"]
   },
   "ui-styles": {
     "exports": ["./ui/styles"],
@@ -608,7 +614,12 @@
       "src/ui/styles/command-dock-sliding.css",
       "src/ui/styles/voice-cost.css",
       "src/ui/styles/first-run.css",
-      "src/ui/styles/provider-settings.css"
+      "src/ui/styles/provider-settings.css",
+      "src/ui/styles/ondemand-chat.css",
+      "src/ui/styles/plugin-panel.css",
+      "src/ui/styles/incidents.css",
+      "src/ui/styles/scene-videos.css",
+      "src/cinematic/ui/cinematic.css"
     ],
     "external": []
   },
@@ -682,7 +693,10 @@
       "src/director/sharing/lifetime.js",
       "src/director/authoring.js",
       "src/scenes/sharing.js",
-      "src/ui/sceneSharing.js"
+      "src/ui/sceneSharing.js",
+      "src/scenes/aoiScenePolicy.js",
+      "src/scenes/incidentScenes.js",
+      "src/incidents/model.js"
     ],
     "external": ["cesium"]
   },
@@ -870,7 +884,8 @@
       "src/layers/satellites/state.js",
       "src/layers/satellites/testing.js",
       "src/layers/satellites/tracking.js",
-      "src/data/inputOwnership.js"
+      "src/data/inputOwnership.js",
+      "src/sources/live/contract.js"
     ],
     "external": ["cesium", "satellite.js"]
   },
@@ -896,9 +911,12 @@
       "src/layers/launches/source.js",
       "src/layers/launches/state.js",
       "src/layers/launches/testing.js",
-      "src/data/inputOwnership.js"
+      "src/data/inputOwnership.js",
+      "src/ui/icons/layerIcon.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": ["cesium"]
+    "external": ["cesium", "lucide"]
   },
   "installations-layer": {
     "exports": ["./layers/installations"],
@@ -942,9 +960,12 @@
       "src/layers/awareness/state.js",
       "src/layers/awareness/subject.js",
       "src/layers/awareness/testing.js",
-      "src/ui/panelRailGeometry.js"
+      "src/ui/panelRailGeometry.js",
+      "src/ui/icons/layerIcon.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": ["cesium"]
+    "external": ["cesium", "lucide"]
   },
   "traffic-layer": {
     "exports": ["./layers/traffic"],
@@ -972,6 +993,7 @@
       "src/layers/traffic/style.js",
       "src/layers/traffic/timing.js",
       "src/layers/traffic/viewport.js",
+      "src/sources/live/contract.js",
       "src/sources/overpassRoads.js"
     ],
     "external": ["cesium", "pbf", "@mapbox/vector-tile"]
@@ -1145,40 +1167,6 @@
       "src/keySetupCore.mjs"
     ],
     "external": ["cesium"]
-  },
-  "voice-connection": {
-    "exports": [
-      "./voice/controller",
-      "./voice/control",
-      "./voice/realtime-backend",
-      "./voice/commands",
-      "./voice/cost",
-      "./voice/realtime-session"
-    ],
-    "modules": [
-      "src/voice/realtimeController.js",
-      "src/voice/realtimeBackend.js",
-      "src/voice/control.js",
-      "src/voice/layerSummary.js",
-      "src/voice/voiceCost.js",
-      "src/voice/commands.js",
-      "src/voice/session.js",
-      "src/voice/sessionCommands.js",
-      "src/voice/realtimeSession.js",
-      "src/voice/realtimeEvents.js",
-      "src/voice/realtimePreferences.js",
-      "src/voice/realtimeProtocol.js",
-      "src/voice/realtimeDiagnostics.js",
-      "src/voice/realtimeViewport.js",
-      "src/voice/realtimeInputPolicy.js",
-      "src/voice/realtimeInput.js",
-      "src/voice/realtimeCost.js",
-      "src/voice/realtimeFacade.js",
-      "src/voice/realtimeRadio.js",
-      "src/voice/realtimeTurns.js",
-      "src/voice/realtimeConnection.js"
-    ],
-    "external": []
   },
   "application-components": {
     "exports": [
@@ -1692,14 +1680,8 @@
       "src/ui/visualInput.js",
       "src/ui/visualPresets.js",
       "src/ui/visualSettings.js",
-      "src/voice/commands.js",
-      "src/voice/control.js",
       "src/voice/gevActions.js",
-      "src/voice/gevRealtime.js",
       "src/voice/layerSummary.js",
-      "src/voice/realtimeBackend.js",
-      "src/voice/realtimeController.js",
-      "src/voice/voiceCost.js",
       "src/weatherEffectsMath.js",
       "src/worldFocus.js",
       "src/layers/flights/records.js",
@@ -1721,10 +1703,6 @@
       "src/search/coordinateGeocoder.js",
       "src/search/coordinateParser.js",
       "src/search/presetGeocoder.js",
-      "src/voice/session.js",
-      "src/voice/sessionCommands.js",
-      "src/voice/realtimeSession.js",
-      "src/voice/realtimeEvents.js",
       "src/app/localGeojsonServices.js",
       "src/data/feedState.js",
       "src/layers/alpr/records.js",
@@ -1771,17 +1749,6 @@
       "src/ui/layerBindings.js",
       "src/ui/displayBindings.js",
       "src/ui/shellFacade.js",
-      "src/voice/realtimePreferences.js",
-      "src/voice/realtimeProtocol.js",
-      "src/voice/realtimeDiagnostics.js",
-      "src/voice/realtimeViewport.js",
-      "src/voice/realtimeInputPolicy.js",
-      "src/voice/realtimeInput.js",
-      "src/voice/realtimeCost.js",
-      "src/voice/realtimeFacade.js",
-      "src/voice/realtimeRadio.js",
-      "src/voice/realtimeTurns.js",
-      "src/voice/realtimeConnection.js",
       "src/director/clock.js",
       "src/director/timeline.js",
       "src/scenes/shotPresentation.js",
@@ -1809,15 +1776,103 @@
       "src/director/sharing/lifetime.js",
       "src/director/authoring.js",
       "src/scenes/sharing.js",
-      "src/ui/sceneSharing.js"
+      "src/ui/sceneSharing.js",
+      "src/ondemand/entityChat.js",
+      "src/ondemand/entityContext.js",
+      "src/ondemand/cameraContext.js",
+      "src/ui/icons/layerIcon.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/brand/productName.js",
+      "src/ondemand/miniChat.js",
+      "src/ondemand/pluginPanel.js",
+      "src/scenes/aoiScenePolicy.js",
+      "src/scenes/incidentScenes.js",
+      "src/incidents/model.js",
+      "src/aoi/membership.js",
+      "src/aoi/uaeInterest.js",
+      "config/aoi/uae-interest.json",
+      "src/incidents/client.js",
+      "src/incidents/ui/overlay.js",
+      "src/incidents/ui/composer.js",
+      "src/incidents/ui/streamClient.js",
+      "src/incidents/ui/streamView.js",
+      "src/incidents/ui/sceneStreamLayer.js",
+      "src/cinematic/index.js",
+      "src/cinematic/assetIds.js",
+      "src/cinematic/assetRegistry.js",
+      "src/cinematic/cameraDirector.js",
+      "src/cinematic/debugApi.js",
+      "src/cinematic/effects.js",
+      "src/cinematic/events.js",
+      "src/cinematic/geoSceneContext.js",
+      "src/cinematic/liveIntelligenceDirector.js",
+      "src/cinematic/playbackController.js",
+      "src/cinematic/qaCommands.js",
+      "src/cinematic/qaExecutor.js",
+      "src/cinematic/runtimeReducer.js",
+      "src/cinematic/sceneRuntime.js",
+      "src/cinematic/sceneSchema.js",
+      "src/cinematic/ui/cinematicPanel.js",
+      "src/incidents/ui/draftOwnership.js",
+      "src/incidents/ui/sceneFootageControls.js",
+      "src/incidents/ui/hyperRealRender.js",
+      "src/workstation/model.js",
+      "src/incidents/ui/index.js",
+      "src/sceneVideos/evidence.js",
+      "src/sceneVideos/labels.js",
+      "src/sceneVideos/rail.js",
+      "src/sceneVideos/index.js",
+      "src/sceneEvidence/model.js",
+      "src/sceneEvidence/store.js",
+      "src/sceneEvidence/panel.js",
+      "src/sceneEvidence/index.js",
+      "src/incidents/query.js",
+      "src/aoi/sceneGate.js",
+      "config/aoi/scene-aois.json",
+      "src/scenes/geographicScene.js",
+      "src/incidents/ui/sceneLibrary.js",
+      "src/incidents/ui/diagnostics.js",
+      "src/incidents/ui/geographicOverlay.js",
+      "src/sceneEvidence/qualification.js",
+      "src/sceneFootage/places.js",
+      "src/sceneFootage/controller.js",
+      "src/sceneFootage/panel.js",
+      "src/sceneFootage/index.js",
+      "config/aoi/footage-places.json",
+      "src/ui/icons/lucideNodes.js",
+      "src/ui/calmLaunch.js",
+      "src/ui/walkthrough.js",
+      "src/ui/guidedLaunch.js",
+      "src/ui/icons/platformLogos.js",
+      "src/scenes/structuredPlan.js",
+      "src/scenes/cameraCoverage.js",
+      "src/incidents/ui/sceneCamera.js",
+      "src/incidents/ui/sceneStudio.js",
+      "src/scenes/sceneGeometry.js",
+      "src/incidents/ui/sceneGeometryLayer.js",
+      "src/scenes/sceneSpec.js",
+      "src/scenes/sceneTemplates.js",
+      "src/scenes/sceneStaging.js",
+      "src/incidents/ui/sceneStagingLayer.js",
+      "src/incidents/ui/scenePanel.js",
+      "src/incidents/ui/sceneFlyIn.js",
+      "src/incidents/ui/sceneLegend.js",
+      "src/scenes/iconBillboard.js",
+      "src/scenes/spriteAtlas.js",
+      "src/app/renderGuard.js",
+      "src/cinematic/renderBudget.js"
     ],
     "external": [
+      "zod",
       "@mapbox/vector-tile",
       "cesium",
       "egm96-universal",
       "mgrs",
       "pbf",
-      "satellite.js"
+      "satellite.js",
+      "lucide",
+      "driver.js",
+      "simple-icons"
     ]
   },
   "application-catalog": {
@@ -2087,6 +2142,7 @@
       "src/layers/satellites/state.js",
       "src/layers/satellites/testing.js",
       "src/layers/satellites/tracking.js",
+      "src/sources/live/contract.js",
       "src/layers/submarineCables/geometry.js",
       "src/layers/submarineCables/index.js",
       "src/layers/submarineCables/ingestion.js",
@@ -2203,7 +2259,10 @@
       "src/sources/overpassFeaturesRecords.js",
       "src/sources/overpassFeatures.js",
       "src/sources/featureSource.js",
-      "src/sources/overpassRoads.js"
+      "src/sources/overpassRoads.js",
+      "src/ui/icons/layerIcon.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
     "external": [
       "cesium",
@@ -2211,7 +2270,8 @@
       "satellite.js",
       "@mapbox/vector-tile",
       "pbf",
-      "mgrs"
+      "mgrs",
+      "lucide"
     ]
   },
   "application-operations": {
@@ -2330,9 +2390,12 @@
       "src/ui/panelRailGeometry.js",
       "src/ui/panelRails.js",
       "src/ui/rightPanelRail.js",
-      "src/ui/uiLifetime.js"
+      "src/ui/uiLifetime.js",
+      "src/ui/icons/layerIcon.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/lucideNodes.js"
     ],
-    "external": []
+    "external": ["lucide"]
   },
   "civil-flight-records": {
     "exports": ["./layers/flights/records"],
@@ -2413,20 +2476,6 @@
     "modules": ["src/voice/actionSchemas.js"],
     "external": []
   },
-  "voice-session": {
-    "exports": ["./voice/session"],
-    "modules": ["src/voice/session.js"],
-    "external": []
-  },
-  "voice-session-controls": {
-    "exports": ["./voice/session-controls"],
-    "modules": [
-      "src/voice/sessionCommands.js",
-      "src/voice/session.js",
-      "src/voice/control.js"
-    ],
-    "external": []
-  },
   "alpr-source": {
     "exports": ["./layers/alpr/source"],
     "modules": [
@@ -2479,7 +2528,10 @@
   },
   "satellites-source": {
     "exports": ["./layers/satellites/source"],
-    "modules": ["src/layers/satellites/source.js"],
+    "modules": [
+      "src/layers/satellites/source.js",
+      "src/sources/live/contract.js"
+    ],
     "external": []
   },
   "traffic-source-factory": {
@@ -2489,6 +2541,7 @@
       "src/layers/traffic/flowDecode.js",
       "src/layers/traffic/flowSource.js",
       "src/layers/traffic/source.js",
+      "src/sources/live/contract.js",
       "src/sources/overpassRoads.js"
     ],
     "external": ["@mapbox/vector-tile", "pbf"]
@@ -2622,9 +2675,12 @@
       "src/sources/featureGeometry.js",
       "src/sources/overpassFeaturesRecords.js",
       "src/sources/overpassFeatures.js",
-      "src/sources/featureSource.js"
+      "src/sources/featureSource.js",
+      "src/ui/icons/lucideNodes.js",
+      "src/ui/icons/lucideIcons.generated.js",
+      "src/ui/icons/layerIcon.js"
     ],
-    "external": ["cesium", "egm96-universal", "pbf"]
+    "external": ["cesium", "egm96-universal", "pbf", "lucide"]
   },
   "transit-layer": {
     "exports": ["./layers/transit"],

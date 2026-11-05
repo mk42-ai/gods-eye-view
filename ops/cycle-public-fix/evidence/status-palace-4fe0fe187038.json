@@ -1,0 +1,315 @@
+{
+ "job_id": "4fe0fe187038",
+ "illustrative": true,
+ "label": "Illustrative render \u00b7 not evidence",
+ "created_utc": "2026-11-04T22:15:34Z",
+ "request": {
+  "prompt": "police at Emirates Palace",
+  "lat": 24.4617,
+  "lng": 54.3173,
+  "time_of_day": null,
+  "duration_s": 4,
+  "seed": 2086886635,
+  "samples": 24
+ },
+ "stage": "complete",
+ "progress": 1,
+ "frames_done": 96,
+ "status_url": "/api/scenes/render/4fe0fe187038/status",
+ "stream_url": "/api/scenes/render/4fe0fe187038/stream",
+ "latest_frame_url": "/api/scenes/render/4fe0fe187038/latest.jpg",
+ "frames_url_template": "/api/scenes/render/4fe0fe187038/frames/{n}.png",
+ "mp4_url": "/api/scenes/render/4fe0fe187038/video.mp4",
+ "focal": {
+  "name": "Emirates Palace",
+  "lat": 24.4617,
+  "lon": 54.3173,
+  "kind": "venue",
+  "waterfront": true,
+  "source": "caller-coordinates",
+  "precision": "exact-input",
+  "approximate": true
+ },
+ "time_of_day": "midday",
+ "land_patch": {
+  "source": "Esri World Imagery tiles + OSM buildings/roads via Overpass (no Google Maps key on host)",
+  "half_extent_m": 260,
+  "buildings": 9,
+  "roads": 56,
+  "overpass": "ok",
+  "tiles_ok": 25
+ },
+ "seed": 2086886635,
+ "prompt_hash": "7c635ceb03d7ad5c694b15599b770119378a82bc63dea4ecd728e8da1256c295",
+ "spec": {
+  "scenarioType": "police_protection",
+  "focalEntity": {
+   "name": "Emirates Palace",
+   "kind": "venue"
+  },
+  "elements": [
+   {
+    "type": "foot_patrol",
+    "params": {
+     "radius_m": 150,
+     "count": 4,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "staging_point",
+    "params": {
+     "radius_m": null,
+     "count": 1,
+     "spacing_m": null,
+     "direction": null
+    }
+   },
+   {
+    "type": "outer_cordon",
+    "params": {
+     "radius_m": 300
+    }
+   },
+   {
+    "type": "inner_cordon",
+    "params": {
+     "radius_m": 120
+    }
+   },
+   {
+    "type": "barriers",
+    "params": {
+     "spacing_m": 20
+    }
+   },
+   {
+    "type": "vehicle_checkpoint",
+    "params": {
+     "count": 3
+    }
+   },
+   {
+    "type": "screening_lane",
+    "params": {
+     "count": 2
+    }
+   },
+   {
+    "type": "crowd_zone",
+    "params": {
+     "radius_m": 50,
+     "count": 2
+    }
+   },
+   {
+    "type": "command_post",
+    "params": {
+     "count": 1
+    }
+   },
+   {
+    "type": "medical_point",
+    "params": {
+     "count": 1
+    }
+   },
+   {
+    "type": "cctv_signal",
+    "params": {
+     "count": 3
+    }
+   },
+   {
+    "type": "perimeter_unit",
+    "params": {
+     "count": 6
+    }
+   },
+   {
+    "type": "marine_patrol",
+    "params": {
+     "count": 1
+    }
+   },
+   {
+    "type": "escort_motorcycle",
+    "params": {
+     "count": 2
+    }
+   },
+   {
+    "type": "shuttle_bus",
+    "params": {
+     "count": 1
+    }
+   }
+  ],
+  "confidence": 0.55,
+  "seed": 2086886635,
+  "prompt_hash": "7c635ceb03d7ad5c694b15599b770119378a82bc63dea4ecd728e8da1256c295",
+  "_prompt": "police at Emirates Palace"
+ },
+ "model": {
+  "provider": "ondemand",
+  "endpointId": "predefined-kimi-k3-fast",
+  "attempts": [
+   {
+    "endpointId": "predefined-kimi-k3-fast",
+    "http": 200,
+    "latency_s": 8.76,
+    "valid": true,
+    "answer_chars": 312,
+    "repaired_with_template": [
+     "outer_cordon",
+     "inner_cordon",
+     "barriers",
+     "vehicle_checkpoint",
+     "screening_lane",
+     "crowd_zone",
+     "command_post",
+     "medical_point",
+     "cctv_signal",
+     "perimeter_unit",
+     "marine_patrol",
+     "escort_motorcycle",
+     "shuttle_bus"
+    ]
+   }
+  ],
+  "fallback": false,
+  "repaired_with_template": [
+   "outer_cordon",
+   "inner_cordon",
+   "barriers",
+   "vehicle_checkpoint",
+   "screening_lane",
+   "crowd_zone",
+   "command_post",
+   "medical_point",
+   "cctv_signal",
+   "perimeter_unit",
+   "marine_patrol",
+   "escort_motorcycle",
+   "shuttle_bus"
+  ]
+ },
+ "placement": {
+  "instances": 100,
+  "by_asset": {
+   "ambulance_medical_point": 1,
+   "cctv_camera": 3,
+   "city_bus": 1,
+   "crowd_control_barrier": 49,
+   "event_command_post": 1,
+   "foot_patrol_officer": 4,
+   "marine_patrol_boat": 1,
+   "police_escort_motorcycle": 2,
+   "police_patrol_car": 10,
+   "spectator_crowd_cluster": 28
+  }
+ },
+ "prep_s": 14.93,
+ "total_frames": 96,
+ "shards": [
+  {
+   "frames": [
+    49,
+    96
+   ],
+   "gpu": "6",
+   "pid": 3774949,
+   "started_utc": "2026-11-04T22:15:49Z"
+  },
+  {
+   "frames": [
+    1,
+    48
+   ],
+   "gpu": "2",
+   "pid": 3774951,
+   "started_utc": "2026-11-04T22:15:49Z"
+  }
+ ],
+ "ttff_s": 35.96,
+ "ttff_render_only_s": 21.03,
+ "wall_clock_render_s": 62.1,
+ "wall_clock_total_s": 77.03,
+ "fps_sustained": 1.546,
+ "fps_after_first_frame": 2.307,
+ "realtime_factor": 0.0644,
+ "gpu_metrics": {
+  "2": {
+   "util_pct_mean": 13.3,
+   "util_pct_max": 100,
+   "mem_used_mib_max": 4417,
+   "mem_total_mib": 81559,
+   "samples": 29
+  },
+  "6": {
+   "util_pct_mean": 40.8,
+   "util_pct_max": 100,
+   "mem_used_mib_max": 4417,
+   "mem_total_mib": 81559,
+   "samples": 29
+  }
+ },
+ "encoder": "libx264 (CPU)",
+ "encode_s": 1.41,
+ "mp4_bytes": 3890139,
+ "finished_utc": "2026-11-04T22:16:53Z",
+ "events_tail": [
+  {
+   "utc": "2026-11-04T22:16:10Z",
+   "stage": "first_frame",
+   "data": {
+    "ttff_s": 35.96,
+    "frame": "f_0001.png"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:16:51Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_49_96.log",
+    "line": "SCENE_READY seed=2086886635 cuda_visible=6 order=PCI_BUS_ID devices=['NVIDIA H100 80GB HBM3'] buildings=9 instances=100 assets=10 setup_s=18.96 frames=49-96"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:16:51Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_49_96.log",
+    "line": "SHARD_DONE frames=48 render_s=42.19 setup_s=18.96"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:16:51Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_1_48.log",
+    "line": "SCENE_READY seed=2086886635 cuda_visible=2 order=PCI_BUS_ID devices=['NVIDIA H100 80GB HBM3'] buildings=9 instances=100 assets=10 setup_s=18.06 frames=1-48"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:16:51Z",
+   "stage": "blender",
+   "data": {
+    "log": "blender_1_48.log",
+    "line": "SHARD_DONE frames=48 render_s=23.29 setup_s=18.06"
+   }
+  },
+  {
+   "utc": "2026-11-04T22:16:53Z",
+   "stage": "done",
+   "data": {
+    "stage": "complete",
+    "frames": 96,
+    "ttff_s": 35.96,
+    "fps_sustained": 1.546,
+    "mp4_bytes": 3890139
+   }
+  }
+ ]
+}

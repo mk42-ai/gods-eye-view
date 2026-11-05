@@ -23,8 +23,8 @@ export const KEY_SETUP_APPEND_HEADER =
 
 /**
  * Provider credentials, in display order — most magic per
- * minute first. `tier` mirrors the README's color legend: 'metered' (🔴) is a
- * billing-enabled account, 'free' (🟡) is a register-and-paste key.
+ * minute first. `tier` mirrors the README's color legend: 'metered' (red dot)
+ * is a billing-enabled account, 'free' (amber dot) is a register-and-paste key.
  * `clientExposed` marks the two keys that are injected into the browser
  * bundle by design (restrict them at the provider, per SECURITY.md).
  * `hidden` keeps advanced configuration out of the panel and missing-key count.
@@ -48,14 +48,6 @@ export const KEY_SETUP_KEYS = Object.freeze([
     envVars: Object.freeze(['GOOGLE_MAPS_SERVER_API_KEY']),
     tier: 'metered',
     hidden: true,
-  }),
-  Object.freeze({
-    id: 'openai',
-    title: 'OPENAI',
-    unlocks: 'Voice control — talk to the planet',
-    getUrl: 'https://platform.openai.com/api-keys',
-    envVars: Object.freeze(['OPENAI_API_KEY']),
-    tier: 'metered',
   }),
   Object.freeze({
     id: 'aisstream',

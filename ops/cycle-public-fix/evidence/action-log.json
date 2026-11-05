@@ -1,0 +1,78 @@
+[
+ {
+  "utc": "2026-11-04T21:19:52Z",
+  "step": "inventory",
+  "repo": "mk42-ai/gods-eye-view",
+  "branch": "feat/scene-video-evidence",
+  "head": "25ea6851d00e0637dfd446702e06927958fa85f2",
+  "origin_head_equal": true,
+  "working_tree_clean": true,
+  "checkpoint_f20fab6_present": true,
+  "baseline_branch_remote": "baseline/approved-k8v6snzk7 NOT on origin (fatal: couldn't find remote ref); only local checkpoint f20fab6 present"
+ },
+ {
+  "utc": "2026-11-04T21:19:52Z",
+  "step": "repro-public",
+  "url": "https://ondemand-agent-od4dxd8pa-schoolhack-web-team.vercel.app/?prompt=car%20crash%20yas%20mall",
+  "build_id": "direct-plugin-2026-11-02",
+  "idle_img": {
+   "hiddenAttr": true,
+   "computedDisplay": "block",
+   "rect_w": 133.5,
+   "rect_h": 18.2,
+   "src": null,
+   "naturalWidth": 0
+  },
+  "note": "broken <img> alt text visible while hidden=true: CSS .ws-frame{display:block} overrides UA [hidden]{display:none}"
+ },
+ {
+  "utc": "2026-11-04T21:19:52Z",
+  "step": "repro-public-build",
+  "job": "599dc7b9d875",
+  "buildRequests": 1,
+  "statusPolls": 28,
+  "img_src": "/api/scenes/render/599dc7b9d875/latest.jpg?n=96",
+  "http": 200,
+  "content_type": "image/jpeg",
+  "bytes": 35495,
+  "naturalWidth": 1280,
+  "naturalHeight": 720,
+  "lumMean": 124.9,
+  "lumStd": 22.8,
+  "clientTtffS": 36.5,
+  "serviceTtffS": 32.19,
+  "fps_sustained": 1.498,
+  "gpus": [
+   "6",
+   "2"
+  ],
+  "objects": 98,
+  "frames": 96,
+  "console_errors": [
+   "CSP frame-src blocks vercel.live feedback iframe (Vercel toolbar, not app)"
+  ]
+ },
+ {
+  "utc": "2026-11-04T21:19:52Z",
+  "step": "curl-frame-public",
+  "latest_jpg": {
+   "http": 200,
+   "type": "image/jpeg",
+   "bytes": 36252
+  },
+  "frame1_png": {
+   "http": 200,
+   "type": "image/png",
+   "bytes": 950937
+  },
+  "render_host_base": "https://<quick-tunnel>.trycloudflare.com (RENDER_SERVICE_URL, server-side env, proxied same-origin via /api/scenes/render/*; NOT localhost/private)",
+  "health": {
+   "configured": true,
+   "gpus": [
+    "2",
+    "6"
+   ],
+   "violations": []
+  }
+ }
+]

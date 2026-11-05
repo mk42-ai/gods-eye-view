@@ -1,0 +1,123 @@
+[
+  {
+    "check": "harness-scenario-A",
+    "scenario": "A",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 400,
+    "run_at_iso8601": "2026-10-21T09:32:18.301Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/ab/A-1440x900.png",
+    "evidence": "harness 6/6 checks: app_boots=ok (Loading screen hidden or globe canvas active); title_contains_product_name=ok (document.title=\"OnDemand Intelligence Workstation\"); no_legacy_brand_terms=ok (No forbidden terms visible); brand_mark_present=ok (Found 2 [data-brand-mark] element(s)); foundation_health_200=ok (status 200, ok=true, keySource=server); foundation_contracts_min_13=ok (status 200, 33 contracts). PNG 398517 bytes, mean grayscale 62.33 (>40 => not the loading overlay)",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "harness-scenario-B",
+    "scenario": "B",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 5308,
+    "run_at_iso8601": "2026-10-21T09:32:19.381Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/ab/B-1440x900.png",
+    "evidence": "harness 5/5 checks: mini_chat_opens_earthquake=ok (Mini chat opened with data-open=\"true\"); status_streaming_and_stop_visible=ok (streamingStatusSeen=true, stopButtonSeen=true); assistant_message_and_settle=ok (settled within 90s, assistant message chars: 73); key_source_server_header=ok (x-ondemand-key-source header: \"server\"); no_client_api_key_in_localstorage=ok (localStorage ondemand.apiKey is null). PNG 1708539 bytes, mean grayscale 68.62",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "harness-scenario-A",
+    "scenario": "A",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 195,
+    "run_at_iso8601": "2026-10-21T09:32:35.469Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/ab/A-390x844.png",
+    "evidence": "harness 6/6 checks: app_boots=ok (Loading screen hidden or globe canvas active); title_contains_product_name=ok (document.title=\"OnDemand Intelligence Workstation\"); no_legacy_brand_terms=ok (No forbidden terms visible); brand_mark_present=ok (Found 2 [data-brand-mark] element(s)); foundation_health_200=ok (status 200, ok=true, keySource=server); foundation_contracts_min_13=ok (status 200, 33 contracts). PNG 350192 bytes, mean grayscale 69.69 (>40 => not the loading overlay)",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "harness-scenario-B",
+    "scenario": "B",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 4927,
+    "run_at_iso8601": "2026-10-21T09:32:36.946Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/ab/B-390x844.png",
+    "evidence": "harness 5/5 checks: mini_chat_opens_earthquake=ok (Mini chat opened with data-open=\"true\"); status_streaming_and_stop_visible=ok (streamingStatusSeen=true, stopButtonSeen=true); assistant_message_and_settle=ok (settled within 90s, assistant message chars: 139); key_source_server_header=ok (x-ondemand-key-source header: \"server\"); no_client_api_key_in_localstorage=ok (localStorage ondemand.apiKey is null). PNG 371814 bytes, mean grayscale 74.01",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "streaming-parity",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 8232,
+    "run_at_iso8601": "2026-10-21T09:40:49.439Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-streaming-1440x900.png",
+    "evidence": "send-button hit-test={\"rect\":{\"x\":1195,\"y\":769,\"w\":208,\"h\":32},\"inViewport\":true,\"disabled\":false,\"topAtCenter\":\"ondemand-mini-chat-send\",\"hitsButton\":true,\"inputRect\":{\"x\":1003,\"y\":769,\"w\":186,\"h\":32},\"inputTop\":\"ondemand-mini-chat-input\",\"inputHit\":true}; baseline assistant msgs (history)=0; TTFT=3693 ms; STOP visible during stream=true (at first text: true); POST /api/ondemand/v2/chat status=200 x-ondemand-key-source=server; final status=\"READY \u00b7 inferred\"; localStorage ondemand.apiKey=null; assistant chars=102",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "hud-summary-parity",
+    "scenario": "parity",
+    "viewport": "1440x900",
+    "status": "PASS",
+    "duration_ms": 1495,
+    "run_at_iso8601": "2026-10-21T09:40:50.934Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-hud-summary-1440x900.png",
+    "evidence": "#hud-summary=\"NORMAL STREET NEAR UT TOWER (AUSTIN) 2KM | NORTH AMERICA | ALT 627M | WINDOW 2x1KM | SUN -42\u00b0 | ONA 50\u00b0 | UTC-7\" (ok=true); #hud-ask-ondemand present=true; chat opened=true; data-object-type=hudSummary; kind label=\"HUD SUMMARY \u00b7 global\"; scrollWidth=1440 innerWidth=1440",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "media-rendering-audit",
+    "scenario": "A",
+    "viewport": "1440x900",
+    "status": "DEFECT",
+    "duration_ms": 3829,
+    "run_at_iso8601": "2026-10-21T09:40:54.763Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-media-rendering-1440x900.png",
+    "evidence": "intercepted POST /api/ondemand/v2/chat=1; assistant node class=\"od-chat__msg od-chat__msg--assistant\"; <a>=3 (.od-chat__cite=3) <img>=0 <video>=0 <picture>=0 <iframe>=0; lightbox/dialog in node=0, lightbox-ish in document=4, [role=dialog] in document=1 ([\"ondemand-mini-chat\"]); [autoplay] in node=0, video[autoplay] in document=0, <video> in document=0; anchors=[{\"href\":\"https://example.com/brief.pdf\",\"text\":\"example.com/brief.pdf\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/figure.png\",\"text\":\"example.com/figure.png\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/clip.mp4\",\"text\":\"example.com/clip.mp4\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"}]; status=\"READY \u00b7 inferred\" \u2014 media deliverables render as plain .od-chat__cite anchors; no thumbnail/lightbox/poster/side-pane implementation exists (src/ondemand/miniChat.js renderAnswer(), ~L475-497; src/ui/styles/ondemand-chat.css .od-chat__cite L440). Positive safety property holds: 0 <video autoplay> in transcript.",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "streaming-parity",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 7956,
+    "run_at_iso8601": "2026-10-21T09:41:12.025Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-streaming-390x844.png",
+    "evidence": "send-button hit-test={\"rect\":{\"x\":205,\"y\":801,\"w\":166,\"h\":32},\"inViewport\":true,\"disabled\":false,\"topAtCenter\":\"SPAN\",\"hitsButton\":false,\"inputRect\":{\"x\":13,\"y\":801,\"w\":186,\"h\":32},\"inputTop\":\"SPAN\",\"inputHit\":false}; baseline assistant msgs (history)=0; TTFT=3350 ms; STOP visible during stream=true (at first text: true); POST /api/ondemand/v2/chat status=200 x-ondemand-key-source=server; final status=\"READY \u00b7 inferred\"; localStorage ondemand.apiKey=null; assistant chars=138",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "hud-summary-parity",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "PASS",
+    "duration_ms": 1344,
+    "run_at_iso8601": "2026-10-21T09:41:13.369Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-hud-summary-390x844.png",
+    "evidence": "#hud-summary=\"NORMAL STREET NEAR UT TOWER (AUSTIN) 2KM | NORTH AMERICA | ALT 627M | WINDOW 2x3KM | SUN -42\u00b0 | ONA 50\u00b0 | UTC-7\" (ok=true); #hud-ask-ondemand present=true; chat opened=true; data-object-type=hudSummary; kind label=\"HUD SUMMARY \u00b7 global\"; scrollWidth=390 innerWidth=390 (no horizontal overflow=true)",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "media-rendering-audit",
+    "scenario": "A",
+    "viewport": "390x844",
+    "status": "DEFECT",
+    "duration_ms": 3861,
+    "run_at_iso8601": "2026-10-21T09:41:17.230Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-media-rendering-390x844.png",
+    "evidence": "intercepted POST /api/ondemand/v2/chat=1; assistant node class=\"od-chat__msg od-chat__msg--assistant\"; <a>=3 (.od-chat__cite=3) <img>=0 <video>=0 <picture>=0 <iframe>=0; lightbox/dialog in node=0, lightbox-ish in document=4, [role=dialog] in document=1 ([\"ondemand-mini-chat\"]); [autoplay] in node=0, video[autoplay] in document=0, <video> in document=0; anchors=[{\"href\":\"https://example.com/brief.pdf\",\"text\":\"example.com/brief.pdf\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/figure.png\",\"text\":\"example.com/figure.png\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"},{\"href\":\"https://example.com/clip.mp4\",\"text\":\"example.com/clip.mp4\",\"cls\":\"od-chat__cite\",\"target\":\"_blank\"}]; status=\"READY \u00b7 inferred\" \u2014 media deliverables render as plain .od-chat__cite anchors; no thumbnail/lightbox/poster/side-pane implementation exists (src/ondemand/miniChat.js renderAnswer(), ~L475-497; src/ui/styles/ondemand-chat.css .od-chat__cite L440). Positive safety property holds: 0 <video autoplay> in transcript.",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  },
+  {
+    "check": "mobile-composer-occlusion",
+    "scenario": "parity",
+    "viewport": "390x844",
+    "status": "DEFECT",
+    "duration_ms": 17000,
+    "run_at_iso8601": "2026-10-21T09:41:56Z",
+    "screenshot": "docs/agent-execution/artifacts/sandbox-verify-2026-10-21/retry-0917/agent1/check-mobile-send-occlusion-390x844.png",
+    "evidence": "At 390x844 with the mini chat open (panel rect 0,484,390,360), document.elementFromPoint at the centre of #ondemand-mini-chat-send (205,801,166x32) and #ondemand-mini-chat-input (13,801,186x32) returns the serverless notice banner's <span> inside div[data-gev-serverless-notice] (position:fixed; bottom:12px; z-index:2147483000; rect 26,749,315x73) - src/serverlessMode.js installServerlessNotice() L47-66. A real page.touchscreen.tap on the send button's centre delivered NO message (user msgs before=0 after=0). The streaming-parity check only passed because it dispatched a programmatic .click(); a real mobile user must dismiss the banner (x) first. Desktop 1440x900 hit-test is clean (banner max-width 640px centred, composer at x=1003+).",
+    "url": "https://sb-4asza5droe1u.vercel.run"
+  }
+]

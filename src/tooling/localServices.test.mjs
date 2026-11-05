@@ -10,16 +10,15 @@ import {
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
-import { overpassProxy } from 'gods-eye-view/server/providers/overpass';
-import { militaryInstallationsProxy } from 'gods-eye-view/server/providers/military-installations';
+import { overpassProxy } from 'ondemand-spatial/server/providers/overpass';
+import { militaryInstallationsProxy } from 'ondemand-spatial/server/providers/military-installations';
 import {
   regionalBriefProxy,
   weatherEffectsProxy,
-} from 'gods-eye-view/server/providers/regional';
-import { openAiRealtimeProxy } from 'gods-eye-view/server/providers/openai';
-import { keySetupEndpoint } from 'gods-eye-view/server/standalone/key-setup';
-import { realtimeInstructions } from '../../server/providers/openai/instructions.js';
-import { GEV_REALTIME_TOOLS } from '../../server/providers/openai/tools.js';
+} from 'ondemand-spatial/server/providers/regional';
+import { keySetupEndpoint } from 'ondemand-spatial/server/standalone/key-setup';
+// OpenAI Realtime provider retired 2026-10-21 — voice is served by
+// /api/ondemand/v2/voice/turn (the foundation voice route: voice-route.js).
 
 function install(plugin, preview = false) {
   const routes = new Map();
@@ -155,83 +154,17 @@ test('weather-only requests share upstream work and retain fresh and stale respo
   );
 });
 
-test('Realtime handler preserves tools and default instructions, isolates supplied annotation guidance, and keeps the upstream key server-side', async (t) => {
-  env(t, 'OPENAI_API_KEY', 'fixture-upstream-secret');
-  env(t, 'GEV_RATELIMIT_OPENAI_PER_MIN', undefined);
-  const sent = [];
-  t.mock.method(globalThis, 'fetch', async (url, options) => {
-    assert.equal(url, 'https://api.openai.com/v1/realtime/client_secrets');
-    assert.equal(
-      options.headers.Authorization,
-      'Bearer fixture-upstream-secret',
-    );
-    sent.push(JSON.parse(options.body));
-    return Response.json({ value: 'fixture-ephemeral' });
-  });
-  for (const [options, guidance] of [
-    [{}, undefined],
-    [
-      { annotationGuidance: 'Fixture annotation instruction.' },
-      'Fixture annotation instruction.',
-    ],
-    [{}, undefined],
-  ]) {
-    const response = await request(
-      install(openAiRealtimeProxy(options)).get('/api/realtime/token'),
-      { url: '/?tier=unknown' },
-    );
-    assert.equal(response.status, 200);
-    assert.equal(response.headers['x-gev-voice-tier'], 'standard');
-    assert.equal(response.headers['x-gev-voice-tier-fallback'], '1');
-    assert.equal(response.body.includes('fixture-upstream-secret'), false);
-    assert.equal(
-      sent.at(-1).session.instructions,
-      realtimeInstructions(guidance),
-    );
-    assert.deepEqual(sent.at(-1).session.tools, GEV_REALTIME_TOOLS);
-  }
-  assert.notEqual(sent[0].session.instructions, sent[1].session.instructions);
-  assert.equal(sent[0].session.instructions, sent[2].session.instructions);
-});
-
-test('debug logging resolves each supplied application directory independently', async (t) => {
-  const first = root(t),
-    second = root(t);
-  for (const [sourceRoot, marker] of [
-    [first, 'first'],
-    [second, 'second'],
-  ]) {
-    const handler = install(openAiRealtimeProxy({ sourceRoot })).get(
-      '/api/realtime/debug-log',
-    );
-    assert.equal(
-      (
-        await request(handler, {
-          method: 'POST',
-          body: JSON.stringify({ marker }),
-        })
-      ).status,
-      204,
-    );
-    const file = path.join(
-      sourceRoot,
-      '.gev-logs/realtime-conversations.jsonl',
-    );
-    assert.equal(JSON.parse(readFileSync(file, 'utf8')).marker, marker);
-  }
-});
-
 test('key setup writes only the supplied application root, retains request guards and stays absent from preview', async (t) => {
   const first = root(t),
     untouched = root(t);
-  env(t, 'OPENAI_API_KEY', undefined);
+  env(t, 'AISSTREAM_API_KEY', undefined);
   const plugin = keySetupEndpoint({ sourceRoot: first });
   assert.equal(plugin.apply({}, { command: 'serve', isPreview: true }), false);
   assert.equal(plugin.configurePreviewServer, undefined);
   const routes = install(plugin);
   const handler = routes.get('/api/setup/keys');
   const body = JSON.stringify({
-    OPENAI_API_KEY: 'sk-fixture-only-not-a-real-key',
+    AISSTREAM_API_KEY: 'sk-fixture-only-not-a-real-key',
   });
   assert.equal(
     (
@@ -248,38 +181,10 @@ test('key setup writes only the supplied application root, retains request guard
   assert.equal(saved.status, 200);
   assert.match(
     readFileSync(path.join(first, '.env'), 'utf8'),
-    /OPENAI_API_KEY=sk-fixture-only-not-a-real-key/,
+    /AISSTREAM_API_KEY=sk-fixture-only-not-a-real-key/,
   );
   if (process.platform !== 'win32')
     assert.equal(statSync(path.join(first, '.env')).mode & 0o777, 0o600);
   assert.equal(saved.body.includes('sk-fixture-only-not-a-real-key'), false);
   assert.equal(existsSync(path.join(untouched, '.env')), false);
-});
-
-test('Realtime service configuration selects compatible endpoint/model without forwarding request model IDs or keys', async () => {
-  const handler = install(
-    openAiRealtimeProxy({
-      realtime: {
-        endpoint: 'https://voice.example/client-secrets',
-        models: { standard: 'configured-model' },
-        resolveApiKey: () => 'server-fixture',
-        fetchImpl: async (url, options) => {
-          assert.equal(url, 'https://voice.example/client-secrets');
-          assert.equal(options.redirect, 'error');
-          assert.equal(options.headers.Authorization, 'Bearer server-fixture');
-          const payload = JSON.parse(options.body);
-          assert.equal(payload.session.model, 'configured-model');
-          assert.deepEqual(payload.session.tools, GEV_REALTIME_TOOLS);
-          return Response.json({ value: 'short-lived-fixture' });
-        },
-      },
-    }),
-  ).get('/api/realtime/token');
-  const response = await request(handler, {
-    url: '/?tier=arbitrary-model&model=other',
-  });
-  assert.equal(response.status, 200);
-  assert.equal(response.headers['x-gev-voice-model'], 'configured-model');
-  assert.equal(response.headers['cache-control'], 'no-store');
-  assert.doesNotMatch(response.body, /server-fixture|voice\.example/);
 });

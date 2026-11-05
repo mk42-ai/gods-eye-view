@@ -1,0 +1,52 @@
+================================================================================
+SNAPCHAT FOOTAGE FAN-OUT INGESTION AUDIT: BEFORE VS AFTER
+Generated: 2026-11-01T07:40:03.296Z (Started: 2026-11-01T07:37:57.868Z)
+Transport: OnDemand Chat API (predefined-openai-gpt4.1-mini) + plugin-1792945050
+Batch API: the removed legacy multi-query transport -> HTTP 405 ({"message":"legacy multi-query transport creation is currently unavailable","errorCode":"method_not_allowed"})
+================================================================================
+
+EXECUTIVE SUMMARY
+-----------------
+Scene: "Dubai Marina" (25.0805, 55.1403)
+  BEFORE (single-name, limit 5):  1 raw / 1 unique (18.7s)
+  AFTER  (fan-out, limit 25):      2 raw / 1 unique (22.6s)
+  DELTA:                          +1 raw / +0 unique IDs
+  Variants tried (3):
+    • "Dubai Marina": raw=1, unique=1, ms=15532
+    • "dubaimarina": raw=1, unique=0, ms=22634
+    • "مرسى دبي": raw=0, unique=0, ms=18588
+  Story IDs (SAS Redacted):
+    - [W7_EDlXWTBiXAEEniNoMPwAAYd3NjcW1pc2toAaCHKa86AaCHKMiyAAAAAQ] #dubaimarina (https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/VCyOYetcSQ.mp4)
+
+--------------------------------------------------------------------------------
+Scene: "Burj Al Arab" (25.1412, 55.1853)
+  BEFORE (single-name, limit 5):  2 raw / 2 unique (21.3s)
+  AFTER  (fan-out, limit 25):      3 raw / 3 unique (18.8s)
+  DELTA:                          +1 raw / +1 unique IDs
+  Variants tried (3):
+    • "Burj Al Arab": raw=2, unique=2, ms=18790
+    • "burjalarab": raw=1, unique=1, ms=16368
+    • "برج العرب": raw=0, unique=0, ms=16742
+  Story IDs (SAS Redacted):
+    - [W7_EDlXWTBiXAEEniNoMPwAAYa3RqaWtxanNqAZp-PivlAZp-PisRAAAAAQ] Yo check out the tour of my 7 Star Suite in Dubai  (https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/pNnlUUjdS9.mp4)
+    - [W7_EDlXWTBiXAEEniNoMPwAAYa3VqZHZtZHRoAaEOB4lVAaEOB4lCAAAAAw] Emiratos Árabes - Dubai (Burj Al Arab) #motivacion (https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/f8sxmf0d9v.mp4)
+    - [W7_EDlXWTBiXAEEniNoMPwAAYcHBqdmJnb3h4AZ2QAP1HAZ2QAP0SAAAAAQ] Burj Al Arab is closing for approximately 18 month (https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/C1SYiAcSlo.mp4)
+
+--------------------------------------------------------------------------------
+Scene: "kanes boxing gym abu dhabi" (approx. 24.495, 54.378)
+  BEFORE (single-name, limit 5):  0 raw / 0 unique (12.7s)
+  AFTER  (fan-out, limit 25):      3 raw / 3 unique (30.9s)
+  DELTA:                          +3 raw / +3 unique IDs
+  Variants tried (6):
+    • "kanes boxing gym abu dhabi": raw=0, unique=0, ms=17370
+    • "kane's boxing gym abu dhabi": raw=0, unique=0, ms=15156
+    • "kanes boxing gym": raw=0, unique=0, ms=11787
+    • "kane's boxing gym": raw=0, unique=0, ms=12731
+    • "kanes": raw=1, unique=1, ms=15569
+    • "kane's": raw=2, unique=2, ms=18162
+  Story IDs (SAS Redacted):
+    - [W7_EDlXWTBiXAEEniNoMPwAAYcWVqcnJzYnN5AZ_eyL6zAZ_ex__5AAAAAQ] (none) (https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/NUzJnTtAUo.mp4)
+    - [W7_EDlXWTBiXAEEniNoMPwAAYdWFhcHlzeHRtAaGIJG7yAaGIJG3tAAAAAA] Someone should commission a study on Harry Kane's  (https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/DdoDepmAve.mp4)
+    - [W7_EDlXWTBiXAEEniNoMPwAAYb3FxaGF4d2VoAZ1o4UzjAZ1o3enlAAAAAQ] Harry Kane's 5 tips to level up your striker skill (https://airevdev.blob.core.windows.net/on-demand-dev/6692b763e851d28a036ab30e/agents/apm5YvRwvq.mp4)
+
+--------------------------------------------------------------------------------

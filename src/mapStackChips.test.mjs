@@ -504,7 +504,7 @@ test('the Visual Presets tray owns Map Source and the retired left panel is abse
   );
   assert.match(
     html,
-    /id="map-source-label">MAP SOURCE<[\s\S]*?id="map-stack-status"/,
+    /id="map-source-label">Map source<[\s\S]*?id="map-stack-status"/,
   );
   assert.match(
     html,

@@ -1,0 +1,94 @@
+{
+  "url": "https://ondemand-agent-od4dxd8pa-schoolhack-web-team.vercel.app/?prompt=Kane%27s%20Boxing%20Gym%20Abu%20Dhabi&build=1",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-kanes-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-od4dxd8pa-schoolhack-web-team.vercel.app/?prompt=Kane%27s%20Boxing%20Gym%20Abu%20Dhabi&build=1",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#ws-app[data-state=\"ready\"]",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "gpu_policy_violation",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "forbid-text",
+      "target": "geocoder candidate is required",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__ws.buildRequests===1",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelector(\"#ws-frame\").dataset.loaded===\"1\" && document.querySelector(\"#ws-frame\").naturalWidth===1280",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "!!(window.__ws.result && window.__ws.result.lumStd>5 && window.__ws.result.complete)",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "(window.__ws.result.gpus||[]).every(g=>[\"2\",\"6\"].includes(String(g)))",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "!document.querySelector(\".cesium-viewer,.cesium-widget,[class*=legend],[class*=sprite]\")",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "![...document.querySelectorAll(\"*\")].some(e=>{const c=getComputedStyle(e);return [c.color,c.backgroundColor,c.borderTopColor].some(v=>{const m=v.match(/\\d+/g);if(!m)return false;const[r,g,b]=m.map(Num",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "(window.__ws.errors||[]).length===0",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "JSON.stringify(window.__ws.result)",
+      "ok": true,
+      "detail": "\"{\\\"prompt\\\":\\\"Kane's Boxing Gym Abu Dhabi\\\",\\\"jobId\\\":\\\"7d7d7f8e850d\\\",\\\"clientTtffS\\\":21.4,\\\"frameSource\\\":\\\"/api/scenes/render/7d7d7f8e850d/latest.jpg\\\",\\\"renderer\\\":\\\"cycles-optix\\\",\\\"width\\\":1280,\\\"height\\\":720,\\\"lumMean\\\":99.1,\\\"lumStd\\\":36,\\\"ahash\\\":\\\"1111111001111111000110010000001100001011000011110000011001100111\\\",\\\"objects\\\":100,\\\"byAsset\\\":{\\\"cctv_camera\\\":3,\\\"crowd_control_barrier\\\":20,\\\"foot_patrol_officer\\\":6,\\\"police_patrol_car\\\":9,\\\"traffic_cone_cluster\\\":62},\\\"fpsSustained\\\":2.522,\\\"fpsAfterFirstFrame\\\":3.25,\\\"serviceTtffS\\\":19.31,\\\"totalS\\\":48.36,\\\"gpus\\\":[\\\"6\\\",\\\"2\\\"],\\\"complete\\\":true}\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=779 chars, bodyHeight=701px"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation \u00b7 Scene Workstation",
+  "textLength": 779
+}

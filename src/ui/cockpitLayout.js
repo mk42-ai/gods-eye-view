@@ -1,4 +1,5 @@
 /** Measure Cockpit panels against visible HUD and viewport obstacles. */
+import { setIconContent } from './icons/layerIcon.js';
 import {
   resolveCockpitUtilityAnchor,
   resolveCockpitUtilityLayout,
@@ -39,8 +40,10 @@ export function setContextCollapsed(collapsed) {
       `${expanded ? 'Collapse' : 'Expand'} Contact panel`,
     );
     this.contextToggle.title = `${expanded ? 'Collapse' : 'Expand'} contact panel`;
-    const icon = this.contextToggle.querySelector('.material-symbols-outlined');
-    if (icon) icon.textContent = expanded ? 'chevron_left' : 'chevron_right';
+    setIconContent(
+      this.contextToggle,
+      expanded ? 'chevron-left' : 'chevron-right',
+    );
   }
   if (this.active && wasCollapsed && !this.contextCollapsed) {
     window.dispatchEvent(new CustomEvent('gev:cockpit-context-expanded'));
@@ -62,9 +65,10 @@ export function setSignalCollapsed(collapsed, { user = false } = {}) {
       `${expanded ? 'Collapse' : 'Expand'} cockpit briefing panel`,
     );
     this.signalToggle.title = `${expanded ? 'Collapse' : 'Expand'} briefing panel`;
-    const icon = this.signalToggle.querySelector('.material-symbols-outlined');
-    if (icon)
-      icon.textContent = expanded ? 'right_panel_close' : 'right_panel_open';
+    setIconContent(
+      this.signalToggle,
+      expanded ? 'panel-right-close' : 'panel-right-open',
+    );
   }
   if (this.signalCollapsed) this.stopBriefRotation();
   else this.startBriefRotation({ reset: true });

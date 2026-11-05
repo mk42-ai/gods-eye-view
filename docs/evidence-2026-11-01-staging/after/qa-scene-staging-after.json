@@ -1,0 +1,444 @@
+{
+  "url": "https://ondemand-agent-laxif7h9v-schoolhack-web-team.vercel.app",
+  "mode": "after",
+  "startedUtc": "2026-11-01T05:43:09.004Z",
+  "timeoutSec": 300,
+  "viewports": {
+    "1440x900": {
+      "width": 1440,
+      "height": 900,
+      "prompts": [
+        "police raid at Burj Al Arab",
+        "Dubai Run on Sheikh Zayed Road"
+      ]
+    }
+  },
+  "perPrompt": [
+    {
+      "prompt": "police raid at Burj Al Arab",
+      "viewport": "1440x900",
+      "startedUtc": "2026-11-01T05:43:15.974Z",
+      "booted": true,
+      "callsAfterTyping": 0,
+      "constructCalls": 1,
+      "constructError": null,
+      "driveError": null,
+      "formState": "done",
+      "timedOut": false,
+      "spec": {
+        "scenarioType": "police_raid",
+        "focalEntity": {
+          "name": "Burj Al Arab",
+          "kind": "unknown"
+        },
+        "elements": [
+          {
+            "type": "inner_cordon",
+            "params": {
+              "radius_m": 80
+            }
+          },
+          {
+            "type": "outer_cordon",
+            "params": {
+              "radius_m": 220
+            }
+          },
+          {
+            "type": "approach_route",
+            "params": {
+              "count": 3
+            }
+          },
+          {
+            "type": "egress_route",
+            "params": {
+              "count": 1,
+              "direction": "NE"
+            }
+          },
+          {
+            "type": "staging_point",
+            "params": {
+              "direction": "N"
+            }
+          },
+          {
+            "type": "perimeter_unit",
+            "params": {
+              "count": 6
+            }
+          },
+          {
+            "type": "checkpoint",
+            "params": {
+              "count": 2
+            }
+          },
+          {
+            "type": "cones",
+            "params": {
+              "spacing_m": 8
+            }
+          },
+          {
+            "type": "barriers",
+            "params": {
+              "spacing_m": 25
+            }
+          },
+          {
+            "type": "cctv_signal",
+            "params": {
+              "count": 3
+            }
+          }
+        ],
+        "confidence": 0.35
+      },
+      "specValid": true,
+      "specIssues": [],
+      "modelUsed": {
+        "provider": "template",
+        "id": "scenario-template:police_raid",
+        "latencyMs": 8541,
+        "attempts": [
+          {
+            "provider": "ondemand",
+            "id": "predefined-cerebras-qwen-3.8-27b",
+            "ok": false,
+            "ms": 2644,
+            "error": "invalid spec: confidence Invalid input: expected number, received undefined"
+          },
+          {
+            "provider": "ondemand",
+            "id": "predefined-gpt-6.1-sol",
+            "ok": false,
+            "ms": 5893,
+            "error": "invalid spec: confidence Invalid input: expected number, received undefined"
+          }
+        ],
+        "repaired": true,
+        "fallback": "template",
+        "reasons": [
+          "all model tiers failed or were unavailable; scenario template used"
+        ]
+      },
+      "timing": {
+        "specMs": 8541,
+        "overpassMs": 928,
+        "routingMs": 354,
+        "geometryMs": 134,
+        "totalMs": 9960
+      },
+      "specMs": 8541,
+      "geometryMs": 134,
+      "renderMs": 861,
+      "totalMs": 9960,
+      "totalWallMs": 120480,
+      "layerCounts": {
+        "areas": 3,
+        "lines": 4,
+        "points": 74,
+        "labels": 9
+      },
+      "raidAssertions": {
+        "lines": 4,
+        "innerCordon": true,
+        "outerCordon": true
+      },
+      "sceneStaging": {
+        "status": "staged",
+        "scenario": "police_raid",
+        "counts": {
+          "focal": 1,
+          "inner_cordon": 1,
+          "outer_cordon": 1,
+          "approach_route": 3,
+          "egress_route": 1,
+          "cones": 49,
+          "barriers": 16,
+          "perimeter_unit": 6,
+          "checkpoint": 1,
+          "staging_point": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1,
+        "model": {
+          "provider": "template",
+          "id": "scenario-template:police_raid",
+          "latencyMs": 8541
+        },
+        "labels": 9
+      },
+      "resultKeys": [
+        "ok",
+        "plan",
+        "geometry",
+        "staging",
+        "credentialRequest",
+        "locationResolution",
+        "anchor",
+        "revision",
+        "requestId",
+        "research",
+        "provenance"
+      ],
+      "labelFontPx": 13,
+      "haloWidth": 4,
+      "labelOverlaps": 0,
+      "labelCount": 9,
+      "visibleLabelCount": 8,
+      "projectedLabels": 8,
+      "labelTexts": [
+        "Burj Al Arab",
+        "Inner cordon · 80 m",
+        "Outer cordon · 220 m",
+        "Checkpoint",
+        "Staging point (N)",
+        "Approach route 2",
+        "Approach route 3",
+        "Egress route (NE)"
+      ],
+      "stagingSourceFound": true,
+      "badgeCount": 1,
+      "badgeVisible": true,
+      "illustrativeLabelCount": 0,
+      "citationTokenLabels": 0,
+      "panel": {
+        "title": "Burj Al Arab: illustrative police-themed overview",
+        "summary": "Police raid (illustrative) around Burj Al Arab Jumeirah, Jumeira Street, Al Sufouh 1, Umm Suqeim 3, Umm Suqeim, Dubai, Dubai Emirate, United Arab Emirates: inner and outer cordons, 3 approach routes, an egress route, 6 perimeter units, 1 checkpoints, 49 cones, 16 barriers.",
+        "scenario": "Police raid (illustrative)",
+        "locationBadge": "verified",
+        "elements": [
+          "Inner cordon× 1",
+          "Outer cordon× 1",
+          "Approach routes× 3",
+          "Egress route× 1",
+          "Staging point× 1",
+          "Perimeter units× 6",
+          "Checkpoints× 1",
+          "Traffic cones× 49",
+          "Barriers× 16",
+          "Camera / signal markersnot derived"
+        ],
+        "sourcesCount": 3,
+        "caveat": "Illustrative staging derived from OpenStreetMap data and a scenario template — not a verified deployment, operation or incident.",
+        "builtLine": "Built with scenario template (no model) in 8541 ms · fallback",
+        "builtLatencyMs": "8541",
+        "builtTotalMs": "9960",
+        "hasCitationTokens": false
+      },
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404
+        }
+      ],
+      "screenshot": "after-police-raid-at-burj-al-arab-1440x900.png",
+      "pass": true,
+      "failures": [],
+      "finishedUtc": "2026-11-01T05:45:22.279Z"
+    },
+    {
+      "prompt": "Dubai Run on Sheikh Zayed Road",
+      "viewport": "1440x900",
+      "startedUtc": "2026-11-01T05:45:28.442Z",
+      "booted": true,
+      "callsAfterTyping": 0,
+      "constructCalls": 1,
+      "constructError": null,
+      "driveError": null,
+      "formState": "done",
+      "timedOut": false,
+      "spec": {
+        "scenarioType": "crowd_event",
+        "focalEntity": {
+          "name": "Dubai Run Sheikh Zayed Road",
+          "kind": "unknown"
+        },
+        "elements": [
+          {
+            "type": "route_line",
+            "params": {
+              "radius_m": 2000
+            }
+          },
+          {
+            "type": "start_finish",
+            "params": {
+              "count": 1
+            }
+          },
+          {
+            "type": "crowd_zone",
+            "params": {
+              "radius_m": 120,
+              "count": 2
+            }
+          },
+          {
+            "type": "barriers",
+            "params": {
+              "spacing_m": 40
+            }
+          },
+          {
+            "type": "perimeter_unit",
+            "params": {
+              "count": 4
+            }
+          },
+          {
+            "type": "staging_point",
+            "params": {
+              "direction": "N"
+            }
+          },
+          {
+            "type": "cctv_signal",
+            "params": {
+              "count": 3
+            }
+          }
+        ],
+        "confidence": 0.35
+      },
+      "specValid": true,
+      "specIssues": [],
+      "modelUsed": {
+        "provider": "template",
+        "id": "scenario-template:crowd_event",
+        "latencyMs": 9713,
+        "attempts": [
+          {
+            "provider": "ondemand",
+            "id": "predefined-cerebras-qwen-3.8-27b",
+            "ok": false,
+            "ms": 3677,
+            "error": "invalid spec: confidence Invalid input: expected number, received undefined"
+          },
+          {
+            "provider": "ondemand",
+            "id": "predefined-gpt-6.1-sol",
+            "ok": false,
+            "ms": 6034,
+            "error": "invalid spec: confidence Invalid input: expected number, received undefined"
+          }
+        ],
+        "repaired": true,
+        "fallback": "template",
+        "reasons": [
+          "all model tiers failed or were unavailable; scenario template used"
+        ]
+      },
+      "timing": {
+        "specMs": 9713,
+        "overpassMs": 1188,
+        "routingMs": 0,
+        "geometryMs": 25,
+        "totalMs": 10927
+      },
+      "specMs": 9713,
+      "geometryMs": 25,
+      "renderMs": 622,
+      "totalMs": 10927,
+      "totalWallMs": 147859,
+      "layerCounts": {
+        "areas": 3,
+        "lines": 1,
+        "points": 59,
+        "labels": 4
+      },
+      "raidAssertions": null,
+      "sceneStaging": {
+        "status": "staged",
+        "scenario": "crowd_event",
+        "counts": {
+          "focal": 1,
+          "crowd_zone": 2,
+          "route_line": 1,
+          "staging_point": 1,
+          "barriers": 51,
+          "perimeter_unit": 4,
+          "start_finish": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1,
+        "model": {
+          "provider": "template",
+          "id": "scenario-template:crowd_event",
+          "latencyMs": 9713
+        },
+        "labels": 4
+      },
+      "resultKeys": [
+        "ok",
+        "plan",
+        "geometry",
+        "staging",
+        "credentialRequest",
+        "locationResolution",
+        "anchor",
+        "revision",
+        "requestId",
+        "research",
+        "provenance"
+      ],
+      "labelFontPx": 13,
+      "haloWidth": 4,
+      "labelOverlaps": 0,
+      "labelCount": 4,
+      "visibleLabelCount": 3,
+      "projectedLabels": 3,
+      "labelTexts": [
+        "Dubai Run Sheikh Zayed Road",
+        "Sheikh Zayed Road",
+        "Start / finish"
+      ],
+      "stagingSourceFound": true,
+      "badgeCount": 1,
+      "badgeVisible": true,
+      "illustrativeLabelCount": 0,
+      "citationTokenLabels": 0,
+      "panel": {
+        "title": "Dubai Run: illustrative Sheikh Zayed Road overview",
+        "summary": "Crowd / mass-participation event (illustrative) around Sheikh Zayed Road: 4 perimeter units, 51 barriers, a routed course corridor, 2 crowd zones.",
+        "scenario": "Crowd / mass-participation event (illustrative)",
+        "locationBadge": "verified",
+        "elements": [
+          "Route corridor× 1",
+          "Start / finish× 1",
+          "Crowd zones× 2",
+          "Barriers× 51",
+          "Perimeter units× 4",
+          "Staging point× 1",
+          "Camera / signal markersnot derived"
+        ],
+        "sourcesCount": 4,
+        "caveat": "Illustrative staging derived from OpenStreetMap data and a scenario template — not a verified deployment, operation or incident.",
+        "builtLine": "Built with scenario template (no model) in 9713 ms · fallback",
+        "builtLatencyMs": "9713",
+        "builtTotalMs": "10927",
+        "hasCitationTokens": false
+      },
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404
+        }
+      ],
+      "screenshot": "after-dubai-run-on-sheikh-zayed-road-1440x900.png",
+      "pass": true,
+      "failures": [],
+      "finishedUtc": "2026-11-01T05:48:01.646Z"
+    }
+  ],
+  "summary": {
+    "pass": 2,
+    "fail": 0
+  },
+  "finishedUtc": "2026-11-01T05:48:01.695Z"
+}

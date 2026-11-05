@@ -1,0 +1,71 @@
+{
+  "url": "https://ondemand-agent-7nfo5ho3j-schoolhack-web-team.vercel.app/?prompt=car%20crash%20yas%20mall",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-idle-1440x900.png",
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-idle-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-7nfo5ho3j-schoolhack-web-team.vercel.app/?prompt=car%20crash%20yas%20mall",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#ws-app",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Ready \u2014 Blender Cycles renderer",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": "#ws-viewport img",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": "img[alt='Blender Cycles render']",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelector('#ws-progress').hidden === true && document.querySelector('#ws-banner').hidden === true",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__ws.buildRequests === 0",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelector('meta[name=build-id]').content === 'public-fix-2026-11-04'",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=209 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation \u00b7 Scene Workstation",
+  "textLength": 209
+}

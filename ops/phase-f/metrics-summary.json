@@ -1,0 +1,547 @@
+[
+ {
+  "scene": "yas-mall-crash-dusk",
+  "job_id": "c4c4919ac7ea",
+  "created_utc": "2026-11-03T09:48:33Z",
+  "finished_utc": "2026-11-03T09:52:32Z",
+  "stage": "complete",
+  "frames": "1440/1440",
+  "prep_s": 10.61,
+  "ttff_s": 24.64,
+  "render_wall_s": 218.02,
+  "total_wall_s": 228.64,
+  "fps_sustained": 6.605,
+  "realtime_x": 0.2752,
+  "encode": "libx264 (NVENC failed)",
+  "encode_s": 10.96,
+  "mp4_MB": 49.0,
+  "spec_model": "predefined-kimi-k3-fast",
+  "spec_latency_s": 6.61,
+  "spec_repaired_with_template": null,
+  "buildings": 40,
+  "roads": 230,
+  "instances": 37,
+  "by_asset": {
+   "ambulance_medical_point": 2,
+   "city_bus": 1,
+   "police_patrol_car": 1,
+   "road_closed_barricade": 2,
+   "traffic_cone_cluster": 31
+  },
+  "gpu": {
+   "2": {
+    "util_pct_mean": 29.0,
+    "util_pct_max": 99,
+    "mem_used_mib_max": 4403,
+    "mem_total_mib": 81559,
+    "samples": 101
+   },
+   "6": {
+    "util_pct_mean": 37.9,
+    "util_pct_max": 99,
+    "mem_used_mib_max": 4403,
+    "mem_total_mib": 81559,
+    "samples": 101
+   },
+   "1": {
+    "util_pct_mean": 29.4,
+    "util_pct_max": 99,
+    "mem_used_mib_max": 15679,
+    "mem_total_mib": 81559,
+    "samples": 101
+   }
+  },
+  "gpus": null
+ },
+ {
+  "scene": "dubai-marina-raid-night",
+  "job_id": "ee86c262aa2f",
+  "created_utc": "2026-11-03T09:52:35Z",
+  "finished_utc": "2026-11-03T09:58:27Z",
+  "stage": "complete",
+  "frames": "1440/1440",
+  "prep_s": 10.93,
+  "ttff_s": 15.94,
+  "render_wall_s": 327.42,
+  "total_wall_s": 338.35,
+  "fps_sustained": 4.398,
+  "realtime_x": 0.1832,
+  "encode": "libx264 (NVENC failed)",
+  "encode_s": 12.93,
+  "mp4_MB": 59.4,
+  "spec_model": "predefined-kimi-k3-fast",
+  "spec_latency_s": 6.91,
+  "spec_repaired_with_template": null,
+  "buildings": 42,
+  "roads": 176,
+  "instances": 1,
+  "by_asset": {
+   "police_patrol_car": 1
+  },
+  "gpu": {
+   "2": {
+    "util_pct_mean": 59.2,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4375,
+    "mem_total_mib": 81559,
+    "samples": 153
+   },
+   "6": {
+    "util_pct_mean": 60.7,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4397,
+    "mem_total_mib": 81559,
+    "samples": 153
+   },
+   "1": {
+    "util_pct_mean": 57.6,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 15673,
+    "mem_total_mib": 81559,
+    "samples": 153
+   }
+  },
+  "gpus": null
+ },
+ {
+  "scene": "emirates-palace-crowd-midday",
+  "job_id": "01e0d2366aaf",
+  "created_utc": "2026-11-03T09:58:29Z",
+  "finished_utc": "2026-11-03T10:03:41Z",
+  "stage": "complete",
+  "frames": "1440/1440",
+  "prep_s": 15.58,
+  "ttff_s": 20.59,
+  "render_wall_s": 284.29,
+  "total_wall_s": 299.87,
+  "fps_sustained": 5.065,
+  "realtime_x": 0.211,
+  "encode": "libx264 (NVENC failed)",
+  "encode_s": 12.15,
+  "mp4_MB": 57.7,
+  "spec_model": "predefined-kimi-k3-fast",
+  "spec_latency_s": 9.17,
+  "spec_repaired_with_template": null,
+  "buildings": 9,
+  "roads": 55,
+  "instances": 57,
+  "by_asset": {
+   "event_command_post": 1,
+   "foot_patrol_officer": 8,
+   "police_patrol_car": 6,
+   "spectator_crowd_cluster": 42
+  },
+  "gpu": {
+   "2": {
+    "util_pct_mean": 50.2,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 8761,
+    "mem_total_mib": 81559,
+    "samples": 132
+   },
+   "6": {
+    "util_pct_mean": 51.5,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 8761,
+    "mem_total_mib": 81559,
+    "samples": 132
+   },
+   "1": {
+    "util_pct_mean": 44.4,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 20037,
+    "mem_total_mib": 81559,
+    "samples": 132
+   }
+  },
+  "gpus": null
+ },
+ {
+  "scene": "yas-mall-crash-dusk-p2",
+  "job_id": "f18d1cdceba7",
+  "created_utc": "2026-11-03T10:16:53Z",
+  "finished_utc": "2026-11-03T10:21:27Z",
+  "stage": "complete",
+  "frames": "1440/1440",
+  "prep_s": 8.25,
+  "ttff_s": 30.29,
+  "render_wall_s": 254.08,
+  "total_wall_s": 262.34,
+  "fps_sustained": 5.668,
+  "realtime_x": 0.2362,
+  "encode": "libx264 (NVENC failed)",
+  "encode_s": 11.57,
+  "mp4_MB": 64.7,
+  "spec_model": "predefined-kimi-k3-fast",
+  "spec_latency_s": 4.9,
+  "spec_repaired_with_template": [
+   "inner_cordon",
+   "checkpoint",
+   "perimeter_unit",
+   "cctv_signal",
+   "foot_patrol",
+   "shuttle_bus"
+  ],
+  "buildings": 40,
+  "roads": 230,
+  "instances": 102,
+  "by_asset": {
+   "ambulance_medical_point": 2,
+   "cctv_camera": 2,
+   "city_bus": 2,
+   "crowd_control_barrier": 33,
+   "foot_patrol_officer": 4,
+   "police_patrol_car": 7,
+   "road_closed_barricade": 2,
+   "traffic_cone_cluster": 50
+  },
+  "gpu": {
+   "2": {
+    "util_pct_mean": 45.6,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 8795,
+    "mem_total_mib": 81559,
+    "samples": 118
+   },
+   "6": {
+    "util_pct_mean": 40.4,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 8795,
+    "mem_total_mib": 81559,
+    "samples": 118
+   },
+   "1": {
+    "util_pct_mean": 39.2,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 20093,
+    "mem_total_mib": 81559,
+    "samples": 118
+   }
+  },
+  "gpus": null
+ },
+ {
+  "scene": "dubai-marina-raid-night-p2",
+  "job_id": "36f1cbfa48d2",
+  "created_utc": "2026-11-03T10:21:31Z",
+  "finished_utc": "2026-11-03T10:27:53Z",
+  "stage": "complete",
+  "frames": "1440/1440",
+  "prep_s": 8.74,
+  "ttff_s": 19.76,
+  "render_wall_s": 360.52,
+  "total_wall_s": 369.25,
+  "fps_sustained": 3.994,
+  "realtime_x": 0.1664,
+  "encode": "libx264 (NVENC failed)",
+  "encode_s": 13.14,
+  "mp4_MB": 59.3,
+  "spec_model": "predefined-kimi-k3-fast",
+  "spec_latency_s": 5.33,
+  "spec_repaired_with_template": [
+   "checkpoint",
+   "cones",
+   "barriers",
+   "cctv_signal",
+   "foot_patrol"
+  ],
+  "buildings": 42,
+  "roads": 176,
+  "instances": 103,
+  "by_asset": {
+   "cctv_camera": 3,
+   "crowd_control_barrier": 20,
+   "event_command_post": 1,
+   "foot_patrol_officer": 6,
+   "police_patrol_car": 11,
+   "traffic_cone_cluster": 62
+  },
+  "gpu": {
+   "2": {
+    "util_pct_mean": 69.0,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4397,
+    "mem_total_mib": 81559,
+    "samples": 168
+   },
+   "6": {
+    "util_pct_mean": 61.1,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4419,
+    "mem_total_mib": 81559,
+    "samples": 168
+   },
+   "1": {
+    "util_pct_mean": 68.6,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 15695,
+    "mem_total_mib": 81559,
+    "samples": 168
+   }
+  },
+  "gpus": null
+ },
+ {
+  "scene": "emirates-palace-crowd-midday-p2",
+  "job_id": "9ab743ffbb7c",
+  "created_utc": "2026-11-03T10:27:54Z",
+  "finished_utc": "2026-11-03T10:33:22Z",
+  "stage": "complete",
+  "frames": "1440/1440",
+  "prep_s": 13.88,
+  "ttff_s": 35.91,
+  "render_wall_s": 302.27,
+  "total_wall_s": 316.15,
+  "fps_sustained": 4.764,
+  "realtime_x": 0.1985,
+  "encode": "libx264 (NVENC failed)",
+  "encode_s": 11.43,
+  "mp4_MB": 57.5,
+  "spec_model": "predefined-kimi-k3-fast",
+  "spec_latency_s": 8.69,
+  "spec_repaired_with_template": [
+   "barriers",
+   "vehicle_checkpoint",
+   "screening_lane",
+   "medical_point",
+   "cctv_signal",
+   "perimeter_unit",
+   "marine_patrol",
+   "escort_motorcycle",
+   "shuttle_bus"
+  ],
+  "buildings": 9,
+  "roads": 55,
+  "instances": 81,
+  "by_asset": {
+   "ambulance_medical_point": 1,
+   "cctv_camera": 3,
+   "city_bus": 1,
+   "crowd_control_barrier": 37,
+   "event_command_post": 1,
+   "foot_patrol_officer": 6,
+   "marine_patrol_boat": 1,
+   "police_escort_motorcycle": 2,
+   "police_patrol_car": 15,
+   "spectator_crowd_cluster": 14
+  },
+  "gpu": {
+   "2": {
+    "util_pct_mean": 45.5,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 8807,
+    "mem_total_mib": 81559,
+    "samples": 141
+   },
+   "6": {
+    "util_pct_mean": 47.5,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4431,
+    "mem_total_mib": 81559,
+    "samples": 141
+   },
+   "1": {
+    "util_pct_mean": 33.8,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 15687,
+    "mem_total_mib": 81559,
+    "samples": 141
+   }
+  },
+  "gpus": null
+ },
+ {
+  "scene": "yas-mall-crash-dusk-p3",
+  "job_id": "32a3969d7aef",
+  "created_utc": "2026-11-03T10:34:36Z",
+  "finished_utc": "2026-11-03T10:39:01Z",
+  "stage": "complete",
+  "frames": "1440/1440",
+  "prep_s": 16.01,
+  "ttff_s": 34.04,
+  "render_wall_s": 236.06,
+  "total_wall_s": 252.08,
+  "fps_sustained": 6.1,
+  "realtime_x": 0.2542,
+  "encode": "libx264 (NVENC failed)",
+  "encode_s": 13.05,
+  "mp4_MB": 58.7,
+  "spec_model": "predefined-kimi-k3-fast",
+  "spec_latency_s": 12.48,
+  "spec_repaired_with_template": [
+   "inner_cordon",
+   "barriers",
+   "checkpoint",
+   "perimeter_unit",
+   "cctv_signal",
+   "foot_patrol",
+   "shuttle_bus"
+  ],
+  "buildings": 40,
+  "roads": 230,
+  "instances": 97,
+  "by_asset": {
+   "ambulance_medical_point": 2,
+   "cctv_camera": 2,
+   "city_bus": 2,
+   "crowd_control_barrier": 27,
+   "foot_patrol_officer": 4,
+   "police_patrol_car": 6,
+   "road_closed_barricade": 4,
+   "traffic_cone_cluster": 50
+  },
+  "gpu": {
+   "2": {
+    "util_pct_mean": 24.8,
+    "util_pct_max": 99,
+    "mem_used_mib_max": 4425,
+    "mem_total_mib": 81559,
+    "samples": 109
+   },
+   "6": {
+    "util_pct_mean": 27.7,
+    "util_pct_max": 99,
+    "mem_used_mib_max": 4425,
+    "mem_total_mib": 81559,
+    "samples": 109
+   },
+   "1": {
+    "util_pct_mean": 30.2,
+    "util_pct_max": 99,
+    "mem_used_mib_max": 15679,
+    "mem_total_mib": 81559,
+    "samples": 109
+   }
+  },
+  "gpus": null
+ },
+ {
+  "scene": "dubai-marina-raid-night-p3",
+  "job_id": "770b2a7562c0",
+  "created_utc": "2026-11-03T10:39:04Z",
+  "finished_utc": "2026-11-03T10:45:22Z",
+  "stage": "complete",
+  "frames": "1440/1440",
+  "prep_s": 9.82,
+  "ttff_s": 20.86,
+  "render_wall_s": 354.47,
+  "total_wall_s": 364.3,
+  "fps_sustained": 4.062,
+  "realtime_x": 0.1693,
+  "encode": "libx264 (NVENC failed)",
+  "encode_s": 13.4,
+  "mp4_MB": 59.3,
+  "spec_model": "predefined-kimi-k3-fast",
+  "spec_latency_s": 6.49,
+  "spec_repaired_with_template": [
+   "perimeter_unit",
+   "checkpoint",
+   "cones",
+   "barriers",
+   "cctv_signal",
+   "foot_patrol"
+  ],
+  "buildings": 42,
+  "roads": 176,
+  "instances": 105,
+  "by_asset": {
+   "cctv_camera": 3,
+   "crowd_control_barrier": 20,
+   "event_command_post": 1,
+   "foot_patrol_officer": 6,
+   "police_patrol_car": 13,
+   "traffic_cone_cluster": 62
+  },
+  "gpu": {
+   "2": {
+    "util_pct_mean": 61.2,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4421,
+    "mem_total_mib": 81559,
+    "samples": 166
+   },
+   "6": {
+    "util_pct_mean": 56.0,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4421,
+    "mem_total_mib": 81559,
+    "samples": 166
+   },
+   "1": {
+    "util_pct_mean": 54.2,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 15697,
+    "mem_total_mib": 81559,
+    "samples": 166
+   }
+  },
+  "gpus": null
+ },
+ {
+  "scene": "emirates-palace-crowd-midday-p3",
+  "job_id": "959ffb7e097c",
+  "created_utc": "2026-11-03T10:45:23Z",
+  "finished_utc": "2026-11-03T10:50:47Z",
+  "stage": "complete",
+  "frames": "1440/1440",
+  "prep_s": 18.08,
+  "ttff_s": 40.12,
+  "render_wall_s": 292.27,
+  "total_wall_s": 310.35,
+  "fps_sustained": 4.927,
+  "realtime_x": 0.2053,
+  "encode": "libx264 (NVENC failed)",
+  "encode_s": 13.28,
+  "mp4_MB": 59.0,
+  "spec_model": "predefined-kimi-k3-fast",
+  "spec_latency_s": 13.41,
+  "spec_repaired_with_template": [
+   "barriers",
+   "vehicle_checkpoint",
+   "screening_lane",
+   "medical_point",
+   "marine_patrol",
+   "escort_motorcycle",
+   "shuttle_bus"
+  ],
+  "buildings": 9,
+  "roads": 55,
+  "instances": 122,
+  "by_asset": {
+   "ambulance_medical_point": 1,
+   "cctv_camera": 1,
+   "city_bus": 1,
+   "crowd_control_barrier": 59,
+   "event_command_post": 1,
+   "foot_patrol_officer": 8,
+   "marine_patrol_boat": 1,
+   "police_escort_motorcycle": 2,
+   "police_patrol_car": 20,
+   "spectator_crowd_cluster": 28
+  },
+  "gpu": {
+   "2": {
+    "util_pct_mean": 51.5,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4417,
+    "mem_total_mib": 81559,
+    "samples": 136
+   },
+   "6": {
+    "util_pct_mean": 53.2,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 4439,
+    "mem_total_mib": 81559,
+    "samples": 136
+   },
+   "1": {
+    "util_pct_mean": 42.4,
+    "util_pct_max": 100,
+    "mem_used_mib_max": 15693,
+    "mem_total_mib": 81559,
+    "samples": 136
+   }
+  },
+  "gpus": null
+ }
+]

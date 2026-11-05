@@ -1,0 +1,71 @@
+[2026-11-01T15:09:04.923Z] ========================================================================
+[2026-11-01T15:09:04.924Z] LIVE ONDEMAND CINEMATIC RUNTIME VALIDATION PROBE
+[2026-11-01T15:09:04.924Z] ========================================================================
+[2026-11-01T15:09:04.924Z] STEP 1: Probing live endpoint registry...
+[2026-11-01T15:09:05.449Z] Registry source: live
+[2026-11-01T15:09:05.449Z] Total endpoints returned: 98
+[2026-11-01T15:09:05.449Z] Active endpoints count: 29
+[2026-11-01T15:09:05.449Z] Cerebras endpoints count: 1
+[2026-11-01T15:09:05.449Z]   - predefined-cerebras-qwen-3.8-27b | name=cerebras-qwen-3.8 | modelId=qwen-3.8-27b | status=active | streaming=true | ctx=128000
+[2026-11-01T15:09:05.449Z] Default task assignments:
+[2026-11-01T15:09:05.449Z]   - scene_direction -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T15:09:05.449Z]   - camera_direction -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T15:09:05.449Z]   - scene_patch -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T15:09:05.449Z]   - event_interpretation -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T15:09:05.449Z]   - qa -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T15:09:05.449Z]   - rapid_revision -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T15:09:05.449Z]   - planner -> predefined-gpt-6.1-sol
+[2026-11-01T15:09:05.449Z]   - research -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T15:09:05.449Z]   - narration -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T15:09:05.449Z] 
+STEP 2: Probing streaming query on predefined-cerebras-qwen-3.8-27b...
+[2026-11-01T15:09:10.092Z] Stream completed in 4259 ms
+[2026-11-01T15:09:10.092Z]   TTFT (first delta): 2182 ms
+[2026-11-01T15:09:10.092Z]   First byte latency: 2182 ms
+[2026-11-01T15:09:10.092Z]   Deltas received: 2
+[2026-11-01T15:09:10.092Z]   Output tokens: 47
+[2026-11-01T15:09:10.092Z]   Input tokens: 914
+[2026-11-01T15:09:10.092Z]   Tokens/second: 22.63
+[2026-11-01T15:09:10.092Z]   Answer preview: Cerebras streaming engine operational and ready.
+[2026-11-01T15:09:10.092Z] 
+STEP 3: Cinematic Director on predefined-cerebras-qwen-3.8-27b (Cerebras)...
+[2026-11-01T15:09:10.092Z] [Iteration 1/4] Generating scene...
+[2026-11-01T15:09:22.161Z] [Iteration 1/4] Scene generation SUCCEEDED and validated!
+[2026-11-01T15:09:22.161Z]   Scene ID: scene-bda1fa33-7bbe-4650-965f-95fcfa0cc279
+[2026-11-01T15:09:22.161Z]   Title: Illustrative Marathon Staging Around Burj Khalifa
+[2026-11-01T15:09:22.161Z]   Entities: 13
+[2026-11-01T15:09:22.161Z]   Shots: 5
+[2026-11-01T15:09:22.161Z]   Beats: 3
+[2026-11-01T15:09:22.161Z]   Routes: 0
+[2026-11-01T15:09:22.161Z]   Effects: 1
+[2026-11-01T15:09:22.161Z]   Invalid lines: 0
+[2026-11-01T15:09:22.161Z]   Repairs: 0
+[2026-11-01T15:09:22.161Z]   Asset substitutions: 0
+[2026-11-01T15:09:22.161Z]   Model metrics: TTFT=8551 ms | total=11640 ms | tok/s=4416.64 | outputTokens=13643
+[2026-11-01T15:09:22.161Z] 
+STEP 4: Probing model switching to predefined-gpt-6.1-sol (GPT tier)...
+[2026-11-01T15:09:22.161Z] [Iteration 1/4] Generating scene with predefined-gpt-6.1-sol...
+[2026-11-01T15:09:51.119Z] [Iteration 1/4] Scene generation SUCCEEDED and validated!
+[2026-11-01T15:09:51.119Z]   Scene ID: scene-cf30c9e0-2822-4587-ae5d-7885efd6470a
+[2026-11-01T15:09:51.119Z]   Title: Burj Khalifa Marathon — Illustrative Cinematic Staging
+[2026-11-01T15:09:51.119Z]   Entities: 13
+[2026-11-01T15:09:51.119Z]   Shots: 5
+[2026-11-01T15:09:51.119Z]   Beats: 4
+[2026-11-01T15:09:51.119Z]   Routes: 0
+[2026-11-01T15:09:51.119Z]   Effects: 1
+[2026-11-01T15:09:51.119Z]   Invalid lines: 0
+[2026-11-01T15:09:51.119Z]   Repairs: 0
+[2026-11-01T15:09:51.119Z]   Asset substitutions: 0
+[2026-11-01T15:09:51.119Z]   Model metrics: TTFT=5995 ms | total=28956 ms | tok/s=111.75 | outputTokens=2566
+[2026-11-01T15:09:51.119Z] 
+STEP 5: Probing Grounded Q&A...
+[2026-11-01T15:09:56.364Z] Q&A answer: "I can cue a wide aerial view of the illustrative Burj Khalifa marathon staging. This is based on the supplied scene, which includes an aerial establishing framing around the Burj Khalifa origin with runners, spectators, and crowd barriers. The runtime will confirm execution."
+[2026-11-01T15:09:56.364Z] Q&A commands (1): [{"command":"wide_aerial","heightM":1200}]
+[2026-11-01T15:09:56.364Z] Q&A repaired: false
+[2026-11-01T15:09:56.364Z] Q&A model metrics: endpoint=predefined-cerebras-qwen-3.8-27b | TTFT=2610 ms | latency=4785 ms | tok/s=342.53
+[2026-11-01T15:09:56.364Z] Contains expected wide_aerial command: true
+[2026-11-01T15:09:56.364Z] 
+========================================================================
+[2026-11-01T15:09:56.364Z] ALL LIVE PROBES COMPLETED SUCCESSFULLY
+[2026-11-01T15:09:56.364Z] ========================================================================
+exit=0

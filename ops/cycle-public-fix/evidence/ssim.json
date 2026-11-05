@@ -1,0 +1,37 @@
+{
+ "pairwise_ssim_frame48": {
+  "yas-palace": 0.191,
+  "yas-kanes": 0.107,
+  "yas-etihad": 0.274,
+  "palace-kanes": 0.085,
+  "palace-etihad": 0.127,
+  "kanes-etihad": 0.093
+ },
+ "per_prompt": {
+  "yas": {
+   "f1_mean": 148.7,
+   "f48_mean": 156.5,
+   "f96_mean": 125.9,
+   "ssim_f1_f96": 0.569
+  },
+  "palace": {
+   "f1_mean": 130.4,
+   "f48_mean": 130.5,
+   "f96_mean": 127.3,
+   "ssim_f1_f96": 0.077
+  },
+  "kanes": {
+   "f1_mean": 96.8,
+   "f48_mean": 99.5,
+   "f96_mean": 101.1,
+   "ssim_f1_f96": 0.049
+  },
+  "etihad": {
+   "f1_mean": 138.3,
+   "f48_mean": 129.0,
+   "f96_mean": 129.4,
+   "ssim_f1_f96": 0.147
+  }
+ },
+ "method": "8x8 window SSIM, stride 4, grayscale 320x180 downscale, C1=(0.01*255)^2 C2=(0.03*255)^2"
+}

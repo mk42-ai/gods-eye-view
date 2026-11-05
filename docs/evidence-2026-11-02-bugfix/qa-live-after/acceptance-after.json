@@ -1,0 +1,4153 @@
+{
+  "url": "https://ondemand-agent-p9nsr3y15-schoolhack-web-team.vercel.app",
+  "label": "after",
+  "startedUtc": "2026-11-02T11:57:20.195Z",
+  "finishedUtc": "2026-11-02T12:05:22.720Z",
+  "checks": [
+    {
+      "name": "build-kanes-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-kanes-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=21404 entities=78 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":27,\"scene-research-geometry\":2,\"scene-staging\":6,\"scene-stream-preview\":0,\"cinematic-scene\":15,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=32 buildRequests=1 requestCountAttr=1 chip=\"predefined-cerebras-qwen-3.8-27b · ~2253 tok/s (est.) · 15.4 s\" errors=0 result=\"Play Scene ready Kane's Boxing Gym Abu Dhabi Approximate · location:known_place_match:known_place predefined-cerebras-qw\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "1",
+          "runState": "succeeded",
+          "cinematicEntities": 4,
+          "entityTotal": 78,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 27,
+            "scene-research-geometry": 2,
+            "scene-staging": 6,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 15,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-sedan_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-bus_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-7",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-8",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-9",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-10",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-11",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-patrons_1-12",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "url"
+            },
+            {
+              "id": "staging-overwatch-1",
+              "w": 28,
+              "h": 28,
+              "kind": "url"
+            },
+            {
+              "id": "gym_marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "bus_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_7",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_8",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_9",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_10",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "patrons_1__member_11",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 32,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": false,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~2253 tok/s (est.) · 15.4 s",
+          "chipTokens": "5290",
+          "chipElapsed": "15419",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyKane's Boxing Gym Abu DhabiApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~2253 tok/s (est.) · 15.4 s",
+          "resultText": "Play\n\nScene ready\nKane's Boxing Gym Abu Dhabi\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~2253 tok/s (est.) · 15.4 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 21404
+      },
+      "timestamp_utc": "2026-11-02T11:57:57.083Z"
+    },
+    {
+      "name": "icons-kanes-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-kanes-built.png",
+      "detail": "billboards=32 sizePx=[28,36] backplateCanvas=15 kinds=[\"url\",\"url\",\"url\",\"url\",\"url\",\"url\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T11:57:57.084Z"
+    },
+    {
+      "name": "play-kanes-1440x900",
+      "status": "failed",
+      "screenshot": "after-1440x900-kanes-playing.png",
+      "detail": "before=paused/false playing=true pos=0.0→0.0s moved=0/4 pauseAnim=false range=",
+      "timestamp_utc": "2026-11-02T11:58:06.507Z"
+    },
+    {
+      "name": "build-marina-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-marina-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=112072 entities=347 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":22,\"scene-research-geometry\":2,\"scene-staging\":279,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=283 buildRequests=2 requestCountAttr=2 chip=\"predefined-cerebras-qwen-3.8-27b · ~23 tok/s (est.) · 109.6 s\" errors=0 result=\"Play Scene ready dubai marina predefined-cerebras-qwen-3.8-27b · ~23 tok/s (est.) · 109.6 s\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "2",
+          "runState": "succeeded",
+          "cinematicEntities": 16,
+          "entityTotal": 347,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 22,
+            "scene-research-geometry": 2,
+            "scene-staging": 279,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 16,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-command_post-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_s1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_s2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_s3-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_w1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_e1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n3-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police_car_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police_car_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police_moto_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officer_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officer_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-responder_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-marine_patrol-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-1",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-2",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-3",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-4",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-5",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-6",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-7",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-8",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-9",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-10",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-11",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-12",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-13",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-14",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-15",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-16",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-17",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-18",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-19",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-20",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-21",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-22",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-23",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-24",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-25",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-26",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-27",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-28",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-29",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-30",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-31",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-32",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-33",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-34",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-35",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-36",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-37",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-38",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-39",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-40",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-41",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-42",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-43",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-44",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-45",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-46",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-47",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-48",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-49",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-50",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-51",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-52",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-53",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-54",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-55",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-56",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-57",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-58",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-59",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-60",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-61",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-62",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-63",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            }
+          ],
+          "iconCount": 283,
+          "playback": {
+            "state": "playing",
+            "positionSec": 1.301500000001397,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": true,
+            "progress": 0.021691666666689948
+          },
+          "shouldAnimate": true,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~23 tok/s (est.) · 109.6 s",
+          "chipTokens": "2473",
+          "chipElapsed": "109628",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readydubai marinapredefined-cerebras-qwen-3.8-27b · ~23 tok/s (est.) · 109.6 s",
+          "resultText": "Play\n\nScene ready\ndubai marina\n\npredefined-cerebras-qwen-3.8-27b · ~23 tok/s (est.) · 109.6 s",
+          "errorPanel": false
+        },
+        "reqs": 2,
+        "errs": [],
+        "ms": 112072
+      },
+      "timestamp_utc": "2026-11-02T12:00:06.439Z"
+    },
+    {
+      "name": "one-request-marina-1440x900",
+      "status": "failed",
+      "screenshot": "after-1440x900-marina-built.png",
+      "detail": "network construct requests=2 (click + Ctrl/Cmd+Enter fired back-to-back)",
+      "timestamp_utc": "2026-11-02T12:00:06.441Z"
+    },
+    {
+      "name": "icons-marina-1440x900",
+      "status": "failed",
+      "screenshot": "after-1440x900-marina-built.png",
+      "detail": "billboards=283 sizePx=[14,36] backplateCanvas=0 kinds=[\"url\",\"url\",\"url\",\"url\",\"url\",\"url\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:00:06.443Z"
+    },
+    {
+      "name": "play-marina-1440x900",
+      "status": "failed",
+      "screenshot": "after-1440x900-marina-playing.png",
+      "detail": "before=playing/true playing=true pos=1.3→1.3s moved=0/16 pauseAnim=false range=",
+      "timestamp_utc": "2026-11-02T12:00:20.448Z"
+    },
+    {
+      "name": "build-yas-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-yas-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=30541 entities=235 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":20,\"scene-research-geometry\":2,\"scene-staging\":169,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=194 buildRequests=1 requestCountAttr=3 chip=\"predefined-cerebras-qwen-3.8-27b · ~346 tok/s (est.) · 25.8 s\" errors=0 result=\"Play Scene ready Yas Mall Approximate · location:known_place_match:known_place predefined-cerebras-qwen-3.8-27b · ~346 t\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "3",
+          "runState": "succeeded",
+          "cinematicEntities": 16,
+          "entityTotal": 235,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 20,
+            "scene-research-geometry": 2,
+            "scene-staging": 169,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 16,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-crashed_car_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-crashed_car_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cone_cluster-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-road_closed_sign-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_3-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_4-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-command_post-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-ambulance-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-fire_engine-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police_car-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officer_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officer_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-responder_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-1",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-2",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-3",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-4",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-5",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-6",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-7",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-8",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-9",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-10",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-11",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-12",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-13",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-14",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-15",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-16",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-17",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-18",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-19",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-20",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-21",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-22",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-23",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-24",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-25",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-26",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-27",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-28",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-29",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-30",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-31",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-32",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-33",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-34",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-35",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-36",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-37",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-38",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-39",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-40",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-41",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-42",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-43",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-44",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-45",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-46",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-47",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-48",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-49",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-50",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-51",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-52",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-53",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-54",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-55",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-56",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-57",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-58",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-59",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-60",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-61",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-62",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-63",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            }
+          ],
+          "iconCount": 194,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": false,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~346 tok/s (est.) · 25.8 s",
+          "chipTokens": "5348",
+          "chipElapsed": "25755",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyYas MallApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~346 tok/s (est.) · 25.8 s",
+          "resultText": "Play\n\nScene ready\nYas Mall\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~346 tok/s (est.) · 25.8 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 30541
+      },
+      "timestamp_utc": "2026-11-02T12:00:56.583Z"
+    },
+    {
+      "name": "icons-yas-1440x900",
+      "status": "failed",
+      "screenshot": "after-1440x900-yas-built.png",
+      "detail": "billboards=194 sizePx=[14,36] backplateCanvas=0 kinds=[\"url\",\"url\",\"url\",\"url\",\"url\",\"url\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:00:56.584Z"
+    },
+    {
+      "name": "play-yas-1440x900",
+      "status": "failed",
+      "screenshot": "after-1440x900-yas-playing.png",
+      "detail": "before=paused/false playing=true pos=0.0→0.0s moved=0/16 pauseAnim=false range=",
+      "timestamp_utc": "2026-11-02T12:01:08.231Z"
+    },
+    {
+      "name": "fallback-geocoder-no-verified-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-force-research-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=14647 entities=238 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":20,\"scene-research-geometry\":2,\"scene-staging\":172,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=193 buildRequests=1 requestCountAttr=4 chip=\"predefined-cerebras-qwen-3.8-27b · ~1396 tok/s (est.) · 11.1 s\" errors=0 result=\"Play Scene ready Yas Mall Approximate · location:known_place_match:known_place predefined-cerebras-qwen-3.8-27b · ~1396 \"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "4",
+          "runState": "succeeded",
+          "cinematicEntities": 16,
+          "entityTotal": 238,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 20,
+            "scene-research-geometry": 2,
+            "scene-staging": 172,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 16,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-crashed_car_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-crashed_car_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cone_cluster-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-road_closed_sign-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_s1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_s2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-command_post-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-ambulance-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-fire_engine-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police_car-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officer_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officer_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-responder_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-1",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-2",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-3",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-4",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-5",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-6",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-7",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-8",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-9",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-10",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-11",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-12",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-13",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-14",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-15",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-16",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-17",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-18",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-19",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-20",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-21",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-22",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-23",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-24",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-25",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-26",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-27",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-28",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-29",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-30",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-31",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-32",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-33",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-34",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-35",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-36",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-37",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-38",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-39",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-40",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-41",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-42",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-43",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-44",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-45",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-46",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-47",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-48",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-49",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-50",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-51",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-52",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-53",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-54",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-55",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-56",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-57",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-58",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-59",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-60",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-61",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-62",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-63",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            }
+          ],
+          "iconCount": 193,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": false,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~1396 tok/s (est.) · 11.1 s",
+          "chipTokens": "4130",
+          "chipElapsed": "11126",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyYas MallApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~1396 tok/s (est.) · 11.1 s",
+          "resultText": "Play\n\nScene ready\nYas Mall\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~1396 tok/s (est.) · 11.1 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 14647
+      },
+      "timestamp_utc": "2026-11-02T12:01:27.895Z"
+    },
+    {
+      "name": "fallback-llm-sse-fail-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-force-llm-built.png",
+      "detail": "state=done fallback=template ms=8576 entities=357 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":32,\"scene-research-geometry\":2,\"scene-staging\":279,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=288 buildRequests=1 requestCountAttr=5 chip=\"predefined-cerebras-qwen-3.8-27b · ~125 tok/s (est.) · 8.4 s\" errors=0 result=\"Play Scene ready dubai marina Approximate · director:director_forced_failure:template predefined-cerebras-qwen-3.8-27b ·\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "template",
+          "requestCount": "5",
+          "runState": "idle",
+          "cinematicEntities": null,
+          "entityTotal": 357,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 32,
+            "scene-research-geometry": 2,
+            "scene-staging": 279,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 16,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police-command-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police-perimeter-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police-perimeter-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officers-entry-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officers-entry-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officers-entry-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officers-entry-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officers-entry-1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officers-entry-1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officers-cordon-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officers-cordon-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officers-cordon-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officers-cordon-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-barrier-outer-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-barrier-outer-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-barrier-outer-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-barrier-outer-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-barrier-outer-1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-barrier-outer-1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-barrier-outer-1-7",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-barrier-outer-1-8",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-1",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-2",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-3",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-4",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-5",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-6",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-7",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-8",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-9",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-10",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-11",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-12",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-13",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-14",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-15",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-16",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-17",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-18",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-19",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-20",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-21",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-22",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-23",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-24",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-25",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-26",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-27",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-28",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-29",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-30",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-31",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-32",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-33",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-34",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-35",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-36",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-37",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-38",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-39",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-40",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-41",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-42",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-43",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-44",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-45",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-46",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-47",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-48",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-49",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-50",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-51",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-52",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-53",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-54",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-55",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-56",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-57",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-58",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            }
+          ],
+          "iconCount": 288,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": false,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~125 tok/s (est.) · 8.4 s",
+          "chipTokens": "107",
+          "chipElapsed": "8412",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readydubai marinaApproximate · director:director_forced_failure:templatepredefined-cerebras-qwen-3.8-27b · ~125 tok/s (est.) · 8.4 s",
+          "resultText": "Play\n\nScene ready\ndubai marina\n\nApproximate · director:director_forced_failure:template\npredefined-cerebras-qwen-3.8-27b · ~125 tok/s (est.) · 8.4 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 8576
+      },
+      "timestamp_utc": "2026-11-02T12:01:44.768Z"
+    },
+    {
+      "name": "fallback-llm-timeout-1440x900",
+      "status": "passed",
+      "screenshot": "after-1440x900-force-timeout-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=93561 entities=99 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":47,\"scene-research-geometry\":2,\"scene-staging\":6,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=47 buildRequests=1 requestCountAttr=6 chip=\"predefined-cerebras-qwen-3.8-27b · ~106 tok/s (est.) · 90.4 s\" errors=0 result=\"Play Scene ready Kane's Boxing Gym Abu Dhabi Approximate · location:known_place_match:known_place predefined-cerebras-qw\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "6",
+          "runState": "idle",
+          "cinematicEntities": null,
+          "entityTotal": 99,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 47,
+            "scene-research-geometry": 2,
+            "scene-staging": 6,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 16,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-security-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-security-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-perimeter-patrol-1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-access-control-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-access-control-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-access-control-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-access-control-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-access-control-1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-access-control-1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-access-control-1-7",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-access-control-1-8",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-3",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-4",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-5",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-6",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-7",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-8",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-9",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-10",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-11",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-venue-visitors-1-12",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "url"
+            },
+            {
+              "id": "staging-overwatch-1",
+              "w": 28,
+              "h": 28,
+              "kind": "url"
+            },
+            {
+              "id": "mall_marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "crashed_car_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "crashed_car_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cone_cluster",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "road_closed_sign",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_n1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_n2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_s1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "cordon_s2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "command_post",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "ambulance",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "fire_engine",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "police_car",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "officer_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "officer_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "responder_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 47,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": false,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~106 tok/s (est.) · 90.4 s",
+          "chipTokens": "96",
+          "chipElapsed": "90362",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyKane's Boxing Gym Abu DhabiApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~106 tok/s (est.) · 90.4 s",
+          "resultText": "Play\n\nScene ready\nKane's Boxing Gym Abu Dhabi\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~106 tok/s (est.) · 90.4 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 93561
+      },
+      "timestamp_utc": "2026-11-02T12:03:22.215Z"
+    },
+    {
+      "name": "snapchat-plugin-echo-1440x900",
+      "status": "passed",
+      "detail": "HTTP 200 pluginIdInResponse=true body={\"locationId\":\"dubai-marina\",\"requestId\":\"154e7744-25e2-4de0-9309-c6803a4f9103\",\"plugin\":{\"id\":\"plugin-1792945050\",\"operation\":\"fetchSnapchatVideosByPlace\"},\"refresh\":{\"defaultMs\":120000,\"minMs\":30000",
+      "timestamp_utc": "2026-11-02T12:04:20.725Z"
+    },
+    {
+      "name": "build-kanes-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-kanes-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=13725 entities=76 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":23,\"scene-research-geometry\":2,\"scene-staging\":10,\"scene-stream-preview\":0,\"cinematic-scene\":13,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=26 buildRequests=1 requestCountAttr=1 chip=\"predefined-cerebras-qwen-3.8-27b · ~578 tok/s (est.) · 8.7 s\" errors=0 result=\"Play Scene ready Kane's Boxing Gym Abu Dhabi Approximate · location:known_place_match:known_place predefined-cerebras-qw\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "1",
+          "runState": "succeeded",
+          "cinematicEntities": 6,
+          "entityTotal": 76,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 23,
+            "scene-research-geometry": 2,
+            "scene-staging": 10,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 13,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-boxer_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-boxer_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-3",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-4",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-5",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-6",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-7",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-8",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-sedan_pass-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-entrance_barrier-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "url"
+            },
+            {
+              "id": "staging-overwatch-1",
+              "w": 28,
+              "h": 28,
+              "kind": "url"
+            },
+            {
+              "id": "gym_marker",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "spectators",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "spectators__member_1",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "spectators__member_2",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "spectators__member_3",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "spectators__member_4",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "spectators__member_5",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "spectators__member_6",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "spectators__member_7",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "sedan_pass",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            },
+            {
+              "id": "entrance_barrier",
+              "w": 36,
+              "h": 36,
+              "kind": "canvas"
+            }
+          ],
+          "iconCount": 26,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": false,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~578 tok/s (est.) · 8.7 s",
+          "chipTokens": "2304",
+          "chipElapsed": "8651",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyKane's Boxing Gym Abu DhabiApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~578 tok/s (est.) · 8.7 s",
+          "resultText": "Play\n\nScene ready\nKane's Boxing Gym Abu Dhabi\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~578 tok/s (est.) · 8.7 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 13725
+      },
+      "timestamp_utc": "2026-11-02T12:04:42.420Z"
+    },
+    {
+      "name": "icons-kanes-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-kanes-built.png",
+      "detail": "billboards=26 sizePx=[28,36] backplateCanvas=11 kinds=[\"url\",\"url\",\"url\",\"url\",\"url\",\"url\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:04:42.422Z"
+    },
+    {
+      "name": "build-marina-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-marina-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=9365 entities=347 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":20,\"scene-research-geometry\":2,\"scene-staging\":283,\"scene-stream-preview\":0,\"cinematic-scene\":14,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=283 buildRequests=1 requestCountAttr=2 chip=\"predefined-cerebras-qwen-3.8-27b · ~898 tok/s (est.) · 9.2 s\" errors=0 result=\"Play Scene ready dubai marina predefined-cerebras-qwen-3.8-27b · ~898 tok/s (est.) · 9.2 s\"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "2",
+          "runState": "succeeded",
+          "cinematicEntities": 14,
+          "entityTotal": 347,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 20,
+            "scene-research-geometry": 2,
+            "scene-staging": 283,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 14,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-command_post-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_w1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_w2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_e1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_e2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police_car_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police_car_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police_moto-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officer_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officer_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-responder_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-marine_patrol-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-1",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-2",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-3",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-4",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-5",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-6",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-7",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-8",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-9",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-10",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-11",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-12",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-13",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-14",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-15",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-16",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-17",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-18",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-19",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-20",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-21",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-22",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-23",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-24",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-25",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-26",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-27",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-28",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-29",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-30",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-31",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-32",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-33",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-34",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-35",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-36",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-37",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-38",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-39",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-40",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-41",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-42",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-43",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-44",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-45",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-46",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-47",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-48",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-49",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-50",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-51",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-52",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-53",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-54",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-55",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-56",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-57",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-58",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-59",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-60",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-61",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-62",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-63",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-64",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            },
+            {
+              "id": "staging-cones-65",
+              "w": 14,
+              "h": 14,
+              "kind": "url"
+            }
+          ],
+          "iconCount": 283,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": false,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~898 tok/s (est.) · 9.2 s",
+          "chipTokens": "3491",
+          "chipElapsed": "9236",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readydubai marinapredefined-cerebras-qwen-3.8-27b · ~898 tok/s (est.) · 9.2 s",
+          "resultText": "Play\n\nScene ready\ndubai marina\n\npredefined-cerebras-qwen-3.8-27b · ~898 tok/s (est.) · 9.2 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 9365
+      },
+      "timestamp_utc": "2026-11-02T12:04:56.046Z"
+    },
+    {
+      "name": "one-request-marina-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-marina-built.png",
+      "detail": "network construct requests=1 (click + Ctrl/Cmd+Enter fired back-to-back)",
+      "timestamp_utc": "2026-11-02T12:04:56.048Z"
+    },
+    {
+      "name": "icons-marina-390x844",
+      "status": "failed",
+      "screenshot": "after-390x844-marina-built.png",
+      "detail": "billboards=283 sizePx=[14,36] backplateCanvas=0 kinds=[\"url\",\"url\",\"url\",\"url\",\"url\",\"url\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:04:56.050Z"
+    },
+    {
+      "name": "play-marina-390x844",
+      "status": "failed",
+      "screenshot": "after-390x844-marina-playing.png",
+      "detail": "before=paused/false playing=true pos=0.0→0.0s moved=0/14 pauseAnim=false range=",
+      "timestamp_utc": "2026-11-02T12:05:05.871Z"
+    },
+    {
+      "name": "build-yas-390x844",
+      "status": "passed",
+      "screenshot": "after-390x844-yas-built.png",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=13163 entities=335 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":32,\"scene-research-geometry\":2,\"scene-staging\":251,\"scene-stream-preview\":0,\"cinematic-scene\":22,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evidence-pins\":0}) icons=288 buildRequests=1 requestCountAttr=3 chip=\"predefined-cerebras-qwen-3.8-27b · ~1314 tok/s (est.) · 8.9 s\" errors=0 result=\"Play Scene ready Yas Mall Approximate · location:known_place_match:known_place predefined-cerebras-qwen-3.8-27b · ~1314 \"",
+      "data": {
+        "probe": {
+          "composerState": "done",
+          "composerFallback": "location:known_place_match:known_place",
+          "requestCount": "3",
+          "runState": "succeeded",
+          "cinematicEntities": 17,
+          "entityTotal": 335,
+          "perSource": {
+            "viewer.entities": 0,
+            "gev-annotations": 0,
+            "gev-draw-preview": 1,
+            "authored-geography": 32,
+            "scene-research-geometry": 2,
+            "scene-staging": 251,
+            "scene-stream-preview": 0,
+            "cinematic-scene": 22,
+            "incident-aoi": 27,
+            "incident-ledger": 0,
+            "scene-video-pins": 0,
+            "scene-evidence-pins": 0
+          },
+          "icons": [
+            {
+              "id": "geographic-scene-anchor",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-crashed_car_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-crashed_car_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cone_cluster-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-road_closed_sign-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n3-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-cordon_n4-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-command_post-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-ambulance-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-fire_engine-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-police_car-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officer_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-officer_2-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-responder_1-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-1",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-2",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-3",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-4",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-5",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "planned-spectators-6",
+              "w": 36,
+              "h": 36,
+              "kind": "url"
+            },
+            {
+              "id": "loc1",
+              "w": 32,
+              "h": 32,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-1",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-2",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-3",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-4",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-5",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-6",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-7",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-8",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-9",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-10",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-11",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-12",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-13",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-14",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-15",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-16",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-17",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-18",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-19",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-20",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-21",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-22",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-23",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-24",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-25",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-26",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-27",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-28",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-29",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-30",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-31",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-32",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-33",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-34",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-35",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-36",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-37",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-38",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-39",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-40",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-41",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-42",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-43",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-44",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-45",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-46",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-47",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-48",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-49",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-50",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-51",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-52",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-53",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-54",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-55",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-56",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            },
+            {
+              "id": "staging-barriers-57",
+              "w": 18,
+              "h": 18,
+              "kind": "url"
+            }
+          ],
+          "iconCount": 288,
+          "playback": {
+            "state": "paused",
+            "positionSec": 0,
+            "durationSec": 60,
+            "speed": 1,
+            "cameraMode": "cinematic",
+            "followEntityId": null,
+            "live": false,
+            "hasTimeDynamic": false,
+            "progress": 0
+          },
+          "shouldAnimate": false,
+          "clockRange": 2,
+          "playDisabled": false,
+          "composerPlay": true,
+          "chip": "predefined-cerebras-qwen-3.8-27b · ~1314 tok/s (est.) · 8.9 s",
+          "chipTokens": "4360",
+          "chipElapsed": "8943",
+          "legend": true,
+          "legendExpanded": null,
+          "badge": " PlayScene readyYas MallApproximate · location:known_place_match:known_placepredefined-cerebras-qwen-3.8-27b · ~1314 tok/s (est.) · 8.9 s",
+          "resultText": "Play\n\nScene ready\nYas Mall\n\nApproximate · location:known_place_match:known_place\npredefined-cerebras-qwen-3.8-27b · ~1314 tok/s (est.) · 8.9 s",
+          "errorPanel": false
+        },
+        "reqs": 1,
+        "errs": [],
+        "ms": 13163
+      },
+      "timestamp_utc": "2026-11-02T12:05:22.677Z"
+    },
+    {
+      "name": "icons-yas-390x844",
+      "status": "failed",
+      "screenshot": "after-390x844-yas-built.png",
+      "detail": "billboards=288 sizePx=[18,36] backplateCanvas=0 kinds=[\"url\",\"url\",\"url\",\"url\",\"url\",\"url\"] legend=true/null",
+      "timestamp_utc": "2026-11-02T12:05:22.679Z"
+    }
+  ],
+  "summary": {
+    "passed": 13,
+    "failed": 9,
+    "blocked": 0
+  }
+}

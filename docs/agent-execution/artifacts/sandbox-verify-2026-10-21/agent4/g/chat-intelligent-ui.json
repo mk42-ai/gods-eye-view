@@ -1,0 +1,234 @@
+{
+  "startedAt": "2026-10-21T08:02:55.615Z",
+  "endedAt": "2026-10-21T08:03:23.357Z",
+  "baseUrl": "https://sb-72vtzc1c6cf8.vercel.run",
+  "summary": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0,
+    "byViewport": {
+      "1440x900": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0
+      },
+      "390x844": {
+        "total": 1,
+        "passed": 1,
+        "failed": 0
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "id": "G",
+      "viewport": "1440x900",
+      "pass": true,
+      "checks": [
+        {
+          "name": "synthetic_502_error_ui",
+          "pass": true,
+          "detail": "Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable"
+        },
+        {
+          "name": "retry_recovery_turn_success",
+          "pass": true,
+          "detail": "Recovered turn completed (status READY)"
+        },
+        {
+          "name": "globe_and_hud_interactive_stability",
+          "pass": true,
+          "detail": "canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+        }
+      ],
+      "durationMs": 7409,
+      "screenshot": "G-1440x900.png",
+      "startedAt": "2026-10-21T08:03:03.425Z",
+      "endedAt": "2026-10-21T08:03:10.834Z"
+    },
+    {
+      "id": "G",
+      "viewport": "390x844",
+      "pass": true,
+      "checks": [
+        {
+          "name": "synthetic_502_error_ui",
+          "pass": true,
+          "detail": "Rendered .od-chat__msg--error and status TURN FAILED / source-unavailable"
+        },
+        {
+          "name": "retry_recovery_turn_success",
+          "pass": true,
+          "detail": "Recovered turn completed (status READY)"
+        },
+        {
+          "name": "globe_and_hud_interactive_stability",
+          "pass": true,
+          "detail": "canvasPresent=true, titleBarPresent=true, controlsResponsive=true"
+        }
+      ],
+      "durationMs": 6315,
+      "screenshot": "G-390x844.png",
+      "startedAt": "2026-10-21T08:03:16.821Z",
+      "endedAt": "2026-10-21T08:03:23.136Z"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:03:00.669Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:03:03.476Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+      "atUtc": "2026-10-21T08:03:03.525Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "atUtc": "2026-10-21T08:03:14.661Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 502 (Bad Gateway)",
+      "atUtc": "2026-10-21T08:03:16.859Z"
+    }
+  ],
+  "failedRequests": [
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T08:03:00.669Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T08:03:00.688Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtrix6-d6f8e6b3&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "atUtc": "2026-10-21T08:03:03.476Z"
+    },
+    {
+      "status": 502,
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "atUtc": "2026-10-21T08:03:03.525Z"
+    },
+    {
+      "status": 404,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "atUtc": "2026-10-21T08:03:14.661Z"
+    },
+    {
+      "status": 0,
+      "method": "GET",
+      "url": "/api/setup/status",
+      "errorText": "net::ERR_ABORTED",
+      "atUtc": "2026-10-21T08:03:14.703Z"
+    },
+    {
+      "status": 502,
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "atUtc": "2026-10-21T08:03:16.859Z"
+    }
+  ],
+  "ondemandCalls": [
+    {
+      "atUtc": "2026-10-21T08:03:00.678Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 46,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:03.476Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtrix6-d6f8e6b3&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 404,
+      "ms": 5,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:03.525Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 502,
+      "ms": 7,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:04.369Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 592,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:06.945Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 4149,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:10.387Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 2932,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:14.661Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/plugins",
+      "status": 200,
+      "ms": 80,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:16.859Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 502,
+      "ms": 6,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:17.061Z",
+      "method": "GET",
+      "url": "/api/ondemand/v2/messages?externalUserId=ws-default-mvhtrix6-d6f8e6b3&objectContextKey=earthquake%3Aearthquakes-global&limit=20&sort=asc",
+      "status": 200,
+      "ms": 224,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:17.383Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/chat",
+      "status": 200,
+      "ms": 298,
+      "keySource": "server"
+    },
+    {
+      "atUtc": "2026-10-21T08:03:20.598Z",
+      "method": "POST",
+      "url": "/api/ondemand/v2/summaries/hud",
+      "status": 200,
+      "ms": 4191,
+      "keySource": "server"
+    }
+  ]
+}

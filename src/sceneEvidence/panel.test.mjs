@@ -1,0 +1,235 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {
+  initialState,
+  applyEvent,
+  visibleItems,
+  toggleFilter,
+  saveSceneEvidence,
+  loadSceneEvidence,
+  diffAgainstCache,
+  listCachedScenes,
+  encodeShare,
+  decodeShare,
+} from './store.js';
+import { buildEvidenceItem } from './model.js';
+import { createSceneEvidencePanel, timelinePosition, formatAge } from './panel.js';
+
+const NOW = new Date('2026-10-24T06:00:00Z');
+const memStorage = () => {
+  const m = new Map();
+  return { getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), _m: m };
+};
+// Source-verified fixture contract. These records never enter production.
+const item = (url, title, extra = {}) => buildEvidenceItem({ url, title,
+  evidence: { kind: 'provider-record', verified: true }, mediaType: 'video',
+  mediaLocation: { sourceVerified: true, basis: 'recording-location', field: 'recordingDetails.location', geometry: { type: 'Point', coordinates: [55.14,25.08] } },
+  recordingTime: { sourceVerified: true, basis: 'recorded', field: 'recordingDetails.recordingDate', value: '2026-10-24T05:45:00Z', precision: 'second' },
+  playback: { authorized: true, type: 'official-embed' }, ...extra }, { now: NOW, place: 'Dubai Marina', anchor: { lat: 25.08, lon: 55.14 } });
+
+test('reducer: plan → items stream in ranked → done; first-card timing recorded', () => {
+  let s = initialState({ place: 'Dubai Marina', lat: 25.08, lon: 55.14 });
+  s.client.startedAt = 1000;
+  s = applyEvent(s, 'plan', { key: 'k', place: 'Dubai Marina', sources: [{ id: 'a', state: 'running' }, { id: 'b', state: 'credentials_required' }] }, 1100);
+  assert.equal(s.phase, 'streaming');
+  s = applyEvent(s, 'item', item('https://youtu.be/dQw4w9WgXcQ', 'random'), 2500);
+  assert.equal(s.client.firstCardMs, 1500);
+  s = applyEvent(s, 'item', item('https://www.tiktok.com/@a/video/7690936936990592274', 'Dubai Marina walk'), 3000);
+  assert.equal(s.items.length, 2); // only qualified fixture records
+  s = applyEvent(s, 'source', { id: 'a', state: 'ok', count: 2 }, 3100);
+  assert.equal(s.sources.find((x) => x.id === 'a').state, 'ok');
+  s = applyEvent(s, 'signal', { id: 's1', title: 't', publishedAt: '2026-10-24T05:00:00Z' }, 3200);
+  assert.equal(s.client.firstSignalMs, 2200);
+  s = applyEvent(s, 'done', { key: 'k', items: s.items, signals: s.signals, sources: s.sources, timings: { totalMs: 4000 } }, 5000);
+  assert.equal(s.phase, 'done');
+  assert.equal(s.client.doneMs, 4000);
+});
+
+test('filters toggle and apply', () => {
+  let s = initialState({});
+  s = applyEvent(s, 'item', item('https://youtu.be/dQw4w9WgXcQ', 'random'));
+  s = applyEvent(s, 'item', item('https://www.tiktok.com/@a/video/7690936936990592274', 'Dubai Marina walk'));
+  s = toggleFilter(s, 'precisions', 'place');
+  assert.deepEqual(visibleItems(s), []);
+  s = toggleFilter(s, 'precisions', 'place');
+  assert.equal(visibleItems(s).length, 2);
+});
+
+test('scene cache: save → reload re-ages freshness; diff on rebuild; Instagram metadata stripped', () => {
+  const st = memStorage();
+  let s = initialState({ place: 'Dubai Marina', lat: 25.08, lon: 55.14 });
+  s = applyEvent(s, 'item', item('https://www.instagram.com/reel/DO-zCYMjPV2/', 'secret caption', { author: { name: 'n' } }));
+  s = applyEvent(s, 'item', item('https://www.tiktok.com/@a/video/7690936936990592274', 'Dubai Marina walk'));
+  s = applyEvent(s, 'done', { items: s.items, signals: [], sources: [] });
+  assert.equal(saveSceneEvidence(st, s, NOW.getTime()), true);
+  assert.doesNotMatch(st._m.get('gev.sceneEvidence.v2'), /secret caption/);
+  const back = loadSceneEvidence(st, s.key, NOW);
+  assert.equal(back.items.length, 2);
+  assert.ok(back.cachedAt);
+  assert.equal(listCachedScenes(st)[0].items, 2);
+  let s2 = initialState({ place: 'Dubai Marina', lat: 25.08, lon: 55.14, fresh: true });
+  s2 = applyEvent(s2, 'item', item('https://www.tiktok.com/@a/video/7690936936990592274', 'Dubai Marina walk'));
+  s2 = applyEvent(s2, 'item', item('https://youtu.be/dQw4w9WgXcQ', 'Dubai Marina new'));
+  s2 = applyEvent(s2, 'done', { items: s2.items, signals: [], sources: [] });
+  const d = diffAgainstCache(st, s2);
+  assert.deepEqual(d.added, ['youtube:dQw4w9WgXcQ']);
+  assert.deepEqual(d.removed, ['instagram:DO-zCYMjPV2']);
+});
+
+test('share links round-trip and reject junk', () => {
+  const enc = encodeShare({ place: 'Burj Khalifa', lat: 25.1972, lon: 55.2744, windowHours: 24, sceneId: 'geo-x' });
+  const dec = decodeShare(enc);
+  assert.deepEqual(dec, { place: 'Burj Khalifa', lat: 25.1972, lon: 55.2744, windowHours: 24, sceneId: 'geo-x' });
+  assert.equal(decodeShare('%7Bbad'), null);
+  assert.equal(decodeShare(encodeURIComponent(JSON.stringify({ p: '' }))), null);
+  assert.equal(decodeShare(encodeURIComponent(JSON.stringify({ p: 'x', a: 999, o: 1 }))).lat, undefined);
+});
+
+test('timeline position is log-scaled with now at the right', () => {
+  assert.equal(timelinePosition(0), 100);
+  assert.equal(timelinePosition(8760), 0);
+  assert.ok(timelinePosition(1) > timelinePosition(72));
+  assert.equal(timelinePosition(null), null);
+  assert.equal(formatAge(0.5), '30 min ago');
+  assert.equal(formatAge(100), '4 d ago');
+});
+
+// ---------------------------------------------------------------- panel over a tiny DOM
+function makeDoc() {
+  const mk = (tag) => {
+    const listeners = new Map();
+    const node = {
+      tagName: tag.toUpperCase(), children: [], attrs: new Map(), dataset: {}, style: {}, textContent: '', hidden: false,
+      set className(v) { this.attrs.set('class', v); }, get className() { return this.attrs.get('class') || ''; },
+      set id(v) { this.attrs.set('id', v); }, get id() { return this.attrs.get('id'); },
+      setAttribute(k, v) { this.attrs.set(k, String(v)); if (k.startsWith('data-')) this.dataset[k.slice(5).replace(/-([a-z])/g, (_, c) => c.toUpperCase())] = String(v); },
+      getAttribute(k) { return this.attrs.get(k) ?? null; },
+      append(...k) { for (const c of k) this.appendChild(c); },
+      appendChild(c) { this.children.push(c); c.parentNode = this; return c; },
+      replaceChildren(...k) { this.children = []; for (const c of k) this.appendChild(c); },
+      addEventListener(t, f) { listeners.set(t, [...(listeners.get(t) || []), f]); },
+      dispatch(t, e = {}) { for (const f of listeners.get(t) || []) f({ stopPropagation() {}, ...e }); },
+      remove() {},
+    };
+    return node;
+  };
+  return { createElement: mk, body: mk('body') };
+}
+const find = (n, pred) => { if (pred(n)) return n; for (const c of n.children || []) { const r = find(c, pred); if (r) return r; } return null; };
+const all = (n, pred, out = []) => { if (pred(n)) out.push(n); for (const c of n.children || []) all(c, pred, out); return out; };
+
+function sseBody(events) {
+  const text = events.map(([e, d]) => `event: ${e}\ndata: ${JSON.stringify(d)}\n\n`).join('');
+  const bytes = new TextEncoder().encode(text);
+  let done = false;
+  return { getReader: () => ({ read: async () => (done ? { done: true } : ((done = true), { value: bytes, done: false })) }) };
+}
+
+test('panel: streams SSE into cards, source status shows credentials-required, card click loads lazy embed, profile popup shows only public fields', async () => {
+  const doc = makeDoc();
+  const st = memStorage();
+  const it1 = item('https://www.tiktok.com/@dubai_amazing_world/video/7690936936990592274', 'Dubai Marina 4K', { author: { name: 'Dubai Amazing', url: 'https://www.tiktok.com/@dubai_amazing_world', followers: 1200, source: 'tiktok oEmbed' } });
+  const events = [
+    ['plan', { key: 'k1', place: 'Dubai Marina', sources: [{ id: 'od_search_tiktok', name: 'TikTok', state: 'running' }, { id: 'x_api_v2', name: 'X API', state: 'credentials_required', credentials: ['X_BEARER_TOKEN'] }] }],
+    ['item', it1],
+    ['source', { id: 'od_search_tiktok', state: 'ok', count: 1, ms: 5000 }],
+    ['signal', { id: 's', title: 'Road closure near Dubai Marina', url: 'https://gulfnews.com/a', outlet: 'Gulf News', publishedAt: '2026-10-24T03:00:00Z', freshness: 'RECENT', kind: 'news', source: { name: 'Google News RSS' }, geo: { precision: 'text' } }],
+    ['summary', { text: 'One stale item.', engine: 'deterministic' }],
+    ['done', { key: 'k1', place: 'Dubai Marina', items: [it1], signals: [], sources: [{ id: 'od_search_tiktok', name: 'TikTok', state: 'ok', count: 1 }, { id: 'x_api_v2', name: 'X API', state: 'credentials_required', credentials: ['X_BEARER_TOKEN'] }], timings: { totalMs: 6000 } }],
+  ];
+  let calls = 0;
+  const panel = createSceneEvidencePanel({ document: doc, window: {}, storage: st, now: () => NOW.getTime(), fetch: async () => (calls++, { ok: true, body: sseBody(events) }) });
+  await panel.open({ text: 'Dubai Marina', place: 'Dubai Marina', lat: 25.08, lon: 55.14 });
+  const root = panel.element;
+  assert.equal(root.dataset.phase, 'done');
+  const cards = all(root, (n) => n.className === 'sev-card');
+  assert.equal(cards.length, 1);
+  assert.equal(cards[0].getAttribute('data-freshness'), 'RECENT');
+  assert.equal(cards[0].getAttribute('data-geo'), 'exact');
+  const geoBadge = find(cards[0], (n) => n.getAttribute?.('data-geo-badge'));
+  assert.match(geoBadge.textContent, /^EXACT GEOTAG/); // approximate is labelled, never "exact"
+  const credRow = find(root, (n) => n.getAttribute?.('data-source-id') === 'x_api_v2');
+  assert.equal(credRow.getAttribute('data-state'), 'credentials_required');
+  assert.match(find(credRow, (n) => n.className === 'sev__source-meta').textContent, /X_BEARER_TOKEN/);
+  // Explicit Play is required; an arriving thumbnail is not playback.
+  assert.equal(find(root, (n) => n.tagName === 'IFRAME'), null);
+  find(cards[0], (n) => n.className?.includes('sev-card__play')).dispatch('click');
+  const frame = find(root, (n) => n.tagName === 'IFRAME');
+  assert.equal(frame.getAttribute('loading'), 'lazy');
+  assert.match(frame.getAttribute('src'), /tiktok\.com\/player\/v1\/7690936936990592274/);
+  // profile popup
+  find(cards[0], (n) => n.className?.includes('sev-card__profile')).dispatch('click');
+  const pop = find(root, (n) => n.id === 'scene-evidence-profile');
+  assert.equal(pop.hidden, false);
+  assert.ok(find(pop, (n) => n.className === 'sev__profile-followers'));
+  assert.match(find(pop, (n) => n.className === 'sev__profile-note').textContent, /name, url, followers/);
+  assert.equal(find(pop, (n) => n.className === 'sev__profile-bio'), null); // not returned → not shown
+  // Reopen uses cache as a snapshot, but always revalidates live evidence
+  const before = calls;
+  await panel.open({ text: 'Dubai Marina', place: 'Dubai Marina', lat: 25.08, lon: 55.14 }, { preferCache: true });
+  assert.equal(calls, before + 1);
+  assert.equal(root.dataset.phase, 'done');
+});
+
+test('panel: HTTP errors surface as an error state (no fabricated data)', async () => {
+  const doc = makeDoc();
+  const panel = createSceneEvidencePanel({ document: doc, window: {}, storage: memStorage(), fetch: async () => ({ ok: false, status: 503, text: async () => '{"error":"ondemand_not_configured"}' }) });
+  await panel.open({ text: 'Dubai Marina', place: 'Dubai Marina', lat: 25.08, lon: 55.14 });
+  assert.equal(panel.element.dataset.phase, 'error');
+  assert.equal(panel.state.items.length, 0);
+  assert.match(find(panel.element, (n) => n.id === 'scene-evidence-status').textContent, /HTTP 503/);
+});
+
+// ---------------------------------------------------------------- cycle 22: on-demand drawer
+import { shortPlaceName, evidenceStats, evidenceChipLabel } from './panel.js';
+
+test('shortPlaceName: one-line short name + untouched full address', () => {
+  const full = 'American University Of Sharjah, Bobyan Street, Al Jerainah, Muwailih, Sharjah, Sharjah Emirate, United Arab Emirates';
+  assert.deepEqual(shortPlaceName(full), { short: 'American University of Sharjah', full });
+  assert.deepEqual(shortPlaceName('Dubai Marina'), { short: 'Dubai Marina', full: 'Dubai Marina' });
+  assert.deepEqual(shortPlaceName(''), { short: '', full: '' });
+  assert.equal(shortPlaceName('  Burj   Khalifa , Dubai ').short, 'Burj Khalifa');
+});
+
+test('evidenceStats / evidenceChipLabel: compact counts', () => {
+  const st = { phase: 'done', items: [{ eligible: true }, { eligible: false }], candidates: new Array(18).fill({}), sources: [{ state: 'ok' }, { state: 'timeout' }, { state: 'error' }] };
+  assert.deepEqual(evidenceStats(st), { verified: 1, candidates: 18, timedOut: 1, failed: 1 });
+  assert.equal(evidenceChipLabel(st), 'Evidence · 1 verified · 18 candidates');
+  assert.equal(evidenceChipLabel({ ...st, items: [], candidates: [{}] }), 'Evidence · 0 verified · 1 candidate');
+  assert.match(evidenceChipLabel({ ...st, phase: 'streaming' }), /^Evidence · searching…/);
+});
+
+test('panel: hidden by default after a build; chip opens it; X hides it; close() tears down chip', async () => {
+  const doc = makeDoc();
+  const events = [
+    ['plan', { key: 'k2', place: 'American University Of Sharjah, Bobyan Street, Sharjah', sources: [{ id: 'a', name: 'A', state: 'running' }] }],
+    ['source', { id: 'a', state: 'timeout' }],
+    ['done', { key: 'k2', place: 'American University Of Sharjah, Bobyan Street, Sharjah', items: [], signals: [], sources: [{ id: 'a', name: 'A', state: 'timeout' }], timings: { totalMs: 1000 } }],
+  ];
+  const panel = createSceneEvidencePanel({ document: doc, window: {}, storage: memStorage(), now: () => NOW.getTime(), fetch: async () => ({ ok: true, body: sseBody(events) }) });
+  await panel.open({ text: 'sharjah university', place: 'American University Of Sharjah, Bobyan Street, Sharjah', lat: 25.31, lon: 55.49 });
+  assert.equal(panel.element.hidden, true, 'drawer stays closed after a build');
+  assert.equal(panel.chip.hidden, false, 'chip is revealed');
+  assert.match(find(panel.chip, (n) => n.className === 'sev-chip__label').textContent, /^Evidence · 0 verified · 0 candidates$/);
+  const title = find(panel.element, (n) => n.id === 'scene-evidence-title');
+  assert.equal(title.textContent, 'American University of Sharjah');
+  assert.match(title.getAttribute('title'), /Bobyan Street/);
+  const addr = find(panel.element, (n) => n.id === 'scene-evidence-address');
+  assert.match(addr.textContent, /Bobyan Street/);
+  const timeout = find(panel.element, (n) => n.getAttribute?.('data-stat') === 'timeout');
+  assert.equal(timeout.hidden, false);
+  // sections collapsed by default (no `open` attribute)
+  for (const id of ['scene-evidence-sources', 'scene-evidence-diagnostics', 'scene-evidence-summary'])
+    assert.equal(find(panel.element, (n) => n.id === id).getAttribute('open'), null, `${id} collapsed`);
+  panel.chip.dispatch('click');
+  assert.equal(panel.isOpen(), true);
+  assert.equal(panel.chip.getAttribute('aria-expanded'), 'true');
+  find(panel.element, (n) => n.id === 'scene-evidence-close').dispatch('click');
+  assert.equal(panel.isOpen(), false);
+  assert.equal(panel.chip.hidden, false, 'X only hides the drawer');
+  panel.chip.dispatch('click');
+  panel.element.dispatch('keydown', { key: 'Escape' });
+  assert.equal(panel.isOpen(), false, 'Esc hides the drawer');
+  panel.close();
+  assert.equal(panel.chip.hidden, true, 'teardown hides the chip too');
+});

@@ -1,0 +1,71 @@
+{
+  "url": "https://ondemand-agent-7nfo5ho3j-schoolhack-web-team.vercel.app/?prompt=car%20crash%20yas%20mall&build=1",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-building-1440x900.png",
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-building-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-7nfo5ho3j-schoolhack-web-team.vercel.app/?prompt=car%20crash%20yas%20mall&build=1",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#ws-app[data-state=\"building\"]",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Building \u2014",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "expect-selector",
+      "target": "#ws-progress",
+      "ok": true,
+      "detail": "visible"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": "#ws-viewport img",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "eval",
+      "target": "window.__ws.buildRequests === 1",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelector('#ws-progress-text').textContent",
+      "ok": true,
+      "detail": "\"Building \\u2014 fetching land patch\\u2026\""
+    },
+    {
+      "kind": "eval",
+      "target": "document.querySelector('#ws-banner').hidden === true",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=932 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation \u00b7 Scene Workstation",
+  "textLength": 932
+}

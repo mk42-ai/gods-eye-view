@@ -1,0 +1,39 @@
+/* Render recovery notification toast styling */
+#gev-render-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #0b1220;
+  color: #f1f5f9;
+  border: 1px solid #14b8a6;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+#gev-render-toast[hidden] {
+  display: none !important;
+}
+
+.gev-render-toast-reload {
+  background-color: #14b8a6;
+  color: #0b1220;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.gev-render-toast-reload:hover {
+  background-color: #2dd4bf;
+}

@@ -1,0 +1,54 @@
+utc=2026-11-03T08:43:21Z
++ ls -la /localstorage/mk.thomas/models/dsv41-gguf/Mix-256G /localstorage/mk.thomas/models/dsv41-gguf/.cache
+/localstorage/mk.thomas/models/dsv41-gguf/.cache:
+total 12
+drwxrwxr-x 3 mk.thomas mk.thomas 4096 Oct 31 04:08 .
+drwxrwxr-x 5 mk.thomas mk.thomas 4096 Oct 31 05:14 ..
+drwxrwxr-x 3 mk.thomas mk.thomas 4096 Oct 31 04:08 huggingface
+
+/localstorage/mk.thomas/models/dsv41-gguf/Mix-256G:
+total 8
+drwxrwxr-x 2 mk.thomas mk.thomas 4096 Oct 31 04:08 .
+drwxrwxr-x 5 mk.thomas mk.thomas 4096 Oct 31 05:14 ..
++ du -sh /localstorage/mk.thomas/models/dsv41-gguf/Mix-256G /localstorage/mk.thomas/models/dsv41-gguf/.cache
+4.0K	/localstorage/mk.thomas/models/dsv41-gguf/Mix-256G
+52K	/localstorage/mk.thomas/models/dsv41-gguf/.cache
+=== STOP DeepSeek-serving systemd units (user-owned)
++ echo '=== STOP DeepSeek-serving systemd units (user-owned)'
++ date -u +%FT%TZ
+2026-11-03T08:43:27Z
++ sudo -n systemctl stop cloudflared-dsv41.service llama-dsv41.service
++ sudo -n systemctl disable cloudflared-dsv41.service llama-dsv41.service
+Removed /etc/systemd/system/multi-user.target.wants/llama-dsv41.service.
+Removed /etc/systemd/system/multi-user.target.wants/cloudflared-dsv41.service.
++ sudo -n systemctl stop llama-dsv41-health.timer
++ sudo -n systemctl disable llama-dsv41-health.timer
++ sleep 5
+inactive
+inactive
+no llama-server running
+2026-11-03T08:43:38Z
+=== DELETE DeepSeek weights (host-owned)
++ systemctl is-active llama-dsv41.service cloudflared-dsv41.service
++ pgrep -a llama-server
++ echo 'no llama-server running'
++ date -u +%FT%TZ
++ echo '=== DELETE DeepSeek weights (host-owned)'
++ rm -rf /localstorage/mk.thomas/models/dsv41-gguf
+total 8
+drwxrwxr-x 2 mk.thomas mk.thomas 4096 Nov  3 08:44 .
+drwxr-xr-x 6 mk.thomas mk.thomas 4096 Oct 31 04:02 ..
+=== ollama / HF caches (none found earlier) re-check
++ ls -la /localstorage/mk.thomas/models/
++ echo '=== ollama / HF caches (none found earlier) re-check'
++ ls -d '/home/mk.thomas/.cache/huggingface/hub/models--deepseek-ai--*'
+ls: cannot access '/home/mk.thomas/.cache/huggingface/hub/models--deepseek-ai--*': No such file or directory
++ which ollama
+ollama not installed
++ echo 'ollama not installed'
++ date -u +%FT%TZ
+2026-11-03T08:44:09Z
++ df -h / /localstorage
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md125p3    1.7T  1.1T  519G  68% /
+/dev/md127       18T  510M   17T   1% /localstorage

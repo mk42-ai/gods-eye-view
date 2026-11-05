@@ -100,7 +100,7 @@ try {
         }),
       });
     }
-    if (url.pathname === '/api/openai/hud-summary')
+    if (url.pathname === '/api/ondemand/v2/summaries/hud')
       return void json({ summary: 'QA camera controls' });
     void request.continue();
   });

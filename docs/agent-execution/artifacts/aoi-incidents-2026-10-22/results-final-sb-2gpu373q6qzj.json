@@ -1,0 +1,473 @@
+{
+  "url": "https://sb-2gpu373q6qzj.vercel.run",
+  "startedUtc": "2026-10-22T13:03:04.437Z",
+  "viewports": {
+    "1440x900": {
+      "checks": [
+        {
+          "id": "a-aoi-only-scenes",
+          "pass": true,
+          "detail": "35 scenes listed, 47 markers, nepal absent=true, hidden reason=\"OUT_OF_AOI: nearest AOI Iran at 1754.3 km\"",
+          "data": {
+            "options": [
+              "UAE presence node — Aden",
+              "UAE presence node — Balhaf",
+              "UAE presence node — Berbera",
+              "UAE presence node — Bosaso",
+              "UAE presence node — Mocha",
+              "UAE presence node — Mukalla",
+              "UAE presence node — Perim / Mayun",
+              "UAE presence node — Socotra / Hadiboh",
+              "Thermal hotspot 2.067, 45.287 (FRP 0.94 MW)",
+              "Thermal hotspot 15.595, 49.128 (FRP 1.75 MW)",
+              "Thermal hotspot 15.819, 45.836 (FRP 0.53 MW)",
+              "Thermal hotspot cluster ×4 — Red Sea / Yemen / Horn"
+            ],
+            "hidden": [
+              {
+                "id": "bhote-koshi-nepal-scene",
+                "title": "Nepal Flood Incident",
+                "reason": "OUT_OF_AOI: nearest AOI Iran at 1754.3 km"
+              },
+              {
+                "id": "flights-radar",
+                "title": "Global Flights Radar",
+                "reason": "OUT_OF_AOI: nearest AOI Iran at 11318.9 km"
+              },
+              {
+                "id": "orbital-watch",
+                "title": "Orbital Watch",
+                "reason": "OUT_OF_AOI: nearest AOI Iran at 3419.3 km"
+              },
+              {
+                "id": "thermal-threats",
+                "title": "Thermal Threat Board",
+                "reason": "OUT_OF_AOI: nearest AOI Socotra at 13454.9 km"
+              },
+              {
+                "id": "city-overload",
+                "title": "City Overload",
+                "reason": "OUT_OF_AOI: nearest AOI Iran at 3607.2 km"
+              },
+              {
+                "id": "omniscience-pullback",
+                "title": "Omniscience Pullback",
+                "reason": "OUT_OF_AOI: nearest AOI Iran at 6816.8 km"
+              }
+            ],
+            "perAoi": {
+              "somalia": 5,
+              "yemen": 16,
+              "socotra": 1,
+              "uae-gulf-waters": 4,
+              "gulf-of-oman": 7,
+              "iran": 9,
+              "strait-of-hormuz": 3,
+              "al-ain-buraimi": 1,
+              "musandam-approaches": 1
+            },
+            "incidents": 47,
+            "scenes": 35,
+            "rejected": 18
+          },
+          "screenshot": "a-aoi-only-1440x900.png",
+          "startedUtc": "2026-10-22T13:03:10.665Z",
+          "finishedUtc": "2026-10-22T13:03:15.771Z"
+        },
+        {
+          "id": "b-playback-plays-and-scrubs",
+          "pass": true,
+          "detail": "plays: running=true progress 0.118→0.314; scrub→0.950 shot 2 camera moved=true",
+          "data": {
+            "started": {
+              "sceneId": "inc-scene-b8febf4aaa",
+              "title": "UAE presence node — Aden",
+              "running": true,
+              "p1": 0.11764705882352941,
+              "p2": 0.3137254901960785,
+              "clock": "6.4s / 20.4s"
+            },
+            "scrubbed": {
+              "sceneId": "inc-scene-b8febf4aaa",
+              "paused": true,
+              "scrubProgress": 0.9500000000000001,
+              "shotIndex": 2,
+              "moved": 0.0493007293716796,
+              "scrubValue": "950"
+            }
+          },
+          "screenshot": "b-playback-1440x900.png",
+          "startedUtc": "2026-10-22T13:03:15.772Z",
+          "finishedUtc": "2026-10-22T13:03:26.484Z"
+        },
+        {
+          "id": "c-compose-hodeidah",
+          "pass": true,
+          "detail": "built=true chips=locating=done,verifying=done,building=done camera=14.23,42.73 near=true running=true scenes 35→36 first=\"drone strike reported near Hodeidah port\"",
+          "data": {
+            "chips": [
+              "locating=done",
+              "verifying=done",
+              "building=done"
+            ],
+            "running": true,
+            "selected": "inc-scene-2cc579e061",
+            "firstScene": "drone strike reported near Hodeidah port",
+            "lat": 14.233300000000003,
+            "lon": 42.73330000000001,
+            "options": 36,
+            "result": "Scene \"drone strike reported near Hodeidah port\" built at Port of Hodeidah, Al Hudaydah — playing."
+          },
+          "screenshot": "c-compose-hodeidah-1440x900.png",
+          "startedUtc": "2026-10-22T13:03:26.484Z",
+          "finishedUtc": "2026-10-22T13:03:37.353Z"
+        },
+        {
+          "id": "d-compose-paris-rejected",
+          "pass": true,
+          "detail": "state=error override=true \"Add anyway (override)\" reason=",
+          "data": {
+            "state": "error",
+            "text": "OUT_OF_AOI: nearest AOI Iran at 3415.7 km\"Paris\" is outside the configured UAE areas of interest. Scenes are restricted to the AOI unless you override.Add anyway (override)",
+            "override": true,
+            "overrideLabel": "Add anyway (override)",
+            "chips": [
+              "locating=done",
+              "verifying=error",
+              "building=pending"
+            ]
+          },
+          "screenshot": "d-compose-paris-1440x900.png",
+          "startedUtc": "2026-10-22T13:03:37.354Z",
+          "finishedUtc": "2026-10-22T13:03:43.982Z"
+        },
+        {
+          "id": "e-refresh-live",
+          "pass": true,
+          "detail": "pulled=1 inserted=1 duplicates=0 rejected=0; list 48→49; sources ok 2/5 [perplexity_research:ok, internet_web_search:ok, fire_detection_search:hormuz:error(not_configured), fire_detection_search:red-sea-aden:error(not_configured), fire_detection_search:somalia:error(not_configured)]",
+          "data": {
+            "before": 48,
+            "after": 49,
+            "refresh": {
+              "pulled": 1,
+              "inserted": 1,
+              "duplicates": 0,
+              "rejected": 0,
+              "sources": [
+                {
+                  "contract": "perplexity_research",
+                  "pluginId": "plugin-1722260873",
+                  "status": "ok",
+                  "items": 0
+                },
+                {
+                  "contract": "internet_web_search",
+                  "pluginId": "plugin-1713924030",
+                  "status": "ok",
+                  "items": 1
+                },
+                {
+                  "contract": "fire_detection_search:hormuz",
+                  "status": "error",
+                  "error": "not_configured"
+                },
+                {
+                  "contract": "fire_detection_search:red-sea-aden",
+                  "status": "error",
+                  "error": "not_configured"
+                },
+                {
+                  "contract": "fire_detection_search:somalia",
+                  "status": "error",
+                  "error": "not_configured"
+                }
+              ],
+              "list": {
+                "count": 48,
+                "scene_count": 36
+              }
+            }
+          },
+          "screenshot": "e-refresh-1440x900.png",
+          "startedUtc": "2026-10-22T13:03:43.983Z",
+          "finishedUtc": "2026-10-22T13:05:35.818Z"
+        },
+        {
+          "id": "f-mini-chat-from-marker",
+          "pass": true,
+          "detail": "popover=true badge=UNVERIFIED sources=0; chat open=true type=alert kind=\"ALERT · inc-2cc579e061a1\" title=\"DRONE STRIKE REPORTED NEAR HODEIDAH PORT\" context id present=true",
+          "data": {
+            "incidentId": "inc-2cc579e061a1",
+            "incidentTitle": "drone strike reported near Hodeidah port",
+            "popoverOk": true,
+            "badge": "UNVERIFIED",
+            "sources": 0,
+            "chatOpen": true,
+            "objectType": "alert",
+            "kind": "ALERT · inc-2cc579e061a1",
+            "title": "DRONE STRIKE REPORTED NEAR HODEIDAH PORT",
+            "hasId": true,
+            "aoi": "yemen"
+          },
+          "screenshot": "f-mini-chat-1440x900.png",
+          "startedUtc": "2026-10-22T13:05:35.818Z",
+          "finishedUtc": "2026-10-22T13:05:37.652Z"
+        },
+        {
+          "id": "g-iframe-embed",
+          "pass": true,
+          "detail": "iframe title=\"OnDemand Intelligence Workstation\" innerText=4834 canvas=true; headers x-frame-options=null csp=null",
+          "data": {
+            "title": "OnDemand Intelligence Workstation",
+            "len": 4834,
+            "canvas": "true",
+            "status": "embed harness: IFRAME_TITLE=\"OnDemand Intelligence Workstation\" TEXT_LEN=4834 CANVAS=true at 2026-10-22T13:05:43.316Z",
+            "headers": {
+              "xfo": null,
+              "csp": null
+            }
+          },
+          "screenshot": "g-iframe-1440x900.png",
+          "startedUtc": "2026-10-22T13:05:37.672Z",
+          "finishedUtc": "2026-10-22T13:05:49.036Z"
+        }
+      ]
+    },
+    "390x844": {
+      "checks": [
+        {
+          "id": "a-aoi-only-scenes",
+          "pass": true,
+          "detail": "37 scenes listed, 49 markers, nepal absent=true, hidden reason=\"OUT_OF_AOI: nearest AOI Iran at 1754.3 km\"",
+          "data": {
+            "options": [
+              "drone strike reported near Hodeidah port",
+              "UAE presence node — Aden",
+              "UAE presence node — Balhaf",
+              "UAE presence node — Berbera",
+              "UAE presence node — Bosaso",
+              "UAE presence node — Mocha",
+              "UAE presence node — Mukalla",
+              "UAE presence node — Perim / Mayun",
+              "UAE presence node — Socotra / Hadiboh",
+              "Thermal hotspot 2.067, 45.287 (FRP 0.94 MW)",
+              "Thermal hotspot 15.595, 49.128 (FRP 1.75 MW)",
+              "Thermal hotspot 15.819, 45.836 (FRP 0.53 MW)"
+            ],
+            "hidden": [
+              {
+                "id": "bhote-koshi-nepal-scene",
+                "title": "Nepal Flood Incident",
+                "reason": "OUT_OF_AOI: nearest AOI Iran at 1754.3 km"
+              },
+              {
+                "id": "flights-radar",
+                "title": "Global Flights Radar",
+                "reason": "OUT_OF_AOI: nearest AOI Iran at 11318.9 km"
+              },
+              {
+                "id": "orbital-watch",
+                "title": "Orbital Watch",
+                "reason": "OUT_OF_AOI: nearest AOI Iran at 3419.3 km"
+              },
+              {
+                "id": "thermal-threats",
+                "title": "Thermal Threat Board",
+                "reason": "OUT_OF_AOI: nearest AOI Socotra at 13454.9 km"
+              },
+              {
+                "id": "city-overload",
+                "title": "City Overload",
+                "reason": "OUT_OF_AOI: nearest AOI Iran at 3607.2 km"
+              },
+              {
+                "id": "omniscience-pullback",
+                "title": "Omniscience Pullback",
+                "reason": "OUT_OF_AOI: nearest AOI Iran at 6816.8 km"
+              }
+            ],
+            "perAoi": {
+              "somalia": 5,
+              "yemen": 17,
+              "socotra": 1,
+              "uae-gulf-waters": 4,
+              "gulf-of-oman": 8,
+              "iran": 9,
+              "strait-of-hormuz": 3,
+              "al-ain-buraimi": 1,
+              "musandam-approaches": 1
+            },
+            "incidents": 49,
+            "scenes": 37,
+            "rejected": 18
+          },
+          "screenshot": "a-aoi-only-390x844.png",
+          "startedUtc": "2026-10-22T13:05:55.823Z",
+          "finishedUtc": "2026-10-22T13:05:57.175Z"
+        },
+        {
+          "id": "b-playback-plays-and-scrubs",
+          "pass": true,
+          "detail": "plays: running=true progress 0.054→0.277; scrub→0.950 shot 2 camera moved=true",
+          "data": {
+            "started": {
+              "sceneId": "inc-scene-2cc579e061",
+              "title": "drone strike reported near Hodeidah port",
+              "running": true,
+              "p1": 0.05421568627450981,
+              "p2": 0.27700980392156865,
+              "clock": "5.7s / 20.4s"
+            },
+            "scrubbed": {
+              "sceneId": "inc-scene-2cc579e061",
+              "paused": true,
+              "scrubProgress": 0.9500000000000001,
+              "shotIndex": 2,
+              "moved": 0.12232171494674612,
+              "scrubValue": "950"
+            }
+          },
+          "screenshot": "b-playback-390x844.png",
+          "startedUtc": "2026-10-22T13:05:57.175Z",
+          "finishedUtc": "2026-10-22T13:06:05.821Z"
+        },
+        {
+          "id": "c-compose-hodeidah",
+          "pass": true,
+          "detail": "built=true chips=locating=done,verifying=done,building=done camera=14.23,42.73 near=true running=true scenes 37→37 first=\"drone strike reported near Hodeidah port\"",
+          "data": {
+            "chips": [
+              "locating=done",
+              "verifying=done",
+              "building=done"
+            ],
+            "running": true,
+            "selected": "inc-scene-2cc579e061",
+            "firstScene": "drone strike reported near Hodeidah port",
+            "lat": 14.233627650618002,
+            "lon": 42.73340921687267,
+            "options": 37,
+            "result": "An equivalent incident is already in the ledger (same place, category and 6 h window) — reusing scene \"drone strike reported near Hodeidah port\" at Port of Hodeidah, Al Hudaydah and playing it."
+          },
+          "screenshot": "c-compose-hodeidah-390x844.png",
+          "startedUtc": "2026-10-22T13:06:05.821Z",
+          "finishedUtc": "2026-10-22T13:06:14.511Z"
+        },
+        {
+          "id": "d-compose-paris-rejected",
+          "pass": true,
+          "detail": "state=error override=true \"Add anyway (override)\" reason=",
+          "data": {
+            "state": "error",
+            "text": "OUT_OF_AOI: nearest AOI Iran at 3415.7 km\"Paris\" is outside the configured UAE areas of interest. Scenes are restricted to the AOI unless you override.Add anyway (override)",
+            "override": true,
+            "overrideLabel": "Add anyway (override)",
+            "chips": [
+              "locating=done",
+              "verifying=error",
+              "building=pending"
+            ]
+          },
+          "screenshot": "d-compose-paris-390x844.png",
+          "startedUtc": "2026-10-22T13:06:14.511Z",
+          "finishedUtc": "2026-10-22T13:06:17.417Z"
+        },
+        {
+          "id": "e-refresh-live",
+          "pass": true,
+          "detail": "pulled=1 inserted=1 duplicates=0 rejected=0; list 49→50; sources ok 2/5 [perplexity_research:ok, internet_web_search:ok, fire_detection_search:hormuz:error(not_configured), fire_detection_search:red-sea-aden:error(not_configured), fire_detection_search:somalia:error(not_configured)]",
+          "data": {
+            "before": 49,
+            "after": 50,
+            "refresh": {
+              "pulled": 1,
+              "inserted": 1,
+              "duplicates": 0,
+              "rejected": 0,
+              "sources": [
+                {
+                  "contract": "perplexity_research",
+                  "pluginId": "plugin-1722260873",
+                  "status": "ok",
+                  "items": 1
+                },
+                {
+                  "contract": "internet_web_search",
+                  "pluginId": "plugin-1713924030",
+                  "status": "ok",
+                  "items": 0
+                },
+                {
+                  "contract": "fire_detection_search:hormuz",
+                  "status": "error",
+                  "error": "not_configured"
+                },
+                {
+                  "contract": "fire_detection_search:red-sea-aden",
+                  "status": "error",
+                  "error": "not_configured"
+                },
+                {
+                  "contract": "fire_detection_search:somalia",
+                  "status": "error",
+                  "error": "not_configured"
+                }
+              ],
+              "list": {
+                "count": 49,
+                "scene_count": 37
+              }
+            }
+          },
+          "screenshot": "e-refresh-390x844.png",
+          "startedUtc": "2026-10-22T13:06:17.417Z",
+          "finishedUtc": "2026-10-22T13:07:50.376Z"
+        },
+        {
+          "id": "f-mini-chat-from-marker",
+          "pass": true,
+          "detail": "popover=true badge=UNVERIFIED sources=0; chat open=true type=alert kind=\"ALERT · inc-2cc579e061a1\" title=\"DRONE STRIKE REPORTED NEAR HODEIDAH PORT\" context id present=true",
+          "data": {
+            "incidentId": "inc-2cc579e061a1",
+            "incidentTitle": "drone strike reported near Hodeidah port",
+            "popoverOk": true,
+            "badge": "UNVERIFIED",
+            "sources": 0,
+            "chatOpen": true,
+            "objectType": "alert",
+            "kind": "ALERT · inc-2cc579e061a1",
+            "title": "DRONE STRIKE REPORTED NEAR HODEIDAH PORT",
+            "hasId": true,
+            "aoi": "yemen"
+          },
+          "screenshot": "f-mini-chat-390x844.png",
+          "startedUtc": "2026-10-22T13:07:50.376Z",
+          "finishedUtc": "2026-10-22T13:07:52.025Z"
+        },
+        {
+          "id": "g-iframe-embed",
+          "pass": true,
+          "detail": "iframe title=\"OnDemand Intelligence Workstation\" innerText=4680 canvas=true; headers x-frame-options=null csp=null",
+          "data": {
+            "title": "OnDemand Intelligence Workstation",
+            "len": 4680,
+            "canvas": "true",
+            "status": "embed harness: IFRAME_TITLE=\"OnDemand Intelligence Workstation\" TEXT_LEN=4680 CANVAS=true at 2026-10-22T13:07:57.316Z",
+            "headers": {
+              "xfo": null,
+              "csp": null
+            }
+          },
+          "screenshot": "g-iframe-390x844.png",
+          "startedUtc": "2026-10-22T13:07:52.038Z",
+          "finishedUtc": "2026-10-22T13:08:00.386Z"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "pass": 14,
+    "fail": 0
+  },
+  "finishedUtc": "2026-10-22T13:08:00.386Z"
+}

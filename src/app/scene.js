@@ -1,6 +1,6 @@
 import { createApplicationOperations } from './operations.js';
 import * as Cesium from 'cesium';
-import { createApplicationViewer } from '../app/viewer.js';
+import { createApplicationViewer, tilesetCacheOptions } from '../app/viewer.js';
 import { registerDataCredits } from '../data/dataCredits.js';
 import { configureCreditKeyboardAccess } from '../creditKeyboard.js';
 import { MapStackController } from '../mapStackController.js';
@@ -48,7 +48,11 @@ export async function createApplicationScene({
     container: 'cesiumContainer',
     creditContainer,
   });
+  if (typeof window !== 'undefined') window.__gevViewer = viewer;
   defer(() => {
+    if (typeof window !== 'undefined' && window.__gevViewer === viewer) {
+      delete window.__gevViewer;
+    }
     uninstallRenderGovernor(viewer);
     if (!viewer.isDestroyed()) viewer.destroy();
   });

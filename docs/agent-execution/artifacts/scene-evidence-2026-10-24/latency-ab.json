@@ -1,0 +1,713 @@
+{
+ "m-burj-cerebras-3.json": {
+  "status": 200,
+  "firstItemMs": 4307,
+  "firstSignalMs": 178,
+  "firstByteMs": 135,
+  "plan": {
+   "place": "Burj Khalifa",
+   "aliases": [],
+   "engine": "cerebras-ondemand",
+   "intentEngine": "composer",
+   "ep": "predefined-cerebras-qwen-3.8-27b",
+   "ms": 136
+  },
+  "done": {
+   "ev": "done",
+   "ms": 11508,
+   "totals": {
+    "items": 37,
+    "signals": 18,
+    "byFreshness": {
+     "STALE": 5,
+     "ARCHIVAL": 32
+    },
+    "byGeo": {
+     "text": 35,
+     "none": 2
+    },
+    "sources": {
+     "ok": 6,
+     "unavailable": 1,
+     "credentials_required": 5,
+     "timeout": 1
+    }
+   },
+   "timings": {
+    "firstItemMs": 4177,
+    "firstSignalMs": 48,
+    "intentMs": 0,
+    "summaryMs": 1800,
+    "sourcesMs": 9503,
+    "totalMs": 11370
+   },
+   "sources": [
+    "od_search_youtube:ok:10:4178",
+    "od_search_tiktok:ok:10:7271",
+    "od_search_instagram:ok:10:5118",
+    "od_search_x:ok:10:4332",
+    "od_x_agent:unavailable:0:7432",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:11:48",
+    "official_channels:ok:8:49",
+    "gdelt_doc:timeout:0:9500",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "cerebras-ondemand",
+   "ms": 1800,
+   "text": "One RECENT signal reports that Burj Khalifa will host Dubai Ride on 1 November, but it is not LIVE and its location is text-inferred, not confirmed. All listed "
+  }
+ },
+ "m-burj-cerebras.json": {
+  "status": 200,
+  "firstItemMs": 4301,
+  "firstSignalMs": 435,
+  "firstByteMs": 157,
+  "plan": {
+   "place": "Burj Khalifa",
+   "aliases": [],
+   "engine": "cerebras-ondemand",
+   "intentEngine": "composer",
+   "ep": "predefined-cerebras-qwen-3.8-27b",
+   "ms": 158
+  },
+  "done": {
+   "ev": "done",
+   "ms": 11568,
+   "totals": {
+    "items": 29,
+    "signals": 19,
+    "byFreshness": {
+     "STALE": 2,
+     "ARCHIVAL": 27
+    },
+    "byGeo": {
+     "text": 29
+    },
+    "sources": {
+     "ok": 6,
+     "unavailable": 1,
+     "credentials_required": 5,
+     "timeout": 1
+    }
+   },
+   "timings": {
+    "firstItemMs": 4132,
+    "firstSignalMs": 282,
+    "intentMs": 0,
+    "summaryMs": 1793,
+    "sourcesMs": 9504,
+    "totalMs": 11398
+   },
+   "sources": [
+    "od_search_youtube:ok:10:4132",
+    "od_search_tiktok:ok:10:4850",
+    "od_search_instagram:ok:1:6106",
+    "od_search_x:ok:10:8402",
+    "od_x_agent:unavailable:0:3384",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:12:280",
+    "official_channels:ok:8:294",
+    "gdelt_doc:timeout:0:9500",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "cerebras-ondemand",
+   "ms": 1793,
+   "text": "No LIVE or RECENT Burj Khalifa-specific posts are present; the available Burj Khalifa items are STALE or ARCHIVAL and only text-inferred, not a confirmed geoloc"
+  }
+ },
+ "m-burj-deterministic-3.json": {
+  "status": 200,
+  "firstItemMs": 18100,
+  "firstSignalMs": 413,
+  "firstByteMs": 153,
+  "plan": {
+   "place": "Burj Khalifa",
+   "aliases": [],
+   "engine": "deterministic",
+   "intentEngine": "composer",
+   "ep": "predefined-gpt-6-luna",
+   "ms": 153
+  },
+  "done": {
+   "ev": "done",
+   "ms": 18980,
+   "totals": {
+    "items": 36,
+    "signals": 19,
+    "byFreshness": {
+     "RECENT": 8,
+     "STALE": 3,
+     "ARCHIVAL": 25
+    },
+    "byGeo": {
+     "text": 33,
+     "none": 3
+    },
+    "sources": {
+     "ok": 6,
+     "unavailable": 1,
+     "credentials_required": 5,
+     "timeout": 1
+    }
+   },
+   "timings": {
+    "firstItemMs": 17953,
+    "firstSignalMs": 264,
+    "intentMs": 0,
+    "summaryMs": 0,
+    "sourcesMs": 18711,
+    "totalMs": 18818
+   },
+   "sources": [
+    "od_search_youtube:ok:10:18710",
+    "od_search_tiktok:ok:10:18251",
+    "od_search_instagram:ok:10:17952",
+    "od_search_x:ok:10:18457",
+    "od_x_agent:unavailable:0:10672",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:12:265",
+    "official_channels:ok:8:264",
+    "gdelt_doc:timeout:0:9500",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "deterministic",
+   "ms": 0,
+   "text": "36 public video/post item(s) and 19 news/incident signal(s) for Burj Khalifa. Freshness: LIVE 0 \u00b7 RECENT 8 \u00b7 STALE 3 \u00b7 ARCHIVAL 25. Geo precision: exact 0 \u00b7 pla"
+  }
+ },
+ "m-burj-deterministic.json": {
+  "status": 200,
+  "firstItemMs": 17115,
+  "firstSignalMs": 139,
+  "firstByteMs": 102,
+  "plan": {
+   "place": "Burj Khalifa",
+   "aliases": [],
+   "engine": "deterministic",
+   "intentEngine": "composer",
+   "ep": "predefined-gpt-6-luna",
+   "ms": 103
+  },
+  "done": {
+   "ev": "done",
+   "ms": 22787,
+   "totals": {
+    "items": 36,
+    "signals": 19,
+    "byFreshness": {
+     "STALE": 4,
+     "ARCHIVAL": 32
+    },
+    "byGeo": {
+     "text": 35,
+     "none": 1
+    },
+    "sources": {
+     "ok": 6,
+     "unavailable": 1,
+     "credentials_required": 5,
+     "timeout": 1
+    }
+   },
+   "timings": {
+    "firstItemMs": 17019,
+    "firstSignalMs": 43,
+    "intentMs": 0,
+    "summaryMs": 0,
+    "sourcesMs": 22466,
+    "totalMs": 22684
+   },
+   "sources": [
+    "od_search_youtube:ok:10:19504",
+    "od_search_tiktok:ok:10:17019",
+    "od_search_instagram:ok:10:22465",
+    "od_search_x:ok:10:19555",
+    "od_x_agent:unavailable:0:11902",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:12:44",
+    "official_channels:ok:8:41",
+    "gdelt_doc:timeout:0:9500",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "deterministic",
+   "ms": 0,
+   "text": "36 public video/post item(s) and 19 news/incident signal(s) for Burj Khalifa. Freshness: LIVE 0 \u00b7 RECENT 0 \u00b7 STALE 4 \u00b7 ARCHIVAL 32. Geo precision: exact 0 \u00b7 pla"
+  }
+ },
+ "m-intent.json": {
+  "status": 200,
+  "firstItemMs": 6599,
+  "firstSignalMs": 1615,
+  "firstByteMs": 228,
+  "plan": {
+   "place": "Burj Khalifa",
+   "aliases": [
+    "\u0628\u0631\u062c \u062e\u0644\u064a\u0641\u0629",
+    "Burj Al Khalifa",
+    "Khalifa Tower"
+   ],
+   "engine": "cerebras-ondemand",
+   "intentEngine": "cerebras-ondemand",
+   "ep": "predefined-cerebras-qwen-3.8-27b",
+   "ms": 1575
+  },
+  "done": {
+   "ev": "done",
+   "ms": 13545,
+   "totals": {
+    "items": 28,
+    "signals": 19,
+    "byFreshness": {
+     "STALE": 4,
+     "ARCHIVAL": 24
+    },
+    "byGeo": {
+     "text": 27,
+     "none": 1
+    },
+    "sources": {
+     "ok": 5,
+     "empty": 1,
+     "unavailable": 1,
+     "credentials_required": 5,
+     "timeout": 1
+    }
+   },
+   "timings": {
+    "firstItemMs": 6375,
+    "firstSignalMs": 1391,
+    "intentMs": 1342,
+    "summaryMs": 1546,
+    "sourcesMs": 10920,
+    "totalMs": 13307
+   },
+   "sources": [
+    "od_search_youtube:ok:10:5030",
+    "od_search_tiktok:ok:10:5699",
+    "od_search_instagram:ok:10:9574",
+    "od_search_x:empty:0:5009",
+    "od_x_agent:unavailable:0:4536",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:12:49",
+    "official_channels:ok:8:43",
+    "gdelt_doc:timeout:0:9501",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "cerebras-ondemand",
+   "ms": 1546,
+   "text": "No LIVE or RECENT Burj Khalifa-specific items are available; listed items are STALE/ARCHIVAL and only text-inferred, not confirmed locations. RECENT signals cov"
+  }
+ },
+ "m-marina-cerebras-1.json": {
+  "status": 200,
+  "firstItemMs": 9741,
+  "firstSignalMs": 473,
+  "firstByteMs": 166,
+  "plan": {
+   "place": "Dubai Marina",
+   "aliases": [],
+   "engine": "cerebras-ondemand",
+   "intentEngine": "composer",
+   "ep": "predefined-cerebras-qwen-3.8-27b",
+   "ms": 167
+  },
+  "done": {
+   "ev": "done",
+   "ms": 16952,
+   "totals": {
+    "items": 19,
+    "signals": 14,
+    "byFreshness": {
+     "RECENT": 1,
+     "STALE": 8,
+     "ARCHIVAL": 10
+    },
+    "byGeo": {
+     "text": 17,
+     "none": 2
+    },
+    "sources": {
+     "ok": 6,
+     "unavailable": 1,
+     "credentials_required": 5,
+     "timeout": 1
+    }
+   },
+   "timings": {
+    "firstItemMs": 9611,
+    "firstSignalMs": 345,
+    "intentMs": 0,
+    "summaryMs": 2597,
+    "sourcesMs": 14193,
+    "totalMs": 16821
+   },
+   "sources": [
+    "od_search_youtube:ok:1:14192",
+    "od_search_tiktok:ok:10:9605",
+    "od_search_instagram:ok:6:12657",
+    "od_search_x:ok:10:13798",
+    "od_x_agent:unavailable:0:3974",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:10:361",
+    "official_channels:ok:5:326",
+    "gdelt_doc:timeout:0:9501",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "cerebras-ondemand",
+   "ms": 2597,
+   "text": "No LIVE evidence is available; the freshest items are RECENT, including a 2026-10-24 AhlanLive signal. One RECENT Instagram post and multiple RECENT Dubai/Gulf "
+  }
+ },
+ "m-marina-cerebras-2.json": {
+  "status": 200,
+  "firstItemMs": 4864,
+  "firstSignalMs": 197,
+  "firstByteMs": 161,
+  "plan": {
+   "place": "Dubai Marina",
+   "aliases": [],
+   "engine": "cerebras-ondemand",
+   "intentEngine": "composer",
+   "ep": "predefined-cerebras-qwen-3.8-27b",
+   "ms": 162
+  },
+  "done": {
+   "ev": "done",
+   "ms": 16394,
+   "totals": {
+    "items": 27,
+    "signals": 14,
+    "byFreshness": {
+     "STALE": 8,
+     "ARCHIVAL": 18,
+     "RECENT": 1
+    },
+    "byGeo": {
+     "text": 24,
+     "none": 3
+    },
+    "sources": {
+     "ok": 6,
+     "unavailable": 1,
+     "credentials_required": 5,
+     "timeout": 1
+    }
+   },
+   "timings": {
+    "firstItemMs": 4711,
+    "firstSignalMs": 45,
+    "intentMs": 0,
+    "summaryMs": 2267,
+    "sourcesMs": 13593,
+    "totalMs": 16231
+   },
+   "sources": [
+    "od_search_youtube:ok:10:5256",
+    "od_search_tiktok:ok:10:4712",
+    "od_search_instagram:ok:7:10094",
+    "od_search_x:ok:10:13593",
+    "od_x_agent:unavailable:0:4319",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:10:46",
+    "official_channels:ok:5:43",
+    "gdelt_doc:timeout:0:9500",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "cerebras-ondemand",
+   "ms": 2267,
+   "text": "No LIVE/RECENT Dubai Marina-specific item is present; the Marina social items are STALE or ARCHIVAL. Their location is text-inferred, not confirmed. Recent Duba"
+  }
+ },
+ "m-marina-cerebras-3.json": {
+  "status": 200,
+  "firstItemMs": 7940,
+  "firstSignalMs": 411,
+  "firstByteMs": 162,
+  "plan": {
+   "place": "Dubai Marina",
+   "aliases": [],
+   "engine": "cerebras-ondemand",
+   "intentEngine": "composer",
+   "ep": "predefined-cerebras-qwen-3.8-27b",
+   "ms": 163
+  },
+  "done": {
+   "ev": "done",
+   "ms": 14343,
+   "totals": {
+    "items": 19,
+    "signals": 14,
+    "byFreshness": {
+     "STALE": 5,
+     "ARCHIVAL": 14
+    },
+    "byGeo": {
+     "text": 19
+    },
+    "sources": {
+     "ok": 5,
+     "empty": 1,
+     "unavailable": 1,
+     "credentials_required": 5,
+     "timeout": 1
+    }
+   },
+   "timings": {
+    "firstItemMs": 7783,
+    "firstSignalMs": 253,
+    "intentMs": 0,
+    "summaryMs": 2933,
+    "sourcesMs": 11072,
+    "totalMs": 14175
+   },
+   "sources": [
+    "od_search_youtube:ok:10:11072",
+    "od_search_tiktok:ok:10:8132",
+    "od_search_instagram:ok:10:7782",
+    "od_search_x:empty:0:8282",
+    "od_x_agent:unavailable:0:3730",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:10:252",
+    "official_channels:ok:5:314",
+    "gdelt_doc:timeout:0:9501",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "cerebras-ondemand",
+   "ms": 2933,
+   "text": "No LIVE or RECENT Dubai Marina evidence is available; all Dubai Marina items are STALE or ARCHIVAL and only text-inferred, not confirmed locations. RECENT signa"
+  }
+ },
+ "m-marina-deterministic-1.json": {
+  "status": 200,
+  "firstItemMs": 14784,
+  "firstSignalMs": 193,
+  "firstByteMs": 142,
+  "plan": {
+   "place": "Dubai Marina",
+   "aliases": [],
+   "engine": "deterministic",
+   "intentEngine": "composer",
+   "ep": "predefined-gpt-6-luna",
+   "ms": 142
+  },
+  "done": {
+   "ev": "done",
+   "ms": 24141,
+   "totals": {
+    "items": 28,
+    "signals": 14,
+    "byFreshness": {
+     "RECENT": 10,
+     "STALE": 1,
+     "ARCHIVAL": 17
+    },
+    "byGeo": {
+     "text": 26,
+     "none": 2
+    },
+    "sources": {
+     "ok": 6,
+     "unavailable": 1,
+     "credentials_required": 5,
+     "timeout": 1
+    }
+   },
+   "timings": {
+    "firstItemMs": 14650,
+    "firstSignalMs": 57,
+    "intentMs": 0,
+    "summaryMs": 0,
+    "sourcesMs": 23843,
+    "totalMs": 23995
+   },
+   "sources": [
+    "od_search_youtube:ok:10:16940",
+    "od_search_tiktok:ok:9:18929",
+    "od_search_instagram:ok:7:23842",
+    "od_search_x:ok:10:14649",
+    "od_x_agent:unavailable:0:12482",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:10:55",
+    "official_channels:ok:5:80",
+    "gdelt_doc:timeout:0:9501",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "deterministic",
+   "ms": 0,
+   "text": "28 public video/post item(s) and 14 news/incident signal(s) for Dubai Marina. Freshness: LIVE 0 \u00b7 RECENT 10 \u00b7 STALE 1 \u00b7 ARCHIVAL 17. Geo precision: exact 0 \u00b7 pl"
+  }
+ },
+ "m-marina-deterministic-2.json": {
+  "status": 200,
+  "firstItemMs": 15975,
+  "firstSignalMs": 243,
+  "firstByteMs": 147,
+  "plan": {
+   "place": "Dubai Marina",
+   "aliases": [],
+   "engine": "deterministic",
+   "intentEngine": "composer",
+   "ep": "predefined-gpt-6-luna",
+   "ms": 148
+  },
+  "done": {
+   "ev": "done",
+   "ms": 25240,
+   "totals": {
+    "items": 21,
+    "signals": 14,
+    "byFreshness": {
+     "STALE": 8,
+     "ARCHIVAL": 13
+    },
+    "byGeo": {
+     "text": 21
+    },
+    "sources": {
+     "ok": 5,
+     "timeout": 2,
+     "unavailable": 1,
+     "credentials_required": 5
+    }
+   },
+   "timings": {
+    "firstItemMs": 15833,
+    "firstSignalMs": 86,
+    "intentMs": 0,
+    "summaryMs": 0,
+    "sourcesMs": 25002,
+    "totalMs": 25087
+   },
+   "sources": [
+    "od_search_youtube:ok:10:17888",
+    "od_search_tiktok:ok:10:18558",
+    "od_search_instagram:ok:10:15833",
+    "od_search_x:timeout:0:25001",
+    "od_x_agent:unavailable:0:12603",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:10:85",
+    "official_channels:ok:5:93",
+    "gdelt_doc:timeout:0:9500",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "deterministic",
+   "ms": 0,
+   "text": "21 public video/post item(s) and 14 news/incident signal(s) for Dubai Marina. Freshness: LIVE 0 \u00b7 RECENT 0 \u00b7 STALE 8 \u00b7 ARCHIVAL 13. Geo precision: exact 0 \u00b7 pla"
+  }
+ },
+ "m-marina-deterministic-3.json": {
+  "status": 200,
+  "firstItemMs": 15804,
+  "firstSignalMs": 169,
+  "firstByteMs": 131,
+  "plan": {
+   "place": "Dubai Marina",
+   "aliases": [],
+   "engine": "deterministic",
+   "intentEngine": "composer",
+   "ep": "predefined-gpt-6-luna",
+   "ms": 131
+  },
+  "done": {
+   "ev": "done",
+   "ms": 24514,
+   "totals": {
+    "items": 18,
+    "signals": 14,
+    "byFreshness": {
+     "RECENT": 2,
+     "STALE": 6,
+     "ARCHIVAL": 10
+    },
+    "byGeo": {
+     "text": 18
+    },
+    "sources": {
+     "ok": 6,
+     "unavailable": 1,
+     "credentials_required": 5,
+     "timeout": 1
+    }
+   },
+   "timings": {
+    "firstItemMs": 15679,
+    "firstSignalMs": 43,
+    "intentMs": 0,
+    "summaryMs": 0,
+    "sourcesMs": 24212,
+    "totalMs": 24384
+   },
+   "sources": [
+    "od_search_youtube:ok:3:15679",
+    "od_search_tiktok:ok:10:18478",
+    "od_search_instagram:ok:10:17217",
+    "od_search_x:ok:4:24211",
+    "od_x_agent:unavailable:0:12449",
+    "youtube_data_api:credentials_required:0:null",
+    "x_api_v2:credentials_required:0:null",
+    "instagram_graph:credentials_required:0:null",
+    "tiktok_research:credentials_required:0:null",
+    "google_news_rss:ok:10:42",
+    "official_channels:ok:5:44",
+    "gdelt_doc:timeout:0:9501",
+    "reliefweb:credentials_required:0:null"
+   ]
+  },
+  "summary": {
+   "engine": "deterministic",
+   "ms": 0,
+   "text": "18 public video/post item(s) and 14 news/incident signal(s) for Dubai Marina. Freshness: LIVE 0 \u00b7 RECENT 2 \u00b7 STALE 6 \u00b7 ARCHIVAL 10. Geo precision: exact 0 \u00b7 pla"
+  }
+ }
+}

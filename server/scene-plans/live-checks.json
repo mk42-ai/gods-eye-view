@@ -1,0 +1,28 @@
+{
+  "checkedAt": "2026-10-31T03:51:54.655Z",
+  "checks": [
+    {
+      "kind": "narration",
+      "ok": false,
+      "code": "narration_audio_unavailable",
+      "message": "ElevenLabs returned no verifiable new audio for this scene. A provider-generated media record associated with the current session is required; no sample fallback was used."
+    },
+    {
+      "kind": "ambiguous-event",
+      "ok": true,
+      "status": 422,
+      "code": "needs_clarification",
+      "message": "Specify the event edition/date and a source-supported location. No verified event scene was produced."
+    },
+    {
+      "kind": "narration-direct-plugin-diagnosis",
+      "ok": false,
+      "provider": "OnDemand \u00b7 ElevenLabs",
+      "providerCode": "payment_issue",
+      "classification": "payment_required",
+      "matchingMediaCount": 0,
+      "audioGenerated": false,
+      "message": "Connected ElevenLabs account reports a failed or incomplete payment. Latest invoice must be completed."
+    }
+  ]
+}

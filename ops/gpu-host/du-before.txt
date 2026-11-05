@@ -1,0 +1,54 @@
+utc=2026-11-03T08:42:48Z
++ KC=/etc/kubernetes/kubelet.conf
++ sudo -n kubectl --kubeconfig /etc/kubernetes/kubelet.conf get deploy -n byom
++ head -5
+Error from server (Forbidden): deployments.apps is forbidden: User "system:node:school-hack-h100-100" cannot list resource "deployments" in API group "apps" in the namespace "byom"
++ sudo -n kubectl --kubeconfig /etc/kubernetes/kubelet.conf get deploy -n default
++ head -5
+Error from server (Forbidden): deployments.apps is forbidden: User "system:node:school-hack-h100-100" cannot list resource "deployments" in API group "apps" in the namespace "default"
++ sudo -n kubectl --kubeconfig /etc/kubernetes/kubelet.conf auth can-i scale deployments -n byom
+Warning: verb 'scale' is not a known verb
+
+no
++ sudo -n kubectl --kubeconfig /etc/kubernetes/kubelet.conf auth can-i patch deployments/scale -n byom
+no
++ sudo -n kubectl --kubeconfig /etc/kubernetes/kubelet.conf auth can-i scale deployments -n default
+Warning: verb 'scale' is not a known verb
+
+no
+=== du BEFORE deletion (host-owned DeepSeek weights)
++ echo '=== du BEFORE deletion (host-owned DeepSeek weights)'
++ du -sh /localstorage/mk.thomas/models/dsv41-gguf /localstorage/mk.thomas/models/dsv41-gguf/Mix-128G /localstorage/mk.thomas/models/dsv41-gguf/mmproj-DeepSeek-V4.1-Flash-1017-abliterated-BF16.gguf /localstorage/mk.thomas/models/dsv41-gguf/mmproj-DeepSeek-V4.1-Flash-1017-abliterated-F16.gguf
+211G	/localstorage/mk.thomas/models/dsv41-gguf
++ ls -la /localstorage/mk.thomas/models/dsv41-gguf /localstorage/mk.thomas/models/dsv41-gguf/Mix-128G
+/localstorage/mk.thomas/models/dsv41-gguf:
+total 1897700
+drwxrwxr-x 5 mk.thomas mk.thomas      4096 Oct 31 05:14 .
+drwxrwxr-x 3 mk.thomas mk.thomas      4096 Oct 31 05:10 ..
+drwxrwxr-x 3 mk.thomas mk.thomas      4096 Oct 31 04:08 .cache
+drwxrwxr-x 2 mk.thomas mk.thomas      4096 Oct 31 05:14 Mix-128G
+drwxrwxr-x 2 mk.thomas mk.thomas      4096 Oct 31 04:08 Mix-256G
+-rw-rw-r-- 1 mk.thomas mk.thomas 972207968 Oct 31 05:10 mmproj-DeepSeek-V4.1-Flash-1017-abliterated-BF16.gguf
+-rw-rw-r-- 1 mk.thomas mk.thomas 971003744 Oct 31 05:10 mmproj-DeepSeek-V4.1-Flash-1017-abliterated-F16.gguf
+
+/localstorage/mk.thomas/models/dsv41-gguf/Mix-128G:
+total 219307956
+drwxrwxr-x 2 mk.thomas mk.thomas         4096 Oct 31 05:14 .
+drwxrwxr-x 5 mk.thomas mk.thomas         4096 Oct 31 05:14 ..
+-rw-rw-r-- 1 mk.thomas mk.thomas    548777536 Oct 31 05:10 DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00001-of-00005.gguf
+-rw-rw-r-- 1 mk.thomas mk.thomas 110595290592 Oct 31 05:14 DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00002-of-00005.gguf
+-rw-rw-r-- 1 mk.thomas mk.thomas  47934927328 Oct 31 05:11 DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00003-of-00005.gguf
+-rw-rw-r-- 1 mk.thomas mk.thomas  47884362016 Oct 31 05:12 DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00004-of-00005.gguf
+-rw-rw-r-- 1 mk.thomas mk.thomas  17607926944 Oct 31 05:11 DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00005-of-00005.gguf
+du: cannot access '/home/mk.thomas/.cache/huggingface/hub/models--deepseek-ai--*': No such file or directory
++ du -sh '/home/mk.thomas/.cache/huggingface/hub/models--deepseek-ai--*'
+16G	/var/lib/kubelet/pods/756f7c1e-dcae-46cb-b268-631a6aa9dd35/volumes/kubernetes.io~empty-dir/cache/hub/models--deepseek-ai--DeepSeek-R1-0528-Qwen3-8B
+16G	/var/lib/kubelet/pods/f645165f-46e2-42a0-987e-6910f907c43e/volumes/kubernetes.io~empty-dir/cache/hub/models--deepseek-ai--DeepSeek-R1-0528-Qwen3-8B
+6.4G	/proc/941514/root/app/models
++ sudo -n du -sh /var/lib/kubelet/pods/756f7c1e-dcae-46cb-b268-631a6aa9dd35/volumes/kubernetes.io~empty-dir/cache/hub/models--deepseek-ai--DeepSeek-R1-0528-Qwen3-8B /var/lib/kubelet/pods/f645165f-46e2-42a0-987e-6910f907c43e/volumes/kubernetes.io~empty-dir/cache/hub/models--deepseek-ai--DeepSeek-R1-0528-Qwen3-8B
++ sudo -n du -sh /proc/941514/root/app/models /proc/939753/root/app/models
+6.3G	/proc/939753/root/app/models
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md125p3    1.7T  1.1T  519G  68% /
+/dev/md127       18T  212G   17T   2% /localstorage
++ df -h / /localstorage

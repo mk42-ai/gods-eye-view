@@ -1,0 +1,48 @@
+{
+  "agent": 9,
+  "status": "implemented",
+  "utc": "2026-10-24T01:50:08.164Z",
+  "file": "src/incidents/ui/sceneLibrary.js",
+  "contract": {
+    "factory": "createSceneLibrary({ document, window, sceneDirector, onSelect, onSave, storage } = {})",
+    "returns": [
+      "element",
+      "setScene(scene, {saved = false} = {})",
+      "renderSaved(sceneArray)",
+      "installSidebar({host, scenePanel, dataPanel, advanced = true, initialTab = \"scenes\", expanded = true} = {})",
+      "destroy()"
+    ],
+    "callbacks": {
+      "onSave": "onSave(namedScene, {sceneDirector}) -> Scene | void | Promise; false/throw/reject reports failure. Caller handles persistence when supplied.",
+      "onSelect": "onSelect(scene, {sceneDirector, saved:true}) -> void | Promise; false/throw/reject reports failure. Caller applies scene to director."
+    },
+    "storage": "Optional adapter {list(): Scene[] | Promise<Scene[]>, save(scene): Scene | void | Promise}. Raw localStorage is intentionally not parsed; wrap Agent7 storage helper or supply callbacks.",
+    "install": "Constructor is detached; coordinator calls installSidebar AFTER SceneDirector initialization. Existing non-incident controls move into native collapsed details; existing incident playback remains in place. No own playback, subscriptions, fake data, CSS, or director mutations."
+  },
+  "tests": {
+    "syntax": "node --check src/incidents/ui/sceneLibrary.js passed",
+    "behavior": [
+      "Constructor creates detached DOM without touching existing sidebar",
+      "Empty state and disabled save/name controls",
+      "Active count/location/provenance and untrusted title rendered as text",
+      "Editable name and native form submit save a copy, preserve source and show success",
+      "Saved scene selection delegates to caller and displays selected scene",
+      "Opt-in installation preserves existing control identity/listeners and keeps incident playback outside collapsed advanced details",
+      "Scenes/Layers tabs toggle panels and support Home key focus with ARIA states",
+      "Drawer toggle and Escape synchronize visibility, expansion and focus",
+      "Idempotent destroy removes owned DOM/listeners and restores original panels/control order",
+      "Optional storage.list hydrates saved scenes",
+      "Save rejection is caught, announced and recoverable",
+      "Stale asynchronous save cannot overwrite a newly active scene",
+      "External renderSaved takes precedence over stale asynchronous storage hydration",
+      "Pending selection after destroy has no DOM side effects"
+    ],
+    "harness": "Inline Node assert + minimal DOM stand-in; no real-browser visual validation."
+  },
+  "limitations": [
+    "Coordinator must wire callbacks to Agent7 persistence helper and SceneDirector; this module does not select/play scenes itself.",
+    "Styles and responsive drawer layout belong to Agents11/12 and were not changed.",
+    "Existing independent panel-disclosure controllers are not subscribed to; coordinator should centralize disclosure ownership when installing tabs.",
+    "No full-app build or browser visual checks performed by this scoped subagent."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "ok": true,
+  "configured": true,
+  "conversationBackend": "memory",
+  "contracts": 33,
+  "activePlugins": 10,
+  "defaultEndpointId": "predefined-gpt-6-luna",
+  "workflowId": {
+    "configured": true,
+    "source": "ONDEMAND_SPATIAL_WORKFLOW_ID",
+    "valid": true
+  },
+  "guards": {
+    "rateLimitPerMinute": 60,
+    "userHeaderRequired": false,
+    "promptInjectionFencing": true
+  },
+  "keySource": "server"
+}

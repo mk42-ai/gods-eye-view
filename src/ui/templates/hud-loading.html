@@ -1,11 +1,12 @@
   <!-- Intelligence HUD Overlay -->
   <div id="intel-hud"></div>
 
-  <!-- Loading screen -->
+  <!-- Loading screen. One brand mark per surface (docs/BRANDING.md §4, 2026-09-20): the animated
+       mark + the product-name heading (src/brand/productName.js); the duplicate ON/DEMAND lockup was removed. -->
   <div id="loading-screen">
     <div class="loader-content">
-      <span class="loader-logo brand-logo" data-logo-gaze data-logo-src="/logo.svg" aria-hidden="true"><img src="/logo.svg" alt="" /></span>
-      <h2>GOD'S EYE <span class="title-accent">VIEW</span></h2>
+      <span class="loader-logo brand-logo" data-brand-mark="mark" data-logo-gaze data-logo-src="/brand/mark-light.svg" aria-hidden="true"><img src="/brand/mark-light.svg" alt="" /></span>
+      <h2 data-product-wordmark>OnDemand Intelligence <span class="title-accent">Workstation</span></h2>
       <p class="loader-status">Initializing photorealistic world...</p>
     </div>
   </div>

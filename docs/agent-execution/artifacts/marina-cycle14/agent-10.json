@@ -1,0 +1,107 @@
+{
+  "agent": 10,
+  "completedAtUtc": "2026-10-24T01:50:47.214564Z",
+  "filesChanged": [
+    "src/serverlessMode.js",
+    "src/hudSummaryResponse.js",
+    "src/incidents/ui/diagnostics.js"
+  ],
+  "changes": [
+    "Closed accessible AIS disclosure replaces default obstructive and dismissible serverless banner. Moves into Layers after asynchronous mounting; unavailable/provider details remain accessible.",
+    "Neutral AIS vessels display label; serverless flag and enabled layer do not imply live or global coverage.",
+    "Export describeAisAvailability(stats, {now}) requires accepted recent positions plus healthy status; explicitly handles missing key, unavailable, stale, replay, errors and empty data. Existing HUD summary API unchanged.",
+    "Export installIncidentDiagnostics({document,panel,toggles,legend,hiddenNote,dataPanel}), with closed Diagnostic info details and original toggles/legend moved under .data-panel-inner. Preserves state/listeners, waits for late host, and returns idempotent destroy restoring original order."
+  ],
+  "integrationRequired": "Coordinator must import/install diagnostics in src/incidents/ui/index.js and call its destroy during UI teardown. Unowned index and CSS were not edited. Optional getAisStats callback to installServerlessNotice supplies actual provider stats.",
+  "tests": [
+    {
+      "name": "Syntax src/serverlessMode.js",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "--check",
+        "src/serverlessMode.js"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "Syntax src/hudSummaryResponse.js",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "--check",
+        "src/hudSummaryResponse.js"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "Syntax src/incidents/ui/diagnostics.js",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "--check",
+        "src/incidents/ui/diagnostics.js"
+      ],
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "name": "Relevant source regressions",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "--test",
+        "src/serverlessMode.test.mjs",
+        "src/hudSummaryResponse.test.mjs",
+        "src/ui/layerPanel.test.mjs",
+        "src/incidents/query.test.mjs"
+      ],
+      "stdout": "TAP version 13\n# Subtest: builds an HTTP-success capability response only for a blank key\nok 1 - builds an HTTP-success capability response only for a blank key\n  ---\n  duration_ms: 1.371363\n  type: 'test'\n  ...\n# Subtest: recognizes only the exact deliberate no-key fallback response\nok 2 - recognizes only the exact deliberate no-key fallback response\n  ---\n  duration_ms: 0.230146\n  type: 'test'\n  ...\n# Subtest: does not hide real provider and HTTP failures\nok 3 - does not hide real provider and HTTP failures\n  ---\n  duration_ms: 0.202164\n  type: 'test'\n  ...\n# Subtest: the v2 HUD summary route answers the graceful unconfigured shape when no OnDemand key is set\nok 4 - the v2 HUD summary route answers the graceful unconfigured shape when no OnDemand key is set\n  ---\n  duration_ms: 134.719556\n  type: 'test'\n  ...\n# Subtest: query regression: burj khalifa check if there is any incidents\nok 5 - query regression: burj khalifa check if there is any incidents\n  ---\n  duration_ms: 3.765384\n  type: 'test'\n  ...\n# Subtest: query regression: Burj Khalifa\nok 6 - query regression: Burj Khalifa\n  ---\n  duration_ms: 0.803759\n  type: 'test'\n  ...\n# Subtest: intent-first query: check for incidents near Burj Khalifa\nok 7 - intent-first query: check for incidents near Burj Khalifa\n  ---\n  duration_ms: 0.149045\n  type: 'test'\n  ...\n# Subtest: intent-first query: are there any incidents around Burj Khalifa\nok 8 - intent-first query: are there any incidents around Burj Khalifa\n  ---\n  duration_ms: 0.104968\n  type: 'test'\n  ...\n# Subtest: an explicit event retains the existing scene-building path\nok 9 - an explicit event retains the existing scene-building path\n  ---\n  duration_ms: 0.242334\n  type: 'test'\n  ...\n# Subtest: an incident question is not an incident report\nok 10 - an incident question is not an incident report\n  ---\n  duration_ms: 0.169325\n  type: 'test'\n  ...\n# Subtest: explicit interval is bounded and not part of the place\nok 11 - explicit interval is bounded and not part of the place\n  ---\n  duration_ms: 0.317738\n  type: 'test'\n  ...\n# Subtest: scene intent and clean place: Create a waterfront orbit scene around Dubai Marina\nok 12 - scene intent and clean place: Create a waterfront orbit scene around Dubai Marina\n  ---\n  duration_ms: 0.271889\n  type: 'test'\n  ...\n# Subtest: scene intent and clean place: Dubai Marina \u2014 waterfront orbit\nok 13 - scene intent and clean place: Dubai Marina \u2014 waterfront orbit\n  ---\n  duration_ms: 0.937149\n  type: 'test'\n  ...\n# Subtest: scene intent and clean place: Build a scene of Dubai Marina\nok 14 - scene intent and clean place: Build a scene of Dubai Marina\n  ---\n  duration_ms: 0.488825\n  type: 'test'\n  ...\n# Subtest: scene intent and clean place: Generate the scene near Dubai Marina\nok 15 - scene intent and clean place: Generate the scene near Dubai Marina\n  ---\n  duration_ms: 0.16633\n  type: 'test'\n  ...\n# Subtest: scene intent and clean place: CREATE an aerial flyover scene of Museum of the Future\nok 16 - scene intent and clean place: CREATE an aerial flyover scene of Museum of the Future\n  ---\n  duration_ms: 0.101804\n  type: 'test'\n  ...\n# Subtest: scene intent and clean place: Dubai Marina \u2013 cinematic orbit scene\nok 17 - scene intent and clean place: Dubai Marina \u2013 cinematic orbit scene\n  ---\n  duration_ms: 0.203686\n  type: 'test'\n  ...\n# Subtest: scene intent and clean place: build a scene for Dubai Marina\nok 18 - scene intent and clean place: build a scene for Dubai Marina\n  ---\n  duration_ms: 0.081132\n  type: 'test'\n  ...\n# Subtest: bare and hyphenated places stay incident searches without fabricated styles\nok 19 - bare and hyphenated places stay incident searches without fabricated styles\n  ---\n  duration_ms: 0.449566\n  type: 'test'\n  ...\n# Subtest: incident checks retain clean places and do not become scenes\nok 20 - incident checks retain clean places and do not become scenes\n  ---\n  duration_ms: 0.144527\n  type: 'test'\n  ...\n# Subtest: explicit scene construction retains priority and bounded time-window fields\nok 21 - explicit scene construction retains priority and bounded time-window fields\n  ---\n  duration_ms: 0.114332\n  type: 'test'\n  ...\n# Subtest: serverless notice vs ASK ONDEMAND panels\n    # Subtest: chatPanelOpen reads data-open=\"true\" on the mini chat\n    ok 1 - chatPanelOpen reads data-open=\"true\" on the mini chat\n      ---\n      duration_ms: 0.924821\n      type: 'test'\n      ...\n    # Subtest: chatPanelOpen falls back to hidden=false for the entity chat (no data-open)\n    ok 2 - chatPanelOpen falls back to hidden=false for the entity chat (no data-open)\n      ---\n      duration_ms: 0.161142\n      type: 'test'\n      ...\n    # Subtest: chatPanelOpen is false when no panel exists yet\n    ok 3 - chatPanelOpen is false when no panel exists yet\n      ---\n      duration_ms: 0.245359\n      type: 'test'\n      ...\n    # Subtest: syncWithChatPanels hides the banner while a panel is open and restores it on close\n    ok 4 - syncWithChatPanels hides the banner while a panel is open and restores it on close\n      ---\n      duration_ms: 0.590498\n      type: 'test'\n      ...\n    # Subtest: syncWithChatPanels works without MutationObserver (initial state only)\n    ok 5 - syncWithChatPanels works without MutationObserver (initial state only)\n      ---\n      duration_ms: 0.22614\n      type: 'test'\n      ...\n    1..5\nok 22 - serverless notice vs ASK ONDEMAND panels\n  ---\n  duration_ms: 3.311661\n  type: 'suite'\n  ...\n# Subtest: panel presentation places Transit between Street Traffic and Bike Share in Movement\nok 23 - panel presentation places Transit between Street Traffic and Bike Share in Movement\n  ---\n  duration_ms: 3.578943\n  type: 'test'\n  ...\n# Subtest: partial feed controls distinguish incomplete records from stale data and outages\nok 24 - partial feed controls distinguish incomplete records from stale data and outages\n  ---\n  duration_ms: 9.030203\n  type: 'test'\n  ...\n1..24\n# tests 28\n# suites 1\n# pass 28\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 208.483512\n",
+      "stderr": ""
+    },
+    {
+      "name": "Focused availability and DOM lifecycle assertions",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "--input-type=module"
+      ],
+      "stdout": "PASS: conservative AIS status; closed retained inline notice; original nodes/listeners/state; exact restore; repeated install/destroy; late Layers mounting.\n",
+      "stderr": ""
+    },
+    {
+      "name": "Format owned files",
+      "exitCode": 0,
+      "command": [
+        "node",
+        "node_modules/prettier/bin/prettier.cjs",
+        "--write",
+        "src/serverlessMode.js",
+        "src/hudSummaryResponse.js",
+        "src/incidents/ui/diagnostics.js"
+      ],
+      "stdout": "src/serverlessMode.js 84ms\nsrc/hudSummaryResponse.js 16ms\nsrc/incidents/ui/diagnostics.js 13ms\n",
+      "stderr": ""
+    }
+  ],
+  "failures": [
+    {
+      "phase": "inspection",
+      "detail": "rg unavailable: exit 127; grep used instead."
+    },
+    {
+      "phase": "optional skill discovery",
+      "detail": "frontend-design skill not found; no helper used."
+    },
+    {
+      "phase": "formatter invocation",
+      "detail": "./node_modules/.bin/prettier missing (exit 127), initially prevented chained tests; tests then run independently."
+    }
+  ],
+  "limitations": [
+    "No git, credential, deployment or browser actions.",
+    "Changed only assigned source files; coordinator owns integration and CSS."
+  ]
+}

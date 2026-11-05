@@ -1,0 +1,661 @@
+{
+  "run_timestamp_utc": "2026-11-02T12:57:35.204224Z",
+  "base_commit": "a9c7419cd46c7e0d46e7da5ae285a48276587c91",
+  "recovered_preexisting_commit": "ff678b8",
+  "code_commit": "9bb0c5e",
+  "final_commit_sha": "b931c6fd3e605b8ff93f574d842a84a70b3bde40",
+  "branch": "feat/scene-video-evidence",
+  "preview_url": "https://ondemand-agent-crkpv87jb-schoolhack-web-team.vercel.app",
+  "deployment_id": "dpl_AKXJs5QvBKSRRrsuwTq9ouJquAHg",
+  "previous_deployment_this_turn": {
+    "id": "dpl_DRwMbDTsW6TrDYUmugV1pq9KoQym",
+    "url": "https://ondemand-agent-p9nsr3y15-schoolhack-web-team.vercel.app",
+    "acceptance": {
+      "passed": 13,
+      "failed": 9,
+      "blocked": 0
+    }
+  },
+  "baseline_before": {
+    "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app",
+    "results": [
+      {
+        "prompt": "kanes boxing gym abu dhabi",
+        "buildMs": 108668,
+        "runState": "succeeded",
+        "entities": 4
+      },
+      {
+        "prompt": "im doinga. raid in the dubai marina",
+        "buildMs": 110466,
+        "runState": "succeeded",
+        "entities": 11
+      },
+      {
+        "prompt": "car crash outside yas mall",
+        "buildMs": 109135,
+        "runState": "succeeded",
+        "entities": 16
+      }
+    ]
+  },
+  "acceptance_summary": {
+    "passed": 22,
+    "failed": 0,
+    "blocked": 0
+  },
+  "acceptance_checks": [
+    {
+      "name": "build-kanes-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-kanes-built.png",
+      "timestamp_utc": "2026-11-02T12:48:56.851Z",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=22784 entities=45 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":5,\"scene-research-geometry\":2,\"scene-staging\":6,\"scene-stream-preview\":0,\"cinematic-scene\":4,\"incident-aoi\":27,\"incident-ledger\":0,\"scen"
+    },
+    {
+      "name": "icons-kanes-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-kanes-built.png",
+      "timestamp_utc": "2026-11-02T12:48:56.852Z",
+      "detail": "billboards=9 sizePx=[32,44] backplateCanvas=9 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null"
+    },
+    {
+      "name": "play-kanes-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-kanes-playing.png",
+      "timestamp_utc": "2026-11-02T12:49:05.388Z",
+      "detail": "before=paused/false playing=true pos=4.2\u21927.2s moved=3/4 pauseAnim=false range="
+    },
+    {
+      "name": "build-marina-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-marina-built.png",
+      "timestamp_utc": "2026-11-02T12:50:36.431Z",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=85615 entities=121 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":21,\"scene-research-geometry\":2,\"scene-staging\":55,\"scene-stream-preview\":0,\"cinematic-scene\":15,\"incident-aoi\":27,\"incident-ledger\":0,\""
+    },
+    {
+      "name": "one-request-marina-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-marina-built.png",
+      "timestamp_utc": "2026-11-02T12:50:36.431Z",
+      "detail": "network construct requests=1 (click + Ctrl/Cmd+Enter fired back-to-back)"
+    },
+    {
+      "name": "icons-marina-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-marina-built.png",
+      "timestamp_utc": "2026-11-02T12:50:36.436Z",
+      "detail": "billboards=57 sizePx=[28,44] backplateCanvas=57 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null"
+    },
+    {
+      "name": "play-marina-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-marina-playing.png",
+      "timestamp_utc": "2026-11-02T12:50:46.276Z",
+      "detail": "before=paused/false playing=true pos=4.0\u21927.0s moved=5/11 pauseAnim=false range="
+    },
+    {
+      "name": "build-yas-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-yas-built.png",
+      "timestamp_utc": "2026-11-02T12:51:23.983Z",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=34036 entities=72 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":20,\"scene-research-geometry\":2,\"scene-staging\":5,\"scene-stream-preview\":0,\"cinematic-scene\":17,\"incident-aoi\":27,\"incident-ledger\":0,\"sc"
+    },
+    {
+      "name": "icons-yas-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-yas-built.png",
+      "timestamp_utc": "2026-11-02T12:51:23.984Z",
+      "detail": "billboards=36 sizePx=[32,36] backplateCanvas=36 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null"
+    },
+    {
+      "name": "play-yas-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-yas-playing.png",
+      "timestamp_utc": "2026-11-02T12:51:32.794Z",
+      "detail": "before=paused/false playing=true pos=4.3\u21927.3s moved=2/12 pauseAnim=false range="
+    },
+    {
+      "name": "fallback-geocoder-no-verified-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-force-research-built.png",
+      "timestamp_utc": "2026-11-02T12:51:49.772Z",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=13367 entities=70 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":19,\"scene-research-geometry\":2,\"scene-staging\":5,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"sc"
+    },
+    {
+      "name": "fallback-llm-sse-fail-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-force-llm-built.png",
+      "timestamp_utc": "2026-11-02T12:52:02.797Z",
+      "detail": "state=done fallback=template ms=7109 entities=146 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":32,\"scene-research-geometry\":2,\"scene-staging\":68,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"scene-video-pins\":0,\"scene-evid"
+    },
+    {
+      "name": "fallback-llm-timeout-1440x900",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-1440x900-force-timeout-built.png",
+      "timestamp_utc": "2026-11-02T12:53:39.966Z",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=93207 entities=101 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":47,\"scene-research-geometry\":2,\"scene-staging\":8,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"s"
+    },
+    {
+      "name": "snapchat-plugin-echo-1440x900",
+      "status": "passed",
+      "screenshot": null,
+      "timestamp_utc": "2026-11-02T12:54:44.917Z",
+      "detail": "HTTP 200 pluginIdInResponse=true body={\"locationId\":\"dubai-marina\",\"requestId\":\"82506b41-fcf1-4ee5-a076-ec80cf051bea\",\"plugin\":{\"id\":\"plugin-1792945050\",\"operation\":\"fetchSnapchatVideosByPlace\"},\"refresh\":{\"defaultMs\":120000,\"minMs\":30000"
+    },
+    {
+      "name": "build-kanes-390x844",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-390x844-kanes-built.png",
+      "timestamp_utc": "2026-11-02T12:55:05.145Z",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=12359 entities=44 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":5,\"scene-research-geometry\":2,\"scene-staging\":5,\"scene-stream-preview\":0,\"cinematic-scene\":4,\"incident-aoi\":27,\"incident-ledger\":0,\"scen"
+    },
+    {
+      "name": "icons-kanes-390x844",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-390x844-kanes-built.png",
+      "timestamp_utc": "2026-11-02T12:55:05.146Z",
+      "detail": "billboards=9 sizePx=[32,36] backplateCanvas=9 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null"
+    },
+    {
+      "name": "build-marina-390x844",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-390x844-marina-built.png",
+      "timestamp_utc": "2026-11-02T12:55:22.679Z",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=13415 entities=129 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":21,\"scene-research-geometry\":2,\"scene-staging\":63,\"scene-stream-preview\":0,\"cinematic-scene\":15,\"incident-aoi\":27,\"incident-ledger\":0,\""
+    },
+    {
+      "name": "one-request-marina-390x844",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-390x844-marina-built.png",
+      "timestamp_utc": "2026-11-02T12:55:22.680Z",
+      "detail": "network construct requests=1 (click + Ctrl/Cmd+Enter fired back-to-back)"
+    },
+    {
+      "name": "icons-marina-390x844",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-390x844-marina-built.png",
+      "timestamp_utc": "2026-11-02T12:55:22.683Z",
+      "detail": "billboards=65 sizePx=[28,44] backplateCanvas=65 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null"
+    },
+    {
+      "name": "play-marina-390x844",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-390x844-marina-playing.png",
+      "timestamp_utc": "2026-11-02T12:55:32.323Z",
+      "detail": "before=paused/false playing=true pos=4.9\u21927.8s moved=5/11 pauseAnim=false range="
+    },
+    {
+      "name": "build-yas-390x844",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-390x844-yas-built.png",
+      "timestamp_utc": "2026-11-02T12:55:46.017Z",
+      "detail": "state=done fallback=location:known_place_match:known_place ms=10625 entities=69 ({\"viewer.entities\":0,\"gev-annotations\":0,\"gev-draw-preview\":1,\"authored-geography\":19,\"scene-research-geometry\":2,\"scene-staging\":4,\"scene-stream-preview\":0,\"cinematic-scene\":16,\"incident-aoi\":27,\"incident-ledger\":0,\"sc"
+    },
+    {
+      "name": "icons-yas-390x844",
+      "status": "passed",
+      "screenshot": "docs/evidence-2026-11-02-bugfix/qa-live-after2/after-390x844-yas-built.png",
+      "timestamp_utc": "2026-11-02T12:55:46.019Z",
+      "detail": "billboards=33 sizePx=[32,36] backplateCanvas=33 kinds=[\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\",\"canvas\"] legend=true/null"
+    },
+    {
+      "name": "ui-validator-smoke-1440x900+390x844",
+      "status": "passed",
+      "screenshot": ".ui-proof/after-smoke-1440x900.png",
+      "timestamp_utc": "2026-11-02T12:57:35.204172Z",
+      "detail": "composer visible, __gevViewer/__gevCinematic present, manifest v6, health.guaranteedRender=true, no page errors"
+    },
+    {
+      "name": "frontend-unit-tests",
+      "status": "passed",
+      "timestamp_utc": "2026-11-02T12:43:42Z",
+      "detail": "4,939 tests: 4,938 pass, 0 fail, 1 pre-existing skip (Node 22; allocation microbenchmarks skipped, calibrated for Node 24)"
+    },
+    {
+      "name": "backend-unit-tests",
+      "status": "passed",
+      "timestamp_utc": "2026-11-02T12:43:45Z",
+      "detail": "824 pass / 0 fail (server/**/*.test.mjs)"
+    },
+    {
+      "name": "production-build",
+      "status": "passed",
+      "timestamp_utc": "2026-11-02T12:44:39Z",
+      "detail": "vite build OK; dist secret scan clean"
+    },
+    {
+      "name": "snapchat-live-probe-dubai-marina",
+      "status": "passed",
+      "timestamp_utc": "2026-11-02T11:03:39.187Z",
+      "detail": "4 variants HTTP 200; raw 1, unique 1, verified 0, approximate 1"
+    },
+    {
+      "name": "legacy multi-query transport-availability",
+      "status": "blocked",
+      "timestamp_utc": "2026-11-02T11:03:39.187Z",
+      "detail": "the removed legacy multi-query transport \u2192 HTTP 405 \"legacy multi-query transport creation is currently unavailable\""
+    },
+    {
+      "name": "fps-measurement-gpu",
+      "status": "not_run",
+      "timestamp_utc": null,
+      "detail": "headless SwiftShader only (2\u20135 fps baseline); real-GPU FPS not measured"
+    },
+    {
+      "name": "elevenlabs-narration-playback",
+      "status": "not_run",
+      "timestamp_utc": null,
+      "detail": "out of scope this turn; prior turn recorded 503 payment_required"
+    }
+  ],
+  "snapchat": {
+    "plugin_id": "plugin-1792945050",
+    "verified": true,
+    "record_count": 1,
+    "unique_after_dedupe": 1,
+    "verified_count": 0,
+    "approximate_count": 1,
+    "variants": [
+      "Dubai Marina",
+      "Marina Dubai",
+      "Dubai Marina Walk",
+      "JBR Dubai Marina"
+    ],
+    "legacy multi-query transport_assessment": "Live API probe of the removed legacy multi-query transport confirmed HTTP 405 ({\"message\":\"legacy multi-query transport creation is currently unavailable\",\"errorCode\":\"method_not_allowed\"}). OnDemand does not provide an active legacy multi-query transport creation endpoint at present, so batching cannot raise footage result counts today. Server-side fan-out across place-name variants under bounded concurrency (SNAPCHAT_FANOUT_CONCURRENCY=4) is the proven and effective mechanism to maximize footage discovery without blocking."
+  },
+  "icons_integrated": [
+    {
+      "slot": "event_command_post",
+      "source_file": "tools/scene-icons/sources/event_command_post.png",
+      "key(s)": [
+        "command_post",
+        "staging_point"
+      ],
+      "keys": [
+        "command_post",
+        "staging_point"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 640,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 1280,
+          "y": 0,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "police_patrol_car",
+      "source_file": "tools/scene-icons/sources/police_patrol_car.png",
+      "key(s)": [
+        "police_unit",
+        "vehicle_police_car"
+      ],
+      "keys": [
+        "police_unit",
+        "vehicle_police_car"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 128,
+          "y": 0,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "crowd_control_barrier",
+      "source_file": "tools/scene-icons/sources/crowd_control_barrier.png",
+      "key(s)": [
+        "barrier_crowd",
+        "screening_lane"
+      ],
+      "keys": [
+        "barrier_crowd",
+        "screening_lane"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 896,
+          "y": 64,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 1792,
+          "y": 128,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "ambulance_medical_point",
+      "source_file": "tools/scene-icons/sources/ambulance_medical_point.png",
+      "key(s)": [
+        "medical_point",
+        "vehicle_ambulance"
+      ],
+      "keys": [
+        "medical_point",
+        "vehicle_ambulance"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 512,
+          "y": 128,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 1024,
+          "y": 256,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "civilian_sedan",
+      "source_file": "tools/scene-icons/sources/civilian_sedan.png",
+      "key(s)": [
+        "civilian_sedan",
+        "vehicle_civilian_sedan"
+      ],
+      "keys": [
+        "civilian_sedan",
+        "vehicle_civilian_sedan"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 832,
+          "y": 128,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 1664,
+          "y": 256,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "foot_patrol_officer",
+      "source_file": "tools/scene-icons/sources/foot_patrol_officer.png",
+      "key(s)": [
+        "perimeter_unit",
+        "person_police_officer"
+      ],
+      "keys": [
+        "perimeter_unit",
+        "person_police_officer"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 768,
+          "y": 0,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "start_finish_gate",
+      "source_file": "tools/scene-icons/sources/start_finish_gate.png",
+      "key(s)": "start_finish",
+      "keys": [
+        "start_finish"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 512,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 1024,
+          "y": 0,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "checkpoint_cordon_node",
+      "source_file": "tools/scene-icons/sources/checkpoint_cordon_node.png",
+      "key(s)": [
+        "checkpoint",
+        "cordon_node",
+        "vehicle_checkpoint"
+      ],
+      "keys": [
+        "checkpoint",
+        "cordon_node",
+        "vehicle_checkpoint"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 512,
+          "y": 0,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "spectator_crowd_cluster",
+      "source_file": "tools/scene-icons/sources/spectator_crowd_cluster.png",
+      "key(s)": [
+        "crowd_spectators",
+        "crowd_zone"
+      ],
+      "keys": [
+        "crowd_spectators",
+        "crowd_zone"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 0,
+          "y": 128,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 0,
+          "y": 256,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "road_closed_barricade",
+      "source_file": "tools/scene-icons/sources/road_closed_barricade.png",
+      "key(s)": [
+        "signage_road_closed",
+        "road_closed"
+      ],
+      "keys": [
+        "signage_road_closed",
+        "road_closed"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 512,
+          "y": 64,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 1024,
+          "y": 128,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "vessel_marine_patrol",
+      "source_file": "tools/scene-icons/sources/vessel_marine_patrol.png",
+      "key(s)": [
+        "vessel_marine_patrol",
+        "marine_patrol"
+      ],
+      "keys": [
+        "vessel_marine_patrol",
+        "marine_patrol"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 448,
+          "y": 128,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 896,
+          "y": 256,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "cone_cluster",
+      "source_file": "tools/scene-icons/sources/cone_cluster.png",
+      "key(s)": "cone_cluster",
+      "keys": [
+        "cone_cluster"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 960,
+          "y": 64,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 1920,
+          "y": 128,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "vehicle_police_motorcycle",
+      "source_file": "tools/scene-icons/sources/vehicle_police_motorcycle.png",
+      "key(s)": "vehicle_police_motorcycle",
+      "keys": [
+        "vehicle_police_motorcycle"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 192,
+          "y": 128,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 384,
+          "y": 256,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "vehicle_city_bus",
+      "source_file": "tools/scene-icons/sources/vehicle_city_bus.png",
+      "key(s)": "vehicle_city_bus",
+      "keys": [
+        "vehicle_city_bus"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 128,
+          "y": 128,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 256,
+          "y": 256,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    },
+    {
+      "slot": "cctv",
+      "source_file": "tools/scene-icons/sources/cctv.png",
+      "key(s)": [
+        "cctv",
+        "cctv_signal"
+      ],
+      "keys": [
+        "cctv",
+        "cctv_signal"
+      ],
+      "atlas_coords": {
+        "1x": {
+          "x": 704,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "2x": {
+          "x": 1408,
+          "y": 0,
+          "w": 128,
+          "h": 128
+        }
+      },
+      "fringe_pixels": 0
+    }
+  ],
+  "changed_files_count": 175
+}

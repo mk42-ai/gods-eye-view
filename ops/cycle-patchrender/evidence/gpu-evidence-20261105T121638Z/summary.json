@@ -1,0 +1,71 @@
+{
+ "jobId": "e767614e9e7840639f3a",
+ "stage": "complete",
+ "ttff_s": 28.858,
+ "fps_steady": 24.955,
+ "fps_sequence_wall": 24.089,
+ "frames_done": 120,
+ "frames_by_gpu": {
+  "6": 59,
+  "2": 60
+ },
+ "framesByWorkerPidGpu": [
+  {
+   "pid": 19143,
+   "gpuUuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+   "physicalIndex": 2,
+   "frames": 22
+  },
+  {
+   "pid": 19141,
+   "gpuUuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+   "physicalIndex": 6,
+   "frames": 20
+  },
+  {
+   "pid": 19139,
+   "gpuUuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+   "physicalIndex": 2,
+   "frames": 20
+  },
+  {
+   "pid": 19140,
+   "gpuUuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+   "physicalIndex": 2,
+   "frames": 20
+  },
+  {
+   "pid": 19142,
+   "gpuUuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+   "physicalIndex": 6,
+   "frames": 20
+  },
+  {
+   "pid": 19138,
+   "gpuUuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+   "physicalIndex": 6,
+   "frames": 19
+  }
+ ],
+ "camera_mode": {
+  "requested": "street",
+  "used": "street",
+  "label": "street-level (pedestrian/vehicle eye height band)"
+ },
+ "encoder": "libx264 (CPU encode only)",
+ "mp4_bytes": 1433593,
+ "nvidiaSmiDuringRender": {
+  "uuidsWithRendererPids": [
+   "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+   "GPU-b2aff670-0bcc-b834-af70-421466084d30"
+  ],
+  "rendererPidsSeen": [
+   19138,
+   19139,
+   19140,
+   19141,
+   19142,
+   19143
+  ]
+ }
+}

@@ -1,0 +1,175 @@
+utc=2026-11-03T08:39:53Z
+=== which crictl kubectl ctr nerdctl
+/usr/bin/crictl
+/usr/bin/kubectl
+/usr/bin/ctr
+=== crictl ps
+CONTAINER           IMAGE               CREATED             STATE               NAME                           ATTEMPT             POD ID              POD
+bc5af25ce7ed2       d81162a3a901e       55 seconds ago      Running             hubble-relay                   9737                46bf62ae1bf7a       hubble-relay-9c4cdd76b-n95h7
+bd3a2ab4cc882       1239dab565c83       2 days ago          Running             worker                         136                 1aaf2737acda8       gpu-operator-1748240574-node-feature-discovery-worker-v9vw4
+13b82e3825e14       9be4e8045a7d7       6 days ago          Running             byom-515f649affa24c6           0                   c20a2db4b6874       byom-515f649affa24c6-756d5b67df-ljbfn
+844bd8c90d9d1       d4018afa1bcea       6 days ago          Running             resource-reservation           0                   6206ff0d7839a       gpu-reservation-school-hack-h100-100-fwl5h
+ca272257fb691       9be4e8045a7d7       12 days ago         Running             byom-35dc9378a949493           0                   804048704d10b       byom-35dc9378a949493-77bbf86f4f-vnbmp
+481d5b38d20f0       d4018afa1bcea       12 days ago         Running             resource-reservation           0                   abba5b4cbe25b       gpu-reservation-school-hack-h100-100-v2xs4
+3c2eb2fcfa404       6fa1477083ec4       3 weeks ago         Running             kube-rbac-proxy                0                   7c615d6d7b481       otel-operator-opentelemetry-operator-687b79d9ff-m7t9l
+457d9f0e009d5       636b4208f9624       3 weeks ago         Running             manager                        0                   7c615d6d7b481       otel-operator-opentelemetry-operator-687b79d9ff-m7t9l
+bb85a49f5c582       c69fa2e9cbf5f       3 weeks ago         Running             coredns                        0                   13f92f4d9bf5e       coredns-7f5749b6bc-gkqx9
+5a392890666f3       19a1cd480c701       4 weeks ago         Running             deepseek-ocr                   0                   072865e5f5100       deepseek-ocr-omer-6bb7668d75-tbs62
+a69983d38ba75       7e1e8db5d66c1       4 weeks ago         Running             deepseek-ocr-api               0                   5517184504527       deepseek-ocr-pdf-86556479c8-dn26h
+0ba4e2129a76a       1e0ac471bde78       4 weeks ago         Running             nfs-server                     0                   b04399ab71dc3       nfs-pvc-b72aa954-d839-462a-b306-62b608d230b0-57bdd874c6-4fskr
+dd5dd01343eb5       1e0ac471bde78       4 weeks ago         Running             nfs-server                     0                   55347c1928b6a       nfs-pvc-816d4cd7-250e-41dd-9631-61396e893904-59c494988f-tgwwm
+215b41046c5de       c6348fa86ba0f       4 months ago        Running             shell                          0                   467e01bbd5c5a       node-shell-school-hack-h100-100-ti4jo
+ed59a96a3280d       255ec253085fb       6 months ago        Running             node-exporter                  0                   ea1454be7f03c       node-exporter-prometheus-node-exporter-g2k8t
+42b6207f226a6       4c3f68132a37c       7 months ago        Running             gpu-feature-discovery          1                   519537b4cb3ec       gpu-feature-discovery-dxgwt
+f2df347ae9ca5       7e44a407c8233       7 months ago        Running             nvidia-operator-validator      0                   7140cf0636353       nvidia-operator-validator-qpx5t
+20ae90401f620       1081ac26d3f34       7 months ago        Running             nvidia-mig-manager             0                   9eb1ac55c1d4d       nvidia-mig-manager-8gzv6
+3ce0e8ce84799       4c3f68132a37c       7 months ago        Running             nvidia-device-plugin           0                   81b220121fe22       nvidia-device-plugin-daemonset-99tvl
+cdab226bfabcc       b9edbdd7768d4       7 months ago        Running             nvidia-dcgm-exporter           0                   442d6ca0fa677       nvidia-dcgm-exporter-q7phf
+2cde5ace8d96d       01e68a6e4382e       7 months ago        Running             nvidia-container-toolkit-ctr   0                   de676c8dbaa19       nvidia-container-toolkit-daemonset-vgmfs
+e8c8dc5006e7d       59d2eae9f28d8       7 months ago        Running             cilium-agent                   3                   cdb454b102915       cilium-vtjgr
+20d4af598ceac       ebcf7d5ca03c4       7 months ago        Running             cilium-envoy                   1                   0bef0ccb5420e       cilium-envoy-22zzt
+=== kubectl pods
+E1103 08:39:59.395968 2402400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: the server could not find the requested resource"
+E1103 08:39:59.487596 2402400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: the server could not find the requested resource"
+E1103 08:39:59.579569 2402400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: the server could not find the requested resource"
+E1103 08:39:59.671542 2402400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: the server could not find the requested resource"
+E1103 08:39:59.763676 2402400 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: the server could not find the requested resource"
+Error from server (NotFound): the server could not find the requested resource
+E1103 08:39:59.911964 2402417 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: the server could not find the requested resource"
+E1103 08:40:00.003522 2402417 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: the server could not find the requested resource"
+E1103 08:40:00.091717 2402417 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: the server could not find the requested resource"
+E1103 08:40:00.183703 2402417 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: the server could not find the requested resource"
+E1103 08:40:00.275609 2402417 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: the server could not find the requested resource"
+Error from server (NotFound): the server could not find the requested resource
+sudo: k3s: command not found
+=== start_server.py procs env/cmd
+--- 941514
+HOSTNAME=deepseek-ocr-omer-6bb7668d75-tbs62
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_PORT=tcp://10.96.0.1:443
+KUBERNETES_SERVICE_HOST=10.96.0.1
+KUBERNETES_PORT_443_TCP_PORT=443
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+total 48
+drwxr-xr-x 1 root root  4096 Sep 30 08:51 .
+drwxr-xr-x 1 root root  4096 Sep 30 08:51 ..
+drwxr-xr-x 1 root root  4096 Jan 29  2026 DeepSeek-OCR2-vllm
+drwxr-xr-x 2 root root  4096 Sep 30 08:51 __pycache__
+drwxr-xr-x 3 root root  4096 Jan 29  2026 models
+drwxr-xr-x 2 root root  4096 Jan 29  2026 outputs
+-rw-r--r-- 1 root root    93 Jan 29  2026 requirements.txt
+-rwxr-xr-x 1 root root 11522 Jan 29  2026 start_server.py
+--- 939753
+HOSTNAME=deepseek-ocr-pdf-86556479c8-dn26h
+MODEL_PATH=/app/models/deepseek-ai/DeepSeek-OCR
+KUBERNETES_PORT=tcp://10.96.0.1:443
+KUBERNETES_SERVICE_PORT_HTTPS=443
+KUBERNETES_SERVICE_HOST=10.96.0.1
+KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+KUBERNETES_SERVICE_PORT=443
+KUBERNETES_PORT_443_TCP_PORT=443
+KUBERNETES_PORT_443_TCP_PROTO=tcp
+KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+total 48
+drwxr-xr-x 1 root root  4096 Sep 30 08:47 .
+drwxr-xr-x 1 root root  4096 Sep 30 08:47 ..
+drwxr-xr-x 1 root root  4096 Sep 30 08:47 DeepSeek-OCR-vllm
+drwxr-xr-x 2 root root  4096 Sep 30 08:47 __pycache__
+drwxr-xr-x 3 root root  4096 Nov 25  2025 models
+drwxr-xr-x 2 root root  4096 Nov 25  2025 outputs
+-rw-r--r-- 1 root root    93 Nov 25  2025 requirements.txt
+-rwxr-xr-x 1 root root 11501 Nov 25  2025 start_server.py
+--- 3706681
+total 4131816
+drwx------ 64 root root      24576 Jul  5 16:15 .
+drwxr-xr-x 22 root root       4096 Jun  9 18:14 ..
+-rw-------  1 root root       7998 Oct 17 08:45 .bash_history
+-rw-r--r--  1 root root       3106 Oct 15  2021 .bashrc
+drwx------  6 root root       4096 Jul  5 16:21 .cache
+drwxr-xr-x  5 root root       4096 Jul  6 17:50 .config
+drwxr-x---  3 root root       4096 Jul 26  2025 .kube
+-rw-------  1 root root         54 Apr 13  2026 .lesshst
+drwxr-xr-x  3 root root       4096 Jul 14  2025 .local
+drwx------  3 root root       4096 Mar 17  2026 .nv
+-rw-r--r--  1 root root        161 Jul  9  2019 .profile
+drwx------  2 root root       4096 Apr 25  2026 .ssh
+-rw-r--r--  1 root root          0 Oct 31  2025 .sudo_as_admin_successful
+drwx------  3 root root       4096 Mar 28  2026 .texlive2021
+=== root HF cache
+total 12
+drwxr-xr-x 3 root root 4096 Apr  9  2026 .
+drwxr-xr-x 4 root root 4096 Apr  9  2026 ..
+drwxr-xr-x 3 root root 4096 Apr  9  2026 models--airev-ai--gemma-4-e2b-ondemand
+=== search deepseek dirs (fast)
+/home/mk.thomas/dwr_toolchain/src-c9-07/models/ggml-vocab-deepseek-coder.gguf.out
+/home/mk.thomas/dwr_toolchain/src-c9-07/models/ggml-vocab-deepseek-coder.gguf
+/home/mk.thomas/dwr_toolchain/src-c9-07/models/ggml-vocab-deepseek-llm.gguf.inp
+/home/mk.thomas/dwr_toolchain/src-c9-07/models/ggml-vocab-deepseek-llm.gguf
+/home/mk.thomas/dwr_toolchain/src-c9-07/models/ggml-vocab-deepseek-coder.gguf.inp
+/home/mk.thomas/dwr_toolchain/src-c9-07/models/ggml-vocab-deepseek-llm.gguf.out
+/home/mk.thomas/dwr_toolchain/src-c9-07/conversion/deepseek.py
+/home/mk.thomas/dwr_toolchain/src-c9-21/models/ggml-vocab-deepseek-coder.gguf.out
+/home/mk.thomas/dwr_toolchain/src-c9-21/models/ggml-vocab-deepseek-coder.gguf
+/home/mk.thomas/dwr_toolchain/src-c9-21/models/ggml-vocab-deepseek-llm.gguf.inp
+/home/mk.thomas/dwr_toolchain/src-c9-21/models/ggml-vocab-deepseek-llm.gguf
+/home/mk.thomas/dwr_toolchain/src-c9-21/models/ggml-vocab-deepseek-coder.gguf.inp
+/home/mk.thomas/dwr_toolchain/src-c9-21/models/ggml-vocab-deepseek-llm.gguf.out
+/home/mk.thomas/dwr_toolchain/src-c9-21/conversion/deepseek.py
+/home/mk.thomas/dwr_toolchain/llama.cpp-upstream/models/ggml-vocab-deepseek-coder.gguf.out
+/home/mk.thomas/dwr_toolchain/llama.cpp-upstream/models/ggml-vocab-deepseek-coder.gguf
+/home/mk.thomas/dwr_toolchain/llama.cpp-upstream/models/ggml-vocab-deepseek-llm.gguf.inp
+/home/mk.thomas/dwr_toolchain/llama.cpp-upstream/models/ggml-vocab-deepseek-llm.gguf
+/home/mk.thomas/dwr_toolchain/llama.cpp-upstream/models/ggml-vocab-deepseek-coder.gguf.inp
+/home/mk.thomas/dwr_toolchain/llama.cpp-upstream/models/ggml-vocab-deepseek-llm.gguf.out
+/home/mk.thomas/dwr_toolchain/llama.cpp-upstream/conversion/deepseek.py
+/home/mk.thomas/dwr_toolchain/src-c9-04/models/ggml-vocab-deepseek-coder.gguf.out
+/home/mk.thomas/dwr_toolchain/src-c9-04/models/ggml-vocab-deepseek-coder.gguf
+/home/mk.thomas/dwr_toolchain/src-c9-04/models/ggml-vocab-deepseek-llm.gguf.inp
+/home/mk.thomas/dwr_toolchain/src-c9-04/models/ggml-vocab-deepseek-llm.gguf
+/home/mk.thomas/dwr_toolchain/src-c9-04/models/ggml-vocab-deepseek-coder.gguf.inp
+/home/mk.thomas/dwr_toolchain/src-c9-04/models/ggml-vocab-deepseek-llm.gguf.out
+/home/mk.thomas/dwr_toolchain/src-c9-04/conversion/deepseek.py
+/var/log/pods/default_deepseek-ocr-omer-6bb7668d75-tbs62_a51411d9-8456-41a4-90c7-ccee15178242
+/var/log/pods/default_deepseek-ocr-omer-6bb7668d75-tbs62_a51411d9-8456-41a4-90c7-ccee15178242/deepseek-ocr
+/var/log/pods/default_deepseek-ocr-pdf-86556479c8-dn26h_11136efb-10d0-45b5-bd07-a279303dc370
+/var/log/pods/default_deepseek-ocr-pdf-86556479c8-dn26h_11136efb-10d0-45b5-bd07-a279303dc370/deepseek-ocr-api
+/var/log/containers/deepseek-ocr-pdf-86556479c8-dn26h_default_deepseek-ocr-api-a69983d38ba7554852ab89b9fb6b2a8622ad825e41b798166d6bfa4834caa46b.log
+/var/log/containers/deepseek-ocr-omer-6bb7668d75-tbs62_default_deepseek-ocr-5a392890666f37820343f1d631e7237cc9a78978bd5896c00142102305a90b6a.log
+=== localstorage
+/localstorage/mk.thomas/models/dsv41-gguf/Mix-128G/DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00001-of-00005.gguf
+/localstorage/mk.thomas/models/dsv41-gguf/Mix-128G/DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00002-of-00005.gguf
+/localstorage/mk.thomas/models/dsv41-gguf/Mix-128G/DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00005-of-00005.gguf
+/localstorage/mk.thomas/models/dsv41-gguf/Mix-128G/DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00003-of-00005.gguf
+/localstorage/mk.thomas/models/dsv41-gguf/Mix-128G/DeepSeek-V4.1-Flash-1017-abliterated-Mix-128G-00004-of-00005.gguf
+/localstorage/mk.thomas/models/dsv41-gguf/mmproj-DeepSeek-V4.1-Flash-1017-abliterated-BF16.gguf
+/localstorage/mk.thomas/models/dsv41-gguf/mmproj-DeepSeek-V4.1-Flash-1017-abliterated-F16.gguf
+/localstorage/mk.thomas/deploy/nginx-deepseek-v41.conf
+/localstorage/mk.thomas/src/llama.cpp/models/ggml-vocab-deepseek-llm.gguf.out
+/localstorage/mk.thomas/src/llama.cpp/models/ggml-vocab-deepseek-coder.gguf.inp
+/localstorage/mk.thomas/src/llama.cpp/models/ggml-vocab-deepseek-llm.gguf
+/localstorage/mk.thomas/src/llama.cpp/models/ggml-vocab-deepseek-coder.gguf
+/localstorage/mk.thomas/src/llama.cpp/models/ggml-vocab-deepseek-coder.gguf.out
+/localstorage/mk.thomas/src/llama.cpp/models/ggml-vocab-deepseek-llm.gguf.inp
+/localstorage/mk.thomas/src/llama.cpp/conversion/deepseek41.py
+/localstorage/mk.thomas/src/llama.cpp/conversion/deepseek.py
+total 12
+drwxrwxr-x 3 mk.thomas mk.thomas 4096 Oct 31 05:10 .
+drwxr-xr-x 6 mk.thomas mk.thomas 4096 Oct 31 04:02 ..
+drwxrwxr-x 5 mk.thomas mk.thomas 4096 Oct 31 05:14 dsv41-gguf
+=== du
+211G	/localstorage/mk.thomas/models/dsv41-gguf
+=== systemd units
+  cloudflared-dsv41.service    loaded active running Cloudflare HTTPS Tunnel for DeepSeek-V4.1-Flash-1017-abliterated (llama-server :8000)
+  llama-dsv41.service          loaded active running llama.cpp DeepSeek-V4.1-Flash-1017-abliterated Mix-128G (6x H100 OpenAI API)
+=== tmux
+error connecting to /tmp/tmux-1100/default (No such file or directory)
+=== ports
+LISTEN 0      5             0.0.0.0:8080       0.0.0.0:*    users:(("python3",pid=2687398,fd=3))                      
+LISTEN 0      512           0.0.0.0:8000       0.0.0.0:*    users:(("llama-server",pid=797110,fd=36))                 
+LISTEN 0      2048          0.0.0.0:8001       0.0.0.0:*    users:(("python",pid=3706681,fd=73))                      
+=== public ip
+93.119.168.123
+93.119.168.123 192.168.242.178 192.168.242.252 192.168.241.61 192.168.243.183 192.168.241.17 192.168.242.215 192.168.242.116 192.168.243.152 10.0.3.223 

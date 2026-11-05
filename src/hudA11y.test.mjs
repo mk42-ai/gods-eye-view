@@ -21,8 +21,11 @@ test('HUD sliders and location search have descriptive explicit names', () => {
   }
 });
 
-test('the first-run checkbox keeps its native visible label', () => {
-  assert.match(html, /<label\b[^>]*class="first-run-suppress"[^>]*>\s*<input type="checkbox" data-first-run-suppress \/>\s*<span>Don't show this again<\/span>\s*<\/label>/);
+test('the walkthrough "Don\'t show this again" checkbox keeps a native visible label', () => {
+  // Cycle 21: the first-run modal was replaced by the Driver.js walkthrough.
+  const module = readFileSync(new URL('./ui/walkthrough.js', import.meta.url), 'utf8');
+  assert.match(module, /gev-tour__dismiss/);
+  assert.match(module, /Don't show this again/);
 });
 
 test('generated style sliders use the visible parameter label as their name', () => {

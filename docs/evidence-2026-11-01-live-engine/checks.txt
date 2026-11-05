@@ -1,0 +1,35 @@
+started 2026-11-01T15:24:05Z
+npm notice run ondemand-spatial@0.1.1 check:boundaries
+npm notice run node scripts/check-import-directions.mjs && node scripts/check-package-boundaries.mjs && node scripts/check-brand-marks.mjs
+{"modules":867,"portableEntries":53}
+[check-package-ownership] Package boundary ui-styles imports an unowned module: src/cinematic/ui/cinematic.css
+boundaries exit=1
+npm notice run node scripts/check-no-secrets.mjs
+check-no-secrets: scanned 2103 text files under src, public, api, server, scripts, tools, docs, config, build, index.html, package.json, README.md, CHANGELOG.md, SECURITY.md, TESTING.md, DATA_SOURCES.md, .env.example, vercel.json, vite.config.js
+✓ no key material in the source tree
+secrets exit=0
+npm notice run ondemand-spatial@0.1.1 format:check
+npm notice run node scripts/format.mjs --check
+Needs formatting: server/scene-plans/cinematic-routes.js
+Needs formatting: server/scene-plans/weather-intel.js
+format exit=1
+finished 2026-11-01T15:24:23Z
+re-run 2026-11-01T15:26:09Z
+Checked transit-service: 1 exports, 8 owned modules.
+Checked map-feature-source: 1 exports, 4 owned modules.
+Checked brand marks: 2 file(s) render a brand mark (src/ui/templates/hud-loading.html ×1, src/ui/templates/scene-chrome.html ×1).
+boundaries exit=0
+check-no-secrets: scanned 2103 text files under src, public, api, server, scripts, tools, docs, config, build, index.html, package.json, README.md, CHANGELOG.md, SECURITY.md, TESTING.md, DATA_SOURCES.md, .env.example, vercel.json, vite.config.js
+✓ no key material in the source tree
+secrets exit=0
+npm notice run node scripts/format.mjs --check
+Checked 1068 source files.
+format exit=0
+finished 2026-11-01T15:26:35Z
+re-run 2026-11-01T16:53:08Z
+Checked brand marks: 2 file(s) render a brand mark (src/ui/templates/hud-loading.html ×1, src/ui/templates/scene-chrome.html ×1).
+boundaries exit=0
+✓ no key material in the source tree
+secrets exit=0
+Checked 1068 source files.
+format exit=0

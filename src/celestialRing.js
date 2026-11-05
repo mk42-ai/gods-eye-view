@@ -1,5 +1,6 @@
 import * as Cesium from 'cesium';
 import { governorRequestRender } from './renderGovernor.js';
+import { createIcon } from './ui/icons/layerIcon.js';
 
 /** Outer edge of the existing NVG/FLIR keyhole in normalized shader space. */
 export const KEYHOLE_OUTER_RADIUS = 1.05;
@@ -436,7 +437,7 @@ export class CelestialRing {
     this.setEnabled(this.enabled);
   }
 
-  /** Construct cached effect layers and Material Symbols celestial markers. */
+  /** Construct cached effect layers and Lucide celestial markers. */
   _buildDOM() {
     this._root = document.createElement('div');
     this._root.id = 'celestial-ring-overlay';
@@ -461,14 +462,14 @@ export class CelestialRing {
     });
 
     this._sunMarker = document.createElement('span');
-    this._sunMarker.className =
-      'celestial-marker celestial-sun material-symbols-outlined';
-    this._sunMarker.textContent = 'light_mode';
+    this._sunMarker.className = 'celestial-marker celestial-sun';
+    const sunIcon = createIcon('sun', {}, document);
+    if (sunIcon) this._sunMarker.appendChild(sunIcon);
 
     this._moonMarker = document.createElement('span');
-    this._moonMarker.className =
-      'celestial-marker celestial-moon material-symbols-outlined';
-    this._moonMarker.textContent = 'dark_mode';
+    this._moonMarker.className = 'celestial-marker celestial-moon';
+    const moonIcon = createIcon('moon', {}, document);
+    if (moonIcon) this._moonMarker.appendChild(moonIcon);
 
     this._root.append(
       this._ringOutline,

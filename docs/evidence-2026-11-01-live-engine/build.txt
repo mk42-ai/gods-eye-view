@@ -1,0 +1,9 @@
+started 2026-11-01T15:27:10Z
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 8.16s
+exit=0 finished 2026-11-01T15:27:19Z
+final build 2026-11-01T16:54:36Z
+✓ built in 23.41s
+exit=0

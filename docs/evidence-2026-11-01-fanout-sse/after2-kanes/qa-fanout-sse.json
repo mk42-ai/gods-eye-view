@@ -1,0 +1,233 @@
+{
+  "url": "https://ondemand-agent-4nv1jlmuy-schoolhack-web-team.vercel.app",
+  "startedUtc": "2026-11-01T11:02:51.991Z",
+  "prompts": [
+    {
+      "prompt": "kanes boxing gym abu dhabi",
+      "viewport": "1440x900",
+      "startedUtc": "2026-11-01T11:02:58.847Z",
+      "booted": true,
+      "callsStream": 1,
+      "callsJson": 0,
+      "constructError": null,
+      "sseEvents": {
+        "status": 7,
+        "thinking": 4,
+        "plan": 1,
+        "element_added": 4,
+        "snap_batch_progress": 1,
+        "narration_token": 273,
+        "usage": 1,
+        "done": 1
+      },
+      "firstSeenMs": {
+        "status": 8559,
+        "thinking": 8559,
+        "plan": 18794,
+        "element_added": 107639,
+        "snap_batch_progress": 121745,
+        "narration_token": 121745,
+        "usage": 123992,
+        "done": 123992
+      },
+      "midStream": null,
+      "callsAfterTyping": 0,
+      "submitUtc": "2026-11-01T11:03:00.850Z",
+      "totalWallMs": 127408,
+      "formState": "done",
+      "timedOut": false,
+      "streamTimings": {
+        "ttftMs": 113223,
+        "firstElementMs": 99117,
+        "planMs": 10273,
+        "doneMs": 115471,
+        "tokens": 273,
+        "tokensPerSec": 121,
+        "elements": 4,
+        "transport": "sse"
+      },
+      "dataStreamTimings": "{\"ttftMs\":113223,\"firstElementMs\":99117,\"planMs\":10273,\"doneMs\":115471,\"tokens\":273,\"tokensPerSec\":121,\"elements\":4,\"transport\":\"sse\"}",
+      "chipText": "scenario-template:observation · ~121 tok/s (est.) · 118.3 s",
+      "typedText": 0,
+      "resultText": "Scene readyKane's Boxing Academy (AD City)",
+      "errorText": null,
+      "retryText": " Retry",
+      "retryHidden": true,
+      "staging": {
+        "scenario": "observation",
+        "elementTypes": [
+          "cctv_signal",
+          "perimeter_unit",
+          "crowd_zone"
+        ],
+        "model": {
+          "provider": "template",
+          "id": "scenario-template:observation",
+          "latencyMs": 10243,
+          "fallback": "template"
+        },
+        "timing": {
+          "specMs": 10243,
+          "overpassMs": 1062,
+          "routingMs": 0,
+          "geometryMs": 1,
+          "totalMs": 11307
+        },
+        "layerCounts": {
+          "areas": 2,
+          "lines": 0,
+          "points": 1,
+          "labels": 1
+        },
+        "icons": [
+          "crowd_zone"
+        ],
+        "notes": 0,
+        "timeline": 0
+      },
+      "locationResolution": {
+        "method": "perplexity-research+osm",
+        "precision": "address",
+        "approximate": true,
+        "confidence": 0.78,
+        "sourceCount": 2,
+        "name": "Kane's Boxing Academy (AD City)"
+      },
+      "anchor": {
+        "name": "Kane's Boxing Academy (AD City)",
+        "lat": 24.4850018,
+        "lon": 54.3586369,
+        "source": "openstreetmap",
+        "sourceUrl": "https://www.openstreetmap.org/way/27374404"
+      },
+      "verification": "location_approximate",
+      "sceneStaging": {
+        "status": "staged",
+        "counts": {
+          "focal": 1,
+          "crowd_zone": 1
+        },
+        "badgeVisible": true,
+        "badgeCount": 1
+      },
+      "sceneStreamPreviewCount": 0,
+      "network": {
+        "api": 6,
+        "stream": 1,
+        "constructJson": 0,
+        "snapchat": 0,
+        "locate": 1
+      },
+      "midStreamScreenshot": null,
+      "inspect": {
+        "stagingBillboards": 1,
+        "stagingEntities": 8,
+        "billboardImages": {
+          "crowd_zone": 1
+        },
+        "onScreenBillboards": 1,
+        "badgeCount": 1,
+        "badgeVisible": true,
+        "locationBadge": "Approximate · 78% confidence",
+        "locationBadgeKind": "approximate",
+        "legendItems": [
+          "cctv_signal",
+          "perimeter_unit",
+          "crowd_zone"
+        ],
+        "builtLine": "Built with scenario template (no model) in 10243 ms · fallback",
+        "voiceStatus": "Idle",
+        "tooltipPresent": true
+      },
+      "screenshot": "after-kanes-boxing-gym-abu-dhabi-1440x900.png",
+      "consoleErrors": [],
+      "networkFailures": [
+        {
+          "url": "/api/setup/status",
+          "status": 404,
+          "utc": "2026-11-01T11:02:54.474Z"
+        }
+      ],
+      "failures": [],
+      "finishedUtc": "2026-11-01T11:08:32.009Z",
+      "timeWindow": {
+        "ok": true,
+        "selected": "6",
+        "sameScene": true,
+        "before": "geo-scene-v1-%5B%22geographic-orbit%22%2C%22openstreetmap%22%2C%22Kane's%20Boxing%20Academy%20(AD%20City)%22%2C24.4850018%2C54.3586369%5D-plan-d101556750a92c7f",
+        "after": "geo-scene-v1-%5B%22geographic-orbit%22%2C%22openstreetmap%22%2C%22Kane's%20Boxing%20Academy%20(AD%20City)%22%2C24.4850018%2C54.3586369%5D-plan-d101556750a92c7f",
+        "networkAfterChange": {
+          "api": 1,
+          "stream": 0,
+          "constructJson": 0,
+          "snapchat": 0,
+          "locate": 0
+        }
+      },
+      "snapchat": {
+        "scopeOptions": [
+          "balanced",
+          "strict",
+          "wide",
+          "place-mentions"
+        ],
+        "scopeDefault": "balanced",
+        "discoverDisabled": false,
+        "elapsedMs": 43025,
+        "status": "0 verified · 4 unverified candidates · 5 variants · +4 new on last refresh",
+        "clipCount": 5,
+        "unverifiedBadges": 0,
+        "panelText": " Snapchat footage\nScene: Abu Dhabi Corniche (24.4850, 54.3586)\nMatched place: “Corniche” · coverage: neighborhood\n0 verified · 4 unverified candidates · 5 variants · +4 new on last refresh\n Source: Snapchat Spotlight · 8d ago · author handle not returned · open original\npublished 8d ago (2026-10-24 17:32 UTC)\ncapture time unknown\nretrieved just now\nnot live\nunverified candidate\n#السعودية #الإمارات #الرياض #جدة #الدمام #أبوظبي #دبي #سناب_شات #ترند #اكسبلور #الخليج #مشاهير_سناب\nLocation evidence: caption text match — caption names \"أبوظبي\" · media link expires 2026-11-08 00:05 UTC\n#1\n#السعودية #",
+        "network": {
+          "api": 1,
+          "stream": 0,
+          "constructJson": 0,
+          "snapchat": 1,
+          "locate": 0
+        }
+      },
+      "save": {
+        "saveStatus": "Scene saved.",
+        "savedOptions": 1,
+        "storageNotice": "Saved in this browser only. Scenes are not synced or backed up; clearing site data removes them.",
+        "storageKey": "gev.geographic-scenes.v1"
+      },
+      "restore": {
+        "savedOptions": 1,
+        "status": null,
+        "sceneStaging": {
+          "status": "staged",
+          "counts": {
+            "focal": 1,
+            "crowd_zone": 1
+          },
+          "badgeVisible": true
+        },
+        "activeScene": "geo-scene-v1-%5B%22geographic-orbit%22%2C%22openstreetmap%22%2C%22Kane's%20Boxing%20Academy%20(AD%20City)%22%2C24.4850018%2C54.3586369%5D-plan-d101556750a92c7f",
+        "panelTitle": "qa-1793531361111"
+      },
+      "cancelRetry": {
+        "steps": [],
+        "busyBeforeCancel": true,
+        "cancelVisible": true,
+        "stateAfterCancel": "cancelled",
+        "retryVisibleAfterCancel": true,
+        "retryTextAfterCancel": "⟳ Retry · Cancelled",
+        "retryClass": "incident-composer__submit incident-composer__retry composer-retry-pill",
+        "retryBox": {
+          "w": 142,
+          "h": 28
+        },
+        "noticeText": "Cancelled. Draft kept; late results are ignored. Upstream provider work may continue.",
+        "snapshotText": "kanes boxing gym abu dhabi"
+      },
+      "result": "PASS"
+    }
+  ],
+  "extra": {},
+  "summary": {
+    "pass": 1,
+    "fail": 0
+  },
+  "finishedUtc": "2026-11-01T11:09:38.698Z"
+}

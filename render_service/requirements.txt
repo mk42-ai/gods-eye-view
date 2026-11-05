@@ -1,0 +1,7 @@
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2
+requests
+pillow
+shapely>=2.1,<3
+pyproj>=3.6,<4

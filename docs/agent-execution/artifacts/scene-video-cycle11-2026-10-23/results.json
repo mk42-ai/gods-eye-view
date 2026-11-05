@@ -1,0 +1,465 @@
+{
+  "url": "https://sb-3f7jy4mbzqe7.vercel.run",
+  "prompt": "rebuild the car crash reported in Umm Suqeim",
+  "startedUtc": "2026-10-23T04:51:56.532Z",
+  "viewports": {
+    "1440x900": {
+      "checks": [
+        {
+          "id": "1-boot-hash-roundtrip",
+          "pass": true,
+          "detail": "booted=true; boot hash 27/27 keys; after reload 27/27 keys (reloaded=true); mismatched=[]",
+          "data": {
+            "after": "#v=2&lat=13.9425&lon=48.9231&alt=712168&heading=0&pitch=-55&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+            "afterReload": "#v=2&lat=13.9425&lon=48.9231&alt=712168&heading=0&pitch=-55&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+            "keys": 27,
+            "matchedAfterReload": 27
+          },
+          "screenshot": "1-boot-1440x900.png",
+          "startedUtc": "2026-10-23T04:51:56.576Z",
+          "finishedUtc": "2026-10-23T04:52:20.253Z"
+        },
+        {
+          "id": "2-clips-stream-while-building",
+          "pass": true,
+          "detail": "submitted 2026-10-23T04:52:20.956Z; ≥2 platforms at 2026-10-23T04:52:52.738Z; rail=searching platforms=tiktok,instagram clips=7; stream still running=true; composer=done/done",
+          "data": {
+            "railState": "searching",
+            "platforms": "tiktok,instagram",
+            "clips": 7,
+            "composerState": "done",
+            "buildingChip": "done",
+            "submittedAt": "2026-10-23T04:52:20.956Z",
+            "searchingShot": "2a-searching-1440x900.png"
+          },
+          "screenshot": "2b-clips-arriving-1440x900.png",
+          "startedUtc": "2026-10-23T04:52:20.253Z",
+          "finishedUtc": "2026-10-23T04:52:53.293Z"
+        },
+        {
+          "id": "3-video-playback",
+          "pass": true,
+          "detail": "clip instagram:Ddyb6fvQ-Yn readyState=4 currentTime 21.20→22.70 muted=true duration=31.273375 src=https://sb-3f7jy4mbzqe7.vercel.run/api/ondemand/v2/scene/media?u=https%3A%2F%2Fis.gd%2FLO3",
+          "data": {
+            "readyState": 4,
+            "t0": 21.198598,
+            "t1": 22.698966,
+            "muted": true,
+            "paused": false,
+            "src": "https://sb-3f7jy4mbzqe7.vercel.run/api/ondemand/v2/scene/media?u=https%3A%2F%2Fis.gd%2FLO3",
+            "clip": "instagram:Ddyb6fvQ-Yn",
+            "duration": 31.273375
+          },
+          "screenshot": "3-playback-1440x900.png",
+          "startedUtc": "2026-10-23T04:52:53.294Z",
+          "finishedUtc": "2026-10-23T04:52:59.304Z"
+        },
+        {
+          "id": "4-archival-labels",
+          "pass": true,
+          "detail": "13 clips {\"tiktok\":6,\"instagram\":1,\"youtube\":6}; badges=ARCHIVAL; LIVE=0 RECENT=0 wrong=0; banner=\"REBUILT FROM ARCHIVAL FOOTAGE – recorded 26 Sep 2026, not live\"; source links 13/13",
+          "data": {
+            "clips": 13,
+            "badges": [
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL"
+            ],
+            "everyClipBadged": true,
+            "liveCount": 0,
+            "recentCount": 0,
+            "wrongBadges": [],
+            "clipRows": [
+              {
+                "id": "tiktok:7689822370613169415",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-09-26T12:38:12.000Z",
+                "title": "‏🔵 #الكويت تتطلع للتعويض أمام العراق.. و #السعودية تسعى ...",
+                "src": "https://www.tiktok.com/@nasnews_ar/video/7689822370613169415"
+              },
+              {
+                "id": "instagram:Ddyb6fvQ-Yn",
+                "platform": "instagram",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-09-28T04:52:33.249Z",
+                "title": "Dubai multi-car collision reel (regional match)",
+                "src": "https://www.instagram.com/p/Ddyb6fvQ-Yn/"
+              },
+              {
+                "id": "tiktok:7621530117717658902",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-03-26T11:49:22.000Z",
+                "title": "AI-Generated Long Day Fail: E-Scooter Crash",
+                "src": "https://www.tiktok.com/@60v_benji/video/7621530117717658902"
+              },
+              {
+                "id": "tiktok:7627044985581374741",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-04-10T08:29:53.000Z",
+                "title": "Dubai Police lane-change crash footage (archival)",
+                "src": "https://www.tiktok.com/@emirates_news/video/7627044985581374741"
+              },
+              {
+                "id": "tiktok:7351875077924801808",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2024-03-29T19:50:06.000Z",
+                "title": "Home Elevator Lift Accident - Viral Dubai Lift Video",
+                "src": "https://www.tiktok.com/@affordablegroupofficial/video/7351875077924801808"
+              },
+              {
+                "id": "tiktok:7458690515530157330",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2025-01-11T16:08:33.000Z",
+                "title": "High-Speed Race Crash at Dubai Autodrome",
+                "src": "https://www.tiktok.com/@kumar_tharesh/video/7458690515530157330"
+              },
+              {
+                "id": "youtube:tyZCXRV9Cgw",
+                "platform": "youtube",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "",
+                "title": "Dubai Rocked By Iran Drone Attack; Car Engulfed In Fire On Busy Road, 90-Story Marina Building Hit",
+                "src": "https://www.youtube.com/watch?v=tyZCXRV9Cgw"
+              },
+              {
+                "id": "youtube:NP_D_tApFks",
+                "platform": "youtube",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "",
+                "title": "محمد العباسي | مرثيه بعنوان جروح الزمن | وفات المغفور بإذن الله عبدالله علي مصلح رحمه الله 777024292",
+                "src": "https://www.youtube.com/watch?v=NP_D_tApFks"
+              },
+              {
+                "id": "youtube:SkUtPSdcPDc",
+                "platform": "youtube",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "",
+                "title": "ارتفاع أمواج البحر بشاطئ العريش",
+                "src": "https://www.youtube.com/watch?v=SkUtPSdcPDc"
+              },
+              {
+                "id": "youtube:kiQKnGOr9-k",
+                "platform": "youtube",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-08-27T00:00:00.000Z",
+                "title": "ظروف الزمن | الشاعر ايمن الغفري - جديد2027.",
+                "src": "https://www.youtube.com/watch?v=kiQKnGOr9-k"
+              },
+              {
+                "id": "youtube:5l9Ia1Bw8C8",
+                "platform": "youtube",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "",
+                "title": "حادث الإسماعيلية يفتح ملف عمالة الأطفال والعمالة غير المنتظمة | في النور | 17-8-2026",
+                "src": "https://www.youtube.com/watch?v=5l9Ia1Bw8C8"
+              },
+              {
+                "id": "youtube:rC4xEc109t8",
+                "platform": "youtube",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "",
+                "title": "مصيبة الموت | كفي بالموت واعظاً | الدكتور سعد العتيق",
+                "src": "https://www.youtube.com/watch?v=rC4xEc109t8"
+              },
+              {
+                "id": "tiktok:7657080194712341790",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-06-30T07:01:50.000Z",
+                "title": "Sometimes the best places are the ones you discover by ...",
+                "src": "https://www.tiktok.com/@71c4ddg/video/7657080194712341790"
+              }
+            ],
+            "bannerVisible": true,
+            "bannerText": "REBUILT FROM ARCHIVAL FOOTAGE – recorded 26 Sep 2026, not live",
+            "dateLines": [
+              "recorded ≈26 Sep 2026 · not live",
+              "recorded ≈28 Sep 2026 · not live",
+              "recorded ≈26 Mar 2026 · not live",
+              "recorded ≈10 Apr 2026 · not live"
+            ],
+            "sourceLinks": 13,
+            "counts": {
+              "tiktok": 6,
+              "instagram": 1,
+              "youtube": 6
+            },
+            "status": "13 clips · YT 6 · TT 6 · IG 1"
+          },
+          "screenshot": "4-archival-labels-1440x900.png",
+          "startedUtc": "2026-10-23T04:52:59.305Z",
+          "finishedUtc": "2026-10-23T04:52:59.627Z"
+        },
+        {
+          "id": "5-iframe-embed",
+          "pass": true,
+          "detail": "iframe title=\"OnDemand Intelligence Workstation\" composer=true rail=true; harness x-frame-options=none",
+          "data": {
+            "title": "OnDemand Intelligence Workstation",
+            "composer": true,
+            "rail": true
+          },
+          "screenshot": "5-iframe-1440x900.png",
+          "startedUtc": "2026-10-23T04:52:59.627Z",
+          "finishedUtc": "2026-10-23T04:53:05.734Z"
+        }
+      ]
+    },
+    "390x844": {
+      "checks": [
+        {
+          "id": "1-boot-hash-roundtrip",
+          "pass": true,
+          "detail": "booted=true; boot hash 27/27 keys; after reload 27/27 keys (reloaded=true); mismatched=[]",
+          "data": {
+            "after": "#v=2&lat=13.9425&lon=48.9231&alt=712168&heading=0&pitch=-55&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+            "afterReload": "#v=2&lat=13.9425&lon=48.9231&alt=712168&heading=0&pitch=-55&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+            "keys": 27,
+            "matchedAfterReload": 27
+          },
+          "screenshot": "1-boot-390x844.png",
+          "startedUtc": "2026-10-23T04:53:06.422Z",
+          "finishedUtc": "2026-10-23T04:53:25.113Z"
+        },
+        {
+          "id": "2-clips-stream-while-building",
+          "pass": true,
+          "detail": "submitted 2026-10-23T04:53:25.574Z; ≥2 platforms at 2026-10-23T04:53:54.380Z; rail=searching platforms=youtube,instagram clips=4; stream still running=true; composer=done/done",
+          "data": {
+            "railState": "searching",
+            "platforms": "youtube,instagram",
+            "clips": 4,
+            "composerState": "done",
+            "buildingChip": "done",
+            "submittedAt": "2026-10-23T04:53:25.574Z",
+            "searchingShot": "2a-searching-390x844.png"
+          },
+          "screenshot": "2b-clips-arriving-390x844.png",
+          "startedUtc": "2026-10-23T04:53:25.113Z",
+          "finishedUtc": "2026-10-23T04:53:54.538Z"
+        },
+        {
+          "id": "3-video-playback",
+          "pass": true,
+          "detail": "clip instagram:Ddyb6fvQ-Yn readyState=4 currentTime 0.00→1.43 muted=true duration=31.273375 src=https://sb-3f7jy4mbzqe7.vercel.run/api/ondemand/v2/scene/media?u=https%3A%2F%2Fis.gd%2FtcW",
+          "data": {
+            "readyState": 4,
+            "t0": 0,
+            "t1": 1.434333,
+            "muted": true,
+            "paused": false,
+            "src": "https://sb-3f7jy4mbzqe7.vercel.run/api/ondemand/v2/scene/media?u=https%3A%2F%2Fis.gd%2FtcW",
+            "clip": "instagram:Ddyb6fvQ-Yn",
+            "duration": 31.273375
+          },
+          "screenshot": "3-playback-390x844.png",
+          "startedUtc": "2026-10-23T04:53:54.538Z",
+          "finishedUtc": "2026-10-23T04:54:53.414Z"
+        },
+        {
+          "id": "4-archival-labels",
+          "pass": true,
+          "detail": "10 clips {\"tiktok\":6,\"instagram\":1,\"youtube\":3}; badges=ARCHIVAL; LIVE=0 RECENT=0 wrong=0; banner=\"REBUILT FROM ARCHIVAL FOOTAGE – recorded 26 Sep 2026, not live\"; source links 10/10",
+          "data": {
+            "clips": 10,
+            "badges": [
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL",
+              "ARCHIVAL"
+            ],
+            "everyClipBadged": true,
+            "liveCount": 0,
+            "recentCount": 0,
+            "wrongBadges": [],
+            "clipRows": [
+              {
+                "id": "tiktok:7689822370613169415",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-09-26T12:38:12.000Z",
+                "title": "‏🔵 #الكويت تتطلع للتعويض أمام العراق.. و #السعودية تسعى ...",
+                "src": "https://www.tiktok.com/@nasnews_ar/video/7689822370613169415"
+              },
+              {
+                "id": "instagram:Ddyb6fvQ-Yn",
+                "platform": "instagram",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-09-28T04:53:37.649Z",
+                "title": "Dubai multi-car collision reel (regional match)",
+                "src": "https://www.instagram.com/p/Ddyb6fvQ-Yn/"
+              },
+              {
+                "id": "tiktok:7621530117717658902",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-03-26T11:49:22.000Z",
+                "title": "AI-Generated Long Day Fail: E-Scooter Crash",
+                "src": "https://www.tiktok.com/@60v_benji/video/7621530117717658902"
+              },
+              {
+                "id": "tiktok:7627044985581374741",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-04-10T08:29:53.000Z",
+                "title": "Dubai Police lane-change crash footage (archival)",
+                "src": "https://www.tiktok.com/@emirates_news/video/7627044985581374741"
+              },
+              {
+                "id": "tiktok:7351875077924801808",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2024-03-29T19:50:06.000Z",
+                "title": "Home Elevator Lift Accident - Viral Dubai Lift Video",
+                "src": "https://www.tiktok.com/@affordablegroupofficial/video/7351875077924801808"
+              },
+              {
+                "id": "tiktok:7458690515530157330",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2025-01-11T16:08:33.000Z",
+                "title": "High-Speed Race Crash at Dubai Autodrome",
+                "src": "https://www.tiktok.com/@kumar_tharesh/video/7458690515530157330"
+              },
+              {
+                "id": "youtube:tyZCXRV9Cgw",
+                "platform": "youtube",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "",
+                "title": "Dubai Rocked By Iran Drone Attack; Car Engulfed In Fire On Busy Road, 90-Story Marina Building Hit",
+                "src": "https://www.youtube.com/watch?v=tyZCXRV9Cgw"
+              },
+              {
+                "id": "youtube:NP_D_tApFks",
+                "platform": "youtube",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "",
+                "title": "محمد العباسي | مرثيه بعنوان جروح الزمن | وفات المغفور بإذن الله عبدالله علي مصلح رحمه الله 777024292",
+                "src": "https://www.youtube.com/watch?v=NP_D_tApFks"
+              },
+              {
+                "id": "youtube:5l9Ia1Bw8C8",
+                "platform": "youtube",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-08-17T00:00:00.000Z",
+                "title": "حادث الإسماعيلية يفتح ملف عمالة الأطفال والعمالة غير المنتظمة | في النور | 17-8-2026",
+                "src": "https://www.youtube.com/watch?v=5l9Ia1Bw8C8"
+              },
+              {
+                "id": "tiktok:7657080194712341790",
+                "platform": "tiktok",
+                "tier": "ARCHIVAL",
+                "ageTier": "ARCHIVAL",
+                "verified": "none",
+                "publishedAt": "2026-06-30T07:01:50.000Z",
+                "title": "Sometimes the best places are the ones you discover by ...",
+                "src": "https://www.tiktok.com/@71c4ddg/video/7657080194712341790"
+              }
+            ],
+            "bannerVisible": true,
+            "bannerText": "REBUILT FROM ARCHIVAL FOOTAGE – recorded 26 Sep 2026, not live",
+            "dateLines": [
+              "recorded ≈26 Sep 2026 · not live",
+              "recorded ≈28 Sep 2026 · not live",
+              "recorded ≈26 Mar 2026 · not live",
+              "recorded ≈10 Apr 2026 · not live"
+            ],
+            "sourceLinks": 10,
+            "counts": {
+              "tiktok": 6,
+              "instagram": 1,
+              "youtube": 3
+            },
+            "status": "10 clips · YT 3 · TT 6 · IG 1"
+          },
+          "screenshot": "4-archival-labels-390x844.png",
+          "startedUtc": "2026-10-23T04:54:53.414Z",
+          "finishedUtc": "2026-10-23T04:54:53.575Z"
+        },
+        {
+          "id": "5-iframe-embed",
+          "pass": true,
+          "detail": "iframe title=\"OnDemand Intelligence Workstation\" composer=true rail=true; harness x-frame-options=none",
+          "data": {
+            "title": "OnDemand Intelligence Workstation",
+            "composer": true,
+            "rail": true
+          },
+          "screenshot": "5-iframe-390x844.png",
+          "startedUtc": "2026-10-23T04:54:53.575Z",
+          "finishedUtc": "2026-10-23T04:54:56.938Z"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "pass": 10,
+    "fail": 0
+  },
+  "finishedUtc": "2026-10-23T04:54:56.959Z"
+}

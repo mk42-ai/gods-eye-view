@@ -1,0 +1,393 @@
+/*
+ * ui-clean.css — Cycle 21 "one accent" and flat neutral workstation chrome.
+ *
+ * Scoped to UI chrome (top bar, dock, panels, sheets, modals, tooltips, HUD controls).
+ * Out of scope: Cesium canvas, map data colours, legend swatches, markers, layer colour dots,
+ * severity chips, immersive cockpit HUD / speed tape, and Bhote Koshi event styles.
+ */
+
+/* 1. Legacy variable overrides on :root */
+:root {
+  /* Route legacy brand/accent custom properties to the single design token */
+  --od-green-900: var(--ui-surface-1-solid);
+  --od-green-700: var(--ui-accent-active);
+  --od-green-500: var(--ui-accent);
+  --od-green-200: var(--ui-accent-hover);
+  --od-green-50: var(--ui-text-primary);
+
+  --od-brand: var(--ui-accent);
+  --od-accent: var(--ui-accent);
+  --od-accent-soft: var(--ui-accent-hover);
+  --od-surface-dark: var(--ui-surface-1);
+  --od-surface-light: var(--ui-surface-2);
+  --od-text-on-dark: var(--ui-text-primary);
+  --od-text-on-light: var(--ui-on-accent);
+
+  --brand-500: var(--ui-accent);
+  --brand-300: var(--ui-accent-hover);
+  --brand-600: var(--ui-accent-active);
+  --brand-900: var(--ui-surface-1-solid);
+  --brand-ink: var(--ui-bg);
+
+  --btn-primary-bg: var(--ui-surface-2);
+  --btn-primary-text: var(--ui-text-primary);
+  --btn-primary-hover: var(--ui-surface-3);
+
+  --accent: var(--ui-text-primary);
+  --accent-dim: var(--ui-surface-2);
+  --accent-glow: none;
+  --hud-glow: transparent;
+  --panel-glow: none;
+  --title-glow: none;
+  --focus-glow: none;
+  --button-glow: none;
+
+  --glass-bg: var(--ui-surface-1);
+  --glass-border: var(--ui-border);
+  --glass-border-hover: var(--ui-border-strong);
+  --header-bg: var(--ui-surface-1);
+  --bg-dark: var(--ui-bg);
+
+  --text-primary: var(--ui-text-primary);
+  --text-secondary: var(--ui-text-secondary);
+  --text-dim: var(--ui-text-muted);
+  --text-readable-dim: var(--ui-text-secondary);
+
+  --font-sans: var(--ui-font-sans);
+  --font-mono: var(--ui-font-mono);
+
+  --panel-radius: var(--ui-radius-md);
+  --btn-radius: var(--ui-radius-sm);
+}
+
+/* 2. Global typography reset: sans-serif for all UI text */
+body, button, input, select, textarea {
+  font-family: var(--ui-font-sans);
+}
+
+/* Monospace restricted strictly to telemetry and coordinates */
+#hud-mgrs,
+#hud-latlon,
+#hud-gsd,
+#hud-alt,
+#hud-ais-vessel,
+#hud-timestamp,
+.incident-playback__clock,
+.mono,
+.coords,
+[data-telemetry] {
+  font-family: var(--ui-font-mono) !important;
+}
+
+/* 3. Text transform, letter-spacing & text-shadow reset for chrome labels */
+.panel-title,
+.pp-header-label,
+.indicator-label,
+.first-run-kicker,
+.incident-panel__title,
+.od-voice-kicker,
+.od-voice-btn-label,
+.hud-summary-label,
+.location-toolbar-label,
+.scene-btn,
+.panel-header,
+.param-panel-title,
+.cctv-summary-label,
+.dock-tray-toggle,
+.style-btn,
+.btn-label,
+.panel-mini-label,
+.cockpit-kicker,
+.cockpit-readout-label,
+.cockpit-context-kicker,
+.cockpit-context-qualifier,
+.cockpit-route-kicker,
+.cockpit-signal-kicker,
+.radio-filter-label,
+#radio-tuner-band-label,
+.incident-composer__submit,
+.sev__title,
+.sfp__clip-cap,
+summary,
+button {
+  text-transform: none;
+  letter-spacing: normal;
+  text-shadow: none !important;
+}
+
+/* Global chrome text-shadow and glow removal */
+#title-bar,
+#command-dock,
+#left-panel-stack,
+#right-context-rail,
+.panel-collapsible,
+.panel-inner,
+.location-inner,
+.data-panel-inner,
+.cctv-panel-inner,
+.scene-panel-inner,
+.global-context-panel-inner,
+.radio-panel-inner,
+.incident-composer,
+.od-voice,
+.od-chat,
+.scene-library,
+.incident-panel,
+.sev,
+.sfp {
+  text-shadow: none !important;
+}
+
+/* 4. Remove decorative scanlines and glow layers */
+.panel-glow,
+.title-glow,
+.first-run-scanline,
+.key-setup-scanline,
+[class*="scanline"],
+.scanlines {
+  display: none !important;
+}
+
+/* Remove decorative gradients across chrome surfaces */
+#title-bar,
+#command-dock,
+.panel-collapsible,
+.panel-inner,
+.panel-header,
+#left-panel-stack,
+#right-context-rail,
+.incident-composer,
+.od-voice,
+#style-indicator,
+.toast,
+.toasts,
+.popover,
+.popovers,
+[class*="toast"],
+[class*="popover"],
+[class*="scene-library"],
+[class*="incident-panel"],
+.sfp,
+.sev-panel,
+.sev,
+[class*="od-chat"],
+#provider-settings-dialog,
+.provider-settings,
+#param-slider-panel {
+  background-image: none !important;
+}
+
+/* Flat dark neutral panels with thin border style */
+#title-bar,
+#command-dock,
+.panel-collapsible,
+.panel-inner,
+.location-inner,
+.data-panel-inner,
+.cctv-panel-inner,
+.scene-panel-inner,
+.global-context-panel-inner,
+.radio-panel-inner,
+.incident-composer,
+.incident-panel,
+.dock-popover-content,
+#provider-settings-dialog,
+.scene-library,
+.sev-panel,
+.sev,
+.sfp,
+.od-chat {
+  background-color: var(--ui-surface-1);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-md);
+  box-shadow: none;
+}
+
+/* Floating sheets, popovers and dialogs get neutral elevation shadow */
+.dock-popover-content,
+#provider-settings-dialog,
+.toast,
+.popover {
+  box-shadow: var(--ui-shadow-1);
+}
+
+/* Flat 1px divider lines without gradients or glows */
+.panel-divider,
+.param-panel-divider,
+.location-bar-divider,
+#left-panel-stack > [data-panel-id]:not(.collapsed) .panel-divider,
+#right-context-rail [data-panel-id]:not(.collapsed) .panel-divider,
+#param-slider-panel:not(.collapsed) .param-panel-divider {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--ui-border) !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: var(--ui-space-1) 0;
+}
+
+/* 5. Buttons: neutral by default, no chromatic fills except primary action */
+button,
+.scene-btn,
+.panel-collapse-btn,
+.dock-pin-btn,
+.style-btn,
+.panel-layer-toggle,
+.context-mode-button,
+.pp-toggle-btn,
+.pp-mode-btn {
+  background-color: var(--ui-surface-2);
+  border: 1px solid var(--ui-border);
+  color: var(--ui-text-primary);
+  border-radius: var(--ui-radius-sm);
+  box-shadow: none;
+}
+
+button:hover,
+.scene-btn:hover,
+.panel-collapse-btn:hover,
+.dock-pin-btn:hover,
+.style-btn:hover,
+.panel-layer-toggle:hover,
+.pp-toggle-btn:hover,
+.pp-mode-btn:hover {
+  background-color: var(--ui-surface-3);
+  border-color: var(--ui-border-strong);
+  color: var(--ui-text-primary);
+}
+
+/* The ONE teal accent on buttons is reserved exclusively for BUILD SCENE */
+#incident-composer-submit {
+  background-color: var(--ui-accent) !important;
+  color: var(--ui-on-accent) !important;
+  border: 1px solid var(--ui-accent) !important;
+  font-weight: var(--ui-weight-medium);
+}
+
+#incident-composer-submit:hover {
+  background-color: var(--ui-accent-hover) !important;
+  border-color: var(--ui-accent-hover) !important;
+  color: var(--ui-on-accent) !important;
+}
+
+#incident-composer-submit:active {
+  background-color: var(--ui-accent-active) !important;
+  border-color: var(--ui-accent-active) !important;
+}
+
+/* Active tabs: neutral ground, white text, 2px bottom accent indicator */
+.workstation-sidebar-tabs__tab[aria-selected="true"],
+.context-mode-button[aria-selected="true"],
+[role="tab"][aria-selected="true"] {
+  color: var(--ui-text-primary);
+  border-bottom: 2px solid var(--ui-accent) !important;
+  background-color: var(--ui-surface-2);
+}
+
+.workstation-sidebar-tabs__tab[aria-selected="false"],
+.context-mode-button[aria-selected="false"],
+[role="tab"][aria-selected="false"] {
+  color: var(--ui-text-muted);
+  border-bottom: 2px solid transparent !important;
+}
+
+/* Competing cyan/teal chrome highlights neutralised */
+.style-btn.active,
+.pp-toggle-btn.active,
+.pp-mode-btn.active,
+.panel-layer-toggle.active,
+.panel-layer-toggle[aria-pressed="true"] {
+  background-color: var(--ui-surface-3);
+  border-color: var(--ui-border-strong);
+  color: var(--ui-text-primary);
+  box-shadow: none;
+}
+
+/* Checkboxes and range sliders neutral accent */
+input[type="checkbox"],
+input[type="range"] {
+  accent-color: var(--ui-text-secondary);
+}
+
+/* 6. Focus visible: single teal accent focus ring, no glow */
+:focus-visible {
+  outline: 2px solid var(--ui-accent-focus) !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+
+/* 7. Inputs and selects */
+input[type="text"],
+input[type="search"],
+input[type="number"],
+input[type="password"],
+select,
+textarea,
+.pp-select,
+.pp-text-input {
+  background-color: var(--ui-surface-2);
+  border: 1px solid var(--ui-border-strong);
+  color: var(--ui-text-primary);
+  border-radius: var(--ui-radius-sm);
+  box-shadow: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--ui-text-muted);
+}
+
+/* 8. Drawer toggle button & tooltips: dark neutral styling */
+#scene-drawer-toggle,
+.scene-library__drawer-toggle {
+  background-color: var(--ui-surface-2) !important;
+  border: 1px solid var(--ui-border) !important;
+  color: var(--ui-text-secondary) !important;
+  border-radius: var(--ui-radius-sm);
+}
+
+#scene-drawer-toggle:hover,
+.scene-library__drawer-toggle:hover {
+  background-color: var(--ui-surface-3) !important;
+  color: var(--ui-text-primary) !important;
+}
+
+.tooltip,
+[role="tooltip"],
+.cesium-tooltip,
+.scene-library-tooltip,
+.tippy-box {
+  background-color: var(--ui-surface-1-solid) !important;
+  color: var(--ui-text-primary) !important;
+  border: 1px solid var(--ui-border) !important;
+  border-radius: var(--ui-radius-sm) !important;
+  font-size: var(--ui-text-sm) !important;
+  box-shadow: var(--ui-shadow-1) !important;
+}
+
+/* 9. Truncation: chrome labels must not clip with ellipsis */
+.panel-title,
+.od-plugin__name,
+.od-plugin__provider,
+.location-toolbar-label,
+.hud-summary-label,
+#hud-summary,
+.hud-summary,
+.od-voice-detail,
+.data-row-list-text,
+.panel-mini-label,
+.panel-mini-value,
+.sev__title,
+.sev__source-name,
+.sev__signal-title,
+.sfp__clip-cap,
+[class*="scene-library"],
+[class*="sfp__"],
+[class*="incident-"] {
+  text-overflow: clip;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
+}

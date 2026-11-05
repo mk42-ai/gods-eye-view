@@ -1,0 +1,41 @@
+{
+  "url": "https://ondemand-agent-mqb0wgj5e-schoolhack-web-team.vercel.app/?prompt=car%20crash%20yas%20mall",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-error-banner-1440x900.png",
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-error-banner-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-mqb0wgj5e-schoolhack-web-team.vercel.app/?prompt=car%20crash%20yas%20mall",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#ws-app",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "eval",
+      "target": "(function(){var real=window.fetch;window.fetch=function(u,o){if(String(u).indexOf('/api/scenes/render')===0&&o&&o.method==='POST'){return Promise.resolve(new Response(JSON.stringify({error:'gpu_policy",
+      "ok": true,
+      "detail": "\"{\\\"ok\\\":true,\\\"text\\\":\\\"\\\\n        Scene build failed \\u00b7 HTTP 409 gpu_policy_violation \\u2014 Render host advertises GPU(s) 1; Blender may only use GPUs 2, 6. Redeploy render_service with RENDER_"
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=209 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation \u00b7 Scene Workstation",
+  "textLength": 209
+}

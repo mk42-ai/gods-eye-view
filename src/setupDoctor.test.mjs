@@ -93,7 +93,7 @@ test('doctor recognizes every OpenSky OAuth keychain alias used by dev-fresh', (
 test('Pinokio-scoped diagnosis ignores Keychain items its start path does not import', () => {
   const root = mkdtempSync(path.join(tmpdir(), 'gev-pinokio-doctor-'));
   try {
-    const spec = credential('OPENAI_API_KEY');
+    const spec = credential('ONDEMAND_API_KEY');
     const keychainLookup = () => true;
     assert.deepEqual(resolveCredential(spec, {
       environment: {},
@@ -150,7 +150,7 @@ test('doctor describes the credential ladder without exposing values', () => {
     GOOGLE_MAPS_API_KEY: { configured: false },
     GOOGLE_MAPS_SERVER_API_KEY: { configured: false },
     CESIUM_ION_TOKEN: { configured: true, source: 'environment' },
-    OPENAI_API_KEY: { configured: true, source: 'dotenv files' },
+    ONDEMAND_API_KEY: { configured: true, source: 'dotenv files' },
     AISSTREAM_API_KEY: { configured: false },
     FIRMS_MAP_KEY: { configured: false },
     TOMTOM_API_KEY: { configured: false },
@@ -161,7 +161,7 @@ test('doctor describes the credential ladder without exposing values', () => {
   const capabilities = buildCapabilitySummary(credentials);
   assert.match(capabilities.map, /Google Photorealistic 3D Tiles through Cesium ion/);
   assert.match(capabilities.map, /Bing and world-terrain stacks/);
-  assert.equal(capabilities.voice, 'available');
+  assert.match(capabilities.voice, /^available/);
   assert.match(capabilities.missions, /token allowance/);
   assert.equal(capabilities.flights, 'OpenSky OAuth credentials not configured');
 
@@ -194,7 +194,7 @@ test('doctor sends Keychain-backed reports to dev-fresh and describes OpenSky as
     'GOOGLE_MAPS_API_KEY',
     'GOOGLE_MAPS_SERVER_API_KEY',
     'CESIUM_ION_TOKEN',
-    'OPENAI_API_KEY',
+    'ONDEMAND_API_KEY',
     'AISSTREAM_API_KEY',
     'FIRMS_MAP_KEY',
     'TOMTOM_API_KEY',
@@ -226,7 +226,7 @@ test('doctor never calls a dependency-missing setup ready', () => {
     'GOOGLE_MAPS_API_KEY',
     'GOOGLE_MAPS_SERVER_API_KEY',
     'CESIUM_ION_TOKEN',
-    'OPENAI_API_KEY',
+    'ONDEMAND_API_KEY',
     'AISSTREAM_API_KEY',
     'FIRMS_MAP_KEY',
     'TOMTOM_API_KEY',

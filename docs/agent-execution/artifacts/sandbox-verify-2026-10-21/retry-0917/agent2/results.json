@@ -1,0 +1,476 @@
+{
+  "agent": "agent2",
+  "url": "https://sb-4asza5droe1u.vercel.run",
+  "sandbox": "sbx_C7YcHpK0v9hb018cNsHaEObsAyvi",
+  "generated_at": "2026-10-21T09:42:38Z",
+  "results": [
+    {
+      "check": "harness-scenario",
+      "scenario": "C",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 9035,
+      "run_at_iso8601": "2026-10-21T09:32:40.377Z",
+      "screenshot": "cd/C-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "checks": [
+          {
+            "name": "citations_query_completed",
+            "pass": true,
+            "detail": "Turn completed within 90s"
+          },
+          {
+            "name": "citations_or_honest_state",
+            "pass": true,
+            "detail": "links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+          }
+        ],
+        "png_bytes": 1719234,
+        "mean_gray": 69.42,
+        "brightness_gt_40": true
+      }
+    },
+    {
+      "check": "harness-scenario",
+      "scenario": "D",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 11,
+      "run_at_iso8601": "2026-10-21T09:32:50.502Z",
+      "screenshot": "cd/D-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "checks": [
+          {
+            "name": "earthquake_history_available",
+            "pass": true,
+            "detail": "transcript messages=2 (from earlier scenario)"
+          },
+          {
+            "name": "desktop_no_hud_brand_mark_overlap",
+            "pass": true,
+            "detail": "overlap=false, checked against 2 brand mark(s)"
+          },
+          {
+            "name": "close_button_sets_closed",
+            "pass": true,
+            "detail": "Mini chat closed (data-open=\"false\")"
+          },
+          {
+            "name": "reopen_restores_transcript",
+            "pass": true,
+            "detail": "Transcript replayed 2 messages upon reopen (expected >= 2)"
+          }
+        ],
+        "png_bytes": 1718661,
+        "mean_gray": 69.4,
+        "brightness_gt_40": true
+      }
+    },
+    {
+      "check": "harness-scenario",
+      "scenario": "C",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 8843,
+      "run_at_iso8601": "2026-10-21T09:32:59.326Z",
+      "screenshot": "cd/C-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "checks": [
+          {
+            "name": "citations_query_completed",
+            "pass": true,
+            "detail": "Turn completed within 90s"
+          },
+          {
+            "name": "citations_or_honest_state",
+            "pass": true,
+            "detail": "links=0, sourcesVisible=false, confidenceAttr=inferred, emptyState=null"
+          }
+        ],
+        "png_bytes": 325585,
+        "mean_gray": 73.52,
+        "brightness_gt_40": true
+      }
+    },
+    {
+      "check": "harness-scenario",
+      "scenario": "D",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 25,
+      "run_at_iso8601": "2026-10-21T09:33:08.509Z",
+      "screenshot": "cd/D-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "checks": [
+          {
+            "name": "earthquake_history_available",
+            "pass": true,
+            "detail": "transcript messages=4 (from earlier scenario)"
+          },
+          {
+            "name": "mobile_viewport_fit_and_input_visible",
+            "pass": true,
+            "detail": "fitsViewport=true, inputVisible=true, noHScroll=true"
+          },
+          {
+            "name": "close_button_sets_closed",
+            "pass": true,
+            "detail": "Mini chat closed (data-open=\"false\")"
+          },
+          {
+            "name": "reopen_restores_transcript",
+            "pass": true,
+            "detail": "Transcript replayed 4 messages upon reopen (expected >= 2)"
+          }
+        ],
+        "png_bytes": 325088,
+        "mean_gray": 73.5,
+        "brightness_gt_40": true
+      }
+    },
+    {
+      "check": "loading-screen-backdrop",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 2511,
+      "run_at_iso8601": "2026-10-21T09:35:57.261Z",
+      "screenshot": null,
+      "evidence": {
+        "present": true,
+        "hidden": false,
+        "backgroundImage": "linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\")"
+      },
+      "url": "https://sb-4asza5droe1u.vercel.run"
+    },
+    {
+      "check": "citations-deep-check",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 13910,
+      "run_at_iso8601": "2026-10-21T09:36:07.395Z",
+      "screenshot": "check-citations-1440x900.png",
+      "evidence": {
+        "finalStatus": "READY \u00b7 inferred",
+        "waitMs": 7363,
+        "citeCount": 0,
+        "hrefs": [],
+        "allHttp": true,
+        "sourcesVisible": false,
+        "sourcesText": "SOURCES \u00b7 0",
+        "sourcesCount": 0,
+        "confidence": "inferred",
+        "emptyState": null,
+        "assistantPreview": "The object data identifies the subject as **\u201cOnDemand platform,\u201d** but it does not include any public sources or URLs. I can\u2019t verify which public sources discuss it from the information provided. Ple"
+      },
+      "url": "https://sb-4asza5droe1u.vercel.run"
+    },
+    {
+      "check": "empty-state-no-sessions",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 3748,
+      "run_at_iso8601": "2026-10-21T09:36:21.305Z",
+      "screenshot": "check-empty-no-sessions-1440x900.png",
+      "evidence": {
+        "objectId": "fresh-1792575381305",
+        "present": true,
+        "text": "No prior investigation for this object",
+        "before": "url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-no-sessions.png\")",
+        "rect": {
+          "w": 406,
+          "h": 155
+        }
+      },
+      "url": "https://sb-4asza5droe1u.vercel.run"
+    },
+    {
+      "check": "empty-state-source-unavailable",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 2489,
+      "run_at_iso8601": "2026-10-21T09:36:25.053Z",
+      "screenshot": "check-empty-source-unavailable-1440x900.png",
+      "evidence": {
+        "waitMs": 376,
+        "emptyPresent": true,
+        "emptyText": "upstream_timeout (HTTP 504)",
+        "before": "url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-source-unavailable.png\")",
+        "errorMsgPresent": true,
+        "errorText": "upstream_timeout (HTTP 504)",
+        "status": "TURN FAILED",
+        "anyEmpty": "od-empty-state od-empty-state--source-unavailable"
+      },
+      "url": "https://sb-4asza5droe1u.vercel.run"
+    },
+    {
+      "check": "root-first-responsive",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": 2502,
+      "run_at_iso8601": "2026-10-21T09:36:27.542Z",
+      "screenshot": "check-rootfirst-1440x900.png",
+      "evidence": {
+        "vw": 1440,
+        "vh": 900,
+        "scrollWidth": 1440,
+        "mini": {
+          "x": 990,
+          "y": 449.53125,
+          "w": 432,
+          "h": 362.46875,
+          "fits": true
+        },
+        "input": {
+          "x": 1003,
+          "y": 768.703125,
+          "w": 186,
+          "h": 32.296875,
+          "visible": true
+        },
+        "marks": [
+          {
+            "id": "title-logo brand-logo",
+            "rect": {
+              "x": 49,
+              "y": 43,
+              "w": 52,
+              "h": 34.875
+            },
+            "visible": true
+          },
+          {
+            "id": "loader-logo brand-logo",
+            "rect": {
+              "x": 654.704345703125,
+              "y": 369.7037658691406,
+              "w": 130.55999755859375,
+              "h": 87.59249877929688
+            },
+            "visible": false
+          }
+        ],
+        "overlaps": []
+      },
+      "url": "https://sb-4asza5droe1u.vercel.run"
+    },
+    {
+      "check": "loading-screen-backdrop",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 2762,
+      "run_at_iso8601": "2026-10-21T09:39:49.260Z",
+      "screenshot": null,
+      "evidence": {
+        "present": true,
+        "hidden": false,
+        "backgroundImage": "linear-gradient(rgba(11, 21, 38, 0.72), rgba(11, 21, 38, 0.82)), url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/backdrop-network.png\")"
+      },
+      "url": "https://sb-4asza5droe1u.vercel.run"
+    },
+    {
+      "check": "citations-deep-check",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 10203,
+      "run_at_iso8601": "2026-10-21T09:39:59.724Z",
+      "screenshot": "check-citations-390x844.png",
+      "evidence": {
+        "finalStatus": "READY \u00b7 inferred",
+        "waitMs": 7039,
+        "newMsgs": 2,
+        "citeCount": 0,
+        "hrefs": [],
+        "allHttp": true,
+        "sourcesVisible": false,
+        "sourcesText": "SOURCES \u00b7 0",
+        "sourcesCount": 0,
+        "confidence": "inferred",
+        "emptyState": null,
+        "assistantPreview": "I can\u2019t identify public sources from the supplied information: it names an \u201cOnDemand platform\u201d but includes no source references or URLs. The platform name alone is ambiguous, so I can\u2019t reliably cite"
+      },
+      "url": "https://sb-4asza5droe1u.vercel.run"
+    },
+    {
+      "check": "empty-state-no-sessions",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 1979,
+      "run_at_iso8601": "2026-10-21T09:40:09.927Z",
+      "screenshot": "check-empty-no-sessions-390x844.png",
+      "evidence": {
+        "objectId": "fresh-1792575609927",
+        "present": true,
+        "text": "No prior investigation for this object",
+        "before": "url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-no-sessions.png\")",
+        "rect": {
+          "w": 364,
+          "h": 155
+        }
+      },
+      "url": "https://sb-4asza5droe1u.vercel.run"
+    },
+    {
+      "check": "empty-state-source-unavailable",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 1148,
+      "run_at_iso8601": "2026-10-21T09:40:11.907Z",
+      "screenshot": "check-empty-source-unavailable-390x844.png",
+      "evidence": {
+        "waitMs": 6,
+        "newMsgs": 2,
+        "emptyPresent": true,
+        "emptyText": "upstream_timeout (HTTP 504)",
+        "before": "url(\"https://sb-4asza5droe1u.vercel.run/assets/brand/empty-source-unavailable.png\")",
+        "errorMsgPresent": true,
+        "errorText": "upstream_timeout (HTTP 504)",
+        "status": "TURN FAILED",
+        "anyEmpty": "od-empty-state od-empty-state--source-unavailable"
+      },
+      "url": "https://sb-4asza5droe1u.vercel.run"
+    },
+    {
+      "check": "root-first-responsive",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "PASS",
+      "duration_ms": 1943,
+      "run_at_iso8601": "2026-10-21T09:40:13.056Z",
+      "screenshot": "check-rootfirst-390x844.png",
+      "evidence": {
+        "vw": 390,
+        "vh": 844,
+        "scrollWidth": 390,
+        "mini": {
+          "x": 0,
+          "y": 481.53125,
+          "w": 390,
+          "h": 362.46875,
+          "fits": true
+        },
+        "input": {
+          "x": 13,
+          "y": 800.703125,
+          "w": 186,
+          "h": 32.296875,
+          "visible": true
+        },
+        "marks": [
+          {
+            "id": "title-logo brand-logo",
+            "rect": {
+              "x": 29,
+              "y": 25,
+              "w": 36,
+              "h": 24.140625
+            },
+            "visible": true
+          },
+          {
+            "id": "loader-logo brand-logo",
+            "rect": {
+              "x": 132.27879333496094,
+              "y": 331.9204406738281,
+              "w": 125.44242858886719,
+              "h": 84.15911865234375
+            },
+            "visible": false
+          }
+        ],
+        "overlaps": []
+      },
+      "url": "https://sb-4asza5droe1u.vercel.run"
+    },
+    {
+      "check": "composer-pointer-hit-test",
+      "scenario": "extra",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:41:26.185Z",
+      "screenshot": "check-send-hittest-1440x900.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "send_rect": {
+          "x": 1195,
+          "y": 768.703125,
+          "w": 208,
+          "h": 32.296875,
+          "bottom": 801
+        },
+        "input_rect": {
+          "x": 1003,
+          "y": 768.703125,
+          "w": 186,
+          "h": 32.296875,
+          "bottom": 801
+        },
+        "send_center_hits_send": true,
+        "input_center_hits_input": true,
+        "occluder": null,
+        "real_pointer_click": {
+          "pre": 0,
+          "msgs": 2,
+          "status": "STREAMING\u2026",
+          "inputValue": "",
+          "sent": true
+        }
+      }
+    },
+    {
+      "check": "composer-pointer-hit-test",
+      "scenario": "extra",
+      "viewport": "390x844",
+      "status": "DEFECT",
+      "duration_ms": null,
+      "run_at_iso8601": "2026-10-21T09:41:26.185Z",
+      "screenshot": "check-send-hittest-390x844.png",
+      "url": "https://sb-4asza5droe1u.vercel.run",
+      "evidence": {
+        "send_rect": {
+          "x": 205,
+          "y": 800.703125,
+          "w": 166,
+          "h": 32.296875,
+          "bottom": 833
+        },
+        "input_rect": {
+          "x": 13,
+          "y": 800.703125,
+          "w": 186,
+          "h": 32.296875,
+          "bottom": 833
+        },
+        "send_center_hits_send": false,
+        "input_center_hits_input": false,
+        "occluder": {
+          "tag": "SPAN",
+          "pos": "static",
+          "zIndex": "auto",
+          "text": "OnDemand Intelligence Workstation is running as a serverless",
+          "source": "src/serverlessMode.js installServerlessNotice() \u2014 fixed banner left/right/bottom:12px z-index:2147483000 [data-gev-serverless-notice]"
+        },
+        "real_pointer_click": {
+          "pre": 2,
+          "msgs": 2,
+          "status": "READY",
+          "inputValue": "hit test",
+          "sent": false
+        }
+      }
+    }
+  ]
+}

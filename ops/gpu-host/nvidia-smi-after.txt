@@ -1,0 +1,69 @@
+utc=2026-11-03T08:44:22Z
+Tue Nov  3 08:44:28 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 570.148.08             Driver Version: 570.148.08     CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 80GB HBM3          On  |   00000000:1B:00.0 Off |                    0 |
+| N/A   61C    P0            140W /  700W |   76355MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA H100 80GB HBM3          On  |   00000000:29:00.0 Off |                    0 |
+| N/A   37C    P0            120W /  700W |   11279MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA H100 80GB HBM3          On  |   00000000:45:00.0 Off |                    0 |
+| N/A   33C    P0             69W /  700W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   3  NVIDIA H100 80GB HBM3          On  |   00000000:4E:00.0 Off |                    0 |
+| N/A   46C    P0            129W /  700W |   72863MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   4  NVIDIA H100 80GB HBM3          On  |   00000001:1B:00.0 Off |                    0 |
+| N/A   42C    P0            124W /  700W |   72857MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   5  NVIDIA H100 80GB HBM3          On  |   00000001:24:00.0 Off |                    0 |
+| N/A   35C    P0            123W /  700W |   76355MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   6  NVIDIA H100 80GB HBM3          On  |   00000001:45:00.0 Off |                    0 |
+| N/A   31C    P0             69W /  700W |       0MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A         3628308      C   VLLM::EngineCore                      76346MiB |
+|    1   N/A  N/A         3706681      C   python                                11270MiB |
+|    3   N/A  N/A          941514      C   /usr/bin/python3                      72854MiB |
+|    4   N/A  N/A          939753      C   /usr/bin/python3                      72848MiB |
+|    5   N/A  N/A         2734634      C   VLLM::EngineCore                      76346MiB |
++-----------------------------------------------------------------------------------------+
+---
+index, name, memory.used [MiB], memory.total [MiB], utilization.gpu [%]
+0, NVIDIA H100 80GB HBM3, 76355 MiB, 81559 MiB, 0 %
+1, NVIDIA H100 80GB HBM3, 11279 MiB, 81559 MiB, 0 %
+2, NVIDIA H100 80GB HBM3, 0 MiB, 81559 MiB, 0 %
+3, NVIDIA H100 80GB HBM3, 72863 MiB, 81559 MiB, 0 %
+4, NVIDIA H100 80GB HBM3, 72857 MiB, 81559 MiB, 0 %
+5, NVIDIA H100 80GB HBM3, 76355 MiB, 81559 MiB, 0 %
+6, NVIDIA H100 80GB HBM3, 0 MiB, 81559 MiB, 0 %
+---
+pid, process_name, used_gpu_memory [MiB]
+3628308, VLLM::EngineCore, 76346 MiB
+3706681, python, 11270 MiB
+941514, /usr/bin/python3, 72854 MiB
+939753, /usr/bin/python3, 72848 MiB
+2734634, VLLM::EngineCore, 76346 MiB
+--- df after
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/md125p3    1.7T  1.1T  519G  68% /
+/dev/md127       18T  510M   17T   1% /localstorage

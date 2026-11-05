@@ -80,9 +80,9 @@ bashTest('CCTV preset preserves explicit LAN and source overrides with a warning
 });
 
 bashTest('CCTV preset shares dotenv precedence and names-only credential provenance', async () => {
-  const result = await launch({ GOOGLE_MAPS_API_KEY: 'fixture-shell-maps' }, 'GOOGLE_MAPS_API_KEY=fixture-file-maps\nOPENAI_API_KEY=fixture-file-voice\n');
+  const result = await launch({ GOOGLE_MAPS_API_KEY: 'fixture-shell-maps' }, 'GOOGLE_MAPS_API_KEY=fixture-file-maps\nONDEMAND_API_KEY=fixture-file-voice\n');
   assert.equal(result.env.GOOGLE_MAPS_API_KEY, 'fixture-shell-maps');
-  assert.equal(result.env.OPENAI_API_KEY, 'fixture-file-voice');
+  assert.equal(result.env.ONDEMAND_API_KEY, 'fixture-file-voice');
   assert.equal(result.env.GEV_KEY_SETUP_EXTERNAL_KEYS, 'GOOGLE_MAPS_API_KEY');
   assert.doesNotMatch(result.output, /fixture-shell-maps|fixture-file-maps|fixture-file-voice/);
 });

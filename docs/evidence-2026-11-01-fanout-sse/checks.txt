@@ -1,0 +1,5 @@
+2026-11-01T10:44:03Z
+Checked brand marks: 2 file(s) render a brand mark (src/ui/templates/hud-loading.html ×1, src/ui/templates/scene-chrome.html ×1).
+✓ no key material in the source tree
+format: all touched files formatted
+2026-11-01T10:44:28Z

@@ -1,0 +1,70 @@
+[2026-11-01T13:33:22.656Z] ========================================================================
+[2026-11-01T13:33:22.659Z] LIVE ONDEMAND CINEMATIC RUNTIME VALIDATION PROBE
+[2026-11-01T13:33:22.659Z] ========================================================================
+[2026-11-01T13:33:22.659Z] STEP 1: Probing live endpoint registry...
+[2026-11-01T13:33:23.072Z] Registry source: live
+[2026-11-01T13:33:23.072Z] Total endpoints returned: 98
+[2026-11-01T13:33:23.072Z] Active endpoints count: 29
+[2026-11-01T13:33:23.072Z] Cerebras endpoints count: 1
+[2026-11-01T13:33:23.072Z]   - predefined-cerebras-qwen-3.8-27b | name=cerebras-qwen-3.8 | modelId=qwen-3.8-27b | status=active | streaming=true | ctx=128000
+[2026-11-01T13:33:23.073Z] Default task assignments:
+[2026-11-01T13:33:23.073Z]   - scene_direction -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T13:33:23.073Z]   - camera_direction -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T13:33:23.073Z]   - scene_patch -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T13:33:23.073Z]   - event_interpretation -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T13:33:23.073Z]   - qa -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T13:33:23.073Z]   - rapid_revision -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T13:33:23.073Z]   - planner -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T13:33:23.073Z]   - research -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T13:33:23.073Z]   - narration -> predefined-cerebras-qwen-3.8-27b
+[2026-11-01T13:33:23.073Z] 
+STEP 2: Probing streaming query on predefined-cerebras-qwen-3.8-27b...
+[2026-11-01T13:33:27.792Z] Stream completed in 4436 ms
+[2026-11-01T13:33:27.792Z]   TTFT (first delta): 2403 ms
+[2026-11-01T13:33:27.792Z]   First byte latency: 2403 ms
+[2026-11-01T13:33:27.792Z]   Deltas received: 1
+[2026-11-01T13:33:27.792Z]   Output tokens: 52
+[2026-11-01T13:33:27.792Z]   Input tokens: 914
+[2026-11-01T13:33:27.792Z]   Tokens/second: 25.58
+[2026-11-01T13:33:27.792Z]   Answer preview: Cerebras streaming engine operational and ready.
+[2026-11-01T13:33:27.792Z] 
+STEP 3: Cinematic Director on predefined-cerebras-qwen-3.8-27b (Cerebras)...
+[2026-11-01T13:33:27.792Z] [Iteration 1/4] Generating scene...
+[2026-11-01T13:33:39.724Z] [Iteration 1/4] Scene generation SUCCEEDED and validated!
+[2026-11-01T13:33:39.724Z]   Scene ID: scene-55b93a99-d23c-4317-bfbb-73498405dfb2
+[2026-11-01T13:33:39.724Z]   Title: Hypothetical Marathon Cinematic Around Burj Khalifa
+[2026-11-01T13:33:39.724Z]   Entities: 13
+[2026-11-01T13:33:39.725Z]   Shots: 3
+[2026-11-01T13:33:39.725Z]   Beats: 3
+[2026-11-01T13:33:39.725Z]   Routes: 0
+[2026-11-01T13:33:39.725Z]   Effects: 0
+[2026-11-01T13:33:39.725Z]   Invalid lines: 0
+[2026-11-01T13:33:39.725Z]   Repairs: 0
+[2026-11-01T13:33:39.725Z]   Asset substitutions: 0
+[2026-11-01T13:33:39.725Z]   Model metrics: TTFT=8840 ms | total=11581 ms | tok/s=3966.8 | outputTokens=10873
+[2026-11-01T13:33:39.725Z] 
+STEP 4: Probing model switching to predefined-gpt-6.1-sol (GPT tier)...
+[2026-11-01T13:33:39.725Z] [Iteration 1/4] Generating scene with predefined-gpt-6.1-sol...
+[2026-11-01T13:34:13.668Z] [Iteration 1/4] Scene generation SUCCEEDED and validated!
+[2026-11-01T13:34:13.668Z]   Scene ID: scene-ce173237-03dc-4ca1-a894-fe968f220c7d
+[2026-11-01T13:34:13.668Z]   Title: Burj Khalifa Marathon — Illustrative Cinematic
+[2026-11-01T13:34:13.668Z]   Entities: 14
+[2026-11-01T13:34:13.668Z]   Shots: 4
+[2026-11-01T13:34:13.668Z]   Beats: 4
+[2026-11-01T13:34:13.668Z]   Routes: 0
+[2026-11-01T13:34:13.668Z]   Effects: 0
+[2026-11-01T13:34:13.668Z]   Invalid lines: 3
+[2026-11-01T13:34:13.668Z]   Repairs: 1
+[2026-11-01T13:34:13.668Z]   Asset substitutions: 0
+[2026-11-01T13:34:13.668Z]   Model metrics: TTFT=5112 ms | total=25520 ms | tok/s=127.79 | outputTokens=2608
+[2026-11-01T13:34:13.668Z] 
+STEP 5: Probing Grounded Q&A...
+[2026-11-01T13:34:18.100Z] Q&A answer: "I can show a wide aerial view of the hypothetical marathon scene around Burj Khalifa. The supplied scene includes an aerial establishing framing at about 900 m, so I’ll use that as the wide aerial height. This is illustrative/hypothetical scene content, not sourced from live evidence."
+[2026-11-01T13:34:18.100Z] Q&A commands (1): [{"command":"wide_aerial","heightM":900}]
+[2026-11-01T13:34:18.100Z] Q&A repaired: false
+[2026-11-01T13:34:18.100Z] Q&A model metrics: endpoint=predefined-cerebras-qwen-3.8-27b | TTFT=2086 ms | latency=4178 ms | tok/s=344.17
+[2026-11-01T13:34:18.100Z] Contains expected wide_aerial command: true
+[2026-11-01T13:34:18.100Z] 
+========================================================================
+[2026-11-01T13:34:18.100Z] ALL LIVE PROBES COMPLETED SUCCESSFULLY
+[2026-11-01T13:34:18.100Z] ========================================================================

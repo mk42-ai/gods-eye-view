@@ -1,0 +1,52 @@
+{
+ "url": "https://sb-74qv32j82zmp.vercel.run/",
+ "ok": true,
+ "screenshots": [
+  "cycle2-failure-cancel-1440x900.png"
+ ],
+ "assertions": [
+  {
+   "kind": "http-status",
+   "target": "https://sb-74qv32j82zmp.vercel.run/",
+   "ok": true,
+   "detail": "200"
+  },
+  {
+   "kind": "wait-selector",
+   "target": "#data-toggles .data-ask-btn",
+   "ok": true,
+   "detail": "appeared"
+  },
+  {
+   "kind": "eval",
+   "target": "(async()=>{const mc=window.__godsEyeView.miniChat;mc.open({objectType:'alert',objectId:'a-9',label:'Alert 9'});const of=window.fetch;window.fetch=(u,i)=>u.includes('/v2/chat')?Promise.resolve(new Resp",
+   "ok": true,
+   "detail": "\"{\\\"t1err\\\":\\\"upstream_error (HTTP 502)\\\",\\\"errNode\\\":true,\\\"st1\\\":\\\"TURN FAILED\\\",\\\"t2err\\\":\\\"cancelled\\\",\\\"st2\\\":\\\"CANCELLED\\\",\\\"stopHidden\\\":true,\\\"sendEnabled\\\":true}\""
+  },
+  {
+   "kind": "eval",
+   "target": "window.__failRes.errNode && /upstream_error/.test(window.__failRes.t1err) && window.__failRes.st1==='TURN FAILED' && window.__failRes.t2err==='cancelled' && window.__failRes.st2==='CANCELLED' && windo",
+   "ok": true,
+   "detail": "true"
+  },
+  {
+   "kind": "page-rendered",
+   "target": "document.body",
+   "ok": true,
+   "detail": "innerText=1480 chars, bodyHeight=757px"
+  }
+ ],
+ "consoleErrors": [
+  "Failed to load resource: the server responded with a status of 404 () https://sb-74qv32j82zmp.vercel.run/api/setup/status",
+  "Failed to load resource: the server responded with a status of 404 () https://sb-74qv32j82zmp.vercel.run/api/ondemand/v2/messages?externalUserId=ws-default-mvhbd7xt-760d9a1c&objectContextKey=alert%3Aa-9&limit=20&sort=asc"
+ ],
+ "pageErrors": [],
+ "failedRequests": [
+  "Fetch: net::ERR_ABORTED https://sb-74qv32j82zmp.vercel.run/api/setup/status",
+  "Fetch: net::ERR_ABORTED https://sb-74qv32j82zmp.vercel.run/api/ondemand/v2/chat"
+ ],
+ "browser": "/tmp/chromium-swiftshader.sh",
+ "httpStatus": 200,
+ "title": "OnDemand Intelligence Workstation",
+ "textLength": 1480
+}

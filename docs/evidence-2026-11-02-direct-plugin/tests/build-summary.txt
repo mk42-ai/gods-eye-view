@@ -1,0 +1,9 @@
+dist/assets/egm96-universal.esm-D6y_VLZc.js             2,770.50 kB │ gzip: 1,849.99 kB
+dist/assets/index-7-V6I5Rc.js                           4,525.63 kB │ gzip: 1,392.97 kB
+
+(!) Some chunks are larger than 1500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 8.88s
+vite build exit=0 start=2026-11-02T16:08:04Z end=2026-11-02T16:08:13Z (node_modules/.bin empty in this container → vite invoked directly; Vercel runs npm run build)

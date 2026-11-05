@@ -1,0 +1,87 @@
+utc=2026-11-03T08:40:40Z
+=== kubeconfigs
+ls: cannot access '/root/.kube': Permission denied
+-rw------- 1 root      root      1964 Aug  1  2025 /etc/kubernetes/kubelet.conf
+
+/home/mk.thomas/.kube:
+total 12
+drwxr-x---  3 mk.thomas mk.thomas 4096 Oct 31 04:30 .
+drwxr-x--- 13 mk.thomas mk.thomas 4096 Nov  2 07:23 ..
+drwxr-x---  3 mk.thomas mk.thomas 4096 Oct 31 04:30 cache
+/etc/kubernetes:
+total 40
+drwxrwxr-x   5 root root  4096 Aug  1  2025 .
+drwxr-xr-x 125 root root 12288 Jul  5 14:25 ..
+-rw-r--r--   1 root root  5046 Aug  1  2025 audit.yaml
+-rw-------   1 root root  1964 Aug  1  2025 kubelet.conf
+drwxrwxr-x   2 root root  4096 Aug  1  2025 manifests
+drwxr-xr-x   3 root root  4096 Aug  1  2025 node-feature-discovery
+drwxr-xr-x   2 root root  4096 Aug  1  2025 pki
+
+--- /etc/kubernetes/admin.conf
+error: stat /etc/kubernetes/admin.conf: no such file or directory
+--- /etc/kubernetes/kubelet.conf
+NAMESPACE                  NAME                                                              READY   STATUS                   RESTARTS           AGE
+byom                       byom-35dc9378a949493-77bbf86f4f-vnbmp                             1/1     Running                  0                  12d
+byom                       byom-515f649affa24c6-756d5b67df-ljbfn                             1/1     Running                  0                  6d23h
+byom                       byom-5f5743323a0748d-76bd75978f-5lgxd                             1/1     Running                  0                  8d
+default                    deepseek-ocr-omer-6bb7668d75-tbs62                                1/1     Running                  0                  34d
+default                    deepseek-ocr-pdf-86556479c8-dn26h                                 1/1     Running                  0                  34d
+kube-system                hubble-relay-9c4cdd76b-n9qzw                                      0/1     Error                    16448 (102d ago)   495d
+kube-system                hubble-relay-9c4cdd76b-rw82k                                      0/1     Error                    3380 (25d ago)     34d
+--- /root/.kube/config
+error: stat /root/.kube/config: no such file or directory
+=== crictl inspect byom
+byom-515f649affa24c6 2734166 [{'key': 'HF_HUB_DOWNLOAD_RETRY', 'value': '10'}, {'key': 'HF_HUB_DISABLE_XET', 'value': '1'}, {'key': 'HF_ENDPOINT', 'value': 'https://huggingface.co'}, {'key': 'HF_HUB_ENABLE_HF_TRANSFER', 'value': '0'}, {'key': 'HF_HUB_DISABLE_TELEMETRY', 'value': '1'}, {'key': 'HF_HOME', 'value': '/.cache'}] byom-515f649affa24c6-756d5b67df-ljbfn ['--model', 'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B', '--no-enable-log-requests', '--trust-remote-code']
+byom-35dc9378a949493 3627851 [{'key': 'HF_HUB_DOWNLOAD_RETRY', 'value': '10'}, {'key': 'HF_HUB_DOWNLOAD_TIMEOUT', 'value': '3000'}, {'key': 'HF_HUB_DISABLE_XET', 'value': '1'}, {'key': 'HF_ENDPOINT', 'value': 'https://huggingface.co'}, {'key': 'HF_HOME', 'value': '/.cache'}, {'key': 'HF_HUB_ENABLE_HF_TRANSFER', 'value': '0'}] byom-35dc9378a949493-77bbf86f4f-vnbmp ['--model', 'deepseek-ai/DeepSeek-R1-0528-Qwen3-8B', '--no-enable-log-requests', '--trust-remote-code']
+=== byom mounts / weights in container
+SUDO_COMMAND=/usr/bin/nsenter -t 3628308 -m -- bash -c ls -la /root/.cache/huggingface/hub 2>/dev/null; du -sh /root/.cache/huggingface/hub/models--deepseek-ai--* 2>/dev/null; env | grep -iE "HF_HOME|MODEL"
+=== systemd unit files
+# /etc/systemd/system/llama-dsv41.service
+[Unit]
+Description=llama.cpp DeepSeek-V4.1-Flash-1017-abliterated Mix-128G (6x H100 OpenAI API)
+After=network-online.target local-fs.target
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=mk.thomas
+Group=mk.thomas
+WorkingDirectory=/localstorage/mk.thomas
+ExecStart=/localstorage/mk.thomas/deploy/launch.sh
+Restart=always
+RestartSec=10
+TimeoutStartSec=1800
+TimeoutStopSec=120
+KillSignal=SIGINT
+LimitMEMLOCK=infinity
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/localstorage/mk.thomas
+StandardOutput=append:/localstorage/mk.thomas/logs/llama-dsv41.log
+StandardError=append:/localstorage/mk.thomas/logs/llama-dsv41.log
+
+[Install]
+WantedBy=multi-user.target
+# /etc/systemd/system/cloudflared-dsv41.service
+[Unit]
+Description=Cloudflare HTTPS Tunnel for DeepSeek-V4.1-Flash-1017-abliterated (llama-server :8000)
+After=network-online.target llama-dsv41.service
+Wants=network-online.target
+StartLimitIntervalSec=600
+StartLimitBurst=10
+
+[Service]
+Type=simple
+User=mk.thomas
+Group=mk.thomas
+WorkingDirectory=/localstorage/mk.thomas
+ExecStart=/usr/local/bin/cloudflared tunnel --url http://127.0.0.1:8000 --no-autoupdate --metrics 127.0.0.1:20249 --logfile /localstorage/mk.thomas/logs/cloudflared-dsv41.log
+Restart=always
+=== kubelet
+active
+3721189 /usr/bin/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kubelet/config.yaml --container-runtime-endpoint=unix:///run/containerd/containerd.sock --node-ip=93.119.168.123 --node-labels=kurl.sh/cluster=true, --po

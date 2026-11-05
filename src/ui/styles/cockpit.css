@@ -29,7 +29,7 @@
   color: #fff;
   outline: none;
 }
-#cockpit-entry .material-symbols-outlined {
+#cockpit-entry .od-icon {
   color: #00dcff;
   font-size: 18px;
 }
@@ -384,7 +384,7 @@ body.cockpit-mode:has(#left-panel-stack > .panel-collapsible:not(.collapsed))
   letter-spacing: 0.06em;
   text-align: right;
 }
-.cockpit-altitude-rim-pointer .material-symbols-outlined {
+.cockpit-altitude-rim-pointer .od-icon {
   margin-left: 4px;
   color: var(--cockpit-accent);
   font-size: 24px;
@@ -438,7 +438,7 @@ body.cockpit-mode:has(#left-panel-stack > .panel-collapsible:not(.collapsed))
 .cockpit-speed-rim .cockpit-altitude-rim-pointer strong {
   text-align: left;
 }
-.cockpit-speed-rim .cockpit-altitude-rim-pointer .material-symbols-outlined {
+.cockpit-speed-rim .cockpit-altitude-rim-pointer .od-icon {
   margin-right: 4px;
   margin-left: 0;
   animation-name: cockpit-speed-pointer;
@@ -752,7 +752,7 @@ body.cockpit-mode:has(#left-panel-stack > .panel-collapsible:not(.collapsed))
   color: #fff;
   outline: none;
 }
-.cockpit-vision-controls .material-symbols-outlined {
+.cockpit-vision-controls .od-icon {
   font-size: 14px;
 }
 .cockpit-vision-controls small {
@@ -887,7 +887,7 @@ body.cockpit-mode:has(#left-panel-stack > .panel-collapsible:not(.collapsed))
   color: #fff;
   outline: none;
 }
-#view-switcher .material-symbols-outlined {
+#view-switcher .od-icon {
   font-size: 16px;
 }
 body.cockpit-mode #view-switcher {
@@ -1055,7 +1055,7 @@ body.cockpit-mode #view-switcher button {
   color: rgba(244, 251, 255, 0.2);
   cursor: default;
 }
-.cockpit-context-actions .material-symbols-outlined {
+.cockpit-context-actions .od-icon {
   font-size: 15px;
 }
 .cockpit-context-cohorts {
@@ -1371,11 +1371,11 @@ body.cockpit-mode #view-switcher button {
 .cockpit-utility-control.is-expanded .cockpit-utility-divider {
   background: linear-gradient(
     90deg,
-    rgb(0 212 255 / 28%),
-    rgba(0, 212, 255, 0.18) 58%,
+    rgb(59 183 149 / 28%),
+    rgba(59, 183, 149, 0.18) 58%,
     transparent
   );
-  box-shadow: 0 0 7px rgba(0, 212, 255, 0.22);
+  box-shadow: 0 0 7px rgba(59, 183, 149, 0.22);
 }
 .cockpit-utility-glyph {
   display: grid;
@@ -1544,7 +1544,7 @@ body.cockpit-mode #view-switcher button {
   color: #fff;
   outline: none;
 }
-.cockpit-brief-actions .material-symbols-outlined {
+.cockpit-brief-actions .od-icon {
   font-size: 14px;
 }
 #cockpit-brief-auto {
@@ -2176,7 +2176,7 @@ body.cockpit-mode #intel-hud .hud-right-edge {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cockpit-altitude-rim-pointer .material-symbols-outlined {
+  .cockpit-altitude-rim-pointer .od-icon {
     animation: none;
   }
   .cockpit-altitude-rim-scale > span {

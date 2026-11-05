@@ -1,0 +1,146 @@
+{
+  "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app",
+  "label": "before",
+  "prompt": "emirates palace world event lets map and do the poloice protection",
+  "cycles": 3,
+  "viewport": "1440x900",
+  "startedUtc": "2026-11-02T00:47:26.731Z",
+  "finishedUtc": "2026-11-02T00:50:57.439Z",
+  "results": [
+    {
+      "cycle": 1,
+      "prompt": "emirates palace world event lets map and do the poloice protection",
+      "startedUtc": "2026-11-02T00:47:35.295Z",
+      "heapBeforeMb": 60.4,
+      "heapAfterBuildMb": 87.6,
+      "heapAfterPlayMb": 351,
+      "buildMs": 134810,
+      "runState": "succeeded",
+      "errorPanel": null,
+      "recovery": null,
+      "budget": null,
+      "fps": 4,
+      "playDisabledBeforePlay": false,
+      "playbackAfterPlay": null,
+      "screenshots": [
+        "before-c1-built.png",
+        "before-c1-playing.png"
+      ],
+      "consoleErrorsDelta": 0,
+      "status": "passed",
+      "invalid": 0,
+      "entities": 11,
+      "errorPanelAfterPlay": null,
+      "recoveryAfterPlay": null,
+      "consoleErrors": [],
+      "finishedUtc": "2026-11-02T00:50:02.368Z"
+    },
+    {
+      "cycle": 2,
+      "prompt": "emirates palace world event lets map and do the poloice protection",
+      "startedUtc": "2026-11-02T00:50:02.369Z",
+      "heapBeforeMb": 353.9,
+      "heapAfterBuildMb": 205.9,
+      "heapAfterPlayMb": 101,
+      "buildMs": 17626,
+      "runState": "succeeded",
+      "errorPanel": null,
+      "recovery": null,
+      "budget": null,
+      "fps": 3,
+      "playDisabledBeforePlay": false,
+      "playbackAfterPlay": null,
+      "screenshots": [
+        "before-c2-built.png",
+        "before-c2-playing.png"
+      ],
+      "consoleErrorsDelta": 0,
+      "status": "passed",
+      "invalid": 0,
+      "entities": 3,
+      "errorPanelAfterPlay": null,
+      "recoveryAfterPlay": null,
+      "consoleErrors": [],
+      "finishedUtc": "2026-11-02T00:50:31.724Z"
+    },
+    {
+      "cycle": 3,
+      "prompt": "emirates palace world event lets map and do the poloice protection",
+      "startedUtc": "2026-11-02T00:50:31.724Z",
+      "heapBeforeMb": 102.8,
+      "heapAfterBuildMb": 126.9,
+      "heapAfterPlayMb": 451.4,
+      "buildMs": 10802,
+      "runState": "succeeded",
+      "errorPanel": null,
+      "recovery": null,
+      "budget": null,
+      "fps": 3,
+      "playDisabledBeforePlay": false,
+      "playbackAfterPlay": null,
+      "screenshots": [
+        "before-c3-built.png",
+        "before-c3-playing.png"
+      ],
+      "consoleErrorsDelta": 0,
+      "status": "passed",
+      "invalid": 0,
+      "entities": 15,
+      "errorPanelAfterPlay": null,
+      "recoveryAfterPlay": null,
+      "consoleErrors": [],
+      "finishedUtc": "2026-11-02T00:50:54.115Z"
+    }
+  ],
+  "extra": [],
+  "summary": {
+    "passed": 3,
+    "failed": 0,
+    "renderErrorPanels": 0,
+    "heapSeriesMb": [
+      351,
+      101,
+      451.4
+    ],
+    "consoleErrorsTotal": 1,
+    "failedRequests": [
+      {
+        "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/setup/status",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/ondemand/v2/scene/evidence",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "https://ondemand-agent-im9nrttj9-schoolhack-web-team.vercel.app/api/ondemand/v2/scene/evidence",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  "initialProbe": {
+    "errorPanel": null,
+    "recoveryToast": null,
+    "render": null,
+    "budget": null,
+    "heapMb": 64.6,
+    "heapLimitMb": 4192,
+    "runState": "idle",
+    "sceneVersion": 0,
+    "entities": null,
+    "invalid": 0,
+    "playback": null,
+    "playDisabled": false
+  },
+  "screenshotsInitial": [
+    "before-initial.png"
+  ],
+  "spaceShortcut": {
+    "before": null,
+    "afterPause": "paused",
+    "afterSpace": null
+  },
+  "screenshotsFinal": [
+    "before-final.png"
+  ]
+}

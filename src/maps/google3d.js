@@ -1,5 +1,8 @@
 const clean = (value) => String(value || '').trim();
 
+const DEFAULT_TILESET_CACHE_BYTES = 768 * 1024 * 1024;
+const DEFAULT_MAXIMUM_CACHE_OVERFLOW_BYTES = 256 * 1024 * 1024;
+
 /**
  * Decide which map provider can deliver the best startup experience.
  * @param {{googleApiKey?: string, cesiumToken?: string}} credentials
@@ -20,12 +23,12 @@ export function selectMapStartupRoute({
  * direct request fails and an ion token is available, ion is the recovery path.
  *
  * @param {object} Cesium
- * @param {{googleApiKey?: string, cesiumToken?: string}} credentials
+ * @param {{googleApiKey?: string, cesiumToken?: string, tilesetOptions?: object}} credentials
  * @returns {Promise<{tileset: object|null, route: 'google-direct'|'google-ion'|'osm', errors: Error[]}>}
  */
 export async function loadPhotorealisticTileset(
   Cesium,
-  { googleApiKey = '', cesiumToken = '' } = {},
+  { googleApiKey = '', cesiumToken = '', tilesetOptions = {} } = {},
 ) {
   const googleKey = clean(googleApiKey);
   const ionToken = clean(cesiumToken);
@@ -38,8 +41,12 @@ export async function loadPhotorealisticTileset(
   for (const attempt of attempts) {
     try {
       const tileset = attempt.googleKey
-        ? await createGoogleDirectTileset(Cesium, attempt.googleKey)
-        : await createGoogleIonTileset(Cesium, ionToken);
+        ? await createGoogleDirectTileset(
+            Cesium,
+            attempt.googleKey,
+            tilesetOptions,
+          )
+        : await createGoogleIonTileset(Cesium, ionToken, { tilesetOptions });
       return { tileset, route: attempt.route, errors };
     } catch (error) {
       errors.push(error instanceof Error ? error : new Error(String(error)));
@@ -50,19 +57,41 @@ export async function loadPhotorealisticTileset(
 }
 
 /** Pass credentials to the source instead of changing SDK-wide defaults. */
-export function createGoogleDirectTileset(Cesium, key) {
+export async function createGoogleDirectTileset(
+  Cesium,
+  key,
+  tilesetOptions = {},
+) {
   key = clean(key);
   if (!key) throw new Error('Google 3D requires an explicit browser key');
-  return Cesium.createGooglePhotorealistic3DTileset({
-    key,
-    onlyUsingWithGoogleGeocoder: true,
-  });
+  const cacheBytes = tilesetOptions.cacheBytes ?? DEFAULT_TILESET_CACHE_BYTES;
+  const maximumCacheOverflowBytes =
+    tilesetOptions.maximumCacheOverflowBytes ??
+    DEFAULT_MAXIMUM_CACHE_OVERFLOW_BYTES;
+  const opts = {
+    cacheBytes,
+    maximumCacheOverflowBytes,
+    enableCollision: true,
+    ...tilesetOptions,
+  };
+  const tileset = await Cesium.createGooglePhotorealistic3DTileset(
+    {
+      key,
+      onlyUsingWithGoogleGeocoder: true,
+    },
+    opts,
+  );
+  if (tileset) {
+    tileset.cacheBytes = cacheBytes;
+    tileset.maximumCacheOverflowBytes = maximumCacheOverflowBytes;
+  }
+  return tileset;
 }
 
 export async function createGoogleIonTileset(
   Cesium,
   accessToken,
-  { signal } = {},
+  { signal, tilesetOptions = {} } = {},
 ) {
   accessToken = clean(accessToken);
   if (!accessToken)
@@ -72,10 +101,19 @@ export async function createGoogleIonTileset(
     accessToken,
   });
   signal?.throwIfAborted();
-  // Match the installed SDK's Google helper rendering/cache defaults.
-  return Cesium.Cesium3DTileset.fromUrl(resource, {
-    cacheBytes: 1536 * 1024 * 1024,
-    maximumCacheOverflowBytes: 1024 * 1024 * 1024,
+  const cacheBytes = tilesetOptions.cacheBytes ?? DEFAULT_TILESET_CACHE_BYTES;
+  const maximumCacheOverflowBytes =
+    tilesetOptions.maximumCacheOverflowBytes ??
+    DEFAULT_MAXIMUM_CACHE_OVERFLOW_BYTES;
+  const tileset = await Cesium.Cesium3DTileset.fromUrl(resource, {
+    cacheBytes,
+    maximumCacheOverflowBytes,
     enableCollision: true,
+    ...tilesetOptions,
   });
+  if (tileset) {
+    tileset.cacheBytes = cacheBytes;
+    tileset.maximumCacheOverflowBytes = maximumCacheOverflowBytes;
+  }
+  return tileset;
 }

@@ -1,0 +1,2025 @@
+09:48:43.049 retry: 3000
+09:48:43.051 
+09:48:43.052 id: smoke-2:1
+09:48:43.054 event: status
+09:48:43.055 data: {"stage":"locating","text":"Resolving scene anchor","t":"2026-11-01T09:48:43.033Z","elapsedMs":2}
+09:48:43.056 
+09:48:43.058 id: smoke-2:2
+09:48:43.059 event: thinking
+09:48:43.060 data: {"note":"Validating request and preparing location resolution","t":"2026-11-01T09:48:43.033Z","elapsedMs":2}
+09:48:43.062 
+09:48:43.063 id: smoke-2:3
+09:48:43.065 event: status
+09:48:43.066 data: {"stage":"classifying","text":"Classifying scene scenario and focal entity","t":"2026-11-01T09:48:43.033Z","elapsedMs":2}
+09:48:43.068 
+09:48:43.069 id: smoke-2:4
+09:48:43.070 event: thinking
+09:48:43.072 data: {"note":"Invoking tier-1 fast model for Scene Spec","t":"2026-11-01T09:48:43.033Z","elapsedMs":2}
+09:48:43.073 
+09:48:43.074 id: smoke-2:5
+09:48:43.076 event: status
+09:48:43.077 data: {"stage":"researching","text":"Researching location and event context","t":"2026-11-01T09:48:43.040Z","elapsedMs":9}
+09:48:43.078 
+09:48:43.079 id: smoke-2:6
+09:48:43.081 event: thinking
+09:48:43.082 data: {"note":"Querying Perplexity location research","t":"2026-11-01T09:48:43.040Z","elapsedMs":9}
+09:48:43.083 
+09:48:46.565 id: smoke-2:7
+09:48:46.566 event: plan
+09:48:46.568 data: {"spec":{"scenarioType":"police_raid","focalEntity":{"name":"dubai marina","kind":"area"},"elements":[{"type":"inner_cordon","params":{"radius_m":80}},{"type":"outer_cordon","params":{"radius_m":250}},{"type":"approach_route","params":{"count":3}},{"type":"egress_route","params":{"count":1}},{"type":"staging_point","params":{"count":1}},{"type":"perimeter_unit","params":{"count"
+09:48:46.570 
+09:48:58.035 : heartbeat
+09:48:58.036 
+09:49:13.035 : heartbeat
+09:49:13.040 
+09:49:28.035 : heartbeat
+09:49:28.036 
+09:49:43.035 : heartbeat
+09:49:43.036 
+09:49:58.034 : heartbeat
+09:49:58.036 
+09:50:13.035 : heartbeat
+09:50:13.036 
+09:50:24.881 id: smoke-2:8
+09:50:24.882 event: status
+09:50:24.884 data: {"stage":"geometry","text":"Grounding spatial features and routes","t":"2026-11-01T09:50:24.877Z","elapsedMs":101846}
+09:50:24.885 
+09:50:27.609 id: smoke-2:9
+09:50:27.610 event: status
+09:50:27.611 data: {"stage":"staging","text":"Computing deterministic cordons and staging","t":"2026-11-01T09:50:27.605Z","elapsedMs":104574}
+09:50:27.613 
+09:50:27.816 id: smoke-2:10
+09:50:27.817 event: status
+09:50:27.819 data: {"stage":"planning","text":"Generating structured scene plan","t":"2026-11-01T09:50:27.813Z","elapsedMs":104782}
+09:50:27.820 
+09:50:27.821 id: smoke-2:11
+09:50:27.822 event: thinking
+09:50:27.824 data: {"note":"Invoking scene planner LLM","t":"2026-11-01T09:50:27.813Z","elapsedMs":104782}
+09:50:27.825 
+09:50:28.035 : heartbeat
+09:50:28.036 
+09:50:30.004 id: smoke-2:12
+09:50:30.005 event: element_added
+09:50:30.009 data: {"layer":"areas","feature":{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[55.134235,25.077834],[55.134265,25.077719],[55.13494,25.077166],[55.135428,25.076774],[55.135609,25.076796],[55.135723,25.076841],[55.135945,25.077181],[55.13614,25.077545],[55.136294,25.078128],[55.136552,25.078586],[55.135703,25.079302],[55.135042,25.078618],[55.134235,25.077834]]]},"pro
+09:50:30.010 
+09:50:30.011 id: smoke-2:13
+09:50:30.012 event: element_added
+09:50:30.020 data: {"layer":"areas","feature":{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[55.133654,25.078325],[55.133592,25.078256],[55.13354,25.078182],[55.133498,25.078102],[55.133467,25.078018],[55.133448,25.077932],[55.133441,25.077844],[55.133445,25.077756],[55.133462,25.077669],[55.133492,25.077554],[55.13352,25.07747],[55.133558,25.077391],[55.133607,25.077316],[55.1336
+09:50:30.021 
+09:50:30.022 id: smoke-2:14
+09:50:30.023 event: element_added
+09:50:30.032 data: {"layer":"areas","feature":{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[55.132419,25.079367],[55.132262,25.079198],[55.132124,25.079017],[55.132006,25.078823],[55.13191,25.078621],[55.131836,25.07841],[55.131785,25.078194],[55.131758,25.077975],[55.131754,25.077754],[55.131775,25.077534],[55.131819,25.077317],[55.131849,25.077202],[55.131919,25.076985],[55.132
+09:50:30.033 
+09:50:30.034 id: smoke-2:15
+09:50:30.035 event: element_added
+09:50:30.062 data: {"layer":"lines","feature":{"type":"Feature","geometry":{"type":"LineString","coordinates":[[55.122539,25.082375],[55.122539,25.082375],[55.122478,25.082403],[55.122411,25.082408],[55.122346,25.08239],[55.122293,25.082352],[55.12226,25.082298],[55.122251,25.082237],[55.122268,25.082177],[55.122177,25.082164],[55.12209,25.082139],[55.122007,25.082103],[55.121932,25.082055],[55.12
+09:50:30.064 
+09:50:30.065 id: smoke-2:16
+09:50:30.066 event: element_added
+09:50:30.089 data: {"layer":"lines","feature":{"type":"Feature","geometry":{"type":"LineString","coordinates":[[55.135265,25.067391],[55.135334,25.067469],[55.138507,25.071137],[55.139961,25.07275],[55.140941,25.073851],[55.141855,25.074912],[55.14317,25.076352],[55.143593,25.076782],[55.144021,25.077207],[55.144456,25.077627],[55.144896,25.078043],[55.145341,25.078453],[55.145792,25.078859],[55.1
+09:50:30.090 
+09:50:30.092 id: smoke-2:17
+09:50:30.093 event: element_added
+09:50:30.107 data: {"layer":"lines","feature":{"type":"Feature","geometry":{"type":"LineString","coordinates":[[55.144625,25.084542],[55.144085,25.084418],[55.144096,25.084341],[55.1441,25.083987],[55.144048,25.084002],[55.144001,25.084025],[55.143959,25.084056],[55.143923,25.084093],[55.143915,25.084262],[55.143906,25.084342],[55.14389,25.08442],[55.143869,25.084497],[55.143843,25.084573],[55.143
+09:50:30.108 
+09:50:30.109 id: smoke-2:18
+09:50:30.111 event: element_added
+09:50:30.125 data: {"layer":"lines","feature":{"type":"Feature","geometry":{"type":"LineString","coordinates":[[55.136911,25.081151],[55.136911,25.081151],[55.136655,25.080902],[55.136634,25.080831],[55.136655,25.080679],[55.136676,25.080617],[55.136508,25.080436],[55.136466,25.080395],[55.136433,25.080364],[55.136404,25.080332],[55.13636,25.080284],[55.136119,25.080022],[55.135966,25.079854],[55.
+09:50:30.126 
+09:50:30.127 id: smoke-2:19
+09:50:30.128 event: element_added
+09:50:30.131 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134058,25.07774]},"properties":{"id":"cones-1","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":120.93661279789563,"index":0,"source":"Al Gharbi Street"}},"properties":{"id":"cones-1","element":"cones","ro
+09:50:30.132 
+09:50:30.133 id: smoke-2:20
+09:50:30.135 event: element_added
+09:50:30.137 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134126,25.077703]},"properties":{"id":"cones-2","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":120.93664168045098,"index":1,"source":"Al Gharbi Street"}},"properties":{"id":"cones-2","element":"cones","r
+09:50:30.138 
+09:50:30.140 id: smoke-2:21
+09:50:30.141 event: element_added
+09:50:30.144 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134191,25.077661]},"properties":{"id":"cones-3","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.58628624927167,"index":2,"source":"Al Gharbi Street"}},"properties":{"id":"cones-3","element":"cones","r
+09:50:30.145 
+09:50:30.146 id: smoke-2:22
+09:50:30.147 event: element_added
+09:50:30.150 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134251,25.077614]},"properties":{"id":"cones-4","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.58631182927104,"index":3,"source":"Al Gharbi Street"}},"properties":{"id":"cones-4","element":"cones","r
+09:50:30.151 
+09:50:30.152 id: smoke-2:23
+09:50:30.153 event: element_added
+09:50:30.156 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134312,25.077568]},"properties":{"id":"cones-5","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.58633737347873,"index":4,"source":"Al Gharbi Street"}},"properties":{"id":"cones-5","element":"cones","r
+09:50:30.157 
+09:50:30.158 id: smoke-2:24
+09:50:30.159 event: element_added
+09:50:30.162 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134372,25.077521]},"properties":{"id":"cones-6","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.5863629569858,"index":5,"source":"Al Gharbi Street"}},"properties":{"id":"cones-6","element":"cones","ro
+09:50:30.163 
+09:50:30.164 id: smoke-2:25
+09:50:30.166 event: element_added
+09:50:30.168 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134432,25.077474]},"properties":{"id":"cones-7","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.653379936534,"index":6,"source":"Al Gharbi Street"}},"properties":{"id":"cones-7","element":"cones","rol
+09:50:30.169 
+09:50:30.170 id: smoke-2:26
+09:50:30.172 event: element_added
+09:50:30.174 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134492,25.077427]},"properties":{"id":"cones-8","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.65340548969482,"index":7,"source":"Al Gharbi Street"}},"properties":{"id":"cones-8","element":"cones","r
+09:50:30.175 
+09:50:30.177 id: smoke-2:27
+09:50:30.178 event: element_added
+09:50:30.180 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134553,25.07738]},"properties":{"id":"cones-9","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.6534310232422,"index":8,"source":"Al Gharbi Street"}},"properties":{"id":"cones-9","element":"cones","rol
+09:50:30.182 
+09:50:30.183 id: smoke-2:28
+09:50:30.184 event: element_added
+09:50:30.187 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134613,25.077333]},"properties":{"id":"cones-10","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.65345653375994,"index":9,"source":"Al Gharbi Street"}},"properties":{"id":"cones-10","element":"cones",
+09:50:30.188 
+09:50:30.189 id: smoke-2:29
+09:50:30.190 event: element_added
+09:50:30.193 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134673,25.077286]},"properties":{"id":"cones-11","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.6534820946971,"index":10,"source":"Al Gharbi Street"}},"properties":{"id":"cones-11","element":"cones",
+09:50:30.194 
+09:50:30.195 id: smoke-2:30
+09:50:30.196 event: element_added
+09:50:30.199 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134733,25.07724]},"properties":{"id":"cones-12","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.65350764370737,"index":11,"source":"Al Gharbi Street"}},"properties":{"id":"cones-12","element":"cones",
+09:50:30.200 
+09:50:30.201 id: smoke-2:31
+09:50:30.202 event: element_added
+09:50:30.205 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134794,25.077193]},"properties":{"id":"cones-13","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.65353318506095,"index":12,"source":"Al Gharbi Street"}},"properties":{"id":"cones-13","element":"cones"
+09:50:30.206 
+09:50:30.207 id: smoke-2:32
+09:50:30.208 event: element_added
+09:50:30.211 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134854,25.077146]},"properties":{"id":"cones-14","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":130.65355873071485,"index":13,"source":"Al Gharbi Street"}},"properties":{"id":"cones-14","element":"cones"
+09:50:30.214 
+09:50:30.215 id: smoke-2:33
+09:50:30.216 event: element_added
+09:50:30.220 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134913,25.077098]},"properties":{"id":"cones-15","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":135.7993392484405,"index":14,"source":"Al Gharbi Street"}},"properties":{"id":"cones-15","element":"cones",
+09:50:30.221 
+09:50:30.224 id: smoke-2:34
+09:50:30.226 event: element_added
+09:50:30.228 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134968,25.077046]},"properties":{"id":"cones-16","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":135.79936271670692,"index":15,"source":"Al Gharbi Street"}},"properties":{"id":"cones-16","element":"cones"
+09:50:30.229 
+09:50:30.231 id: smoke-2:35
+09:50:30.232 event: element_added
+09:50:30.235 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135024,25.076995]},"properties":{"id":"cones-17","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":135.79938615066396,"index":16,"source":"Al Gharbi Street"}},"properties":{"id":"cones-17","element":"cones"
+09:50:30.236 
+09:50:30.237 id: smoke-2:36
+09:50:30.239 event: element_added
+09:50:30.242 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135079,25.076943]},"properties":{"id":"cones-18","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":135.7994096411678,"index":17,"source":"Al Gharbi Street"}},"properties":{"id":"cones-18","element":"cones",
+09:50:30.243 
+09:50:30.244 id: smoke-2:37
+09:50:30.245 event: element_added
+09:50:30.248 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135135,25.076892]},"properties":{"id":"cones-19","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":135.79943310858096,"index":18,"source":"Al Gharbi Street"}},"properties":{"id":"cones-19","element":"cones"
+09:50:30.249 
+09:50:30.250 id: smoke-2:38
+09:50:30.251 event: element_added
+09:50:30.254 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13519,25.07684]},"properties":{"id":"cones-20","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":135.7994566052564,"index":19,"source":"Al Gharbi Street"}},"properties":{"id":"cones-20","element":"cones","r
+09:50:30.255 
+09:50:30.256 id: smoke-2:39
+09:50:30.257 event: element_added
+09:50:30.260 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133998,25.077967]},"properties":{"id":"cones-21","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":298.90045172345094,"index":20}},"properties":{"id":"cones-21","element":"cones","role":"cone","priority":10
+09:50:30.261 
+09:50:30.263 id: smoke-2:40
+09:50:30.264 event: element_added
+09:50:30.266 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133925,25.077992]},"properties":{"id":"cones-22","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":267.0906462518491,"index":21}},"properties":{"id":"cones-22","element":"cones","role":"cone","priority":10,
+09:50:30.267 
+09:50:30.269 id: smoke-2:41
+09:50:30.270 event: element_added
+09:50:30.272 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133847,25.077979]},"properties":{"id":"cones-23","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":242.71216229655727,"index":22}},"properties":{"id":"cones-23","element":"cones","role":"cone","priority":10
+09:50:30.273 
+09:50:30.275 id: smoke-2:42
+09:50:30.276 event: element_added
+09:50:30.278 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133787,25.077934]},"properties":{"id":"cones-24","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":217.18397451581743,"index":23}},"properties":{"id":"cones-24","element":"cones","role":"cone","priority":10
+09:50:30.279 
+09:50:30.281 id: smoke-2:43
+09:50:30.282 event: element_added
+09:50:30.284 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133759,25.077868]},"properties":{"id":"cones-25","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":183.61575025370345,"index":24}},"properties":{"id":"cones-25","element":"cones","role":"cone","priority":10
+09:50:30.285 
+09:50:30.286 id: smoke-2:44
+09:50:30.288 event: element_added
+09:50:30.290 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133769,25.077798]},"properties":{"id":"cones-26","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":148.51850469498487,"index":25}},"properties":{"id":"cones-26","element":"cones","role":"cone","priority":10
+09:50:30.291 
+09:50:30.292 id: smoke-2:45
+09:50:30.294 event: element_added
+09:50:30.296 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133818,25.077743]},"properties":{"id":"cones-27","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":129.62673501431226,"index":26}},"properties":{"id":"cones-27","element":"cones","role":"cone","priority":10
+09:50:30.297 
+09:50:30.298 id: smoke-2:46
+09:50:30.300 event: element_added
+09:50:30.302 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13389,25.077715]},"properties":{"id":"cones-28","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":89.99999197571663,"index":27}},"properties":{"id":"cones-28","element":"cones","role":"cone","priority":10,"
+09:50:30.303 
+09:50:30.304 id: smoke-2:47
+09:50:30.305 event: element_added
+09:50:30.308 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133968,25.077725]},"properties":{"id":"cones-29","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":68.79196368344424,"index":28}},"properties":{"id":"cones-29","element":"cones","role":"cone","priority":10,
+09:50:30.309 
+09:50:30.311 id: smoke-2:48
+09:50:30.312 event: element_added
+09:50:30.315 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13403,25.077767]},"properties":{"id":"cones-30","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":32.289071461518915,"index":29}},"properties":{"id":"cones-30","element":"cones","role":"cone","priority":10,
+09:50:30.316 
+09:50:30.317 id: smoke-2:49
+09:50:30.318 event: element_added
+09:50:30.321 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134061,25.077832]},"properties":{"id":"cones-31","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":11.493150407161579,"index":30}},"properties":{"id":"cones-31","element":"cones","role":"cone","priority":10
+09:50:30.322 
+09:50:30.323 id: smoke-2:50
+09:50:30.325 event: element_added
+09:50:30.327 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134054,25.077902]},"properties":{"id":"cones-32","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":330.0419303245275,"index":31}},"properties":{"id":"cones-32","element":"cones","role":"cone","priority":10,
+09:50:30.328 
+09:50:30.329 id: smoke-2:51
+09:50:30.330 event: element_added
+09:50:30.333 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13316,25.077131]},"properties":{"id":"cones-33","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":232.30134503930327,"index":32,"source":"Al Mamsha Street"}},"properties":{"id":"cones-33","element":"cones",
+09:50:30.334 
+09:50:30.335 id: smoke-2:52
+09:50:30.336 event: element_added
+09:50:30.339 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133092,25.077094]},"properties":{"id":"cones-34","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":248.82395286447678,"index":33,"source":"Al Mamsha Street"}},"properties":{"id":"cones-34","element":"cones"
+09:50:30.340 
+09:50:30.341 id: smoke-2:53
+09:50:30.342 event: element_added
+09:50:30.344 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133015,25.07708]},"properties":{"id":"cones-35","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":271.2768587700032,"index":34,"source":"Al Mamsha Street"}},"properties":{"id":"cones-35","element":"cones","
+09:50:30.346 
+09:50:30.347 id: smoke-2:54
+09:50:30.348 event: element_added
+09:50:30.350 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132937,25.077085]},"properties":{"id":"cones-36","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":256.21483038563963,"index":35,"source":"Al Mamsha Street"}},"properties":{"id":"cones-36","element":"cones"
+09:50:30.352 
+09:50:30.353 id: smoke-2:55
+09:50:30.354 event: element_added
+09:50:30.357 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132866,25.077055]},"properties":{"id":"cones-37","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":223.07472302176313,"index":36,"source":"Al Mamsha Street"}},"properties":{"id":"cones-37","element":"cones"
+09:50:30.358 
+09:50:30.359 id: smoke-2:56
+09:50:30.361 event: element_added
+09:50:30.363 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132813,25.077002]},"properties":{"id":"cones-38","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.11462760582143,"index":37,"source":"Al Mamsha Street"}},"properties":{"id":"cones-38","element":"cones"
+09:50:30.365 
+09:50:30.366 id: smoke-2:57
+09:50:30.367 event: element_added
+09:50:30.370 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132761,25.076948]},"properties":{"id":"cones-39","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.1146054531109,"index":38,"source":"Al Mamsha Street"}},"properties":{"id":"cones-39","element":"cones",
+09:50:30.371 
+09:50:30.372 id: smoke-2:58
+09:50:30.373 event: element_added
+09:50:30.376 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132708,25.076893]},"properties":{"id":"cones-40","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.11458334133607,"index":39,"source":"Al Mamsha Street"}},"properties":{"id":"cones-40","element":"cones"
+09:50:30.377 
+09:50:30.378 id: smoke-2:59
+09:50:30.380 event: element_added
+09:50:30.382 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132656,25.076839]},"properties":{"id":"cones-41","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.11456119469815,"index":40,"source":"Al Mamsha Street"}},"properties":{"id":"cones-41","element":"cones"
+09:50:30.383 
+09:50:30.385 id: smoke-2:60
+09:50:30.386 event: element_added
+09:50:30.388 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132604,25.076785]},"properties":{"id":"cones-42","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.1145390628498,"index":41,"source":"Al Mamsha Street"}},"properties":{"id":"cones-42","element":"cones",
+09:50:30.390 
+09:50:30.391 id: smoke-2:61
+09:50:30.392 event: element_added
+09:50:30.395 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132552,25.076731]},"properties":{"id":"cones-43","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.14707328438828,"index":42,"source":"Al Mamsha Street"}},"properties":{"id":"cones-43","element":"cones"
+09:50:30.396 
+09:50:30.397 id: smoke-2:62
+09:50:30.398 event: element_added
+09:50:30.401 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132499,25.076677]},"properties":{"id":"cones-44","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.14705110624854,"index":43,"source":"Al Mamsha Street"}},"properties":{"id":"cones-44","element":"cones"
+09:50:30.402 
+09:50:30.403 id: smoke-2:63
+09:50:30.405 event: element_added
+09:50:30.407 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132447,25.076623]},"properties":{"id":"cones-45","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.14702895521907,"index":44,"source":"Al Mamsha Street"}},"properties":{"id":"cones-45","element":"cones"
+09:50:30.408 
+09:50:30.410 id: smoke-2:64
+09:50:30.411 event: element_added
+09:50:30.413 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132395,25.076568]},"properties":{"id":"cones-46","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.147006763172,"index":45,"source":"Al Mamsha Street"}},"properties":{"id":"cones-46","element":"cones","
+09:50:30.414 
+09:50:30.416 id: smoke-2:65
+09:50:30.417 event: element_added
+09:50:30.419 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132342,25.076514]},"properties":{"id":"cones-47","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.14698467400441,"index":46,"source":"Al Mamsha Street"}},"properties":{"id":"cones-47","element":"cones"
+09:50:30.421 
+09:50:30.422 id: smoke-2:66
+09:50:30.423 event: element_added
+09:50:30.425 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13229,25.07646]},"properties":{"id":"cones-48","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.1469625233322,"index":47,"source":"Al Mamsha Street"}},"properties":{"id":"cones-48","element":"cones","r
+09:50:30.427 
+09:50:30.428 id: smoke-2:67
+09:50:30.429 event: element_added
+09:50:30.431 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136096,25.076077]},"properties":{"id":"cones-49","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69413716778558,"index":48,"source":"Al Gharbi Street"}},"properties":{"id":"cones-49","element":"cones"
+09:50:30.432 
+09:50:30.434 id: smoke-2:68
+09:50:30.435 event: element_added
+09:50:30.437 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136155,25.076029]},"properties":{"id":"cones-50","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69416232716105,"index":49,"source":"Al Gharbi Street"}},"properties":{"id":"cones-50","element":"cones"
+09:50:30.438 
+09:50:30.439 id: smoke-2:69
+09:50:30.441 event: element_added
+09:50:30.443 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136214,25.075981]},"properties":{"id":"cones-51","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69418748656835,"index":50,"source":"Al Gharbi Street"}},"properties":{"id":"cones-51","element":"cones"
+09:50:30.444 
+09:50:30.445 id: smoke-2:70
+09:50:30.446 event: element_added
+09:50:30.449 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136274,25.075934]},"properties":{"id":"cones-52","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69421256399147,"index":51,"source":"Al Gharbi Street"}},"properties":{"id":"cones-52","element":"cones"
+09:50:30.450 
+09:50:30.451 id: smoke-2:71
+09:50:30.452 event: element_added
+09:50:30.455 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136333,25.075886]},"properties":{"id":"cones-53","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69423769612365,"index":52,"source":"Al Gharbi Street"}},"properties":{"id":"cones-53","element":"cones"
+09:50:30.456 
+09:50:30.457 id: smoke-2:72
+09:50:30.458 event: element_added
+09:50:30.461 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136392,25.075838]},"properties":{"id":"cones-54","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69426289053024,"index":53,"source":"Al Gharbi Street"}},"properties":{"id":"cones-54","element":"cones"
+09:50:30.462 
+09:50:30.463 id: smoke-2:73
+09:50:30.465 event: element_added
+09:50:30.468 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136452,25.07579]},"properties":{"id":"cones-55","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69428801051805,"index":54,"source":"Al Gharbi Street"}},"properties":{"id":"cones-55","element":"cones",
+09:50:30.469 
+09:50:30.470 id: smoke-2:74
+09:50:30.471 event: element_added
+09:50:30.474 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136511,25.075742]},"properties":{"id":"cones-56","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.6943131427455,"index":55,"source":"Al Gharbi Street"}},"properties":{"id":"cones-56","element":"cones",
+09:50:30.475 
+09:50:30.476 id: smoke-2:75
+09:50:30.478 event: element_added
+09:50:30.480 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13657,25.075694]},"properties":{"id":"cones-57","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.6943382779275,"index":56,"source":"Al Gharbi Street"}},"properties":{"id":"cones-57","element":"cones","
+09:50:30.481 
+09:50:30.483 id: smoke-2:76
+09:50:30.484 event: element_added
+09:50:30.486 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136629,25.075646]},"properties":{"id":"cones-58","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69436341486107,"index":57,"source":"Al Gharbi Street"}},"properties":{"id":"cones-58","element":"cones"
+09:50:30.488 
+09:50:30.489 id: smoke-2:77
+09:50:30.490 event: element_added
+09:50:30.492 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136689,25.075599]},"properties":{"id":"cones-59","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69438856231454,"index":58,"source":"Al Gharbi Street"}},"properties":{"id":"cones-59","element":"cones"
+09:50:30.494 
+09:50:30.495 id: smoke-2:78
+09:50:30.496 event: element_added
+09:50:30.498 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136748,25.075551]},"properties":{"id":"cones-60","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.6944136748957,"index":59,"source":"Al Gharbi Street"}},"properties":{"id":"cones-60","element":"cones",
+09:50:30.500 
+09:50:30.501 id: smoke-2:79
+09:50:30.502 event: element_added
+09:50:30.504 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136807,25.075503]},"properties":{"id":"cones-61","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69443884682863,"index":60,"source":"Al Gharbi Street"}},"properties":{"id":"cones-61","element":"cones"
+09:50:30.506 
+09:50:30.507 id: smoke-2:80
+09:50:30.508 event: element_added
+09:50:30.511 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136867,25.075455]},"properties":{"id":"cones-62","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.6944639594733,"index":61,"source":"Al Gharbi Street"}},"properties":{"id":"cones-62","element":"cones",
+09:50:30.512 
+09:50:30.513 id: smoke-2:81
+09:50:30.514 event: element_added
+09:50:30.517 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136926,25.075407]},"properties":{"id":"cones-63","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.6944891192618,"index":62,"source":"Al Gharbi Street"}},"properties":{"id":"cones-63","element":"cones",
+09:50:30.518 
+09:50:30.519 id: smoke-2:82
+09:50:30.520 event: element_added
+09:50:30.523 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136985,25.075359]},"properties":{"id":"cones-64","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69451423953535,"index":63,"source":"Al Gharbi Street"}},"properties":{"id":"cones-64","element":"cones"
+09:50:30.524 
+09:50:30.525 id: smoke-2:83
+09:50:30.526 event: element_added
+09:50:30.529 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137045,25.075311]},"properties":{"id":"cones-65","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69453936740598,"index":64,"source":"Al Gharbi Street"}},"properties":{"id":"cones-65","element":"cones"
+09:50:30.530 
+09:50:30.531 id: smoke-2:84
+09:50:30.532 event: element_added
+09:50:30.535 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137104,25.075264]},"properties":{"id":"cones-66","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.6945644970284,"index":65,"source":"Al Gharbi Street"}},"properties":{"id":"cones-66","element":"cones",
+09:50:30.536 
+09:50:30.537 id: smoke-2:85
+09:50:30.538 event: element_added
+09:50:30.540 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137163,25.075216]},"properties":{"id":"cones-67","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69458965230126,"index":66,"source":"Al Gharbi Street"}},"properties":{"id":"cones-67","element":"cones"
+09:50:30.541 
+09:50:30.543 id: smoke-2:86
+09:50:30.544 event: element_added
+09:50:30.546 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137223,25.075168]},"properties":{"id":"cones-68","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.6946147849099,"index":67,"source":"Al Gharbi Street"}},"properties":{"id":"cones-68","element":"cones",
+09:50:30.547 
+09:50:30.548 id: smoke-2:87
+09:50:30.550 event: element_added
+09:50:30.552 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137282,25.07512]},"properties":{"id":"cones-69","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":131.69463991755026,"index":68,"source":"Al Gharbi Street"}},"properties":{"id":"cones-69","element":"cones",
+09:50:30.553 
+09:50:30.554 id: smoke-2:88
+09:50:30.555 event: element_added
+09:50:30.558 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137138,25.08109]},"properties":{"id":"cones-70","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.781207798783,"index":69,"source":"Al Mamsha Street"}},"properties":{"id":"cones-70","element":"cones","r
+09:50:30.559 
+09:50:30.560 id: smoke-2:89
+09:50:30.561 event: element_added
+09:50:30.564 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137085,25.081036]},"properties":{"id":"cones-71","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.78118532079728,"index":70,"source":"Al Mamsha Street"}},"properties":{"id":"cones-71","element":"cones"
+09:50:30.565 
+09:50:30.566 id: smoke-2:90
+09:50:30.568 event: element_added
+09:50:30.570 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137033,25.080983]},"properties":{"id":"cones-72","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.7811628973268,"index":71,"source":"Al Mamsha Street"}},"properties":{"id":"cones-72","element":"cones",
+09:50:30.571 
+09:50:30.573 id: smoke-2:91
+09:50:30.574 event: element_added
+09:50:30.576 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13698,25.080929]},"properties":{"id":"cones-73","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.78114046706327,"index":72,"source":"Al Mamsha Street"}},"properties":{"id":"cones-73","element":"cones",
+09:50:30.578 
+09:50:30.579 id: smoke-2:92
+09:50:30.580 event: element_added
+09:50:30.583 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136927,25.080875]},"properties":{"id":"cones-74","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.78111802325606,"index":73,"source":"Al Mamsha Street"}},"properties":{"id":"cones-74","element":"cones"
+09:50:30.584 
+09:50:30.585 id: smoke-2:93
+09:50:30.586 event: element_added
+09:50:30.589 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136874,25.080822]},"properties":{"id":"cones-75","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.88537360595805,"index":74,"source":"Al Mamsha Street"}},"properties":{"id":"cones-75","element":"cones"
+09:50:30.590 
+09:50:30.591 id: smoke-2:94
+09:50:30.593 event: element_added
+09:50:30.595 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136821,25.080768]},"properties":{"id":"cones-76","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.92702093053592,"index":75,"source":"Al Mamsha Street"}},"properties":{"id":"cones-76","element":"cones"
+09:50:30.596 
+09:50:30.598 id: smoke-2:95
+09:50:30.599 event: element_added
+09:50:30.601 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136768,25.080715]},"properties":{"id":"cones-77","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":221.92699843935924,"index":76,"source":"Al Mamsha Street"}},"properties":{"id":"cones-77","element":"cones"
+09:50:30.603 
+09:50:30.604 id: smoke-2:96
+09:50:30.605 event: element_added
+09:50:30.607 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135581,25.076223]},"properties":{"id":"cones-78","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":85.21884392735006,"index":77}},"properties":{"id":"cones-78","element":"cones","role":"cone","priority":10,
+09:50:30.609 
+09:50:30.610 id: smoke-2:97
+09:50:30.611 event: element_added
+09:50:30.613 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13566,25.076227]},"properties":{"id":"cones-79","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":90.32682772320692,"index":78}},"properties":{"id":"cones-79","element":"cones","role":"cone","priority":10,"
+09:50:30.614 
+09:50:30.616 id: smoke-2:98
+09:50:30.617 event: element_added
+09:50:30.619 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135739,25.076223]},"properties":{"id":"cones-80","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":97.73821532614653,"index":79}},"properties":{"id":"cones-80","element":"cones","role":"cone","priority":10,
+09:50:30.620 
+09:50:30.621 id: smoke-2:99
+09:50:30.622 event: element_added
+09:50:30.625 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135818,25.076212]},"properties":{"id":"cones-81","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":101.87611577119407,"index":80}},"properties":{"id":"cones-81","element":"cones","role":"cone","priority":10
+09:50:30.626 
+09:50:30.627 id: smoke-2:100
+09:50:30.628 event: element_added
+09:50:30.630 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135895,25.076195]},"properties":{"id":"cones-82","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":107.50770855954761,"index":81}},"properties":{"id":"cones-82","element":"cones","role":"cone","priority":10
+09:50:30.632 
+09:50:30.633 id: smoke-2:101
+09:50:30.634 event: element_added
+09:50:30.636 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135969,25.07617]},"properties":{"id":"cones-83","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":111.12764239738965,"index":82}},"properties":{"id":"cones-83","element":"cones","role":"cone","priority":10,
+09:50:30.637 
+09:50:30.639 id: smoke-2:102
+09:50:30.640 event: element_added
+09:50:30.642 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136097,25.07619]},"properties":{"id":"cones-84","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.1698947513013,"index":83,"source":"Al Gharbi Street"}},"properties":{"id":"cones-84","element":"cones","
+09:50:30.643 
+09:50:30.645 id: smoke-2:103
+09:50:30.646 event: element_added
+09:50:30.648 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136037,25.076237]},"properties":{"id":"cones-85","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":310.6166598644086,"index":84,"source":"Al Gharbi Street"}},"properties":{"id":"cones-85","element":"cones",
+09:50:30.649 
+09:50:30.651 id: smoke-2:104
+09:50:30.652 event: element_added
+09:50:30.654 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135976,25.076283]},"properties":{"id":"cones-86","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":309.5819534123068,"index":85,"source":"Al Gharbi Street"}},"properties":{"id":"cones-86","element":"cones",
+09:50:30.655 
+09:50:30.656 id: smoke-2:105
+09:50:30.658 event: element_added
+09:50:30.660 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135915,25.076329]},"properties":{"id":"cones-87","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":309.5819274511703,"index":86,"source":"Al Gharbi Street"}},"properties":{"id":"cones-87","element":"cones",
+09:50:30.661 
+09:50:30.663 id: smoke-2:106
+09:50:30.664 event: element_added
+09:50:30.666 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135854,25.076375]},"properties":{"id":"cones-88","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":309.58190152906803,"index":87,"source":"Al Gharbi Street"}},"properties":{"id":"cones-88","element":"cones"
+09:50:30.667 
+09:50:30.669 id: smoke-2:107
+09:50:30.670 event: element_added
+09:50:30.672 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135792,25.07642]},"properties":{"id":"cones-89","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":309.5818755846978,"index":88,"source":"Al Gharbi Street"}},"properties":{"id":"cones-89","element":"cones","
+09:50:30.674 
+09:50:30.675 id: smoke-2:108
+09:50:30.676 event: element_added
+09:50:30.678 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135742,25.076676]},"properties":{"id":"cones-90","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":260.1573649992022,"index":89}},"properties":{"id":"cones-90","element":"cones","role":"cone","priority":10,
+09:50:30.679 
+09:50:30.681 id: smoke-2:109
+09:50:30.682 event: element_added
+09:50:30.684 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135663,25.076667]},"properties":{"id":"cones-91","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":265.35881713872215,"index":90}},"properties":{"id":"cones-91","element":"cones","role":"cone","priority":10
+09:50:30.685 
+09:50:30.687 id: smoke-2:110
+09:50:30.688 event: element_added
+09:50:30.690 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135584,25.076667]},"properties":{"id":"cones-92","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":273.77378363826426,"index":91}},"properties":{"id":"cones-92","element":"cones","role":"cone","priority":10
+09:50:30.691 
+09:50:30.693 id: smoke-2:111
+09:50:30.694 event: element_added
+09:50:30.696 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135505,25.076674]},"properties":{"id":"cones-93","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":280.27416888432197,"index":92}},"properties":{"id":"cones-93","element":"cones","role":"cone","priority":10
+09:50:30.697 
+09:50:30.699 id: smoke-2:112
+09:50:30.700 event: element_added
+09:50:30.702 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137338,25.075181]},"properties":{"id":"cones-94","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9122752506196,"index":93,"source":"Al Gharbi Street"}},"properties":{"id":"cones-94","element":"cones",
+09:50:30.703 
+09:50:30.704 id: smoke-2:113
+09:50:30.706 event: element_added
+09:50:30.708 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137279,25.075229]},"properties":{"id":"cones-95","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9122501936683,"index":94,"source":"Al Gharbi Street"}},"properties":{"id":"cones-95","element":"cones",
+09:50:30.709 
+09:50:30.711 id: smoke-2:114
+09:50:30.712 event: element_added
+09:50:30.714 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13722,25.075277]},"properties":{"id":"cones-96","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9122251442888,"index":95,"source":"Al Gharbi Street"}},"properties":{"id":"cones-96","element":"cones","
+09:50:30.715 
+09:50:30.717 id: smoke-2:115
+09:50:30.718 event: element_added
+09:50:30.720 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137161,25.075325]},"properties":{"id":"cones-97","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.91220006006245,"index":96,"source":"Al Gharbi Street"}},"properties":{"id":"cones-97","element":"cones"
+09:50:30.721 
+09:50:30.722 id: smoke-2:116
+09:50:30.724 event: element_added
+09:50:30.726 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137102,25.075373]},"properties":{"id":"cones-98","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.91217501736855,"index":97,"source":"Al Gharbi Street"}},"properties":{"id":"cones-98","element":"cones"
+09:50:30.727 
+09:50:30.728 id: smoke-2:117
+09:50:30.729 event: element_added
+09:50:30.732 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137043,25.075421]},"properties":{"id":"cones-99","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9121499831649,"index":98,"source":"Al Gharbi Street"}},"properties":{"id":"cones-99","element":"cones",
+09:50:30.733 
+09:50:30.734 id: smoke-2:118
+09:50:30.735 event: element_added
+09:50:30.738 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136984,25.07547]},"properties":{"id":"cones-100","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9121249188347,"index":99,"source":"Al Gharbi Street"}},"properties":{"id":"cones-100","element":"cones"
+09:50:30.739 
+09:50:30.740 id: smoke-2:119
+09:50:30.741 event: element_added
+09:50:30.744 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136925,25.075518]},"properties":{"id":"cones-101","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.91209990639584,"index":100,"source":"Al Gharbi Street"}},"properties":{"id":"cones-101","element":"con
+09:50:30.745 
+09:50:30.746 id: smoke-2:120
+09:50:30.747 event: element_added
+09:50:30.750 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136865,25.075566]},"properties":{"id":"cones-102","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9120748402291,"index":101,"source":"Al Gharbi Street"}},"properties":{"id":"cones-102","element":"cone
+09:50:30.751 
+09:50:30.752 id: smoke-2:121
+09:50:30.753 event: element_added
+09:50:30.755 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136806,25.075614]},"properties":{"id":"cones-103","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.91204980051515,"index":102,"source":"Al Gharbi Street"}},"properties":{"id":"cones-103","element":"con
+09:50:30.757 
+09:50:30.758 id: smoke-2:122
+09:50:30.759 event: element_added
+09:50:30.761 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136747,25.075662]},"properties":{"id":"cones-104","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.91202473631347,"index":103,"source":"Al Gharbi Street"}},"properties":{"id":"cones-104","element":"con
+09:50:30.763 
+09:50:30.764 id: smoke-2:123
+09:50:30.765 event: element_added
+09:50:30.768 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136688,25.07571]},"properties":{"id":"cones-105","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.91199969948326,"index":104,"source":"Al Gharbi Street"}},"properties":{"id":"cones-105","element":"cone
+09:50:30.769 
+09:50:30.770 id: smoke-2:124
+09:50:30.772 event: element_added
+09:50:30.774 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136629,25.075758]},"properties":{"id":"cones-106","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9119746183658,"index":105,"source":"Al Gharbi Street"}},"properties":{"id":"cones-106","element":"cone
+09:50:30.775 
+09:50:30.777 id: smoke-2:125
+09:50:30.778 event: element_added
+09:50:30.780 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13657,25.075806]},"properties":{"id":"cones-107","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.91194956652043,"index":106,"source":"Al Gharbi Street"}},"properties":{"id":"cones-107","element":"cone
+09:50:30.781 
+09:50:30.783 id: smoke-2:126
+09:50:30.784 event: element_added
+09:50:30.786 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136511,25.075854]},"properties":{"id":"cones-108","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9119245297867,"index":107,"source":"Al Gharbi Street"}},"properties":{"id":"cones-108","element":"cone
+09:50:30.787 
+09:50:30.788 id: smoke-2:127
+09:50:30.790 event: element_added
+09:50:30.792 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136452,25.075902]},"properties":{"id":"cones-109","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.91189948554535,"index":108,"source":"Al Gharbi Street"}},"properties":{"id":"cones-109","element":"con
+09:50:30.793 
+09:50:30.794 id: smoke-2:128
+09:50:30.796 event: element_added
+09:50:30.798 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136393,25.07595]},"properties":{"id":"cones-110","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9118744092767,"index":109,"source":"Al Gharbi Street"}},"properties":{"id":"cones-110","element":"cones
+09:50:30.799 
+09:50:30.800 id: smoke-2:129
+09:50:30.801 event: element_added
+09:50:30.804 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136333,25.075998]},"properties":{"id":"cones-111","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9118493575599,"index":110,"source":"Al Gharbi Street"}},"properties":{"id":"cones-111","element":"cone
+09:50:30.805 
+09:50:30.806 id: smoke-2:130
+09:50:30.807 event: element_added
+09:50:30.810 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136274,25.076046]},"properties":{"id":"cones-112","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9118243011551,"index":111,"source":"Al Gharbi Street"}},"properties":{"id":"cones-112","element":"cone
+09:50:30.811 
+09:50:30.812 id: smoke-2:131
+09:50:30.813 event: element_added
+09:50:30.816 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136215,25.076094]},"properties":{"id":"cones-113","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.91179925704233,"index":112,"source":"Al Gharbi Street"}},"properties":{"id":"cones-113","element":"con
+09:50:30.817 
+09:50:30.818 id: smoke-2:132
+09:50:30.820 event: element_added
+09:50:30.822 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136156,25.076142]},"properties":{"id":"cones-114","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":311.9117742007018,"index":113,"source":"Al Gharbi Street"}},"properties":{"id":"cones-114","element":"cone
+09:50:30.824 
+09:50:30.825 id: smoke-2:133
+09:50:30.826 event: element_added
+09:50:30.829 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135554,25.07647]},"properties":{"id":"cones-115","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":225.58854538407977,"index":114,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.830 
+09:50:30.831 id: smoke-2:134
+09:50:30.832 event: element_added
+09:50:30.835 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135496,25.076421]},"properties":{"id":"cones-116","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":231.3334264832468,"index":115,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.837 
+09:50:30.838 id: smoke-2:135
+09:50:30.839 event: element_added
+09:50:30.841 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135434,25.076376]},"properties":{"id":"cones-117","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":231.33340021844185,"index":116,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"c
+09:50:30.843 
+09:50:30.844 id: smoke-2:136
+09:50:30.845 event: element_added
+09:50:30.848 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135369,25.076334]},"properties":{"id":"cones-118","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":238.13980761510743,"index":117,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"c
+09:50:30.849 
+09:50:30.850 id: smoke-2:137
+09:50:30.851 event: element_added
+09:50:30.854 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.1353,25.076298]},"properties":{"id":"cones-119","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":240.85057065944108,"index":118,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"con
+09:50:30.855 
+09:50:30.856 id: smoke-2:138
+09:50:30.858 event: element_added
+09:50:30.860 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13523,25.076264]},"properties":{"id":"cones-120","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":242.84220959538274,"index":119,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.861 
+09:50:30.863 id: smoke-2:139
+09:50:30.864 event: element_added
+09:50:30.867 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13516,25.076231]},"properties":{"id":"cones-121","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":245.25494670430746,"index":120,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.868 
+09:50:30.870 id: smoke-2:140
+09:50:30.871 event: element_added
+09:50:30.874 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135087,25.076201]},"properties":{"id":"cones-122","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":245.33939805101193,"index":121,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"c
+09:50:30.876 
+09:50:30.877 id: smoke-2:141
+09:50:30.878 event: element_added
+09:50:30.881 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135014,25.076174]},"properties":{"id":"cones-123","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":248.97436897879504,"index":122,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"c
+09:50:30.882 
+09:50:30.883 id: smoke-2:142
+09:50:30.884 event: element_added
+09:50:30.887 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13494,25.076148]},"properties":{"id":"cones-124","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":249.13396800620052,"index":123,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.888 
+09:50:30.889 id: smoke-2:143
+09:50:30.890 event: element_added
+09:50:30.893 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134865,25.076124]},"properties":{"id":"cones-125","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":251.309586799315,"index":124,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"con
+09:50:30.894 
+09:50:30.895 id: smoke-2:144
+09:50:30.897 event: element_added
+09:50:30.899 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134789,25.076103]},"properties":{"id":"cones-126","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":253.34113343342182,"index":125,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"c
+09:50:30.900 
+09:50:30.901 id: smoke-2:145
+09:50:30.903 event: element_added
+09:50:30.905 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134713,25.076084]},"properties":{"id":"cones-127","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":257.7738984393577,"index":126,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.906 
+09:50:30.908 id: smoke-2:146
+09:50:30.909 event: element_added
+09:50:30.911 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134635,25.076069]},"properties":{"id":"cones-128","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":257.7738655363067,"index":127,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.913 
+09:50:30.914 id: smoke-2:147
+09:50:30.915 event: element_added
+09:50:30.917 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134557,25.076054]},"properties":{"id":"cones-129","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":257.773832649175,"index":128,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"con
+09:50:30.919 
+09:50:30.920 id: smoke-2:148
+09:50:30.921 event: element_added
+09:50:30.923 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13448,25.076037]},"properties":{"id":"cones-130","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":256.1622144183061,"index":129,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"con
+09:50:30.925 
+09:50:30.926 id: smoke-2:149
+09:50:30.927 event: element_added
+09:50:30.929 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134403,25.07602]},"properties":{"id":"cones-131","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":256.16218172256134,"index":130,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.931 
+09:50:30.932 id: smoke-2:150
+09:50:30.933 event: element_added
+09:50:30.935 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134326,25.076003]},"properties":{"id":"cones-132","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":256.16214903015003,"index":131,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"c
+09:50:30.937 
+09:50:30.938 id: smoke-2:151
+09:50:30.940 event: element_added
+09:50:30.942 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134249,25.075985]},"properties":{"id":"cones-133","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":256.1621163387991,"index":132,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.944 
+09:50:30.945 id: smoke-2:152
+09:50:30.946 event: element_added
+09:50:30.949 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134171,25.075968]},"properties":{"id":"cones-134","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":256.1620836528981,"index":133,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.950 
+09:50:30.952 id: smoke-2:153
+09:50:30.953 event: element_added
+09:50:30.956 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134094,25.075951]},"properties":{"id":"cones-135","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":256.1620509713889,"index":134,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.958 
+09:50:30.959 id: smoke-2:154
+09:50:30.960 event: element_added
+09:50:30.963 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134017,25.075934]},"properties":{"id":"cones-136","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":254.3028649552541,"index":135,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.964 
+09:50:30.966 id: smoke-2:155
+09:50:30.967 event: element_added
+09:50:30.969 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133941,25.075914]},"properties":{"id":"cones-137","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":254.302832553468,"index":136,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"con
+09:50:30.971 
+09:50:30.972 id: smoke-2:156
+09:50:30.973 event: element_added
+09:50:30.976 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133865,25.075892]},"properties":{"id":"cones-138","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":251.35807954168882,"index":137,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"c
+09:50:30.977 
+09:50:30.979 id: smoke-2:157
+09:50:30.980 event: element_added
+09:50:30.982 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13379,25.075869]},"properties":{"id":"cones-139","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":249.44578045357903,"index":138,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:30.983 
+09:50:30.985 id: smoke-2:158
+09:50:30.986 event: element_added
+09:50:30.988 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133716,25.075843]},"properties":{"id":"cones-140","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":248.513685704147,"index":139,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"con
+09:50:30.989 
+09:50:30.991 id: smoke-2:159
+09:50:30.992 event: element_added
+09:50:30.994 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133643,25.075815]},"properties":{"id":"cones-141","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":246.47869661155033,"index":140,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"c
+09:50:30.996 
+09:50:30.997 id: smoke-2:160
+09:50:30.998 event: element_added
+09:50:31.001 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133571,25.075785]},"properties":{"id":"cones-142","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":242.3915352474505,"index":141,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:31.002 
+09:50:31.003 id: smoke-2:161
+09:50:31.004 event: element_added
+09:50:31.007 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.1335,25.075751]},"properties":{"id":"cones-143","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":240.0567433946375,"index":142,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"cone
+09:50:31.008 
+09:50:31.009 id: smoke-2:162
+09:50:31.010 event: element_added
+09:50:31.013 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133432,25.075715]},"properties":{"id":"cones-144","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":240.0567142546715,"index":143,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:31.014 
+09:50:31.015 id: smoke-2:163
+09:50:31.016 event: element_added
+09:50:31.019 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133364,25.075678]},"properties":{"id":"cones-145","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":238.2525051332566,"index":144,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:31.020 
+09:50:31.021 id: smoke-2:164
+09:50:31.022 event: element_added
+09:50:31.025 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133297,25.075639]},"properties":{"id":"cones-146","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":235.88274545100842,"index":145,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"c
+09:50:31.026 
+09:50:31.027 id: smoke-2:165
+09:50:31.028 event: element_added
+09:50:31.031 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133231,25.075599]},"properties":{"id":"cones-147","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":234.6049811009032,"index":146,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{"id":"co
+09:50:31.032 
+09:50:31.033 id: smoke-2:166
+09:50:31.034 event: element_added
+09:50:31.037 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133425,25.07582]},"properties":{"id":"cones-148","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":284.60150987831764,"index":147}},"properties":{"id":"cones-148","element":"cones","role":"cone","priority":
+09:50:31.038 
+09:50:31.039 id: smoke-2:167
+09:50:31.040 event: element_added
+09:50:31.043 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134922,25.07714]},"properties":{"id":"cones-149","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":32.90107888996829,"index":148}},"properties":{"id":"cones-149","element":"cones","role":"cone","priority":1
+09:50:31.044 
+09:50:31.045 id: smoke-2:168
+09:50:31.046 event: element_added
+09:50:31.049 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134873,25.077083]},"properties":{"id":"cones-150","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":222.16834751089496,"index":149}},"properties":{"id":"cones-150","element":"cones","role":"cone","priority"
+09:50:31.050 
+09:50:31.051 id: smoke-2:169
+09:50:31.052 event: element_added
+09:50:31.055 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138377,25.080057]},"properties":{"id":"cones-151","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":238.3328436605605,"index":150}},"properties":{"id":"cones-151","element":"cones","role":"cone","priority":
+09:50:31.056 
+09:50:31.057 id: smoke-2:170
+09:50:31.058 event: element_added
+09:50:31.061 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138309,25.080019]},"properties":{"id":"cones-152","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":238.20325059560014,"index":151}},"properties":{"id":"cones-152","element":"cones","role":"cone","priority"
+09:50:31.062 
+09:50:31.064 id: smoke-2:171
+09:50:31.065 event: element_added
+09:50:31.067 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138242,25.079981]},"properties":{"id":"cones-153","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":238.20322196004093,"index":152}},"properties":{"id":"cones-153","element":"cones","role":"cone","priority"
+09:50:31.069 
+09:50:31.070 id: smoke-2:172
+09:50:31.071 event: element_added
+09:50:31.074 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138175,25.079943]},"properties":{"id":"cones-154","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":237.0961752769291,"index":153}},"properties":{"id":"cones-154","element":"cones","role":"cone","priority":
+09:50:31.075 
+09:50:31.077 id: smoke-2:173
+09:50:31.078 event: element_added
+09:50:31.080 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138108,25.079904]},"properties":{"id":"cones-155","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":237.09614703481674,"index":154}},"properties":{"id":"cones-155","element":"cones","role":"cone","priority"
+09:50:31.081 
+09:50:31.083 id: smoke-2:174
+09:50:31.084 event: element_added
+09:50:31.086 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138041,25.079865]},"properties":{"id":"cones-156","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":237.0961187401862,"index":155}},"properties":{"id":"cones-156","element":"cones","role":"cone","priority":
+09:50:31.087 
+09:50:31.088 id: smoke-2:175
+09:50:31.090 event: element_added
+09:50:31.092 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137975,25.079825]},"properties":{"id":"cones-157","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":235.96802923686937,"index":156}},"properties":{"id":"cones-157","element":"cones","role":"cone","priority"
+09:50:31.093 
+09:50:31.094 id: smoke-2:176
+09:50:31.095 event: element_added
+09:50:31.098 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137909,25.079785]},"properties":{"id":"cones-158","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":235.95352870155284,"index":157}},"properties":{"id":"cones-158","element":"cones","role":"cone","priority"
+09:50:31.099 
+09:50:31.100 id: smoke-2:177
+09:50:31.101 event: element_added
+09:50:31.103 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137843,25.079745]},"properties":{"id":"cones-159","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":235.93113232751304,"index":158}},"properties":{"id":"cones-159","element":"cones","role":"cone","priority"
+09:50:31.105 
+09:50:31.106 id: smoke-2:178
+09:50:31.107 event: element_added
+09:50:31.109 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137782,25.079699]},"properties":{"id":"cones-160","element":"cones","role":"cone","priority":10,"color":"#14B8A6","provenance":"turf-along","illustrative":true,"icon":"cone","heading":226.90334352664448,"index":159}},"properties":{"id":"cones-160","element":"cones","role":"cone","priority"
+09:50:31.110 
+09:50:31.112 id: smoke-2:179
+09:50:31.113 event: element_added
+09:50:31.115 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13413,25.0777]},"properties":{"id":"barriers-1","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":124.5027954115256,"index":0,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-1","element"
+09:50:31.116 
+09:50:31.118 id: smoke-2:180
+09:50:31.119 event: element_added
+09:50:31.121 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134323,25.077559]},"properties":{"id":"barriers-2","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":130.58634218599377,"index":1,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-2","elem
+09:50:31.123 
+09:50:31.124 id: smoke-2:181
+09:50:31.125 event: element_added
+09:50:31.127 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134511,25.077412]},"properties":{"id":"barriers-3","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":130.65341344825788,"index":2,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-3","elem
+09:50:31.129 
+09:50:31.130 id: smoke-2:182
+09:50:31.131 event: element_added
+09:50:31.133 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.1347,25.077266]},"properties":{"id":"barriers-4","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":130.6534932719295,"index":3,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-4","element
+09:50:31.135 
+09:50:31.136 id: smoke-2:183
+09:50:31.137 event: element_added
+09:50:31.139 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134888,25.077119]},"properties":{"id":"barriers-5","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":134.4735493530032,"index":4,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-5","eleme
+09:50:31.141 
+09:50:31.142 id: smoke-2:184
+09:50:31.143 event: element_added
+09:50:31.145 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135062,25.076959]},"properties":{"id":"barriers-6","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":135.7994023151498,"index":5,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-6","eleme
+09:50:31.146 
+09:50:31.148 id: smoke-2:185
+09:50:31.149 event: element_added
+09:50:31.151 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13392,25.077992]},"properties":{"id":"barriers-7","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":260.7130599080659,"index":6}},"properties":{"id":"barriers-7","element":"barriers","role":"barrie
+09:50:31.152 
+09:50:31.154 id: smoke-2:186
+09:50:31.155 event: element_added
+09:50:31.157 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133758,25.077855]},"properties":{"id":"barriers-8","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":170.5534732208796,"index":7}},"properties":{"id":"barriers-8","element":"barriers","role":"barri
+09:50:31.158 
+09:50:31.159 id: smoke-2:187
+09:50:31.161 event: element_added
+09:50:31.164 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133915,25.077715]},"properties":{"id":"barriers-9","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":77.3393302921375,"index":8}},"properties":{"id":"barriers-9","element":"barriers","role":"barrie
+09:50:31.165 
+09:50:31.166 id: smoke-2:188
+09:50:31.168 event: element_added
+09:50:31.170 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134063,25.077863]},"properties":{"id":"barriers-10","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":343.402028387001,"index":9}},"properties":{"id":"barriers-10","element":"barriers","role":"barr
+09:50:31.171 
+09:50:31.172 id: smoke-2:189
+09:50:31.174 event: element_added
+09:50:31.176 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133088,25.077092]},"properties":{"id":"barriers-11","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":258.162934938145,"index":10,"source":"Al Mamsha Street"}},"properties":{"id":"barriers-11","ele
+09:50:31.177 
+09:50:31.179 id: smoke-2:190
+09:50:31.180 event: element_added
+09:50:31.182 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132856,25.077045]},"properties":{"id":"barriers-12","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":222.0836394142943,"index":11,"source":"Al Mamsha Street"}},"properties":{"id":"barriers-12","el
+09:50:31.184 
+09:50:31.185 id: smoke-2:191
+09:50:31.186 event: element_added
+09:50:31.188 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132692,25.076877]},"properties":{"id":"barriers-13","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":221.1145764090347,"index":12,"source":"Al Mamsha Street"}},"properties":{"id":"barriers-13","el
+09:50:31.190 
+09:50:31.191 id: smoke-2:192
+09:50:31.192 event: element_added
+09:50:31.195 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132529,25.076707]},"properties":{"id":"barriers-14","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":221.14706355604375,"index":13,"source":"Al Mamsha Street"}},"properties":{"id":"barriers-14","e
+09:50:31.196 
+09:50:31.197 id: smoke-2:193
+09:50:31.198 event: element_added
+09:50:31.201 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132365,25.076538]},"properties":{"id":"barriers-15","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":221.14699432524344,"index":14,"source":"Al Mamsha Street"}},"properties":{"id":"barriers-15","e
+09:50:31.202 
+09:50:31.203 id: smoke-2:194
+09:50:31.204 event: element_added
+09:50:31.207 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136159,25.076026]},"properties":{"id":"barriers-16","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":131.69416388934008,"index":15,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-16","e
+09:50:31.208 
+09:50:31.209 id: smoke-2:195
+09:50:31.210 event: element_added
+09:50:31.212 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136344,25.075877]},"properties":{"id":"barriers-17","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":131.69424244349636,"index":16,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-17","e
+09:50:31.213 
+09:50:31.215 id: smoke-2:196
+09:50:31.216 event: element_added
+09:50:31.218 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136529,25.075727]},"properties":{"id":"barriers-18","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":131.69432099647707,"index":17,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-18","e
+09:50:31.219 
+09:50:31.222 id: smoke-2:197
+09:50:31.223 event: element_added
+09:50:31.225 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136715,25.075578]},"properties":{"id":"barriers-19","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":131.69439955218888,"index":18,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-19","e
+09:50:31.227 
+09:50:31.228 id: smoke-2:198
+09:50:31.229 event: element_added
+09:50:31.231 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.1369,25.075428]},"properties":{"id":"barriers-20","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":131.6944781106318,"index":19,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-20","elem
+09:50:31.232 
+09:50:31.234 id: smoke-2:199
+09:50:31.235 event: element_added
+09:50:31.237 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137085,25.075278]},"properties":{"id":"barriers-21","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":131.69455664462532,"index":20,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-21","e
+09:50:31.238 
+09:50:31.239 id: smoke-2:200
+09:50:31.240 event: element_added
+09:50:31.242 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137271,25.075129]},"properties":{"id":"barriers-22","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":131.69463520749844,"index":21,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-22","e
+09:50:31.243 
+09:50:31.245 id: smoke-2:201
+09:50:31.246 event: element_added
+09:50:31.248 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137082,25.081033]},"properties":{"id":"barriers-23","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":221.78118393789617,"index":22,"source":"Al Mamsha Street"}},"properties":{"id":"barriers-23","e
+09:50:31.249 
+09:50:31.250 id: smoke-2:202
+09:50:31.251 event: element_added
+09:50:31.253 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136917,25.080865]},"properties":{"id":"barriers-24","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":221.78111382760133,"index":23,"source":"Al Mamsha Street"}},"properties":{"id":"barriers-24","e
+09:50:31.254 
+09:50:31.256 id: smoke-2:203
+09:50:31.257 event: element_added
+09:50:31.259 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135665,25.076227]},"properties":{"id":"barriers-25","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":93.21518185230389,"index":24}},"properties":{"id":"barriers-25","element":"barriers","role":"ba
+09:50:31.260 
+09:50:31.261 id: smoke-2:204
+09:50:31.264 event: element_added
+09:50:31.266 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135909,25.07619]},"properties":{"id":"barriers-26","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":109.95455542235675,"index":25}},"properties":{"id":"barriers-26","element":"barriers","role":"ba
+09:50:31.267 
+09:50:31.270 id: smoke-2:205
+09:50:31.271 event: element_added
+09:50:31.273 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136034,25.07624]},"properties":{"id":"barriers-27","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":309.4706758949658,"index":26,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-27","ele
+09:50:31.275 
+09:50:31.276 id: smoke-2:206
+09:50:31.278 event: element_added
+09:50:31.280 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135842,25.076383]},"properties":{"id":"barriers-28","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":309.58189664458587,"index":27,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-28","e
+09:50:31.281 
+09:50:31.282 id: smoke-2:207
+09:50:31.283 event: element_added
+09:50:31.285 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135658,25.076667]},"properties":{"id":"barriers-29","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":269.58088579013145,"index":28}},"properties":{"id":"barriers-29","element":"barriers","role":"b
+09:50:31.286 
+09:50:31.288 id: smoke-2:208
+09:50:31.289 event: element_added
+09:50:31.291 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137275,25.075232]},"properties":{"id":"barriers-30","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":311.9122486269109,"index":29,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-30","el
+09:50:31.292 
+09:50:31.293 id: smoke-2:209
+09:50:31.294 event: element_added
+09:50:31.296 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137091,25.075382]},"properties":{"id":"barriers-31","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":311.9121703364235,"index":30,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-31","el
+09:50:31.297 
+09:50:31.298 id: smoke-2:210
+09:50:31.300 event: element_added
+09:50:31.302 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136906,25.075533]},"properties":{"id":"barriers-32","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":311.9120920637472,"index":31,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-32","el
+09:50:31.303 
+09:50:31.304 id: smoke-2:211
+09:50:31.305 event: element_added
+09:50:31.307 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136721,25.075683]},"properties":{"id":"barriers-33","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":311.9120137660412,"index":32,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-33","el
+09:50:31.308 
+09:50:31.309 id: smoke-2:212
+09:50:31.311 event: element_added
+09:50:31.313 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136537,25.075833]},"properties":{"id":"barriers-34","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":311.9119354813208,"index":33,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-34","el
+09:50:31.314 
+09:50:31.315 id: smoke-2:213
+09:50:31.316 event: element_added
+09:50:31.318 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136352,25.075983]},"properties":{"id":"barriers-35","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":311.9118571881658,"index":34,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-35","el
+09:50:31.319 
+09:50:31.321 id: smoke-2:214
+09:50:31.322 event: element_added
+09:50:31.324 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136167,25.076133]},"properties":{"id":"barriers-36","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":311.9117788999989,"index":35,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-36","el
+09:50:31.325 
+09:50:31.326 id: smoke-2:215
+09:50:31.327 event: element_added
+09:50:31.329 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135492,25.076418]},"properties":{"id":"barriers-37","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":231.33342484161884,"index":36,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties
+09:50:31.331 
+09:50:31.332 id: smoke-2:216
+09:50:31.333 event: element_added
+09:50:31.335 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135287,25.076292]},"properties":{"id":"barriers-38","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":241.7710234878075,"index":37,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties"
+09:50:31.336 
+09:50:31.337 id: smoke-2:217
+09:50:31.338 event: element_added
+09:50:31.340 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135065,25.076192]},"properties":{"id":"barriers-39","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":248.53217313982816,"index":38,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties
+09:50:31.342 
+09:50:31.343 id: smoke-2:218
+09:50:31.344 event: element_added
+09:50:31.346 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134832,25.076114]},"properties":{"id":"barriers-40","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":253.34115156476634,"index":39,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties
+09:50:31.347 
+09:50:31.348 id: smoke-2:219
+09:50:31.350 event: element_added
+09:50:31.352 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134591,25.07606]},"properties":{"id":"barriers-41","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":257.7738470296375,"index":40,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":
+09:50:31.353 
+09:50:31.354 id: smoke-2:220
+09:50:31.355 event: element_added
+09:50:31.357 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13435,25.076008]},"properties":{"id":"barriers-42","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":256.162159245002,"index":41,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties":{
+09:50:31.359 
+09:50:31.360 id: smoke-2:221
+09:50:31.361 event: element_added
+09:50:31.363 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134109,25.075954]},"properties":{"id":"barriers-43","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":256.1620570903394,"index":42,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties"
+09:50:31.364 
+09:50:31.366 id: smoke-2:222
+09:50:31.367 event: element_added
+09:50:31.369 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13387,25.075894]},"properties":{"id":"barriers-44","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":251.35808154035317,"index":43,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties"
+09:50:31.370 
+09:50:31.371 id: smoke-2:223
+09:50:31.373 event: element_added
+09:50:31.375 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133638,25.075813]},"properties":{"id":"barriers-45","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":245.20060524345882,"index":44,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties
+09:50:31.376 
+09:50:31.377 id: smoke-2:224
+09:50:31.378 event: element_added
+09:50:31.380 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133419,25.075709]},"properties":{"id":"barriers-46","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":238.47926440466443,"index":45,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties
+09:50:31.382 
+09:50:31.383 id: smoke-2:225
+09:50:31.384 event: element_added
+09:50:31.386 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133211,25.075586]},"properties":{"id":"barriers-47","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":234.60497251790167,"index":46,"source":"King Salman bin Abdulaziz Al Saud Street"}},"properties
+09:50:31.387 
+09:50:31.388 id: smoke-2:226
+09:50:31.389 event: element_added
+09:50:31.391 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138305,25.080017]},"properties":{"id":"barriers-48","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":238.20324878964624,"index":47}},"properties":{"id":"barriers-48","element":"barriers","role":"b
+09:50:31.393 
+09:50:31.394 id: smoke-2:227
+09:50:31.395 event: element_added
+09:50:31.397 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138095,25.079897]},"properties":{"id":"barriers-49","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":237.0961417058972,"index":48}},"properties":{"id":"barriers-49","element":"barriers","role":"ba
+09:50:31.398 
+09:50:31.399 id: smoke-2:228
+09:50:31.400 event: element_added
+09:50:31.402 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137888,25.079773]},"properties":{"id":"barriers-50","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":235.9311514893716,"index":49}},"properties":{"id":"barriers-50","element":"barriers","role":"ba
+09:50:31.403 
+09:50:31.405 id: smoke-2:229
+09:50:31.406 event: element_added
+09:50:31.408 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.1377,25.079627]},"properties":{"id":"barriers-51","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":218.88784610528327,"index":50}},"properties":{"id":"barriers-51","element":"barriers","role":"bar
+09:50:31.409 
+09:50:31.410 id: smoke-2:230
+09:50:31.411 event: element_added
+09:50:31.413 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135603,25.079392]},"properties":{"id":"barriers-52","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":130.59734117131495,"index":51,"source":"Al Yolat Street"}},"properties":{"id":"barriers-52","el
+09:50:31.414 
+09:50:31.415 id: smoke-2:231
+09:50:31.417 event: element_added
+09:50:31.418 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135791,25.079245]},"properties":{"id":"barriers-53","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":130.75100064068954,"index":52,"source":"Al Yolat Street"}},"properties":{"id":"barriers-53","el
+09:50:31.420 
+09:50:31.421 id: smoke-2:232
+09:50:31.422 event: element_added
+09:50:31.424 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135979,25.079098]},"properties":{"id":"barriers-54","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":130.75108034370334,"index":53,"source":"Al Yolat Street"}},"properties":{"id":"barriers-54","el
+09:50:31.425 
+09:50:31.426 id: smoke-2:233
+09:50:31.427 event: element_added
+09:50:31.429 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136168,25.078952]},"properties":{"id":"barriers-55","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":130.75116005330085,"index":54,"source":"Al Yolat Street"}},"properties":{"id":"barriers-55","el
+09:50:31.430 
+09:50:31.432 id: smoke-2:234
+09:50:31.433 event: element_added
+09:50:31.435 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136356,25.078805]},"properties":{"id":"barriers-56","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":130.66714614362644,"index":55,"source":"Al Yolat Street"}},"properties":{"id":"barriers-56","el
+09:50:31.436 
+09:50:31.437 id: smoke-2:235
+09:50:31.438 event: element_added
+09:50:31.440 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136544,25.078658]},"properties":{"id":"barriers-57","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":130.6672259435927,"index":56,"source":"Al Yolat Street"}},"properties":{"id":"barriers-57","ele
+09:50:31.441 
+09:50:31.442 id: smoke-2:236
+09:50:31.444 event: element_added
+09:50:31.446 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136746,25.078531]},"properties":{"id":"barriers-58","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":114.44764790656262,"index":57,"source":"Al Yolat Street"}},"properties":{"id":"barriers-58","el
+09:50:31.447 
+09:50:31.448 id: smoke-2:237
+09:50:31.449 event: element_added
+09:50:31.451 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135288,25.076741]},"properties":{"id":"barriers-59","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":132.67118149616783,"index":58,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-59","e
+09:50:31.452 
+09:50:31.453 id: smoke-2:238
+09:50:31.455 event: element_added
+09:50:31.456 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13547,25.076588]},"properties":{"id":"barriers-60","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":132.46514904830383,"index":59,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-60","el
+09:50:31.458 
+09:50:31.459 id: smoke-2:239
+09:50:31.460 event: element_added
+09:50:31.462 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135825,25.076298]},"properties":{"id":"barriers-61","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":132.2780166058934,"index":60,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-61","el
+09:50:31.463 
+09:50:31.464 id: smoke-2:240
+09:50:31.466 event: element_added
+09:50:31.468 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136009,25.076147]},"properties":{"id":"barriers-62","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":131.72475835973523,"index":61,"source":"Al Gharbi Street"}},"properties":{"id":"barriers-62","e
+09:50:31.469 
+09:50:31.470 id: smoke-2:241
+09:50:31.471 event: element_added
+09:50:31.473 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134766,25.07535]},"properties":{"id":"barriers-63","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":337.7627816112974,"index":62}},"properties":{"id":"barriers-63","element":"barriers","role":"bar
+09:50:31.475 
+09:50:31.476 id: smoke-2:242
+09:50:31.477 event: element_added
+09:50:31.479 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134386,25.07581]},"properties":{"id":"barriers-64","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":133.26001593783928,"index":63}},"properties":{"id":"barriers-64","element":"barriers","role":"ba
+09:50:31.480 
+09:50:31.481 id: smoke-2:243
+09:50:31.482 event: element_added
+09:50:31.484 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134522,25.075625]},"properties":{"id":"barriers-65","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":152.11374210995916,"index":64}},"properties":{"id":"barriers-65","element":"barriers","role":"b
+09:50:31.486 
+09:50:31.487 id: smoke-2:244
+09:50:31.488 event: element_added
+09:50:31.490 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134639,25.075426]},"properties":{"id":"barriers-66","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":165.20961267769928,"index":65}},"properties":{"id":"barriers-66","element":"barriers","role":"b
+09:50:31.491 
+09:50:31.492 id: smoke-2:245
+09:50:31.493 event: element_added
+09:50:31.495 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134675,25.075497]},"properties":{"id":"barriers-67","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":331.85216436125427,"index":66}},"properties":{"id":"barriers-67","element":"barriers","role":"b
+09:50:31.496 
+09:50:31.498 id: smoke-2:246
+09:50:31.499 event: element_added
+09:50:31.501 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134559,25.075696]},"properties":{"id":"barriers-68","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":345.8043059514917,"index":67}},"properties":{"id":"barriers-68","element":"barriers","role":"ba
+09:50:31.502 
+09:50:31.503 id: smoke-2:247
+09:50:31.504 event: element_added
+09:50:31.506 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13462,25.075899]},"properties":{"id":"barriers-69","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":37.501532117464365,"index":68}},"properties":{"id":"barriers-69","element":"barriers","role":"ba
+09:50:31.507 
+09:50:31.508 id: smoke-2:248
+09:50:31.510 event: element_added
+09:50:31.511 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137264,25.079244]},"properties":{"id":"barriers-70","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":233.57752894268083,"index":69}},"properties":{"id":"barriers-70","element":"barriers","role":"b
+09:50:31.513 
+09:50:31.514 id: smoke-2:249
+09:50:31.515 event: element_added
+09:50:31.517 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137093,25.079083]},"properties":{"id":"barriers-71","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":220.27425714497704,"index":70}},"properties":{"id":"barriers-71","element":"barriers","role":"b
+09:50:31.518 
+09:50:31.519 id: smoke-2:250
+09:50:31.520 event: element_added
+09:50:31.522 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136936,25.078909]},"properties":{"id":"barriers-72","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":217.84403416878584,"index":71}},"properties":{"id":"barriers-72","element":"barriers","role":"b
+09:50:31.523 
+09:50:31.525 id: smoke-2:251
+09:50:31.526 event: element_added
+09:50:31.528 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136786,25.07873]},"properties":{"id":"barriers-73","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":203.5986107978058,"index":72}},"properties":{"id":"barriers-73","element":"barriers","role":"bar
+09:50:31.529 
+09:50:31.530 id: smoke-2:252
+09:50:31.531 event: element_added
+09:50:31.533 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136563,25.078378]},"properties":{"id":"barriers-74","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":216.18122239011063,"index":73}},"properties":{"id":"barriers-74","element":"barriers","role":"b
+09:50:31.534 
+09:50:31.535 id: smoke-2:253
+09:50:31.537 event: element_added
+09:50:31.538 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136448,25.078179]},"properties":{"id":"barriers-75","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":200.52085106786058,"index":74}},"properties":{"id":"barriers-75","element":"barriers","role":"b
+09:50:31.540 
+09:50:31.541 id: smoke-2:254
+09:50:31.542 event: element_added
+09:50:31.544 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.13637,25.077966]},"properties":{"id":"barriers-76","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":198.21150012098468,"index":75}},"properties":{"id":"barriers-76","element":"barriers","role":"ba
+09:50:31.545 
+09:50:31.546 id: smoke-2:255
+09:50:31.547 event: element_added
+09:50:31.549 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136292,25.077753]},"properties":{"id":"barriers-77","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":196.79966099388284,"index":76}},"properties":{"id":"barriers-77","element":"barriers","role":"b
+09:50:31.550 
+09:50:31.551 id: smoke-2:256
+09:50:31.553 event: element_added
+09:50:31.554 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136215,25.077539]},"properties":{"id":"barriers-78","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":198.71980819080454,"index":77}},"properties":{"id":"barriers-78","element":"barriers","role":"b
+09:50:31.555 
+09:50:31.557 id: smoke-2:257
+09:50:31.558 event: element_added
+09:50:31.560 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136136,25.077326]},"properties":{"id":"barriers-79","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":198.71977441667053,"index":78}},"properties":{"id":"barriers-79","element":"barriers","role":"b
+09:50:31.561 
+09:50:31.562 id: smoke-2:258
+09:50:31.564 event: element_added
+09:50:31.566 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136073,25.07711]},"properties":{"id":"barriers-80","element":"barriers","role":"barrier","priority":20,"color":"#A7F3D0","provenance":"turf-along","illustrative":true,"icon":"barrier","heading":176.7259350073822,"index":79}},"properties":{"id":"barriers-80","element":"barriers","role":"bar
+09:50:31.567 
+09:50:31.568 id: smoke-2:259
+09:50:31.569 event: element_added
+09:50:31.571 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133187,25.07557]},"properties":{"id":"perimeter-unit-1","element":"perimeter_unit","role":"unit","priority":60,"color":"#14B8A6","provenance":"turf-intersect","illustrative":true,"icon":"police_unit","index":0}},"properties":{"id":"perimeter-unit-1","element":"perimeter_unit","role":"unit"
+09:50:31.573 
+09:50:31.574 id: smoke-2:260
+09:50:31.575 event: element_added
+09:50:31.577 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138579,25.079882]},"properties":{"id":"perimeter-unit-2","element":"perimeter_unit","role":"unit","priority":60,"color":"#14B8A6","provenance":"turf-intersect","illustrative":true,"icon":"police_unit","index":1}},"properties":{"id":"perimeter-unit-2","element":"perimeter_unit","role":"unit
+09:50:31.579 
+09:50:31.580 id: smoke-2:261
+09:50:31.581 event: element_added
+09:50:31.583 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.132246,25.076414]},"properties":{"id":"perimeter-unit-3","element":"perimeter_unit","role":"unit","priority":60,"color":"#14B8A6","provenance":"turf-intersect","illustrative":true,"icon":"police_unit","index":2}},"properties":{"id":"perimeter-unit-3","element":"perimeter_unit","role":"unit
+09:50:31.584 
+09:50:31.585 id: smoke-2:262
+09:50:31.586 event: element_added
+09:50:31.588 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.137165,25.081117]},"properties":{"id":"perimeter-unit-4","element":"perimeter_unit","role":"unit","priority":60,"color":"#14B8A6","provenance":"turf-intersect","illustrative":true,"icon":"police_unit","index":3}},"properties":{"id":"perimeter-unit-4","element":"perimeter_unit","role":"unit
+09:50:31.589 
+09:50:31.591 id: smoke-2:263
+09:50:31.592 event: element_added
+09:50:31.594 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136348,25.081687]},"properties":{"id":"staging-point","element":"staging_point","role":"unit","priority":65,"color":"#A7F3D0","provenance":"overpass-highway","illustrative":true,"icon":"staging_point"}},"properties":{"id":"staging-point","element":"staging_point","role":"unit","priority":6
+09:50:31.595 
+09:50:31.596 id: smoke-2:264
+09:50:31.597 event: element_added
+09:50:31.599 data: {"layer":"points","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.145717,25.088249]},"properties":{"id":"egress-marker","element":"egress_route","role":"marker","priority":55,"color":"#A7F3D0","provenance":"osrm-route","illustrative":true,"icon":"egress"}},"properties":{"id":"egress-marker","element":"egress_route","role":"marker","priority":55,"color":"
+09:50:31.600 
+09:50:31.601 id: smoke-2:265
+09:50:31.603 event: element_added
+09:50:31.604 data: {"layer":"labels","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.135252,25.078642]},"properties":{"id":"label-focal-footprint-1","element":"focal","role":"focal","priority":100,"color":"#FFFFFF","provenance":"anchor","illustrative":true,"label":"dubai marina","labelFor":"focal-footprint"}},"properties":{"id":"label-focal-footprint-1","element":"focal","
+09:50:31.606 
+09:50:31.607 id: smoke-2:266
+09:50:31.608 event: element_added
+09:50:31.610 data: {"layer":"labels","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.133445,25.077756]},"properties":{"id":"label-inner-cordon-2","element":"inner_cordon","role":"cordon","priority":90,"color":"#A7F3D0","provenance":"anchor","illustrative":true,"label":"Inner cordon · 80 m","labelFor":"inner-cordon"}},"properties":{"id":"label-inner-cordon-2","element":"in
+09:50:31.611 
+09:50:31.613 id: smoke-2:267
+09:50:31.614 event: element_added
+09:50:31.616 data: {"layer":"labels","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138942,25.07798]},"properties":{"id":"label-outer-cordon-3","element":"outer_cordon","role":"cordon","priority":89,"color":"#A7F3D0","provenance":"anchor","illustrative":true,"label":"Outer cordon · 250 m","labelFor":"outer-cordon"}},"properties":{"id":"label-outer-cordon-3","element":"ou
+09:50:31.617 
+09:50:31.618 id: smoke-2:268
+09:50:31.619 event: element_added
+09:50:31.621 data: {"layer":"labels","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.136348,25.081687]},"properties":{"id":"label-staging-point-4","element":"staging_point","role":"unit","priority":65,"color":"#A7F3D0","provenance":"anchor","illustrative":true,"label":"Staging point (N)","labelFor":"staging-point"}},"properties":{"id":"label-staging-point-4","element":"sta
+09:50:31.622 
+09:50:31.623 id: smoke-2:269
+09:50:31.625 event: element_added
+09:50:31.627 data: {"layer":"labels","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.134059,25.064731]},"properties":{"id":"label-approach-route-1-5","element":"approach_route","role":"route","priority":80,"color":"#A7F3D0","provenance":"anchor","illustrative":true,"label":"Approach route 1","labelFor":"approach-route-1"}},"properties":{"id":"label-approach-route-1-5","ele
+09:50:31.628 
+09:50:31.629 id: smoke-2:270
+09:50:31.630 event: element_added
+09:50:31.632 data: {"layer":"labels","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.14933,25.08701]},"properties":{"id":"label-approach-route-2-6","element":"approach_route","role":"route","priority":80,"color":"#A7F3D0","provenance":"anchor","illustrative":true,"label":"Approach route 2","labelFor":"approach-route-2"}},"properties":{"id":"label-approach-route-2-6","eleme
+09:50:31.633 
+09:50:31.635 id: smoke-2:271
+09:50:31.636 event: element_added
+09:50:31.638 data: {"layer":"labels","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.143422,25.07816]},"properties":{"id":"label-approach-route-3-7","element":"approach_route","role":"route","priority":80,"color":"#A7F3D0","provenance":"anchor","illustrative":true,"label":"Approach route 3","labelFor":"approach-route-3"}},"properties":{"id":"label-approach-route-3-7","elem
+09:50:31.639 
+09:50:31.640 id: smoke-2:272
+09:50:31.641 event: element_added
+09:50:31.643 data: {"layer":"labels","feature":{"type":"Feature","geometry":{"type":"Point","coordinates":[55.138492,25.079833]},"properties":{"id":"label-egress-route-8","element":"egress_route","role":"route","priority":75,"color":"#A7F3D0","provenance":"anchor","illustrative":true,"label":"Egress route (out)","labelFor":"egress-route"}},"properties":{"id":"label-egress-route-8","element":"egres
+09:50:31.644 
+09:50:41.240 id: smoke-2:273
+09:50:41.242 event: snap_batch_progress
+09:50:41.243 data: {"available":false,"reason":"snapchat discovery is explicit-only","t":"2026-11-01T09:50:41.238Z","elapsedMs":118207}
+09:50:41.245 
+09:50:41.246 id: smoke-2:274
+09:50:41.247 event: status
+09:50:41.249 data: {"stage":"finalizing","text":"Finalizing scene plan and narration","t":"2026-11-01T09:50:41.239Z","elapsedMs":118208}
+09:50:41.250 
+09:50:41.251 id: smoke-2:275
+09:50:41.253 event: narration_token
+09:50:41.254 data: {"token":"A ","index":0,"synthetic":true,"t":"2026-11-01T09:50:41.239Z","elapsedMs":118208}
+09:50:41.255 
+09:50:41.257 id: smoke-2:276
+09:50:41.258 event: narration_token
+09:50:41.260 data: {"token":"wide, ","index":1,"synthetic":true,"t":"2026-11-01T09:50:41.247Z","elapsedMs":118216}
+09:50:41.261 
+09:50:41.262 id: smoke-2:277
+09:50:41.263 event: narration_token
+09:50:41.265 data: {"token":"elev","index":2,"synthetic":true,"t":"2026-11-01T09:50:41.255Z","elapsedMs":118224}
+09:50:41.266 
+09:50:41.267 id: smoke-2:278
+09:50:41.269 event: narration_token
+09:50:41.270 data: {"token":"ated","index":3,"synthetic":true,"t":"2026-11-01T09:50:41.263Z","elapsedMs":118232}
+09:50:41.271 
+09:50:41.272 id: smoke-2:279
+09:50:41.274 event: narration_token
+09:50:41.275 data: {"token":" ","index":4,"synthetic":true,"t":"2026-11-01T09:50:41.271Z","elapsedMs":118240}
+09:50:41.276 
+09:50:41.280 id: smoke-2:280
+09:50:41.282 event: narration_token
+09:50:41.283 data: {"token":"view ","index":5,"synthetic":true,"t":"2026-11-01T09:50:41.279Z","elapsedMs":118248}
+09:50:41.284 
+09:50:41.289 id: smoke-2:281
+09:50:41.290 event: narration_token
+09:50:41.291 data: {"token":"esta","index":6,"synthetic":true,"t":"2026-11-01T09:50:41.287Z","elapsedMs":118256}
+09:50:41.292 
+09:50:41.297 id: smoke-2:282
+09:50:41.298 event: narration_token
+09:50:41.299 data: {"token":"blis","index":7,"synthetic":true,"t":"2026-11-01T09:50:41.296Z","elapsedMs":118265}
+09:50:41.301 
+09:50:41.305 id: smoke-2:283
+09:50:41.306 event: narration_token
+09:50:41.308 data: {"token":"hes ","index":8,"synthetic":true,"t":"2026-11-01T09:50:41.304Z","elapsedMs":118273}
+09:50:41.309 
+09:50:41.313 id: smoke-2:284
+09:50:41.315 event: narration_token
+09:50:41.316 data: {"token":"Dubai ","index":9,"synthetic":true,"t":"2026-11-01T09:50:41.312Z","elapsedMs":118281}
+09:50:41.317 
+09:50:41.322 id: smoke-2:285
+09:50:41.323 event: narration_token
+09:50:41.324 data: {"token":"Mari","index":10,"synthetic":true,"t":"2026-11-01T09:50:41.320Z","elapsedMs":118289}
+09:50:41.325 
+09:50:41.329 id: smoke-2:286
+09:50:41.330 event: narration_token
+09:50:41.331 data: {"token":"na ","index":11,"synthetic":true,"t":"2026-11-01T09:50:41.328Z","elapsedMs":118297}
+09:50:41.333 
+09:50:41.337 id: smoke-2:287
+09:50:41.338 event: narration_token
+09:50:41.340 data: {"token":"arou","index":12,"synthetic":true,"t":"2026-11-01T09:50:41.336Z","elapsedMs":118305}
+09:50:41.341 
+09:50:41.345 id: smoke-2:288
+09:50:41.347 event: narration_token
+09:50:41.348 data: {"token":"nd ","index":13,"synthetic":true,"t":"2026-11-01T09:50:41.344Z","elapsedMs":118313}
+09:50:41.349 
+09:50:41.353 id: smoke-2:289
+09:50:41.355 event: narration_token
+09:50:41.356 data: {"token":"the ","index":14,"synthetic":true,"t":"2026-11-01T09:50:41.352Z","elapsedMs":118321}
+09:50:41.357 
+09:50:41.362 id: smoke-2:290
+09:50:41.363 event: narration_token
+09:50:41.364 data: {"token":"supp","index":15,"synthetic":true,"t":"2026-11-01T09:50:41.361Z","elapsedMs":118330}
+09:50:41.366 
+09:50:41.370 id: smoke-2:291
+09:50:41.371 event: narration_token
+09:50:41.373 data: {"token":"lied","index":16,"synthetic":true,"t":"2026-11-01T09:50:41.369Z","elapsedMs":118338}
+09:50:41.374 
+09:50:41.378 id: smoke-2:292
+09:50:41.379 event: narration_token
+09:50:41.381 data: {"token":" ","index":17,"synthetic":true,"t":"2026-11-01T09:50:41.377Z","elapsedMs":118346}
+09:50:41.382 
+09:50:41.386 id: smoke-2:293
+09:50:41.388 event: narration_token
+09:50:41.389 data: {"token":"geog","index":18,"synthetic":true,"t":"2026-11-01T09:50:41.385Z","elapsedMs":118354}
+09:50:41.390 
+09:50:41.395 id: smoke-2:294
+09:50:41.396 event: narration_token
+09:50:41.397 data: {"token":"raph","index":19,"synthetic":true,"t":"2026-11-01T09:50:41.393Z","elapsedMs":118362}
+09:50:41.398 
+09:50:41.402 id: smoke-2:295
+09:50:41.403 event: narration_token
+09:50:41.404 data: {"token":"ic ","index":20,"synthetic":true,"t":"2026-11-01T09:50:41.401Z","elapsedMs":118370}
+09:50:41.406 
+09:50:41.410 id: smoke-2:296
+09:50:41.411 event: narration_token
+09:50:41.413 data: {"token":"anch","index":21,"synthetic":true,"t":"2026-11-01T09:50:41.409Z","elapsedMs":118378}
+09:50:41.414 
+09:50:41.418 id: smoke-2:297
+09:50:41.420 event: narration_token
+09:50:41.421 data: {"token":"or. ","index":22,"synthetic":true,"t":"2026-11-01T09:50:41.417Z","elapsedMs":118386}
+09:50:41.422 
+09:50:41.427 id: smoke-2:298
+09:50:41.428 event: narration_token
+09:50:41.429 data: {"token":"Three ","index":23,"synthetic":true,"t":"2026-11-01T09:50:41.425Z","elapsedMs":118394}
+09:50:41.430 
+09:50:41.435 id: smoke-2:299
+09:50:41.436 event: narration_token
+09:50:41.437 data: {"token":"illu","index":24,"synthetic":true,"t":"2026-11-01T09:50:41.434Z","elapsedMs":118403}
+09:50:41.439 
+09:50:41.443 id: smoke-2:300
+09:50:41.444 event: narration_token
+09:50:41.446 data: {"token":"stra","index":25,"synthetic":true,"t":"2026-11-01T09:50:41.442Z","elapsedMs":118411}
+09:50:41.447 
+09:50:41.451 id: smoke-2:301
+09:50:41.453 event: narration_token
+09:50:41.454 data: {"token":"tive","index":26,"synthetic":true,"t":"2026-11-01T09:50:41.450Z","elapsedMs":118419}
+09:50:41.455 
+09:50:41.459 id: smoke-2:302
+09:50:41.461 event: narration_token
+09:50:41.462 data: {"token":" ","index":27,"synthetic":true,"t":"2026-11-01T09:50:41.458Z","elapsedMs":118427}
+09:50:41.463 
+09:50:41.468 id: smoke-2:303
+09:50:41.469 event: narration_token
+09:50:41.470 data: {"token":"poli","index":28,"synthetic":true,"t":"2026-11-01T09:50:41.466Z","elapsedMs":118435}
+09:50:41.472 
+09:50:41.475 id: smoke-2:304
+09:50:41.476 event: narration_token
+09:50:41.478 data: {"token":"ce ","index":29,"synthetic":true,"t":"2026-11-01T09:50:41.474Z","elapsedMs":118443}
+09:50:41.479 
+09:50:41.483 id: smoke-2:305
+09:50:41.485 event: narration_token
+09:50:41.486 data: {"token":"figu","index":30,"synthetic":true,"t":"2026-11-01T09:50:41.482Z","elapsedMs":118451}
+09:50:41.487 
+09:50:41.491 id: smoke-2:306
+09:50:41.493 event: narration_token
+09:50:41.494 data: {"token":"res ","index":31,"synthetic":true,"t":"2026-11-01T09:50:41.490Z","elapsedMs":118459}
+09:50:41.496 
+09:50:41.500 id: smoke-2:307
+09:50:41.501 event: narration_token
+09:50:41.503 data: {"token":"appe","index":32,"synthetic":true,"t":"2026-11-01T09:50:41.498Z","elapsedMs":118467}
+09:50:41.504 
+09:50:41.508 id: smoke-2:308
+09:50:41.509 event: narration_token
+09:50:41.511 data: {"token":"ar ","index":33,"synthetic":true,"t":"2026-11-01T09:50:41.507Z","elapsedMs":118476}
+09:50:41.512 
+09:50:41.516 id: smoke-2:309
+09:50:41.518 event: narration_token
+09:50:41.520 data: {"token":"as ","index":34,"synthetic":true,"t":"2026-11-01T09:50:41.515Z","elapsedMs":118484}
+09:50:41.521 
+09:50:41.524 id: smoke-2:310
+09:50:41.525 event: narration_token
+09:50:41.527 data: {"token":"a ","index":35,"synthetic":true,"t":"2026-11-01T09:50:41.523Z","elapsedMs":118492}
+09:50:41.528 
+09:50:41.532 id: smoke-2:311
+09:50:41.534 event: narration_token
+09:50:41.535 data: {"token":"sing","index":36,"synthetic":true,"t":"2026-11-01T09:50:41.531Z","elapsedMs":118500}
+09:50:41.536 
+09:50:41.541 id: smoke-2:312
+09:50:41.542 event: narration_token
+09:50:41.543 data: {"token":"le ","index":37,"synthetic":true,"t":"2026-11-01T09:50:41.539Z","elapsedMs":118508}
+09:50:41.544 
+09:50:41.548 id: smoke-2:313
+09:50:41.549 event: narration_token
+09:50:41.550 data: {"token":"neut","index":38,"synthetic":true,"t":"2026-11-01T09:50:41.547Z","elapsedMs":118516}
+09:50:41.552 
+09:50:41.556 id: smoke-2:314
+09:50:41.557 event: narration_token
+09:50:41.559 data: {"token":"ral ","index":39,"synthetic":true,"t":"2026-11-01T09:50:41.555Z","elapsedMs":118524}
+09:50:41.560 
+09:50:41.564 id: smoke-2:315
+09:50:41.566 event: narration_token
+09:50:41.567 data: {"token":"visu","index":40,"synthetic":true,"t":"2026-11-01T09:50:41.563Z","elapsedMs":118532}
+09:50:41.568 
+09:50:41.573 id: smoke-2:316
+09:50:41.574 event: narration_token
+09:50:41.575 data: {"token":"al ","index":41,"synthetic":true,"t":"2026-11-01T09:50:41.571Z","elapsedMs":118540}
+09:50:41.577 
+09:50:41.581 id: smoke-2:317
+09:50:41.582 event: narration_token
+09:50:41.583 data: {"token":"grou","index":42,"synthetic":true,"t":"2026-11-01T09:50:41.580Z","elapsedMs":118549}
+09:50:41.585 
+09:50:41.589 id: smoke-2:318
+09:50:41.590 event: narration_token
+09:50:41.592 data: {"token":"p. ","index":43,"synthetic":true,"t":"2026-11-01T09:50:41.588Z","elapsedMs":118557}
+09:50:41.593 
+09:50:41.597 id: smoke-2:319
+09:50:41.598 event: narration_token
+09:50:41.600 data: {"token":"Their ","index":44,"synthetic":true,"t":"2026-11-01T09:50:41.596Z","elapsedMs":118565}
+09:50:41.601 
+09:50:41.606 id: smoke-2:320
+09:50:41.607 event: narration_token
+09:50:41.608 data: {"token":"plac","index":45,"synthetic":true,"t":"2026-11-01T09:50:41.604Z","elapsedMs":118573}
+09:50:41.610 
+09:50:41.614 id: smoke-2:321
+09:50:41.615 event: narration_token
+09:50:41.616 data: {"token":"emen","index":46,"synthetic":true,"t":"2026-11-01T09:50:41.613Z","elapsedMs":118582}
+09:50:41.618 
+09:50:41.622 id: smoke-2:322
+09:50:41.623 event: narration_token
+09:50:41.625 data: {"token":"t ","index":47,"synthetic":true,"t":"2026-11-01T09:50:41.621Z","elapsedMs":118590}
+09:50:41.626 
+09:50:41.630 id: smoke-2:323
+09:50:41.632 event: narration_token
+09:50:41.633 data: {"token":"is ","index":48,"synthetic":true,"t":"2026-11-01T09:50:41.629Z","elapsedMs":118598}
+09:50:41.634 
+09:50:41.638 id: smoke-2:324
+09:50:41.640 event: narration_token
+09:50:41.641 data: {"token":"a ","index":49,"synthetic":true,"t":"2026-11-01T09:50:41.637Z","elapsedMs":118606}
+09:50:41.642 
+09:50:41.647 id: smoke-2:325
+09:50:41.648 event: narration_token
+09:50:41.649 data: {"token":"grap","index":50,"synthetic":true,"t":"2026-11-01T09:50:41.645Z","elapsedMs":118614}
+09:50:41.651 
+09:50:41.654 id: smoke-2:326
+09:50:41.655 event: narration_token
+09:50:41.656 data: {"token":"hic ","index":51,"synthetic":true,"t":"2026-11-01T09:50:41.653Z","elapsedMs":118622}
+09:50:41.658 
+09:50:41.662 id: smoke-2:327
+09:50:41.663 event: narration_token
+09:50:41.665 data: {"token":"stag","index":52,"synthetic":true,"t":"2026-11-01T09:50:41.661Z","elapsedMs":118630}
+09:50:41.666 
+09:50:41.670 id: smoke-2:328
+09:50:41.672 event: narration_token
+09:50:41.673 data: {"token":"ing ","index":53,"synthetic":true,"t":"2026-11-01T09:50:41.669Z","elapsedMs":118638}
+09:50:41.674 
+09:50:41.679 id: smoke-2:329
+09:50:41.680 event: narration_token
+09:50:41.681 data: {"token":"choi","index":54,"synthetic":true,"t":"2026-11-01T09:50:41.677Z","elapsedMs":118646}
+09:50:41.682 
+09:50:41.687 id: smoke-2:330
+09:50:41.688 event: narration_token
+09:50:41.689 data: {"token":"ce, ","index":55,"synthetic":true,"t":"2026-11-01T09:50:41.686Z","elapsedMs":118655}
+09:50:41.691 
+09:50:41.695 id: smoke-2:331
+09:50:41.696 event: narration_token
+09:50:41.698 data: {"token":"not ","index":56,"synthetic":true,"t":"2026-11-01T09:50:41.694Z","elapsedMs":118663}
+09:50:41.699 
+09:50:41.703 id: smoke-2:332
+09:50:41.704 event: narration_token
+09:50:41.706 data: {"token":"a ","index":57,"synthetic":true,"t":"2026-11-01T09:50:41.702Z","elapsedMs":118671}
+09:50:41.707 
+09:50:41.712 id: smoke-2:333
+09:50:41.713 event: narration_token
+09:50:41.714 data: {"token":"fact","index":58,"synthetic":true,"t":"2026-11-01T09:50:41.710Z","elapsedMs":118679}
+09:50:41.716 
+09:50:41.720 id: smoke-2:334
+09:50:41.721 event: narration_token
+09:50:41.722 data: {"token":"ual ","index":59,"synthetic":true,"t":"2026-11-01T09:50:41.719Z","elapsedMs":118688}
+09:50:41.724 
+09:50:41.728 id: smoke-2:335
+09:50:41.729 event: narration_token
+09:50:41.731 data: {"token":"depl","index":60,"synthetic":true,"t":"2026-11-01T09:50:41.727Z","elapsedMs":118696}
+09:50:41.732 
+09:50:41.736 id: smoke-2:336
+09:50:41.737 event: narration_token
+09:50:41.739 data: {"token":"oyme","index":61,"synthetic":true,"t":"2026-11-01T09:50:41.735Z","elapsedMs":118704}
+09:50:41.740 
+09:50:41.744 id: smoke-2:337
+09:50:41.746 event: narration_token
+09:50:41.747 data: {"token":"nt, ","index":62,"synthetic":true,"t":"2026-11-01T09:50:41.743Z","elapsedMs":118712}
+09:50:41.748 
+09:50:41.753 id: smoke-2:338
+09:50:41.754 event: narration_token
+09:50:41.755 data: {"token":"buil","index":63,"synthetic":true,"t":"2026-11-01T09:50:41.751Z","elapsedMs":118720}
+09:50:41.757 
+09:50:41.760 id: smoke-2:339
+09:50:41.761 event: narration_token
+09:50:41.762 data: {"token":"ding","index":64,"synthetic":true,"t":"2026-11-01T09:50:41.759Z","elapsedMs":118728}
+09:50:41.764 
+09:50:41.768 id: smoke-2:340
+09:50:41.769 event: narration_token
+09:50:41.771 data: {"token":" ","index":65,"synthetic":true,"t":"2026-11-01T09:50:41.767Z","elapsedMs":118736}
+09:50:41.772 
+09:50:41.776 id: smoke-2:341
+09:50:41.778 event: narration_token
+09:50:41.779 data: {"token":"entr","index":66,"synthetic":true,"t":"2026-11-01T09:50:41.775Z","elapsedMs":118744}
+09:50:41.780 
+09:50:41.785 id: smoke-2:342
+09:50:41.786 event: narration_token
+09:50:41.787 data: {"token":"ance","index":67,"synthetic":true,"t":"2026-11-01T09:50:41.783Z","elapsedMs":118752}
+09:50:41.788 
+09:50:41.793 id: smoke-2:343
+09:50:41.794 event: narration_token
+09:50:41.795 data: {"token":", ","index":68,"synthetic":true,"t":"2026-11-01T09:50:41.792Z","elapsedMs":118761}
+09:50:41.797 
+09:50:41.801 id: smoke-2:344
+09:50:41.802 event: narration_token
+09:50:41.804 data: {"token":"or ","index":69,"synthetic":true,"t":"2026-11-01T09:50:41.800Z","elapsedMs":118769}
+09:50:41.805 
+09:50:41.809 id: smoke-2:345
+09:50:41.811 event: narration_token
+09:50:41.812 data: {"token":"oper","index":70,"synthetic":true,"t":"2026-11-01T09:50:41.808Z","elapsedMs":118777}
+09:50:41.813 
+09:50:41.817 id: smoke-2:346
+09:50:41.819 event: narration_token
+09:50:41.820 data: {"token":"atio","index":71,"synthetic":true,"t":"2026-11-01T09:50:41.816Z","elapsedMs":118785}
+09:50:41.821 
+09:50:41.826 id: smoke-2:347
+09:50:41.827 event: narration_token
+09:50:41.828 data: {"token":"nal ","index":72,"synthetic":true,"t":"2026-11-01T09:50:41.824Z","elapsedMs":118793}
+09:50:41.829 
+09:50:41.833 id: smoke-2:348
+09:50:41.834 event: narration_token
+09:50:41.836 data: {"token":"posi","index":73,"synthetic":true,"t":"2026-11-01T09:50:41.832Z","elapsedMs":118801}
+09:50:41.837 
+09:50:41.841 id: smoke-2:349
+09:50:41.842 event: narration_token
+09:50:41.844 data: {"token":"tion","index":74,"synthetic":true,"t":"2026-11-01T09:50:41.840Z","elapsedMs":118809}
+09:50:41.845 
+09:50:41.849 id: smoke-2:350
+09:50:41.851 event: narration_token
+09:50:41.852 data: {"token":". ","index":75,"synthetic":true,"t":"2026-11-01T09:50:41.848Z","elapsedMs":118817}
+09:50:41.853 
+09:50:41.858 id: smoke-2:351
+09:50:41.859 event: narration_token
+09:50:41.860 data: {"token":"No ","index":76,"synthetic":true,"t":"2026-11-01T09:50:41.856Z","elapsedMs":118825}
+09:50:41.861 
+09:50:41.866 id: smoke-2:352
+09:50:41.867 event: narration_token
+09:50:41.868 data: {"token":"real ","index":77,"synthetic":true,"t":"2026-11-01T09:50:41.865Z","elapsedMs":118834}
+09:50:41.869 
+09:50:41.874 id: smoke-2:353
+09:50:41.875 event: narration_token
+09:50:41.877 data: {"token":"raid ","index":78,"synthetic":true,"t":"2026-11-01T09:50:41.873Z","elapsedMs":118842}
+09:50:41.878 
+09:50:41.882 id: smoke-2:354
+09:50:41.884 event: narration_token
+09:50:41.885 data: {"token":"is ","index":79,"synthetic":true,"t":"2026-11-01T09:50:41.881Z","elapsedMs":118850}
+09:50:41.886 
+09:50:41.890 id: smoke-2:355
+09:50:41.892 event: narration_token
+09:50:41.893 data: {"token":"asse","index":80,"synthetic":true,"t":"2026-11-01T09:50:41.889Z","elapsedMs":118858}
+09:50:41.894 
+09:50:41.899 id: smoke-2:356
+09:50:41.900 event: narration_token
+09:50:41.901 data: {"token":"rted","index":81,"synthetic":true,"t":"2026-11-01T09:50:41.898Z","elapsedMs":118867}
+09:50:41.902 
+09:50:41.907 id: smoke-2:357
+09:50:41.908 event: narration_token
+09:50:41.910 data: {"token":". ","index":82,"synthetic":true,"t":"2026-11-01T09:50:41.906Z","elapsedMs":118875}
+09:50:41.911 
+09:50:41.915 id: smoke-2:358
+09:50:41.916 event: narration_token
+09:50:41.918 data: {"token":"The ","index":83,"synthetic":true,"t":"2026-11-01T09:50:41.914Z","elapsedMs":118883}
+09:50:41.919 
+09:50:41.923 id: smoke-2:359
+09:50:41.925 event: narration_token
+09:50:41.926 data: {"token":"wide ","index":84,"synthetic":true,"t":"2026-11-01T09:50:41.922Z","elapsedMs":118891}
+09:50:41.927 
+09:50:41.932 id: smoke-2:360
+09:50:41.933 event: narration_token
+09:50:41.936 data: {"token":"came","index":85,"synthetic":true,"t":"2026-11-01T09:50:41.930Z","elapsedMs":118899}
+09:50:41.937 
+09:50:41.939 id: smoke-2:361
+09:50:41.941 event: narration_token
+09:50:41.942 data: {"token":"ra ","index":86,"synthetic":true,"t":"2026-11-01T09:50:41.938Z","elapsedMs":118907}
+09:50:41.944 
+09:50:41.947 id: smoke-2:362
+09:50:41.949 event: narration_token
+09:50:41.950 data: {"token":"holds ","index":87,"synthetic":true,"t":"2026-11-01T09:50:41.946Z","elapsedMs":118915}
+09:50:41.952 
+09:50:41.956 id: smoke-2:363
+09:50:41.957 event: narration_token
+09:50:41.959 data: {"token":"on ","index":88,"synthetic":true,"t":"2026-11-01T09:50:41.954Z","elapsedMs":118923}
+09:50:41.960 
+09:50:41.964 id: smoke-2:364
+09:50:41.965 event: narration_token
+09:50:41.967 data: {"token":"the ","index":89,"synthetic":true,"t":"2026-11-01T09:50:41.962Z","elapsedMs":118931}
+09:50:41.968 
+09:50:41.971 id: smoke-2:365
+09:50:41.972 event: narration_token
+09:50:41.974 data: {"token":"three ","index":90,"synthetic":true,"t":"2026-11-01T09:50:41.970Z","elapsedMs":118939}
+09:50:41.975 
+09:50:41.979 id: smoke-2:366
+09:50:41.981 event: narration_token
+09:50:41.982 data: {"token":"stat","index":91,"synthetic":true,"t":"2026-11-01T09:50:41.978Z","elapsedMs":118947}
+09:50:41.983 
+09:50:41.988 id: smoke-2:367
+09:50:41.989 event: narration_token
+09:50:41.991 data: {"token":"iona","index":92,"synthetic":true,"t":"2026-11-01T09:50:41.987Z","elapsedMs":118956}
+09:50:41.992 
+09:50:41.996 id: smoke-2:368
+09:50:41.997 event: narration_token
+09:50:41.999 data: {"token":"ry ","index":93,"synthetic":true,"t":"2026-11-01T09:50:41.995Z","elapsedMs":118964}
+09:50:42.000 
+09:50:42.004 id: smoke-2:369
+09:50:42.006 event: narration_token
+09:50:42.007 data: {"token":"illu","index":94,"synthetic":true,"t":"2026-11-01T09:50:42.003Z","elapsedMs":118972}
+09:50:42.008 
+09:50:42.013 id: smoke-2:370
+09:50:42.014 event: narration_token
+09:50:42.015 data: {"token":"stra","index":95,"synthetic":true,"t":"2026-11-01T09:50:42.011Z","elapsedMs":118980}
+09:50:42.016 
+09:50:42.021 id: smoke-2:371
+09:50:42.022 event: narration_token
+09:50:42.023 data: {"token":"tive","index":96,"synthetic":true,"t":"2026-11-01T09:50:42.020Z","elapsedMs":118989}
+09:50:42.025 
+09:50:42.029 id: smoke-2:372
+09:50:42.030 event: narration_token
+09:50:42.032 data: {"token":" ","index":97,"synthetic":true,"t":"2026-11-01T09:50:42.028Z","elapsedMs":118997}
+09:50:42.033 
+09:50:42.037 id: smoke-2:373
+09:50:42.039 event: narration_token
+09:50:42.040 data: {"token":"figu","index":98,"synthetic":true,"t":"2026-11-01T09:50:42.036Z","elapsedMs":119005}
+09:50:42.041 
+09:50:42.046 id: smoke-2:374
+09:50:42.047 event: narration_token
+09:50:42.048 data: {"token":"res ","index":99,"synthetic":true,"t":"2026-11-01T09:50:42.044Z","elapsedMs":119013}
+09:50:42.049 
+09:50:42.054 id: smoke-2:375
+09:50:42.055 event: narration_token
+09:50:42.056 data: {"token":"and ","index":100,"synthetic":true,"t":"2026-11-01T09:50:42.052Z","elapsedMs":119021}
+09:50:42.057 
+09:50:42.061 id: smoke-2:376
+09:50:42.062 event: narration_token
+09:50:42.064 data: {"token":"the ","index":101,"synthetic":true,"t":"2026-11-01T09:50:42.060Z","elapsedMs":119029}
+09:50:42.065 
+09:50:42.069 id: smoke-2:377
+09:50:42.070 event: narration_token
+09:50:42.072 data: {"token":"surr","index":102,"synthetic":true,"t":"2026-11-01T09:50:42.068Z","elapsedMs":119037}
+09:50:42.073 
+09:50:42.077 id: smoke-2:378
+09:50:42.079 event: narration_token
+09:50:42.080 data: {"token":"ound","index":103,"synthetic":true,"t":"2026-11-01T09:50:42.076Z","elapsedMs":119045}
+09:50:42.081 
+09:50:42.085 id: smoke-2:379
+09:50:42.087 event: narration_token
+09:50:42.088 data: {"token":"ing ","index":104,"synthetic":true,"t":"2026-11-01T09:50:42.084Z","elapsedMs":119053}
+09:50:42.089 
+09:50:42.094 id: smoke-2:380
+09:50:42.095 event: narration_token
+09:50:42.096 data: {"token":"geog","index":105,"synthetic":true,"t":"2026-11-01T09:50:42.093Z","elapsedMs":119062}
+09:50:42.098 
+09:50:42.102 id: smoke-2:381
+09:50:42.103 event: narration_token
+09:50:42.105 data: {"token":"raph","index":106,"synthetic":true,"t":"2026-11-01T09:50:42.101Z","elapsedMs":119070}
+09:50:42.106 
+09:50:42.110 id: smoke-2:382
+09:50:42.111 event: narration_token
+09:50:42.113 data: {"token":"ic ","index":107,"synthetic":true,"t":"2026-11-01T09:50:42.109Z","elapsedMs":119078}
+09:50:42.114 
+09:50:42.118 id: smoke-2:383
+09:50:42.120 event: narration_token
+09:50:42.121 data: {"token":"view. ","index":108,"synthetic":true,"t":"2026-11-01T09:50:42.117Z","elapsedMs":119086}
+09:50:42.122 
+09:50:42.127 id: smoke-2:384
+09:50:42.128 event: narration_token
+09:50:42.129 data: {"token":"No ","index":109,"synthetic":true,"t":"2026-11-01T09:50:42.125Z","elapsedMs":119094}
+09:50:42.130 
+09:50:42.135 id: smoke-2:385
+09:50:42.136 event: narration_token
+09:50:42.137 data: {"token":"entr","index":110,"synthetic":true,"t":"2026-11-01T09:50:42.134Z","elapsedMs":119103}
+09:50:42.139 
+09:50:42.143 id: smoke-2:386
+09:50:42.144 event: narration_token
+09:50:42.146 data: {"token":"y, ","index":111,"synthetic":true,"t":"2026-11-01T09:50:42.142Z","elapsedMs":119111}
+09:50:42.147 
+09:50:42.151 id: smoke-2:387
+09:50:42.153 event: narration_token
+09:50:42.154 data: {"token":"purs","index":112,"synthetic":true,"t":"2026-11-01T09:50:42.150Z","elapsedMs":119119}
+09:50:42.155 
+09:50:42.159 id: smoke-2:388
+09:50:42.161 event: narration_token
+09:50:42.162 data: {"token":"uit,","index":113,"synthetic":true,"t":"2026-11-01T09:50:42.158Z","elapsedMs":119127}
+09:50:42.163 
+09:50:42.168 id: smoke-2:389
+09:50:42.169 event: narration_token
+09:50:42.170 data: {"token":" ","index":114,"synthetic":true,"t":"2026-11-01T09:50:42.167Z","elapsedMs":119136}
+09:50:42.172 
+09:50:42.176 id: smoke-2:390
+09:50:42.177 event: narration_token
+09:50:42.179 data: {"token":"cord","index":115,"synthetic":true,"t":"2026-11-01T09:50:42.175Z","elapsedMs":119144}
+09:50:42.180 
+09:50:42.184 id: smoke-2:391
+09:50:42.185 event: narration_token
+09:50:42.187 data: {"token":"on, ","index":116,"synthetic":true,"t":"2026-11-01T09:50:42.183Z","elapsedMs":119152}
+09:50:42.188 
+09:50:42.193 id: smoke-2:392
+09:50:42.194 event: narration_token
+09:50:42.195 data: {"token":"weap","index":117,"synthetic":true,"t":"2026-11-01T09:50:42.191Z","elapsedMs":119160}
+09:50:42.196 
+09:50:42.201 id: smoke-2:393
+09:50:42.202 event: narration_token
+09:50:42.204 data: {"token":"ons ","index":118,"synthetic":true,"t":"2026-11-01T09:50:42.199Z","elapsedMs":119168}
+09:50:42.205 
+09:50:42.208 id: smoke-2:394
+09:50:42.209 event: narration_token
+09:50:42.211 data: {"token":"hand","index":119,"synthetic":true,"t":"2026-11-01T09:50:42.207Z","elapsedMs":119176}
+09:50:42.212 
+09:50:42.216 id: smoke-2:395
+09:50:42.217 event: narration_token
+09:50:42.219 data: {"token":"ling","index":120,"synthetic":true,"t":"2026-11-01T09:50:42.215Z","elapsedMs":119184}
+09:50:42.220 
+09:50:42.224 id: smoke-2:396
+09:50:42.226 event: narration_token
+09:50:42.227 data: {"token":", ","index":121,"synthetic":true,"t":"2026-11-01T09:50:42.223Z","elapsedMs":119192}
+09:50:42.228 
+09:50:42.233 id: smoke-2:397
+09:50:42.234 event: narration_token
+09:50:42.235 data: {"token":"or ","index":122,"synthetic":true,"t":"2026-11-01T09:50:42.231Z","elapsedMs":119200}
+09:50:42.237 
+09:50:42.241 id: smoke-2:398
+09:50:42.242 event: narration_token
+09:50:42.243 data: {"token":"tact","index":123,"synthetic":true,"t":"2026-11-01T09:50:42.240Z","elapsedMs":119209}
+09:50:42.245 
+09:50:42.249 id: smoke-2:399
+09:50:42.250 event: narration_token
+09:50:42.252 data: {"token":"ical","index":124,"synthetic":true,"t":"2026-11-01T09:50:42.248Z","elapsedMs":119217}
+09:50:42.253 
+09:50:42.257 id: smoke-2:400
+09:50:42.259 event: narration_token
+09:50:42.260 data: {"token":" ","index":125,"synthetic":true,"t":"2026-11-01T09:50:42.256Z","elapsedMs":119225}
+09:50:42.261 
+09:50:42.265 id: smoke-2:401
+09:50:42.267 event: narration_token
+09:50:42.268 data: {"token":"move","index":126,"synthetic":true,"t":"2026-11-01T09:50:42.264Z","elapsedMs":119233}
+09:50:42.269 
+09:50:42.274 id: smoke-2:402
+09:50:42.275 event: narration_token
+09:50:42.276 data: {"token":"ment","index":127,"synthetic":true,"t":"2026-11-01T09:50:42.272Z","elapsedMs":119241}
+09:50:42.278 
+09:50:42.282 id: smoke-2:403
+09:50:42.283 event: narration_token
+09:50:42.284 data: {"token":" ","index":128,"synthetic":true,"t":"2026-11-01T09:50:42.281Z","elapsedMs":119250}
+09:50:42.286 
+09:50:42.290 id: smoke-2:404
+09:50:42.291 event: narration_token
+09:50:42.293 data: {"token":"is ","index":129,"synthetic":true,"t":"2026-11-01T09:50:42.289Z","elapsedMs":119258}
+09:50:42.294 
+09:50:42.298 id: smoke-2:405
+09:50:42.300 event: narration_token
+09:50:42.301 data: {"token":"depi","index":130,"synthetic":true,"t":"2026-11-01T09:50:42.297Z","elapsedMs":119266}
+09:50:42.302 
+09:50:42.306 id: smoke-2:406
+09:50:42.308 event: narration_token
+09:50:42.309 data: {"token":"cted","index":131,"synthetic":true,"t":"2026-11-01T09:50:42.305Z","elapsedMs":119274}
+09:50:42.310 
+09:50:42.315 id: smoke-2:407
+09:50:42.316 event: narration_token
+09:50:42.317 data: {"token":"; ","index":132,"synthetic":true,"t":"2026-11-01T09:50:42.313Z","elapsedMs":119282}
+09:50:42.319 
+09:50:42.322 id: smoke-2:408
+09:50:42.323 event: narration_token
+09:50:42.325 data: {"token":"the ","index":133,"synthetic":true,"t":"2026-11-01T09:50:42.321Z","elapsedMs":119290}
+09:50:42.326 
+09:50:42.330 id: smoke-2:409
+09:50:42.332 event: narration_token
+09:50:42.333 data: {"token":"scene ","index":134,"synthetic":true,"t":"2026-11-01T09:50:42.329Z","elapsedMs":119298}
+09:50:42.335 
+09:50:42.338 id: smoke-2:410
+09:50:42.340 event: narration_token
+09:50:42.341 data: {"token":"rema","index":135,"synthetic":true,"t":"2026-11-01T09:50:42.337Z","elapsedMs":119306}
+09:50:42.342 
+09:50:42.347 id: smoke-2:411
+09:50:42.348 event: narration_token
+09:50:42.349 data: {"token":"ins ","index":136,"synthetic":true,"t":"2026-11-01T09:50:42.345Z","elapsedMs":119314}
+09:50:42.351 
+09:50:42.355 id: smoke-2:412
+09:50:42.356 event: narration_token
+09:50:42.357 data: {"token":"a ","index":137,"synthetic":true,"t":"2026-11-01T09:50:42.354Z","elapsedMs":119323}
+09:50:42.359 
+09:50:42.363 id: smoke-2:413
+09:50:42.365 event: narration_token
+09:50:42.366 data: {"token":"fict","index":138,"synthetic":true,"t":"2026-11-01T09:50:42.362Z","elapsedMs":119331}
+09:50:42.368 
+09:50:42.372 id: smoke-2:414
+09:50:42.373 event: narration_token
+09:50:42.375 data: {"token":"iona","index":139,"synthetic":true,"t":"2026-11-01T09:50:42.370Z","elapsedMs":119339}
+09:50:42.376 
+09:50:42.380 id: smoke-2:415
+09:50:42.381 event: narration_token
+09:50:42.383 data: {"token":"l ","index":140,"synthetic":true,"t":"2026-11-01T09:50:42.378Z","elapsedMs":119347}
+09:50:42.384 
+09:50:42.388 id: smoke-2:416
+09:50:42.390 event: narration_token
+09:50:42.391 data: {"token":"secu","index":141,"synthetic":true,"t":"2026-11-01T09:50:42.387Z","elapsedMs":119356}
+09:50:42.393 
+09:50:42.396 id: smoke-2:417
+09:50:42.398 event: narration_token
+09:50:42.399 data: {"token":"rity","index":142,"synthetic":true,"t":"2026-11-01T09:50:42.395Z","elapsedMs":119364}
+09:50:42.400 
+09:50:42.404 id: smoke-2:418
+09:50:42.406 event: narration_token
+09:50:42.407 data: {"token":"-the","index":143,"synthetic":true,"t":"2026-11-01T09:50:42.403Z","elapsedMs":119372}
+09:50:42.408 
+09:50:42.413 id: smoke-2:419
+09:50:42.414 event: narration_token
+09:50:42.415 data: {"token":"med ","index":144,"synthetic":true,"t":"2026-11-01T09:50:42.411Z","elapsedMs":119380}
+09:50:42.417 
+09:50:42.421 id: smoke-2:420
+09:50:42.422 event: narration_token
+09:50:42.423 data: {"token":"over","index":145,"synthetic":true,"t":"2026-11-01T09:50:42.420Z","elapsedMs":119389}
+09:50:42.425 
+09:50:42.429 id: smoke-2:421
+09:50:42.430 event: narration_token
+09:50:42.432 data: {"token":"view","index":146,"synthetic":true,"t":"2026-11-01T09:50:42.428Z","elapsedMs":119397}
+09:50:42.433 
+09:50:42.437 id: smoke-2:422
+09:50:42.439 event: narration_token
+09:50:42.440 data: {"token":" ","index":147,"synthetic":true,"t":"2026-11-01T09:50:42.436Z","elapsedMs":119405}
+09:50:42.441 
+09:50:42.446 id: smoke-2:423
+09:50:42.447 event: narration_token
+09:50:42.448 data: {"token":"rath","index":148,"synthetic":true,"t":"2026-11-01T09:50:42.444Z","elapsedMs":119413}
+09:50:42.450 
+09:50:42.454 id: smoke-2:424
+09:50:42.455 event: narration_token
+09:50:42.456 data: {"token":"er ","index":149,"synthetic":true,"t":"2026-11-01T09:50:42.452Z","elapsedMs":119421}
+09:50:42.457 
+09:50:42.461 id: smoke-2:425
+09:50:42.462 event: narration_token
+09:50:42.464 data: {"token":"than ","index":150,"synthetic":true,"t":"2026-11-01T09:50:42.460Z","elapsedMs":119429}
+09:50:42.465 
+09:50:42.469 id: smoke-2:426
+09:50:42.470 event: narration_token
+09:50:42.472 data: {"token":"a ","index":151,"synthetic":true,"t":"2026-11-01T09:50:42.468Z","elapsedMs":119437}
+09:50:42.473 
+09:50:42.477 id: smoke-2:427
+09:50:42.479 event: narration_token
+09:50:42.480 data: {"token":"reco","index":152,"synthetic":true,"t":"2026-11-01T09:50:42.476Z","elapsedMs":119445}
+09:50:42.482 
+09:50:42.486 id: smoke-2:428
+09:50:42.487 event: narration_token
+09:50:42.488 data: {"token":"nstr","index":153,"synthetic":true,"t":"2026-11-01T09:50:42.484Z","elapsedMs":119453}
+09:50:42.490 
+09:50:42.494 id: smoke-2:429
+09:50:42.495 event: narration_token
+09:50:42.497 data: {"token":"ucti","index":154,"synthetic":true,"t":"2026-11-01T09:50:42.493Z","elapsedMs":119462}
+09:50:42.498 
+09:50:42.502 id: smoke-2:430
+09:50:42.503 event: narration_token
+09:50:42.505 data: {"token":"on ","index":155,"synthetic":true,"t":"2026-11-01T09:50:42.501Z","elapsedMs":119470}
+09:50:42.506 
+09:50:42.510 id: smoke-2:431
+09:50:42.511 event: narration_token
+09:50:42.513 data: {"token":"of ","index":156,"synthetic":true,"t":"2026-11-01T09:50:42.509Z","elapsedMs":119478}
+09:50:42.514 
+09:50:42.518 id: smoke-2:432
+09:50:42.520 event: narration_token
+09:50:42.521 data: {"token":"an ","index":157,"synthetic":true,"t":"2026-11-01T09:50:42.517Z","elapsedMs":119486}
+09:50:42.522 
+09:50:42.527 id: smoke-2:433
+09:50:42.528 event: narration_token
+09:50:42.529 data: {"token":"even","index":158,"synthetic":true,"t":"2026-11-01T09:50:42.525Z","elapsedMs":119494}
+09:50:42.531 
+09:50:42.534 id: smoke-2:434
+09:50:42.535 event: narration_token
+09:50:42.536 data: {"token":"t. ","index":159,"synthetic":true,"t":"2026-11-01T09:50:42.533Z","elapsedMs":119502}
+09:50:42.538 
+09:50:42.542 id: smoke-2:435
+09:50:42.543 event: narration_token
+09:50:42.545 data: {"token":"The ","index":160,"synthetic":true,"t":"2026-11-01T09:50:42.541Z","elapsedMs":119510}
+09:50:42.546 
+09:50:42.550 id: smoke-2:436
+09:50:42.552 event: narration_token
+09:50:42.553 data: {"token":"came","index":161,"synthetic":true,"t":"2026-11-01T09:50:42.549Z","elapsedMs":119518}
+09:50:42.554 
+09:50:42.558 id: smoke-2:437
+09:50:42.560 event: narration_token
+09:50:42.561 data: {"token":"ra ","index":162,"synthetic":true,"t":"2026-11-01T09:50:42.557Z","elapsedMs":119526}
+09:50:42.562 
+09:50:42.567 id: smoke-2:438
+09:50:42.568 event: narration_token
+09:50:42.569 data: {"token":"gent","index":163,"synthetic":true,"t":"2026-11-01T09:50:42.566Z","elapsedMs":119535}
+09:50:42.571 
+09:50:42.575 id: smoke-2:439
+09:50:42.576 event: narration_token
+09:50:42.578 data: {"token":"ly ","index":164,"synthetic":true,"t":"2026-11-01T09:50:42.574Z","elapsedMs":119543}
+09:50:42.579 
+09:50:42.583 id: smoke-2:440
+09:50:42.584 event: narration_token
+09:50:42.586 data: {"token":"pulls ","index":165,"synthetic":true,"t":"2026-11-01T09:50:42.582Z","elapsedMs":119551}
+09:50:42.587 
+09:50:42.591 id: smoke-2:441
+09:50:42.593 event: narration_token
+09:50:42.594 data: {"token":"fart","index":166,"synthetic":true,"t":"2026-11-01T09:50:42.590Z","elapsedMs":119559}
+09:50:42.596 
+09:50:42.600 id: smoke-2:442
+09:50:42.601 event: narration_token
+09:50:42.602 data: {"token":"her ","index":167,"synthetic":true,"t":"2026-11-01T09:50:42.598Z","elapsedMs":119567}
+09:50:42.603 
+09:50:42.608 id: smoke-2:443
+09:50:42.609 event: narration_token
+09:50:42.611 data: {"token":"back ","index":168,"synthetic":true,"t":"2026-11-01T09:50:42.607Z","elapsedMs":119576}
+09:50:42.612 
+09:50:42.616 id: smoke-2:444
+09:50:42.618 event: narration_token
+09:50:42.619 data: {"token":"while ","index":169,"synthetic":true,"t":"2026-11-01T09:50:42.615Z","elapsedMs":119584}
+09:50:42.620 
+09:50:42.625 id: smoke-2:445
+09:50:42.626 event: narration_token
+09:50:42.627 data: {"token":"the ","index":170,"synthetic":true,"t":"2026-11-01T09:50:42.623Z","elapsedMs":119592}
+09:50:42.629 
+09:50:42.633 id: smoke-2:446
+09:50:42.634 event: narration_token
+09:50:42.636 data: {"token":"same ","index":171,"synthetic":true,"t":"2026-11-01T09:50:42.631Z","elapsedMs":119600}
+09:50:42.637 
+09:50:42.640 id: smoke-2:447
+09:50:42.641 event: narration_token
+09:50:42.643 data: {"token":"three ","index":172,"synthetic":true,"t":"2026-11-01T09:50:42.639Z","elapsedMs":119608}
+09:50:42.644 
+09:50:42.648 id: smoke-2:448
+09:50:42.649 event: narration_token
+09:50:42.651 data: {"token":"illu","index":173,"synthetic":true,"t":"2026-11-01T09:50:42.647Z","elapsedMs":119616}
+09:50:42.652 
+09:50:42.656 id: smoke-2:449
+09:50:42.658 event: narration_token
+09:50:42.659 data: {"token":"stra","index":174,"synthetic":true,"t":"2026-11-01T09:50:42.655Z","elapsedMs":119624}
+09:50:42.660 
+09:50:42.665 id: smoke-2:450
+09:50:42.666 event: narration_token
+09:50:42.667 data: {"token":"tive","index":175,"synthetic":true,"t":"2026-11-01T09:50:42.664Z","elapsedMs":119633}
+09:50:42.669 
+09:50:42.673 id: smoke-2:451
+09:50:42.674 event: narration_token
+09:50:42.676 data: {"token":" ","index":176,"synthetic":true,"t":"2026-11-01T09:50:42.672Z","elapsedMs":119641}
+09:50:42.677 
+09:50:42.681 id: smoke-2:452
+09:50:42.683 event: narration_token
+09:50:42.684 data: {"token":"figu","index":177,"synthetic":true,"t":"2026-11-01T09:50:42.680Z","elapsedMs":119649}
+09:50:42.685 
+09:50:42.690 id: smoke-2:453
+09:50:42.691 event: narration_token
+09:50:42.692 data: {"token":"res ","index":178,"synthetic":true,"t":"2026-11-01T09:50:42.688Z","elapsedMs":119657}
+09:50:42.693 
+09:50:42.698 id: smoke-2:454
+09:50:42.699 event: narration_token
+09:50:42.701 data: {"token":"rema","index":179,"synthetic":true,"t":"2026-11-01T09:50:42.697Z","elapsedMs":119666}
+09:50:42.702 
+09:50:42.706 id: smoke-2:455
+09:50:42.707 event: narration_token
+09:50:42.709 data: {"token":"in ","index":180,"synthetic":true,"t":"2026-11-01T09:50:42.705Z","elapsedMs":119674}
+09:50:42.710 
+09:50:42.714 id: smoke-2:456
+09:50:42.716 event: narration_token
+09:50:42.717 data: {"token":"stat","index":181,"synthetic":true,"t":"2026-11-01T09:50:42.713Z","elapsedMs":119682}
+09:50:42.718 
+09:50:42.722 id: smoke-2:457
+09:50:42.724 event: narration_token
+09:50:42.725 data: {"token":"iona","index":182,"synthetic":true,"t":"2026-11-01T09:50:42.721Z","elapsedMs":119690}
+09:50:42.726 
+09:50:42.731 id: smoke-2:458
+09:50:42.732 event: narration_token
+09:50:42.733 data: {"token":"ry. ","index":183,"synthetic":true,"t":"2026-11-01T09:50:42.730Z","elapsedMs":119699}
+09:50:42.735 
+09:50:42.739 id: smoke-2:459
+09:50:42.740 event: narration_token
+09:50:42.742 data: {"token":"The ","index":184,"synthetic":true,"t":"2026-11-01T09:50:42.738Z","elapsedMs":119707}
+09:50:42.743 
+09:50:42.747 id: smoke-2:460
+09:50:42.748 event: narration_token
+09:50:42.750 data: {"token":"clos","index":185,"synthetic":true,"t":"2026-11-01T09:50:42.746Z","elapsedMs":119715}
+09:50:42.751 
+09:50:42.755 id: smoke-2:461
+09:50:42.757 event: narration_token
+09:50:42.758 data: {"token":"ing ","index":186,"synthetic":true,"t":"2026-11-01T09:50:42.754Z","elapsedMs":119723}
+09:50:42.759 
+09:50:42.764 id: smoke-2:462
+09:50:42.765 event: narration_token
+09:50:42.766 data: {"token":"wide ","index":187,"synthetic":true,"t":"2026-11-01T09:50:42.762Z","elapsedMs":119731}
+09:50:42.768 
+09:50:42.771 id: smoke-2:463
+09:50:42.773 event: narration_token
+09:50:42.774 data: {"token":"view ","index":188,"synthetic":true,"t":"2026-11-01T09:50:42.770Z","elapsedMs":119739}
+09:50:42.776 
+09:50:42.779 id: smoke-2:464
+09:50:42.780 event: narration_token
+09:50:42.782 data: {"token":"emph","index":189,"synthetic":true,"t":"2026-11-01T09:50:42.778Z","elapsedMs":119747}
+09:50:42.783 
+09:50:42.787 id: smoke-2:465
+09:50:42.789 event: narration_token
+09:50:42.790 data: {"token":"asiz","index":190,"synthetic":true,"t":"2026-11-01T09:50:42.786Z","elapsedMs":119755}
+09:50:42.791 
+09:50:42.796 id: smoke-2:466
+09:50:42.797 event: narration_token
+09:50:42.798 data: {"token":"es ","index":191,"synthetic":true,"t":"2026-11-01T09:50:42.794Z","elapsedMs":119763}
+09:50:42.800 
+09:50:42.803 id: smoke-2:467
+09:50:42.804 event: narration_token
+09:50:42.806 data: {"token":"Dubai ","index":192,"synthetic":true,"t":"2026-11-01T09:50:42.802Z","elapsedMs":119771}
+09:50:42.807 
+09:50:42.811 id: smoke-2:468
+09:50:42.813 event: narration_token
+09:50:42.814 data: {"token":"Mari","index":193,"synthetic":true,"t":"2026-11-01T09:50:42.810Z","elapsedMs":119779}
+09:50:42.815 
+09:50:42.819 id: smoke-2:469
+09:50:42.821 event: narration_token
+09:50:42.822 data: {"token":"na ","index":194,"synthetic":true,"t":"2026-11-01T09:50:42.818Z","elapsedMs":119787}
+09:50:42.823 
+09:50:42.828 id: smoke-2:470
+09:50:42.829 event: narration_token
+09:50:42.830 data: {"token":"as ","index":195,"synthetic":true,"t":"2026-11-01T09:50:42.826Z","elapsedMs":119795}
+09:50:42.831 
+09:50:42.836 id: smoke-2:471
+09:50:42.837 event: narration_token
+09:50:42.838 data: {"token":"the ","index":196,"synthetic":true,"t":"2026-11-01T09:50:42.835Z","elapsedMs":119804}
+09:50:42.840 
+09:50:42.844 id: smoke-2:472
+09:50:42.845 event: narration_token
+09:50:42.846 data: {"token":"supp","index":197,"synthetic":true,"t":"2026-11-01T09:50:42.843Z","elapsedMs":119812}
+09:50:42.848 
+09:50:42.852 id: smoke-2:473
+09:50:42.853 event: narration_token
+09:50:42.855 data: {"token":"lied","index":198,"synthetic":true,"t":"2026-11-01T09:50:42.851Z","elapsedMs":119820}
+09:50:42.856 
+09:50:42.861 id: smoke-2:474
+09:50:42.862 event: narration_token
+09:50:42.863 data: {"token":" ","index":199,"synthetic":true,"t":"2026-11-01T09:50:42.859Z","elapsedMs":119828}
+09:50:42.865 
+09:50:42.869 id: smoke-2:475
+09:50:42.870 event: narration_token
+09:50:42.871 data: {"token":"loca","index":200,"synthetic":true,"t":"2026-11-01T09:50:42.867Z","elapsedMs":119836}
+09:50:42.873 
+09:50:42.876 id: smoke-2:476
+09:50:42.877 event: narration_token
+09:50:42.879 data: {"token":"tion","index":201,"synthetic":true,"t":"2026-11-01T09:50:42.875Z","elapsedMs":119844}
+09:50:42.880 
+09:50:42.884 id: smoke-2:477
+09:50:42.885 event: narration_token
+09:50:42.887 data: {"token":", ","index":202,"synthetic":true,"t":"2026-11-01T09:50:42.883Z","elapsedMs":119852}
+09:50:42.888 
+09:50:42.892 id: smoke-2:478
+09:50:42.894 event: narration_token
+09:50:42.895 data: {"token":"not ","index":203,"synthetic":true,"t":"2026-11-01T09:50:42.891Z","elapsedMs":119860}
+09:50:42.896 
+09:50:42.901 id: smoke-2:479
+09:50:42.902 event: narration_token
+09:50:42.903 data: {"token":"a ","index":204,"synthetic":true,"t":"2026-11-01T09:50:42.899Z","elapsedMs":119868}
+09:50:42.904 
+09:50:42.909 id: smoke-2:480
+09:50:42.910 event: narration_token
+09:50:42.911 data: {"token":"veri","index":205,"synthetic":true,"t":"2026-11-01T09:50:42.908Z","elapsedMs":119877}
+09:50:42.913 
+09:50:42.917 id: smoke-2:481
+09:50:42.918 event: narration_token
+09:50:42.919 data: {"token":"fied","index":206,"synthetic":true,"t":"2026-11-01T09:50:42.916Z","elapsedMs":119885}
+09:50:42.921 
+09:50:42.925 id: smoke-2:482
+09:50:42.926 event: narration_token
+09:50:42.928 data: {"token":" ","index":207,"synthetic":true,"t":"2026-11-01T09:50:42.924Z","elapsedMs":119893}
+09:50:42.929 
+09:50:42.933 id: smoke-2:483
+09:50:42.935 event: narration_token
+09:50:42.936 data: {"token":"oper","index":208,"synthetic":true,"t":"2026-11-01T09:50:42.932Z","elapsedMs":119901}
+09:50:42.938 
+09:50:42.942 id: smoke-2:484
+09:50:42.943 event: narration_token
+09:50:42.945 data: {"token":"atio","index":209,"synthetic":true,"t":"2026-11-01T09:50:42.940Z","elapsedMs":119909}
+09:50:42.947 
+09:50:42.949 id: smoke-2:485
+09:50:42.951 event: narration_token
+09:50:42.952 data: {"token":"n ","index":210,"synthetic":true,"t":"2026-11-01T09:50:42.948Z","elapsedMs":119917}
+09:50:42.954 
+09:50:42.957 id: smoke-2:486
+09:50:42.959 event: narration_token
+09:50:42.960 data: {"token":"site; ","index":211,"synthetic":true,"t":"2026-11-01T09:50:42.956Z","elapsedMs":119925}
+09:50:42.962 
+09:50:42.966 id: smoke-2:487
+09:50:42.967 event: narration_token
+09:50:42.968 data: {"token":"all ","index":212,"synthetic":true,"t":"2026-11-01T09:50:42.964Z","elapsedMs":119933}
+09:50:42.969 
+09:50:42.974 id: smoke-2:488
+09:50:42.975 event: narration_token
+09:50:42.976 data: {"token":"visi","index":213,"synthetic":true,"t":"2026-11-01T09:50:42.973Z","elapsedMs":119942}
+09:50:42.978 
+09:50:42.982 id: smoke-2:489
+09:50:42.983 event: narration_token
+09:50:42.985 data: {"token":"ble ","index":214,"synthetic":true,"t":"2026-11-01T09:50:42.981Z","elapsedMs":119950}
+09:50:42.986 
+09:50:42.990 id: smoke-2:490
+09:50:42.991 event: narration_token
+09:50:42.993 data: {"token":"acto","index":215,"synthetic":true,"t":"2026-11-01T09:50:42.989Z","elapsedMs":119958}
+09:50:42.994 
+09:50:42.998 id: smoke-2:491
+09:50:43.000 event: narration_token
+09:50:43.001 data: {"token":"rs ","index":216,"synthetic":true,"t":"2026-11-01T09:50:42.997Z","elapsedMs":119966}
+09:50:43.002 
+09:50:43.007 id: smoke-2:492
+09:50:43.008 event: narration_token
+09:50:43.009 data: {"token":"and ","index":217,"synthetic":true,"t":"2026-11-01T09:50:43.005Z","elapsedMs":119974}
+09:50:43.010 
+09:50:43.015 id: smoke-2:493
+09:50:43.016 event: narration_token
+09:50:43.018 data: {"token":"their ","index":218,"synthetic":true,"t":"2026-11-01T09:50:43.014Z","elapsedMs":119983}
+09:50:43.019 
+09:50:43.023 id: smoke-2:494
+09:50:43.024 event: narration_token
+09:50:43.026 data: {"token":"stag","index":219,"synthetic":true,"t":"2026-11-01T09:50:43.022Z","elapsedMs":119991}
+09:50:43.027 
+09:50:43.031 id: smoke-2:495
+09:50:43.033 event: narration_token
+09:50:43.034 data: {"token":"ing ","index":220,"synthetic":true,"t":"2026-11-01T09:50:43.030Z","elapsedMs":119999}
+09:50:43.035 
+09:50:43.037 : heartbeat
+09:50:43.038 
+09:50:43.040 id: smoke-2:496
+09:50:43.041 event: narration_token
+09:50:43.042 data: {"token":"are ","index":221,"synthetic":true,"t":"2026-11-01T09:50:43.038Z","elapsedMs":120007}
+09:50:43.043 
+09:50:43.047 id: smoke-2:497
+09:50:43.048 event: narration_token
+09:50:43.049 data: {"token":"illu","index":222,"synthetic":true,"t":"2026-11-01T09:50:43.046Z","elapsedMs":120015}
+09:50:43.051 
+09:50:43.055 id: smoke-2:498
+09:50:43.056 event: narration_token
+09:50:43.058 data: {"token":"stra","index":223,"synthetic":true,"t":"2026-11-01T09:50:43.054Z","elapsedMs":120023}
+09:50:43.059 
+09:50:43.064 id: smoke-2:499
+09:50:43.065 event: narration_token
+09:50:43.066 data: {"token":"tive","index":224,"synthetic":true,"t":"2026-11-01T09:50:43.062Z","elapsedMs":120031}
+09:50:43.068 
+09:50:43.074 id: smoke-2:500
+09:50:43.075 event: narration_token
+09:50:43.076 data: {"token":".","index":225,"synthetic":true,"t":"2026-11-01T09:50:43.070Z","elapsedMs":120039}
+09:50:43.078 
+09:50:43.079 id: smoke-2:501
+09:50:43.080 event: usage
+09:50:43.082 data: {"tokensEstimated":210,"method":"chars/4 estimate","modelId":"predefined-gpt-6.1-sol","plannerMs":13426,"t":"2026-11-01T09:50:43.071Z","elapsedMs":120040}
+09:50:43.083 
+09:50:43.085 id: smoke-2:502
+09:50:43.086 event: done
+09:50:43.235 

@@ -7,7 +7,6 @@ export const APPLICATION_TEMPLATES = Object.freeze([
   'command-dock',
   'layer-panels',
   'context',
-  'welcome',
   'provider-settings',
   'hud-loading',
 ]);

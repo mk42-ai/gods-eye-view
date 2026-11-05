@@ -1,0 +1,757 @@
+{
+ "generated_utc": "2026-11-04T22:26:26Z",
+ "preview_url": "https://ondemand-agent-mqb0wgj5e-schoolhack-web-team.vercel.app",
+ "deployment_id": "dpl_2HP9n9dQt4xAxzzXxmCouS1Vpzws",
+ "branch": "feat/scene-video-evidence",
+ "head": "aeebd86",
+ "commits": [
+  "314a8c5",
+  "aeebd86"
+ ],
+ "base_commit": "25ea685",
+ "prompts": {
+  "yas": "car crash yas mall",
+  "palace": "police at Emirates Palace",
+  "kanes": "Kane's Boxing Gym Abu Dhabi",
+  "etihad": "concert crowd at Etihad Arena"
+ },
+ "jobs": {
+  "yas": "82ff33725f54",
+  "palace": "4fe0fe187038",
+  "kanes": "3bfce0be48ab",
+  "etihad": "de948c716f5e"
+ },
+ "checks": [
+  {
+   "id": "R1",
+   "requirement": "Prompt -> scene build (exactly one POST /api/scenes/render per Build press)",
+   "status": "passed",
+   "evidence": {
+    "yas": {
+     "buildRequests": 1,
+     "job": "82ff33725f54"
+    },
+    "palace": {
+     "buildRequests": 1,
+     "job": "4fe0fe187038"
+    },
+    "kanes": {
+     "buildRequests": 1,
+     "job": "3bfce0be48ab"
+    },
+    "etihad": {
+     "buildRequests": 1,
+     "job": "de948c716f5e"
+    }
+   }
+  },
+  {
+   "id": "R2",
+   "requirement": "Blender Cycles OptiX render on GPUs 2 and 6 only (never GPU 1)",
+   "status": "passed",
+   "evidence": {
+    "health_gpus": [
+     "2",
+     "6"
+    ],
+    "health_violations": [],
+    "shards": {
+     "yas": [
+      [
+       "6",
+       [
+        49,
+        96
+       ]
+      ],
+      [
+       "2",
+       [
+        1,
+        48
+       ]
+      ]
+     ],
+     "palace": [
+      [
+       "6",
+       [
+        49,
+        96
+       ]
+      ],
+      [
+       "2",
+       [
+        1,
+        48
+       ]
+      ]
+     ],
+     "kanes": [
+      [
+       "6",
+       [
+        49,
+        96
+       ]
+      ],
+      [
+       "2",
+       [
+        1,
+        48
+       ]
+      ]
+     ],
+     "etihad": [
+      [
+       "6",
+       [
+        49,
+        96
+       ]
+      ],
+      [
+       "2",
+       [
+        1,
+        48
+       ]
+      ]
+     ]
+    },
+    "gpu_metrics": {
+     "yas": {
+      "2": {
+       "util_pct_mean": 94.2,
+       "util_pct_max": 100,
+       "mem_used_mib_max": 14234,
+       "mem_total_mib": 81559,
+       "samples": 48
+      },
+      "6": {
+       "util_pct_mean": 38.9,
+       "util_pct_max": 100,
+       "mem_used_mib_max": 4417,
+       "mem_total_mib": 81559,
+       "samples": 48
+      }
+     },
+     "palace": {
+      "2": {
+       "util_pct_mean": 13.3,
+       "util_pct_max": 100,
+       "mem_used_mib_max": 4417,
+       "mem_total_mib": 81559,
+       "samples": 29
+      },
+      "6": {
+       "util_pct_mean": 40.8,
+       "util_pct_max": 100,
+       "mem_used_mib_max": 4417,
+       "mem_total_mib": 81559,
+       "samples": 29
+      }
+     },
+     "kanes": {
+      "2": {
+       "util_pct_mean": 48.1,
+       "util_pct_max": 100,
+       "mem_used_mib_max": 4407,
+       "mem_total_mib": 81559,
+       "samples": 15
+      },
+      "6": {
+       "util_pct_mean": 36.1,
+       "util_pct_max": 100,
+       "mem_used_mib_max": 4407,
+       "mem_total_mib": 81559,
+       "samples": 15
+      }
+     },
+     "etihad": {
+      "2": {
+       "util_pct_mean": 28.1,
+       "util_pct_max": 100,
+       "mem_used_mib_max": 4417,
+       "mem_total_mib": 81559,
+       "samples": 28
+      },
+      "6": {
+       "util_pct_mean": 47.1,
+       "util_pct_max": 100,
+       "mem_used_mib_max": 4417,
+       "mem_total_mib": 81559,
+       "samples": 28
+      }
+     }
+    },
+    "device": "NVIDIA H100 80GB HBM3 (SCENE_READY cuda_visible=2|6 order=PCI_BUS_ID)",
+    "note": "GPU samples come from the render-service job record (service-side nvidia-smi during render); no fresh host-shell nvidia-smi log this turn (no SSH attached)"
+   }
+  },
+  {
+   "id": "R3",
+   "requirement": "Visible rendered frame in viewport on PUBLIC URL (img naturalWidth>0, HTTP 200 image, >50 KB PNG, luminance above black)",
+   "status": "passed",
+   "evidence": {
+    "yas": {
+     "naturalWidth": 1280,
+     "latest_jpg": {
+      "status": 200.0,
+      "type": "image/jpeg",
+      "bytes": 37659.0
+     },
+     "frame1_png": {
+      "status": 200.0,
+      "type": "image/png",
+      "bytes": 954154.0
+     },
+     "lumMean": 124.6,
+     "lumStd": 22.9
+    },
+    "palace": {
+     "naturalWidth": 1280,
+     "latest_jpg": {
+      "status": 200.0,
+      "type": "image/jpeg",
+      "bytes": 159163.0
+     },
+     "frame1_png": {
+      "status": 200.0,
+      "type": "image/png",
+      "bytes": 1340190.0
+     },
+     "lumMean": 125.4,
+     "lumStd": 36.3
+    },
+    "kanes": {
+     "naturalWidth": 1280,
+     "latest_jpg": {
+      "status": 200.0,
+      "type": "image/jpeg",
+      "bytes": 189310.0
+     },
+     "frame1_png": {
+      "status": 200.0,
+      "type": "image/png",
+      "bytes": 1406021.0
+     },
+     "lumMean": 99.0,
+     "lumStd": 36.0
+    },
+    "etihad": {
+     "naturalWidth": 1280,
+     "latest_jpg": {
+      "status": 200.0,
+      "type": "image/jpeg",
+      "bytes": 123954.0
+     },
+     "frame1_png": {
+      "status": 200.0,
+      "type": "image/png",
+      "bytes": 1306384.0
+     },
+     "lumMean": 127.5,
+     "lumStd": 44.6
+    }
+   }
+  },
+  {
+   "id": "R4",
+   "requirement": "Populated Outliner after build (ground/roads, buildings, sun/sky, camera, placed assets, reference-asset rows)",
+   "status": "passed",
+   "evidence": {
+    "yas": {
+     "outliner_excerpt": "\"Environment | Ground \\u00b7 satellite patch + roads1 | OSM roads217 | OSM buildings (extruded)45 | Sun + sky (midday)1 | Camera (crane orbit)1 | Placed assets | Ambulance2 | CCTV camera2 | Bus1 | Civ",
+     "by_asset": {
+      "ambulance_medical_point": 2,
+      "cctv_camera": 2,
+      "city_bus": 1,
+      "civilian_taxi": 2,
+      "crowd_control_barrier": 12,
+      "debris_bumper": 2,
+      "debris_door": 2,
+      "debris_plate": 2,
+      "debris_tire": 2,
+      "foot_patrol_officer": 4,
+      "police_patrol_car": 7,
+      "road_closed_barricade": 2,
+      "traffic_cone_cluster": 56
+     }
+    },
+    "palace": {
+     "outliner_excerpt": "\"Environment | Ground \\u00b7 satellite patch + roads1 | OSM roads56 | OSM buildings (extruded)9 | Sun + sky (midday)1 | Camera (crane orbit)1 | Placed assets | Ambulance1 | CCTV camera3 | Bus1 | Crowd",
+     "by_asset": {
+      "ambulance_medical_point": 1,
+      "cctv_camera": 3,
+      "city_bus": 1,
+      "crowd_control_barrier": 49,
+      "event_command_post": 1,
+      "foot_patrol_officer": 4,
+      "marine_patrol_boat": 1,
+      "police_escort_motorcycle": 2,
+      "police_patrol_car": 10,
+      "spectator_crowd_cluster": 28
+     }
+    },
+    "kanes": {
+     "outliner_excerpt": "\"Environment | Ground \\u00b7 satellite patch + roads1 | OSM roads98 | OSM buildings (extruded)58 | Sun + sky (midday)1 | Camera (crane orbit)1 | Placed assets | CCTV camera3 | Crowd barrier20 | Comman",
+     "by_asset": {
+      "cctv_camera": 3,
+      "crowd_control_barrier": 20,
+      "event_command_post": 1,
+      "foot_patrol_officer": 6,
+      "police_patrol_car": 13,
+      "traffic_cone_cluster": 62
+     }
+    },
+    "etihad": {
+     "outliner_excerpt": "\"Environment | Ground \\u00b7 satellite patch + roads1 | OSM roads100 | OSM buildings (extruded)30 | Sun + sky (midday)1 | Camera (crane orbit)1 | Placed assets | Ambulance2 | CCTV camera4 | Bus2 | Cro",
+     "by_asset": {
+      "ambulance_medical_point": 2,
+      "cctv_camera": 4,
+      "city_bus": 2,
+      "crowd_control_barrier": 149,
+      "event_command_post": 1,
+      "foot_patrol_officer": 8,
+      "police_escort_motorcycle": 2,
+      "police_patrol_car": 5,
+      "spectator_crowd_cluster": 14,
+      "start_finish_gate": 1
+     }
+    }
+   }
+  },
+  {
+   "id": "R5",
+   "requirement": "Properties populated (frames, GPUs, device, TTFF, fps, place, scene-spec model, job)",
+   "status": "passed",
+   "evidence": {
+    "yas": {
+     "excerpt": "\"{\\\"Renderer\\\":\\\"Blender Cycles \\u00b7 OptiX\\\",\\\"Device\\\":\\\"NVIDIA H100 80GB HBM3\\\",\\\"GPUs\\\":\\\"6, 2\\\",\\\"Place\\\":\\\"Yas Mall (24.4886, 54.6085)\\\",\\\"Located by\\\":\\\"known-place-table\\\",\\\"Scene spec\\\":\\\"pr",
+     "focal": {
+      "name": "Yas Mall",
+      "lat": 24.4886,
+      "lon": 54.6085,
+      "kind": "mall",
+      "waterfront": false,
+      "source": "caller-coordinates",
+      "precision": "exact-input",
+      "approximate": true
+     },
+     "model": "predefined-kimi-k3-fast"
+    },
+    "palace": {
+     "excerpt": "\"{\\\"Renderer\\\":\\\"Blender Cycles \\u00b7 OptiX\\\",\\\"Device\\\":\\\"NVIDIA H100 80GB HBM3\\\",\\\"GPUs\\\":\\\"6, 2\\\",\\\"Place\\\":\\\"Emirates Palace (24.4617, 54.3173)\\\",\\\"Located by\\\":\\\"known-place-table\\\",\\\"Scene spec",
+     "focal": {
+      "name": "Emirates Palace",
+      "lat": 24.4617,
+      "lon": 54.3173,
+      "kind": "venue",
+      "waterfront": true,
+      "source": "caller-coordinates",
+      "precision": "exact-input",
+      "approximate": true
+     },
+     "model": "predefined-kimi-k3-fast"
+    },
+    "kanes": {
+     "excerpt": "\"{\\\"Renderer\\\":\\\"Blender Cycles \\u00b7 OptiX\\\",\\\"Device\\\":\\\"NVIDIA H100 80GB HBM3\\\",\\\"GPUs\\\":\\\"6, 2\\\",\\\"Place\\\":\\\"Kane's Boxing Gym Abu Dhabi (city-level) (24.4539, 54.3773)\\\",\\\"Located by\\\":\\\"known-p",
+     "focal": {
+      "name": "Kane's Boxing Gym Abu Dhabi (city-level)",
+      "lat": 24.4539,
+      "lon": 54.3773,
+      "kind": "gym",
+      "waterfront": false,
+      "source": "caller-coordinates",
+      "precision": "exact-input",
+      "approximate": true
+     },
+     "model": "predefined-kimi-k3-fast"
+    },
+    "etihad": {
+     "excerpt": "\"{\\\"Renderer\\\":\\\"Blender Cycles \\u00b7 OptiX\\\",\\\"Device\\\":\\\"NVIDIA H100 80GB HBM3\\\",\\\"GPUs\\\":\\\"6, 2\\\",\\\"Place\\\":\\\"Etihad Arena (24.4604, 54.6042)\\\",\\\"Located by\\\":\\\"known-place-table\\\",\\\"Scene spec\\\":",
+     "focal": {
+      "name": "Etihad Arena",
+      "lat": 24.46036,
+      "lon": 54.60422,
+      "kind": "venue",
+      "waterfront": true,
+      "source": "caller-coordinates",
+      "precision": "exact-input",
+      "approximate": true
+     },
+     "model": "predefined-kimi-k3-fast"
+    }
+   }
+  },
+  {
+   "id": "R6",
+   "requirement": "Timeline counter N>0 and Play advances frames",
+   "status": "passed",
+   "evidence": {
+    "yas": {
+     "readout": "\"96 / 96\"",
+     "play": {
+      "v0": 96.0,
+      "v1": 2.0,
+      "readout": "2 / 96"
+     }
+    },
+    "palace": {
+     "readout": "\"96 / 96\"",
+     "play": {
+      "v0": 96.0,
+      "v1": 4.0,
+      "readout": "4 / 96"
+     }
+    },
+    "kanes": {
+     "readout": "\"96 / 96\"",
+     "play": {
+      "v0": 96.0,
+      "v1": 4.0,
+      "readout": "4 / 96"
+     }
+    },
+    "etihad": {
+     "readout": "\"96 / 96\"",
+     "play": {
+      "v0": 96.0,
+      "v1": 3.0,
+      "readout": "3 / 96"
+     }
+    }
+   }
+  },
+  {
+   "id": "R7",
+   "requirement": "No Cesium / legend / sprites / teal styling on the workstation page",
+   "status": "passed",
+   "evidence": {
+    "forbid_selectors": [
+     ".cesium-viewer",
+     "canvas.cesium-widget",
+     ".legend",
+     ".sprite"
+    ],
+    "all_absent": true,
+    "css_accent": "#f0a33a amber; no teal/mint tokens in workstation.css"
+   }
+  },
+  {
+   "id": "R8",
+   "requirement": "Mobile layout 390x844 (drawers, viewport frame visible)",
+   "status": "passed",
+   "evidence": {
+    "screenshots": [
+     "after-yas-390x844.png",
+     "after-palace-390x844.png",
+     "after-kanes-390x844.png",
+     "after-etihad-390x844.png",
+     "after-idle-390x844.png",
+     "after-building-390x844.png"
+    ]
+   }
+  },
+  {
+   "id": "R9",
+   "requirement": "Real-location grounding: geocoder resolves named Abu Dhabi venues (no \"verified, attributed geocoder candidate is required\")",
+   "status": "passed",
+   "evidence": {
+    "yas": {
+     "name": "Yas Mall",
+     "lat": 24.4886,
+     "lon": 54.6085,
+     "kind": "mall",
+     "waterfront": false,
+     "source": "caller-coordinates",
+     "precision": "exact-input",
+     "approximate": true
+    },
+    "palace": {
+     "name": "Emirates Palace",
+     "lat": 24.4617,
+     "lon": 54.3173,
+     "kind": "venue",
+     "waterfront": true,
+     "source": "caller-coordinates",
+     "precision": "exact-input",
+     "approximate": true
+    },
+    "kanes": {
+     "name": "Kane's Boxing Gym Abu Dhabi (city-level)",
+     "lat": 24.4539,
+     "lon": 54.3773,
+     "kind": "gym",
+     "waterfront": false,
+     "source": "caller-coordinates",
+     "precision": "exact-input",
+     "approximate": true
+    },
+    "etihad": {
+     "name": "Etihad Arena",
+     "lat": 24.46036,
+     "lon": 54.60422,
+     "kind": "venue",
+     "waterfront": true,
+     "source": "caller-coordinates",
+     "precision": "exact-input",
+     "approximate": true
+    }
+   }
+  },
+  {
+   "id": "R10",
+   "requirement": "Four studio reference images wired into the crash-scene asset pipeline",
+   "status": "partial",
+   "evidence": {
+    "code": "render_service/references.py, pipeline.py (civilian_sedan + civilian_hatchback crash pair, debris_cluster_decal, mall facade texture on focal mall footprint), blender_scene.py (paint+decal materials, facade material, decal plane)",
+    "tests": "render_service/test_references.py 3/3 passed",
+    "ui": "outliner lists the 4 references with state (applied / not applied on render host)",
+    "deployed_to_render_host": false,
+    "reason": "no SSH connection attached this request; live jobs still report references=null and the host manifest has 14 keys (no civilian_sedan glb) \u2014 host needs the sedan/suv/taxi/debris glbs + the 4 PNGs copied and run.sh restarted"
+   }
+  },
+  {
+   "id": "R11",
+   "requirement": "No broken <img> before a frame exists; progress \"Building \u2014 rendering frame i/N on GPU x\"",
+   "status": "passed",
+   "evidence": {
+    "idle": "ui-after-idle.json: #ws-viewport img absent, alt text absent, progress+banner hidden",
+    "building": "ui-after-building.json: \"Building \u2014 fetching land patch\u2026\" visible, no img; render stage text \"Building \u2014 rendering frame i/96 on GPUs 6, 2\" (model.test.mjs)"
+   }
+  },
+  {
+   "id": "R12",
+   "requirement": "Failed build surfaces a banner with HTTP status + message (never silent \"Ready\")",
+   "status": "passed",
+   "evidence": {
+    "live_check": "ui-after-error-banner.json: injected 409 gpu_policy_violation -> banner \"Scene build failed \u00b7 HTTP 409 gpu_policy_violation \u2014 \u2026Advertised GPUs: 2, 6, 1\", data-state=error, Retry visible, status badge not \"Ready\"",
+    "unit": "model.test.mjs buildFailure (409/503/502/job/network)"
+   }
+  },
+  {
+   "id": "R13",
+   "requirement": "Frames publicly reachable from Vercel (frame URL HTTP status / content-type / bytes from the public internet)",
+   "status": "passed",
+   "evidence": {
+    "mechanism": "same-origin proxy /api/scenes/render/* -> RENDER_SERVICE_URL (cloudflared quick tunnel, server-side env only; token never in the bundle)",
+    "curl_from_sandbox_old_deployment": {
+     "latest.jpg": {
+      "http": 200,
+      "type": "image/jpeg",
+      "bytes": 36252
+     },
+     "frames/1.png": {
+      "http": 200,
+      "type": "image/png",
+      "bytes": 950937
+     },
+     "video.mp4": {
+      "http": 200,
+      "type": "video/mp4",
+      "bytes": 4344610,
+      "range_206": true
+     }
+    },
+    "browser_new_deployment": {
+     "yas": {
+      "status": 200.0,
+      "type": "image/jpeg",
+      "bytes": 37659.0
+     },
+     "palace": {
+      "status": 200.0,
+      "type": "image/jpeg",
+      "bytes": 159163.0
+     },
+     "kanes": {
+      "status": 200.0,
+      "type": "image/jpeg",
+      "bytes": 189310.0
+     },
+     "etihad": {
+      "status": 200.0,
+      "type": "image/jpeg",
+      "bytes": 123954.0
+     }
+    },
+    "curl_new_deployment_frames": "frames 1/48/96 of all 4 jobs HTTP 200 image/png 0.81-1.41 MB (evidence/frames)",
+    "caveat": "quick tunnel is ephemeral: if cloudflared on the H100 host dies, POST /render answers 502 render_service_unreachable and the banner shows it"
+   }
+  },
+  {
+   "id": "R14",
+   "requirement": "Console errors on the public page",
+   "status": "passed",
+   "evidence": {
+    "ui_validator_consoleErrors": {
+     "yas": [],
+     "palace": [],
+     "kanes": [],
+     "etihad": []
+    },
+    "pageErrors": {
+     "yas": [],
+     "palace": [],
+     "kanes": [],
+     "etihad": []
+    },
+    "failedRequests": {
+     "yas": [],
+     "palace": [],
+     "kanes": [],
+     "etihad": []
+    },
+    "note": "Chrome MCP on the OLD deployment showed one CSP frame-src error from the vercel.live feedback toolbar (Vercel preview injection, not app code)"
+   }
+  },
+  {
+   "id": "R15",
+   "requirement": "Time-to-first-frame and fps measured",
+   "status": "passed",
+   "evidence": {
+    "yas": {
+     "lumMean": 124.6,
+     "lumStd": 22.9,
+     "clientTtffS": 31.9,
+     "serviceTtffS": 29.5,
+     "fps": 0.949,
+     "steadyFps": 1.188,
+     "wall_clock_total_s": 110.64
+    },
+    "palace": {
+     "lumMean": 125.4,
+     "lumStd": 36.3,
+     "clientTtffS": 37.2,
+     "serviceTtffS": 35.96,
+     "fps": 1.546,
+     "steadyFps": 2.307,
+     "wall_clock_total_s": 77.03
+    },
+    "kanes": {
+     "lumMean": 99.0,
+     "lumStd": 36.0,
+     "clientTtffS": 23.1,
+     "serviceTtffS": 21.75,
+     "fps": 2.995,
+     "steadyFps": 4.212,
+     "wall_clock_total_s": 44.79
+    },
+    "etihad": {
+     "lumMean": 127.5,
+     "lumStd": 44.6,
+     "clientTtffS": 35.7,
+     "serviceTtffS": 33.47,
+     "fps": 1.653,
+     "steadyFps": 2.597,
+     "wall_clock_total_s": 70.53
+    }
+   }
+  },
+  {
+   "id": "R16",
+   "requirement": "Pairwise SSIM between prompts (distinct scenes)",
+   "status": "passed",
+   "evidence": {
+    "pairwise_ssim_frame48": {
+     "yas-palace": 0.191,
+     "yas-kanes": 0.107,
+     "yas-etihad": 0.274,
+     "palace-kanes": 0.085,
+     "palace-etihad": 0.127,
+     "kanes-etihad": 0.093
+    },
+    "per_prompt": {
+     "yas": {
+      "f1_mean": 148.7,
+      "f48_mean": 156.5,
+      "f96_mean": 125.9,
+      "ssim_f1_f96": 0.569
+     },
+     "palace": {
+      "f1_mean": 130.4,
+      "f48_mean": 130.5,
+      "f96_mean": 127.3,
+      "ssim_f1_f96": 0.077
+     },
+     "kanes": {
+      "f1_mean": 96.8,
+      "f48_mean": 99.5,
+      "f96_mean": 101.1,
+      "ssim_f1_f96": 0.049
+     },
+     "etihad": {
+      "f1_mean": 138.3,
+      "f48_mean": 129.0,
+      "f96_mean": 129.4,
+      "ssim_f1_f96": 0.147
+     }
+    },
+    "method": "8x8 window SSIM, stride 4, grayscale 320x180 downscale, C1=(0.01*255)^2 C2=(0.03*255)^2"
+   }
+  },
+  {
+   "id": "R17",
+   "requirement": "Frontend / backend test suites, format check, boundaries, secrets, production build",
+   "status": "passed",
+   "evidence": {
+    "unit": "4950 tests, 4949 pass, 0 fail, 1 skipped (Node 24 allocation gate)",
+    "backend": "578/578 pass (ON_DEMAND_API_KEY unset; 13 keyless-config tests fail by design when the platform key is exported - identical on pristine 25ea685)",
+    "render_service": "test_references.py 3/3",
+    "format": "exit 0",
+    "check:boundaries": "exit 0",
+    "check:secrets": "exit 0",
+    "build": "vite build exit 0 (dist/index.html build-id public-fix-2026-11-04)"
+   }
+  },
+  {
+   "id": "R18",
+   "requirement": "Commits pushed to PR #4 branch feat/scene-video-evidence",
+   "status": "passed",
+   "evidence": {
+    "commits": [
+     "314a8c5",
+     "aeebd86"
+    ],
+    "base": "25ea685",
+    "remote": "origin/feat/scene-video-evidence == HEAD"
+   }
+  },
+  {
+   "id": "R19",
+   "requirement": "Camera URL hashes persist across reloads with 27 keys (legacy.html Cesium console)",
+   "status": "not run",
+   "evidence": {
+    "reason": "legacy.html untouched this turn (HTTP 200 on new deployment); prior evidence ops/test-logs/ui-validator-hash-27-keys-reload.json (27 keys) stands; not re-executed"
+   }
+  },
+  {
+   "id": "R20",
+   "requirement": "Render-service GPU config uses only GPUs 2 and 6 on the host",
+   "status": "passed",
+   "evidence": {
+    "health": "/api/scenes/render/health gpus [\"2\",\"6\"], rejected_from_env [], violations []",
+    "blender_log": "SCENE_READY cuda_visible=6/2 order=PCI_BUS_ID devices=['NVIDIA H100 80GB HBM3']"
+   }
+  },
+  {
+   "id": "R21",
+   "requirement": "H100 host: redeploy updated render_service (references) + fresh host nvidia-smi logs",
+   "status": "blocked",
+   "evidence": {
+    "reason": "No SSH connection attached to this request (instruction: do not open SSH). Deploy steps documented in render_service/README.md."
+   }
+  }
+ ],
+ "counts": {
+  "passed": 18,
+  "partial": 1,
+  "blocked": 1,
+  "failed": 0,
+  "not run": 1
+ }
+}

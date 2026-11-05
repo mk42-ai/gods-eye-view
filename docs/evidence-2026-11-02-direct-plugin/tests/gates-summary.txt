@@ -1,0 +1,12 @@
+Checked transit-source-factory: 1 exports, 2 owned modules.
+Checked transit-service: 1 exports, 8 owned modules.
+Checked map-feature-source: 1 exports, 4 owned modules.
+Checked brand marks: 2 file(s) render a brand mark (src/ui/templates/hud-loading.html ×1, src/ui/templates/scene-chrome.html ×1).
+boundaries exit=0
+npm notice run node scripts/check-no-secrets.mjs
+check-no-secrets: scanned 2168 text files under src, public, api, server, scripts, tools, docs, config, build, index.html, package.json, README.md, CHANGELOG.md, SECURITY.md, TESTING.md, DATA_SOURCES.md, .env.example, vercel.json, vite.config.js
+✓ no key material in the source tree
+secrets exit=0
+npm notice run node scripts/format.mjs --check
+Checked 1075 source files.
+format exit=0

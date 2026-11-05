@@ -1,0 +1,8 @@
+kubectl get deploy,rs -n byom:
+Error from server (Forbidden): replicasets.apps is forbidden: User "system:node:school-hack-h100-100" cannot list resource "replicasets" in API group "apps" in the namespace "byom"
+kubectl scale deploy --replicas=0 -n byom (dry-run=server):
+error: no objects passed to scale
+kubectl get deploy,rs -n default:
+Error from server (Forbidden): replicasets.apps is forbidden: User "system:node:school-hack-h100-100" cannot list resource "replicasets" in API group "apps" in the namespace "default"
+kubectl scale deploy --replicas=0 -n default (dry-run=server):
+error: no objects passed to scale

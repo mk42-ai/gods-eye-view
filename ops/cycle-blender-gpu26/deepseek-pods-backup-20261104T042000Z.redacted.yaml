@@ -1,0 +1,1062 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    account_type: default
+    application_type: On-demand
+    environment_type: production
+    gpu-fraction: "0.51"
+    pod-group-name: pg-byom-35dc9378a949493-77bbf86f4f-vnbmp-756f7c1e-dcae-46cb-b268-631a6aa9dd35
+    received-resource-type: Fraction
+    runai/shared-gpu-configmap: byom-35dc9378a949493-77bbf86f4f-jmsz4hw-shared-gpu
+    user_email: mk@airev.ae
+    user_name: MK
+  creationTimestamp: "2026-10-21T10:18:03Z"
+  generateName: byom-35dc9378a949493-77bbf86f4f-
+  labels:
+    app: byom-35dc9378a949493
+    kai.scheduler/queue: test
+    pod-template-hash: 77bbf86f4f
+    runai-gpu-group: ac898db6-bbc0-48a3-9778-5434209cdd91
+  name: byom-35dc9378a949493-77bbf86f4f-vnbmp
+  namespace: byom
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: byom-35dc9378a949493-77bbf86f4f
+    uid: cb6bc9f1-de90-4e9c-8d5e-4fc7ddad8c49
+  resourceVersion: "213361197"
+  uid: 756f7c1e-dcae-46cb-b268-631a6aa9dd35
+spec:
+  containers:
+  - args:
+    - --model
+    - deepseek-ai/DeepSeek-R1-0528-Qwen3-8B
+    - --no-enable-log-requests
+    - --trust-remote-code
+    - --model=deepseek-ai/DeepSeek-R1-0528-Qwen3-8B
+    - --dtype=bfloat16
+    - --port=8000
+    - |-
+      --chat-template={% if not add_generation_prompt is defined %}{% set add_generation_prompt = false %}{% endif %}{% set ns = namespace(is_first=false, is_tool=false, is_output_first=true, system_prompt='', is_first_sp=true, is_last_user=false) %}{%- for message in messages %}{%- if message['role'] == 'system' %}{%- if ns.is_first_sp %}{% set ns.system_prompt = ns.system_prompt + message['content'] %}{% set ns.is_first_sp = false %}{%- else %}{% set ns.system_prompt = ns.system_prompt + '
+
+      ' + message['content'] %}{%- endif %}{%- endif %}{%- endfor %}{{ bos_token }}{{ ns.system_prompt }}{%- for message in messages %}{% set content = message['content'] %}{%- if message['role'] == 'user' %}{%- set ns.is_tool = false -%}{%- set ns.is_first = false -%}{%- set ns.is_last_user = true -%}{{'<｜User｜>' + content + '<｜Assistant｜>'}}{%- endif %}{%- if message['role'] == 'assistant' %}{% if '</think>' in content %}{% set content = content.split('</think>')[-1] %}{% endif %}{% endif %}{%- if message['role'] == 'assistant' and message['tool_calls'] is defined and message['tool_calls'] is not none %}{%- set ns.is_last_user = false -%}{%- if ns.is_tool %}{{'<｜tool▁outputs▁end｜>'}}{%- endif %}{%- set ns.is_first = false %}{%- set ns.is_tool = false -%}{%- set ns.is_output_first = true %}{%- for tool in message['tool_calls'] %}{%- if not ns.is_first %}{%- if content is none %}{{'<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + '
+      ' + '```json' + '
+      ' + tool['function']['arguments'] + '
+      ' + '```' + '<｜tool▁call▁end｜>'}}{%- else %}{{content + '<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + '
+      ' + '```json' + '
+      ' + tool['function']['arguments'] + '
+      ' + '```' + '<｜tool▁call▁end｜>'}}{%- endif %}{%- set ns.is_first = true -%}{%- else %}{{'
+      ' + '<｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + '
+      ' + '```json' + '
+      ' + tool['function']['arguments'] + '
+      ' + '```' + '<｜tool▁call▁end｜>'}}{%- endif %}{%- endfor %}{{'<｜tool▁calls▁end｜><｜end▁of▁sentence｜>'}}{%- endif %}{%- if message['role'] == 'assistant' and (message['tool_calls'] is not defined or message['tool_calls'] is none)%}{%- set ns.is_last_user = false -%}{%- if ns.is_tool %}{{'<｜tool▁outputs▁end｜>' + content + '<｜end▁of▁sentence｜>'}}{%- set ns.is_tool = false -%}{%- else %}{{content + '<｜end▁of▁sentence｜>'}}{%- endif %}{%- endif %}{%- if message['role'] == 'tool' %}{%- set ns.is_last_user = false -%}{%- set ns.is_tool = true -%}{%- if ns.is_output_first %}{{'<｜tool▁outputs▁begin｜><｜tool▁output▁begin｜>' + content + '<｜tool▁output▁end｜>'}}{%- set ns.is_output_first = false %}{%- else %}{{'
+      <｜tool▁output▁begin｜>' + content + '<｜tool▁output▁end｜>'}}{%- endif %}{%- endif %}{%- endfor -%}{% if ns.is_tool %}{{'<｜tool▁outputs▁end｜>'}}{% endif %}{% if add_generation_prompt and not ns.is_last_user and not ns.is_tool %}{{'<｜Assistant｜>'}}{% endif %}
+    command:
+    - /bin/sh
+    - -c
+    - |
+      # Resolve a working Hugging Face endpoint at container startup.
+      # Prefer whatever HF_ENDPOINT the deployment sets, but transparently
+      # fall back to https://huggingface.co when the preferred endpoint
+      # is unhealthy. The probe is intentionally strict so it catches
+      # "fake mirrors" like hf-mirror.com which is now just a Caddy 308
+      # redirector that strips HF response headers (causing
+      # huggingface_hub to throw FileMetadataError mid-download).
+      HF_OFFICIAL="https://huggingface.co"
+      HF_PREFERRED="${HF_ENDPOINT:-$HF_OFFICIAL}"
+
+      # Extract --model from the workload args so the probe hits the
+      # actual repo-resolve path the library will use, not a generic
+      # /api/models/gpt2 lookup that can succeed via redirect even
+      # when the endpoint is broken for the model we need.
+      HF_PROBE_MODEL=""
+      _set_probe_model() {
+        while [ "$#" -gt 0 ]; do
+          case "$1" in
+            --model=*) HF_PROBE_MODEL="${1#--model=}"; return ;;
+            --model)   shift; HF_PROBE_MODEL="$1"; return ;;
+          esac
+          shift
+        done
+      }
+      _set_probe_model "$@"
+      export HF_PROBE_MODEL
+      export HF_PROBE_TOKEN="${HUGGING_FACE_HUB_TOKEN:-${HF_TOKEN:-}}"
+
+      _hf_probe() {
+        HF_PROBE_ENDPOINT="$1" python3 -c '
+      import os, ssl, sys
+      from urllib.request import (
+          Request, build_opener, HTTPRedirectHandler, HTTPSHandler,
+      )
+
+      class _NoRedirect(HTTPRedirectHandler):
+          def redirect_request(self, req, fp, code, msg, headers, newurl):
+              return None
+
+      endpoint = os.environ["HF_PROBE_ENDPOINT"].rstrip("/")
+      model = os.environ.get("HF_PROBE_MODEL", "") or "gpt2"
+      token = os.environ.get("HF_PROBE_TOKEN", "")
+      url = endpoint + "/" + model + "/resolve/main/config.json"
+      req_headers = {"User-Agent": "hf-endpoint-probe/2.0"}
+      if token:
+          req_headers["Authorization"] = "Bearer " + token
+
+      opener = build_opener(_NoRedirect, HTTPSHandler(context=ssl.create_default_context()))
+      try:
+          resp = opener.open(
+              Request(url, method="HEAD", headers=req_headers),
+              timeout=10,
+          )
+          code = getattr(resp, "status", resp.getcode())
+          raw = resp.headers
+      except Exception as exc:
+          code = getattr(exc, "code", None)
+          raw = getattr(exc, "headers", None)
+          if code is None or raw is None:
+              print("hf-endpoint probe failed for " + endpoint + ": " + str(exc), file=sys.stderr)
+              sys.exit(1)
+
+      headers = {k.lower(): v for k, v in raw.items()} if raw else {}
+      # x-powered-by:huggingface-moon and x-request-id are present on
+      # every HF response (200/307/401/...). A "fake mirror" like
+      # hf-mirror.com responds with only `server: Caddy` and bare
+      # Location, so the absence of these markers reliably identifies
+      # a redirector/proxy that will trip up huggingface_hub.
+      is_hf = bool(
+          "huggingface" in headers.get("x-powered-by", "").lower()
+          or headers.get("x-request-id")
+          or headers.get("x-repo-commit")
+          or headers.get("x-linked-etag")
+          or headers.get("x-error-code")
+      )
+      if not is_hf:
+          print("hf-endpoint " + endpoint + " is not a real HF endpoint (status=" + str(code) + ", no HF headers)", file=sys.stderr)
+          sys.exit(1)
+      if code is not None and code >= 500:
+          print("hf-endpoint " + endpoint + " unhealthy (5xx, status=" + str(code) + ")", file=sys.stderr)
+          sys.exit(1)
+      # Real HF response (2xx/3xx/4xx). 4xx like 401/403/404 is an
+      # auth/repo issue, not an endpoint issue -- another HF endpoint
+      # would give the same answer, so we use this one and let the
+      # workload surface the real error.
+      sys.exit(0)
+      '
+      }
+
+      if _hf_probe "$HF_PREFERRED"; then
+        export HF_ENDPOINT="$HF_PREFERRED"
+      elif [ "$HF_PREFERRED" != "$HF_OFFICIAL" ] && _hf_probe "$HF_OFFICIAL"; then
+        echo "[hf-endpoint] preferred '$HF_PREFERRED' unhealthy for model '${HF_PROBE_MODEL:-<unknown>}', falling back to '$HF_OFFICIAL'" >&2
+        export HF_ENDPOINT="$HF_OFFICIAL"
+      else
+        echo "[hf-endpoint] WARNING: no HF endpoint healthy for model '${HF_PROBE_MODEL:-<unknown>}', continuing with '$HF_PREFERRED'" >&2
+        export HF_ENDPOINT="$HF_PREFERRED"
+      fi
+
+      echo "[hf-endpoint] using HF_ENDPOINT=$HF_ENDPOINT (probed for ${HF_PROBE_MODEL:-generic})" >&2
+      unset HF_PROBE_ENDPOINT HF_PROBE_MODEL HF_PROBE_TOKEN
+
+      # Auto-resolve a safe --gpu-memory-utilization based on actually
+      # free GPU memory at startup. Prevents OOM at engine init when
+      # the device is shared (KAI fractional allocation, leaked CUDA
+      # contexts from prior pods, other tenants) and a static high
+      # value like 0.95 would exceed what is actually free. Respects
+      # an explicit --gpu-memory-utilization in $@ (user override).
+      GPU_AUTO_UTIL_ARG=""
+      _has_gpu_util_arg() {
+        for _arg in "$@"; do
+          case "$_arg" in
+            --gpu-memory-utilization|--gpu-memory-utilization=*) return 0 ;;
+          esac
+        done
+        return 1
+      }
+      if _has_gpu_util_arg "$@"; then
+        echo "[gpu-util] respecting explicit --gpu-memory-utilization from args" >&2
+      else
+        _gpu_util_value="$(python3 -c '
+      import sys
+      try:
+          import pynvml
+          pynvml.nvmlInit()
+          margin = 4 * 1024 * 1024 * 1024  # 4 GiB headroom for CUDA graphs / fragmentation / other tenants
+          ratios = []
+          for i in range(pynvml.nvmlDeviceGetCount()):
+              h = pynvml.nvmlDeviceGetHandleByIndex(i)
+              info = pynvml.nvmlDeviceGetMemoryInfo(h)
+              safe = max(0, info.free - margin)
+              ratios.append(safe / info.total)
+          if not ratios:
+              raise RuntimeError("no GPUs visible")
+          print("{:.2f}".format(max(0.50, min(0.92, min(ratios)))))
+      except Exception as exc:
+          print("[gpu-util] cannot query GPU memory (" + str(exc) + "), using conservative 0.80", file=sys.stderr)
+          print("0.80")
+      ')"
+        GPU_AUTO_UTIL_ARG="--gpu-memory-utilization=${_gpu_util_value}"
+        echo "[gpu-util] auto-resolved ${GPU_AUTO_UTIL_ARG}" >&2
+      fi
+
+      # Unquoted on purpose: empty -> no arg; non-empty -> exactly one
+      # word with no spaces, so word-splitting is safe here.
+      exec python3 -m vllm.entrypoints.openai.api_server "$@" ${GPU_AUTO_UTIL_ARG}
+    env:
+    - name: HF_HOME
+      value: "<REDACTED>"
+    - name: HUGGING_FACE_HUB_TOKEN
+      value: "<REDACTED>"
+    - name: HF_HUB_ENABLE_HF_TRANSFER
+      value: "<REDACTED>"
+    - name: HF_HUB_DOWNLOAD_RETRY
+      value: "<REDACTED>"
+    - name: HF_HUB_DOWNLOAD_TIMEOUT
+      value: "<REDACTED>"
+    - name: HF_HUB_DISABLE_TELEMETRY
+      value: "<REDACTED>"
+    - name: HF_HUB_DISABLE_XET
+      value: "<REDACTED>"
+    - name: HF_ENDPOINT
+      value: "<REDACTED>"
+    - name: FLASHINFER_DISABLE_VERSION_CHECK
+      value: "1"
+    - name: NVIDIA_VISIBLE_DEVICES
+      valueFrom:
+        configMapKeyRef:
+          key: NVIDIA_VISIBLE_DEVICES
+          name: byom-35dc9378a949493-77bbf86f4f-jmsz4hw-shared-gpu-0
+    - name: RUNAI_NUM_OF_GPUS
+      valueFrom:
+        configMapKeyRef:
+          key: RUNAI_NUM_OF_GPUS
+          name: byom-35dc9378a949493-77bbf86f4f-jmsz4hw-shared-gpu-0
+    - name: GPU_PORTION
+      valueFrom:
+        configMapKeyRef:
+          key: GPU_PORTION
+          name: byom-35dc9378a949493-77bbf86f4f-jmsz4hw-shared-gpu-0
+    envFrom:
+    - configMapRef:
+        name: byom-35dc9378a949493-77bbf86f4f-jmsz4hw-shared-gpu-0-evar
+        optional: false
+    image: vllm/vllm-openai:gptoss
+    imagePullPolicy: IfNotPresent
+    name: byom-35dc9378a949493
+    ports:
+    - containerPort: 8000
+      name: http
+      protocol: TCP
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        add:
+        - SYS_ADMIN
+        - DAC_OVERRIDE
+        - CHOWN
+        - FOWNER
+        - SETUID
+        - SETGID
+        drop:
+        - ALL
+      runAsUser: 0
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /dev/shm
+      name: dshm
+    - mountPath: /.cache
+      name: cache
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-wpn5k
+      readOnly: true
+  dnsConfig:
+    nameservers:
+    - 8.8.8.8
+    - 1.1.1.1
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: school-hack-h100-100
+  nodeSelector:
+    kubernetes.io/hostname: school-hack-h100-100
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  runtimeClassName: nvidia
+  schedulerName: kai-scheduler
+  securityContext:
+    runAsUser: 0
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - emptyDir: {}
+    name: cache
+  - emptyDir:
+      medium: Memory
+    name: dshm
+  - name: kube-api-access-wpn5k
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+  - configMap:
+      defaultMode: 420
+      name: byom-35dc9378a949493-77bbf86f4f-jmsz4hw-shared-gpu-0
+    name: byom-35dc9378a949493-77bbf86f4f-jmsz4hw-shared-gpu-0-vol
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-21T10:18:17Z"
+    message: Pod bound successfully to node school-hack-h100-100
+    reason: Bound
+    status: "True"
+    type: PodBound
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-21T10:18:19Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-21T10:18:17Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-21T10:18:19Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-21T10:18:19Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-21T10:18:17Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://ca272257fb6917144aee53967efabb2089583eab0b11a1f237b62cd1cc873f1b
+    image: docker.io/vllm/vllm-openai:gptoss
+    imageID: docker.io/vllm/vllm-openai@sha256:23c3feefba723be97ff9e9bd769aed7d165839a79bc042eb8f3a13dd2a469e1c
+    lastState: {}
+    name: byom-35dc9378a949493
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-10-21T10:18:19Z"
+    volumeMounts:
+    - mountPath: /dev/shm
+      name: dshm
+    - mountPath: /.cache
+      name: cache
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-wpn5k
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 93.119.168.123
+  hostIPs:
+  - ip: 93.119.168.123
+  phase: Running
+  podIP: 10.0.3.150
+  podIPs:
+  - ip: 10.0.3.150
+  qosClass: BestEffort
+  startTime: "2026-10-21T10:18:17Z"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    account_type: default
+    application_type: On-demand
+    environment_type: production
+    gpu-fraction: "0.51"
+    pod-group-name: pg-byom-515f649affa24c6-756d5b67df-ljbfn-f645165f-46e2-42a0-987e-6910f907c43e
+    received-resource-type: Fraction
+    runai/shared-gpu-configmap: byom-515f649affa24c6-756d5b67df-k6nj5hc-shared-gpu
+    user_email: mk@airev.ae
+    user_name: MK
+  creationTimestamp: "2026-10-27T09:22:33Z"
+  generateName: byom-515f649affa24c6-756d5b67df-
+  labels:
+    app: byom-515f649affa24c6
+    kai.scheduler/queue: test
+    pod-template-hash: 756d5b67df
+    runai-gpu-group: 91c4b3e6-1bd5-4baf-93f6-2cee0719c03b
+  name: byom-515f649affa24c6-756d5b67df-ljbfn
+  namespace: byom
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: byom-515f649affa24c6-756d5b67df
+    uid: 1cad175a-06aa-4401-b08f-6da43c651c2f
+  resourceVersion: "213361233"
+  uid: f645165f-46e2-42a0-987e-6910f907c43e
+spec:
+  containers:
+  - args:
+    - --model
+    - deepseek-ai/DeepSeek-R1-0528-Qwen3-8B
+    - --no-enable-log-requests
+    - --trust-remote-code
+    - --model=deepseek-ai/DeepSeek-R1-0528-Qwen3-8B
+    - --dtype=bfloat16
+    - --port=8000
+    - |-
+      --chat-template={% if not add_generation_prompt is defined %}{% set add_generation_prompt = false %}{% endif %}{% set ns = namespace(is_first=false, is_tool=false, is_output_first=true, system_prompt='', is_first_sp=true, is_last_user=false) %}{%- for message in messages %}{%- if message['role'] == 'system' %}{%- if ns.is_first_sp %}{% set ns.system_prompt = ns.system_prompt + message['content'] %}{% set ns.is_first_sp = false %}{%- else %}{% set ns.system_prompt = ns.system_prompt + '
+
+      ' + message['content'] %}{%- endif %}{%- endif %}{%- endfor %}{{ bos_token }}{{ ns.system_prompt }}{%- for message in messages %}{% set content = message['content'] %}{%- if message['role'] == 'user' %}{%- set ns.is_tool = false -%}{%- set ns.is_first = false -%}{%- set ns.is_last_user = true -%}{{'<｜User｜>' + content + '<｜Assistant｜>'}}{%- endif %}{%- if message['role'] == 'assistant' %}{% if '</think>' in content %}{% set content = content.split('</think>')[-1] %}{% endif %}{% endif %}{%- if message['role'] == 'assistant' and message['tool_calls'] is defined and message['tool_calls'] is not none %}{%- set ns.is_last_user = false -%}{%- if ns.is_tool %}{{'<｜tool▁outputs▁end｜>'}}{%- endif %}{%- set ns.is_first = false %}{%- set ns.is_tool = false -%}{%- set ns.is_output_first = true %}{%- for tool in message['tool_calls'] %}{%- if not ns.is_first %}{%- if content is none %}{{'<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + '
+      ' + '```json' + '
+      ' + tool['function']['arguments'] + '
+      ' + '```' + '<｜tool▁call▁end｜>'}}{%- else %}{{content + '<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + '
+      ' + '```json' + '
+      ' + tool['function']['arguments'] + '
+      ' + '```' + '<｜tool▁call▁end｜>'}}{%- endif %}{%- set ns.is_first = true -%}{%- else %}{{'
+      ' + '<｜tool▁call▁begin｜>' + tool['type'] + '<｜tool▁sep｜>' + tool['function']['name'] + '
+      ' + '```json' + '
+      ' + tool['function']['arguments'] + '
+      ' + '```' + '<｜tool▁call▁end｜>'}}{%- endif %}{%- endfor %}{{'<｜tool▁calls▁end｜><｜end▁of▁sentence｜>'}}{%- endif %}{%- if message['role'] == 'assistant' and (message['tool_calls'] is not defined or message['tool_calls'] is none)%}{%- set ns.is_last_user = false -%}{%- if ns.is_tool %}{{'<｜tool▁outputs▁end｜>' + content + '<｜end▁of▁sentence｜>'}}{%- set ns.is_tool = false -%}{%- else %}{{content + '<｜end▁of▁sentence｜>'}}{%- endif %}{%- endif %}{%- if message['role'] == 'tool' %}{%- set ns.is_last_user = false -%}{%- set ns.is_tool = true -%}{%- if ns.is_output_first %}{{'<｜tool▁outputs▁begin｜><｜tool▁output▁begin｜>' + content + '<｜tool▁output▁end｜>'}}{%- set ns.is_output_first = false %}{%- else %}{{'
+      <｜tool▁output▁begin｜>' + content + '<｜tool▁output▁end｜>'}}{%- endif %}{%- endif %}{%- endfor -%}{% if ns.is_tool %}{{'<｜tool▁outputs▁end｜>'}}{% endif %}{% if add_generation_prompt and not ns.is_last_user and not ns.is_tool %}{{'<｜Assistant｜>'}}{% endif %}
+    command:
+    - /bin/sh
+    - -c
+    - |
+      # Resolve a working Hugging Face endpoint at container startup.
+      # Prefer whatever HF_ENDPOINT the deployment sets, but transparently
+      # fall back to https://huggingface.co when the preferred endpoint
+      # is unhealthy. The probe is intentionally strict so it catches
+      # "fake mirrors" like hf-mirror.com which is now just a Caddy 308
+      # redirector that strips HF response headers (causing
+      # huggingface_hub to throw FileMetadataError mid-download).
+      HF_OFFICIAL="https://huggingface.co"
+      HF_PREFERRED="${HF_ENDPOINT:-$HF_OFFICIAL}"
+
+      # Extract --model from the workload args so the probe hits the
+      # actual repo-resolve path the library will use, not a generic
+      # /api/models/gpt2 lookup that can succeed via redirect even
+      # when the endpoint is broken for the model we need.
+      HF_PROBE_MODEL=""
+      _set_probe_model() {
+        while [ "$#" -gt 0 ]; do
+          case "$1" in
+            --model=*) HF_PROBE_MODEL="${1#--model=}"; return ;;
+            --model)   shift; HF_PROBE_MODEL="$1"; return ;;
+          esac
+          shift
+        done
+      }
+      _set_probe_model "$@"
+      export HF_PROBE_MODEL
+      export HF_PROBE_TOKEN="${HUGGING_FACE_HUB_TOKEN:-${HF_TOKEN:-}}"
+
+      _hf_probe() {
+        HF_PROBE_ENDPOINT="$1" python3 -c '
+      import os, ssl, sys
+      from urllib.request import (
+          Request, build_opener, HTTPRedirectHandler, HTTPSHandler,
+      )
+
+      class _NoRedirect(HTTPRedirectHandler):
+          def redirect_request(self, req, fp, code, msg, headers, newurl):
+              return None
+
+      endpoint = os.environ["HF_PROBE_ENDPOINT"].rstrip("/")
+      model = os.environ.get("HF_PROBE_MODEL", "") or "gpt2"
+      token = os.environ.get("HF_PROBE_TOKEN", "")
+      url = endpoint + "/" + model + "/resolve/main/config.json"
+      req_headers = {"User-Agent": "hf-endpoint-probe/2.0"}
+      if token:
+          req_headers["Authorization"] = "Bearer " + token
+
+      opener = build_opener(_NoRedirect, HTTPSHandler(context=ssl.create_default_context()))
+      try:
+          resp = opener.open(
+              Request(url, method="HEAD", headers=req_headers),
+              timeout=10,
+          )
+          code = getattr(resp, "status", resp.getcode())
+          raw = resp.headers
+      except Exception as exc:
+          code = getattr(exc, "code", None)
+          raw = getattr(exc, "headers", None)
+          if code is None or raw is None:
+              print("hf-endpoint probe failed for " + endpoint + ": " + str(exc), file=sys.stderr)
+              sys.exit(1)
+
+      headers = {k.lower(): v for k, v in raw.items()} if raw else {}
+      # x-powered-by:huggingface-moon and x-request-id are present on
+      # every HF response (200/307/401/...). A "fake mirror" like
+      # hf-mirror.com responds with only `server: Caddy` and bare
+      # Location, so the absence of these markers reliably identifies
+      # a redirector/proxy that will trip up huggingface_hub.
+      is_hf = bool(
+          "huggingface" in headers.get("x-powered-by", "").lower()
+          or headers.get("x-request-id")
+          or headers.get("x-repo-commit")
+          or headers.get("x-linked-etag")
+          or headers.get("x-error-code")
+      )
+      if not is_hf:
+          print("hf-endpoint " + endpoint + " is not a real HF endpoint (status=" + str(code) + ", no HF headers)", file=sys.stderr)
+          sys.exit(1)
+      if code is not None and code >= 500:
+          print("hf-endpoint " + endpoint + " unhealthy (5xx, status=" + str(code) + ")", file=sys.stderr)
+          sys.exit(1)
+      # Real HF response (2xx/3xx/4xx). 4xx like 401/403/404 is an
+      # auth/repo issue, not an endpoint issue -- another HF endpoint
+      # would give the same answer, so we use this one and let the
+      # workload surface the real error.
+      sys.exit(0)
+      '
+      }
+
+      if _hf_probe "$HF_PREFERRED"; then
+        export HF_ENDPOINT="$HF_PREFERRED"
+      elif [ "$HF_PREFERRED" != "$HF_OFFICIAL" ] && _hf_probe "$HF_OFFICIAL"; then
+        echo "[hf-endpoint] preferred '$HF_PREFERRED' unhealthy for model '${HF_PROBE_MODEL:-<unknown>}', falling back to '$HF_OFFICIAL'" >&2
+        export HF_ENDPOINT="$HF_OFFICIAL"
+      else
+        echo "[hf-endpoint] WARNING: no HF endpoint healthy for model '${HF_PROBE_MODEL:-<unknown>}', continuing with '$HF_PREFERRED'" >&2
+        export HF_ENDPOINT="$HF_PREFERRED"
+      fi
+
+      echo "[hf-endpoint] using HF_ENDPOINT=$HF_ENDPOINT (probed for ${HF_PROBE_MODEL:-generic})" >&2
+      unset HF_PROBE_ENDPOINT HF_PROBE_MODEL HF_PROBE_TOKEN
+
+      # Auto-resolve a safe --gpu-memory-utilization based on actually
+      # free GPU memory at startup. Prevents OOM at engine init when
+      # the device is shared (KAI fractional allocation, leaked CUDA
+      # contexts from prior pods, other tenants) and a static high
+      # value like 0.95 would exceed what is actually free. Respects
+      # an explicit --gpu-memory-utilization in $@ (user override).
+      GPU_AUTO_UTIL_ARG=""
+      _has_gpu_util_arg() {
+        for _arg in "$@"; do
+          case "$_arg" in
+            --gpu-memory-utilization|--gpu-memory-utilization=*) return 0 ;;
+          esac
+        done
+        return 1
+      }
+      if _has_gpu_util_arg "$@"; then
+        echo "[gpu-util] respecting explicit --gpu-memory-utilization from args" >&2
+      else
+        _gpu_util_value="$(python3 -c '
+      import sys
+      try:
+          import pynvml
+          pynvml.nvmlInit()
+          margin = 4 * 1024 * 1024 * 1024  # 4 GiB headroom for CUDA graphs / fragmentation / other tenants
+          ratios = []
+          for i in range(pynvml.nvmlDeviceGetCount()):
+              h = pynvml.nvmlDeviceGetHandleByIndex(i)
+              info = pynvml.nvmlDeviceGetMemoryInfo(h)
+              safe = max(0, info.free - margin)
+              ratios.append(safe / info.total)
+          if not ratios:
+              raise RuntimeError("no GPUs visible")
+          print("{:.2f}".format(max(0.50, min(0.92, min(ratios)))))
+      except Exception as exc:
+          print("[gpu-util] cannot query GPU memory (" + str(exc) + "), using conservative 0.80", file=sys.stderr)
+          print("0.80")
+      ')"
+        GPU_AUTO_UTIL_ARG="--gpu-memory-utilization=${_gpu_util_value}"
+        echo "[gpu-util] auto-resolved ${GPU_AUTO_UTIL_ARG}" >&2
+      fi
+
+      # Unquoted on purpose: empty -> no arg; non-empty -> exactly one
+      # word with no spaces, so word-splitting is safe here.
+      exec python3 -m vllm.entrypoints.openai.api_server "$@" ${GPU_AUTO_UTIL_ARG}
+    env:
+    - name: HF_HOME
+      value: "<REDACTED>"
+    - name: HUGGING_FACE_HUB_TOKEN
+      value: "<REDACTED>"
+    - name: HF_HUB_ENABLE_HF_TRANSFER
+      value: "<REDACTED>"
+    - name: HF_HUB_DOWNLOAD_RETRY
+      value: "<REDACTED>"
+    - name: HF_HUB_DOWNLOAD_TIMEOUT
+      value: "<REDACTED>"
+    - name: HF_HUB_DISABLE_TELEMETRY
+      value: "<REDACTED>"
+    - name: HF_HUB_DISABLE_XET
+      value: "<REDACTED>"
+    - name: HF_ENDPOINT
+      value: "<REDACTED>"
+    - name: FLASHINFER_DISABLE_VERSION_CHECK
+      value: "1"
+    - name: NVIDIA_VISIBLE_DEVICES
+      valueFrom:
+        configMapKeyRef:
+          key: NVIDIA_VISIBLE_DEVICES
+          name: byom-515f649affa24c6-756d5b67df-k6nj5hc-shared-gpu-0
+    - name: RUNAI_NUM_OF_GPUS
+      valueFrom:
+        configMapKeyRef:
+          key: RUNAI_NUM_OF_GPUS
+          name: byom-515f649affa24c6-756d5b67df-k6nj5hc-shared-gpu-0
+    - name: GPU_PORTION
+      valueFrom:
+        configMapKeyRef:
+          key: GPU_PORTION
+          name: byom-515f649affa24c6-756d5b67df-k6nj5hc-shared-gpu-0
+    envFrom:
+    - configMapRef:
+        name: byom-515f649affa24c6-756d5b67df-k6nj5hc-shared-gpu-0-evar
+        optional: false
+    image: vllm/vllm-openai:gptoss
+    imagePullPolicy: IfNotPresent
+    name: byom-515f649affa24c6
+    ports:
+    - containerPort: 8000
+      name: http
+      protocol: TCP
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        add:
+        - SYS_ADMIN
+        - DAC_OVERRIDE
+        - CHOWN
+        - FOWNER
+        - SETUID
+        - SETGID
+        drop:
+        - ALL
+      runAsUser: 0
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /dev/shm
+      name: dshm
+    - mountPath: /.cache
+      name: cache
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-smlj2
+      readOnly: true
+  dnsConfig:
+    nameservers:
+    - 8.8.8.8
+    - 1.1.1.1
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: school-hack-h100-100
+  nodeSelector:
+    kubernetes.io/hostname: school-hack-h100-100
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  runtimeClassName: nvidia
+  schedulerName: kai-scheduler
+  securityContext:
+    runAsUser: 0
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - emptyDir: {}
+    name: cache
+  - emptyDir:
+      medium: Memory
+    name: dshm
+  - name: kube-api-access-smlj2
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+  - configMap:
+      defaultMode: 420
+      name: byom-515f649affa24c6-756d5b67df-k6nj5hc-shared-gpu-0
+    name: byom-515f649affa24c6-756d5b67df-k6nj5hc-shared-gpu-0-vol
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-27T09:22:45Z"
+    message: Pod bound successfully to node school-hack-h100-100
+    reason: Bound
+    status: "True"
+    type: PodBound
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-27T09:22:48Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-27T09:22:46Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-27T09:22:48Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-27T09:22:48Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-10-27T09:22:45Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://13b82e3825e143e577c04a7a9144cfbe6665f8f203a61847faf89f79ea8cbb6b
+    image: docker.io/vllm/vllm-openai:gptoss
+    imageID: docker.io/vllm/vllm-openai@sha256:23c3feefba723be97ff9e9bd769aed7d165839a79bc042eb8f3a13dd2a469e1c
+    lastState: {}
+    name: byom-515f649affa24c6
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-10-27T09:22:48Z"
+    volumeMounts:
+    - mountPath: /dev/shm
+      name: dshm
+    - mountPath: /.cache
+      name: cache
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-smlj2
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 93.119.168.123
+  hostIPs:
+  - ip: 93.119.168.123
+  phase: Running
+  podIP: 10.0.3.87
+  podIPs:
+  - ip: 10.0.3.87
+  qosClass: BestEffort
+  startTime: "2026-10-27T09:22:46Z"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/restartedAt: "2026-04-03T13:18:21.594Z"
+  creationTimestamp: "2026-09-30T08:38:57Z"
+  generateName: deepseek-ocr-omer-6bb7668d75-
+  labels:
+    app: deepseek-ocr-omer
+    pod-template-hash: 6bb7668d75
+  name: deepseek-ocr-omer-6bb7668d75-tbs62
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: deepseek-ocr-omer-6bb7668d75
+    uid: 879cde7a-12b8-4d3b-9a0a-6729ee72df30
+  resourceVersion: "213361257"
+  uid: a51411d9-8456-41a4-90c7-ccee15178242
+spec:
+  containers:
+  - env:
+    - name: CUDA_VISIBLE_DEVICES
+      value: "0"
+    - name: MAX_CONCURRENCY
+      value: "50"
+    - name: GPU_MEMORY_UTILIZATION
+      value: "0.9"
+    image: shrey2003/deepseek-ocr2-dockerized:amd64
+    imagePullPolicy: Always
+    name: deepseek-ocr
+    ports:
+    - containerPort: 8000
+      protocol: TCP
+    resources:
+      limits:
+        nvidia.com/gpu: "1"
+      requests:
+        nvidia.com/gpu: "1"
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-pxgzc
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: school-hack-h100-100
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-pxgzc
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-30T08:51:37Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-30T08:42:37Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-30T08:51:37Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-30T08:51:37Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-30T08:41:54Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://5a392890666f37820343f1d631e7237cc9a78978bd5896c00142102305a90b6a
+    image: docker.io/shrey2003/deepseek-ocr2-dockerized:amd64
+    imageID: docker.io/shrey2003/deepseek-ocr2-dockerized@sha256:abb0419b5c90d53728e68ab44df296d54bda116099d45b33c104c09f8c5b483e
+    lastState: {}
+    name: deepseek-ocr
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-09-30T08:51:36Z"
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-pxgzc
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 93.119.168.123
+  hostIPs:
+  - ip: 93.119.168.123
+  phase: Running
+  podIP: 10.0.3.29
+  podIPs:
+  - ip: 10.0.3.29
+  qosClass: BestEffort
+  startTime: "2026-09-30T08:42:37Z"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/restartedAt: "2026-01-29T18:41:52Z"
+  creationTimestamp: "2026-09-30T08:38:54Z"
+  generateName: deepseek-ocr-pdf-86556479c8-
+  labels:
+    app: deepseek-ocr-pdf
+    pod-template-hash: 86556479c8
+  name: deepseek-ocr-pdf-86556479c8-dn26h
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: deepseek-ocr-pdf-86556479c8
+    uid: 83eeb722-c7c2-4eb7-9860-054035ef592e
+  resourceVersion: "213361314"
+  uid: 11136efb-10d0-45b5-bd07-a279303dc370
+spec:
+  containers:
+  - env:
+    - name: CUDA_VISIBLE_DEVICES
+      value: "0"
+    - name: MODEL_PATH
+      value: /app/models/deepseek-ai/DeepSeek-OCR
+    - name: MAX_CONCURRENCY
+      value: "50"
+    - name: GPU_MEMORY_UTILIZATION
+      value: "0.85"
+    image: shrey2003/deepseek-ocr@sha256:34a3ebedfdf2f7027976f8f88e7e2b9ec0111bc83c48107bc4323e9e58548f20
+    imagePullPolicy: Always
+    name: deepseek-ocr-api
+    ports:
+    - containerPort: 8000
+      name: http
+      protocol: TCP
+    resources:
+      limits:
+        cpu: "8"
+        memory: 32Gi
+        nvidia.com/gpu: "1"
+      requests:
+        cpu: "4"
+        memory: 16Gi
+        nvidia.com/gpu: "1"
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-2lg55
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: school-hack-h100-100
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-2lg55
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-30T08:47:20Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-30T08:42:27Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-30T08:47:20Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-30T08:47:20Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-09-30T08:41:54Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://a69983d38ba7554852ab89b9fb6b2a8622ad825e41b798166d6bfa4834caa46b
+    image: sha256:7e1e8db5d66c1e161444cd39b4f3a20ca6ad9a33746d6f2b88e62f4dff54261e
+    imageID: docker.io/shrey2003/deepseek-ocr@sha256:34a3ebedfdf2f7027976f8f88e7e2b9ec0111bc83c48107bc4323e9e58548f20
+    lastState: {}
+    name: deepseek-ocr-api
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2026-09-30T08:47:19Z"
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-2lg55
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 93.119.168.123
+  hostIPs:
+  - ip: 93.119.168.123
+  phase: Running
+  podIP: 10.0.3.178
+  podIPs:
+  - ip: 10.0.3.178
+  qosClass: Burstable
+  startTime: "2026-09-30T08:42:27Z"
+--- deployment get attempt:
+  resourceVersion: ""
+Error from server (Forbidden): deployments.apps is forbidden: User "system:node:school-hack-h100-100" cannot list resource "deployments" in API group "apps" in the namespace "byom"
+  resourceVersion: ""
+Error from server (Forbidden): replicasets.apps is forbidden: User "system:node:school-hack-h100-100" cannot list resource "replicasets" in API group "apps" in the namespace "default"

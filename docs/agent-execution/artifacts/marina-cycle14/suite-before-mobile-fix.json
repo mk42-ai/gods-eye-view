@@ -1,0 +1,5228 @@
+{
+  "startedUtc": "2026-10-24T02:15:56.170Z",
+  "url": "https://sb-2nei6kyp3xva.vercel.run",
+  "assertions": [
+    {
+      "id": "desktop.baseline",
+      "pass": true,
+      "detail": "Desktop UI is ready at 1440×900; capture an unmodified baseline",
+      "data": {
+        "url": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+        "screenshot": "/tmp/gev-marina-suite-2/marina-desktop-2026-10-24T02-15-56-574Z-baseline.png"
+      },
+      "startedUtc": "2026-10-24T02:15:56.574Z",
+      "finishedUtc": "2026-10-24T02:16:00.209Z",
+      "utc": "2026-10-24T02:16:00.209Z",
+      "viewport": "1440x900"
+    },
+    {
+      "id": "desktop.compose",
+      "pass": true,
+      "detail": "Submit the exact waterfront orbit request with the Enter key",
+      "data": {
+        "query": "Create a waterfront orbit scene around Dubai Marina",
+        "state": "done",
+        "text": "Scene generated at Dubai Marina.Play"
+      },
+      "startedUtc": "2026-10-24T02:16:00.209Z",
+      "finishedUtc": "2026-10-24T02:16:36.227Z",
+      "utc": "2026-10-24T02:16:36.227Z",
+      "viewport": "1440x900"
+    },
+    {
+      "id": "desktop.anchor",
+      "pass": true,
+      "detail": "The generated scene is geographically anchored near Dubai Marina",
+      "data": {
+        "id": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+        "title": "Dubai Marina — Waterfront Orbit",
+        "geographic": true,
+        "anchor": {
+          "lat": 25.0786415,
+          "lon": 55.1352524
+        },
+        "keyframes": 4,
+        "expected": {
+          "lat": 25.07864,
+          "lon": 55.13525,
+          "toleranceDeg": 0.01
+        }
+      },
+      "startedUtc": "2026-10-24T02:16:36.227Z",
+      "finishedUtc": "2026-10-24T02:16:36.228Z",
+      "utc": "2026-10-24T02:16:36.228Z",
+      "viewport": "1440x900"
+    },
+    {
+      "id": "desktop.save",
+      "pass": true,
+      "detail": "Save by the real name input/button and verify visible saved-state feedback",
+      "data": {
+        "sceneName": "Dubai Marina QA 2026-10-24T02:15:56.574Z",
+        "status": "Scene saved.",
+        "summary": "Dubai Marina QA 2026-10-24T02:15:56.574Z\n\n4 keyframes · Saved\n\nLocation: Dubai Marina\n\nProvenance: OSM via OnDemand · 95% location confidence\n\nAuthored geographic scene · not an incident report · observed 2026-10-24T02:16:35ZSource",
+        "visible": true,
+        "hasSavedOption": true,
+        "screenshot": "/tmp/gev-marina-suite-2/marina-desktop-2026-10-24T02-15-56-574Z-after.png"
+      },
+      "startedUtc": "2026-10-24T02:16:36.228Z",
+      "finishedUtc": "2026-10-24T02:17:03.409Z",
+      "utc": "2026-10-24T02:17:03.409Z",
+      "viewport": "1440x900"
+    },
+    {
+      "id": "desktop.playing",
+      "pass": true,
+      "detail": "The real PLAY control starts playback and moves the live camera",
+      "data": {
+        "before": {
+          "utc": "2026-10-24T02:17:06.014Z",
+          "running": true,
+          "paused": false,
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "shotId": "shot-90yo4en1",
+          "playback": "playing",
+          "elapsed": 0.34,
+          "clockText": "0.3s / 31.4s",
+          "camera": {
+            "lat": 25.078641499999996,
+            "lon": 55.135252399999956,
+            "height": 2399.9999999986785,
+            "heading": 30.000000000000018,
+            "pitch": -61.999999999999986,
+            "roll": 359.99999999999994,
+            "x": 3305515.434858505,
+            "y": 4744563.602201352,
+            "z": 2687984.404655534
+          }
+        },
+        "after": {
+          "utc": "2026-10-24T02:17:06.846Z",
+          "running": true,
+          "paused": false,
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "shotId": "shot-q6jd8e4n",
+          "playback": "playing",
+          "elapsed": 3.933,
+          "clockText": "3.9s / 31.4s",
+          "camera": {
+            "lat": 25.078642472533453,
+            "lon": 55.13525347378943,
+            "height": 2399.475648794215,
+            "heading": 30.03932634032759,
+            "pitch": -61.993882569282434,
+            "roll": 359.99999999999994,
+            "x": 3305515.0483437823,
+            "y": 4744563.236996707,
+            "z": 2687984.2800152604
+          }
+        },
+        "screenshot": "/tmp/gev-marina-suite-2/marina-desktop-2026-10-24T02-15-56-574Z-playing.png"
+      },
+      "startedUtc": "2026-10-24T02:17:03.409Z",
+      "finishedUtc": "2026-10-24T02:17:08.013Z",
+      "utc": "2026-10-24T02:17:08.013Z",
+      "viewport": "1440x900"
+    },
+    {
+      "id": "desktop.pause",
+      "pass": true,
+      "detail": "The real PAUSE control stops the clock and settles the camera",
+      "data": {
+        "before": {
+          "utc": "2026-10-24T02:17:11.659Z",
+          "running": false,
+          "paused": true,
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "shotId": "shot-q6jd8e4n",
+          "playback": "paused",
+          "elapsed": 6.802,
+          "clockText": "6.8s / 31.4s · paused",
+          "camera": {
+            "lat": 25.08033142916548,
+            "lon": 55.13711827735272,
+            "height": 1488.8576753903033,
+            "heading": 98.33567434570313,
+            "pitch": -51.370006212890615,
+            "roll": 360,
+            "x": 3304843.832484738,
+            "y": 4743928.989882638,
+            "z": 2687767.797187455
+          }
+        },
+        "after": {
+          "utc": "2026-10-24T02:17:12.553Z",
+          "running": false,
+          "paused": true,
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "shotId": "shot-q6jd8e4n",
+          "playback": "paused",
+          "elapsed": 6.802,
+          "clockText": "6.8s / 31.4s · paused",
+          "camera": {
+            "lat": 25.08033142916548,
+            "lon": 55.13711827735272,
+            "height": 1488.8576753903033,
+            "heading": 98.33567434570313,
+            "pitch": -51.370006212890615,
+            "roll": 360,
+            "x": 3304843.832484738,
+            "y": 4743928.989882638,
+            "z": 2687767.797187455
+          }
+        }
+      },
+      "startedUtc": "2026-10-24T02:17:08.013Z",
+      "finishedUtc": "2026-10-24T02:17:12.553Z",
+      "utc": "2026-10-24T02:17:12.553Z",
+      "viewport": "1440x900"
+    },
+    {
+      "id": "desktop.next",
+      "pass": true,
+      "detail": "The real NEXT control selects a different keyframe and moves the camera",
+      "data": {
+        "before": {
+          "utc": "2026-10-24T02:17:12.847Z",
+          "running": false,
+          "paused": true,
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "shotId": "shot-q6jd8e4n",
+          "playback": "paused",
+          "elapsed": 6.802,
+          "clockText": "6.8s / 31.4s · paused",
+          "camera": {
+            "lat": 25.08033142916548,
+            "lon": 55.13711827735272,
+            "height": 1488.8576753903033,
+            "heading": 98.33567434570313,
+            "pitch": -51.370006212890615,
+            "roll": 360,
+            "x": 3304843.832484738,
+            "y": 4743928.989882638,
+            "z": 2687767.797187455
+          }
+        },
+        "after": {
+          "utc": "2026-10-24T02:17:16.272Z",
+          "running": false,
+          "paused": false,
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "shotId": "shot-w0tda6x0",
+          "playback": "idle",
+          "elapsed": 13.600000000000001,
+          "clockText": "13.6s / 31.4s · paused",
+          "camera": {
+            "lat": 25.075718604161644,
+            "lon": 55.129663185238414,
+            "height": 899.9999999981704,
+            "heading": 210,
+            "pitch": -41.99999999999993,
+            "roll": 360,
+            "x": 3305279.9863436436,
+            "y": 4743239.0800587535,
+            "z": 2687055.309717705
+          }
+        }
+      },
+      "startedUtc": "2026-10-24T02:17:12.847Z",
+      "finishedUtc": "2026-10-24T02:17:16.284Z",
+      "utc": "2026-10-24T02:17:16.284Z",
+      "viewport": "1440x900"
+    },
+    {
+      "id": "desktop.previous",
+      "pass": true,
+      "detail": "The real PREV control returns to the prior keyframe and moves the camera",
+      "data": {
+        "before": {
+          "utc": "2026-10-24T02:17:16.577Z",
+          "running": false,
+          "paused": false,
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "shotId": "shot-w0tda6x0",
+          "playback": "idle",
+          "elapsed": 15.175600000000001,
+          "clockText": "15.2s / 31.4s · paused",
+          "camera": {
+            "lat": 25.075718604161644,
+            "lon": 55.129663185238414,
+            "height": 899.9999999981704,
+            "heading": 210,
+            "pitch": -41.99999999999993,
+            "roll": 360,
+            "x": 3305279.9863436436,
+            "y": 4743239.0800587535,
+            "z": 2687055.309717705
+          }
+        },
+        "after": {
+          "utc": "2026-10-24T02:17:22.875Z",
+          "running": false,
+          "paused": false,
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "shotId": "shot-q6jd8e4n",
+          "playback": "idle",
+          "elapsed": 8.983333333333334,
+          "clockText": "9.0s / 31.4s · paused",
+          "camera": {
+            "lat": 25.080867184115213,
+            "lon": 55.13770981281334,
+            "height": 1199.9999999999068,
+            "heading": 119.99999999999982,
+            "pitch": -47.999999999999815,
+            "roll": 360,
+            "x": 3304630.9271736653,
+            "y": 4743727.794937316,
+            "z": 2687699.115900435
+          }
+        },
+        "screenshot": "/tmp/gev-marina-suite-2/marina-desktop-2026-10-24T02-15-56-574Z-after-controls.png"
+      },
+      "startedUtc": "2026-10-24T02:17:16.284Z",
+      "finishedUtc": "2026-10-24T02:17:24.333Z",
+      "utc": "2026-10-24T02:17:24.333Z",
+      "viewport": "1440x900"
+    },
+    {
+      "id": "mobile.exact-touch-viewport",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:17:24.471Z",
+      "finishedUtc": "2026-10-24T02:17:24.553Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "exact-touch-viewport",
+      "data": {
+        "width": 375,
+        "height": 739,
+        "deviceScaleFactor": 1,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-01-exact-touch-viewport.png"
+    },
+    {
+      "id": "mobile.load-live-workstation",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:17:24.554Z",
+      "finishedUtc": "2026-10-24T02:17:27.631Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "load-live-workstation",
+      "data": {
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+          "state": "idle",
+          "busy": false,
+          "prompt": "",
+          "anchor": null,
+          "sceneId": null,
+          "sceneTitle": null,
+          "result": "",
+          "running": false,
+          "clock": "0.0s / 0.0s",
+          "scrub": 0,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "",
+          "meta": "",
+          "activeTitle": "",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 739,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": null
+        },
+        "harness": null
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-02-load-live-workstation.png"
+    },
+    {
+      "id": "mobile.touch-input-and-type-prompt",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:17:27.635Z",
+      "finishedUtc": "2026-10-24T02:17:48.242Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "touch-input-and-type-prompt",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#incident-composer-input",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 15,
+            "y": 680,
+            "width": 251,
+            "height": 44,
+            "left": 15,
+            "right": 266,
+            "top": 680,
+            "bottom": 724
+          },
+          "center": {
+            "x": 140.5,
+            "y": 702
+          },
+          "clip": {
+            "left": 8,
+            "top": 673,
+            "right": 367,
+            "bottom": 731
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "INPUT",
+            "id": "incident-composer-input",
+            "className": "incident-composer__input"
+          },
+          "focused": false,
+          "value": "",
+          "text": "",
+          "scroll": null,
+          "screen": {
+            "x": 140.5,
+            "y": 702
+          },
+          "outer": null,
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "typed": "Create a waterfront orbit scene around Dubai Marina",
+        "focused": true
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-03-touch-input-and-type-prompt.png"
+    },
+    {
+      "id": "mobile.touch-build-resolves-marina-anchor",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:17:48.242Z",
+      "finishedUtc": "2026-10-24T02:17:53.050Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "touch-build-resolves-marina-anchor",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#incident-composer-submit",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 272,
+            "y": 680,
+            "width": 88,
+            "height": 44,
+            "left": 272,
+            "right": 360,
+            "top": 680,
+            "bottom": 724
+          },
+          "center": {
+            "x": 316,
+            "y": 702
+          },
+          "clip": {
+            "left": 8,
+            "top": 673,
+            "right": 367,
+            "bottom": 731
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "incident-composer-submit",
+            "className": "incident-composer__submit"
+          },
+          "focused": false,
+          "value": "",
+          "text": "BUILD SCENE",
+          "scroll": null,
+          "screen": {
+            "x": 316,
+            "y": 702
+          },
+          "outer": null,
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=30.2672&lon=-97.7431&alt=600&heading=15&pitch=-30&roll=360&style=normal&bloom=0&sharpen=1&bi=0&bv=2&si=49&hud=tactical&hv=1&dm=DENSE&dd=75&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": false,
+          "clock": "0.0s / 31.4s · paused",
+          "scrub": 0,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 739,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": null
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-04-touch-build-resolves-marina-anchor.png"
+    },
+    {
+      "id": "mobile.composer-play-center-hit-and-touch",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:17:53.051Z",
+      "finishedUtc": "2026-10-24T02:17:55.833Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "composer-play-center-hit-and-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#incident-composer-play",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 15,
+            "y": 609.40625,
+            "width": 44,
+            "height": 44,
+            "left": 15,
+            "right": 59,
+            "top": 609.40625,
+            "bottom": 653.40625
+          },
+          "center": {
+            "x": 37,
+            "y": 631.40625
+          },
+          "clip": {
+            "left": 15,
+            "top": 586.015625,
+            "right": 360,
+            "bottom": 653.40625
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "incident-composer-play",
+            "className": "incident-composer__submit"
+          },
+          "focused": false,
+          "value": "",
+          "text": "Play",
+          "scroll": null,
+          "screen": {
+            "x": 37,
+            "y": 631.40625
+          },
+          "outer": null,
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0786&lon=55.1353&alt=2400&heading=30&pitch=-62&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "0.0s / 31.4s",
+          "scrub": 0,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-05-composer-play-center-hit-and-touch.png"
+    },
+    {
+      "id": "mobile.scenes-tab-touch",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:17:55.834Z",
+      "finishedUtc": "2026-10-24T02:17:57.985Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "scenes-tab-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#sidebar-scenes-tab",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 13,
+            "y": 73,
+            "width": 118.5,
+            "height": 44,
+            "left": 13,
+            "right": 131.5,
+            "top": 73,
+            "bottom": 117
+          },
+          "center": {
+            "x": 72.25,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 267
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "sidebar-scenes-tab",
+            "className": "workstation-sidebar-tabs__tab"
+          },
+          "focused": false,
+          "value": "",
+          "text": "Scenes",
+          "scroll": null,
+          "screen": {
+            "x": 72.25,
+            "y": 95
+          },
+          "outer": null,
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0786&lon=55.1353&alt=2396&heading=30&pitch=-62&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "4.7s / 31.4s",
+          "scrub": 151,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 739,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": null
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-06-scenes-tab-touch.png"
+    },
+    {
+      "id": "mobile.drawer-collapse-touch",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:17:57.986Z",
+      "finishedUtc": "2026-10-24T02:18:00.427Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "drawer-collapse-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#scene-drawer-toggle",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 258,
+            "y": 73,
+            "width": 104,
+            "height": 44,
+            "left": 258,
+            "right": 362,
+            "top": 73,
+            "bottom": 117
+          },
+          "center": {
+            "x": 310,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 267
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "scene-drawer-toggle",
+            "className": "scene-library__drawer-toggle"
+          },
+          "focused": false,
+          "value": "",
+          "text": "Collapse drawer",
+          "scroll": null,
+          "screen": {
+            "x": 310,
+            "y": 95
+          },
+          "outer": null,
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0800&lon=55.1368&alt=1660&heading=85&pitch=-53&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "7.1s / 31.4s",
+          "scrub": 226,
+          "drawerExpanded": "false",
+          "drawerLabel": "Expand sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": false,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 739,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": null
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-07-drawer-collapse-touch.png"
+    },
+    {
+      "id": "mobile.drawer-expand-touch",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:18:00.428Z",
+      "finishedUtc": "2026-10-24T02:18:02.350Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "drawer-expand-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#scene-drawer-toggle",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 258,
+            "y": 73,
+            "width": 104,
+            "height": 44,
+            "left": 258,
+            "right": 362,
+            "top": 73,
+            "bottom": 117
+          },
+          "center": {
+            "x": 310,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 122
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "scene-drawer-toggle",
+            "className": "scene-library__drawer-toggle"
+          },
+          "focused": true,
+          "value": "",
+          "text": "Expand drawer",
+          "scroll": null,
+          "screen": {
+            "x": 310,
+            "y": 95
+          },
+          "outer": null,
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1213&heading=119&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.1_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "9.3s / 31.4s",
+          "scrub": 297,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-08-drawer-expand-touch.png"
+    },
+    {
+      "id": "mobile.layers-tab-touch",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:18:02.351Z",
+      "finishedUtc": "2026-10-24T02:18:03.435Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "layers-tab-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#sidebar-layers-tab",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 135.5,
+            "y": 73,
+            "width": 118.5,
+            "height": 44,
+            "left": 135.5,
+            "right": 254,
+            "top": 73,
+            "bottom": 117
+          },
+          "center": {
+            "x": 194.75,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 267
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "sidebar-layers-tab",
+            "className": "workstation-sidebar-tabs__tab"
+          },
+          "focused": false,
+          "value": "",
+          "text": "Layers",
+          "scroll": null,
+          "screen": {
+            "x": 194.75,
+            "y": 95
+          },
+          "outer": null,
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1213&heading=119&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.1_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "10.4s / 31.4s",
+          "scrub": 331,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "false",
+          "layersSelected": "true",
+          "scenesShown": false,
+          "layersShown": true,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 739,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": null
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-09-layers-tab-touch.png"
+    },
+    {
+      "id": "mobile.scenes-tab-return-touch",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:18:03.436Z",
+      "finishedUtc": "2026-10-24T02:18:04.250Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "scenes-tab-return-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#sidebar-scenes-tab",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 13,
+            "y": 73,
+            "width": 118.5,
+            "height": 44,
+            "left": 13,
+            "right": 131.5,
+            "top": 73,
+            "bottom": 117
+          },
+          "center": {
+            "x": 72.25,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 267
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "sidebar-scenes-tab",
+            "className": "workstation-sidebar-tabs__tab"
+          },
+          "focused": false,
+          "value": "",
+          "text": "Scenes",
+          "scroll": null,
+          "screen": {
+            "x": 72.25,
+            "y": 95
+          },
+          "outer": null,
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1213&heading=119&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.1_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "11.1s / 31.4s",
+          "scrub": 354,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 739,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": null
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-10-scenes-tab-return-touch.png"
+    },
+    {
+      "id": "mobile.all-playback-controls-contained",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:18:04.252Z",
+      "finishedUtc": "2026-10-24T02:18:24.344Z",
+      "pass": false,
+      "status": "FAIL",
+      "detail": "#incident-playback remained untappable after bounded real touch scrolling",
+      "data": {
+        "exists": true,
+        "selector": "#incident-playback",
+        "visible": true,
+        "disabled": false,
+        "rect": {
+          "x": 17,
+          "y": 131.4375,
+          "width": 341,
+          "height": 92,
+          "left": 17,
+          "right": 358,
+          "top": 131.4375,
+          "bottom": 223.4375
+        },
+        "center": {
+          "x": 187.5,
+          "y": 177.4375
+        },
+        "clip": {
+          "left": 8,
+          "top": 126,
+          "right": 367,
+          "bottom": 267
+        },
+        "centerInside": true,
+        "fullyInside": true,
+        "hitOK": false,
+        "hit": {
+          "tag": "DIV",
+          "id": "",
+          "className": "panel-header"
+        },
+        "focused": false,
+        "text": "PLAYPAUSEPREVNEXT31.3s / 31.4s",
+        "scroll": {
+          "id": "",
+          "box": {
+            "x": 8,
+            "y": 126,
+            "width": 359,
+            "height": 141,
+            "left": 8,
+            "right": 367,
+            "top": 126,
+            "bottom": 267
+          },
+          "canUp": true,
+          "canDown": true
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-11-all-playback-controls-contained.png"
+    },
+    {
+      "id": "mobile.playback-pause-touch",
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "startedUtc": "2026-10-24T02:18:24.345Z",
+      "finishedUtc": "2026-10-24T02:18:31.541Z",
+      "pass": false,
+      "status": "FAIL",
+      "detail": "#incident-playback-pause remained untappable after bounded real touch scrolling",
+      "data": {
+        "exists": true,
+        "selector": "#incident-playback-pause",
+        "visible": true,
+        "disabled": false,
+        "rect": {
+          "x": 103.25,
+          "y": 152.4375,
+          "width": 82.25,
+          "height": 44,
+          "left": 103.25,
+          "right": 185.5,
+          "top": 152.4375,
+          "bottom": 196.4375
+        },
+        "center": {
+          "x": 144.375,
+          "y": 174.4375
+        },
+        "clip": {
+          "left": 8,
+          "top": 126,
+          "right": 367,
+          "bottom": 267
+        },
+        "centerInside": true,
+        "fullyInside": true,
+        "hitOK": false,
+        "hit": {
+          "tag": "DIV",
+          "id": "",
+          "className": "panel-header"
+        },
+        "focused": false,
+        "value": "",
+        "text": "PAUSE",
+        "scroll": {
+          "id": "",
+          "box": {
+            "x": 8,
+            "y": 126,
+            "width": 359,
+            "height": 141,
+            "left": 8,
+            "right": 367,
+            "top": 126,
+            "bottom": 267
+          },
+          "canUp": true,
+          "canDown": true
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-12-playback-pause-touch.png"
+    },
+    {
+      "id": "iframe.exact-touch-viewport",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:18:31.679Z",
+      "finishedUtc": "2026-10-24T02:18:31.733Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "exact-touch-viewport",
+      "data": {
+        "width": 375,
+        "height": 739,
+        "deviceScaleFactor": 1,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-01-exact-touch-viewport.png"
+    },
+    {
+      "id": "iframe.load-live-workstation",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:18:31.733Z",
+      "finishedUtc": "2026-10-24T02:18:34.296Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "load-live-workstation",
+      "data": {
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+          "state": "idle",
+          "busy": false,
+          "prompt": "",
+          "anchor": null,
+          "sceneId": null,
+          "sceneTitle": null,
+          "result": "",
+          "running": false,
+          "clock": "0.0s / 0.0s",
+          "scrub": 0,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "",
+          "meta": "",
+          "activeTitle": "",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 711,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": {
+            "innerWidth": 375,
+            "scrollWidth": 375
+          }
+        },
+        "harness": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/embed-harness.html",
+          "title": "Embed harness — OnDemand Intelligence Workstation",
+          "frameSrc": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+          "sandbox": null,
+          "frameTitle": "OnDemand Intelligence Workstation (embedded)",
+          "frameWidth": 375,
+          "frameHeight": 711
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-02-load-live-workstation.png"
+    },
+    {
+      "id": "iframe.touch-input-and-type-prompt",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:18:34.297Z",
+      "finishedUtc": "2026-10-24T02:18:57.388Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "touch-input-and-type-prompt",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#incident-composer-input",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 15,
+            "y": 652,
+            "width": 251,
+            "height": 44,
+            "left": 15,
+            "right": 266,
+            "top": 652,
+            "bottom": 696
+          },
+          "center": {
+            "x": 140.5,
+            "y": 674
+          },
+          "clip": {
+            "left": 8,
+            "top": 645,
+            "right": 367,
+            "bottom": 703
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "INPUT",
+            "id": "incident-composer-input",
+            "className": "incident-composer__input"
+          },
+          "focused": false,
+          "value": "",
+          "text": "",
+          "scroll": null,
+          "screen": {
+            "x": 140.5,
+            "y": 702
+          },
+          "outer": {
+            "frameHit": true,
+            "hitId": "app",
+            "tag": "IFRAME"
+          },
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "typed": "Create a waterfront orbit scene around Dubai Marina",
+        "focused": true
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-03-touch-input-and-type-prompt.png"
+    },
+    {
+      "id": "iframe.touch-build-resolves-marina-anchor",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:18:57.388Z",
+      "finishedUtc": "2026-10-24T02:19:03.441Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "touch-build-resolves-marina-anchor",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#incident-composer-submit",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 272,
+            "y": 652,
+            "width": 88,
+            "height": 44,
+            "left": 272,
+            "right": 360,
+            "top": 652,
+            "bottom": 696
+          },
+          "center": {
+            "x": 316,
+            "y": 674
+          },
+          "clip": {
+            "left": 8,
+            "top": 645,
+            "right": 367,
+            "bottom": 703
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "incident-composer-submit",
+            "className": "incident-composer__submit"
+          },
+          "focused": false,
+          "value": "",
+          "text": "BUILD SCENE",
+          "scroll": null,
+          "screen": {
+            "x": 316,
+            "y": 702
+          },
+          "outer": {
+            "frameHit": true,
+            "hitId": "app",
+            "tag": "IFRAME"
+          },
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=30.2672&lon=-97.7431&alt=600&heading=15&pitch=-30&roll=360&style=normal&bloom=0&sharpen=1&bi=0&bv=2&si=49&hud=tactical&hv=1&dm=DENSE&dd=75&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": false,
+          "clock": "0.0s / 31.4s · paused",
+          "scrub": 0,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 711,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": {
+            "innerWidth": 375,
+            "scrollWidth": 375
+          }
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-04-touch-build-resolves-marina-anchor.png"
+    },
+    {
+      "id": "iframe.composer-play-center-hit-and-touch",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:19:03.442Z",
+      "finishedUtc": "2026-10-24T02:19:06.404Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "composer-play-center-hit-and-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#incident-composer-play",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 15,
+            "y": 581.40625,
+            "width": 44,
+            "height": 44,
+            "left": 15,
+            "right": 59,
+            "top": 581.40625,
+            "bottom": 625.40625
+          },
+          "center": {
+            "x": 37,
+            "y": 603.40625
+          },
+          "clip": {
+            "left": 15,
+            "top": 558.015625,
+            "right": 360,
+            "bottom": 625.40625
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "incident-composer-play",
+            "className": "incident-composer__submit"
+          },
+          "focused": false,
+          "value": "",
+          "text": "Play",
+          "scroll": null,
+          "screen": {
+            "x": 37,
+            "y": 631.40625
+          },
+          "outer": {
+            "frameHit": true,
+            "hitId": "app",
+            "tag": "IFRAME"
+          },
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0786&lon=55.1353&alt=2400&heading=30&pitch=-62&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "0.0s / 31.4s",
+          "scrub": 0,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-05-composer-play-center-hit-and-touch.png"
+    },
+    {
+      "id": "iframe.scenes-tab-touch",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:19:06.405Z",
+      "finishedUtc": "2026-10-24T02:19:09.371Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "scenes-tab-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#sidebar-scenes-tab",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 13,
+            "y": 73,
+            "width": 118.5,
+            "height": 44,
+            "left": 13,
+            "right": 131.5,
+            "top": 73,
+            "bottom": 117
+          },
+          "center": {
+            "x": 72.25,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 239
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "sidebar-scenes-tab",
+            "className": "workstation-sidebar-tabs__tab"
+          },
+          "focused": false,
+          "value": "",
+          "text": "Scenes",
+          "scroll": null,
+          "screen": {
+            "x": 72.25,
+            "y": 123
+          },
+          "outer": {
+            "frameHit": true,
+            "hitId": "app",
+            "tag": "IFRAME"
+          },
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0787&lon=55.1353&alt=2395&heading=30&pitch=-62&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "5.5s / 31.4s",
+          "scrub": 176,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 711,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": {
+            "innerWidth": 375,
+            "scrollWidth": 375
+          }
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-06-scenes-tab-touch.png"
+    },
+    {
+      "id": "iframe.drawer-collapse-touch",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:19:09.372Z",
+      "finishedUtc": "2026-10-24T02:19:13.002Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "drawer-collapse-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#scene-drawer-toggle",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 258,
+            "y": 73,
+            "width": 104,
+            "height": 44,
+            "left": 258,
+            "right": 362,
+            "top": 73,
+            "bottom": 117
+          },
+          "center": {
+            "x": 310,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 239
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "scene-drawer-toggle",
+            "className": "scene-library__drawer-toggle"
+          },
+          "focused": false,
+          "value": "",
+          "text": "Collapse drawer",
+          "scroll": null,
+          "screen": {
+            "x": 310,
+            "y": 123
+          },
+          "outer": {
+            "frameHit": true,
+            "hitId": "app",
+            "tag": "IFRAME"
+          },
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1228&heading=118&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "9.1s / 31.4s",
+          "scrub": 290,
+          "drawerExpanded": "false",
+          "drawerLabel": "Expand sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": false,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 711,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": {
+            "innerWidth": 375,
+            "scrollWidth": 375
+          }
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-07-drawer-collapse-touch.png"
+    },
+    {
+      "id": "iframe.drawer-expand-touch",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:19:13.003Z",
+      "finishedUtc": "2026-10-24T02:19:13.944Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "drawer-expand-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#scene-drawer-toggle",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 258,
+            "y": 73,
+            "width": 104,
+            "height": 44,
+            "left": 258,
+            "right": 362,
+            "top": 73,
+            "bottom": 117
+          },
+          "center": {
+            "x": 310,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 122
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "scene-drawer-toggle",
+            "className": "scene-library__drawer-toggle"
+          },
+          "focused": true,
+          "value": "",
+          "text": "Expand drawer",
+          "scroll": null,
+          "screen": {
+            "x": 310,
+            "y": 123
+          },
+          "outer": {
+            "frameHit": true,
+            "hitId": "app",
+            "tag": "IFRAME"
+          },
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1228&heading=118&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "10.6s / 31.4s",
+          "scrub": 336,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-08-drawer-expand-touch.png"
+    },
+    {
+      "id": "iframe.layers-tab-touch",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:19:13.946Z",
+      "finishedUtc": "2026-10-24T02:19:15.798Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "layers-tab-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#sidebar-layers-tab",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 135.5,
+            "y": 73,
+            "width": 118.5,
+            "height": 44,
+            "left": 135.5,
+            "right": 254,
+            "top": 73,
+            "bottom": 117
+          },
+          "center": {
+            "x": 194.75,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 239
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "sidebar-layers-tab",
+            "className": "workstation-sidebar-tabs__tab"
+          },
+          "focused": false,
+          "value": "",
+          "text": "Layers",
+          "scroll": null,
+          "screen": {
+            "x": 194.75,
+            "y": 123
+          },
+          "outer": {
+            "frameHit": true,
+            "hitId": "app",
+            "tag": "IFRAME"
+          },
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1228&heading=118&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "11.4s / 31.4s",
+          "scrub": 363,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "false",
+          "layersSelected": "true",
+          "scenesShown": false,
+          "layersShown": true,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 711,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": {
+            "innerWidth": 375,
+            "scrollWidth": 375
+          }
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-09-layers-tab-touch.png"
+    },
+    {
+      "id": "iframe.scenes-tab-return-touch",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:19:15.798Z",
+      "finishedUtc": "2026-10-24T02:19:19.697Z",
+      "pass": true,
+      "status": "PASS",
+      "detail": "scenes-tab-return-touch",
+      "data": {
+        "hit": {
+          "exists": true,
+          "selector": "#sidebar-scenes-tab",
+          "visible": true,
+          "disabled": false,
+          "rect": {
+            "x": 13,
+            "y": 73,
+            "width": 118.5,
+            "height": 44,
+            "left": 13,
+            "right": 131.5,
+            "top": 73,
+            "bottom": 117
+          },
+          "center": {
+            "x": 72.25,
+            "y": 95
+          },
+          "clip": {
+            "left": 8,
+            "top": 68,
+            "right": 367,
+            "bottom": 239
+          },
+          "centerInside": true,
+          "fullyInside": true,
+          "hitOK": true,
+          "hit": {
+            "tag": "BUTTON",
+            "id": "sidebar-scenes-tab",
+            "className": "workstation-sidebar-tabs__tab"
+          },
+          "focused": false,
+          "value": "",
+          "text": "Scenes",
+          "scroll": null,
+          "screen": {
+            "x": 72.25,
+            "y": 123
+          },
+          "outer": {
+            "frameHit": true,
+            "hitId": "app",
+            "tag": "IFRAME"
+          },
+          "method": "page.touchscreen.tap at verified elementFromPoint center"
+        },
+        "state": {
+          "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0791&lon=55.1349&alt=1096&heading=151&pitch=-46&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.0_v.c.1_r.c.1_s.c.1_g.c.1_p.c.1_m.c.0",
+          "state": "done",
+          "busy": false,
+          "prompt": "Create a waterfront orbit scene around Dubai Marina",
+          "anchor": {
+            "name": "Dubai Marina",
+            "lat": 25.0786415,
+            "lon": 55.1352524
+          },
+          "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+          "sceneTitle": "Dubai Marina — Waterfront Orbit",
+          "result": "Scene generated at Dubai Marina.Play",
+          "running": true,
+          "clock": "15.3s / 31.4s",
+          "scrub": 488,
+          "drawerExpanded": "true",
+          "drawerLabel": "Collapse sidebar drawer",
+          "scenesSelected": "true",
+          "layersSelected": "false",
+          "scenesShown": true,
+          "layersShown": false,
+          "name": "Dubai Marina — Waterfront Orbit",
+          "meta": "4 keyframes · Unsaved",
+          "activeTitle": "Dubai Marina — Waterfront Orbit",
+          "saveStatus": "",
+          "savedOptions": [
+            {
+              "value": "",
+              "title": "No saved scenes yet"
+            }
+          ]
+        },
+        "layout": {
+          "document": {
+            "innerWidth": 375,
+            "innerHeight": 711,
+            "clientWidth": 375,
+            "scrollWidth": 375,
+            "visualWidth": 375,
+            "maxTouchPoints": 1
+          },
+          "host": {
+            "innerWidth": 375,
+            "scrollWidth": 375
+          }
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-10-scenes-tab-return-touch.png"
+    },
+    {
+      "id": "iframe.all-playback-controls-contained",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:19:19.698Z",
+      "finishedUtc": "2026-10-24T02:19:34.712Z",
+      "pass": false,
+      "status": "FAIL",
+      "detail": "Playback controls must all fit inside their bar AND the 375px viewport with unobstructed centers",
+      "data": {
+        "box": {
+          "left": 17,
+          "top": 135.4375,
+          "right": 358,
+          "bottom": 227.4375,
+          "width": 341,
+          "height": 92
+        },
+        "controls": [
+          {
+            "id": "incident-playback-play",
+            "box": {
+              "left": 17,
+              "top": 135.4375,
+              "right": 99.25,
+              "bottom": 179.4375,
+              "width": 82.25,
+              "height": 44
+            },
+            "visible": true,
+            "hit": "",
+            "centerHit": false,
+            "inside": true
+          },
+          {
+            "id": "incident-playback-pause",
+            "box": {
+              "left": 103.25,
+              "top": 135.4375,
+              "right": 185.5,
+              "bottom": 179.4375,
+              "width": 82.25,
+              "height": 44
+            },
+            "visible": true,
+            "hit": "",
+            "centerHit": false,
+            "inside": true
+          },
+          {
+            "id": "incident-playback-prev",
+            "box": {
+              "left": 189.5,
+              "top": 135.4375,
+              "right": 271.75,
+              "bottom": 179.4375,
+              "width": 82.25,
+              "height": 44
+            },
+            "visible": true,
+            "hit": "",
+            "centerHit": false,
+            "inside": true
+          },
+          {
+            "id": "incident-playback-next",
+            "box": {
+              "left": 275.75,
+              "top": 135.4375,
+              "right": 358,
+              "bottom": 179.4375,
+              "width": 82.25,
+              "height": 44
+            },
+            "visible": true,
+            "hit": "",
+            "centerHit": false,
+            "inside": true
+          },
+          {
+            "id": "incident-playback-scrub",
+            "box": {
+              "left": 17,
+              "top": 183.4375,
+              "right": 271.75,
+              "bottom": 227.4375,
+              "width": 254.75,
+              "height": 44
+            },
+            "visible": true,
+            "hit": "incident-playback-scrub",
+            "centerHit": true,
+            "inside": true
+          },
+          {
+            "id": "incident-playback-clock",
+            "box": {
+              "left": 275.75,
+              "top": 199.359375,
+              "right": 358,
+              "bottom": 211.5,
+              "width": 82.25,
+              "height": 12.140625
+            },
+            "visible": true,
+            "hit": "incident-playback-clock",
+            "centerHit": true,
+            "inside": true
+          }
+        ]
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-11-all-playback-controls-contained.png"
+    },
+    {
+      "id": "iframe.playback-pause-touch",
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "startedUtc": "2026-10-24T02:19:34.811Z",
+      "finishedUtc": "2026-10-24T02:19:41.970Z",
+      "pass": false,
+      "status": "FAIL",
+      "detail": "#incident-playback-pause remained untappable after bounded real touch scrolling",
+      "data": {
+        "exists": true,
+        "selector": "#incident-playback-pause",
+        "visible": true,
+        "disabled": false,
+        "rect": {
+          "x": 103.25,
+          "y": 138.4375,
+          "width": 82.25,
+          "height": 44,
+          "left": 103.25,
+          "right": 185.5,
+          "top": 138.4375,
+          "bottom": 182.4375
+        },
+        "center": {
+          "x": 144.375,
+          "y": 160.4375
+        },
+        "clip": {
+          "left": 8,
+          "top": 126,
+          "right": 367,
+          "bottom": 239
+        },
+        "centerInside": true,
+        "fullyInside": true,
+        "hitOK": false,
+        "hit": {
+          "tag": "DIV",
+          "id": "",
+          "className": "panel-header"
+        },
+        "focused": false,
+        "value": "",
+        "text": "PAUSE",
+        "scroll": {
+          "id": "",
+          "box": {
+            "x": 8,
+            "y": 126,
+            "width": 359,
+            "height": 113,
+            "left": 8,
+            "right": 367,
+            "top": 126,
+            "bottom": 239
+          },
+          "canUp": true,
+          "canDown": true
+        }
+      },
+      "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-12-playback-pause-touch.png"
+    },
+    {
+      "id": "extras.input-hit-targets",
+      "startedUtc": "2026-10-24T02:19:44.771Z",
+      "pass": true,
+      "data": {
+        "input": {
+          "x": 140.5,
+          "y": 702,
+          "width": 251,
+          "height": 44,
+          "ok": true,
+          "disabled": false
+        },
+        "submit": {
+          "x": 316,
+          "y": 702,
+          "width": 88,
+          "height": 44,
+          "ok": true,
+          "disabled": false
+        }
+      },
+      "finishedUtc": "2026-10-24T02:19:45.066Z"
+    },
+    {
+      "id": "extras.loading-cancel-retry",
+      "startedUtc": "2026-10-24T02:19:45.068Z",
+      "pass": true,
+      "data": {
+        "cancelled": {
+          "state": "cancelled",
+          "busy": false,
+          "text": "Cancelled. No further results will be applied.",
+          "scene": null,
+          "active": null,
+          "marker": false,
+          "play": false,
+          "generation": 2,
+          "scrollWidth": 375,
+          "width": 375
+        },
+        "retried": {
+          "state": "partial",
+          "busy": false,
+          "text": "Dubai Marina · 25.07864, 55.13525 · within 5 km2026-10-21T02:20:18.883Z → 2026-10-24T02:20:18.883Z · geocode_placePartial coverage — one or more sources failed or returned unverifiable/out-of-scope reports. No absence claim is possible.perplexity_research: error — ondemand_http_409 · Source returned HTTP 409; the status alone does not establish its cause.internet_web_search: ok · The search returned no results matching the specified location and time window; no source-backed incidents were identified.Public-source reports only; not an emergency feed or proof of absence.",
+          "scene": null,
+          "active": null,
+          "marker": false,
+          "play": false,
+          "generation": 3,
+          "scrollWidth": 375,
+          "width": 375
+        },
+        "note": "Real network; no mocked slow responses or fabricated incident data."
+      },
+      "finishedUtc": "2026-10-24T02:20:50.833Z"
+    },
+    {
+      "id": "extras.external-refusal-375",
+      "startedUtc": "2026-10-24T02:20:50.835Z",
+      "pass": true,
+      "data": {
+        "state": "external",
+        "busy": false,
+        "text": "Outside UAE AOI — external context onlyOUT_OF_SCENE_AOI: outside the explicit UAE scene envelope",
+        "scene": null,
+        "active": null,
+        "marker": true,
+        "play": false,
+        "generation": 4,
+        "scrollWidth": 375,
+        "width": 375,
+        "screenshot": "/tmp/gev-marina-suite-2/marina-external-refusal-375x739.png"
+      },
+      "finishedUtc": "2026-10-24T02:20:54.750Z"
+    },
+    {
+      "id": "extras.external-refusal-1440",
+      "startedUtc": "2026-10-24T02:20:56.202Z",
+      "pass": false,
+      "error": "Timed out waiting for real UI state",
+      "finishedUtc": "2026-10-24T02:21:47.038Z"
+    },
+    {
+      "id": "video.actual-plugin-stream-and-archival-labels",
+      "startedUtc": "2026-10-24T02:22:08.038Z",
+      "pass": true,
+      "data": {
+        "clips": {
+          "clips": 9,
+          "platforms": [
+            "instagram",
+            "tiktok",
+            "youtube"
+          ],
+          "tiers": [
+            "ARCHIVAL",
+            "ARCHIVAL",
+            "ARCHIVAL",
+            "ARCHIVAL",
+            "ARCHIVAL",
+            "ARCHIVAL",
+            "ARCHIVAL",
+            "ARCHIVAL",
+            "ARCHIVAL"
+          ],
+          "playing": "instagram:Ddyb6fvQ-Yn",
+          "done": true,
+          "banner": "REBUILT FROM ARCHIVAL FOOTAGE – recorded 26 Sep 2026, not live"
+        },
+        "state": "done",
+        "count": 9,
+        "text": "SCENE VIDEO EVIDENCEHIDECLOSEREBUILT FROM ARCHIVAL FOOTAGE – recorded 26 Sep 2026, not live9 clips · YT 5 · TT 3 · IG 1YT 5TT 3IG 1ARCHIVAL · Instagram · recorded ≈28 Sep 2026 · not liveARCHIVALTikTok62ناس نيوز الإمارات on TikTokrecorded ≈26 Sep 2026 · not livePLAYASKsourcevia plugin-1792727179ARCHIVALInstagram50Dubai multi-car collision reel (regional match)recorded ≈28 Sep 2026 · not livePLAYASKsourcevia plugin-1762980461ARCHIVALTikTok33Dubai Police lane-change crash footage (archival)recorded ≈10 Apr 2026 · not livePLAYASKsourcevia plugin-1792727179ARCHIVALYouTube30LAMBORGHINI ACCIDENT CAUSED BY DUBAI RENTAL COMPANY’S NEGLIGENCErecording date unknown · not livePLAYASKsourcevia plugin-1792727178ARCHIVALTikTok28High-Speed Race Crash at Dubai Autodromerecorded ≈11 Jan 2025 · not livePLAYASKsourcevia plugin-1792727179ARCHIVALYouTube22Dubai Real Estate Over Supply | 2026 Crash Explained | Shocking Realityrecording date unknown · not livePLAYASKsourcevia plugin-1792727178ARCHIVALYouTube16"
+      },
+      "finishedUtc": "2026-10-24T02:22:48.244Z"
+    },
+    {
+      "id": "video.muted-actual-playback-time-advances",
+      "startedUtc": "2026-10-24T02:22:48.246Z",
+      "pass": true,
+      "data": {
+        "first": {
+          "readyState": 4,
+          "time": 22.357901,
+          "muted": true,
+          "paused": false,
+          "source": "/api/ondemand/v2/scene/media"
+        },
+        "advanced": {
+          "readyState": 4,
+          "time": 22.759926,
+          "muted": true,
+          "paused": false
+        }
+      },
+      "finishedUtc": "2026-10-24T02:22:48.786Z"
+    }
+  ],
+  "cases": {
+    "desktop": {
+      "pass": true,
+      "startedUtc": "2026-10-24T02:15:56.574Z",
+      "finishedUtc": "2026-10-24T02:17:24.333Z",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "deviceScaleFactor": 1,
+        "isMobile": false,
+        "hasTouch": false
+      },
+      "query": "Create a waterfront orbit scene around Dubai Marina",
+      "sceneName": "Dubai Marina QA 2026-10-24T02:15:56.574Z",
+      "scene": {
+        "id": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+        "title": "Dubai Marina — Waterfront Orbit",
+        "geographic": true,
+        "anchor": {
+          "lat": 25.0786415,
+          "lon": 55.1352524
+        },
+        "keyframes": 4,
+        "expected": {
+          "lat": 25.07864,
+          "lon": 55.13525,
+          "toleranceDeg": 0.01
+        }
+      },
+      "screenshots": {
+        "baseline": "/tmp/gev-marina-suite-2/marina-desktop-2026-10-24T02-15-56-574Z-baseline.png",
+        "after": "/tmp/gev-marina-suite-2/marina-desktop-2026-10-24T02-15-56-574Z-after.png",
+        "playing": "/tmp/gev-marina-suite-2/marina-desktop-2026-10-24T02-15-56-574Z-playing.png",
+        "after-controls": "/tmp/gev-marina-suite-2/marina-desktop-2026-10-24T02-15-56-574Z-after-controls.png"
+      },
+      "cameras": {
+        "playing": {
+          "before": {
+            "utc": "2026-10-24T02:17:06.014Z",
+            "running": true,
+            "paused": false,
+            "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+            "shotId": "shot-90yo4en1",
+            "playback": "playing",
+            "elapsed": 0.34,
+            "clockText": "0.3s / 31.4s",
+            "camera": {
+              "lat": 25.078641499999996,
+              "lon": 55.135252399999956,
+              "height": 2399.9999999986785,
+              "heading": 30.000000000000018,
+              "pitch": -61.999999999999986,
+              "roll": 359.99999999999994,
+              "x": 3305515.434858505,
+              "y": 4744563.602201352,
+              "z": 2687984.404655534
+            }
+          },
+          "after": {
+            "utc": "2026-10-24T02:17:06.846Z",
+            "running": true,
+            "paused": false,
+            "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+            "shotId": "shot-q6jd8e4n",
+            "playback": "playing",
+            "elapsed": 3.933,
+            "clockText": "3.9s / 31.4s",
+            "camera": {
+              "lat": 25.078642472533453,
+              "lon": 55.13525347378943,
+              "height": 2399.475648794215,
+              "heading": 30.03932634032759,
+              "pitch": -61.993882569282434,
+              "roll": 359.99999999999994,
+              "x": 3305515.0483437823,
+              "y": 4744563.236996707,
+              "z": 2687984.2800152604
+            }
+          }
+        },
+        "paused": {
+          "before": {
+            "utc": "2026-10-24T02:17:11.659Z",
+            "running": false,
+            "paused": true,
+            "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+            "shotId": "shot-q6jd8e4n",
+            "playback": "paused",
+            "elapsed": 6.802,
+            "clockText": "6.8s / 31.4s · paused",
+            "camera": {
+              "lat": 25.08033142916548,
+              "lon": 55.13711827735272,
+              "height": 1488.8576753903033,
+              "heading": 98.33567434570313,
+              "pitch": -51.370006212890615,
+              "roll": 360,
+              "x": 3304843.832484738,
+              "y": 4743928.989882638,
+              "z": 2687767.797187455
+            }
+          },
+          "after": {
+            "utc": "2026-10-24T02:17:12.553Z",
+            "running": false,
+            "paused": true,
+            "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+            "shotId": "shot-q6jd8e4n",
+            "playback": "paused",
+            "elapsed": 6.802,
+            "clockText": "6.8s / 31.4s · paused",
+            "camera": {
+              "lat": 25.08033142916548,
+              "lon": 55.13711827735272,
+              "height": 1488.8576753903033,
+              "heading": 98.33567434570313,
+              "pitch": -51.370006212890615,
+              "roll": 360,
+              "x": 3304843.832484738,
+              "y": 4743928.989882638,
+              "z": 2687767.797187455
+            }
+          }
+        },
+        "next": {
+          "before": {
+            "utc": "2026-10-24T02:17:12.847Z",
+            "running": false,
+            "paused": true,
+            "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+            "shotId": "shot-q6jd8e4n",
+            "playback": "paused",
+            "elapsed": 6.802,
+            "clockText": "6.8s / 31.4s · paused",
+            "camera": {
+              "lat": 25.08033142916548,
+              "lon": 55.13711827735272,
+              "height": 1488.8576753903033,
+              "heading": 98.33567434570313,
+              "pitch": -51.370006212890615,
+              "roll": 360,
+              "x": 3304843.832484738,
+              "y": 4743928.989882638,
+              "z": 2687767.797187455
+            }
+          },
+          "after": {
+            "utc": "2026-10-24T02:17:16.272Z",
+            "running": false,
+            "paused": false,
+            "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+            "shotId": "shot-w0tda6x0",
+            "playback": "idle",
+            "elapsed": 13.600000000000001,
+            "clockText": "13.6s / 31.4s · paused",
+            "camera": {
+              "lat": 25.075718604161644,
+              "lon": 55.129663185238414,
+              "height": 899.9999999981704,
+              "heading": 210,
+              "pitch": -41.99999999999993,
+              "roll": 360,
+              "x": 3305279.9863436436,
+              "y": 4743239.0800587535,
+              "z": 2687055.309717705
+            }
+          }
+        },
+        "previous": {
+          "before": {
+            "utc": "2026-10-24T02:17:16.577Z",
+            "running": false,
+            "paused": false,
+            "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+            "shotId": "shot-w0tda6x0",
+            "playback": "idle",
+            "elapsed": 15.175600000000001,
+            "clockText": "15.2s / 31.4s · paused",
+            "camera": {
+              "lat": 25.075718604161644,
+              "lon": 55.129663185238414,
+              "height": 899.9999999981704,
+              "heading": 210,
+              "pitch": -41.99999999999993,
+              "roll": 360,
+              "x": 3305279.9863436436,
+              "y": 4743239.0800587535,
+              "z": 2687055.309717705
+            }
+          },
+          "after": {
+            "utc": "2026-10-24T02:17:22.875Z",
+            "running": false,
+            "paused": false,
+            "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+            "shotId": "shot-q6jd8e4n",
+            "playback": "idle",
+            "elapsed": 8.983333333333334,
+            "clockText": "9.0s / 31.4s · paused",
+            "camera": {
+              "lat": 25.080867184115213,
+              "lon": 55.13770981281334,
+              "height": 1199.9999999999068,
+              "heading": 119.99999999999982,
+              "pitch": -47.999999999999815,
+              "roll": 360,
+              "x": 3304630.9271736653,
+              "y": 4743727.794937316,
+              "z": 2687699.115900435
+            }
+          }
+        }
+      }
+    },
+    "mobile": {
+      "agent": 18,
+      "mode": "mobile",
+      "scope": "Standalone mobile workstation",
+      "hostChatTested": false,
+      "url": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+      "prompt": "Create a waterfront orbit scene around Dubai Marina",
+      "expectedAnchor": {
+        "lat": 25.0786415,
+        "lon": 55.1352524
+      },
+      "expectedViewport": {
+        "width": 375,
+        "height": 739,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "startedUtc": "2026-10-24T02:17:24.471Z",
+      "finishedUtc": "2026-10-24T02:18:31.542Z",
+      "completed": false,
+      "ok": false,
+      "checks": [
+        {
+          "id": "mobile.exact-touch-viewport",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:17:24.471Z",
+          "finishedUtc": "2026-10-24T02:17:24.553Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "exact-touch-viewport",
+          "data": {
+            "width": 375,
+            "height": 739,
+            "deviceScaleFactor": 1,
+            "isMobile": true,
+            "hasTouch": true
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-01-exact-touch-viewport.png"
+        },
+        {
+          "id": "mobile.load-live-workstation",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:17:24.554Z",
+          "finishedUtc": "2026-10-24T02:17:27.631Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "load-live-workstation",
+          "data": {
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+              "state": "idle",
+              "busy": false,
+              "prompt": "",
+              "anchor": null,
+              "sceneId": null,
+              "sceneTitle": null,
+              "result": "",
+              "running": false,
+              "clock": "0.0s / 0.0s",
+              "scrub": 0,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "",
+              "meta": "",
+              "activeTitle": "",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 739,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": null
+            },
+            "harness": null
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-02-load-live-workstation.png"
+        },
+        {
+          "id": "mobile.touch-input-and-type-prompt",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:17:27.635Z",
+          "finishedUtc": "2026-10-24T02:17:48.242Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "touch-input-and-type-prompt",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#incident-composer-input",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 15,
+                "y": 680,
+                "width": 251,
+                "height": 44,
+                "left": 15,
+                "right": 266,
+                "top": 680,
+                "bottom": 724
+              },
+              "center": {
+                "x": 140.5,
+                "y": 702
+              },
+              "clip": {
+                "left": 8,
+                "top": 673,
+                "right": 367,
+                "bottom": 731
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "INPUT",
+                "id": "incident-composer-input",
+                "className": "incident-composer__input"
+              },
+              "focused": false,
+              "value": "",
+              "text": "",
+              "scroll": null,
+              "screen": {
+                "x": 140.5,
+                "y": 702
+              },
+              "outer": null,
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "typed": "Create a waterfront orbit scene around Dubai Marina",
+            "focused": true
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-03-touch-input-and-type-prompt.png"
+        },
+        {
+          "id": "mobile.touch-build-resolves-marina-anchor",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:17:48.242Z",
+          "finishedUtc": "2026-10-24T02:17:53.050Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "touch-build-resolves-marina-anchor",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#incident-composer-submit",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 272,
+                "y": 680,
+                "width": 88,
+                "height": 44,
+                "left": 272,
+                "right": 360,
+                "top": 680,
+                "bottom": 724
+              },
+              "center": {
+                "x": 316,
+                "y": 702
+              },
+              "clip": {
+                "left": 8,
+                "top": 673,
+                "right": 367,
+                "bottom": 731
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "incident-composer-submit",
+                "className": "incident-composer__submit"
+              },
+              "focused": false,
+              "value": "",
+              "text": "BUILD SCENE",
+              "scroll": null,
+              "screen": {
+                "x": 316,
+                "y": 702
+              },
+              "outer": null,
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=30.2672&lon=-97.7431&alt=600&heading=15&pitch=-30&roll=360&style=normal&bloom=0&sharpen=1&bi=0&bv=2&si=49&hud=tactical&hv=1&dm=DENSE&dd=75&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": false,
+              "clock": "0.0s / 31.4s · paused",
+              "scrub": 0,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 739,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": null
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-04-touch-build-resolves-marina-anchor.png"
+        },
+        {
+          "id": "mobile.composer-play-center-hit-and-touch",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:17:53.051Z",
+          "finishedUtc": "2026-10-24T02:17:55.833Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "composer-play-center-hit-and-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#incident-composer-play",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 15,
+                "y": 609.40625,
+                "width": 44,
+                "height": 44,
+                "left": 15,
+                "right": 59,
+                "top": 609.40625,
+                "bottom": 653.40625
+              },
+              "center": {
+                "x": 37,
+                "y": 631.40625
+              },
+              "clip": {
+                "left": 15,
+                "top": 586.015625,
+                "right": 360,
+                "bottom": 653.40625
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "incident-composer-play",
+                "className": "incident-composer__submit"
+              },
+              "focused": false,
+              "value": "",
+              "text": "Play",
+              "scroll": null,
+              "screen": {
+                "x": 37,
+                "y": 631.40625
+              },
+              "outer": null,
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0786&lon=55.1353&alt=2400&heading=30&pitch=-62&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "0.0s / 31.4s",
+              "scrub": 0,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-05-composer-play-center-hit-and-touch.png"
+        },
+        {
+          "id": "mobile.scenes-tab-touch",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:17:55.834Z",
+          "finishedUtc": "2026-10-24T02:17:57.985Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "scenes-tab-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#sidebar-scenes-tab",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 13,
+                "y": 73,
+                "width": 118.5,
+                "height": 44,
+                "left": 13,
+                "right": 131.5,
+                "top": 73,
+                "bottom": 117
+              },
+              "center": {
+                "x": 72.25,
+                "y": 95
+              },
+              "clip": {
+                "left": 8,
+                "top": 68,
+                "right": 367,
+                "bottom": 267
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "sidebar-scenes-tab",
+                "className": "workstation-sidebar-tabs__tab"
+              },
+              "focused": false,
+              "value": "",
+              "text": "Scenes",
+              "scroll": null,
+              "screen": {
+                "x": 72.25,
+                "y": 95
+              },
+              "outer": null,
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0786&lon=55.1353&alt=2396&heading=30&pitch=-62&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "4.7s / 31.4s",
+              "scrub": 151,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 739,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": null
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-06-scenes-tab-touch.png"
+        },
+        {
+          "id": "mobile.drawer-collapse-touch",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:17:57.986Z",
+          "finishedUtc": "2026-10-24T02:18:00.427Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "drawer-collapse-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#scene-drawer-toggle",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 258,
+                "y": 73,
+                "width": 104,
+                "height": 44,
+                "left": 258,
+                "right": 362,
+                "top": 73,
+                "bottom": 117
+              },
+              "center": {
+                "x": 310,
+                "y": 95
+              },
+              "clip": {
+                "left": 8,
+                "top": 68,
+                "right": 367,
+                "bottom": 267
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "scene-drawer-toggle",
+                "className": "scene-library__drawer-toggle"
+              },
+              "focused": false,
+              "value": "",
+              "text": "Collapse drawer",
+              "scroll": null,
+              "screen": {
+                "x": 310,
+                "y": 95
+              },
+              "outer": null,
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0800&lon=55.1368&alt=1660&heading=85&pitch=-53&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "7.1s / 31.4s",
+              "scrub": 226,
+              "drawerExpanded": "false",
+              "drawerLabel": "Expand sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": false,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 739,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": null
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-07-drawer-collapse-touch.png"
+        },
+        {
+          "id": "mobile.drawer-expand-touch",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:18:00.428Z",
+          "finishedUtc": "2026-10-24T02:18:02.350Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "drawer-expand-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#scene-drawer-toggle",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 258,
+                "y": 73,
+                "width": 104,
+                "height": 44,
+                "left": 258,
+                "right": 362,
+                "top": 73,
+                "bottom": 117
+              },
+              "center": {
+                "x": 310,
+                "y": 95
+              },
+              "clip": {
+                "left": 8,
+                "top": 68,
+                "right": 367,
+                "bottom": 122
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "scene-drawer-toggle",
+                "className": "scene-library__drawer-toggle"
+              },
+              "focused": true,
+              "value": "",
+              "text": "Expand drawer",
+              "scroll": null,
+              "screen": {
+                "x": 310,
+                "y": 95
+              },
+              "outer": null,
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1213&heading=119&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.1_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "9.3s / 31.4s",
+              "scrub": 297,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-08-drawer-expand-touch.png"
+        },
+        {
+          "id": "mobile.layers-tab-touch",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:18:02.351Z",
+          "finishedUtc": "2026-10-24T02:18:03.435Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "layers-tab-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#sidebar-layers-tab",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 135.5,
+                "y": 73,
+                "width": 118.5,
+                "height": 44,
+                "left": 135.5,
+                "right": 254,
+                "top": 73,
+                "bottom": 117
+              },
+              "center": {
+                "x": 194.75,
+                "y": 95
+              },
+              "clip": {
+                "left": 8,
+                "top": 68,
+                "right": 367,
+                "bottom": 267
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "sidebar-layers-tab",
+                "className": "workstation-sidebar-tabs__tab"
+              },
+              "focused": false,
+              "value": "",
+              "text": "Layers",
+              "scroll": null,
+              "screen": {
+                "x": 194.75,
+                "y": 95
+              },
+              "outer": null,
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1213&heading=119&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.1_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "10.4s / 31.4s",
+              "scrub": 331,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "false",
+              "layersSelected": "true",
+              "scenesShown": false,
+              "layersShown": true,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 739,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": null
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-09-layers-tab-touch.png"
+        },
+        {
+          "id": "mobile.scenes-tab-return-touch",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:18:03.436Z",
+          "finishedUtc": "2026-10-24T02:18:04.250Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "scenes-tab-return-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#sidebar-scenes-tab",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 13,
+                "y": 73,
+                "width": 118.5,
+                "height": 44,
+                "left": 13,
+                "right": 131.5,
+                "top": 73,
+                "bottom": 117
+              },
+              "center": {
+                "x": 72.25,
+                "y": 95
+              },
+              "clip": {
+                "left": 8,
+                "top": 68,
+                "right": 367,
+                "bottom": 267
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "sidebar-scenes-tab",
+                "className": "workstation-sidebar-tabs__tab"
+              },
+              "focused": false,
+              "value": "",
+              "text": "Scenes",
+              "scroll": null,
+              "screen": {
+                "x": 72.25,
+                "y": 95
+              },
+              "outer": null,
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1213&heading=119&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.1_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "11.1s / 31.4s",
+              "scrub": 354,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 739,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": null
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-10-scenes-tab-return-touch.png"
+        },
+        {
+          "id": "mobile.all-playback-controls-contained",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:18:04.252Z",
+          "finishedUtc": "2026-10-24T02:18:24.344Z",
+          "pass": false,
+          "status": "FAIL",
+          "detail": "#incident-playback remained untappable after bounded real touch scrolling",
+          "data": {
+            "exists": true,
+            "selector": "#incident-playback",
+            "visible": true,
+            "disabled": false,
+            "rect": {
+              "x": 17,
+              "y": 131.4375,
+              "width": 341,
+              "height": 92,
+              "left": 17,
+              "right": 358,
+              "top": 131.4375,
+              "bottom": 223.4375
+            },
+            "center": {
+              "x": 187.5,
+              "y": 177.4375
+            },
+            "clip": {
+              "left": 8,
+              "top": 126,
+              "right": 367,
+              "bottom": 267
+            },
+            "centerInside": true,
+            "fullyInside": true,
+            "hitOK": false,
+            "hit": {
+              "tag": "DIV",
+              "id": "",
+              "className": "panel-header"
+            },
+            "focused": false,
+            "text": "PLAYPAUSEPREVNEXT31.3s / 31.4s",
+            "scroll": {
+              "id": "",
+              "box": {
+                "x": 8,
+                "y": 126,
+                "width": 359,
+                "height": 141,
+                "left": 8,
+                "right": 367,
+                "top": 126,
+                "bottom": 267
+              },
+              "canUp": true,
+              "canDown": true
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-11-all-playback-controls-contained.png"
+        },
+        {
+          "id": "mobile.playback-pause-touch",
+          "mode": "mobile",
+          "scope": "Standalone mobile workstation",
+          "startedUtc": "2026-10-24T02:18:24.345Z",
+          "finishedUtc": "2026-10-24T02:18:31.541Z",
+          "pass": false,
+          "status": "FAIL",
+          "detail": "#incident-playback-pause remained untappable after bounded real touch scrolling",
+          "data": {
+            "exists": true,
+            "selector": "#incident-playback-pause",
+            "visible": true,
+            "disabled": false,
+            "rect": {
+              "x": 103.25,
+              "y": 152.4375,
+              "width": 82.25,
+              "height": 44,
+              "left": 103.25,
+              "right": 185.5,
+              "top": 152.4375,
+              "bottom": 196.4375
+            },
+            "center": {
+              "x": 144.375,
+              "y": 174.4375
+            },
+            "clip": {
+              "left": 8,
+              "top": 126,
+              "right": 367,
+              "bottom": 267
+            },
+            "centerInside": true,
+            "fullyInside": true,
+            "hitOK": false,
+            "hit": {
+              "tag": "DIV",
+              "id": "",
+              "className": "panel-header"
+            },
+            "focused": false,
+            "value": "",
+            "text": "PAUSE",
+            "scroll": {
+              "id": "",
+              "box": {
+                "x": 8,
+                "y": 126,
+                "width": 359,
+                "height": 141,
+                "left": 8,
+                "right": 367,
+                "top": 126,
+                "bottom": 267
+              },
+              "canUp": true,
+              "canDown": true
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-12-playback-pause-touch.png"
+        }
+      ],
+      "screenshots": [
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-01-exact-touch-viewport.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-02-load-live-workstation.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-03-touch-input-and-type-prompt.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-04-touch-build-resolves-marina-anchor.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-05-composer-play-center-hit-and-touch.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-06-scenes-tab-touch.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-07-drawer-collapse-touch.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-08-drawer-expand-touch.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-09-layers-tab-touch.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-10-scenes-tab-return-touch.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-11-all-playback-controls-contained.png",
+        "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-12-playback-pause-touch.png"
+      ],
+      "reportPath": "/tmp/gev-marina-suite-2/marina-mobile-20261024T021724471Z-assertions.json",
+      "savedName": "Dubai Marina waterfront orbit mobile 20261024T021724471Z",
+      "navigatedUrl": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+      "stoppedEarly": "playback-pause-touch",
+      "summary": {
+        "passed": 10,
+        "failed": 2,
+        "completed": false
+      }
+    },
+    "iframe": {
+      "agent": 18,
+      "mode": "iframe",
+      "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+      "hostChatTested": false,
+      "url": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+      "prompt": "Create a waterfront orbit scene around Dubai Marina",
+      "expectedAnchor": {
+        "lat": 25.0786415,
+        "lon": 55.1352524
+      },
+      "expectedViewport": {
+        "width": 375,
+        "height": 739,
+        "isMobile": true,
+        "hasTouch": true
+      },
+      "startedUtc": "2026-10-24T02:18:31.679Z",
+      "finishedUtc": "2026-10-24T02:19:41.971Z",
+      "completed": false,
+      "ok": false,
+      "checks": [
+        {
+          "id": "iframe.exact-touch-viewport",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:18:31.679Z",
+          "finishedUtc": "2026-10-24T02:18:31.733Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "exact-touch-viewport",
+          "data": {
+            "width": 375,
+            "height": 739,
+            "deviceScaleFactor": 1,
+            "isMobile": true,
+            "hasTouch": true
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-01-exact-touch-viewport.png"
+        },
+        {
+          "id": "iframe.load-live-workstation",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:18:31.733Z",
+          "finishedUtc": "2026-10-24T02:18:34.296Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "load-live-workstation",
+          "data": {
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+              "state": "idle",
+              "busy": false,
+              "prompt": "",
+              "anchor": null,
+              "sceneId": null,
+              "sceneTitle": null,
+              "result": "",
+              "running": false,
+              "clock": "0.0s / 0.0s",
+              "scrub": 0,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "",
+              "meta": "",
+              "activeTitle": "",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 711,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": {
+                "innerWidth": 375,
+                "scrollWidth": 375
+              }
+            },
+            "harness": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/embed-harness.html",
+              "title": "Embed harness — OnDemand Intelligence Workstation",
+              "frameSrc": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+              "sandbox": null,
+              "frameTitle": "OnDemand Intelligence Workstation (embedded)",
+              "frameWidth": 375,
+              "frameHeight": 711
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-02-load-live-workstation.png"
+        },
+        {
+          "id": "iframe.touch-input-and-type-prompt",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:18:34.297Z",
+          "finishedUtc": "2026-10-24T02:18:57.388Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "touch-input-and-type-prompt",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#incident-composer-input",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 15,
+                "y": 652,
+                "width": 251,
+                "height": 44,
+                "left": 15,
+                "right": 266,
+                "top": 652,
+                "bottom": 696
+              },
+              "center": {
+                "x": 140.5,
+                "y": 674
+              },
+              "clip": {
+                "left": 8,
+                "top": 645,
+                "right": 367,
+                "bottom": 703
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "INPUT",
+                "id": "incident-composer-input",
+                "className": "incident-composer__input"
+              },
+              "focused": false,
+              "value": "",
+              "text": "",
+              "scroll": null,
+              "screen": {
+                "x": 140.5,
+                "y": 702
+              },
+              "outer": {
+                "frameHit": true,
+                "hitId": "app",
+                "tag": "IFRAME"
+              },
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "typed": "Create a waterfront orbit scene around Dubai Marina",
+            "focused": true
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-03-touch-input-and-type-prompt.png"
+        },
+        {
+          "id": "iframe.touch-build-resolves-marina-anchor",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:18:57.388Z",
+          "finishedUtc": "2026-10-24T02:19:03.441Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "touch-build-resolves-marina-anchor",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#incident-composer-submit",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 272,
+                "y": 652,
+                "width": 88,
+                "height": 44,
+                "left": 272,
+                "right": 360,
+                "top": 652,
+                "bottom": 696
+              },
+              "center": {
+                "x": 316,
+                "y": 674
+              },
+              "clip": {
+                "left": 8,
+                "top": 645,
+                "right": 367,
+                "bottom": 703
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "incident-composer-submit",
+                "className": "incident-composer__submit"
+              },
+              "focused": false,
+              "value": "",
+              "text": "BUILD SCENE",
+              "scroll": null,
+              "screen": {
+                "x": 316,
+                "y": 702
+              },
+              "outer": {
+                "frameHit": true,
+                "hitId": "app",
+                "tag": "IFRAME"
+              },
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=30.2672&lon=-97.7431&alt=600&heading=15&pitch=-30&roll=360&style=normal&bloom=0&sharpen=1&bi=0&bv=2&si=49&hud=tactical&hv=1&dm=DENSE&dd=75&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": false,
+              "clock": "0.0s / 31.4s · paused",
+              "scrub": 0,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 711,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": {
+                "innerWidth": 375,
+                "scrollWidth": 375
+              }
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-04-touch-build-resolves-marina-anchor.png"
+        },
+        {
+          "id": "iframe.composer-play-center-hit-and-touch",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:19:03.442Z",
+          "finishedUtc": "2026-10-24T02:19:06.404Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "composer-play-center-hit-and-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#incident-composer-play",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 15,
+                "y": 581.40625,
+                "width": 44,
+                "height": 44,
+                "left": 15,
+                "right": 59,
+                "top": 581.40625,
+                "bottom": 625.40625
+              },
+              "center": {
+                "x": 37,
+                "y": 603.40625
+              },
+              "clip": {
+                "left": 15,
+                "top": 558.015625,
+                "right": 360,
+                "bottom": 625.40625
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "incident-composer-play",
+                "className": "incident-composer__submit"
+              },
+              "focused": false,
+              "value": "",
+              "text": "Play",
+              "scroll": null,
+              "screen": {
+                "x": 37,
+                "y": 631.40625
+              },
+              "outer": {
+                "frameHit": true,
+                "hitId": "app",
+                "tag": "IFRAME"
+              },
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0786&lon=55.1353&alt=2400&heading=30&pitch=-62&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "0.0s / 31.4s",
+              "scrub": 0,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-05-composer-play-center-hit-and-touch.png"
+        },
+        {
+          "id": "iframe.scenes-tab-touch",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:19:06.405Z",
+          "finishedUtc": "2026-10-24T02:19:09.371Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "scenes-tab-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#sidebar-scenes-tab",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 13,
+                "y": 73,
+                "width": 118.5,
+                "height": 44,
+                "left": 13,
+                "right": 131.5,
+                "top": 73,
+                "bottom": 117
+              },
+              "center": {
+                "x": 72.25,
+                "y": 95
+              },
+              "clip": {
+                "left": 8,
+                "top": 68,
+                "right": 367,
+                "bottom": 239
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "sidebar-scenes-tab",
+                "className": "workstation-sidebar-tabs__tab"
+              },
+              "focused": false,
+              "value": "",
+              "text": "Scenes",
+              "scroll": null,
+              "screen": {
+                "x": 72.25,
+                "y": 123
+              },
+              "outer": {
+                "frameHit": true,
+                "hitId": "app",
+                "tag": "IFRAME"
+              },
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0787&lon=55.1353&alt=2395&heading=30&pitch=-62&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "5.5s / 31.4s",
+              "scrub": 176,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 711,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": {
+                "innerWidth": 375,
+                "scrollWidth": 375
+              }
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-06-scenes-tab-touch.png"
+        },
+        {
+          "id": "iframe.drawer-collapse-touch",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:19:09.372Z",
+          "finishedUtc": "2026-10-24T02:19:13.002Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "drawer-collapse-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#scene-drawer-toggle",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 258,
+                "y": 73,
+                "width": 104,
+                "height": 44,
+                "left": 258,
+                "right": 362,
+                "top": 73,
+                "bottom": 117
+              },
+              "center": {
+                "x": 310,
+                "y": 95
+              },
+              "clip": {
+                "left": 8,
+                "top": 68,
+                "right": 367,
+                "bottom": 239
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "scene-drawer-toggle",
+                "className": "scene-library__drawer-toggle"
+              },
+              "focused": false,
+              "value": "",
+              "text": "Collapse drawer",
+              "scroll": null,
+              "screen": {
+                "x": 310,
+                "y": 123
+              },
+              "outer": {
+                "frameHit": true,
+                "hitId": "app",
+                "tag": "IFRAME"
+              },
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1228&heading=118&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "9.1s / 31.4s",
+              "scrub": 290,
+              "drawerExpanded": "false",
+              "drawerLabel": "Expand sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": false,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 711,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": {
+                "innerWidth": 375,
+                "scrollWidth": 375
+              }
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-07-drawer-collapse-touch.png"
+        },
+        {
+          "id": "iframe.drawer-expand-touch",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:19:13.003Z",
+          "finishedUtc": "2026-10-24T02:19:13.944Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "drawer-expand-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#scene-drawer-toggle",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 258,
+                "y": 73,
+                "width": 104,
+                "height": 44,
+                "left": 258,
+                "right": 362,
+                "top": 73,
+                "bottom": 117
+              },
+              "center": {
+                "x": 310,
+                "y": 95
+              },
+              "clip": {
+                "left": 8,
+                "top": 68,
+                "right": 367,
+                "bottom": 122
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "scene-drawer-toggle",
+                "className": "scene-library__drawer-toggle"
+              },
+              "focused": true,
+              "value": "",
+              "text": "Expand drawer",
+              "scroll": null,
+              "screen": {
+                "x": 310,
+                "y": 123
+              },
+              "outer": {
+                "frameHit": true,
+                "hitId": "app",
+                "tag": "IFRAME"
+              },
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1228&heading=118&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "10.6s / 31.4s",
+              "scrub": 336,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-08-drawer-expand-touch.png"
+        },
+        {
+          "id": "iframe.layers-tab-touch",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:19:13.946Z",
+          "finishedUtc": "2026-10-24T02:19:15.798Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "layers-tab-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#sidebar-layers-tab",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 135.5,
+                "y": 73,
+                "width": 118.5,
+                "height": 44,
+                "left": 135.5,
+                "right": 254,
+                "top": 73,
+                "bottom": 117
+              },
+              "center": {
+                "x": 194.75,
+                "y": 95
+              },
+              "clip": {
+                "left": 8,
+                "top": 68,
+                "right": 367,
+                "bottom": 239
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "sidebar-layers-tab",
+                "className": "workstation-sidebar-tabs__tab"
+              },
+              "focused": false,
+              "value": "",
+              "text": "Layers",
+              "scroll": null,
+              "screen": {
+                "x": 194.75,
+                "y": 123
+              },
+              "outer": {
+                "frameHit": true,
+                "hitId": "app",
+                "tag": "IFRAME"
+              },
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0808&lon=55.1377&alt=1228&heading=118&pitch=-48&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.1_v.c.1_r.c.1_s.c.0_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "11.4s / 31.4s",
+              "scrub": 363,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "false",
+              "layersSelected": "true",
+              "scenesShown": false,
+              "layersShown": true,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 711,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": {
+                "innerWidth": 375,
+                "scrollWidth": 375
+              }
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-09-layers-tab-touch.png"
+        },
+        {
+          "id": "iframe.scenes-tab-return-touch",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:19:15.798Z",
+          "finishedUtc": "2026-10-24T02:19:19.697Z",
+          "pass": true,
+          "status": "PASS",
+          "detail": "scenes-tab-return-touch",
+          "data": {
+            "hit": {
+              "exists": true,
+              "selector": "#sidebar-scenes-tab",
+              "visible": true,
+              "disabled": false,
+              "rect": {
+                "x": 13,
+                "y": 73,
+                "width": 118.5,
+                "height": 44,
+                "left": 13,
+                "right": 131.5,
+                "top": 73,
+                "bottom": 117
+              },
+              "center": {
+                "x": 72.25,
+                "y": 95
+              },
+              "clip": {
+                "left": 8,
+                "top": 68,
+                "right": 367,
+                "bottom": 239
+              },
+              "centerInside": true,
+              "fullyInside": true,
+              "hitOK": true,
+              "hit": {
+                "tag": "BUTTON",
+                "id": "sidebar-scenes-tab",
+                "className": "workstation-sidebar-tabs__tab"
+              },
+              "focused": false,
+              "value": "",
+              "text": "Scenes",
+              "scroll": null,
+              "screen": {
+                "x": 72.25,
+                "y": 123
+              },
+              "outer": {
+                "frameHit": true,
+                "hitId": "app",
+                "tag": "IFRAME"
+              },
+              "method": "page.touchscreen.tap at verified elementFromPoint center"
+            },
+            "state": {
+              "href": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0#v=2&lat=25.0791&lon=55.1349&alt=1096&heading=151&pitch=-46&roll=360&style=normal&bloom=0&sharpen=0&bi=50&bv=2&si=65&hud=tactical&hv=1&dm=OFF&dd=50&da=elastic&kf=7&ko=1&cr=0&sc=1&scf=11&map=esri-imagery&l=&lo=f.e.1&ui=c.c.1_c.p.0_l.c.1_l.p.0_d.c.0_v.c.1_r.c.1_s.c.1_g.c.1_p.c.1_m.c.0",
+              "state": "done",
+              "busy": false,
+              "prompt": "Create a waterfront orbit scene around Dubai Marina",
+              "anchor": {
+                "name": "Dubai Marina",
+                "lat": 25.0786415,
+                "lon": 55.1352524
+              },
+              "sceneId": "geo-scene-v1-%5B%22waterfront-orbit%22%2C%22geocode_place%22%2C%22Dubai%20Marina%22%2C25.0786415%2C55.1352524%5D",
+              "sceneTitle": "Dubai Marina — Waterfront Orbit",
+              "result": "Scene generated at Dubai Marina.Play",
+              "running": true,
+              "clock": "15.3s / 31.4s",
+              "scrub": 488,
+              "drawerExpanded": "true",
+              "drawerLabel": "Collapse sidebar drawer",
+              "scenesSelected": "true",
+              "layersSelected": "false",
+              "scenesShown": true,
+              "layersShown": false,
+              "name": "Dubai Marina — Waterfront Orbit",
+              "meta": "4 keyframes · Unsaved",
+              "activeTitle": "Dubai Marina — Waterfront Orbit",
+              "saveStatus": "",
+              "savedOptions": [
+                {
+                  "value": "",
+                  "title": "No saved scenes yet"
+                }
+              ]
+            },
+            "layout": {
+              "document": {
+                "innerWidth": 375,
+                "innerHeight": 711,
+                "clientWidth": 375,
+                "scrollWidth": 375,
+                "visualWidth": 375,
+                "maxTouchPoints": 1
+              },
+              "host": {
+                "innerWidth": 375,
+                "scrollWidth": 375
+              }
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-10-scenes-tab-return-touch.png"
+        },
+        {
+          "id": "iframe.all-playback-controls-contained",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:19:19.698Z",
+          "finishedUtc": "2026-10-24T02:19:34.712Z",
+          "pass": false,
+          "status": "FAIL",
+          "detail": "Playback controls must all fit inside their bar AND the 375px viewport with unobstructed centers",
+          "data": {
+            "box": {
+              "left": 17,
+              "top": 135.4375,
+              "right": 358,
+              "bottom": 227.4375,
+              "width": 341,
+              "height": 92
+            },
+            "controls": [
+              {
+                "id": "incident-playback-play",
+                "box": {
+                  "left": 17,
+                  "top": 135.4375,
+                  "right": 99.25,
+                  "bottom": 179.4375,
+                  "width": 82.25,
+                  "height": 44
+                },
+                "visible": true,
+                "hit": "",
+                "centerHit": false,
+                "inside": true
+              },
+              {
+                "id": "incident-playback-pause",
+                "box": {
+                  "left": 103.25,
+                  "top": 135.4375,
+                  "right": 185.5,
+                  "bottom": 179.4375,
+                  "width": 82.25,
+                  "height": 44
+                },
+                "visible": true,
+                "hit": "",
+                "centerHit": false,
+                "inside": true
+              },
+              {
+                "id": "incident-playback-prev",
+                "box": {
+                  "left": 189.5,
+                  "top": 135.4375,
+                  "right": 271.75,
+                  "bottom": 179.4375,
+                  "width": 82.25,
+                  "height": 44
+                },
+                "visible": true,
+                "hit": "",
+                "centerHit": false,
+                "inside": true
+              },
+              {
+                "id": "incident-playback-next",
+                "box": {
+                  "left": 275.75,
+                  "top": 135.4375,
+                  "right": 358,
+                  "bottom": 179.4375,
+                  "width": 82.25,
+                  "height": 44
+                },
+                "visible": true,
+                "hit": "",
+                "centerHit": false,
+                "inside": true
+              },
+              {
+                "id": "incident-playback-scrub",
+                "box": {
+                  "left": 17,
+                  "top": 183.4375,
+                  "right": 271.75,
+                  "bottom": 227.4375,
+                  "width": 254.75,
+                  "height": 44
+                },
+                "visible": true,
+                "hit": "incident-playback-scrub",
+                "centerHit": true,
+                "inside": true
+              },
+              {
+                "id": "incident-playback-clock",
+                "box": {
+                  "left": 275.75,
+                  "top": 199.359375,
+                  "right": 358,
+                  "bottom": 211.5,
+                  "width": 82.25,
+                  "height": 12.140625
+                },
+                "visible": true,
+                "hit": "incident-playback-clock",
+                "centerHit": true,
+                "inside": true
+              }
+            ]
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-11-all-playback-controls-contained.png"
+        },
+        {
+          "id": "iframe.playback-pause-touch",
+          "mode": "iframe",
+          "scope": "Same-origin /embed-harness.html; NOT the user host chat",
+          "startedUtc": "2026-10-24T02:19:34.811Z",
+          "finishedUtc": "2026-10-24T02:19:41.970Z",
+          "pass": false,
+          "status": "FAIL",
+          "detail": "#incident-playback-pause remained untappable after bounded real touch scrolling",
+          "data": {
+            "exists": true,
+            "selector": "#incident-playback-pause",
+            "visible": true,
+            "disabled": false,
+            "rect": {
+              "x": 103.25,
+              "y": 138.4375,
+              "width": 82.25,
+              "height": 44,
+              "left": 103.25,
+              "right": 185.5,
+              "top": 138.4375,
+              "bottom": 182.4375
+            },
+            "center": {
+              "x": 144.375,
+              "y": 160.4375
+            },
+            "clip": {
+              "left": 8,
+              "top": 126,
+              "right": 367,
+              "bottom": 239
+            },
+            "centerInside": true,
+            "fullyInside": true,
+            "hitOK": false,
+            "hit": {
+              "tag": "DIV",
+              "id": "",
+              "className": "panel-header"
+            },
+            "focused": false,
+            "value": "",
+            "text": "PAUSE",
+            "scroll": {
+              "id": "",
+              "box": {
+                "x": 8,
+                "y": 126,
+                "width": 359,
+                "height": 113,
+                "left": 8,
+                "right": 367,
+                "top": 126,
+                "bottom": 239
+              },
+              "canUp": true,
+              "canDown": true
+            }
+          },
+          "screenshot": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-12-playback-pause-touch.png"
+        }
+      ],
+      "screenshots": [
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-01-exact-touch-viewport.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-02-load-live-workstation.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-03-touch-input-and-type-prompt.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-04-touch-build-resolves-marina-anchor.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-05-composer-play-center-hit-and-touch.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-06-scenes-tab-touch.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-07-drawer-collapse-touch.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-08-drawer-expand-touch.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-09-layers-tab-touch.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-10-scenes-tab-return-touch.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-11-all-playback-controls-contained.png",
+        "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-12-playback-pause-touch.png"
+      ],
+      "reportPath": "/tmp/gev-marina-suite-2/marina-iframe-20261024T021831679Z-assertions.json",
+      "savedName": "Dubai Marina waterfront orbit iframe 20261024T021831679Z",
+      "navigatedUrl": "https://sb-2nei6kyp3xva.vercel.run/embed-harness.html",
+      "harness": {
+        "href": "https://sb-2nei6kyp3xva.vercel.run/embed-harness.html",
+        "title": "Embed harness — OnDemand Intelligence Workstation",
+        "frameSrc": "https://sb-2nei6kyp3xva.vercel.run/?welcome=0",
+        "sandbox": null,
+        "frameTitle": "OnDemand Intelligence Workstation (embedded)",
+        "frameWidth": 375,
+        "frameHeight": 711
+      },
+      "stoppedEarly": "playback-pause-touch",
+      "summary": {
+        "passed": 10,
+        "failed": 2,
+        "completed": false
+      }
+    },
+    "extras": {
+      "pass": false,
+      "error": "Timed out waiting for real UI state",
+      "state": {
+        "state": "idle",
+        "busy": false,
+        "text": "",
+        "scene": null,
+        "active": null,
+        "marker": false,
+        "play": false,
+        "generation": 0,
+        "scrollWidth": 1440,
+        "width": 1440
+      }
+    },
+    "video": {
+      "pass": true
+    }
+  },
+  "network": [
+    {
+      "utc": "2026-10-24T02:15:58.605Z",
+      "path": "/api/setup/status",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "utc": "2026-10-24T02:15:58.606Z",
+      "path": "/api/ondemand/v2/incidents/aoi",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:15:58.611Z",
+      "path": "/api/ondemand/v2/incidents/list",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:15:58.611Z",
+      "path": "/api/ondemand/v2/plugins",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:15:59.208Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:16:34.525Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:16:35.316Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:16:35.679Z",
+      "path": "/api/ondemand/v2/incidents/locate",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:16:59.192Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:16:59.728Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:06.010Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:09.130Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:13.793Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:16.896Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:19.396Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:23.580Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:26.606Z",
+      "path": "/api/setup/status",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "utc": "2026-10-24T02:17:26.607Z",
+      "path": "/api/ondemand/v2/plugins",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:26.607Z",
+      "path": "/api/ondemand/v2/incidents/aoi",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:26.615Z",
+      "path": "/api/ondemand/v2/incidents/list",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:27.240Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:47.396Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:47.607Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:51.774Z",
+      "path": "/api/ondemand/v2/incidents/locate",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:55.324Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:17:55.922Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:04.432Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:08.282Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:14.519Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:18.003Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:26.326Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:33.307Z",
+      "path": "/api/ondemand/v2/plugins",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:33.307Z",
+      "path": "/api/setup/status",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "utc": "2026-10-24T02:18:33.307Z",
+      "path": "/api/ondemand/v2/incidents/aoi",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:33.406Z",
+      "path": "/api/ondemand/v2/incidents/list",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:33.844Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:56.498Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:18:56.737Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:01.813Z",
+      "path": "/api/ondemand/v2/incidents/locate",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:05.793Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:07.000Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:14.940Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:19.593Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:25.042Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:28.750Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:33.159Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:43.556Z",
+      "path": "/api/ondemand/v2/plugins",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:43.606Z",
+      "path": "/api/ondemand/v2/incidents/list",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:43.653Z",
+      "path": "/api/setup/status",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "utc": "2026-10-24T02:19:43.653Z",
+      "path": "/api/ondemand/v2/incidents/aoi",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:44.105Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:19:46.871Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:13.493Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:15.294Z",
+      "path": "/api/ondemand/v2/incidents/locate",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:15.950Z",
+      "path": "/api/ondemand/v2/scene/videos",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:18.667Z",
+      "path": "/api/ondemand/v2/incidents/locate",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:18.973Z",
+      "path": "/api/ondemand/v2/scene/videos",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:28.387Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:44.460Z",
+      "path": "/api/ondemand/v2/scene/media",
+      "method": "GET",
+      "status": 206
+    },
+    {
+      "utc": "2026-10-24T02:20:50.126Z",
+      "path": "/api/ondemand/v2/incidents/search",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:51.312Z",
+      "path": "/api/ondemand/v2/incidents/locate",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:56.635Z",
+      "path": "/api/setup/status",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "utc": "2026-10-24T02:20:56.635Z",
+      "path": "/api/ondemand/v2/plugins",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:56.636Z",
+      "path": "/api/ondemand/v2/incidents/aoi",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:20:56.642Z",
+      "path": "/api/ondemand/v2/incidents/list",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:21:07.038Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:21:07.052Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:21:12.285Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:21:49.721Z",
+      "path": "/api/setup/status",
+      "method": "GET",
+      "status": 404
+    },
+    {
+      "utc": "2026-10-24T02:21:49.722Z",
+      "path": "/api/ondemand/v2/plugins",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:21:49.722Z",
+      "path": "/api/ondemand/v2/incidents/aoi",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:21:49.761Z",
+      "path": "/api/ondemand/v2/incidents/list",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:21:50.273Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:22:08.214Z",
+      "path": "/api/ondemand/v2/summaries/hud",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:22:08.453Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:22:08.859Z",
+      "path": "/api/ondemand/v2/incidents/locate",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:22:09.771Z",
+      "path": "/api/ondemand/v2/incidents/ingest",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:22:10.784Z",
+      "path": "/api/ondemand/v2/scene/videos",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:22:19.530Z",
+      "path": "/api/google/nearby-places",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "utc": "2026-10-24T02:22:25.611Z",
+      "path": "/api/ondemand/v2/scene/media",
+      "method": "GET",
+      "status": 206
+    }
+  ],
+  "errors": [],
+  "finishedUtc": "2026-10-24T02:22:48.901Z"
+}
