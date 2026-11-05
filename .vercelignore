@@ -7,3 +7,10 @@ dist
 .ui-proof
 screenshots
 qa-shots
+# Historical evidence and local render caches are preserved in source, not deployment.
+docs/**
+ops/**
+tools/**
+.pytest_cache/**
+render_service/__pycache__/**
+.agents/**

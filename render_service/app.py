@@ -186,7 +186,7 @@ def render_frame(j,scene,pose,index,quality):
     fid=j["jobId"]+f"_{index:04d}_{quality}";stage=Path(j["dir"])/"staging"/(fid+".jpg")
     command={"requestId":uuid.uuid4().hex,"jobId":j["jobId"],"sceneId":j["sceneId"],"frameId":fid,"scenePath":j["_scene_path"],
              "cacheKey":scene["cacheKey"],"jobHash":j["jobHash"],"pose":pose,"width":width,"height":width*9//16,
-             "samples":8 if quality=="preview" else min(16,j["request"].get("samples") or SAMPLES) if quality=="sequence" else j["request"].get("samples") or SAMPLES,
+             "samples":8 if quality=="preview" else min(8,j["request"].get("samples") or SAMPLES) if quality=="sequence" else j["request"].get("samples") or SAMPLES,
              "stagingPath":str(stage)}
     result=ensure_pool().submit(command,j["_cancel"]).result(timeout=420)
     publish(j,result,index,quality,pose)
@@ -364,9 +364,21 @@ def cancel(jid:str):
     return {"jobId":jid,"cancelRequested":True,"stage":j["stage"]}
 
 @app.get("/status/{jid}",dependencies=[Depends(auth)])
-def status(jid:str):
+def status(jid:str, details:bool=False):
     with LOCK:
         j=get_job(jid);out=public(j);out.pop("events",None);out["events_tail"]=j.get("events",[])[-6:]
+        if not details:
+            # Geometry is immutable per patch and loaded once via /patch. Never
+            # retransmit thousands of source IDs inside every frame and event.
+            patch=dict(out.get("patch") or {})
+            patch.pop("features",None)
+            patch["provenance"]=[{k:v for k,v in source.items() if k!="versions"} for source in patch.get("provenance",[])]
+            out["patch"]=patch
+            def compact(frame):
+                return {k:v for k,v in frame.items() if k not in ("sourceIds","cacheKey")}
+            out["frames"]=[compact(f) for f in out.get("frames",[])]
+            if out.get("latestFrame"):out["latestFrame"]=compact(out["latestFrame"])
+            out["events_tail"]=[{**ev,"data":compact(ev["data"])} for ev in out["events_tail"]]
         return out
 
 @app.get("/patch/{jid}",dependencies=[Depends(auth)])

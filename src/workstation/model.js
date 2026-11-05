@@ -43,7 +43,9 @@ export function normalizeJob(raw, start = {}) {
   job.total_frames = Number(
     raw.total_frames ?? raw.totalFrames ?? raw.frames?.total ?? 0,
   );
-  job.patch = raw.patch || raw.land_patch?.patch || start.patch || null;
+  job.patch = raw.patch
+    ? { ...(start.patch?.id === raw.patch.id ? start.patch : {}), ...raw.patch }
+    : raw.land_patch?.patch || start.patch || null;
   job.camera =
     raw.camera ||
     raw.pose ||
@@ -246,7 +248,14 @@ export function propertyEntries(job, extra = {}, result = null) {
     ],
     [
       'Geographic provenance',
-      job?.patch?.provenance ? stringify(job.patch.provenance) : 'Not reported',
+      job?.patch?.provenance
+        ? job.patch.provenance
+            .map(
+              (p) =>
+                `${p.source || p.provider || 'Source'} · ${p.retrievedUtc || p.reviewedUtc || 'time unreported'}`,
+            )
+            .join('; ')
+        : 'Not reported',
     ],
     ['Unique views / second', job?.unique_views_per_second ?? 'Not reported'],
     [
@@ -268,9 +277,13 @@ export function propertyEntries(job, extra = {}, result = null) {
   return rows;
 }
 export function stringify(value) {
-  return typeof value === 'object'
-    ? JSON.stringify(value)
-    : String(value ?? '—');
+  if (Array.isArray(value) && value.length > 12)
+    return `${value.length} records (full metadata in patch/source manifest)`;
+  const text =
+    typeof value === 'object' ? JSON.stringify(value) : String(value ?? '—');
+  return text.length > 1600
+    ? text.slice(0, 1600) + '… (full metadata in source manifest)'
+    : text;
 }
 export function timelineState(job, current = 0) {
   const total = job?.total_frames || 0,
@@ -315,10 +328,10 @@ export function planGeometry(job) {
     Array.isArray(p) &&
     p.length >= 2 &&
     p.slice(0, 2).every(Number.isFinite) &&
-    p[0] >= w &&
-    p[0] <= e &&
-    p[1] >= s &&
-    p[1] <= n;
+    p[0] >= w - 1e-8 &&
+    p[0] <= e + 1e-8 &&
+    p[1] >= s - 1e-8 &&
+    p[1] <= n + 1e-8;
   for (const [index, feature] of patchFeatures(job).entries()) {
     const g = geographic
       ? feature.geometry

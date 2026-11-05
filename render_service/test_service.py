@@ -99,7 +99,7 @@ def test_published_bytes_and_status_evidence(setup):
     res=client.get(f"/frames/{j['jobId']}/latest.jpg",headers=headers)
     assert res.status_code==200 and hashlib.sha256(res.content).hexdigest()==res.headers["X-Frame-SHA256"]
     assert res.headers["X-Patch-Id"]==scene["patch"]["id"]
-    status=client.get(f"/status/{j['jobId']}",headers=headers).json()
+    status=client.get(f"/status/{j['jobId']}?details=true",headers=headers).json()
     assert status["latestFrame"]["sourceIds"]==["way/10"] and status["latestFrame"]["workerPid"]==1234
     assert all(not k.startswith("_") for k in status) and "dir" not in status
 

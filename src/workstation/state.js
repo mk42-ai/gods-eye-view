@@ -207,6 +207,23 @@ export function savedState(state) {
     camera: state.camera,
     legacyHash: state.legacyHash,
     cctvId: state.cctv.selectedId,
+    jobId: state.job?.job_id || null,
+    sceneSnapshot: state.job
+      ? {
+          sceneId: state.job.sceneId,
+          patch: state.job.patch,
+          spec: state.job.spec,
+          placement: state.job.placement,
+          references: state.job.references,
+          request: state.job.request,
+          camera: state.camera,
+        }
+      : null,
+    sourceEvidence: state.evidence,
+    sourceCameras: {
+      cameras: state.cctv.cameras,
+      selectedId: state.cctv.selectedId,
+    },
   };
 }
 /** A Build owns submission synchronously, before the first await. Editing cancels every older owner. */

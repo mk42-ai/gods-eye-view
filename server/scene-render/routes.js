@@ -553,10 +553,17 @@ export function createSceneRenderRoutes({
     try {
       const fwd = { ...headers() };
       if (req.headers.range) fwd.range = req.headers.range;
-      const r = await fetchImpl(`${cfg.url}${upstreamPath}`, {
-        headers: fwd,
-        signal: kind === 'stream' ? undefined : AbortSignal.timeout(30000),
-      });
+      const r = await fetchImpl(
+        `${cfg.url}${upstreamPath}${kind === 'status' && url.searchParams.get('details') === 'true' ? '?details=true' : ''}`,
+        {
+          headers: fwd,
+          signal: kind === 'stream' ? undefined : AbortSignal.timeout(30000),
+        },
+      );
+      if (kind === 'patch') {
+        const data = await r.json().catch(() => ({}));
+        return sendJson(res, r.status, data);
+      }
       if (kind === 'status') {
         const data = await r.json().catch(() => ({}));
         return sendJson(res, r.ok ? 200 : r.status, rewriteJobUrls(data, job));

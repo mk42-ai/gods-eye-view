@@ -69,6 +69,9 @@ function event(type, detail = {}) {
   return entry;
 }
 const authority = new Authority(state, event);
+let lastOutlinerKey = '',
+  lastAoiKey = '';
+const patchCache = new Map();
 let displayOwner = null,
   playToken = 0,
   video = null;
@@ -141,13 +144,26 @@ function cancelRemote(jobId) {
 function edit(patch, reason, sceneDirty = true) {
   stopPlayback();
   const activeJobId = state.active?.jobId;
-  if (sceneDirty && Object.prototype.hasOwnProperty.call(patch, 'prompt')) {
+  if (
+    sceneDirty &&
+    reason !== 'local-draft-loaded' &&
+    Object.prototype.hasOwnProperty.call(patch, 'prompt')
+  ) {
     patch = { ...patch, camera: null };
     if (state.aoi?.verification === 'verified') patch.aoi = null;
   }
   authority.edit(patch, reason);
   cancelRemote(activeJobId);
-  if (sceneDirty) state.sceneDirty = true;
+  if (sceneDirty) {
+    state.sceneDirty = true;
+    const current = new URL(location.href);
+    current.searchParams.delete('job');
+    history.replaceState(
+      null,
+      '',
+      current.pathname + current.search + current.hash,
+    );
+  }
   ws.failure = null;
   render();
   storageSave(true);
@@ -167,6 +183,9 @@ function fail(error, kind = 'request', body = null, status = null) {
   render();
 }
 function renderOutliner() {
+  const key = `${state.job?.patch?.id}|${state.selection}|${JSON.stringify(state.job?.placement?.by_asset || {})}|${state.job?.patch?.features?.length || 0}`;
+  if (lastOutlinerKey === key) return;
+  lastOutlinerKey = key;
   const list = $('#ws-outliner-list');
   list.replaceChildren();
   const rows = outlinerRows(state.job);
@@ -215,6 +234,9 @@ function renderAoi() {
   if (state.aoi)
     a.href = `https://www.openstreetmap.org/?mlat=${state.aoi.lat}&mlon=${state.aoi.lon}#map=18/${state.aoi.lat}/${state.aoi.lon}`;
   const container = $('#ws-aoi-plan');
+  const key = `${state.job?.patch?.id}|${state.selection}|${state.stale}|${state.job?.patch?.features?.length || 0}`;
+  if (lastAoiKey === key) return;
+  lastAoiKey = key;
   container.replaceChildren();
   const plan = planGeometry(state.job);
   if (!plan) {
@@ -797,6 +819,14 @@ async function launch(kind = 'build', payload = null) {
         { body: start },
       );
     owner.jobId = jobId;
+    const shared = new URL(location.href);
+    shared.searchParams.set('job', jobId);
+    shared.searchParams.set('prompt', state.prompt);
+    history.replaceState(
+      null,
+      '',
+      shared.pathname + shared.search + shared.hash,
+    );
     if (kind === 'build' && start.location) {
       const l = start.location;
       state.aoi = {
@@ -860,7 +890,25 @@ async function launch(kind = 'build', payload = null) {
         continue;
       }
       if (!authority.current(owner)) return;
-      const job = normalizeJob(raw, { ...start, job_id: jobId });
+      const job = normalizeJob(raw, { ...start, ...state.job, job_id: jobId });
+      if (job.patch?.id && patchCache.has(job.patch.id))
+        job.patch = { ...job.patch, ...patchCache.get(job.patch.id) };
+      if (job.patch?.id && owner.patchRequested !== job.patch.id) {
+        owner.patchRequested = job.patch.id;
+        void request(`/api/scenes/render/${jobId}/patch`, {
+          signal: owner.controller.signal,
+        })
+          .then((patch) => {
+            if (!authority.current(owner) || patch.id !== state.job?.patch?.id)
+              return;
+            patchCache.set(patch.id, patch);
+            if (patchCache.size > 8)
+              patchCache.delete(patchCache.keys().next().value);
+            state.job.patch = patch;
+            render();
+          })
+          .catch(() => event('patch-detail-unavailable', { jobId }));
+      }
       if (job.job_id !== jobId)
         throw new Error('Status job identifier does not match this request.');
       if (
@@ -963,7 +1011,7 @@ async function launch(kind = 'build', payload = null) {
         break;
       }
       render();
-      await sleep(1500, owner.controller.signal);
+      await sleep(400, owner.controller.signal);
     }
   } catch (error) {
     if (!authority.current(owner) || error.name === 'AbortError') return;
@@ -980,6 +1028,98 @@ async function launch(kind = 'build', payload = null) {
     )
       openPanel('aoi');
     if (!state.job && kind === 'camera') state.job = previousJob;
+  } finally {
+    if (authority.current(owner)) {
+      authority.end(owner);
+      render();
+    }
+  }
+}
+
+async function restoreJob(jobId) {
+  if (!/^[a-f0-9]{12,20}$/.test(jobId) || state.active) return;
+  const owner = authority.begin('restore');
+  owner.jobId = jobId;
+  owner.startedAt = performance.now();
+  state.phase = 'building';
+  render();
+  event('restore-start', { jobId });
+  try {
+    let last = null;
+    for (let count = 0; count < 300; count++) {
+      const raw = await request(`/api/scenes/render/${jobId}/status`, {
+        signal: owner.controller.signal,
+      });
+      if (!authority.current(owner)) return;
+      const job = normalizeJob(raw, state.job || {});
+      if (job.job_id !== jobId) throw new Error('Saved job identity mismatch');
+      state.job = job;
+      const origin = job.patch?.origin || job.focal;
+      if (origin) {
+        const verification = job.patch?.verification || {};
+        state.aoi = {
+          lat: origin.lat,
+          lon: origin.lon,
+          radiusM: job.request?.radius_m || 500,
+          source:
+            verification.namedPlaceVerified === false
+              ? 'user-selected'
+              : verification.source,
+          verification:
+            verification.verified === true ? 'verified' : 'unverified',
+          sourceFeatureId: verification.featureId || null,
+          name: job.focal?.name,
+          precision: verification.precision,
+          provenance: job.patch?.provenance || [],
+        };
+        state.locationStatus = `${job.focal?.name || 'Saved patch'} · restored from source/job manifest, not a new location claim`;
+      }
+      state.prompt = job.request?.prompt || state.prompt;
+      input.value = state.prompt;
+      state.durationSec = job.request?.duration_s || 4;
+      $('#ws-duration').value = state.durationSec;
+      if (validCamera(job.camera)) {
+        state.camera = job.camera;
+        fillCamera();
+      }
+      if (['failed', 'cancelled'].includes(job.stage))
+        throw new Error(job.error || `Saved job is ${job.stage}`);
+      if (job.latestFrame?.id && job.latestFrame.id !== last) {
+        await showFrame(owner, job.latestFrame.index);
+        last = job.latestFrame.id;
+      }
+      if (['complete', 'partial'].includes(job.stage)) {
+        const patch = await request(`/api/scenes/render/${jobId}/patch`, {
+          signal: owner.controller.signal,
+        });
+        if (!authority.current(owner)) return;
+        if (patch.id !== job.patch?.id)
+          throw new Error('Saved patch identity mismatch');
+        state.job.patch = patch;
+        patchCache.set(patch.id, patch);
+        if (state.displayed?.jobId !== jobId)
+          throw new Error('Saved job has no decoded current frame');
+        state.phase = 'ready';
+        state.sceneDirty = false;
+        state.stale = false;
+        state.result = {
+          ...state.result,
+          complete: job.stage === 'complete',
+          serviceTtffS: job.ttff_s,
+          fpsSustained: job.fps_sustained,
+          restored: true,
+          patch,
+        };
+        event('restore-complete', { jobId, patchId: patch.id });
+        storageSave(true);
+        break;
+      }
+      render();
+      await sleep(1000, owner.controller.signal);
+    }
+  } catch (error) {
+    if (authority.current(owner))
+      fail(error, 'request', error.body, error.status);
   } finally {
     if (authority.current(owner)) {
       authority.end(owner);
@@ -1638,7 +1778,16 @@ $('#ws-load').addEventListener('click', () => {
     render();
     $('#ws-storage-status').textContent =
       'Browser-local draft loaded · press Build to render';
+    if (saved.sourceEvidence && Array.isArray(saved.sourceEvidence.items))
+      state.evidence = {
+        ...saved.sourceEvidence,
+        phase: 'stale',
+        message:
+          'Saved source snapshot — refresh to verify current availability.',
+      };
     event('local-draft-loaded');
+    if (/^[a-f0-9]{12,20}$/.test(saved.jobId || ''))
+      void restoreJob(saved.jobId);
   } catch (error) {
     $('#ws-storage-status').textContent =
       `Local save unavailable: ${error.message}`;
@@ -1731,3 +1880,4 @@ try {
 fillCamera();
 render();
 event('workstation-ready', { hashKeys: Object.keys(state.legacyHash) });
+if (params.get('job')) void restoreJob(params.get('job'));
