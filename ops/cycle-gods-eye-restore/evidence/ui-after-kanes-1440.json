@@ -1,0 +1,67 @@
+{
+  "url": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-kanes-1440x900.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#incident-composer-submit",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "expect-selector",
+      "target": "#cesiumContainer",
+      "ok": true,
+      "detail": "visible"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": ".ws-body",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "eval",
+      "target": "(async () => {\n  const log = [];\n  const t0 = performance.now();\n  const now = () => new Date().toISOString();\n  const mark = (step, extra = {}) => log.push({ step, utc: now(), ms: Math.round(performa",
+      "ok": true,
+      "detail": "{\"ok\": false, \"prompt\": \"Kane's Boxing Gym, Abu Dhabi\", \"postsAfterTyping\": 0, \"renderPosts\": 0, \"posts\": [], \"stage\": \"complete\", \"status\": \"Complete \\u00b7 120 frames\", \"pixel\": {\"url\": \"https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/141c8d864ca54e0ba50d/latest.jpg\", \"width\": 1280, \"height\": 720, \"lumMean\": 93.7, \"lumStd\": 48.2, \"nonBlank\": true}, \"groups\": \"Terrain,Buildings,Roads,Scenery (CC0),Camera,References\", \"outlinerItems\": 93, \"props\": {\"Location (m E/N/U)\": \"-6.63 / 2.04 / 8.37\", \"Rotation (\\u00b0)\": \"look-at target\", \"Scale\": \"1 / 1 / 1\", \"Selected\": \"None \\u2014 select an Outliner or AOI feature\", \"Job\": \"141c8d864ca54e0ba50d\", \"Renderer\": \"Blender (service)\", \"Device\": \"NVIDIA H100 80GB HBM3 \\u00b7 OPTIX \\u00b7 CPU disabled: true\", \"GPUs\": \"2, 6\", \"Stage\": \"complete\", \"Frames rendered\": \"120 / 120\"}, \"stats\": {\"Engine\": \"Blender 4.2 Cycles \\u00b7 OptiX\", \"GPUs\": \"GPU 2 + GPU 6\", \"Resolution\": \"1280x720 viewport\", \"Samples\": \"adaptive (service default)\", \"First frame\": \"32.283 s\", \"Steady fps\": \"14.004 fps\", \"Frames\": \"120 / 120\", \"Encoder\": \"libx264 (CPU encode only)\", \"Label\": \"Illustrative render \\u00b7 not evidence\"}, \"gpuBadge\": \"GPU 2 + 6 \\u00b7 Cycles OptiX\", \"label\": \"Illustrative render \\u00b7 not evidence\", \"timeline\": {\"before\": \"120 / 120 \\u00b7 00:00.000\", \"after\": \"10 / 120 \\u00b7 00:00.375\", \"advanced\": true, \"frameSrc\": \"https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/141c8d864ca54e0ba50d/frames/file/f_0010_sequence.jpg\"}, \"streamShown\": false, \"videoShown\": false, \"hashKeys\": 27, \"cesium\": true, \"sceneReady\": \"true\", \"log\": [{\"step\": \"typed\", \"utc\": \"2026-11-05T19:32:59.341Z\", \"ms\": 1836, \"value\": \"Kane's Boxing Gym, Abu Dhabi\"}, {\"step\": \"typing-settled\", \"utc\": \"2026-11-05T19:33:05.417Z\", \"ms\": 7912, \"postsAfterTyping\": 0}, {\"step\": \"build-clicked\", \"utc\": \"2026-11-05T19:33:05.434Z\", \"ms\": 7929}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:33:06.969Z\", \"ms\": 9464, \"stage\": \"idle\", \"status\": \"Not started\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:34:21.921Z\", \"ms\": 84416, \"stage\": \"submitting\", \"status\": \"Submitting render job via /api/patch-render\\u2026\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:34:23.422Z\", \"ms\": 85917, \"stage\": \"queued\", \"status\": \"Queued \\u00b7 job 141c8d864ca54e0ba50d\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:34:26.779Z\", \"ms\": 89274, \"stage\": \"land_patch\", \"status\": \"Fetching land patch\\u2026\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:34:31.880Z\", \"ms\": 94375, \"stage\": \"scene_spec\", \"status\": \"Planning scene\\u2026\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:34:38.587Z\", \"ms\": 101082, \"stage\": \"render\", \"status\": \"Building \\u2014 rendering frame 0/120\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:34:57.187Z\", \"ms\": 119682, \"stage\": \"render\", \"status\": \"Building \\u2014 rendering frame 1/120 on GPU 2\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:35:00.591Z\", \"ms\": 123086, \"stage\": \"render\", \"status\": \"Building \\u2014 rendering frame 7/120 on GPU 2\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:35:03.908Z\", \"ms\": 126403, \"stage\": \"render\", \"status\": \"Building \\u2014 rendering frame 52/120 on GPUs 2, 6\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:35:05.578Z\", \"ms\": 128074, \"stage\": \"render\", \"status\": \"Building \\u2014 rendering frame 97/120 on GPUs 2, 6\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:35:09.016Z\", \"ms\": 131511, \"stage\": \"encode\", \"status\": \"Encoding video \\u2014 120 rendered frames (encoding is not rendering)\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:35:14.062Z\", \"ms\": 136557, \"stage\": \"complete\", \"status\": \"Complete \\u00b7 120 frames\"}, {\"step\": \"done\", \"utc\": \"2026-11-05T19:35:16.461Z\", \"ms\": 138956, \"stage\": \"complete\", \"renderPosts\": 0}]}"
+    },
+    {
+      "kind": "eval",
+      "target": "(()=>{const p=document.querySelector('#hyperreal-render-panel');const r=p.getBoundingClientRect();const c=document.querySelector('#cesiumContainer').getBoundingClientRect();return JSON.stringify({pane",
+      "ok": true,
+      "detail": "\"{\\\"panel\\\":[1058,358,330,204],\\\"cesium\\\":[1440,757],\\\"collapsed\\\":\\\"false\\\"}\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=450 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "pageErrors": [],
+  "failedRequests": [
+    "Fetch: net::ERR_ABORTED https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/setup/status",
+    "Image: net::ERR_ABORTED https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/141c8d864ca54e0ba50d/frames/file/f_0001_quality.jpg",
+    "Image: net::ERR_ABORTED https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/141c8d864ca54e0ba50d/frames/file/f_0002_sequence.jpg",
+    "Image: net::ERR_ABORTED https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/141c8d864ca54e0ba50d/frames/file/f_0004_sequence.jpg",
+    "Image: net::ERR_ABORTED https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/141c8d864ca54e0ba50d/frames/file/f_0008_sequence.jpg"
+  ],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation",
+  "textLength": 450,
+  "screencastFrames": 1310
+}

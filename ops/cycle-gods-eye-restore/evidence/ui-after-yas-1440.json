@@ -1,0 +1,95 @@
+UI_VALIDATION: FAILED
+{
+  "url": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/",
+  "ok": false,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-yas-1440x900.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#incident-composer-submit",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "expect-text",
+      "target": "GPU 2 + 6",
+      "ok": false,
+      "detail": "not present in rendered text"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Illustrative render",
+      "ok": false,
+      "detail": "not present in rendered text"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Outliner",
+      "ok": false,
+      "detail": "not present in rendered text"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Properties",
+      "ok": false,
+      "detail": "not present in rendered text"
+    },
+    {
+      "kind": "expect-selector",
+      "target": "#cesiumContainer",
+      "ok": true,
+      "detail": "visible"
+    },
+    {
+      "kind": "expect-selector",
+      "target": "#hyperreal-render-panel",
+      "ok": false,
+      "detail": "zero-size"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": ".ws-body",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "eval",
+      "target": "(async () => {\n  const log = [];\n  const t0 = performance.now();\n  const now = () => new Date().toISOString();\n  const mark = (step, extra = {}) => log.push({ step, utc: now(), ms: Math.round(performa",
+      "ok": true,
+      "detail": "{\"ok\": false, \"prompt\": \"car crash outside Yas Mall\", \"postsAfterTyping\": 0, \"renderPosts\": 0, \"posts\": [], \"stage\": \"complete\", \"status\": \"Complete \\u00b7 120 frames\", \"pixel\": {\"url\": \"https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/11fa446554cd4a858454/latest.jpg\", \"width\": 1280, \"height\": 720, \"lumMean\": 178.1, \"lumStd\": 44.9, \"nonBlank\": true}, \"groups\": \"Terrain,Buildings,Roads,Vehicles,Debris,Staging,Scenery (CC0),Camera,References\", \"outlinerItems\": 120, \"props\": {\"Location (m E/N/U)\": \"-91.74 / -14.71 / 9.21\", \"Rotation (\\u00b0)\": \"look-at target\", \"Scale\": \"1 / 1 / 1\", \"Selected\": \"None \\u2014 select an Outliner or AOI feature\", \"Job\": \"11fa446554cd4a858454\", \"Renderer\": \"Blender (service)\", \"Device\": \"NVIDIA H100 80GB HBM3 \\u00b7 OPTIX \\u00b7 CPU disabled: true\", \"GPUs\": \"2, 6\", \"Stage\": \"complete\", \"Frames rendered\": \"120 / 120\"}, \"stats\": {\"Engine\": \"Blender 4.2 Cycles \\u00b7 OptiX\", \"GPUs\": \"GPU 2 + GPU 6\", \"Resolution\": \"1280x720 viewport\", \"Samples\": \"adaptive (service default)\", \"First frame\": \"34.195 s\", \"Steady fps\": \"12.87 fps\", \"Frames\": \"120 / 120\", \"Encoder\": \"libx264 (CPU encode only)\", \"Label\": \"Illustrative render \\u00b7 not evidence\"}, \"gpuBadge\": \"GPU 2 + 6 \\u00b7 Cycles OptiX\", \"label\": \"Illustrative render \\u00b7 not evidence\", \"timeline\": {\"before\": \"120 / 120 \\u00b7 00:00.000\", \"after\": \"5 / 120 \\u00b7 00:00.166\", \"advanced\": true, \"frameSrc\": \"https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/11fa446554cd4a858454/frames/file/f_0005_sequence.jpg\"}, \"streamShown\": false, \"videoShown\": false, \"hashKeys\": 27, \"cesium\": true, \"sceneReady\": \"true\", \"log\": [{\"step\": \"typed\", \"utc\": \"2026-11-05T19:29:24.556Z\", \"ms\": 1839, \"value\": \"car crash outside Yas Mall\"}, {\"step\": \"typing-settled\", \"utc\": \"2026-11-05T19:29:30.684Z\", \"ms\": 7967, \"postsAfterTyping\": 0}, {\"step\": \"build-clicked\", \"utc\": \"2026-11-05T19:29:30.701Z\", \"ms\": 7984}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:29:32.300Z\", \"ms\": 9583, \"stage\": \"idle\", \"status\": \"Not started\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:30:45.671Z\", \"ms\": 82954, \"stage\": \"submitting\", \"status\": \"Submitting render job via /api/patch-render\\u2026\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:30:47.588Z\", \"ms\": 84871, \"stage\": \"queued\", \"status\": \"Queued \\u00b7 job 11fa446554cd4a858454\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:30:49.501Z\", \"ms\": 86784, \"stage\": \"render\", \"status\": \"Building \\u2014 rendering frame 0/120\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:31:21.396Z\", \"ms\": 118679, \"stage\": \"render\", \"status\": \"Building \\u2014 rendering frame 0/120 on GPU 2\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:31:25.249Z\", \"ms\": 122532, \"stage\": \"render\", \"status\": \"Building \\u2014 rendering frame 3/120 on GPU 2\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:31:29.181Z\", \"ms\": 126464, \"stage\": \"render\", \"status\": \"Building \\u2014 rendering frame 49/120 on GPUs 2, 6\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:31:33.039Z\", \"ms\": 130322, \"stage\": \"render\", \"status\": \"Building \\u2014 rendering frame 98/120 on GPUs 2, 6\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:31:34.971Z\", \"ms\": 132254, \"stage\": \"encode\", \"status\": \"Encoding video \\u2014 120 rendered frames (encoding is not rendering)\"}, {\"step\": \"render-status\", \"utc\": \"2026-11-05T19:31:38.976Z\", \"ms\": 136259, \"stage\": \"complete\", \"status\": \"Complete \\u00b7 120 frames\"}, {\"step\": \"done\", \"utc\": \"2026-11-05T19:31:41.884Z\", \"ms\": 139167, \"stage\": \"complete\"}]}"
+    },
+    {
+      "kind": "eval",
+      "target": "(()=>{const p=document.querySelector('#hyperreal-render-panel');const r=p.getBoundingClientRect();const c=document.querySelector('#cesiumContainer').getBoundingClientRect();return JSON.stringify({pane",
+      "ok": true,
+      "detail": "\"{\\\"panel\\\":[1058,358,330,204],\\\"cesium\\\":[1440,757],\\\"collapsed\\\":\\\"false\\\",\\\"text\\\":\\\"RENDER\\\\nILLUSTRATIVE RENDER \\u00b7 NOT EVIDENCE\\\\n\\u2013\\\\n\\u00d7\\\\nComplete \\u00b7 120 frames\\\\nViewport\\\\nOutliner\\\\nProperties\\\\nRender\\\\nTimeline\\\\nFrame 0005 / 0120\\\\n12.9 fps\\\\nGPU 2 + 6 \\u00b7 Cycles OptiX\\\\nILLUSTRATIVE RENDER \\u00b7 NOT EVIDENCE\\\\n\\\"}\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=450 chars, bodyHeight=757px"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/setup/status"
+  ],
+  "pageErrors": [],
+  "failedRequests": [
+    "Fetch: net::ERR_ABORTED https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/setup/status",
+    "Image: net::ERR_ABORTED https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/11fa446554cd4a858454/frames/file/f_0001_quality.jpg"
+  ],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation",
+  "textLength": 450,
+  "screencastFrames": 931
+}

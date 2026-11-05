@@ -333,6 +333,11 @@ def prepare(j):
     scene=P.build_scene_json(j["jobId"],focal,spec,model,osm,img,instances,shapes,roads,tod,request["duration_s"],fps,[s.device for s in ensure_pool().slots],ambient,sidewalks,mode)
     scene["layers"]=j["layers"];scene["cacheKey"]=G.digest({"base":scene["cacheKey"],"layers":j["layers"]});scene["sceneId"]="scene_"+scene["cacheKey"][:24]
     pose=C.validate_pose(request["camera"],scene) if request.get("camera") else C.initial_pose(scene,mode)
+    # The Blender scene keeps the initial pose so night lighting can be anchored around the camera/action.
+    scene["camera"]={"position":pose["position"],"target":pose["target"]}
+    if tod=="night":
+        # Night lights are anchored on the camera: a different anchor is a different hot scene.
+        scene["cacheKey"]=G.digest({"base":scene["cacheKey"],"nightAnchor":[round(float(v)) for v in pose["position"][:2]]});scene["sceneId"]="scene_"+scene["cacheKey"][:24]
     j["camera_mode"]={"requested":mode,"used":pose.get("mode","explicit"),"label":pose.get("modeLabel","explicit operator pose")};scene_path=Path(j["dir"])/"scene.json";atomic_json(scene_path,scene)
     with LOCK:
         check_job(j)

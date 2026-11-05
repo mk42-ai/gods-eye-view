@@ -269,11 +269,25 @@ def build_scene(scene):
     sun=bpy.data.lights.new("Illustrative sun","SUN");sun.energy={"night":.08,"dusk":1.8,"midday":3.6}[tod];sun.angle=math.radians(1.2)
     if tod=="dusk":sun.color=(1.0,.72,.48)
     ob=bpy.data.objects.new("Sun",sun);sc.collection.objects.link(ob);ob.rotation_euler=Euler({"night":(.5,.4,-.5),"dusk":(1.32,.0,-1.9),"midday":(.18,.14,-.6)}[tod])
-    sc.view_settings.exposure={"night":.4,"dusk":.35,"midday":.55}[tod]
+    sc.view_settings.exposure={"night":.7,"dusk":.35,"midday":.55}[tod]
     if tod=="night":
-        for k,(lx,ly) in enumerate([(0,0)]+[(60*math.cos(a),60*math.sin(a)) for a in (0,2.1,4.2)]):
-            pl=bpy.data.lights.new(f"Street glow {k}","POINT");pl.energy=60000;pl.color=(1,.78,.5);pl.shadow_soft_size=4
-            lo=bpy.data.objects.new(f"Street glow {k}",pl);sc.collection.objects.link(lo);lo.location=(lx,ly,25)
+        # Urban night: a low moon-sky fill plus warm sodium glow AROUND THE CAMERA / STAGED
+        # ACTION, not only at the patch origin — street-level cameras hundreds of metres
+        # from the origin were rendering black (lumMean ≈ 1/255) before this fix.
+        bg.inputs["Strength"].default_value=.32
+        sun.energy=.22;sun.color=(.72,.8,1.0)
+        anchors=[]
+        cam0=(S.get("camera") or {}).get("position") or None
+        if cam0:anchors.append((float(cam0[0]),float(cam0[1])))
+        for it in (S.get("instances") or [])[:6]:anchors.append((float(it["x"]),float(it["y"])))
+        if not anchors:anchors=[(0.0,0.0)]
+        cx=sum(a[0] for a in anchors)/len(anchors);cy=sum(a[1] for a in anchors)/len(anchors)
+        spots=[(cx,cy)]+[(cx+45*math.cos(a),cy+45*math.sin(a)) for a in (0.4,2.5,4.6)]+[(0,0)]
+        for k,(lx,ly) in enumerate(spots):
+            try:lz=Terrain.surface_height(S["terrain"],lx,ly)
+            except Exception:lz=0.0
+            pl=bpy.data.lights.new(f"Street glow {k}","POINT");pl.energy=30000 if k==0 else 15000;pl.color=(1,.78,.5);pl.shadow_soft_size=5
+            lo=bpy.data.objects.new(f"Street glow {k}",pl);sc.collection.objects.link(lo);lo.location=(lx,ly,lz+11)
     if not S.get("terrain"):raise RuntimeError("source terrain is required; no flat substitute")
     imagery=S.get("imagery") or {}
     fine=imagery.get("fine") if imagery.get("fine") and os.path.isfile(imagery["fine"].get("file","")) else None
