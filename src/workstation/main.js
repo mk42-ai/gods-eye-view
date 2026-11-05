@@ -1160,6 +1160,9 @@ async function playVideo(owner, token) {
   element.preload = 'auto';
   element.controls = true;
   element.playsInline = true;
+  // Renders carry no audio track; muted lets playback start without a trusted gesture.
+  element.muted = true;
+  element.loop = true;
   try {
     await new Promise((resolve, reject) => {
       const cleanup = () => {

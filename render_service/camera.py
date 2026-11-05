@@ -141,7 +141,19 @@ def _targets(scene):
         if road.get("groundingAvailable") and road.get("drivable", True):
             pts=road["pts"]
             candidates.extend([[ (a[0]+b[0])/2,(a[1]+b[1])/2,.1] for a,b in zip(pts,pts[1:])])
-    return priorities+sorted((p for p in candidates if not any(inside_building(p,b) for b in scene.get("buildings",[]))),key=lambda p:p[0]**2+p[1]**2)[:60]+[[0,0,.1]]
+    def enclosure(p):
+        # Penalise deep street canyons (tall walls close by): they render as dark, wall-filled frames.
+        score=0.0
+        for b in scene.get("buildings",[]):
+            h=b.get("h",0)
+            if h<12:continue
+            d=min(point_segment_distance(p,a,c) for a,c in zip(b["pts"],b["pts"][1:]+b["pts"][:1]))
+            if d<35:score+=h*(35-d)/35
+        return score
+    free=[p for p in candidates if not any(inside_building(p,b) for b in scene.get("buildings",[]))]
+    near=sorted(free,key=lambda p:p[0]**2+p[1]**2)[:120]
+    ranked=sorted(near,key=lambda p:math.hypot(p[0],p[1])+3.0*enclosure(p))[:60]
+    return priorities+ranked+[[0,0,.1]]
 
 def _crowded(p, scene, clearance):
     """Street/low cameras keep horizontal clearance from walls taller than the lens,

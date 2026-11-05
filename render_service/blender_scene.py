@@ -268,7 +268,8 @@ def build_scene(scene):
         world.node_tree.links.new(env.outputs["Color"],bg.inputs["Color"])
     sun=bpy.data.lights.new("Illustrative sun","SUN");sun.energy={"night":.08,"dusk":1.8,"midday":3.6}[tod];sun.angle=math.radians(1.2)
     if tod=="dusk":sun.color=(1.0,.72,.48)
-    ob=bpy.data.objects.new("Sun",sun);sc.collection.objects.link(ob);ob.rotation_euler=Euler({"night":(.5,.4,-.5),"dusk":(1.32,.0,-1.9),"midday":(.38,.32,-.6)}[tod])
+    ob=bpy.data.objects.new("Sun",sun);sc.collection.objects.link(ob);ob.rotation_euler=Euler({"night":(.5,.4,-.5),"dusk":(1.32,.0,-1.9),"midday":(.18,.14,-.6)}[tod])
+    sc.view_settings.exposure={"night":.4,"dusk":.35,"midday":.55}[tod]
     if tod=="night":
         for k,(lx,ly) in enumerate([(0,0)]+[(60*math.cos(a),60*math.sin(a)) for a in (0,2.1,4.2)]):
             pl=bpy.data.lights.new(f"Street glow {k}","POINT");pl.energy=60000;pl.color=(1,.78,.5);pl.shadow_soft_size=4
