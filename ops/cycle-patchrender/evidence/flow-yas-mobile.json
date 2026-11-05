@@ -1,0 +1,70 @@
+{
+  "url": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-yas-mobile-390x844.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#ws-app",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Illustrative",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Saved",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "expect-text",
+      "target": "Outliner",
+      "ok": true,
+      "detail": "found"
+    },
+    {
+      "kind": "forbid-selector",
+      "target": ".cesium-viewer",
+      "ok": true,
+      "detail": "absent"
+    },
+    {
+      "kind": "eval",
+      "target": "(async () => {\n  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));\n  const log = [];\n  const mark = (action, extra = {}) => log.push({ action, utc: new Date().toISOString(), ...extra });\n  ",
+      "ok": true,
+      "detail": "\"{\\\"prompt\\\":\\\"Car crash outside Yas Mall\\\",\\\"typedNoBuild\\\":true,\\\"buildRequests\\\":1,\\\"state\\\":\\\"ready\\\",\\\"firstFrameClientS\\\":45.03,\\\"img\\\":{\\\"tag\\\":\\\"IMG\\\",\\\"w\\\":640,\\\"h\\\":360},\\\"displayed\\\":{\\\"w\\\":960,\\\"h\\\":540,\\\"media\\\":\\\"video\\\"},\\\"result\\\":{\\\"lumMean\\\":133.12693489583094,\\\"ahash\\\":\\\"1000001000000000000001000001110001111100101111000001110000001100\\\",\\\"clientTtffS\\\":44.702400000095366},\\\"outlinerRows\\\":809,\\\"outlinerGroups\\\":[\\\"Geographic data (service)\\\",\\\"Illustrative staging \\u00b7 not evidence\\\",\\\"Patch environment (service)\\\",\\\"Scenery \\u00b7 Poly Haven CC0 (illustrative)\\\",\\\"Reported reference bindings \\u00b7 not observations\\\"],\\\"job\\\":{\\\"id\\\":\\\"ae19613c175c4d5497dd\\\",\\\"stage\\\":\\\"complete\\\",\\\"frames\\\":96,\\\"total\\\":96,\\\"ttff\\\":42.929,\\\"steady\\\":20.934,\\\"byGpu\\\":{\\\"2\\\":48,\\\"6\\\":47},\\\"camera\\\":{\\\"requested\\\":\\\"street\\\",\\\"used\\\":\\\"street\\\",\\\"label\\\":\\\"street-level (pedestrian/vehicle eye height band)\\\"},\\\"imagery\\\":\\\"esri-world-imagery\\\",\\\"scenery\\\":{\\\"bench\\\":25,\\\"shrub\\\":237,\\\"street_lamp\\\":266,\\\"street_tree\\\":117},\\\"land\\\":{\\\"source\\\":\\\"OpenStreetMap bounded geometry; no satellite substitute\\\",\\\"buildings\\\":108,\\\"roads\\\":656,\\\"status\\\":\\\"ok\\\"},\\\"focal\\\":\\\"Yas Mall\\\",\\\"patch\\\":\\\"patch_a6e80b95812d14e0cb9dcdc1\\\"},\\\"playAdvanced\\\":true,\\\"playMedia\\\":\\\"video\\\",\\\"readouts\\\":[\\\"Latest / 96\\\",\\\"0.5 / 4.0 s\\\",\\\"1.0 / 4.0 s\\\",\\\"1.6 / 4.0 s\\\",\\\"2.1 / 4.0 s\\\",\\\"2.6 / 4.0 s\\\",\\\"3.2 / 4.0 s\\\",\\\"3.4 / 4.0 s\\\",\\\"0.0 / 4.0 s\\\",\\\"0.5 / 4.0 s\\\",\\\"1.1 / 4.0 s\\\",\\\"1.6 / 4.0 s\\\",\\\"2.1 / 4.0 s\\\",\\\"2.4 / 4.0 s\\\",\\\"2.9 / 4.0 s\\\",\\\"3.4 / 4.0 s\\\",\\\"0.0 / 4.0 s\\\",\\\"0.5 / 4.0 s\\\",\\\"1.1 / 4.0 s\\\",\\\"1.6 / 4.0 s\\\"],\\\"viewport\\\":{\\\"w\\\":390,\\\"h\\\":553,\\\"winW\\\":390,\\\"winH\\\":844},\\\"banned\\\":{\\\"cesium\\\":false,\\\"legend\\\":false},\\\"buildBg\\\":\\\"rgb(245, 165, 36)\\\",\\\"errors\\\":[],\\\"log\\\":[{\\\"action\\\":\\\"page-ready\\\",\\\"utc\\\":\\\"2026-11-05T12:12:39.160Z\\\",\\\"href\\\":\\\"https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app/\\\"},{\\\"action\\\":\\\"prompt-typed\\\",\\\"utc\\\":\\\"2026-11-05T12:12:41.604Z\\\",\\\"buildRequestsAfterTyping\\\":0},{\\\"action\\\":\\\"build-clicked\\\",\\\"utc\\\":\\\"2026-11-05T12:12:42.808Z\\\"},{\\\"action\\\":\\\"first-frame-visible\\\",\\\"utc\\\":\\\"2026-11-05T12:13:27.836Z\\\",\\\"naturalWidth\\\":640},{\\\"action\\\":\\\"build-terminal\\\",\\\"utc\\\":\\\"2026-11-05T12:13:37.340Z\\\",\\\"state\\\":\\\"ready\\\",\\\"status\\\":\\\"Scene ready \\u00b7 96 rendered frames \\u00b7 illustrative staging, not evidence\\\"},{\\\"action\\\":\\\"play-clicked\\\",\\\"utc\\\":\\\"2026-11-05T12:13:38.842Z\\\"},{\\\"action\\\":\\\"play-observed\\\",\\\"utc\\\":\\\"2026-11-05T12:13:48.847Z\\\",\\\"readouts\\\":[\\\"0.0 / 4.0 s\\\",\\\"0.5 / 4.0 s\\\",\\\"1.1 / 4.0 s\\\",\\\"1.6 / 4.0 s\\\"],\\\"media\\\":\\\"video\\\",\\\"videoTime\\\":1.5984}]}\""
+    },
+    {
+      "kind": "eval",
+      "target": "(()=>{const el=document.querySelector('#ws-frame-slot > img, #ws-frame-slot > video');const r=el&&el.getBoundingClientRect();return !!el && r.width>100 && r.height>60 && document.querySelector('#ws-ap",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=613 chars, bodyHeight=844px"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation \u00b7 Scene Workstation",
+  "textLength": 613
+}
