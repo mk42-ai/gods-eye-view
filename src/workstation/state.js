@@ -159,11 +159,35 @@ export function createState(saved = {}, hash = '') {
     durationSec: Number.isFinite(saved.durationSec) ? saved.durationSec : 4,
     locationQuery:
       typeof saved.locationQuery === 'string' ? saved.locationQuery : '',
-    evidenceWindowHours: [1, 24, 168].includes(saved.evidenceWindowHours)
+    evidenceWindowHours: [1, 24, 72, 168, 720].includes(
+      saved.evidenceWindowHours,
+    )
       ? saved.evidenceWindowHours
       : 1,
     aoi: !validateAoi(saved.aoi) ? saved.aoi : null,
     camera: validCamera(saved.camera) ? saved.camera : null,
+    timeOfDay: ['auto', 'midday', 'dusk', 'night'].includes(saved.timeOfDay)
+      ? saved.timeOfDay
+      : 'auto',
+    cameraMode: ['street', 'low_oblique', 'orbit'].includes(saved.cameraMode)
+      ? saved.cameraMode
+      : 'street',
+    layers: sanitizeLayers(saved.layers),
+    chat: Array.isArray(saved.chat)
+      ? saved.chat
+          .filter(
+            (m) =>
+              m &&
+              ['user', 'assistant'].includes(m.role) &&
+              typeof m.text === 'string',
+          )
+          .slice(-30)
+          .map((m) => ({
+            role: m.role,
+            text: m.text.slice(0, 4000),
+            at: typeof m.at === 'string' ? m.at : null,
+          }))
+      : [],
     legacyHash: hash ? readHash(hash) : saved.legacyHash || {},
     revision: 0,
     phase: 'idle',
@@ -195,6 +219,59 @@ export function createState(saved = {}, hash = '') {
     active: null,
   };
 }
+export const LAYER_KEYS = Object.freeze([
+  'imagery',
+  'buildings',
+  'roads',
+  'sidewalks',
+  'scenery',
+  'staging',
+  'skirt',
+]);
+export function sanitizeLayers(layers) {
+  const out = {};
+  for (const key of LAYER_KEYS)
+    out[key] = layers && typeof layers[key] === 'boolean' ? layers[key] : true;
+  return out;
+}
+export const SCENES_KEY = 'ondemand.scene-workstation.scenes.v1';
+export const PROMPTS_KEY = 'ondemand.scene-workstation.prompts.v1';
+/** Saved-scene library (browser-local). Malformed entries are dropped, never thrown. */
+export function readLibrary(raw) {
+  try {
+    const list = JSON.parse(raw || '[]');
+    if (!Array.isArray(list)) return [];
+    return list
+      .filter(
+        (e) =>
+          e &&
+          typeof e.id === 'string' &&
+          typeof e.name === 'string' &&
+          e.state &&
+          e.state.version === 1,
+      )
+      .slice(0, 50);
+  } catch {
+    return [];
+  }
+}
+export function addToLibrary(list, name, snapshot, now = new Date()) {
+  const id = `scene-${now.getTime().toString(36)}`;
+  const entry = {
+    id,
+    name: String(name || snapshot.prompt || 'Untitled scene')
+      .trim()
+      .slice(0, 80),
+    savedAt: now.toISOString(),
+    state: snapshot,
+  };
+  return [entry, ...list.filter((e) => e.id !== id)].slice(0, 50);
+}
+export function rememberPrompt(list, prompt) {
+  const p = String(prompt || '').trim();
+  if (p.length < 3) return list;
+  return [p, ...list.filter((x) => x !== p)].slice(0, 12);
+}
 export function savedState(state) {
   return {
     version: 1,
@@ -206,6 +283,10 @@ export function savedState(state) {
     aoi: state.aoi,
     camera: state.camera,
     legacyHash: state.legacyHash,
+    timeOfDay: state.timeOfDay,
+    cameraMode: state.cameraMode,
+    layers: state.layers,
+    chat: state.chat,
     cctvId: state.cctv.selectedId,
     jobId: state.job?.job_id || null,
     sceneSnapshot: state.job

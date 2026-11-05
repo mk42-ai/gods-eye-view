@@ -1,0 +1,1149 @@
+{
+  "schemaVersion": 3,
+  "generatedUtc": "2026-11-05T19:46:18Z",
+  "previewUrl": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app",
+  "deploymentId": "dpl_1dhLVKThePQbMQT83xLP6W6uhw37",
+  "previousPreview": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app (buildReference fbba6a8; root served the Blender-only workstation, no Cesium shell \u2014 before-1440x900.png / before-390x844.png)",
+  "repository": {
+    "remote": "https://github.com/mk42-ai/gods-eye-view.git",
+    "branch": "feat/patch-render-merge",
+    "baseCommit": "97272ba",
+    "commit": "74594a5",
+    "baselineBranch": "baseline/approved-k8v6snzk7 \u2014 NOT present on origin (git ls-remote shows no such ref); checkpoint f20fab6 exists in history (restores approved dpl_H9yVA3kDuV8ekgs7xzj7AjDPgaSH tree, closest commit b698032 + cycle-9 files) and is an ancestor of this branch; nothing was reset or force-pushed",
+    "sourceMapping": "code-files-20261105-122217_v1.zip == feat/patch-render-merge@97272ba (legacy.html, src/workstation/main.js, server/scene-render/patch-render.js blob sha1 match); code-files-20261103-110835 package = cc03fcc lineage (legacy.html == cc03fcc:index.html byte-for-byte)",
+    "preExistingUntracked": "ops/cycle-geopatch/ (164 KB, left untracked as found; tarball copy in evidence)"
+  },
+  "customTool": {
+    "previous": {
+      "pluginId": "plugin-1793879365",
+      "agentId": "agent-1793879365",
+      "mongoId": "6aec6d456cdf855007d85332",
+      "problem": "OpenAPI servers[0] = ondemand-agent-b8o25opgl\u2026vercel.app \u2192 DEPLOYMENT_NOT_FOUND; PUT /plugin/v1/{id} does not update action.schema (verified: server unchanged after HTTP 200)",
+      "action": "renamed/described as SUPERSEDED"
+    },
+    "current": {
+      "name": "On-Demand Patch Render",
+      "pluginId": "plugin-1793906268",
+      "agentId": "agent-1793906268",
+      "mongoId": "6aecd65c6cdf855007d85345",
+      "jobId": "aa560509-99c2-4049-8a0e-e0685b6ac383",
+      "createdUtc": "2026-11-05T19:17:48Z",
+      "server": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app",
+      "openapi": "/api/patch-render/openapi.json (imported verbatim, includes resolution enum)",
+      "credentialFields": null,
+      "authorization": "none required \u2014 proxy holds RENDER_SERVICE_TOKEN server-side; configuration 6aecd65c6cdf855007d85346 active=true"
+    },
+    "sampleCall": {
+      "sessionId": "6aecd7ee5c68baece6ea93aa",
+      "endpointId": "predefined-glm-5.3-flash",
+      "messageId": "6aecd7fc5c68baece6ea93ab",
+      "utc": "2026-11-05T19:24:53Z",
+      "job_id": "601d17ac3bb3469085e6",
+      "status_url": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/patch-render/601d17ac3bb3469085e6",
+      "latest_frame_url": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/601d17ac3bb3469085e6/latest.jpg",
+      "mp4_url": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/601d17ac3bb3469085e6/video.mp4",
+      "finalStatus": {
+        "status": "complete",
+        "frames_done": 96,
+        "total_frames": 96,
+        "first_frame_s": 51.51,
+        "steady_fps": 5.576,
+        "sequence_fps_wall": 2.071,
+        "gpu_uuids": [
+          "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+          "GPU-2c78264d-f20e-47cb-3976-a85395cbad55"
+        ],
+        "gpu_physical_indices": [
+          2,
+          6
+        ],
+        "worker_pids": [
+          218393,
+          218392,
+          218390,
+          218391,
+          218395,
+          218394
+        ],
+        "frames_by_gpu": {
+          "2": 44,
+          "6": 51
+        },
+        "mp4_ready": true
+      },
+      "latestFrame": {
+        "http": 200,
+        "contentType": "image/jpeg",
+        "bytes": 62975,
+        "size": "1280x720",
+        "lumMean": 141.0,
+        "lumStd": 43.2
+      },
+      "mp4": {
+        "bytes": 1546167,
+        "codec": "h264",
+        "size": "1280x720",
+        "fps": 24,
+        "frames": 97,
+        "duration_s": 4.04
+      }
+    }
+  },
+  "gpu": {
+    "allowed": [
+      2,
+      6
+    ],
+    "uuids": {
+      "2": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+      "6": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55"
+    },
+    "nvidiaSmiDuringPluginJob": {
+      "utc": "2026-11-05T19:26:14Z",
+      "blenderRows": [
+        "218391, GPU-b2aff670-0bcc-b834-af70-421466084d30, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 4836 MiB",
+        "218393, GPU-b2aff670-0bcc-b834-af70-421466084d30, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 2172 MiB",
+        "218390, GPU-b2aff670-0bcc-b834-af70-421466084d30, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 4836 MiB",
+        "218392, GPU-2c78264d-f20e-47cb-3976-a85395cbad55, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 4414 MiB",
+        "218394, GPU-2c78264d-f20e-47cb-3976-a85395cbad55, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 2576 MiB",
+        "218395, GPU-2c78264d-f20e-47cb-3976-a85395cbad55, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 2184 MiB"
+      ]
+    },
+    "liveGpuEvidenceEndpoint": {
+      "utc": "2026-11-05T19:45:08.901Z",
+      "workerPids": [
+        218390,
+        218391,
+        218392,
+        218393,
+        218394,
+        218395
+      ],
+      "rendererProcesses": [
+        {
+          "pid": 218391,
+          "gpuUuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+          "processName": "/localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender",
+          "usedMemoryMiB": "4838 MiB",
+          "physicalIndex": 2
+        },
+        {
+          "pid": 218393,
+          "gpuUuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+          "processName": "/localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender",
+          "usedMemoryMiB": "4838 MiB",
+          "physicalIndex": 2
+        },
+        {
+          "pid": 218390,
+          "gpuUuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+          "processName": "/localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender",
+          "usedMemoryMiB": "4838 MiB",
+          "physicalIndex": 2
+        },
+        {
+          "pid": 218392,
+          "gpuUuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+          "processName": "/localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender",
+          "usedMemoryMiB": "4838 MiB",
+          "physicalIndex": 6
+        },
+        {
+          "pid": 218394,
+          "gpuUuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+          "processName": "/localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender",
+          "usedMemoryMiB": "4838 MiB",
+          "physicalIndex": 6
+        },
+        {
+          "pid": 218395,
+          "gpuUuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+          "processName": "/localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender",
+          "usedMemoryMiB": "4838 MiB",
+          "physicalIndex": 6
+        }
+      ],
+      "rendererGpuUuids": [
+        "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+        "GPU-b2aff670-0bcc-b834-af70-421466084d30"
+      ],
+      "violations": [],
+      "missingWorkerPidsInNvidiaSmi": [],
+      "gpus": [
+        {
+          "index": "0",
+          "uuid": "GPU-65f873ca-92ee-21d8-07b3-4496e59c1070",
+          "pciBusId": "00000000:1B:00.0",
+          "name": "NVIDIA H100 80GB HBM3",
+          "utilizationPct": "0 %",
+          "memoryUsedMiB": "76355 MiB"
+        },
+        {
+          "index": "1",
+          "uuid": "GPU-f80dbdd9-9ce0-5824-10bd-02e070d354d1",
+          "pciBusId": "00000000:29:00.0",
+          "name": "NVIDIA H100 80GB HBM3",
+          "utilizationPct": "0 %",
+          "memoryUsedMiB": "11279 MiB"
+        },
+        {
+          "index": "2",
+          "uuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+          "pciBusId": "00000000:45:00.0",
+          "name": "NVIDIA H100 80GB HBM3",
+          "utilizationPct": "0 %",
+          "memoryUsedMiB": "14534 MiB"
+        },
+        {
+          "index": "3",
+          "uuid": "GPU-1eecec41-2458-d4ee-25f1-76f6aae0b1fb",
+          "pciBusId": "00000000:4E:00.0",
+          "name": "NVIDIA H100 80GB HBM3",
+          "utilizationPct": "0 %",
+          "memoryUsedMiB": "72863 MiB"
+        },
+        {
+          "index": "4",
+          "uuid": "GPU-f8034cf3-9850-e864-946e-60de923b58d0",
+          "pciBusId": "00000001:1B:00.0",
+          "name": "NVIDIA H100 80GB HBM3",
+          "utilizationPct": "0 %",
+          "memoryUsedMiB": "72857 MiB"
+        },
+        {
+          "index": "5",
+          "uuid": "GPU-4aa5d32a-06ea-79e5-65b5-708d31dff263",
+          "pciBusId": "00000001:24:00.0",
+          "name": "NVIDIA H100 80GB HBM3",
+          "utilizationPct": "0 %",
+          "memoryUsedMiB": "76355 MiB"
+        },
+        {
+          "index": "6",
+          "uuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+          "pciBusId": "00000001:45:00.0",
+          "name": "NVIDIA H100 80GB HBM3",
+          "utilizationPct": "0 %",
+          "memoryUsedMiB": "14534 MiB"
+        }
+      ],
+      "allowedGpuUuids": [
+        "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+        "GPU-b2aff670-0bcc-b834-af70-421466084d30"
+      ],
+      "note": "Other processes on non-approved GPUs belong to unrelated workloads and are not used by this renderer.",
+      "allowedPhysicalGpus": [
+        "2",
+        "6"
+      ]
+    },
+    "workerPids": [
+      218393,
+      218392,
+      218390,
+      218391,
+      218395,
+      218394
+    ],
+    "proof": "every Blender PID is bound to one of the two approved UUIDs; frames carry per-frame Cycles device attestation (OPTIX, CPU disabled)"
+  },
+  "renderService": {
+    "host": "H100 (school-hack-h100-100) via SSH connector",
+    "path": "/localstorage/mk.thomas/gev/render_service",
+    "checkpointBeforeChange": "/localstorage/mk.thomas/gev/checkpoint-merge-20261105T190003Z (cp -a of the previous tree)",
+    "changes": [
+      "resolution 640x360|960x540|1280x720 per request; quality still 1280x720; MP4 canvas follows the sequence width",
+      "night lighting anchored at camera/staged action (street camera far from patch origin rendered black lumMean 1.1/255)",
+      "scene.camera recorded; night cacheKey includes anchor"
+    ],
+    "measuredJobs": {
+      "affb3c9e3379479e8c92": {
+        "prompt": "car crash outside Yas Mall",
+        "resolution": "1280x720",
+        "workersPerGpu": 3,
+        "ttff_s": 46.918,
+        "fps_steady": 13.04,
+        "fps_sequence_wall": 12.406,
+        "frames_by_gpu": {
+          "2": 60,
+          "6": 59
+        },
+        "mp4_resolution": "1280x720",
+        "startedUtc": "2026-11-05T19:01:22Z"
+      },
+      "5b5153f1e1634b80a2e6": {
+        "prompt": "Kane's Boxing Gym, Abu Dhabi",
+        "resolution": "1280x720",
+        "workersPerGpu": 5,
+        "ttff_s": 38.793,
+        "fps_steady": 12.578,
+        "fps_sequence_wall": 11.883,
+        "frames_by_gpu": {
+          "2": 60,
+          "6": 59
+        },
+        "mp4_resolution": "1280x720",
+        "startedUtc": "2026-11-05T19:04:46Z"
+      },
+      "b6c9872914a14ad9b6d9": {
+        "prompt": "car crash outside Yas Mall",
+        "resolution": "960x540",
+        "workersPerGpu": 5,
+        "ttff_s": 72.103,
+        "fps_steady": 22.539,
+        "fps_sequence_wall": 16.82,
+        "frames_by_gpu": {
+          "2": 60,
+          "6": 59
+        },
+        "mp4_resolution": "960x540",
+        "startedUtc": "2026-11-05T19:06:28Z"
+      },
+      "55320bf439894dfda83a": {
+        "prompt": "car crash outside Yas Mall",
+        "resolution": "640x360 (pre-change default)",
+        "workersPerGpu": 3,
+        "ttff_s": 56.703,
+        "fps_steady": 21.629,
+        "fps_sequence_wall": 20.585,
+        "frames_by_gpu": {
+          "2": 60,
+          "6": 59
+        },
+        "startedUtc": "2026-11-05T18:12:07Z",
+        "deployment": "kq6dks9ey (previous)"
+      },
+      "9e88710fefad4780ab73": {
+        "prompt": "car crash outside Yas Mall (night, first lighting fix)",
+        "resolution": "1280x720",
+        "ttff_s": 38.579,
+        "fps_steady": 10.824,
+        "frames_by_gpu": {
+          "2": 60,
+          "6": 59
+        },
+        "lumMean": 233.5,
+        "note": "overexposed, retuned"
+      },
+      "ecfa9ebe39374c05ba17": {
+        "prompt": "car crash outside Yas Mall (night, tuned)",
+        "resolution": "1280x720",
+        "ttff_s": 42.862,
+        "fps_steady": 2.158,
+        "frames_by_gpu": {
+          "2": 55,
+          "6": 64
+        },
+        "lumMean": 179.4,
+        "note": "ran concurrently with the plugin job 601d17ac (two jobs sharing GPUs 2+6)"
+      },
+      "7bc0d0d5db984d1a9ddd": {
+        "prompt": "car crash outside Yas Mall (UI run, night auto-detected at 23:17 UAE local)",
+        "resolution": "1280x720",
+        "ttff_s": 41.957,
+        "fps_steady": 13.024,
+        "lumMean": 1.1,
+        "note": "BLACK frames \u2192 root cause of the night-lighting fix; the fixed renders (11fa44\u2026, 69d871\u2026) give lumMean 178"
+      },
+      "11fa446554cd4a858454": {
+        "prompt": "car crash outside Yas Mall (UI run 1440x900 after fix)",
+        "resolution": "1280x720",
+        "ttff_s": 34.195,
+        "fps_steady": 12.87,
+        "lumMean": 178.1
+      },
+      "141c8d864ca54e0ba50d": {
+        "prompt": "Kane's Boxing Gym, Abu Dhabi (UI run 1440x900)",
+        "resolution": "1280x720",
+        "ttff_s": 32.283,
+        "fps_steady": 14.004,
+        "lumMean": 93.7
+      },
+      "69d871982a3d46a3bd2f": {
+        "prompt": "car crash outside Yas Mall (UI run 390x844)",
+        "resolution": "1280x720",
+        "ttff_s": 35.27,
+        "fps_steady": 12.705,
+        "lumMean": 178.1
+      },
+      "c113d5c8ea7f4ae48578": {
+        "prompt": "Kane's Boxing Gym, Abu Dhabi (UI run 390x844)",
+        "resolution": "1280x720",
+        "ttff_s": 19.349,
+        "fps_steady": 13.141,
+        "lumMean": 93.7
+      },
+      "601d17ac3bb3469085e6": {
+        "prompt": "car crash outside Yas Mall (OnDemand plugin call, duration 4)",
+        "resolution": "1280x720",
+        "ttff_s": 51.51,
+        "fps_steady": 5.576,
+        "frames_by_gpu": {
+          "2": 44,
+          "6": 51
+        },
+        "lumMean": 141.0,
+        "note": "ran concurrently with ecfa9ebe (shared GPUs)"
+      }
+    },
+    "workersPerGpuTried": {
+      "3": "\u224813 fps @1280x720",
+      "5": "\u224812.6 fps @1280x720 (no gain), 22.5 fps @960x540"
+    },
+    "finalSetting": "RENDER_WORKERS_PER_GPU=3, RENDER_SEQUENCE_WIDTH=640 default, UI requests 1280x720"
+  },
+  "uiRuns": {
+    "ui-after-yas-1440": {
+      "validatorExit0": false,
+      "httpStatus": 200,
+      "pageErrors": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/setup/status"
+      ],
+      "typingSentBuild": 0,
+      "renderPosts": 0,
+      "componentCounters": null,
+      "stage": "complete",
+      "status": "Complete \u00b7 120 frames",
+      "frame": {
+        "url": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/11fa446554cd4a858454/latest.jpg",
+        "width": 1280,
+        "height": 720,
+        "lumMean": 178.1,
+        "lumStd": 44.9,
+        "nonBlank": true
+      },
+      "outlinerGroups": "Terrain,Buildings,Roads,Vehicles,Debris,Staging,Scenery (CC0),Camera,References",
+      "outlinerItems": 120,
+      "properties": {
+        "Location (m E/N/U)": "-91.74 / -14.71 / 9.21",
+        "Rotation (\u00b0)": "look-at target",
+        "Scale": "1 / 1 / 1",
+        "Selected": "None \u2014 select an Outliner or AOI feature",
+        "Job": "11fa446554cd4a858454",
+        "Renderer": "Blender (service)",
+        "Device": "NVIDIA H100 80GB HBM3 \u00b7 OPTIX \u00b7 CPU disabled: true",
+        "GPUs": "2, 6",
+        "Stage": "complete",
+        "Frames rendered": "120 / 120"
+      },
+      "renderStats": {
+        "Engine": "Blender 4.2 Cycles \u00b7 OptiX",
+        "GPUs": "GPU 2 + GPU 6",
+        "Resolution": "1280x720 viewport",
+        "Samples": "adaptive (service default)",
+        "First frame": "34.195 s",
+        "Steady fps": "12.87 fps",
+        "Frames": "120 / 120",
+        "Encoder": "libx264 (CPU encode only)",
+        "Label": "Illustrative render \u00b7 not evidence"
+      },
+      "gpuBadge": "GPU 2 + 6 \u00b7 Cycles OptiX",
+      "label": "Illustrative render \u00b7 not evidence",
+      "timeline": {
+        "before": "120 / 120 \u00b7 00:00.000",
+        "after": "5 / 120 \u00b7 00:00.166",
+        "advanced": true,
+        "frameSrc": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/11fa446554cd4a858454/frames/file/f_0005_sequence.jpg"
+      },
+      "hashKeys": 27,
+      "cesiumCanvas": true,
+      "log": [
+        {
+          "step": "typed",
+          "utc": "2026-11-05T19:29:24.556Z",
+          "ms": 1839,
+          "value": "car crash outside Yas Mall"
+        },
+        {
+          "step": "typing-settled",
+          "utc": "2026-11-05T19:29:30.684Z",
+          "ms": 7967,
+          "postsAfterTyping": 0
+        },
+        {
+          "step": "build-clicked",
+          "utc": "2026-11-05T19:29:30.701Z",
+          "ms": 7984
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:29:32.300Z",
+          "ms": 9583,
+          "stage": "idle",
+          "status": "Not started"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:30:45.671Z",
+          "ms": 82954,
+          "stage": "submitting",
+          "status": "Submitting render job via /api/patch-render\u2026"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:30:47.588Z",
+          "ms": 84871,
+          "stage": "queued",
+          "status": "Queued \u00b7 job 11fa446554cd4a858454"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:30:49.501Z",
+          "ms": 86784,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 0/120"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:31:21.396Z",
+          "ms": 118679,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 0/120 on GPU 2"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:31:25.249Z",
+          "ms": 122532,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 3/120 on GPU 2"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:31:29.181Z",
+          "ms": 126464,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 49/120 on GPUs 2, 6"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:31:33.039Z",
+          "ms": 130322,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 98/120 on GPUs 2, 6"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:31:34.971Z",
+          "ms": 132254,
+          "stage": "encode",
+          "status": "Encoding video \u2014 120 rendered frames (encoding is not rendering)"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:31:38.976Z",
+          "ms": 136259,
+          "stage": "complete",
+          "status": "Complete \u00b7 120 frames"
+        },
+        {
+          "step": "done",
+          "utc": "2026-11-05T19:31:41.884Z",
+          "ms": 139167,
+          "stage": "complete"
+        }
+      ],
+      "screenshots": [
+        "after-yas-1440x900.png"
+      ]
+    },
+    "ui-after-kanes-1440": {
+      "validatorExit0": true,
+      "httpStatus": 200,
+      "pageErrors": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/setup/status"
+      ],
+      "typingSentBuild": 0,
+      "renderPosts": 0,
+      "componentCounters": null,
+      "stage": "complete",
+      "status": "Complete \u00b7 120 frames",
+      "frame": {
+        "url": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/141c8d864ca54e0ba50d/latest.jpg",
+        "width": 1280,
+        "height": 720,
+        "lumMean": 93.7,
+        "lumStd": 48.2,
+        "nonBlank": true
+      },
+      "outlinerGroups": "Terrain,Buildings,Roads,Scenery (CC0),Camera,References",
+      "outlinerItems": 93,
+      "properties": {
+        "Location (m E/N/U)": "-6.63 / 2.04 / 8.37",
+        "Rotation (\u00b0)": "look-at target",
+        "Scale": "1 / 1 / 1",
+        "Selected": "None \u2014 select an Outliner or AOI feature",
+        "Job": "141c8d864ca54e0ba50d",
+        "Renderer": "Blender (service)",
+        "Device": "NVIDIA H100 80GB HBM3 \u00b7 OPTIX \u00b7 CPU disabled: true",
+        "GPUs": "2, 6",
+        "Stage": "complete",
+        "Frames rendered": "120 / 120"
+      },
+      "renderStats": {
+        "Engine": "Blender 4.2 Cycles \u00b7 OptiX",
+        "GPUs": "GPU 2 + GPU 6",
+        "Resolution": "1280x720 viewport",
+        "Samples": "adaptive (service default)",
+        "First frame": "32.283 s",
+        "Steady fps": "14.004 fps",
+        "Frames": "120 / 120",
+        "Encoder": "libx264 (CPU encode only)",
+        "Label": "Illustrative render \u00b7 not evidence"
+      },
+      "gpuBadge": "GPU 2 + 6 \u00b7 Cycles OptiX",
+      "label": "Illustrative render \u00b7 not evidence",
+      "timeline": {
+        "before": "120 / 120 \u00b7 00:00.000",
+        "after": "10 / 120 \u00b7 00:00.375",
+        "advanced": true,
+        "frameSrc": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/141c8d864ca54e0ba50d/frames/file/f_0010_sequence.jpg"
+      },
+      "hashKeys": 27,
+      "cesiumCanvas": true,
+      "log": [
+        {
+          "step": "typed",
+          "utc": "2026-11-05T19:32:59.341Z",
+          "ms": 1836,
+          "value": "Kane's Boxing Gym, Abu Dhabi"
+        },
+        {
+          "step": "typing-settled",
+          "utc": "2026-11-05T19:33:05.417Z",
+          "ms": 7912,
+          "postsAfterTyping": 0
+        },
+        {
+          "step": "build-clicked",
+          "utc": "2026-11-05T19:33:05.434Z",
+          "ms": 7929
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:33:06.969Z",
+          "ms": 9464,
+          "stage": "idle",
+          "status": "Not started"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:34:21.921Z",
+          "ms": 84416,
+          "stage": "submitting",
+          "status": "Submitting render job via /api/patch-render\u2026"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:34:23.422Z",
+          "ms": 85917,
+          "stage": "queued",
+          "status": "Queued \u00b7 job 141c8d864ca54e0ba50d"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:34:26.779Z",
+          "ms": 89274,
+          "stage": "land_patch",
+          "status": "Fetching land patch\u2026"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:34:31.880Z",
+          "ms": 94375,
+          "stage": "scene_spec",
+          "status": "Planning scene\u2026"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:34:38.587Z",
+          "ms": 101082,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 0/120"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:34:57.187Z",
+          "ms": 119682,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 1/120 on GPU 2"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:35:00.591Z",
+          "ms": 123086,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 7/120 on GPU 2"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:35:03.908Z",
+          "ms": 126403,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 52/120 on GPUs 2, 6"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:35:05.578Z",
+          "ms": 128074,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 97/120 on GPUs 2, 6"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:35:09.016Z",
+          "ms": 131511,
+          "stage": "encode",
+          "status": "Encoding video \u2014 120 rendered frames (encoding is not rendering)"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:35:14.062Z",
+          "ms": 136557,
+          "stage": "complete",
+          "status": "Complete \u00b7 120 frames"
+        },
+        {
+          "step": "done",
+          "utc": "2026-11-05T19:35:16.461Z",
+          "ms": 138956,
+          "stage": "complete",
+          "renderPosts": 0
+        }
+      ],
+      "screenshots": [
+        "after-kanes-1440x900.png"
+      ]
+    },
+    "ui-after-yas-390": {
+      "validatorExit0": true,
+      "httpStatus": 200,
+      "pageErrors": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/setup/status"
+      ],
+      "typingSentBuild": 0,
+      "renderPosts": 1,
+      "componentCounters": {
+        "posts": 1,
+        "polls": 16
+      },
+      "stage": "complete",
+      "status": "Complete \u00b7 120 frames",
+      "frame": {
+        "url": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/69d871982a3d46a3bd2f/latest.jpg",
+        "width": 1280,
+        "height": 720,
+        "lumMean": 178.1,
+        "lumStd": 44.9,
+        "nonBlank": true
+      },
+      "outlinerGroups": "Terrain,Buildings,Roads,Vehicles,Debris,Staging,Scenery (CC0),Camera,References",
+      "outlinerItems": 120,
+      "properties": {
+        "Location (m E/N/U)": "-91.74 / -14.71 / 9.21",
+        "Rotation (\u00b0)": "look-at target",
+        "Scale": "1 / 1 / 1",
+        "Selected": "None \u2014 select an Outliner or AOI feature",
+        "Job": "69d871982a3d46a3bd2f",
+        "Renderer": "Blender (service)",
+        "Device": "NVIDIA H100 80GB HBM3 \u00b7 OPTIX \u00b7 CPU disabled: true",
+        "GPUs": "2, 6",
+        "Stage": "complete",
+        "Frames rendered": "120 / 120"
+      },
+      "renderStats": {
+        "Engine": "Blender 4.2 Cycles \u00b7 OptiX",
+        "GPUs": "GPU 2 + GPU 6",
+        "Resolution": "1280x720 viewport",
+        "Samples": "adaptive (service default)",
+        "First frame": "35.27 s",
+        "Steady fps": "12.705 fps",
+        "Frames": "120 / 120",
+        "Encoder": "libx264 (CPU encode only)",
+        "Label": "Illustrative render \u00b7 not evidence"
+      },
+      "gpuBadge": "GPU 2 + 6 \u00b7 Cycles OptiX",
+      "label": "Illustrative render \u00b7 not evidence",
+      "timeline": {
+        "before": "120 / 120 \u00b7 00:00.000",
+        "after": "7 / 120 \u00b7 00:00.250",
+        "advanced": true,
+        "frameSrc": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/69d871982a3d46a3bd2f/frames/file/f_0007_sequence.jpg"
+      },
+      "hashKeys": 27,
+      "cesiumCanvas": true,
+      "log": [
+        {
+          "step": "typed",
+          "utc": "2026-11-05T19:36:20.259Z",
+          "ms": 4362,
+          "value": "car crash outside Yas Mall"
+        },
+        {
+          "step": "typing-settled",
+          "utc": "2026-11-05T19:36:26.350Z",
+          "ms": 10453,
+          "postsAfterTyping": 0
+        },
+        {
+          "step": "build-clicked",
+          "utc": "2026-11-05T19:36:26.368Z",
+          "ms": 10471
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:36:27.950Z",
+          "ms": 12053,
+          "stage": "idle",
+          "status": "Not started"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:36:58.106Z",
+          "ms": 42209,
+          "stage": "submitting",
+          "status": "Submitting render job via /api/patch-render\u2026"
+        },
+        {
+          "step": "first-render-post",
+          "utc": "2026-11-05T19:36:58.106Z",
+          "ms": 42209,
+          "url": "/api/patch-render",
+          "via": "resource-timing"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:36:59.895Z",
+          "ms": 43998,
+          "stage": "queued",
+          "status": "Queued \u00b7 job 69d871982a3d46a3bd2f"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:37:03.788Z",
+          "ms": 47891,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 0/120"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:37:36.490Z",
+          "ms": 80593,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 1/120 on GPU 2"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:37:40.446Z",
+          "ms": 84549,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 20/120 on GPUs 2, 6"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:37:42.391Z",
+          "ms": 86494,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 64/120 on GPUs 2, 6"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:37:46.288Z",
+          "ms": 90391,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 112/120 on GPUs 2, 6"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:37:48.241Z",
+          "ms": 92344,
+          "stage": "encode",
+          "status": "Encoding video \u2014 120 rendered frames (encoding is not rendering)"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:37:52.215Z",
+          "ms": 96319,
+          "stage": "complete",
+          "status": "Complete \u00b7 120 frames"
+        },
+        {
+          "step": "done",
+          "utc": "2026-11-05T19:37:54.517Z",
+          "ms": 98620,
+          "stage": "complete",
+          "renderPosts": 1
+        }
+      ],
+      "screenshots": [
+        "after-yas-390x844.png"
+      ]
+    },
+    "ui-after-kanes-390": {
+      "validatorExit0": true,
+      "httpStatus": 200,
+      "pageErrors": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 () https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/setup/status"
+      ],
+      "typingSentBuild": 0,
+      "renderPosts": 1,
+      "componentCounters": {
+        "posts": 1,
+        "polls": 15
+      },
+      "stage": "complete",
+      "status": "Complete \u00b7 120 frames",
+      "frame": {
+        "url": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/c113d5c8ea7f4ae48578/latest.jpg",
+        "width": 1280,
+        "height": 720,
+        "lumMean": 93.7,
+        "lumStd": 48.2,
+        "nonBlank": true
+      },
+      "outlinerGroups": "Terrain,Buildings,Roads,Scenery (CC0),Camera,References",
+      "outlinerItems": 93,
+      "properties": {
+        "Location (m E/N/U)": "-6.63 / 2.04 / 8.37",
+        "Rotation (\u00b0)": "look-at target",
+        "Scale": "1 / 1 / 1",
+        "Selected": "None \u2014 select an Outliner or AOI feature",
+        "Job": "c113d5c8ea7f4ae48578",
+        "Renderer": "Blender (service)",
+        "Device": "NVIDIA H100 80GB HBM3 \u00b7 OPTIX \u00b7 CPU disabled: true",
+        "GPUs": "2, 6",
+        "Stage": "complete",
+        "Frames rendered": "120 / 120"
+      },
+      "renderStats": {
+        "Engine": "Blender 4.2 Cycles \u00b7 OptiX",
+        "GPUs": "GPU 2 + GPU 6",
+        "Resolution": "1280x720 viewport",
+        "Samples": "adaptive (service default)",
+        "First frame": "19.349 s",
+        "Steady fps": "13.141 fps",
+        "Frames": "120 / 120",
+        "Encoder": "libx264 (CPU encode only)",
+        "Label": "Illustrative render \u00b7 not evidence"
+      },
+      "gpuBadge": "GPU 2 + 6 \u00b7 Cycles OptiX",
+      "label": "Illustrative render \u00b7 not evidence",
+      "timeline": {
+        "before": "120 / 120 \u00b7 00:00.000",
+        "after": "15 / 120 \u00b7 00:00.583",
+        "advanced": true,
+        "frameSrc": "https://ondemand-agent-58zqfz0qv-schoolhack-web-team.vercel.app/api/scenes/render/c113d5c8ea7f4ae48578/frames/file/f_0015_sequence.jpg"
+      },
+      "hashKeys": 27,
+      "cesiumCanvas": true,
+      "log": [
+        {
+          "step": "typed",
+          "utc": "2026-11-05T19:38:23.418Z",
+          "ms": 4794,
+          "value": "Kane's Boxing Gym, Abu Dhabi"
+        },
+        {
+          "step": "typing-settled",
+          "utc": "2026-11-05T19:38:29.567Z",
+          "ms": 10943,
+          "postsAfterTyping": 0
+        },
+        {
+          "step": "build-clicked",
+          "utc": "2026-11-05T19:38:29.592Z",
+          "ms": 10968
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:38:31.221Z",
+          "ms": 12597,
+          "stage": "idle",
+          "status": "Not started"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:13.799Z",
+          "ms": 55175,
+          "stage": "submitting",
+          "status": "Submitting render job via /api/patch-render\u2026"
+        },
+        {
+          "step": "first-render-post",
+          "utc": "2026-11-05T19:39:13.799Z",
+          "ms": 55175,
+          "url": "/api/patch-render",
+          "via": "resource-timing"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:15.418Z",
+          "ms": 56794,
+          "stage": "queued",
+          "status": "Queued \u00b7 job c113d5c8ea7f4ae48578"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:17.013Z",
+          "ms": 58389,
+          "stage": "placement",
+          "status": "Placing assets\u2026"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:20.191Z",
+          "ms": 61568,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 0/120"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:34.490Z",
+          "ms": 75866,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 0/120 on GPU 2"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:37.610Z",
+          "ms": 78986,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 1/120 on GPU 2"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:39.192Z",
+          "ms": 80568,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 22/120 on GPUs 2, 6"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:42.320Z",
+          "ms": 83697,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 59/120 on GPUs 2, 6"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:45.401Z",
+          "ms": 86777,
+          "stage": "render",
+          "status": "Building \u2014 rendering frame 95/120 on GPUs 2, 6"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:47.034Z",
+          "ms": 88410,
+          "stage": "encode",
+          "status": "Encoding video \u2014 120 rendered frames (encoding is not rendering)"
+        },
+        {
+          "step": "render-status",
+          "utc": "2026-11-05T19:39:51.814Z",
+          "ms": 93190,
+          "stage": "complete",
+          "status": "Complete \u00b7 120 frames"
+        },
+        {
+          "step": "done",
+          "utc": "2026-11-05T19:39:54.151Z",
+          "ms": 95527,
+          "stage": "complete",
+          "renderPosts": 1
+        }
+      ],
+      "screenshots": [
+        "after-kanes-390x844.png"
+      ]
+    }
+  },
+  "otherChecks": {
+    "savedViewUrl": "after-saved-view-*.png \u2014 27 hash keys present & unchanged after load, map=esri-imagery hud=tactical; Cesium canvas visible; render panel in right rail, collapsed (\u2264120 px tall) so it never covers the globe",
+    "hashReload": "presentCount 27, sameAsLoaded 27, missing [] (after-hash-reload-1440x900.png)",
+    "workstationPage": "/workstation serves the Blender-only Scene Workstation (no Cesium) \u2014 after-workstation-page-1440x900.png",
+    "shellDom": "cctv/context/display panels, intel HUD, scenes tab, composer, Hyper-real Render toggle, time window all present; render panel mounted inside #right-context-rail"
+  },
+  "recordings": [
+    {
+      "file": "car-crash-outside-yas-mall-live-ui.mp4",
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1440,
+            "height": 758,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "24/1",
+            "nb_frames": "3343"
+          }
+        ],
+        "format": {
+          "duration": "139.291667",
+          "size": "2739110"
+        }
+      },
+      "sha256": "a76139470fbc92b1e80c26f0df9b920e3369c0733f23a5aa0583daa6a8a2a845",
+      "source": "CDP Page.startScreencast frames with native timestamps, concat \u2192 libx264 yuv420p 24 fps",
+      "sceneChangeFramesPerSecond": 0.35
+    },
+    {
+      "file": "kanes-boxing-gym-abu-dhabi-live-ui.mp4",
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1440,
+            "height": 758,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "24/1",
+            "nb_frames": "3337"
+          }
+        ],
+        "format": {
+          "duration": "139.041667",
+          "size": "2651247"
+        }
+      },
+      "sha256": "15b92e2717ee6a0603bb40e084c292160777461ee62210465ed62a5911f7fb94",
+      "source": "CDP Page.startScreencast frames with native timestamps, concat \u2192 libx264 yuv420p 24 fps",
+      "sceneChangeFramesPerSecond": 0.42
+    }
+  ],
+  "tests": {
+    "unit": "npm test \u2014 4979 tests, 4978 pass, 0 fail, 1 skipped (win32-only); 2 allocation benches skipped on Node 22 (need Node 24)",
+    "backend": "serverless 57/57, ondemand 257/257, scene-evidence 100/100, scene-render 32/32",
+    "hyperRealRender": "6/6 (typing never posts; one POST per build; banner+Retry; not_configured; superseded build stops polling)",
+    "format": "format:check clean",
+    "boundaries": "import-directions, package-boundaries (+ src/workstation/model.js listed), brand-marks, no-secrets (src + dist) all pass",
+    "build": "vite build 8.5 s, two entries index.html + workstation.html",
+    "renderServicePytest": "NOT RUN on host (pytest not installed); syntax-checked + live jobs; local python lacks fastapi/pytest too",
+    "liveProviderVsMock": "UI runs, plugin call, GPU evidence and MP4s are LIVE (H100 + Vercel); unit/backend suites are mocked/fixture tests"
+  },
+  "assetLicenses": {
+    "PolyHaven": "CC0 (island_tree_02, modular_street_seating, shrub_01, street_lamp_01, HDRIs)",
+    "Kenney": "CC0 (vehicles/debris GLB per assets/manifest.json)",
+    "OSM": "ODbL-1.0 \u00a9 OpenStreetMap contributors",
+    "CopernicusDSM": "Copernicus GLO-90 (free, attribution)",
+    "EsriWorldImagery": "Esri terms (attribution required; not open) \u2014 ground texture only"
+  },
+  "limitations": [
+    "Steady fps at 1280x720 is \u224813 fps (12.6\u201314.0 measured in 5 live jobs), below the \u226524 fps target; 960x540 reaches 22.5 fps and 640x360 21.6 fps. Raising workers per GPU from 3 to 5 did not help (GPU-bound). First frame 19\u201352 s (\u226460 s target met in all 1280x720 jobs; the 960x540 job hit 72 s while sharing GPUs with another job).",
+    "Build scene \u2192 render is sequential: the Cesium scene construction (OnDemand LLM plan + stream) takes 30\u201375 s before the single /api/patch-render POST, so render frames appear ~100\u2013140 s after Build.",
+    "Blosm/BlenderGIS add-ons are NOT installed; the pipeline is the in-repo OSM 0.6 + Copernicus DSM + XYZ-ortho importer (terrain.py/geography.py). SRTM/OpenTopography and OSM2World are not used.",
+    "MJPEG stream is wired (stream_url) but on these fast 24 fps/5 s jobs the first status poll that sees frames arrives after completion, so the panel showed the latest frame + MP4 rather than the live stream in the recorded runs.",
+    "Mockup comparison is quantitative (pixel variance, panel geometry, DOM) \u2014 no side-by-side visual diff tool was available; the Chrome MCP pod was not used for this.",
+    "Kane's Boxing Gym placement produced no Vehicles/Debris group (prompt has no crash scenario) \u2014 outliner shows Terrain/Buildings/Roads/Scenery/Camera.",
+    "render_service pytest not executed (no pytest on host or in this container); render_service changes validated by syntax check and 11 live jobs.",
+    "baseline/approved-k8v6snzk7 branch does not exist on origin; checkpoint f20fab6 is preserved in history and untouched.",
+    "Recordings are CDP screencast frames (\u22480.35\u20130.42 scene-changes/s) re-timed to 24 fps; they show the real UI but not a 24 fps render stream.",
+    "The platform ON_DEMAND_API_KEY equals the host ONDEMAND_API_KEY and both are deployed only as Vercel runtime env (injected into .env for the deploy call and removed again; .env in the repo/ZIP keeps empty values)."
+  ]
+}

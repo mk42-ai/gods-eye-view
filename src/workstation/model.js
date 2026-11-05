@@ -3,8 +3,28 @@ export const ASSET_LABELS = Object.freeze({
   civilian_sedan: 'Civilian sedan',
   civilian_hatchback: 'Civilian hatchback',
   police_patrol_car: 'Police patrol car',
-  cctv_camera: 'Staged CCTV camera',
+  cctv_camera: 'Staged CCTV camera (illustrative)',
+  foot_patrol_officer: 'Police officer (suggested/illustrative)',
+  police_escort_motorcycle: 'Police motorcycle (suggested/illustrative)',
+  checkpoint_cordon_node: 'Security cordon (suggested/illustrative)',
+  event_command_post: 'Command post (suggested/illustrative)',
+  road_closed_barricade: 'Road-closed barricade',
+  traffic_cone_cluster: 'Traffic cones',
+  ambulance_medical_point: 'Ambulance',
+  debris_bumper: 'Debris · bumper',
+  debris_tire: 'Debris · tyre',
+  debris_door: 'Debris · door',
+  debris_plate: 'Debris · plate',
+  debris_cluster_decal: 'Debris field decal',
 });
+const POLICE = /police|security|cordon|checkpoint|command_post|patrol/;
+/** Police/security staging is always labelled suggested/illustrative, never a verified deployment. */
+export function securityLabel(key) {
+  const label = assetLabel(key);
+  return POLICE.test(String(key)) && !/illustrative/i.test(label)
+    ? `${label} (suggested/illustrative)`
+    : label;
+}
 export const REFERENCE_ASSETS = Object.freeze([]); // No implied bindings: service must report actual references.
 const STAGES = {
   queued: 'Queued',
@@ -177,7 +197,7 @@ export function outlinerRows(job) {
   for (const [key, count] of Object.entries(assets))
     rows.push({
       object: key,
-      label: assetLabel(key),
+      label: securityLabel(key),
       count,
       asset: true,
       data: {
@@ -189,7 +209,7 @@ export function outlinerRows(job) {
   for (const [index, item] of (job.placement?.items || []).entries()) {
     rows.push({
       object: `instance:${item.id || index}`,
-      label: `${assetLabel(item.asset)} · ${index + 1}`,
+      label: `${securityLabel(item.asset)} · ${index + 1}`,
       count: 1,
       asset: true,
       data: {
@@ -201,6 +221,44 @@ export function outlinerRows(job) {
         verification: 'Illustrative staging, not observed evidence',
       },
     });
+  }
+  if (job.imagery?.fine || job.sidewalks || job.land_patch)
+    rows.push({ group: 'Patch environment (service)' });
+  if (job.land_patch)
+    rows.push({
+      object: 'env:osm',
+      label: `OSM buildings ${job.land_patch.buildings ?? '?'} · roads ${job.land_patch.roads ?? '?'}`,
+      count: (job.land_patch.buildings || 0) + (job.land_patch.roads || 0),
+      data: job.land_patch,
+    });
+  if (job.imagery?.fine)
+    rows.push({
+      object: 'env:imagery',
+      label: `Ortho drape · ${job.imagery.fine.providerName || job.imagery.fine.provider} z${job.imagery.fine.zoom ?? '?'}`,
+      count: job.imagery.fine.tiles ?? 1,
+      data: job.imagery,
+    });
+  if (job.sidewalks)
+    rows.push({
+      object: 'env:sidewalks',
+      label: 'Sidewalks · derived, approximate',
+      count: job.sidewalks.count ?? 0,
+      data: job.sidewalks,
+    });
+  if (job.scenery?.by_asset) {
+    rows.push({ group: 'Scenery · Poly Haven CC0 (illustrative)' });
+    for (const [key, count] of Object.entries(job.scenery.by_asset))
+      rows.push({
+        object: `scenery:${key}`,
+        label: key.replace(/_/g, ' '),
+        count,
+        data: {
+          asset: key,
+          instances: count,
+          licenses: job.scenery.licenses,
+          illustrative: true,
+        },
+      });
   }
   if (Array.isArray(job.references) && job.references.length)
     rows.push({ group: 'Reported reference bindings · not observations' });
@@ -242,7 +300,20 @@ export function propertyEntries(job, extra = {}, result = null) {
       job ? `${job.frames_done} / ${job.total_frames || '?'}` : '—',
     ],
     ['Rendered FPS', job?.fps_sustained ?? job?.renderedFps ?? 'Not reported'],
-    ['Steady render FPS', job?.fps_after_first_frame ?? 'Not reported'],
+    [
+      'Steady render FPS',
+      job?.fps_steady ?? job?.fps_after_first_frame ?? 'Not reported',
+    ],
+    [
+      'Frames by GPU',
+      job?.frames_by_gpu ? stringify(job.frames_by_gpu) : 'Not reported',
+    ],
+    [
+      'Camera mode',
+      job?.camera_mode
+        ? `${job.camera_mode.used} (requested ${job.camera_mode.requested})`
+        : 'Not reported',
+    ],
     [
       'Video playback FPS',
       job?.timeline_fps ??

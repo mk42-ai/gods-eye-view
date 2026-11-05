@@ -138,7 +138,10 @@ def test_camera_all_quality_commands_use_shared_gpu_pool(setup,monkeypatch):
             f=Future();f.set_result(result);return f
     monkeypatch.setattr(A,"ensure_pool",lambda:Pool())
     for quality in ("preview","quality","sequence"):A.render_frame(j,scene,j["pose"],1,quality)
-    assert [cmd["width"] for cmd in commands]==[640,960,640]
+    assert [cmd["width"] for cmd in commands]==[640,A.QUALITY_WIDTH,A.SEQUENCE_WIDTH]
+    assert A.QUALITY_WIDTH==1280 and A.SEQUENCE_WIDTH in A.WIDTHS
+    j["request"]["resolution"]="1280x720"
+    assert A.frame_width(j,"sequence")==1280 and A.frame_width(j,"preview")==640
     assert all(cmd["cacheKey"]==scene["cacheKey"] and cmd["sceneId"]==scene["sceneId"] for cmd in commands)
 
 def test_cpu_export_real_mp4_and_timeline_not_fake_realtime(setup):

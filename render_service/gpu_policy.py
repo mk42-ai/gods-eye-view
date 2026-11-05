@@ -71,3 +71,17 @@ def configure_cycles(bpy,device):
         raise GPUError("unexpected Cycles device enabled")
     return {"uuid":device["uuid"],"pciBusId":device["pciBusId"],"physicalIndex":device["physicalIndex"],
             "cyclesDevice":{"id":selected.id,"name":selected.name,"type":selected.type},"cpuEnabled":False}
+
+def verify_cycles(bpy, device, evidence):
+    """Cheap per-frame attestation without prefs.get_devices() (which re-syncs
+    the Cycles device and costs seconds per frame). Confirms the exact OptiX
+    device chosen by configure_cycles() is still the only enabled device."""
+    prefs=bpy.context.preferences.addons["cycles"].preferences
+    if prefs.compute_device_type!="OPTIX" or bpy.context.scene.cycles.device!="GPU":
+        raise GPUError("Cycles device configuration drifted from OPTIX/GPU")
+    enabled=[d for d in prefs.devices if d.use]
+    if len(enabled)!=1 or enabled[0].type!="OPTIX" or enabled[0].id!=evidence["cyclesDevice"]["id"] or pci_key(enabled[0].id)!=pci_key(device["pciBusId"]):
+        raise GPUError("enabled Cycles devices differ from the attested OptiX device")
+    if os.environ.get("CUDA_VISIBLE_DEVICES")!=device["uuid"]:
+        raise GPUError("worker visibility mask changed")
+    return dict(evidence, attestation="per-frame enabled-device check (no device re-sync)")

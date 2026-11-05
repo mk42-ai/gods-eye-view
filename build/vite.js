@@ -1,6 +1,27 @@
+import { fileURLToPath } from 'node:url';
 import { applicationHtmlPlugin } from './application-html.js';
 import { productNamePlugin } from './product-name.js';
 import cesium from 'vite-plugin-cesium';
+
+/**
+ * Two HTML entries ship from one Vite build: the Gods Eye View console
+ * (index.html, Cesium/Esri globe, Scenes/Layers/CCTV/Context, tactical HUD,
+ * command bar with Build scene + Hyper-real Render) and the Blender-only
+ * Scene Workstation (workstation.html, served at /workstation).
+ */
+export const BROWSER_PAGES = Object.freeze({
+  index: 'index.html',
+  workstation: 'workstation.html',
+});
+export function browserPageInputs(root = new URL('../', import.meta.url)) {
+  const base = root instanceof URL ? fileURLToPath(root) : String(root);
+  return Object.fromEntries(
+    Object.entries(BROWSER_PAGES).map(([name, file]) => [
+      name,
+      `${base.replace(/\/+$/, '')}/${file}`,
+    ]),
+  );
+}
 
 /**
  * The Scene Workstation page (index.html, body.ws-body) renders Blender frames
@@ -57,6 +78,9 @@ export function createBrowserViteConfig({
       'import.meta.env.VITE_GOOGLE_MAPS_API_KEY': JSON.stringify(googleApiKey),
       'import.meta.env.VITE_CESIUM_ION_TOKEN': JSON.stringify(cesiumToken),
     },
-    build: { chunkSizeWarningLimit: 1500 },
+    build: {
+      chunkSizeWarningLimit: 1500,
+      rollupOptions: { input: browserPageInputs() },
+    },
   };
 }

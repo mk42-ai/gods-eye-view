@@ -27,6 +27,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response, StreamingRes
 from pydantic import BaseModel, Field, model_validator
 from PIL import Image
 import pipeline as P
+import imagery as IMG
 import geography as G
 import camera as C
 import gpu_policy as GPU
@@ -42,8 +43,26 @@ PUBLIC_BASE=os.environ.get("RENDER_PUBLIC_BASE","").rstrip("/")
 LABEL="Illustrative render · not evidence"
 SAMPLES=max(8,min(128,int(os.environ.get("RENDER_SAMPLES","24"))))
 SOURCE_VERSION=hashlib.sha256(b"".join(p.read_bytes() for p in sorted(Path(__file__).parent.glob("*.py")) if not p.name.startswith("test_"))).hexdigest()
-CAPTURE_FPS=2
-MAX_FRAMES=120
+CAPTURE_FPS=max(1,min(30,int(os.environ.get("RENDER_TIMELINE_FPS","24"))))
+MAX_FRAMES=240
+SEQUENCE_SAMPLES=max(4,min(32,int(os.environ.get("RENDER_SEQUENCE_SAMPLES","8"))))
+# Bounded 16:9 render widths. preview = first (fast) frame; quality = hero still; sequence = timeline frames.
+# 1280x720 is the merged-workstation viewport size; per request `resolution` may raise/lower the sequence width.
+WIDTHS=(640,960,1280)
+def _width(name,default):
+    try:value=int(os.environ.get(name,default))
+    except ValueError:value=default
+    return value if value in WIDTHS else default
+PREVIEW_WIDTH=640
+QUALITY_WIDTH=_width("RENDER_QUALITY_WIDTH",1280)
+SEQUENCE_WIDTH=_width("RENDER_SEQUENCE_WIDTH",640)
+def frame_width(j,quality):
+    if quality=="preview":return PREVIEW_WIDTH
+    requested=(j.get("request") or {}).get("resolution")
+    if quality=="sequence":
+        if requested:return int(str(requested).split("x")[0])
+        return SEQUENCE_WIDTH
+    return QUALITY_WIDTH
 TERMINAL={"complete","partial","failed","cancelled"}
 @asynccontextmanager
 async def lifespan(_app):
@@ -79,6 +98,9 @@ class RenderBody(BaseModel):
     duration_s:int=Field(default=60,ge=2,le=120)
     seed:Optional[int]=Field(default=None,ge=0,le=2**31-1)
     samples:Optional[int]=Field(default=None,ge=4,le=128)
+    camera_mode:Literal["street","low_oblique","orbit"]="street"
+    layers:Optional[dict[str,bool]]=None
+    resolution:Optional[Literal["640x360","960x540","1280x720"]]=None
     @model_validator(mode="after")
     def coordinate_alias(self):
         if self.lon is not None and self.lng is not None and self.lon!=self.lng:raise ValueError("lon and lng disagree")
@@ -126,7 +148,7 @@ def ensure_pool():
             try:devices=GPU.resolve_devices()
             except GPU.GPUError as exc:raise HTTPException(503,str(exc))
             if not Path(BLENDER).is_file():raise HTTPException(503,"Blender 4.2.3 executable unavailable")
-            POOL=WorkerPool(devices,ROOT,BLENDER)
+            POOL=WorkerPool(devices,ROOT,BLENDER,int(os.environ.get("RENDER_WORKERS_PER_GPU","3")))
         return POOL
 
 def new_job(request,kind="initial",parent=None):
@@ -166,23 +188,79 @@ def publish(j,result,index,quality,pose):
             image.verify()
         filename=f"f_{index:04d}_{quality}.jpg";target=Path(j["dir"])/"frames"/filename
         os.replace(source,target)
-        frame={k:v for k,v in result.items() if k not in ("stagingPath","requestId")}
+        frame={k:v for k,v in result.items() if k not in ("stagingPath","requestId") and not (k=="sourceIds" and quality=="sequence")}
+        # Source IDs are immutable per patch: keep a digest + count per frame, full list once in /patch.
+        frame["sourceIdsSha256"]=hashlib.sha256(json.dumps(result.get("sourceIds") or [],separators=(",",":")).encode()).hexdigest()
+        frame["sourceIdCount"]=len(result.get("sourceIds") or [])
         frame.update(id=result["frameId"],index=index,quality=quality,revision=j["revision"],
                      url=f"{PUBLIC_BASE}/frames/{j['jobId']}/file/{filename}")
-        j["frames"].append(frame);j["latestFrame"]=frame;j["pose"]=pose
+        j["frames"].append(frame)
+        prev=j.get("latestFrame")
+        if not prev or index>=prev["index"]:j["latestFrame"]=frame;j["pose"]=pose
         if quality!="preview":j["frames_done"]+=1
         j["progress"]=min(1,j["frames_done"]/max(1,j["total_frames"]))
-        j["fps_sustained"]=round(j["frames_done"]/max(.001,time.monotonic()-j["_render_start"]),3)
+        now=time.monotonic()
+        j["fps_sustained"]=round(j["frames_done"]/max(.001,now-j["_render_start"]),3)
+        if quality=="sequence":
+            seq=j.setdefault("_seq_times",[]);seq.append(now)
+            if len(seq)>=3:j["fps_steady"]=round((len(seq)-1)/max(.001,seq[-1]-seq[0]),3)
+            j["sequence_frames_published"]=len(seq)
+            gpu=str((result.get("gpu") or {}).get("physicalIndex"))
+            j.setdefault("frames_by_gpu",{});j["frames_by_gpu"][gpu]=j["frames_by_gpu"].get(gpu,0)+1
         j["unique_view_count"]=len({G.digest(f["pose"]) for f in j["frames"]})
         j["unique_views_per_second"]=round(j["unique_view_count"]/max(.001,time.monotonic()-j["_render_start"]),3)
         if "ttff_s" not in j:j["ttff_s"]=round(time.monotonic()-j["_started"],3)
         record=SCENES.get(j["sceneId"])
         if record and record["revision"]==j["revision"]:record["pose"]=pose
-        log_event(j,"frame_published",frame);persist(j)
+        compact={k:frame[k] for k in ("id","index","quality","hash","workerPid","renderSeconds","createdUtc") if k in frame}
+        compact["gpu"]={k:(frame.get("gpu") or {}).get(k) for k in ("physicalIndex","uuid")}
+        log_event(j,"frame_published",compact)
+        # Sequence frames: persist job.json at most ~2x/s (it is a status snapshot; frames + events.jsonl are the record).
+        if quality!="sequence" or now-j.get("_persisted_at",0)>.5 or j["frames_done"]>=j["total_frames"]:
+            persist(j);j["_persisted_at"]=now
+
+def frame_command(j,scene,pose,index,quality):
+    width=frame_width(j,quality)
+    fid=j["jobId"]+f"_{index:04d}_{quality}";stage=Path(j["dir"])/"staging"/(fid+".jpg")
+    return {"requestId":uuid.uuid4().hex,"jobId":j["jobId"],"sceneId":j["sceneId"],"frameId":fid,"scenePath":j["_scene_path"],
+             "cacheKey":scene["cacheKey"],"jobHash":j["jobHash"],"pose":pose,"width":width,"height":width*9//16,
+             "samples":8 if quality=="preview" else min(SEQUENCE_SAMPLES,j["request"].get("samples") or SAMPLES) if quality=="sequence" else j["request"].get("samples") or SAMPLES,
+             "stagingPath":str(stage)}
+
+def render_sequence(j,scene,poses,first_index=2):
+    """Shard the validated camera path across BOTH approved GPU workers.
+
+    Up to 3 frames are in flight per worker; each worker keeps its own hot scene
+    copy (first command builds it). Frames publish in completion order, every one
+    individually verified (identity, hash, decode, GPU attestation)."""
+    pool=ensure_pool();inflight={};nxt=0;window=max(2,3*len(pool.slots))
+    def submit(i):
+        cmd=frame_command(j,scene,poses[i],first_index+i,"sequence")
+        # round-robin by index keeps both GPUs fed even before their scene caches warm
+        slot=pool.slots[i%len(pool.slots)]
+        fut=slot_submit(pool,slot,cmd,j["_cancel"])
+        inflight[fut]=(i,cmd)
+    from concurrent.futures import wait,FIRST_COMPLETED
+    while nxt<len(poses) and len(inflight)<window:submit(nxt);nxt+=1
+    while inflight:
+        check_job(j)
+        done,_=wait(list(inflight),timeout=1.0,return_when=FIRST_COMPLETED)
+        for fut in done:
+            i,cmd=inflight.pop(fut)
+            result=fut.result()
+            publish(j,result,first_index+i,"sequence",poses[i])
+            if nxt<len(poses):submit(nxt);nxt+=1
+
+def slot_submit(pool,slot,cmd,cancel):
+    from concurrent.futures import Future
+    import queue as _q
+    future=Future()
+    try:slot.queue.put_nowait((cmd,cancel,future));return future
+    except _q.Full:return pool.submit(cmd,cancel)
 
 def render_frame(j,scene,pose,index,quality):
     check_job(j)
-    width=640 if quality=="preview" or quality=="sequence" else 960
+    width=frame_width(j,quality)
     fid=j["jobId"]+f"_{index:04d}_{quality}";stage=Path(j["dir"])/"staging"/(fid+".jpg")
     command={"requestId":uuid.uuid4().hex,"jobId":j["jobId"],"sceneId":j["sceneId"],"frameId":fid,"scenePath":j["_scene_path"],
              "cacheKey":scene["cacheKey"],"jobHash":j["jobHash"],"pose":pose,"width":width,"height":width*9//16,
@@ -201,6 +279,15 @@ def prepare(j):
     terrain=DEM.fetch_terrain(patch);check_job(j)
     osm["terrain"]=terrain
     G.drape_features(osm,terrain)
+    try:sidewalks=G.derive_sidewalks(osm,terrain,patch)
+    except Exception as exc:sidewalks=[];log("sidewalks_unavailable",{"error":type(exc).__name__+": "+str(exc)[:200]})
+    try:
+        img=IMG.patch_imagery(patch);log("imagery",{k:{x:img[k].get(x) for x in ("provider","zoom","tiles","width","height","sourceSha256","fetchSeconds")} for k in ("fine","context")})
+    except Exception as exc:
+        img=None;log("imagery_unavailable",{"error":type(exc).__name__+": "+str(exc)[:200]})
+    j["imagery"]={k:{x:img[k].get(x) for x in ("provider","providerName","attribution","licence","zoom","tiles","sourceSha256","retrievedUtc","use")} for k in ("fine","context")} if img else {"status":"unavailable"}
+    j["sidewalks"]={"count":len(sidewalks),"basis":"derived 2.4 m strips beside OSM drivable roads (approximate, not mapped)"}
+    check_job(j)
     patch["osmPatchId"]=patch["id"]
     patch["id"]="patch_"+G.digest({"osm":patch["id"],"terrain":terrain["id"]})[:24]
     patch["elevation"]=terrain["elevation"]
@@ -230,11 +317,28 @@ def prepare(j):
     j["spec"]=spec;j["model"]=model;j["stage"]="placement"
     local=patch["localBounds"];half=min(local["maxX"]-local["minX"],local["maxY"]-local["minY"])/2
     instances,shapes,roads=P.place(spec,focal,osm,half,seed,log)
+    ambient=[a for a in P.place_ambient(osm,seed) if all((a["x"]-i["x"])**2+(a["y"]-i["y"])**2>36 for i in instances)]
+    j["scenery"]={"count":len(ambient),"by_asset":{k:sum(1 for a in ambient if a["asset"]==k) for k in sorted({a["asset"] for a in ambient})},
+                  "licenses":sorted({a["license"] for a in ambient}),"illustrative":True}
     tod=request.get("time_of_day") or "auto"
     if tod=="auto":tod="night" if re.search("night",request["prompt"],re.I) else "dusk" if re.search("dusk|sunset|evening",request["prompt"],re.I) else "midday"
     total=min(MAX_FRAMES,request["duration_s"]*CAPTURE_FPS);fps=total/request["duration_s"]
-    scene=P.build_scene_json(j["jobId"],focal,spec,model,osm,None,instances,shapes,roads,tod,request["duration_s"],fps,[s.device for s in ensure_pool().slots])
-    pose=C.validate_pose(request["camera"],scene) if request.get("camera") else C.initial_pose(scene);scene_path=Path(j["dir"])/"scene.json";atomic_json(scene_path,scene)
+    mode=request.get("camera_mode") or "street"
+    layers={k:bool(v) for k,v in (request.get("layers") or {}).items() if k in ("imagery","buildings","roads","sidewalks","scenery","staging","skirt")}
+    if layers.get("scenery") is False:ambient=[]
+    if layers.get("sidewalks") is False:sidewalks=[]
+    if layers.get("staging") is False:instances=[]
+    if layers.get("imagery") is False:img=None
+    j["layers"]={k:layers.get(k,True) for k in ("imagery","buildings","roads","sidewalks","scenery","staging","skirt")}
+    scene=P.build_scene_json(j["jobId"],focal,spec,model,osm,img,instances,shapes,roads,tod,request["duration_s"],fps,[s.device for s in ensure_pool().slots],ambient,sidewalks,mode)
+    scene["layers"]=j["layers"];scene["cacheKey"]=G.digest({"base":scene["cacheKey"],"layers":j["layers"]});scene["sceneId"]="scene_"+scene["cacheKey"][:24]
+    pose=C.validate_pose(request["camera"],scene) if request.get("camera") else C.initial_pose(scene,mode)
+    # The Blender scene keeps the initial pose so night lighting can be anchored around the camera/action.
+    scene["camera"]={"position":pose["position"],"target":pose["target"]}
+    if tod=="night":
+        # Night lights are anchored on the camera: a different anchor is a different hot scene.
+        scene["cacheKey"]=G.digest({"base":scene["cacheKey"],"nightAnchor":[round(float(v)) for v in pose["position"][:2]]});scene["sceneId"]="scene_"+scene["cacheKey"][:24]
+    j["camera_mode"]={"requested":mode,"used":pose.get("mode","explicit"),"label":pose.get("modeLabel","explicit operator pose")};scene_path=Path(j["dir"])/"scene.json";atomic_json(scene_path,scene)
     with LOCK:
         check_job(j)
         # A fresh request owns a separate scene session even if content hashes match;
@@ -257,7 +361,10 @@ def encode(j):
     frames=[f for f in j["frames"] if f["quality"]!="preview"]
     if len(frames)<2:return
     directory=Path(j["dir"]);manifest=directory/"encode.txt"
-    # concat supports mixed 640/960 progressive frames; output has a uniform 960x540 canvas.
+    # concat supports mixed progressive frame sizes; the canvas is the dominant (sequence) width so
+    # timeline frames are never upscaled (a lone 1280 hero still is letterboxed down instead).
+    widths=[int(f.get("width") or 640) for f in frames]
+    canvas_w=max(set(widths),key=widths.count);canvas_h=canvas_w*9//16
     lines=[]
     for frame in frames:
         name=f"frames/f_{frame['index']:04d}_{frame['quality']}.jpg"
@@ -265,7 +372,7 @@ def encode(j):
     lines.append(lines[-2]);manifest.write_text("\n".join(lines)+"\n")
     part=directory/"video.part.mp4";j["stage"]="encode"
     cmd=["ffmpeg","-nostdin","-y","-loglevel","error","-f","concat","-safe","1","-i",str(manifest),
-         "-vf","scale=960:540:force_original_aspect_ratio=decrease,pad=960:540:(ow-iw)/2:(oh-ih)/2", "-r",str(j["timeline_fps"]),
+         "-vf",f"scale={canvas_w}:{canvas_h}:force_original_aspect_ratio=decrease,pad={canvas_w}:{canvas_h}:(ow-iw)/2:(oh-ih)/2", "-r",str(j["timeline_fps"]),
          "-c:v","libx264","-threads","2","-preset","fast","-crf","22","-pix_fmt","yuv420p","-movflags","+faststart",str(part)]
     with open(directory/"encode.log","w") as log:
         proc=subprocess.Popen(cmd,stdout=log,stderr=log,env=dict(os.environ,CUDA_VISIBLE_DEVICES=""))
@@ -280,6 +387,7 @@ def encode(j):
             if proc.poll() is None:proc.terminate();proc.wait(timeout=5)
     with LOCK:
         check_job(j);os.replace(part,directory/"video.mp4");j["mp4_bytes"]=(directory/"video.mp4").stat().st_size;j["encoder"]="libx264 (CPU encode only)"
+        j["mp4_resolution"]=f"{canvas_w}x{canvas_h}"
 
 def run_job(jid):
     j=JOBS[jid]
@@ -288,16 +396,24 @@ def run_job(jid):
         if j["kind"]=="initial":scene,pose=prepare(j)
         else:scene=SCENES[j["sceneId"]]["scene"];pose=j["pose"]
         check_job(j);j["stage"]="render";j["_render_start"]=time.monotonic();persist(j)
+        if j["kind"]=="initial":
+            # Warm every other worker (scene build + OptiX attestation) while slot 0 renders the preview.
+            pool=ensure_pool()
+            for slot in pool.slots[1:]:
+                warm=frame_command(j,scene,pose,0,"sequence");warm["warmOnly"]=True
+                slot_submit(pool,slot,warm,j["_cancel"])
         render_frame(j,scene,pose,1,"preview")
         render_frame(j,scene,pose,1,"quality")
         if j["kind"]=="initial":
-            for index in range(2,j["total_frames"]+1):
-                check_job(j)
-                try:pose=C.validate_pose(C.orbit_pose(pose,1.0),scene)
-                except C.CameraError:
-                    j.setdefault("warnings",[]).append("Sequence stopped at camera/geography boundary; no invented views or hidden buildings.")
-                    break
-                render_frame(j,scene,pose,index,"sequence")
+            step=(0.45 if pose.get("mode")=="street" else 0.7)*24/max(1,j["timeline_fps"])
+            poses=C.sequence_poses(scene,pose,j["total_frames"]-1,step)
+            if len(poses)<j["total_frames"]-1:
+                j.setdefault("warnings",[]).append(f"Camera path stopped after {len(poses)+1} views at a geography/building boundary; no invented views or hidden buildings.")
+                j["total_frames"]=len(poses)+1
+            j["_seq_start"]=time.monotonic()
+            render_sequence(j,scene,poses)
+            j["sequence_wall_s"]=round(time.monotonic()-j["_seq_start"],3)
+            if j["sequence_wall_s"]>0:j["fps_sequence_wall"]=round(len(poses)/j["sequence_wall_s"],3)
             encode(j)
         j["stage"]="complete" if j["frames_done"]==j["total_frames"] else "partial"
     except CancelledError:j["stage"]="cancelled"
@@ -443,8 +559,30 @@ async def stream(jid:str):
                 yield (b"--frame\r\nContent-Type: image/jpeg\r\nX-Frame-Id: "+last.encode()+b"\r\nX-Frame-SHA256: "+frame["hash"].encode()+
                        b"\r\nContent-Length: "+str(len(data)).encode()+b"\r\n\r\n"+data+b"\r\n")
             if j["stage"] in TERMINAL:break
-            await asyncio.sleep(.12)
+            await asyncio.sleep(.03)
     return StreamingResponse(generate(),media_type="multipart/x-mixed-replace; boundary=frame",headers={"Cache-Control":"no-store","X-Illustrative":"true"})
+
+@app.get("/gpu-evidence",dependencies=[Depends(auth)])
+def gpu_evidence():
+    """Read-only nvidia-smi snapshot correlated with this service's Blender worker PIDs."""
+    def q(args):
+        r=subprocess.run(["nvidia-smi",*args,"--format=csv,noheader"],capture_output=True,text=True,timeout=8)
+        return [[c.strip() for c in line.split(",")] for line in r.stdout.strip().splitlines() if line.strip()]
+    try:
+        gpus=[{"index":r[0],"uuid":r[1],"pciBusId":r[2],"name":r[3],"utilizationPct":r[4],"memoryUsedMiB":r[5]} for r in q(["--query-gpu=index,uuid,pci.bus_id,name,utilization.gpu,memory.used"])]
+        apps=[{"pid":int(r[0]),"gpuUuid":r[1],"processName":r[2],"usedMemoryMiB":r[3]} for r in q(["--query-compute-apps=pid,gpu_uuid,process_name,used_memory"])]
+    except Exception as exc:
+        raise HTTPException(503,"nvidia-smi unavailable: "+type(exc).__name__)
+    workers=POOL.status() if POOL else []
+    pids={w["pid"]:w["device"] for w in workers if w.get("pid")}
+    ours=[dict(a,physicalIndex=pids[a["pid"]]["physicalIndex"]) for a in apps if a["pid"] in pids]
+    allowed={u for u,_ in GPU.ALLOWED.values()}
+    return {"utc":P.utc(),"workerPids":sorted(pids),"rendererProcesses":ours,
+            "rendererGpuUuids":sorted({a["gpuUuid"] for a in ours}),
+            "violations":[a for a in ours if a["gpuUuid"] not in allowed],
+            "missingWorkerPidsInNvidiaSmi":sorted(set(pids)-{a["pid"] for a in ours}),
+            "gpus":gpus,"allowedGpuUuids":sorted(allowed),
+            "note":"Other processes on non-approved GPUs belong to unrelated workloads and are not used by this renderer."}
 
 @app.get("/health")
 def health():
@@ -454,7 +592,7 @@ def health():
     return {"ok":bool(devices) and bool(TOKEN) and Path(BLENDER).is_file() and bool(P.ASSET_KEYS),"service":"gods-eye-view-render","utc":P.utc(),"sourceVersion":SOURCE_VERSION,"buildReference":os.environ.get("GEV_SERVICE_REVISION","unrecorded"),
             "gpus":[str(d["physicalIndex"]) for d in devices],"gpu_policy":{"allowed":[2,6],"resolved":devices,"backend":"OPTIX","cpuRendering":False,
              "visibility":"UUID per worker","error":policy_error,"verification":"Cycles PCI device attested on each render; see frame.gpu"},
-            "workers":workers,"fps":CAPTURE_FPS,"fpsMeaning":"export timeline, not a realtime render claim","resolutions":[[640,360],[960,540]],
+            "workers":workers,"fps":CAPTURE_FPS,"fpsMeaning":"export timeline, not a realtime render claim","resolutions":[[w,w*9//16] for w in WIDTHS],"defaults":{"preview":[PREVIEW_WIDTH,PREVIEW_WIDTH*9//16],"quality":[QUALITY_WIDTH,QUALITY_WIDTH*9//16],"sequence":[SEQUENCE_WIDTH,SEQUENCE_WIDTH*9//16]},
             "samples":SAMPLES,"blender":Path(BLENDER).is_file(),"assets":len(P.ASSET_KEYS),"jobs":len(JOBS),"illustrative":True,"label":LABEL}
 
 @app.get("/")

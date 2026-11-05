@@ -1,11 +1,13 @@
 :root {
   color-scheme: dark;
-  --ws-bg: #14171c;
-  --ws-panel: #1d2129;
-  --ws-line: #343b46;
-  --ws-ink: #e8edf5;
-  --ws-muted: #a5afbf;
-  --ws-accent: #a5d6ff;
+  /* OnDemand charcoal / amber */
+  --ws-bg: #121212;
+  --ws-panel: #1b1b1c;
+  --ws-line: #34312c;
+  --ws-ink: #ede9e2;
+  --ws-muted: #aaa398;
+  --ws-accent: #f5a524;
+  --ws-accent-ink: #1a1408;
   --ws-danger: #ffb4a8;
   font:
     12px/1.45 Inter,
@@ -58,7 +60,7 @@ a:focus-visible,
 input,
 textarea,
 select {
-  background: #12161d;
+  background: #141414;
   border: 1px solid var(--ws-line);
   border-radius: 4px;
   padding: 7px 8px;
@@ -110,7 +112,7 @@ h2 {
   font-weight: 650;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: #242a34;
+  background: #222120;
   border-bottom: 1px solid var(--ws-line);
   padding: 9px 11px;
   display: flex;
@@ -146,7 +148,7 @@ h2 button {
   gap: 20px;
   padding: 8px 16px;
   border-bottom: 1px solid var(--ws-line);
-  background: #1b1f26;
+  background: #181818;
 }
 .ws-brand strong {
   font-size: 16px;
@@ -154,7 +156,7 @@ h2 button {
 }
 .ws-brand strong span {
   font-weight: 400;
-  color: #c0c8d8;
+  color: #cfc8bc;
 }
 .ws-brand small {
   display: block;
@@ -181,27 +183,27 @@ h2 button {
   gap: 5px;
 }
 .ws-btn {
-  border: 1px solid #46505e;
+  border: 1px solid #4a453e;
   border-radius: 4px;
-  background: #2d3440;
+  background: #2a2826;
   min-height: 29px;
   padding: 5px 9px;
   white-space: nowrap;
   font-size: 11px;
 }
 .ws-btn:hover:not(:disabled) {
-  background: #3b4656;
-  border-color: #8a9db5;
+  background: #3a3631;
+  border-color: #c9a46a;
 }
 .ws-btn-accent {
-  background: #aed9fb;
-  color: #132137;
-  border-color: #aed9fb;
+  background: #f5a524;
+  color: #1a1408;
+  border-color: #f5a524;
   font-weight: 650;
 }
 .ws-btn-accent:hover:not(:disabled) {
-  background: #cde8ff;
-  color: #111d2e;
+  background: #ffbf4d;
+  color: #1a1408;
 }
 .ws-wide {
   width: 100%;
@@ -246,7 +248,7 @@ h2 button {
   border-radius: 12px;
   padding: 3px 8px;
   font-size: 10px;
-  background: #2a313d;
+  background: #2a2826;
 }
 .ws-two {
   display: grid;
@@ -629,8 +631,8 @@ summary {
   .ws-app {
     min-height: 580px;
     grid-template-columns: 1fr;
-    grid-template-rows: 62px 43px minmax(180px, 1fr) auto 52px;
-    grid-template-areas: 'top' 'nav' 'view' 'compose' 'time';
+    grid-template-rows: 62px 43px minmax(180px, 1fr) auto auto 52px;
+    grid-template-areas: 'top' 'nav' 'view' 'panel' 'compose' 'time';
   }
   .ws-topbar {
     padding: 7px 10px;
@@ -668,7 +670,7 @@ summary {
     overflow: auto;
     gap: 5px;
     padding: 7px;
-    background: #1b212a;
+    background: #191919;
     border-bottom: 1px solid var(--ws-line);
   }
   .ws-panel-nav button {
@@ -683,19 +685,17 @@ summary {
   .ws-right-rail {
     display: contents;
   }
+  /* Mobile: the open panel takes its own grid row between viewport and
+     composer, so it shrinks the viewport instead of covering the scene. */
   .ws-panel {
     display: none;
-    position: fixed;
-    left: 8px;
-    right: 8px;
-    top: 112px;
-    bottom: 58px;
-    z-index: 10;
+    grid-area: panel;
+    position: static;
+    max-height: 36dvh;
+    min-height: 0;
     background: var(--ws-panel);
-    border: 1px solid #57667b;
-    border-radius: 6px;
+    border-top: 1px solid #5b5348;
     overflow: auto;
-    box-shadow: 0 12px 70px #000b;
   }
   .ws-panel.is-open {
     display: block;
@@ -782,5 +782,127 @@ summary {
   * {
     transition: none !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* --- merged UI: collapsible rails that never cover the viewport --- */
+.ws-rail-toggles {
+  display: flex;
+  gap: 5px;
+}
+.ws-rail-toggles .ws-btn[aria-pressed='true'] {
+  border-color: var(--ws-accent);
+  color: var(--ws-accent);
+}
+.ws-app.left-collapsed {
+  grid-template-columns: 0 minmax(280px, 1fr) 278px;
+}
+.ws-app.right-collapsed {
+  grid-template-columns: 280px minmax(280px, 1fr) 0;
+}
+.ws-app.left-collapsed.right-collapsed {
+  grid-template-columns: 0 minmax(280px, 1fr) 0;
+}
+.ws-app.left-collapsed .ws-left-rail,
+.ws-app.right-collapsed .ws-right-rail {
+  visibility: hidden;
+  border: 0;
+}
+.ws-panel.is-collapsed > :not(h2) {
+  display: none;
+}
+.ws-panel > h2 {
+  cursor: pointer;
+}
+.ws-panel > h2::after {
+  content: '−';
+  margin-left: auto;
+  color: var(--ws-muted);
+  font-weight: 400;
+}
+.ws-panel.is-collapsed > h2::after {
+  content: '+';
+}
+.ws-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0;
+}
+.ws-check input {
+  width: auto;
+  margin: 0;
+  accent-color: var(--ws-accent);
+}
+.ws-h3 {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ws-muted);
+  margin: 12px 0 4px;
+}
+.ws-chat-log {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  max-height: 260px;
+  overflow: auto;
+}
+.ws-chat-log li {
+  border: 1px solid var(--ws-line);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 11px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+.ws-chat-log li[data-role='user'] {
+  border-color: #5b4a2a;
+  background: #221c12;
+}
+.ws-voice-row {
+  margin-top: 6px;
+}
+.ws-badge {
+  display: inline-block;
+  border: 1px solid var(--ws-accent);
+  color: var(--ws-accent);
+  border-radius: 3px;
+  padding: 0 4px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-left: 4px;
+}
+.ws-saved-item {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.ws-saved-item .ws-btn:first-child {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+.ws-citation {
+  font-size: 11px;
+}
+@media (max-width: 860px) {
+  .ws-rail-toggles {
+    display: none;
+  }
+  .ws-app.left-collapsed,
+  .ws-app.right-collapsed,
+  .ws-app.left-collapsed.right-collapsed {
+    grid-template-columns: 1fr;
+  }
+  .ws-panel.is-collapsed > :not(h2) {
+    display: block;
+  }
+  .ws-panel > h2::after {
+    content: none;
   }
 }

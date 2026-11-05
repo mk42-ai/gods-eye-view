@@ -1,0 +1,711 @@
+{
+ "schemaVersion": 2,
+ "generatedUtc": "2026-11-05T12:20:02.704Z",
+ "previewUrl": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app",
+ "deploymentId": "dpl_83iMDGkCKPyREobNFKTGM9NwUcoc",
+ "previousPreview": "https://ondemand-agent-khehbqy4b-schoolhack-web-team.vercel.app",
+ "repository": {
+  "remote": "https://github.com/mk42-ai/gods-eye-view",
+  "baseBranch": "feat/scene-video-evidence",
+  "baseCommit": "2182d64",
+  "branch": "feat/patch-render-merge",
+  "commits": [
+   "a835a86",
+   "4f08ca1",
+   "fbba6a8"
+  ]
+ },
+ "customTool": {
+  "name": "ondemandPatchRender",
+  "pluginId": "plugin-1793879365",
+  "agentId": "agent-1793879365",
+  "mongoId": "6aec6d456cdf855007d85332",
+  "createdVia": "auto-tool-creation async jobs API (isAutoSave) importing /api/patch-render/openapi.json; renamed to ondemandPatchRender via PUT /plugin/v1/<id>",
+  "discoverFirst": "suggest_plugins returned \"Gods-Eye View Render Service\" (plugin-1793698938) \u2014 older contract bound to an expired tunnel; no place/bbox/camera_mode/gpu evidence, so a new tool was created",
+  "schemaUrl": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app/api/patch-render/openapi.json",
+  "operations": {
+   "ondemandPatchRender": "POST /api/patch-render {prompt, place?, bbox?, lat?, lon?, time_of_day?, camera_mode?, duration?}",
+   "getPatchRenderStatus": "GET /api/patch-render/{jobId}"
+  },
+  "returns": [
+   "job_id",
+   "status",
+   "stream_url",
+   "latest_frame_url",
+   "mp4_url",
+   "gpu_uuids",
+   "gpu_physical_indices",
+   "worker_pids",
+   "nvidia_smi",
+   "first_frame_s",
+   "steady_fps"
+  ],
+  "liveToolTest": {
+   "sessionId": "6aec6da4afa4e3f5416d3277",
+   "endpoint": "predefined-glm-5.3",
+   "startJob": "aaf2d425077b49f38f7d",
+   "result": {
+    "status": "complete",
+    "first_frame_s": 30.467,
+    "steady_fps": 23.401,
+    "frames_done": 120,
+    "gpu_physical_indices": [
+     2,
+     6
+    ],
+    "mp4_ready": true
+   }
+  },
+  "buildButtonWiring": "Workstation Build POSTs /api/patch-render (same contract the tool calls); render host reached server-side with RENDER_SERVICE_URL/RENDER_SERVICE_TOKEN (not SSH from Vercel \u2014 serverless functions cannot hold SSH keys). Host deployment/telemetry was done over the attached SSH connection.",
+  "credentials": "none required by the tool (render host bearer stays server-side)"
+ },
+ "gpu": {
+  "policy": "physical GPUs 2 and 6 only; CUDA_VISIBLE_DEVICES=<UUID> per worker; exactly one PCI-matched OptiX device enabled; CPU disabled; GPU 1 rejected at config, admission, launch and per-frame",
+  "approved": [
+   {
+    "index": 2,
+    "uuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+    "pci": "00000000:45:00.0"
+   },
+   {
+    "index": 6,
+    "uuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+    "pci": "00000001:45:00.0"
+   }
+  ],
+  "gpu1": "GPU-f80dbdd9-9ce0-5824-10bd-02e070d354d1 (pid 3706681, unrelated python workload) \u2014 never used by renderer; no renderer PID observed on it",
+  "error409": "resolved \u2014 proxy policy check passes (host advertises [\"2\",\"6\"]); 0 gpu_policy_violation responses during QA",
+  "evidenceRun": {
+   "jobId": "e767614e9e7840639f3a",
+   "stage": "complete",
+   "ttff_s": 28.858,
+   "fps_steady": 24.955,
+   "fps_sequence_wall": 24.089,
+   "frames_done": 120,
+   "frames_by_gpu": {
+    "6": 59,
+    "2": 60
+   },
+   "framesByWorkerPidGpu": [
+    {
+     "pid": 19143,
+     "gpuUuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+     "physicalIndex": 2,
+     "frames": 22
+    },
+    {
+     "pid": 19141,
+     "gpuUuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+     "physicalIndex": 6,
+     "frames": 20
+    },
+    {
+     "pid": 19139,
+     "gpuUuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+     "physicalIndex": 2,
+     "frames": 20
+    },
+    {
+     "pid": 19140,
+     "gpuUuid": "GPU-b2aff670-0bcc-b834-af70-421466084d30",
+     "physicalIndex": 2,
+     "frames": 20
+    },
+    {
+     "pid": 19142,
+     "gpuUuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+     "physicalIndex": 6,
+     "frames": 20
+    },
+    {
+     "pid": 19138,
+     "gpuUuid": "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+     "physicalIndex": 6,
+     "frames": 19
+    }
+   ],
+   "camera_mode": {
+    "requested": "street",
+    "used": "street",
+    "label": "street-level (pedestrian/vehicle eye height band)"
+   },
+   "encoder": "libx264 (CPU encode only)",
+   "mp4_bytes": 1433593,
+   "nvidiaSmiDuringRender": {
+    "uuidsWithRendererPids": [
+     "GPU-2c78264d-f20e-47cb-3976-a85395cbad55",
+     "GPU-b2aff670-0bcc-b834-af70-421466084d30"
+    ],
+    "rendererPidsSeen": [
+     19138,
+     19139,
+     19140,
+     19141,
+     19142,
+     19143
+    ]
+   }
+  },
+  "logs": "gods-eye-view/ops/cycle-patchrender/evidence/gpu-evidence-20261105T121638Z/{gpu-before.csv,apps-before.csv,during.log,gpu-after.csv,apps-after.csv,gpu-evidence.json,health.json,summary.json}",
+  "encode": "ffmpeg libx264 on CPU with CUDA_VISIBLE_DEVICES=\"\""
+ },
+ "performance": {
+  "firstFrameServiceS": {
+   "range": [
+    20.4,
+    57.5
+   ],
+   "note": "includes OSM/DSM/imagery fetch + LLM scene spec; cached patches ~20-30 s"
+  },
+  "steadyFpsMeasured": {
+   "range": [
+    19.3,
+    27.2
+   ],
+   "gpuEvidenceRun": 24.955,
+   "definition": "sequence frames published per second (640x360, 4 spp Cycles OptiX + OptiX denoise), 6 Blender workers (3 per GPU)"
+  },
+  "baseline": {
+   "steadyFps": "1.4\u20133.7",
+   "firstFrameS": "21\u201338"
+  },
+  "24fpsReached": "at 640x360/4spp sequence quality on 2 GPUs: yes in several runs (23.4\u201327.2), not guaranteed; quality frame 960x540 at 24 spp is separate",
+  "uiPlayback": "MP4 timeline at 24 fps; measured scene transitions in recordings \u224822\u201323/s over the final 12 s"
+ },
+ "uiRuns": [
+  {
+   "label": "yas",
+   "viewport": "1440x900",
+   "prompt": "Car crash outside Yas Mall",
+   "validatorOk": true,
+   "startUtc": "2026-11-05T12:10:27.682Z",
+   "endUtc": "2026-11-05T12:11:40.667Z",
+   "actions": [
+    {
+     "action": "page-ready",
+     "utc": "2026-11-05T12:10:29.791Z",
+     "href": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app/"
+    },
+    {
+     "action": "prompt-typed",
+     "utc": "2026-11-05T12:10:32.233Z",
+     "buildRequestsAfterTyping": 0
+    },
+    {
+     "action": "build-clicked",
+     "utc": "2026-11-05T12:10:33.438Z"
+    },
+    {
+     "action": "first-frame-visible",
+     "utc": "2026-11-05T12:11:15.003Z",
+     "naturalWidth": 640
+    },
+    {
+     "action": "build-terminal",
+     "utc": "2026-11-05T12:11:26.010Z",
+     "state": "ready",
+     "status": "Scene ready \u00b7 96 rendered frames \u00b7 illustrative staging, not evidence"
+    },
+    {
+     "action": "play-clicked",
+     "utc": "2026-11-05T12:11:27.512Z"
+    },
+    {
+     "action": "play-observed",
+     "utc": "2026-11-05T12:11:37.517Z",
+     "readouts": [
+      "0.0 / 4.0 s",
+      "0.5 / 4.0 s",
+      "1.1 / 4.0 s",
+      "1.6 / 4.0 s"
+     ],
+     "media": "video",
+     "videoTime": 1.6146
+    }
+   ],
+   "checks": {
+    "typingAloneDidNotBuild": true,
+    "buildRequests": 1,
+    "terminalState": "ready",
+    "frameVisible": true,
+    "firstFrameDecodedClientS": 41.56,
+    "frameLumMean": 133.12739670138657,
+    "outlinerRows": 809,
+    "outlinerGroups": [
+     "GEOGRAPHIC DATA (SERVICE)",
+     "ILLUSTRATIVE STAGING \u00b7 NOT EVIDENCE",
+     "PATCH ENVIRONMENT (SERVICE)",
+     "SCENERY \u00b7 POLY HAVEN CC0 (ILLUSTRATIVE)",
+     "REPORTED REFERENCE BINDINGS \u00b7 NOT OBSERVATIONS"
+    ],
+    "timelinePlaybackAdvanced": true,
+    "playbackMedia": "video",
+    "noCesium": true,
+    "noLegend": true,
+    "buildButtonColor": "rgb(245, 165, 36)",
+    "viewportPx": {
+     "w": 882,
+     "h": 656,
+     "winW": 1440,
+     "winH": 900
+    },
+    "consoleErrors": [],
+    "pageErrors": []
+   },
+   "job": {
+    "id": "6a9795e173984c378a45",
+    "stage": "complete",
+    "frames": 96,
+    "total": 96,
+    "ttff": 40.458,
+    "steady": 20.426,
+    "byGpu": {
+     "2": 48,
+     "6": 47
+    },
+    "camera": {
+     "requested": "street",
+     "used": "street",
+     "label": "street-level (pedestrian/vehicle eye height band)"
+    },
+    "imagery": "esri-world-imagery",
+    "scenery": {
+     "bench": 25,
+     "shrub": 237,
+     "street_lamp": 266,
+     "street_tree": 117
+    },
+    "land": {
+     "source": "OpenStreetMap bounded geometry; no satellite substitute",
+     "buildings": 108,
+     "roads": 656,
+     "status": "ok"
+    },
+    "focal": "Yas Mall",
+    "patch": "patch_a6e80b95812d14e0cb9dcdc1"
+   },
+   "screenshot": "after-yas-1440x900.png"
+  },
+  {
+   "label": "kanes",
+   "viewport": "1440x900",
+   "prompt": "Kane's Boxing Gym, Abu Dhabi",
+   "validatorOk": true,
+   "startUtc": "2026-11-05T12:11:40.733Z",
+   "endUtc": "2026-11-05T12:12:36.892Z",
+   "actions": [
+    {
+     "action": "page-ready",
+     "utc": "2026-11-05T12:11:42.882Z",
+     "href": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app/"
+    },
+    {
+     "action": "prompt-typed",
+     "utc": "2026-11-05T12:11:45.398Z",
+     "buildRequestsAfterTyping": 0
+    },
+    {
+     "action": "build-clicked",
+     "utc": "2026-11-05T12:11:46.602Z"
+    },
+    {
+     "action": "first-frame-visible",
+     "utc": "2026-11-05T12:12:12.116Z",
+     "naturalWidth": 640
+    },
+    {
+     "action": "build-terminal",
+     "utc": "2026-11-05T12:12:22.122Z",
+     "state": "ready",
+     "status": "Scene ready \u00b7 96 rendered frames \u00b7 illustrative staging, not evidence"
+    },
+    {
+     "action": "play-clicked",
+     "utc": "2026-11-05T12:12:23.624Z"
+    },
+    {
+     "action": "play-observed",
+     "utc": "2026-11-05T12:12:33.629Z",
+     "readouts": [
+      "0.0 / 4.0 s",
+      "0.3 / 4.0 s",
+      "0.8 / 4.0 s",
+      "1.3 / 4.0 s"
+     ],
+     "media": "video",
+     "videoTime": 1.5242
+    }
+   ],
+   "checks": {
+    "typingAloneDidNotBuild": true,
+    "buildRequests": 1,
+    "terminalState": "ready",
+    "frameVisible": true,
+    "firstFrameDecodedClientS": 25.51,
+    "frameLumMean": 142.3145221354161,
+    "outlinerRows": 704,
+    "outlinerGroups": [
+     "GEOGRAPHIC DATA (SERVICE)",
+     "PATCH ENVIRONMENT (SERVICE)",
+     "SCENERY \u00b7 POLY HAVEN CC0 (ILLUSTRATIVE)",
+     "REPORTED REFERENCE BINDINGS \u00b7 NOT OBSERVATIONS"
+    ],
+    "timelinePlaybackAdvanced": true,
+    "playbackMedia": "video",
+    "noCesium": true,
+    "noLegend": true,
+    "buildButtonColor": "rgb(245, 165, 36)",
+    "viewportPx": {
+     "w": 882,
+     "h": 656,
+     "winW": 1440,
+     "winH": 900
+    },
+    "consoleErrors": [],
+    "pageErrors": []
+   },
+   "job": {
+    "id": "04e05ffdf1a34afebd9d",
+    "stage": "complete",
+    "frames": 96,
+    "total": 96,
+    "ttff": 24.407,
+    "steady": 22.708,
+    "byGpu": {
+     "2": 48,
+     "6": 47
+    },
+    "camera": {
+     "requested": "street",
+     "used": "street",
+     "label": "street-level (pedestrian/vehicle eye height band)"
+    },
+    "imagery": "esri-world-imagery",
+    "scenery": {
+     "bench": 22,
+     "shrub": 230,
+     "street_lamp": 242,
+     "street_tree": 156
+    },
+    "land": {
+     "source": "OpenStreetMap bounded geometry; no satellite substitute",
+     "buildings": 161,
+     "roads": 525,
+     "status": "ok"
+    },
+    "focal": "Kane's Boxing Academy \u00b7 Fotouh Al Khair Centre",
+    "patch": "patch_f0ca43f521b4711ff325eb73"
+   },
+   "screenshot": "after-kanes-1440x900.png"
+  },
+  {
+   "label": "yas-mobile",
+   "viewport": "390x844",
+   "prompt": "Car crash outside Yas Mall",
+   "validatorOk": true,
+   "startUtc": "2026-11-05T12:12:36.948Z",
+   "endUtc": "2026-11-05T12:13:51.907Z",
+   "actions": [
+    {
+     "action": "page-ready",
+     "utc": "2026-11-05T12:12:39.160Z",
+     "href": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app/"
+    },
+    {
+     "action": "prompt-typed",
+     "utc": "2026-11-05T12:12:41.604Z",
+     "buildRequestsAfterTyping": 0
+    },
+    {
+     "action": "build-clicked",
+     "utc": "2026-11-05T12:12:42.808Z"
+    },
+    {
+     "action": "first-frame-visible",
+     "utc": "2026-11-05T12:13:27.836Z",
+     "naturalWidth": 640
+    },
+    {
+     "action": "build-terminal",
+     "utc": "2026-11-05T12:13:37.340Z",
+     "state": "ready",
+     "status": "Scene ready \u00b7 96 rendered frames \u00b7 illustrative staging, not evidence"
+    },
+    {
+     "action": "play-clicked",
+     "utc": "2026-11-05T12:13:38.842Z"
+    },
+    {
+     "action": "play-observed",
+     "utc": "2026-11-05T12:13:48.847Z",
+     "readouts": [
+      "0.0 / 4.0 s",
+      "0.5 / 4.0 s",
+      "1.1 / 4.0 s",
+      "1.6 / 4.0 s"
+     ],
+     "media": "video",
+     "videoTime": 1.5984
+    }
+   ],
+   "checks": {
+    "typingAloneDidNotBuild": true,
+    "buildRequests": 1,
+    "terminalState": "ready",
+    "frameVisible": true,
+    "firstFrameDecodedClientS": 45.03,
+    "frameLumMean": 133.12693489583094,
+    "outlinerRows": 809,
+    "outlinerGroups": [
+     "Geographic data (service)",
+     "Illustrative staging \u00b7 not evidence",
+     "Patch environment (service)",
+     "Scenery \u00b7 Poly Haven CC0 (illustrative)",
+     "Reported reference bindings \u00b7 not observations"
+    ],
+    "timelinePlaybackAdvanced": true,
+    "playbackMedia": "video",
+    "noCesium": true,
+    "noLegend": true,
+    "buildButtonColor": "rgb(245, 165, 36)",
+    "viewportPx": {
+     "w": 390,
+     "h": 553,
+     "winW": 390,
+     "winH": 844
+    },
+    "consoleErrors": [],
+    "pageErrors": []
+   },
+   "job": {
+    "id": "ae19613c175c4d5497dd",
+    "stage": "complete",
+    "frames": 96,
+    "total": 96,
+    "ttff": 42.929,
+    "steady": 20.934,
+    "byGpu": {
+     "2": 48,
+     "6": 47
+    },
+    "camera": {
+     "requested": "street",
+     "used": "street",
+     "label": "street-level (pedestrian/vehicle eye height band)"
+    },
+    "imagery": "esri-world-imagery",
+    "scenery": {
+     "bench": 25,
+     "shrub": 237,
+     "street_lamp": 266,
+     "street_tree": 117
+    },
+    "land": {
+     "source": "OpenStreetMap bounded geometry; no satellite substitute",
+     "buildings": 108,
+     "roads": 656,
+     "status": "ok"
+    },
+    "focal": "Yas Mall",
+    "patch": "patch_a6e80b95812d14e0cb9dcdc1"
+   },
+   "screenshot": "after-yas-mobile-390x844.png"
+  },
+  {
+   "label": "kanes-mobile",
+   "viewport": "390x844",
+   "prompt": "Kane's Boxing Gym, Abu Dhabi",
+   "validatorOk": true,
+   "startUtc": "2026-11-05T12:13:51.960Z",
+   "endUtc": "2026-11-05T12:14:46.835Z",
+   "actions": [
+    {
+     "action": "page-ready",
+     "utc": "2026-11-05T12:13:54.053Z",
+     "href": "https://ondemand-agent-kq6dks9ey-schoolhack-web-team.vercel.app/"
+    },
+    {
+     "action": "prompt-typed",
+     "utc": "2026-11-05T12:13:56.563Z",
+     "buildRequestsAfterTyping": 0
+    },
+    {
+     "action": "build-clicked",
+     "utc": "2026-11-05T12:13:57.767Z"
+    },
+    {
+     "action": "first-frame-visible",
+     "utc": "2026-11-05T12:14:22.784Z",
+     "naturalWidth": 640
+    },
+    {
+     "action": "build-terminal",
+     "utc": "2026-11-05T12:14:32.289Z",
+     "state": "ready",
+     "status": "Scene ready \u00b7 96 rendered frames \u00b7 illustrative staging, not evidence"
+    },
+    {
+     "action": "play-clicked",
+     "utc": "2026-11-05T12:14:33.790Z"
+    },
+    {
+     "action": "play-observed",
+     "utc": "2026-11-05T12:14:43.795Z",
+     "readouts": [
+      "0.0 / 4.0 s",
+      "0.5 / 4.0 s",
+      "1.1 / 4.0 s",
+      "1.3 / 4.0 s"
+     ],
+     "media": "video",
+     "videoTime": 1.5859
+    }
+   ],
+   "checks": {
+    "typingAloneDidNotBuild": true,
+    "buildRequests": 1,
+    "terminalState": "ready",
+    "frameVisible": true,
+    "firstFrameDecodedClientS": 25.02,
+    "frameLumMean": 142.31406770833277,
+    "outlinerRows": 704,
+    "outlinerGroups": [
+     "Geographic data (service)",
+     "Patch environment (service)",
+     "Scenery \u00b7 Poly Haven CC0 (illustrative)",
+     "Reported reference bindings \u00b7 not observations"
+    ],
+    "timelinePlaybackAdvanced": true,
+    "playbackMedia": "video",
+    "noCesium": true,
+    "noLegend": true,
+    "buildButtonColor": "rgb(245, 165, 36)",
+    "viewportPx": {
+     "w": 390,
+     "h": 553,
+     "winW": 390,
+     "winH": 844
+    },
+    "consoleErrors": [],
+    "pageErrors": []
+   },
+   "job": {
+    "id": "2445348deb6e4c54a0d2",
+    "stage": "complete",
+    "frames": 96,
+    "total": 96,
+    "ttff": 22.944,
+    "steady": 22.306,
+    "byGpu": {
+     "2": 48,
+     "6": 47
+    },
+    "camera": {
+     "requested": "street",
+     "used": "street",
+     "label": "street-level (pedestrian/vehicle eye height band)"
+    },
+    "imagery": "esri-world-imagery",
+    "scenery": {
+     "bench": 22,
+     "shrub": 230,
+     "street_lamp": 242,
+     "street_tree": 156
+    },
+    "land": {
+     "source": "OpenStreetMap bounded geometry; no satellite substitute",
+     "buildings": 161,
+     "roads": 525,
+     "status": "ok"
+    },
+    "focal": "Kane's Boxing Academy \u00b7 Fotouh Al Khair Centre",
+    "patch": "patch_f0ca43f521b4711ff325eb73"
+   },
+   "screenshot": "after-kanes-mobile-390x844.png"
+  }
+ ],
+ "recordings": {
+  "car-crash-outside-yas-mall.mp4": {
+   "sha256": "be5034eac5d2e3421251aab4cc6409b4d32a4a2e6578264ebab367cced63e8e2",
+   "codec_name": "h264",
+   "width": 1440,
+   "height": 900,
+   "pix_fmt": "yuv420p",
+   "r_frame_rate": "24/1",
+   "durationS": 72.958333,
+   "bytes": 4214143,
+   "source": "Page.startScreencast compositor frames of the live preview UI during run \"yas\" (1440x900), re-timed by native frame timestamps, libx264 CPU encode, no trimming",
+   "capture": {
+    "startUtc": "2026-11-05T12:10:27.682Z",
+    "endUtc": "2026-11-05T12:11:40.667Z"
+   },
+   "sceneTransitionsPerSecLast12s": 22.42
+  },
+  "kanes-boxing-gym-abu-dhabi.mp4": {
+   "sha256": "6dabde3783c5dc4a0479b7da814f678a629711a03cb830090d3a95934501f469",
+   "codec_name": "h264",
+   "width": 1440,
+   "height": 900,
+   "pix_fmt": "yuv420p",
+   "r_frame_rate": "24/1",
+   "durationS": 55.958333,
+   "bytes": 11353884,
+   "source": "Page.startScreencast compositor frames of the live preview UI during run \"kanes\" (1440x900), re-timed by native frame timestamps, libx264 CPU encode, no trimming",
+   "capture": {
+    "startUtc": "2026-11-05T12:11:40.733Z",
+    "endUtc": "2026-11-05T12:12:36.892Z"
+   },
+   "sceneTransitionsPerSecLast12s": 23.0
+  }
+ },
+ "tests": {
+  "frontendUnit": "4975 pass / 0 fail / 1 skipped (node scripts/run-unit-tests.mjs)",
+  "backendNode": "68 pass (serverless + scene-evidence) + 31 scene-render incl. 5 new patch-render",
+  "renderServicePytest": "116 pass / 1 skipped (incl. 7 new scenery/camera/GPU tests)",
+  "format": "prettier clean",
+  "secrets": "check-no-secrets clean",
+  "build": "vite build exit 0"
+ },
+ "assetLicenses": [
+  {
+   "asset": "OpenStreetMap buildings/roads/water",
+   "license": "ODbL 1.0 (\u00a9 OpenStreetMap contributors)"
+  },
+  {
+   "asset": "Copernicus GLO-90 DSM",
+   "license": "GLO-90 Free & Open licence (Copernicus)"
+  },
+  {
+   "asset": "Esri World Imagery ortho drape",
+   "license": "Esri terms of use; attribution required; NOT open \u2014 visual context only"
+  },
+  {
+   "asset": "EOX Sentinel-2 cloudless 2020 (fallback)",
+   "license": "CC BY-NC-SA 4.0"
+  },
+  {
+   "asset": "Poly Haven street_lamp_01, island_tree_02, shrub_01, modular_street_seating; textures asphalt_02, concrete_pavement, plastered_wall_04; HDRIs clarens_midday, kiara_9_dusk, dikhololo_night",
+   "license": "CC0"
+  },
+  {
+   "asset": "Kenney Car Kit / City Kit Roads (vehicles, cones, barriers, characters)",
+   "license": "CC0"
+  },
+  {
+   "asset": "OpenGameArt fancy-motorcycle",
+   "license": "CC0"
+  }
+ ],
+ "limitations": [
+  "Reference images (Yas Mall / Kane's 3D and 2D views, UI mockups) could not be opened for side-by-side visual comparison: the Chrome MCP pod returned HTTP 502/404 after the first screenshot. Patch geometry is verified by OSM feature counts, georegistered imagery tests and frame statistics, not by visual matching against the references.",
+  "Blosm / BlenderGIS add-ons were not installed; the equivalent pipeline is implemented directly (OSM API 0.6 extrusion, Copernicus DSM terrain, XYZ ortho tiles draped by georegistered affine). Google 3D Tiles are not used.",
+  "Building heights are OSM tags or levels\u00d73.2 m or an 8 m default; facades are PBR plaster, not photographic. Sidewalks are derived 2.4 m strips, not mapped.",
+  "Esri imagery capture date unknown and not openly licensed; only used as a ground/roof texture.",
+  "Steady fps is sequence throughput at 640x360/4 spp; 960x540 quality frames take ~0.6\u20135 s. First frame stays 20\u201358 s because geography, imagery and the LLM scene plan are fetched per new patch.",
+  "Render host is reached via a Cloudflare quick tunnel (trycloudflare.com) that dies if the host process restarts; the Vercel function holds the bearer token, not SSH keys.",
+  "Scene chat/place research reuse existing OnDemand routes; voice uses browser SpeechRecognition/SpeechSynthesis (not ElevenLabs) and is unavailable in headless Chrome.",
+  "Saved scenes are browser-local (localStorage) only \u2014 no cloud or cross-device sync.",
+  "Kane's Boxing Academy resolves to the Fotouh Al Khair Centre mapped building (official-address precision); the user-supplied coordinate 24.4847818,54.3587129 is ~25 m away and inside the same patch.",
+  "Recordings are compositor screencast frames from the headless validator session (not a desktop screen recorder); frame cadence follows Chrome screencast delivery."
+ ]
+}

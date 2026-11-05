@@ -1,0 +1,40 @@
+{
+  "url": "https://ondemand-agent-b8o25opgl-schoolhack-web-team.vercel.app",
+  "ok": true,
+  "screenshots": [
+    "/home/appuser/work/6692b763e851d28a036ab30e/6ae56302679e6131953805be/.ui-proof/after-yas-1440x900.png"
+  ],
+  "assertions": [
+    {
+      "kind": "http-status",
+      "target": "https://ondemand-agent-b8o25opgl-schoolhack-web-team.vercel.app",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "kind": "wait-selector",
+      "target": "#ws-app",
+      "ok": true,
+      "detail": "appeared"
+    },
+    {
+      "kind": "eval",
+      "target": "(async () => {\n  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));\n  const log = [];\n  const mark = (action, extra = {}) => log.push({ action, utc: new Date().toISOString(), ...extra });\n  ",
+      "ok": true,
+      "detail": "\"{\\\"prompt\\\":\\\"Car crash outside Yas Mall\\\",\\\"typedNoBuild\\\":true,\\\"buildRequests\\\":1,\\\"state\\\":\\\"ready\\\",\\\"firstFrameClientS\\\":45.61,\\\"img\\\":{\\\"tag\\\":\\\"IMG\\\",\\\"w\\\":640,\\\"h\\\":360},\\\"displayed\\\":{\\\"w\\\""
+    },
+    {
+      "kind": "page-rendered",
+      "target": "document.body",
+      "ok": true,
+      "detail": "innerText=2132 chars, bodyHeight=900px"
+    }
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "failedRequests": [],
+  "browser": "/usr/bin/chromium",
+  "httpStatus": 200,
+  "title": "OnDemand Intelligence Workstation \u00b7 Scene Workstation",
+  "textLength": 2132
+}

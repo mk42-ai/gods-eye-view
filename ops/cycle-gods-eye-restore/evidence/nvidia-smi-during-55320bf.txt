@@ -1,0 +1,22 @@
+2026-11-05T18:14:23Z
+pid, gpu_uuid, process_name, used_gpu_memory [MiB]
+3628308, GPU-65f873ca-92ee-21d8-07b3-4496e59c1070, VLLM::EngineCore, 76346 MiB
+3706681, GPU-f80dbdd9-9ce0-5824-10bd-02e070d354d1, python, 11270 MiB
+19139, GPU-b2aff670-0bcc-b834-af70-421466084d30, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 4532 MiB
+19140, GPU-b2aff670-0bcc-b834-af70-421466084d30, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 4532 MiB
+19143, GPU-b2aff670-0bcc-b834-af70-421466084d30, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 4532 MiB
+941514, GPU-1eecec41-2458-d4ee-25f1-76f6aae0b1fb, /usr/bin/python3, 72854 MiB
+939753, GPU-f8034cf3-9850-e864-946e-60de923b58d0, /usr/bin/python3, 72848 MiB
+2734634, GPU-4aa5d32a-06ea-79e5-65b5-708d31dff263, VLLM::EngineCore, 76346 MiB
+19138, GPU-2c78264d-f20e-47cb-3976-a85395cbad55, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 4532 MiB
+19141, GPU-2c78264d-f20e-47cb-3976-a85395cbad55, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 4532 MiB
+19142, GPU-2c78264d-f20e-47cb-3976-a85395cbad55, /localstorage/mk.thomas/gev/blender-4.2.3-linux-x64/blender, 4532 MiB
+
+index, uuid, utilization.gpu [%], memory.used [MiB]
+0, GPU-65f873ca-92ee-21d8-07b3-4496e59c1070, 0 %, 76355 MiB
+1, GPU-f80dbdd9-9ce0-5824-10bd-02e070d354d1, 0 %, 11279 MiB
+2, GPU-b2aff670-0bcc-b834-af70-421466084d30, 0 %, 13616 MiB
+3, GPU-1eecec41-2458-d4ee-25f1-76f6aae0b1fb, 0 %, 72863 MiB
+4, GPU-f8034cf3-9850-e864-946e-60de923b58d0, 0 %, 72857 MiB
+5, GPU-4aa5d32a-06ea-79e5-65b5-708d31dff263, 0 %, 76355 MiB
+6, GPU-2c78264d-f20e-47cb-3976-a85395cbad55, 0 %, 13616 MiB

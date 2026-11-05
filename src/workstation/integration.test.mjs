@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-const html = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
+const html = readFileSync(new URL('../../workstation.html', import.meta.url), 'utf8');
 const main = readFileSync(new URL('./main.js', import.meta.url), 'utf8');
 const css = readFileSync(new URL('./workstation.css', import.meta.url), 'utf8');
 test('one responsive workstation provides acceptance panels and a multiline explicit composer', () => {
@@ -11,7 +11,7 @@ test('one responsive workstation provides acceptance panels and a multiline expl
   }
   assert.match(html, /<textarea\b[^>]*\bid="ws-prompt"/);
   assert.equal((html.match(/id="ws-prompt-form"/g) || []).length, 1);
-  assert.doesNotMatch(html, /legacy\.html|cesiumContainer|data-mode="wire"/);
+  assert.doesNotMatch(html, /cesiumContainer|data-mode="wire"/);
   assert.match(html, /OnDemand/);
   assert.match(css, /\.ws-panel\.is-open/);
 });

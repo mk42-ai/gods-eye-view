@@ -19,6 +19,13 @@ import {
   safeLink,
   localMedia,
   parseSse,
+  sanitizeLayers,
+  LAYER_KEYS,
+  SCENES_KEY,
+  PROMPTS_KEY,
+  readLibrary,
+  addToLibrary,
+  rememberPrompt,
 } from './state.js';
 import {
   normalizeJob,
@@ -492,6 +499,7 @@ function render() {
   renderAoi();
   renderEvidence();
   renderCamera();
+  renderRenderStats();
 }
 function decodedImage(url, signal) {
   return new Promise((resolve, reject) => {
@@ -759,14 +767,19 @@ async function launch(kind = 'build', payload = null) {
     if (!state.camera && state.aoi?.source === 'user-selected')
       state.camera = cameraFromHash(state.legacyHash, state.aoi);
     const selected = state.aoi?.source === 'user-selected';
+    // Build goes through the ondemandPatchRender contract (/api/patch-render),
+    // the same one the OnDemand custom tool calls.
     payload = {
       prompt: state.prompt.trim(),
-      durationSec: state.durationSec,
-      ...(selected ? { aoi: state.aoi } : {}),
-      ...(validCamera(state.camera) && state.aoi
-        ? { camera: state.camera }
-        : {}),
-      request_id: `ws-${Date.now()}-${state.revision}`,
+      duration: Math.min(10, Math.max(2, Math.round(state.durationSec))),
+      time_of_day: state.timeOfDay || 'auto',
+      camera_mode: state.cameraMode || 'street',
+      layers: sanitizeLayers(state.layers),
+      ...(selected
+        ? { lat: state.aoi.lat, lon: state.aoi.lon, place: state.aoi.name }
+        : state.aoi?.verification === 'verified' && state.locationQuery
+          ? { place: state.locationQuery }
+          : {}),
     };
   } else if (!state.job?.job_id || state.sceneDirty) {
     selectionFailure(
@@ -788,7 +801,7 @@ async function launch(kind = 'build', payload = null) {
   const url =
     kind === 'camera'
       ? `/api/scenes/render/${encodeURIComponent(previousJob.job_id)}/camera`
-      : '/api/scenes/render/start';
+      : '/api/patch-render';
   const body =
     kind === 'camera'
       ? {
@@ -819,6 +832,18 @@ async function launch(kind = 'build', payload = null) {
         { body: start },
       );
     owner.jobId = jobId;
+    if (kind === 'build') {
+      state.promptHistory = rememberPrompt(
+        state.promptHistory || [],
+        state.prompt,
+      );
+      try {
+        localStorage.setItem(PROMPTS_KEY, JSON.stringify(state.promptHistory));
+      } catch {
+        /* storage restriction surfaced on Save */
+      }
+      renderLibrary();
+    }
     const shared = new URL(location.href);
     shared.searchParams.set('job', jobId);
     shared.searchParams.set('prompt', state.prompt);
@@ -853,9 +878,7 @@ async function launch(kind = 'build', payload = null) {
     });
     event('job-accepted', { jobId, kind });
     const statusUrl = localMedia(
-      start.statusUrl ||
-        start.status_url ||
-        `/api/scenes/render/${encodeURIComponent(jobId)}/status`,
+      `/api/scenes/render/${encodeURIComponent(jobId)}/status`,
       location.origin,
     );
     if (!statusUrl)
@@ -1137,6 +1160,9 @@ async function playVideo(owner, token) {
   element.preload = 'auto';
   element.controls = true;
   element.playsInline = true;
+  // Renders carry no audio track; muted lets playback start without a trusted gesture.
+  element.muted = true;
+  element.loop = true;
   try {
     await new Promise((resolve, reject) => {
       const cleanup = () => {
@@ -1850,6 +1876,444 @@ window.addEventListener('unhandledrejection', (e) => {
     }),
   );
 });
+
+// Place research: OnDemand scene-plan construct (runtime Perplexity when an event/edition needs it,
+// OSM + OSRM routing validation of the plan). Citations are shown verbatim; staging stays illustrative.
+let placeResearchController = null;
+$('#ws-place-research').addEventListener('click', async () => {
+  const out = $('#ws-place-research-out');
+  if (!state.aoi || validateAoi(state.aoi)) {
+    out.textContent = 'Select or find a site first (Location / AOI).';
+    return;
+  }
+  placeResearchController?.abort();
+  const controller = (placeResearchController = new AbortController());
+  const revision = state.revision;
+  out.textContent =
+    'Researching place and validating plan against OSM / routing… (up to ~2 min)';
+  event('place-research-submit', { revision });
+  try {
+    const r = await fetch('/api/ondemand/v2/scene-plans/construct', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        prompt: state.prompt || `Scene at ${state.aoi.name || 'selected site'}`,
+        candidate: {
+          name: String(state.aoi.name || 'Selected site').slice(0, 160),
+          lat: state.aoi.lat,
+          lon: state.aoi.lon,
+          verified: true,
+          source: state.aoi.source || 'operator-selected',
+          sourceUrl:
+            state.aoi.sourceUrl ||
+            `https://www.openstreetmap.org/?mlat=${state.aoi.lat}&mlon=${state.aoi.lon}#map=18/${state.aoi.lat}/${state.aoi.lon}`,
+        },
+        revision,
+      }),
+      signal: controller.signal,
+    });
+    const data = await r.json().catch(() => ({}));
+    if (controller !== placeResearchController || revision !== state.revision)
+      return;
+    out.replaceChildren();
+    if (!r.ok || !data.ok) {
+      out.textContent = `Research unavailable: ${data?.error?.message || data?.error?.code || 'HTTP ' + r.status}`;
+      return;
+    }
+    const plan = data.plan || {};
+    out.append(
+      node('strong', plan.title || 'Plan'),
+      node(
+        'div',
+        `${(plan.entities || []).length} entities · ${(plan.beats || []).length} beats · ${plan.durationSec || '?'} s · illustrative staging`,
+      ),
+      node(
+        'div',
+        `Research: ${data.research?.status || 'n/a'} · ${data.research?.verification || ''}`,
+      ),
+      node(
+        'div',
+        `Routing/geometry: ${JSON.stringify(data.provenance?.planner || data.plannerTier || 'validated')}`,
+      ),
+    );
+    const cites = [
+      ...(data.research?.citations || []),
+      ...(plan.citations || []),
+    ];
+    if (!cites.length)
+      out.append(
+        node('div', 'No external citations were required or returned.'),
+      );
+    for (const c of cites.slice(0, 8)) {
+      const row = node('div', null, 'ws-citation');
+      row.append(link(c.title || c.url || String(c), c.url || c));
+      out.append(row);
+    }
+    state.placeResearch = {
+      at: new Date().toISOString(),
+      title: plan.title,
+      citations: cites.slice(0, 8),
+    };
+    event('place-research-result', {
+      entities: (plan.entities || []).length,
+      citations: cites.length,
+    });
+  } catch (error) {
+    if (error.name !== 'AbortError')
+      out.textContent = `Research unavailable: ${error.message}`;
+  }
+});
+// ---------------- merged UI: render settings, layers, rails, saved scenes, chat ----------------
+state.timeOfDay = state.timeOfDay || 'auto';
+state.cameraMode = state.cameraMode || 'street';
+state.layers = sanitizeLayers(state.layers);
+state.chat = Array.isArray(state.chat) ? state.chat : [];
+try {
+  state.promptHistory = JSON.parse(
+    localStorage.getItem(PROMPTS_KEY) || '[]',
+  ).filter((p) => typeof p === 'string');
+} catch {
+  state.promptHistory = [];
+}
+function syncRenderControls() {
+  $('#ws-time-of-day').value = state.timeOfDay;
+  $('#ws-camera-mode').value = state.cameraMode;
+  for (const box of document.querySelectorAll('[data-layer]'))
+    box.checked = state.layers[box.dataset.layer] !== false;
+  $('#ws-view-mode').textContent =
+    `${{ street: 'Street level', low_oblique: 'Low oblique', orbit: 'High orbit' }[state.cameraMode]} · Cycles render`;
+}
+$('#ws-time-of-day').addEventListener('change', (e) => {
+  edit({ timeOfDay: e.target.value }, 'time-of-day-edited');
+  storageSave(true);
+});
+$('#ws-camera-mode').addEventListener('change', (e) => {
+  edit({ cameraMode: e.target.value }, 'camera-mode-edited');
+  syncRenderControls();
+  storageSave(true);
+});
+for (const box of document.querySelectorAll('[data-layer]'))
+  box.addEventListener('change', () => {
+    edit(
+      { layers: { ...state.layers, [box.dataset.layer]: box.checked } },
+      'layer-toggled',
+    );
+    storageSave(true);
+  });
+function renderRenderStats() {
+  const dl = $('#ws-render-stats');
+  dl.replaceChildren();
+  const j = state.job;
+  if (!j) return;
+  const rows = [
+    ['First frame (service)', j.ttff_s != null ? `${j.ttff_s} s` : '—'],
+    ['Steady render', j.fps_steady != null ? `${j.fps_steady} fps` : '—'],
+    ['Timeline', j.timeline_fps != null ? `${j.timeline_fps} fps` : '—'],
+    ['Frames by GPU', j.frames_by_gpu ? JSON.stringify(j.frames_by_gpu) : '—'],
+    ['Camera', j.camera_mode ? j.camera_mode.label || j.camera_mode.used : '—'],
+    [
+      'Imagery',
+      j.imagery?.fine
+        ? `${j.imagery.fine.providerName} · ${j.imagery.fine.attribution}`
+        : 'unavailable',
+    ],
+  ];
+  for (const [k, v] of rows) dl.append(node('dt', k), node('dd', v));
+}
+// Rails collapse from the grid (viewport grows) — panels never overlay the scene.
+function setRail(side, open) {
+  app.classList.toggle(`${side}-collapsed`, !open);
+  $(`#ws-toggle-${side}`).setAttribute('aria-pressed', String(open));
+  try {
+    localStorage.setItem(
+      `ondemand.scene-workstation.rail.${side}`,
+      open ? '1' : '0',
+    );
+  } catch {
+    /* ignore */
+  }
+}
+for (const side of ['left', 'right']) {
+  $(`#ws-toggle-${side}`).addEventListener('click', () =>
+    setRail(side, app.classList.contains(`${side}-collapsed`)),
+  );
+  try {
+    if (localStorage.getItem(`ondemand.scene-workstation.rail.${side}`) === '0')
+      setRail(side, false);
+  } catch {
+    /* ignore */
+  }
+}
+const DEFAULT_COLLAPSED = new Set([
+  'ws-camera',
+  'ws-saved',
+  'ws-chat',
+  'ws-render',
+]);
+for (const panel of document.querySelectorAll('.ws-panel')) {
+  if (DEFAULT_COLLAPSED.has(panel.id)) panel.classList.add('is-collapsed');
+  panel.querySelector('h2')?.addEventListener('click', (e) => {
+    if (e.target.closest('button')) return;
+    if (matchMedia('(max-width: 860px)').matches) return;
+    panel.classList.toggle('is-collapsed');
+  });
+}
+// Saved scenes (browser-local library) and prompt history.
+function readScenes() {
+  try {
+    return readLibrary(localStorage.getItem(SCENES_KEY));
+  } catch {
+    return [];
+  }
+}
+function applySaved(saved, label) {
+  const restored = createState(saved);
+  edit(
+    {
+      prompt: restored.prompt,
+      durationSec: restored.durationSec,
+      aoi: restored.aoi,
+      camera: restored.camera,
+      legacyHash: restored.legacyHash,
+      locationQuery: restored.locationQuery,
+      evidenceWindowHours: restored.evidenceWindowHours,
+      timeOfDay: restored.timeOfDay,
+      cameraMode: restored.cameraMode,
+      layers: restored.layers,
+      chat: restored.chat,
+    },
+    'saved-scene-loaded',
+  );
+  input.value = state.prompt;
+  $('#ws-duration').value = state.durationSec;
+  $('#ws-location-search').value = state.locationQuery;
+  $('#ws-evidence-window').value = state.evidenceWindowHours;
+  $('#ws-lat').value = state.aoi?.lat ?? '';
+  $('#ws-lon').value = state.aoi?.lon ?? '';
+  syncRenderControls();
+  renderChat();
+  syncHash();
+  fillCamera();
+  render();
+  $('#ws-storage-status').textContent =
+    `${label} loaded · press Build to render`;
+  if (/^[a-f0-9]{12,20}$/.test(saved.jobId || '')) void restoreJob(saved.jobId);
+}
+function renderLibrary() {
+  const list = $('#ws-saved-list');
+  list.replaceChildren();
+  const scenes = readScenes();
+  if (!scenes.length)
+    list.append(node('li', 'No saved scenes in this browser.', 'ws-note'));
+  for (const entry of scenes) {
+    const li = node('li', null, 'ws-saved-item');
+    const open = node(
+      'button',
+      `${entry.name} · ${entry.savedAt.slice(0, 16).replace('T', ' ')}`,
+      'ws-btn',
+    );
+    open.type = 'button';
+    open.title = entry.state.prompt || '';
+    open.addEventListener('click', () =>
+      applySaved(entry.state, `Saved scene “${entry.name}”`),
+    );
+    const del = node('button', 'Delete', 'ws-btn');
+    del.type = 'button';
+    del.setAttribute('aria-label', `Delete saved scene ${entry.name}`);
+    del.addEventListener('click', () => {
+      localStorage.setItem(
+        SCENES_KEY,
+        JSON.stringify(readScenes().filter((e) => e.id !== entry.id)),
+      );
+      renderLibrary();
+    });
+    li.append(open, del);
+    list.append(li);
+  }
+  const hist = $('#ws-prompt-history');
+  hist.replaceChildren();
+  for (const p of state.promptHistory || []) {
+    const li = node('li');
+    const b = node('button', p, 'ws-btn');
+    b.type = 'button';
+    b.addEventListener('click', () => {
+      input.value = p;
+      edit({ prompt: p }, 'prompt-history-used');
+      input.focus();
+    });
+    li.append(b);
+    hist.append(li);
+  }
+}
+$('#ws-save-scene').addEventListener('click', () => {
+  try {
+    const snapshot = savedState(state);
+    const next = addToLibrary(
+      readScenes(),
+      $('#ws-save-name').value || state.prompt,
+      snapshot,
+    );
+    localStorage.setItem(SCENES_KEY, JSON.stringify(next));
+    $('#ws-save-name').value = '';
+    $('#ws-storage-status').textContent =
+      'Scene saved in this browser only · no cloud sync';
+    event('scene-saved', { count: next.length });
+    renderLibrary();
+  } catch (error) {
+    $('#ws-storage-status').textContent = `Save unavailable: ${error.message}`;
+  }
+});
+// Scene-aware chat: OnDemand conversation grounded in the constructed scene.
+function sceneContext() {
+  const j = state.job;
+  return {
+    objectType: 'scene-workstation-scene',
+    objectId: j?.sceneId || 'draft',
+    prompt: state.prompt,
+    location: state.aoi
+      ? {
+          name: state.aoi.name || null,
+          lat: state.aoi.lat,
+          lon: state.aoi.lon,
+          verification: state.aoi.verification || 'operator-selected',
+        }
+      : null,
+    illustrative:
+      'All staged objects (vehicles, debris, people, police/security) are illustrative, not evidence.',
+    patch: j?.patch ? { id: j.patch.id, bounds: j.patch.bounds } : null,
+    environment: {
+      osm: j?.land_patch || null,
+      imagery: j?.imagery?.fine?.providerName || null,
+      scenery: j?.scenery?.by_asset || null,
+      sidewalks: j?.sidewalks?.count ?? null,
+    },
+    staged: (j?.placement?.items || []).slice(0, 40).map((i) => ({
+      asset: i.asset,
+      x: Math.round(i.x),
+      y: Math.round(i.y),
+      heading: Math.round(i.heading_deg || 0),
+      element: i.element,
+    })),
+    camera: j?.camera_mode || null,
+    render: {
+      frames: j?.frames_done ?? 0,
+      firstFrameS: j?.ttff_s ?? null,
+      steadyFps: j?.fps_steady ?? null,
+      gpus: j?.frames_by_gpu || null,
+    },
+    evidence: (state.evidence.items || []).slice(0, 8).map((e) => ({
+      title: e.title || e.name || null,
+      url: e.url || e.sourceUrl || null,
+    })),
+    timeWindowHours: state.evidenceWindowHours,
+  };
+}
+function chatUserId() {
+  try {
+    let id = localStorage.getItem('ondemand.scene-workstation.user');
+    if (!id) {
+      id = `ws-${crypto.getRandomValues(new Uint32Array(2)).join('')}`;
+      localStorage.setItem('ondemand.scene-workstation.user', id);
+    }
+    return id;
+  } catch {
+    return 'ws-anonymous';
+  }
+}
+function renderChat() {
+  const log = $('#ws-chat-log');
+  log.replaceChildren();
+  for (const m of state.chat) {
+    const li = node('li', m.text);
+    li.dataset.role = m.role;
+    log.append(li);
+  }
+  log.scrollTop = log.scrollHeight;
+}
+let chatController = null;
+$('#ws-chat-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const q = $('#ws-chat-input').value.trim();
+  if (!q) return;
+  chatController?.abort();
+  chatController = new AbortController();
+  const mine = chatController;
+  $('#ws-chat-input').value = '';
+  state.chat.push({ role: 'user', text: q, at: new Date().toISOString() });
+  renderChat();
+  $('#ws-chat-status').textContent = 'Asking OnDemand about this scene…';
+  event('chat-submit', { sceneId: state.job?.sceneId || null });
+  try {
+    const r = await fetch('/api/ondemand/v2/chat', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        externalUserId: chatUserId(),
+        objectContext: sceneContext(),
+        query: q,
+        responseMode: 'sync',
+      }),
+      signal: mine.signal,
+    });
+    const data = await r.json().catch(() => ({}));
+    if (mine !== chatController) return;
+    if (!r.ok)
+      throw new Error(
+        data?.error?.message || data?.message || `HTTP ${r.status}`,
+      );
+    const cites = (data.citations || [])
+      .map((c) => c.url || c)
+      .filter(Boolean)
+      .slice(0, 5);
+    state.chat.push({
+      role: 'assistant',
+      text: `${data.answer || '(no answer)'}${cites.length ? '\nSources: ' + cites.join(' · ') : ''}`,
+      at: new Date().toISOString(),
+    });
+    state.chat = state.chat.slice(-30);
+    $('#ws-chat-status').textContent =
+      `Answered · OnDemand ${data.provenance?.endpointId || ''}`;
+    event('chat-answer', { chars: (data.answer || '').length });
+  } catch (error) {
+    if (error.name === 'AbortError') return;
+    state.chat.push({
+      role: 'assistant',
+      text: `Chat unavailable: ${error.message}`,
+      at: new Date().toISOString(),
+    });
+    $('#ws-chat-status').textContent =
+      'Chat request failed — scene and render are unaffected.';
+  } finally {
+    renderChat();
+    storageSave(true);
+  }
+});
+// Voice: browser speech recognition (input) and speech synthesis (read-back), where supported.
+const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+$('#ws-voice').disabled = !Recognition;
+if (!Recognition)
+  $('#ws-voice').title = 'Speech recognition not supported in this browser';
+$('#ws-voice').addEventListener('click', () => {
+  if (!Recognition) return;
+  const rec = new Recognition();
+  rec.lang = 'en-US';
+  rec.interimResults = false;
+  $('#ws-chat-status').textContent = 'Listening…';
+  rec.onresult = (ev) => {
+    $('#ws-chat-input').value = ev.results[0][0].transcript;
+    $('#ws-chat-status').textContent = 'Voice captured — press Send.';
+  };
+  rec.onerror = (ev) =>
+    ($('#ws-chat-status').textContent = `Voice input unavailable: ${ev.error}`);
+  rec.start();
+});
+$('#ws-speak').disabled = !('speechSynthesis' in window);
+$('#ws-speak').addEventListener('click', () => {
+  const last = [...state.chat].reverse().find((m) => m.role === 'assistant');
+  if (!last || !('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(new SpeechSynthesisUtterance(last.text.slice(0, 1200)));
+});
 // Query links may fill the draft, but never submit it, even if ?build=1 is supplied.
 const params = new URLSearchParams(location.search);
 if (params.get('prompt')) {
@@ -1873,11 +2337,19 @@ try {
     )
       state.camera = saved.camera;
     state.cctv.selectedId = saved.cctvId || null;
+    const restoredSettings = createState(saved);
+    state.timeOfDay = restoredSettings.timeOfDay;
+    state.cameraMode = restoredSettings.cameraMode;
+    state.layers = restoredSettings.layers;
+    state.chat = restoredSettings.chat;
   }
 } catch {
   /* storage restriction is surfaced on Save/Load */
 }
 fillCamera();
+syncRenderControls();
+renderLibrary();
+renderChat();
 render();
 event('workstation-ready', { hashKeys: Object.keys(state.legacyHash) });
 if (params.get('job')) void restoreJob(params.get('job'));

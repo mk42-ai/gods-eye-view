@@ -269,7 +269,7 @@ def build_geometry(patch,data):
             if line.length<0.5:continue
             road={"id":sid+f"/{i}","sourceId":sid,"pts":[list(p) for p in line.coords],"kind":kind,"name":tags.get("name"),
                   "width":width,"widthApproximate":not tagged,"widthBasis":"OSM width tag" if tagged else "assumed class width; centerline is OSM geometry",
-                  "drivable":kind in defaults and tags.get("access")!="no","groundingAvailable":ground,"z":0.04,
+                  "drivable":kind in defaults and tags.get("access")!="no","groundingAvailable":ground,"z":0.04,"tags":{k:tags[k] for k in ("sidewalk","lanes","oneway") if k in tags},
                   "surface":[polygon_data(p) for p in _parts(line.buffer(width/2,cap_style=2,join_style=2).intersection(bounds),"Polygon")]}
             if not ground:limits.append("unmeasured_grade_not_for_placement:"+sid)
             roads.append(road)
@@ -300,3 +300,45 @@ def drape_features(geometry, terrain):
     for water in geometry["water"]:
         water["surface"]=split(water)
     return geometry
+
+
+def derive_sidewalks(geometry, terrain, patch, max_parts=900):
+    """Approximate sidewalks as 2.4 m strips beside drivable OSM roads.
+
+    Explicitly derived (not mapped): road class buffers minus all road surfaces,
+    buildings and water, clipped to the patch and split on DSM triangles so they
+    sit on the same terrain mesh as roads. Tagged sidewalk=no is respected.
+    """
+    from shapely.strtree import STRtree
+    bounds = Polygon(patch["boundary"]).buffer(-0.5)
+    urban = {"primary", "secondary", "tertiary", "residential", "trunk", "living_street", "unclassified"}
+    strips, road_polys = [], []
+    for road in geometry["roads"]:
+        line = LineString(road["pts"])
+        road_polys.append(line.buffer(road["width"] / 2, cap_style=2, join_style=2))
+        if road["kind"] not in urban or not road.get("groundingAvailable"):
+            continue
+        if str((road.get("tags") or {}).get("sidewalk", "")).lower() in ("no", "none"):
+            continue
+        strips.append(line.buffer(road["width"] / 2 + 2.4, cap_style=2, join_style=2))
+    if not strips:
+        return []
+    blockers = road_polys + [Polygon(b["pts"], b.get("holes", [])) for b in geometry["buildings"]] + \
+        [Polygon(w["pts"], w.get("holes", [])) for w in geometry.get("water", [])]
+    walk = unary_union(strips).difference(unary_union([p for p in blockers if p.is_valid])).intersection(bounds)
+    parts = [p for p in _parts(walk, "Polygon") if p.area > 2.0][:max_parts]
+    mesh = terrain["clippedMesh"]
+    triangles = [Polygon([mesh["vertices"][i][:2] for i in face]) for face in mesh["faces"]]
+    tree = STRtree(triangles)
+    out = []
+    for i, poly in enumerate(parts):
+        pieces = []
+        for index in tree.query(poly):
+            for piece in _parts(poly.intersection(triangles[int(index)]), "Polygon"):
+                if piece.area > 1e-6:
+                    pieces.append(polygon_data(piece))
+        if pieces:
+            out.append({"id": f"derived-sidewalk/{i}", "sourceId": "derived:osm-road-class-buffer",
+                        "approximate": True, "basis": "2.4 m strip beside OSM drivable road centreline; not a mapped sidewalk",
+                        "surface": pieces})
+    return out

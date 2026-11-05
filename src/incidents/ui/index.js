@@ -818,10 +818,13 @@ export function installIncidentScenes({
     studio?.setScene(scene);
     sceneCamera?.setScene(scene);
     sceneFootageControls?.setScene(scene);
-    hyperRealRender?.setScene(
-      scene,
-      scene?.refinedPrompt || scene?.originalPrompt || scene?.title || '',
-    );
+    // One render path: a freshly BUILT scene (not a reopened library scene)
+    // requests exactly one GPU render through /api/patch-render. Reopening a
+    // saved scene only re-arms the toggle; typing never reaches this point.
+    const builtPrompt =
+      scene?.refinedPrompt || scene?.originalPrompt || scene?.title || '';
+    if (reopen) hyperRealRender?.setScene(scene, builtPrompt);
+    else hyperRealRender?.onSceneBuilt(scene, builtPrompt);
     viewer.scene?.requestRender?.();
     if (research)
       openEvidence(scene, {

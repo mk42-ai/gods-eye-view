@@ -106,6 +106,27 @@ export function validateRenderRequest(body) {
       return { error: 'invalid_samples' };
     out.samples = body.samples;
   }
+  if (body.camera_mode !== undefined && body.camera_mode !== null) {
+    if (!['street', 'low_oblique', 'orbit'].includes(body.camera_mode))
+      return { error: 'invalid_camera_mode' };
+    out.camera_mode = body.camera_mode;
+  }
+  if (body.layers !== undefined && body.layers !== null) {
+    if (typeof body.layers !== 'object' || Array.isArray(body.layers))
+      return { error: 'invalid_layers' };
+    const layers = {};
+    for (const key of [
+      'imagery',
+      'buildings',
+      'roads',
+      'sidewalks',
+      'scenery',
+      'staging',
+      'skirt',
+    ])
+      if (typeof body.layers[key] === 'boolean') layers[key] = body.layers[key];
+    out.layers = layers;
+  }
   if (body.request_id !== undefined) {
     if (
       typeof body.request_id !== 'string' ||
@@ -525,6 +546,26 @@ export function createSceneRenderRoutes({
           error: 'render_service_unreachable',
           message:
             'Render service did not answer; no CPU or stale-frame fallback was used.',
+        });
+      }
+    }
+
+    if (sub === '/gpu-evidence' && req.method === 'GET') {
+      if (!cfg.configured) return notConfigured(res);
+      try {
+        const r = await fetchImpl(`${cfg.url}/gpu-evidence`, {
+          headers: headers(),
+          signal: AbortSignal.timeout(15000),
+        });
+        const data = await r.json().catch(() => ({}));
+        return sendJson(res, r.ok ? 200 : r.status, {
+          ...data,
+          allowedPhysicalGpus: ALLOWED_RENDER_GPUS,
+        });
+      } catch (error) {
+        return sendJson(res, 502, {
+          error: 'render_service_unreachable',
+          message: String(error?.message || error).slice(0, 200),
         });
       }
     }
