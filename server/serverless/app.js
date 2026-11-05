@@ -139,6 +139,31 @@ async function createServerlessApi({ serverlessMode: explicitMode } = {}) {
   ]);
 
   const router = createMountRouter();
+  router.use('/api/version', (req, res, next) => {
+    if (
+      !['GET', 'HEAD'].includes(req.method) ||
+      !['', '/', '?'].some(
+        (p) => p === req.url || (p === '?' && req.url.startsWith('?')),
+      )
+    )
+      return next();
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-store');
+    const version =
+      process.env.BUILD_REFERENCE ||
+      process.env.VITE_BUILD_REFERENCE ||
+      'unrecorded';
+    res.setHeader('X-Build-Id', version);
+    res.end(
+      req.method === 'HEAD'
+        ? ''
+        : JSON.stringify({
+            service: 'ondemand-scene-workstation',
+            buildReference: version,
+          }),
+    );
+  });
   const fakeServer = {
     middlewares: router,
     httpServer: undefined,

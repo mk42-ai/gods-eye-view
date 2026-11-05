@@ -8,8 +8,9 @@ os.environ.setdefault("GEV_ROOT", os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 import pipeline as P
 import references as R
+import geography as G
 
-FOCAL = {"name": "Yas Mall", "lat": 24.4886, "lon": 54.6085, "kind": "mall", "waterfront": False}
+FOCAL = {"name": "Yas Mall", "lat": 24.4886, "lon": 54.6085, "kind": "mall", "waterfront": False, "verification": {"verified": True, "precision": "explicit-selected-coordinate", "source": "test"}}
 
 def fake_osm():
     # one east-west road through the focal point, one named mall footprint next to it, one far building
@@ -19,13 +20,19 @@ def fake_osm():
         {"lat": lat + 0.0005, "lon": lon - 0.001}, {"lat": lat + 0.0005, "lon": lon + 0.001}, {"lat": lat + 0.0012, "lon": lon + 0.001}, {"lat": lat + 0.0012, "lon": lon - 0.001}]}
     far = {"id": 3, "tags": {"building": "yes", "building:levels": "3"}, "geometry": [
         {"lat": lat + 0.002, "lon": lon + 0.002}, {"lat": lat + 0.002, "lon": lon + 0.0022}, {"lat": lat + 0.0022, "lon": lon + 0.0022}, {"lat": lat + 0.0022, "lon": lon + 0.002}]}
-    return {"buildings": [mall, far], "highways": [road], "water": [], "status": "ok"}
+    for el in (mall,far): el["geometry"].append(dict(el["geometry"][0]))
+    for el in (road,mall,far): el.update(type="way", version=1, timestamp="2026-01-01T00:00:00Z")
+    patch=G.make_patch(FOCAL);result=G.build_geometry(patch,{"elements":[road,mall,far]})
+    patch.update(id="patch_fixture",featureIds=["way/1","way/2","way/3"],provenance=[{"versions":result["versions"]}])
+    result["patch"]=patch
+    return result
 
 def test_references_available():
     for r in R.REFERENCES:
         assert R.reference_path(r["id"]), f"missing {r['file']}"
 
-def test_crash_placement_uses_reference_vehicles_and_decal():
+def test_crash_placement_uses_reference_vehicles_and_decal(monkeypatch):
+    monkeypatch.setattr(P,"_asset_hashes",lambda instances:{"fixture":"test-only"})
     P.ASSET_KEYS.update({"civilian_sedan", "civilian_taxi", "debris_bumper", "debris_tire", "debris_door", "debris_plate"})
     spec = {"scenarioType": "route_closure", "_prompt": "car crash yas mall", "elements": [{"type": "cones", "params": {"spacing_m": 6}}]}
     inst, shapes, roads = P.place(spec, FOCAL, fake_osm(), 260.0, seed=P.prompt_seed("car crash yas mall"))
@@ -51,14 +58,9 @@ def test_crash_placement_uses_reference_vehicles_and_decal():
 def test_non_mall_scene_gets_no_facade_and_counts_are_honest():
     palace = {"name": "Emirates Palace", "lat": 24.4617, "lon": 54.3173, "kind": "venue", "waterfront": True}
     bl = [{"pts": [[-10, -10], [10, -10], [10, 10], [-10, 10]], "h": 30, "name": "Emirates Palace"}]
-    assert R.facade_building_indices(bl, palace) == [0]  # named venue match is allowed
+    assert R.facade_building_indices(bl, palace) == []  # a palace must not grow a shopping-mall facade
     marathon = {"name": "Dubai Marina", "lat": 25.08, "lon": 55.14, "kind": "district", "waterfront": True}
     assert R.facade_building_indices(bl, marathon) == []
     refs = {r["id"]: r for r in R.bindings([], marathon, "marathon in dubai marina", "crowd_event", 0, 0)}
     assert all(not r["applied"] for r in refs.values())
     assert refs["silver_sedan"]["reason"] == "not a crash scene"
-
-if __name__ == "__main__":
-    for name, fn in list(globals().items()):
-        if name.startswith("test_") and callable(fn):
-            fn(); print("ok", name)

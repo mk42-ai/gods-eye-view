@@ -1,72 +1,442 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{PRODUCT_NAME}} · Scene Workstation</title>
-  <meta name="description" content="{{PRODUCT_NAME}} — {{PRODUCT_DESCRIPTION}}" />
-  <meta name="build-id" content="%VITE_BUILD_REFERENCE%" />
-  <meta name="theme-color" content="#1b1b1d" />
-  <link rel="icon" href="/assets/brand/favicon.ico" sizes="any" />
-</head>
-<body class="ws-body">
-  <div id="ws-app" class="ws-app" data-mode="render" data-state="idle">
-    <header class="ws-topbar">
-      <div class="ws-brand">Scene Workstation</div>
-      <form id="ws-prompt-form" class="ws-prompt" autocomplete="off">
-        <label class="ws-sr" for="ws-prompt">Scene prompt</label>
-        <input id="ws-prompt" name="prompt" type="text" maxlength="600"
-               placeholder="Describe a scene, e.g. car crash outside yas mall" />
-        <button id="ws-build" class="ws-btn ws-btn-accent" type="submit">Build</button>
-      </form>
-      <div class="ws-modes" role="radiogroup" aria-label="Viewport shading">
-        <button type="button" class="ws-mode" data-mode="render" role="radio" aria-checked="true">Render</button>
-        <button type="button" class="ws-mode" data-mode="solid" role="radio" aria-checked="false">Solid</button>
-        <button type="button" class="ws-mode" data-mode="wire" role="radio" aria-checked="false">Wireframe</button>
-      </div>
-      <div class="ws-drawer-toggles">
-        <button type="button" class="ws-btn" data-drawer="outliner" aria-controls="ws-outliner">Outliner</button>
-        <button type="button" class="ws-btn" data-drawer="properties" aria-controls="ws-properties">Properties</button>
-      </div>
-    </header>
-
-    <aside id="ws-outliner" class="ws-panel ws-outliner" aria-label="Outliner">
-      <h2 class="ws-panel-title">Outliner</h2>
-      <ul id="ws-outliner-list" class="ws-tree"><li class="ws-empty">No scene yet. Type a prompt and press Build.</li></ul>
-    </aside>
-
-    <main id="ws-viewport" class="ws-viewport" aria-label="Render viewport" data-has-frame="0">
-      <div id="ws-frame-slot" class="ws-frame-slot"></div>
-      <canvas id="ws-frame-canvas" class="ws-frame-canvas" hidden></canvas>
-      <div id="ws-progress" class="ws-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden>
-        <div class="ws-progress-track"><div id="ws-progress-bar" class="ws-progress-bar"></div></div>
-        <div id="ws-progress-text" class="ws-progress-text">Building…</div>
-      </div>
-      <div id="ws-banner" class="ws-banner" role="alert" hidden>
-        <span id="ws-banner-text" class="ws-banner-text"></span>
-        <button id="ws-retry" class="ws-btn" type="button">Retry</button>
-      </div>
-      <div id="ws-status" class="ws-status" role="status" aria-live="polite">Ready — Blender Cycles renderer</div>
-      <div id="ws-hud" class="ws-hud" hidden></div>
-    </main>
-
-    <aside id="ws-properties" class="ws-panel ws-properties" aria-label="Properties">
-      <h2 class="ws-panel-title">Properties</h2>
-      <dl id="ws-props" class="ws-props"><dt>Renderer</dt><dd>Blender Cycles · OptiX</dd></dl>
-    </aside>
-
-    <footer class="ws-timeline" aria-label="Timeline">
-      <div class="ws-transport">
-        <button type="button" class="ws-btn" data-transport="first" aria-label="First frame">|&lt;</button>
-        <button type="button" class="ws-btn" data-transport="prev" aria-label="Previous frame">&lt;</button>
-        <button type="button" class="ws-btn ws-btn-accent" data-transport="play" aria-label="Play">Play</button>
-        <button type="button" class="ws-btn" data-transport="next" aria-label="Next frame">&gt;</button>
-        <button type="button" class="ws-btn" data-transport="last" aria-label="Last frame">&gt;|</button>
-      </div>
-      <input id="ws-scrub" class="ws-scrub" type="range" min="1" max="1" value="1" aria-label="Frame" disabled />
-      <div id="ws-frame-readout" class="ws-readout">0 / 0</div>
-    </footer>
-  </div>
-  <script type="module" src="/src/workstation/main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{PRODUCT_NAME}} · Scene Workstation</title>
+    <meta
+      name="description"
+      content="OnDemand Spatial — an evidence-aware Blender scene workstation"
+    />
+    <meta name="build-id" content="%VITE_BUILD_REFERENCE%" />
+    <meta name="theme-color" content="#171a1f" />
+    <link rel="icon" href="/assets/brand/favicon.ico" sizes="any" />
+  </head>
+  <body class="ws-body">
+    <div id="ws-app" class="ws-app" data-state="idle">
+      <header class="ws-topbar">
+        <div class="ws-brand">
+          <strong>OnDemand<span> Spatial</span></strong
+          ><small>SCENE WORKSTATION</small>
+        </div>
+        <div class="ws-project">
+          <span id="ws-draft" role="status">Draft · not built</span
+          ><span class="ws-subtle"
+            >Blender viewport · source-aware planning</span
+          >
+        </div>
+        <div class="ws-save-actions">
+          <button id="ws-save" type="button" class="ws-btn">Save locally</button
+          ><button id="ws-load" type="button" class="ws-btn">Load local</button>
+        </div>
+        <span id="ws-storage-status" class="ws-subtle"
+          >Browser-local only · no cloud sync</span
+        >
+      </header>
+      <nav class="ws-panel-nav" aria-label="Workstation panels">
+        <button
+          class="ws-btn"
+          data-panel="aoi"
+          aria-controls="ws-aoi"
+          aria-expanded="false"
+        >
+          Location / AOI
+        </button>
+        <button
+          class="ws-btn"
+          data-panel="evidence"
+          aria-controls="ws-evidence"
+          aria-expanded="false"
+        >
+          Research / evidence
+        </button>
+        <button
+          class="ws-btn"
+          data-panel="camera"
+          aria-controls="ws-camera"
+          aria-expanded="false"
+        >
+          CCTV / camera
+        </button>
+        <button
+          class="ws-btn"
+          data-panel="outliner"
+          aria-controls="ws-outliner"
+          aria-expanded="false"
+        >
+          Outliner
+        </button>
+        <button
+          class="ws-btn"
+          data-panel="properties"
+          aria-controls="ws-properties"
+          aria-expanded="false"
+        >
+          Properties
+        </button>
+      </nav>
+      <aside class="ws-left-rail">
+        <section
+          id="ws-aoi"
+          class="ws-panel"
+          aria-label="Location and area of interest"
+        >
+          <h2>
+            Location <span>/ AOI</span
+            ><button
+              type="button"
+              data-close-panel
+              aria-label="Close Location panel"
+            >
+              ×
+            </button>
+          </h2>
+          <div class="ws-panel-content">
+            <form id="ws-location-form">
+              <label for="ws-location-search">Find a site or landmark</label>
+              <div class="ws-inline">
+                <input
+                  id="ws-location-search"
+                  type="search"
+                  placeholder="Exact site, not just a city"
+                  maxlength="200"
+                /><button class="ws-btn" type="submit">Find</button>
+              </div>
+            </form>
+            <div class="ws-pills" aria-label="Location shortcuts">
+              <button type="button" data-place="Abu Dhabi">Abu Dhabi</button
+              ><button type="button" data-place="Dubai">Dubai</button
+              ><button type="button" data-place="Austin">Austin</button>
+            </div>
+            <p id="ws-location-status" class="ws-note" role="status">
+              Select an exact site. City results never automatically select a
+              scene.
+            </p>
+            <ul id="ws-location-results" class="ws-results"></ul>
+            <form id="ws-aoi-form">
+              <fieldset>
+                <legend>Explicit operator selection · unverified</legend>
+                <div class="ws-two">
+                  <label
+                    >Latitude<input
+                      id="ws-lat"
+                      type="number"
+                      step="any"
+                      min="-90"
+                      max="90"
+                      placeholder="−90 to 90"
+                      required /></label
+                  ><label
+                    >Longitude<input
+                      id="ws-lon"
+                      type="number"
+                      step="any"
+                      min="-180"
+                      max="180"
+                      placeholder="−180 to 180"
+                      required
+                  /></label>
+                </div>
+                <label
+                  >AOI radius (metres)<input
+                    id="ws-radius"
+                    type="number"
+                    min="150"
+                    max="1200"
+                    value="250"
+                    required /></label
+                ><button type="submit" class="ws-btn ws-wide">
+                  Confirm unverified AOI
+                </button>
+              </fieldset>
+            </form>
+            <p id="ws-aoi-readout" class="ws-note">
+              No selected AOI. Build is blocked until selection.
+            </p>
+            <div id="ws-aoi-plan" class="ws-plan"></div>
+            <a id="ws-osm" target="_blank" rel="noopener noreferrer" hidden
+              >Open selected coordinates in OpenStreetMap ↗</a
+            >
+          </div>
+        </section>
+        <section
+          id="ws-evidence"
+          class="ws-panel"
+          aria-label="Research and source evidence"
+        >
+          <h2>
+            Research <span>/ evidence</span
+            ><button
+              type="button"
+              data-close-panel
+              aria-label="Close Evidence panel"
+            >
+              ×
+            </button>
+          </h2>
+          <div class="ws-panel-content">
+            <p class="ws-note">
+              Source recordings are separate from the illustrative render. No
+              image, staged asset, or city match establishes an incident.
+            </p>
+            <label
+              >Recording window<select id="ws-evidence-window">
+                <option value="1">Last hour</option>
+                <option value="24">Last 24 hours</option>
+                <option value="168">Last 7 days</option>
+              </select></label
+            >
+            <button id="ws-research" type="button" class="ws-btn ws-wide">
+              Research selected AOI
+            </button>
+            <p id="ws-evidence-status" role="status" class="ws-note">
+              No source research requested.
+            </p>
+            <ul id="ws-evidence-sources" class="ws-results"></ul>
+            <ul id="ws-evidence-list" class="ws-results"></ul>
+          </div>
+        </section>
+      </aside>
+      <main
+        id="ws-viewport"
+        class="ws-viewport"
+        aria-label="Blender render viewport"
+        data-has-frame="0"
+      >
+        <div class="ws-viewport-bar">
+          <span>Perspective · Render</span
+          ><span class="ws-disclaimer"
+            >Illustrative staging · not evidence</span
+          >
+        </div>
+        <div id="ws-frame-slot" class="ws-frame-slot"></div>
+        <canvas id="ws-frame-canvas" hidden></canvas>
+        <div id="ws-empty-view" class="ws-empty-view">
+          <span class="ws-empty-mark">3D</span>
+          <h1>Build a grounded scene</h1>
+          <p>
+            Select an AOI, describe the scene, then press Build.<br />Only
+            decoded Blender output appears here.
+          </p>
+          <button class="ws-btn" type="button" data-open-aoi>
+            Select location
+          </button>
+        </div>
+        <div
+          id="ws-progress"
+          class="ws-progress"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+          hidden
+        >
+          <div class="ws-progress-track"><div id="ws-progress-bar"></div></div>
+          <div id="ws-progress-text"></div>
+        </div>
+        <div id="ws-banner" class="ws-banner" role="alert" hidden>
+          <span id="ws-banner-text"></span
+          ><button id="ws-retry" class="ws-btn" type="button">Retry</button>
+        </div>
+        <div id="ws-hud" class="ws-hud" hidden></div>
+        <div id="ws-status" class="ws-status" role="status" aria-live="polite">
+          No render requested · select an exact AOI
+        </div>
+      </main>
+      <aside class="ws-right-rail">
+        <section id="ws-outliner" class="ws-panel" aria-label="Outliner">
+          <h2>
+            Outliner<button
+              type="button"
+              data-close-panel
+              aria-label="Close Outliner panel"
+            >
+              ×
+            </button>
+          </h2>
+          <ul id="ws-outliner-list" class="ws-tree">
+            <li class="ws-note">No service scene yet.</li>
+          </ul>
+        </section>
+        <section
+          id="ws-camera"
+          class="ws-panel"
+          aria-label="CCTV and render camera"
+        >
+          <h2>
+            CCTV <span>/ camera</span
+            ><button
+              type="button"
+              data-close-panel
+              aria-label="Close Camera panel"
+            >
+              ×
+            </button>
+          </h2>
+          <div class="ws-panel-content">
+            <p id="ws-camera-status" class="ws-note">
+              No camera pose yet. Controls request new GPU output, never move an
+              image.
+            </p>
+            <div class="ws-camera-actions">
+              <button class="ws-btn" data-camera-action="orbit-left">
+                Orbit left</button
+              ><button class="ws-btn" data-camera-action="orbit-right">
+                Orbit right</button
+              ><button class="ws-btn" data-camera-action="forward">
+                Forward</button
+              ><button class="ws-btn" data-camera-action="back">Back</button
+              ><button class="ws-btn" data-camera-action="up">Up</button
+              ><button class="ws-btn" data-camera-action="down">Down</button>
+            </div>
+            <form id="ws-camera-form">
+              <fieldset>
+                <legend>Local camera pose (metres) · Z up</legend>
+                <label
+                  >Position X, Y, Z<input
+                    id="ws-camera-position"
+                    placeholder="Service pose required" /></label
+                ><label
+                  >Target X, Y, Z<input
+                    id="ws-camera-target"
+                    placeholder="Service pose required" /></label
+                ><label
+                  >Field of view (degrees)<input
+                    id="ws-camera-fov"
+                    type="number"
+                    min="25"
+                    max="70"
+                    value="45" /></label
+                ><button
+                  id="ws-camera-render"
+                  class="ws-btn ws-wide"
+                  type="submit"
+                >
+                  Render camera pose
+                </button>
+              </fieldset>
+            </form>
+            <details>
+              <summary>Legacy camera / hash state</summary>
+              <p class="ws-note">
+                All 27 legacy keys are preserved verbatim. Display-only globe
+                settings are archived, not simulated. Legacy geographic camera
+                is applied relative to the selected AOI.
+              </p>
+              <dl id="ws-hash-state" class="ws-props"></dl>
+            </details>
+            <div class="ws-divider"></div>
+            <button id="ws-cctv-load" class="ws-btn ws-wide" type="button">
+              Find CCTV in selected AOI</button
+            ><select
+              id="ws-cctv-select"
+              aria-label="Source CCTV camera"
+              disabled
+            >
+              <option value="">No camera selected</option>
+            </select>
+            <p id="ws-cctv-status" class="ws-note" role="status">
+              CCTV off — no camera selected.
+            </p>
+            <div id="ws-cctv-preview"></div>
+            <button
+              id="ws-cctv-refresh"
+              type="button"
+              class="ws-btn ws-wide"
+              disabled
+            >
+              Refresh source recording
+            </button>
+          </div>
+        </section>
+        <section
+          id="ws-properties"
+          class="ws-panel"
+          aria-label="Selected object properties"
+        >
+          <h2>
+            Properties<button
+              type="button"
+              data-close-panel
+              aria-label="Close Properties panel"
+            >
+              ×
+            </button>
+          </h2>
+          <dl id="ws-props" class="ws-props ws-panel-content"></dl>
+        </section>
+      </aside>
+      <section class="ws-composer" aria-label="Scene composer">
+        <form id="ws-prompt-form" autocomplete="off">
+          <label for="ws-prompt"
+            >Scene instructions
+            <span>Build is explicit · Ctrl / ⌘ Enter</span></label
+          >
+          <div class="ws-compose-row">
+            <textarea
+              id="ws-prompt"
+              name="prompt"
+              rows="3"
+              maxlength="600"
+              placeholder="Describe the site, objects and action. Replace every placeholder before Build."
+            ></textarea>
+            <div class="ws-build-actions">
+              <label
+                >Duration (s)<input
+                  id="ws-duration"
+                  type="number"
+                  min="2"
+                  max="120"
+                  value="4" /></label
+              ><button id="ws-build" class="ws-btn ws-btn-accent" type="submit">
+                Build scene</button
+              ><button id="ws-cancel" class="ws-btn" type="button" disabled>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+      <footer class="ws-timeline" aria-label="Timeline">
+        <div class="ws-transport">
+          <button
+            class="ws-btn"
+            data-transport="first"
+            aria-label="First frame"
+          >
+            |‹</button
+          ><button
+            class="ws-btn"
+            data-transport="prev"
+            aria-label="Previous frame"
+          >
+            ‹</button
+          ><button
+            class="ws-btn"
+            data-transport="play"
+            aria-label="Play"
+            aria-pressed="false"
+          >
+            Play</button
+          ><button class="ws-btn" data-transport="next" aria-label="Next frame">
+            ›</button
+          ><button class="ws-btn" data-transport="last" aria-label="Last frame">
+            ›|
+          </button>
+        </div>
+        <input
+          id="ws-scrub"
+          type="range"
+          min="1"
+          max="1"
+          value="1"
+          disabled
+          aria-label="Rendered frame"
+        />
+        <div id="ws-frame-readout">0 / 0</div>
+        <span id="ws-playback-note" class="ws-subtle">No frames</span>
+      </footer>
+    </div>
+    <script type="module" src="/src/workstation/main.js"></script>
+  </body>
 </html>

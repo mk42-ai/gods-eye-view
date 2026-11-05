@@ -1,294 +1,456 @@
-"""Gods-Eye View hyper-real render service (runs on the H100 host).
+"""Authenticated, bounded scene-render API for Python 3.10 / Blender 4.2.3.
 
-GET  /health                        no auth
-POST /render                        {prompt, lat?, lng?, time_of_day?, duration_s=60}  -> {job_id}
-GET  /status/{job_id}               stage, progress, metrics, urls
-GET  /stream/{job_id}               multipart/x-mixed-replace MJPEG of the newest rendered frame
-GET  /frames/{job_id}/{n}.png       rendered frame n (1-based)
-GET  /frames/{job_id}/latest.jpg    newest frame as JPEG
-GET  /video/{job_id}.mp4            NVENC-encoded 60 s sequence (when complete)
-GET  /jobs                          list
-
-Auth: Authorization: Bearer <RENDER_SERVICE_TOKEN> on everything except /health
-(and the GET media routes also accept ?token= so <img>/<video> tags can load them).
-Every response carries illustrative:true / label "Illustrative render · not evidence".
+GPU workers are persistent, UUID pinned, GPU-only. Rendering cadence is measured
+separately from the export timeline. Every published image has immutable source,
+pose, worker, device and byte-hash evidence; cancelled revisions cannot publish.
 """
 from __future__ import annotations
-import asyncio, json, os, re, shutil, subprocess, threading, time, uuid, glob
-from typing import Optional
+import asyncio
+from concurrent.futures import ThreadPoolExecutor, CancelledError
+from contextlib import asynccontextmanager
+import hashlib
+import hmac
+import io
+import json
+import math
+import os
+from pathlib import Path
+import re
+import subprocess
+import threading
+import time
+from typing import Literal, Optional
+import uuid
 from fastapi import FastAPI, HTTPException, Request, Depends
-from fastapi.responses import FileResponse, StreamingResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from fastapi.responses import FileResponse, JSONResponse, Response, StreamingResponse
+from pydantic import BaseModel, Field, model_validator
+from PIL import Image
 import pipeline as P
+import geography as G
+import camera as C
+import gpu_policy as GPU
+import copernicus as DEM
+import terrain as Terrain
+from worker_pool import WorkerPool, QueueFull, atomic_json
 
-ROOT = os.environ.get("GEV_ROOT", "/localstorage/mk.thomas/gev")
-JOBS_DIR = os.path.join(ROOT, "jobs"); os.makedirs(JOBS_DIR, exist_ok=True)
-BLENDER = os.path.join(ROOT, "blender-4.2.3-linux-x64", "blender")
-TOKEN = os.environ.get("RENDER_SERVICE_TOKEN", "")
-# GPU policy: Blender may ONLY use GPUs 2 and 6 (PCI bus order). GPUs 0,3,4,5 belong to the
-# Kubernetes DeepSeek pods and GPU 1 to the Gemma server -- never schedule work there, whatever
-# RENDER_GPUS says. Indices are PCI_BUS_ID order so they match nvidia-smi.
-ALLOWED_GPUS = ("2", "6")
-_REQ_GPUS = [g.strip() for g in os.environ.get("RENDER_GPUS", "2,6").split(",") if g.strip()]
-GPUS = [g for g in _REQ_GPUS if g in ALLOWED_GPUS] or list(ALLOWED_GPUS)
-REJECTED_GPUS = [g for g in _REQ_GPUS if g not in ALLOWED_GPUS]
-FPS = int(os.environ.get("RENDER_FPS", "24"))
-SAMPLES = int(os.environ.get("RENDER_SAMPLES", "24"))
-RES_W, RES_H = [int(v) for v in os.environ.get("RENDER_RES", "1280x720").split("x")]
-PUBLIC_BASE = os.environ.get("RENDER_PUBLIC_BASE", "")
-LABEL = "Illustrative render · not evidence"
+ROOT=Path(os.environ.get("GEV_ROOT","/localstorage/mk.thomas/gev"))
+JOBS_DIR=ROOT/"jobs"
+BLENDER=str(ROOT/"blender-4.2.3-linux-x64"/"blender")
+TOKEN=os.environ.get("RENDER_SERVICE_TOKEN","")
+PUBLIC_BASE=os.environ.get("RENDER_PUBLIC_BASE","").rstrip("/")
+LABEL="Illustrative render · not evidence"
+SAMPLES=max(8,min(128,int(os.environ.get("RENDER_SAMPLES","24"))))
+SOURCE_VERSION=hashlib.sha256(b"".join(p.read_bytes() for p in sorted(Path(__file__).parent.glob("*.py")) if not p.name.startswith("test_"))).hexdigest()
+CAPTURE_FPS=2
+MAX_FRAMES=120
+TERMINAL={"complete","partial","failed","cancelled"}
+@asynccontextmanager
+async def lifespan(_app):
+    yield
+    shutdown()
 
-app = FastAPI(title="gods-eye-view render service", version="0.1.0")
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
-JOBS: dict[str, dict] = {}
-LOCK = threading.Lock()
+app=FastAPI(title="gods-eye-view render service",version="0.2.0",lifespan=lifespan)
+app.add_middleware(CORSMiddleware,allow_origins=["*"],allow_methods=["*"],allow_headers=["*"])
+JOBS={};SCENES={};LOCK=threading.RLock();POOL=None
+COORDINATORS=ThreadPoolExecutor(max_workers=4,thread_name_prefix="scene-job")
+ADMISSION=threading.BoundedSemaphore(12)
 
-def auth(request: Request):
-    if not TOKEN: return
-    h = request.headers.get("authorization", "")
-    tok = h[7:] if h.lower().startswith("bearer ") else request.query_params.get("token", "")
-    if tok != TOKEN: raise HTTPException(401, "invalid bearer token")
+
+def auth(request:Request):
+    # Missing secret is never an unauthenticated render service.
+    if not TOKEN:raise HTTPException(503,"render authentication not configured")
+    h=request.headers.get("authorization","")
+    token=h[7:] if h.lower().startswith("bearer ") else ""
+    if not hmac.compare_digest(token,TOKEN):raise HTTPException(401,"invalid bearer token")
 
 class RenderBody(BaseModel):
-    prompt: str = Field(min_length=3, max_length=600)
-    lat: Optional[float] = Field(default=None, ge=-90, le=90)
-    lng: Optional[float] = Field(default=None, ge=-180, le=180)
-    time_of_day: Optional[str] = Field(default=None, pattern="^(dusk|night|midday|auto)$")
-    duration_s: int = Field(default=60, ge=2, le=120)
-    seed: Optional[int] = Field(default=None, ge=0, le=2**31 - 1)
-    samples: Optional[int] = Field(default=None, ge=4, le=256)
+    prompt:str=Field(min_length=3,max_length=3000)
+    lat:Optional[float]=Field(default=None,ge=-80,le=80)
+    lon:Optional[float]=Field(default=None,gt=-180,lt=180)
+    lng:Optional[float]=Field(default=None,gt=-180,lt=180)
+    aoi:Optional[list[float]]=Field(default=None,min_length=4,max_length=4)
+    radius_m:float=Field(default=260,ge=150,le=1200)
+    camera:Optional[dict]=None
+    request_id:Optional[str]=Field(default=None,max_length=96)
+    selectedCoordinates:bool=False
+    locationVerification:Optional[dict]=None
+    time_of_day:Optional[Literal["dusk","night","midday","auto"]]=None
+    duration_s:int=Field(default=60,ge=2,le=120)
+    seed:Optional[int]=Field(default=None,ge=0,le=2**31-1)
+    samples:Optional[int]=Field(default=None,ge=4,le=128)
+    @model_validator(mode="after")
+    def coordinate_alias(self):
+        if self.lon is not None and self.lng is not None and self.lon!=self.lng:raise ValueError("lon and lng disagree")
+        if self.lon is None:self.lon=self.lng
+        return self
 
-def job_urls(jid):
-    b = PUBLIC_BASE.rstrip("/")
-    return {"status_url": f"{b}/status/{jid}", "stream_url": f"{b}/stream/{jid}", "latest_frame_url": f"{b}/frames/{jid}/latest.jpg",
-            "frames_url_template": f"{b}/frames/{jid}/{{n}}.png", "mp4_url": f"{b}/video/{jid}.mp4"}
+class CameraBody(BaseModel):
+    action:Optional[Literal["orbit-left","orbit-right","forward","back","up","down"]]=None
+    position:Optional[list[float]]=Field(default=None,min_length=3,max_length=3)
+    target:Optional[list[float]]=Field(default=None,min_length=3,max_length=3)
+    fovDeg:float=Field(default=45,ge=25,le=70)
+    revision:int=Field(ge=1)
+    @model_validator(mode="after")
+    def exactly_one(self):
+        if self.action and (self.position is not None or self.target is not None):raise ValueError("action and explicit pose are mutually exclusive")
+        if not self.action and (self.position is None or self.target is None):raise ValueError("action or complete position/target required")
+        return self
+
+
+def urls(jid):
+    return {"status_url":f"{PUBLIC_BASE}/status/{jid}","stream_url":f"{PUBLIC_BASE}/stream/{jid}",
+            "latest_frame_url":f"{PUBLIC_BASE}/frames/{jid}/latest.jpg", "frames_url_template":f"{PUBLIC_BASE}/frames/{jid}/{{n}}.jpg",
+            "mp4_url":f"{PUBLIC_BASE}/video/{jid}.mp4","camera_url":f"{PUBLIC_BASE}/render/{jid}/camera"}
 
 def public(j):
-    d = {k: v for k, v in j.items() if k not in ("_thread",)}
-    return d
+    return {k:v for k,v in j.items() if not k.startswith("_") and k!="dir"}
 
-def log_event(j, stage, data):
-    ev = {"utc": P.utc(), "stage": stage, "data": data}
-    j["events"].append(ev)
-    with open(os.path.join(j["dir"], "events.jsonl"), "a") as f: f.write(json.dumps(ev) + "\n")
+def persist(j):atomic_json(Path(j["dir"])/"job.json",public(j))
 
-def nvidia_sample():
+def log_event(j,stage,data):
+    ev={"utc":P.utc(),"stage":stage,"jobId":j["jobId"],"sceneId":j.get("sceneId"),"patchId":j.get("patchId"),"data":data}
+    with LOCK:
+        j["events"]=(j["events"]+[ev])[-120:]
+        with open(Path(j["dir"])/"events.jsonl","a") as f:f.write(json.dumps(ev,allow_nan=False)+"\n")
+
+def check_job(j):
+    if j["_cancel"].is_set():raise CancelledError()
+    scene=SCENES.get(j.get("sceneId"))
+    if scene and scene["revision"]!=j["revision"]:raise CancelledError()
+
+def ensure_pool():
+    global POOL
+    with LOCK:
+        if POOL is None:
+            try:devices=GPU.resolve_devices()
+            except GPU.GPUError as exc:raise HTTPException(503,str(exc))
+            if not Path(BLENDER).is_file():raise HTTPException(503,"Blender 4.2.3 executable unavailable")
+            POOL=WorkerPool(devices,ROOT,BLENDER)
+        return POOL
+
+def new_job(request,kind="initial",parent=None):
+    if not ADMISSION.acquire(blocking=False):raise HTTPException(429,"render job queue full; retry after a job completes")
     try:
-        out = subprocess.run(["nvidia-smi", "--query-gpu=index,utilization.gpu,memory.used,memory.total", "--format=csv,noheader,nounits"], capture_output=True, text=True, timeout=5).stdout
-        rows = []
-        for ln in out.strip().splitlines():
-            i, u, m, t = [x.strip() for x in ln.split(",")]
-            if i in GPUS: rows.append({"gpu": int(i), "util_pct": int(u), "mem_used_mib": int(m), "mem_total_mib": int(t)})
-        return rows
-    except Exception as e:
-        return [{"error": str(e)}]
+        with LOCK:
+            if len(JOBS)>=128:
+                # Retain bounded in-memory metadata; finished jobs remain readable from disk.
+                for key in list(JOBS):
+                    if JOBS[key]["stage"] in TERMINAL:
+                        JOBS.pop(key)
+                        if len(JOBS)<128:break
+            if len(JOBS)>=128:raise HTTPException(429,"active job capacity reached")
+            jid=uuid.uuid4().hex[:20];directory=JOBS_DIR/jid;directory.mkdir(parents=True)
+            j={"jobId":jid,"job_id":jid,"kind":kind,"parentJobId":parent,"illustrative":True,"label":LABEL,
+               "schema":"geo-render-v2","created_utc":P.utc(),"request":request,"requestHash":G.digest(request),"revision":0,"stage":"queued","progress":0.,"frames_done":0,
+               "frames":[],"events":[],"dir":str(directory),"_cancel":threading.Event(),"_started":time.monotonic(),**urls(jid)}
+            (directory/"frames").mkdir();(directory/"staging").mkdir();JOBS[jid]=j;persist(j)
+            return j
+    except Exception:ADMISSION.release();raise
+
+def response_job(j):
+    return {k:v for k,v in public(j).items() if k in ("jobId","job_id","sceneId","patchId","revision","parentJobId","stage","pose","patch","illustrative","label") or k.endswith("_url") or k.endswith("_template")}
+
+def publish(j,result,index,quality,pose):
+    # This lock serializes revision admission and atomic image+manifest publication.
+    with LOCK:
+        check_job(j)
+        if result["jobId"]!=j["jobId"] or result["sceneId"]!=j["sceneId"] or result["patchId"]!=j["patchId"] or result.get("jobHash")!=j.get("jobHash"):
+            raise RuntimeError("worker source/job identity mismatch")
+        source=Path(result["stagingPath"])
+        if source.parent.resolve()!=(Path(j["dir"])/"staging").resolve():raise RuntimeError("untrusted worker output path")
+        data=source.read_bytes()
+        if hashlib.sha256(data).hexdigest()!=result["hash"]:raise RuntimeError("worker frame hash mismatch")
+        with Image.open(io.BytesIO(data)) as image:
+            if image.size!=(result["width"],result["height"]) or image.format!="JPEG":raise RuntimeError("invalid frame format")
+            image.verify()
+        filename=f"f_{index:04d}_{quality}.jpg";target=Path(j["dir"])/"frames"/filename
+        os.replace(source,target)
+        frame={k:v for k,v in result.items() if k not in ("stagingPath","requestId")}
+        frame.update(id=result["frameId"],index=index,quality=quality,revision=j["revision"],
+                     url=f"{PUBLIC_BASE}/frames/{j['jobId']}/file/{filename}")
+        j["frames"].append(frame);j["latestFrame"]=frame;j["pose"]=pose
+        if quality!="preview":j["frames_done"]+=1
+        j["progress"]=min(1,j["frames_done"]/max(1,j["total_frames"]))
+        j["fps_sustained"]=round(j["frames_done"]/max(.001,time.monotonic()-j["_render_start"]),3)
+        j["unique_view_count"]=len({G.digest(f["pose"]) for f in j["frames"]})
+        j["unique_views_per_second"]=round(j["unique_view_count"]/max(.001,time.monotonic()-j["_render_start"]),3)
+        if "ttff_s" not in j:j["ttff_s"]=round(time.monotonic()-j["_started"],3)
+        record=SCENES.get(j["sceneId"])
+        if record and record["revision"]==j["revision"]:record["pose"]=pose
+        log_event(j,"frame_published",frame);persist(j)
+
+def render_frame(j,scene,pose,index,quality):
+    check_job(j)
+    width=640 if quality=="preview" or quality=="sequence" else 960
+    fid=j["jobId"]+f"_{index:04d}_{quality}";stage=Path(j["dir"])/"staging"/(fid+".jpg")
+    command={"requestId":uuid.uuid4().hex,"jobId":j["jobId"],"sceneId":j["sceneId"],"frameId":fid,"scenePath":j["_scene_path"],
+             "cacheKey":scene["cacheKey"],"jobHash":j["jobHash"],"pose":pose,"width":width,"height":width*9//16,
+             "samples":8 if quality=="preview" else min(16,j["request"].get("samples") or SAMPLES) if quality=="sequence" else j["request"].get("samples") or SAMPLES,
+             "stagingPath":str(stage)}
+    result=ensure_pool().submit(command,j["_cancel"]).result(timeout=420)
+    publish(j,result,index,quality,pose)
+
+def prepare(j):
+    request=j["request"];log=lambda stage,data:log_event(j,stage,data)
+    j["stage"]="land_patch";focal=j["focal"];patch=j["patch"]
+    osm=G.fetch_osm(patch,log);osm["patch"]=patch;check_job(j)
+    feature=focal["verification"].get("featureId")
+    if feature and focal["verification"].get("precision") in ("mapped-building-footprint","official-address-mapped-building") and feature not in patch["featureIds"]:
+        raise G.GeographicError("verified_site_feature_missing_from_selected_patch")
+    terrain=DEM.fetch_terrain(patch);check_job(j)
+    osm["terrain"]=terrain
+    G.drape_features(osm,terrain)
+    patch["osmPatchId"]=patch["id"]
+    patch["id"]="patch_"+G.digest({"osm":patch["id"],"terrain":terrain["id"]})[:24]
+    patch["elevation"]=terrain["elevation"]
+    patch["origin"]["elevationM"]=terrain["originElevationM"]
+    patch["provenance"].append(terrain["provenance"])
+    patch["limitations"]=[x for x in patch.get("limitations",[]) if "flat local" not in x]+terrain["limitations"]
+    for b in osm["buildings"]:
+        b["z"]=max(Terrain.surface_height(terrain,x,y) for x,y in b["pts"])
+        b["baseHeightBasis"]="maximum sampled DSM along footprint; approximate foundation, not a survey"
+    patch["provenance"] += focal["verification"].get("provenance", [])
+    transform=G.Frame(patch["origin"]["lat"],patch["origin"]["lon"])
+    patch["features"] = []
+    for kind in ("buildings","roads","water"):
+        for item in osm[kind]:
+            rings=[item["pts"]]+item.get("holes",[])
+            coords=[[list(transform.inverse.transform(x,y)) for x,y in ring] for ring in rings]
+            geometry={"type":"LineString","coordinates":coords[0]} if kind=="roads" else {"type":"Polygon","coordinates":[ring+[ring[0]] for ring in coords]}
+            patch["features"].append({"type":"Feature","id":item["id"],"geometry":geometry,"localGeometry":{"type":"LineString" if kind=="roads" else "Polygon","coordinates":item["pts"] if kind=="roads" else [item["pts"]]+item.get("holes",[])},
+                "properties":{"sourceId":item["sourceId"],"name":item.get("name") or item["sourceId"],"kind":kind,"height":item.get("height"),"width":item.get("width"),"widthApproximate":item.get("widthApproximate"),"groundingAvailable":item.get("groundingAvailable")}})
+
+    j["patchId"]=patch["id"];j["land_patch"]={"source":"OpenStreetMap bounded geometry; no satellite substitute",
+        "buildings":len(osm["buildings"]),"roads":len(osm["roads"]),"status":"ok"}
+    persist(j);j["stage"]="scene_spec"
+    seed=P.prompt_seed(request["prompt"]);j["seed"]=seed;j["prompt_hash"]=P.prompt_hash(request["prompt"])
+    spec,model=P.ondemand_spec(request["prompt"],focal["name"],log);check_job(j)
+    spec.update(seed=seed,prompt_hash=j["prompt_hash"],_prompt=request["prompt"])
+    j["spec"]=spec;j["model"]=model;j["stage"]="placement"
+    local=patch["localBounds"];half=min(local["maxX"]-local["minX"],local["maxY"]-local["minY"])/2
+    instances,shapes,roads=P.place(spec,focal,osm,half,seed,log)
+    tod=request.get("time_of_day") or "auto"
+    if tod=="auto":tod="night" if re.search("night",request["prompt"],re.I) else "dusk" if re.search("dusk|sunset|evening",request["prompt"],re.I) else "midday"
+    total=min(MAX_FRAMES,request["duration_s"]*CAPTURE_FPS);fps=total/request["duration_s"]
+    scene=P.build_scene_json(j["jobId"],focal,spec,model,osm,None,instances,shapes,roads,tod,request["duration_s"],fps,[s.device for s in ensure_pool().slots])
+    pose=C.validate_pose(request["camera"],scene) if request.get("camera") else C.initial_pose(scene);scene_path=Path(j["dir"])/"scene.json";atomic_json(scene_path,scene)
+    with LOCK:
+        check_job(j)
+        # A fresh request owns a separate scene session even if content hashes match;
+        # reusable Blender state is addressed by immutable cacheKey, not session ID.
+        sid=scene["sceneId"]+"_"+j["jobId"];scene["sceneId"]=sid;atomic_json(scene_path,scene)
+        j.update(sceneId=sid,patchId=patch["id"],pose=pose,total_frames=total,timeline_fps=fps,
+                 references=scene["references"],time_of_day=tod,placement={"instances":len(instances),"by_asset":{a:sum(1 for i in instances if i["asset"]==a) for a in sorted({i["asset"] for i in instances})},"omissions":scene["placementOmissions"]})
+        j["jobHash"]=G.digest({"request":request,"scene":scene["cacheKey"],"pose":pose,"revision":0})
+        j["_scene_path"]=str(scene_path)
+        SCENES[sid]={"scene":scene,"path":str(scene_path),"pose":pose,"revision":0,"jobId":j["jobId"]}
+        if len(SCENES)>64:
+            for key in list(SCENES):
+                if key!=sid and not any(x.get("sceneId")==key and x["stage"] not in TERMINAL for x in JOBS.values()):SCENES.pop(key)
+                if len(SCENES)<=64:break
+    j["prep_s"]=round(time.monotonic()-j["_started"],3)
+    return scene,pose
+
+def encode(j):
+    check_job(j)
+    frames=[f for f in j["frames"] if f["quality"]!="preview"]
+    if len(frames)<2:return
+    directory=Path(j["dir"]);manifest=directory/"encode.txt"
+    # concat supports mixed 640/960 progressive frames; output has a uniform 960x540 canvas.
+    lines=[]
+    for frame in frames:
+        name=f"frames/f_{frame['index']:04d}_{frame['quality']}.jpg"
+        lines.extend(["file '"+name+"'", "duration "+str(1/j["timeline_fps"])])
+    lines.append(lines[-2]);manifest.write_text("\n".join(lines)+"\n")
+    part=directory/"video.part.mp4";j["stage"]="encode"
+    cmd=["ffmpeg","-nostdin","-y","-loglevel","error","-f","concat","-safe","1","-i",str(manifest),
+         "-vf","scale=960:540:force_original_aspect_ratio=decrease,pad=960:540:(ow-iw)/2:(oh-ih)/2", "-r",str(j["timeline_fps"]),
+         "-c:v","libx264","-threads","2","-preset","fast","-crf","22","-pix_fmt","yuv420p","-movflags","+faststart",str(part)]
+    with open(directory/"encode.log","w") as log:
+        proc=subprocess.Popen(cmd,stdout=log,stderr=log,env=dict(os.environ,CUDA_VISIBLE_DEVICES=""))
+        try:
+            deadline=time.monotonic()+120
+            while proc.poll() is None:
+                check_job(j)
+                if time.monotonic()>deadline:raise TimeoutError("CPU export timeout")
+                time.sleep(.1)
+            if proc.returncode:raise RuntimeError("ffmpeg export failed; see encode.log")
+        finally:
+            if proc.poll() is None:proc.terminate();proc.wait(timeout=5)
+    with LOCK:
+        check_job(j);os.replace(part,directory/"video.mp4");j["mp4_bytes"]=(directory/"video.mp4").stat().st_size;j["encoder"]="libx264 (CPU encode only)"
 
 def run_job(jid):
-    j = JOBS[jid]; d = j["dir"]; L = lambda s, x: log_event(j, s, x)
-    t_start = time.time()
+    j=JOBS[jid]
     try:
-        j["stage"] = "geocode"
-        focal = P.geocode(j["request"]["prompt"], j["request"].get("lat"), j["request"].get("lng"), L)
-        j["focal"] = focal
-        tod = j["request"].get("time_of_day") or "auto"
-        if tod == "auto":
-            tod = "night" if re.search(r"night", j["request"]["prompt"], re.I) else "dusk" if re.search(r"dusk|sunset|evening", j["request"]["prompt"], re.I) else "midday"
-        j["time_of_day"] = tod
-        j["stage"] = "land_patch"
-        half = 260.0
-        img = P.imagery_patch(focal["lat"], focal["lon"], half, os.path.join(d, "imagery.png"), log=L)
-        osm = P.osm_features(focal["lat"], focal["lon"], half, log=L)
-        j["land_patch"] = {"source": "Esri World Imagery tiles + OSM buildings/roads via Overpass (no Google Maps key on host)", "half_extent_m": half,
-                           "buildings": len(osm["buildings"]), "roads": len(osm["highways"]), "overpass": osm["status"], "tiles_ok": img["tiles_ok"]}
-        j["stage"] = "scene_spec"
-        seed = P.prompt_seed(j["request"]["prompt"])
-        if j["request"].get("seed") is not None and j["request"]["seed"] != seed:
-            L("seed", {"warning": "client seed differs from prompt hash; using prompt hash", "client": j["request"]["seed"]})
-        j["seed"] = seed; j["prompt_hash"] = P.prompt_hash(j["request"]["prompt"])
-        spec, model = P.ondemand_spec(j["request"]["prompt"], focal["name"], L)
-        spec["seed"] = seed; spec["prompt_hash"] = j["prompt_hash"]; spec["_prompt"] = j["request"]["prompt"][:200]
-        j["spec"] = spec; j["model"] = model
-        j["stage"] = "placement"
-        inst, shapes, roads = P.place(spec, focal, osm, half, seed=seed, log=L)
-        scene = P.build_scene_json(jid, focal, spec, model, osm, img, inst, shapes, roads, tod, j["request"]["duration_s"], FPS, GPUS)
-        scene_path = os.path.join(d, "scene.json"); json.dump(scene, open(scene_path, "w"))
-        j["placement"] = {"instances": len(inst), "by_asset": {k: sum(1 for i in inst if i["asset"] == k) for k in sorted({i["asset"] for i in inst})}}
-        j["references"] = scene.get("references", [])
-        L("references", {"applied": [r["id"] for r in j["references"] if r["applied"]], "counts": {r["id"]: r["applied_count"] for r in j["references"]}})
-        j["prep_s"] = round(time.time() - t_start, 2)
-        # ---- render: shard the frame range across GPUs, interleaved so early frames arrive first on every GPU
-        j["stage"] = "render"
-        total = j["request"]["duration_s"] * FPS; j["total_frames"] = total
-        frames_dir = os.path.join(d, "frames"); os.makedirs(frames_dir, exist_ok=True)
-        samples = j["request"].get("samples") or SAMPLES
-        procs = []
-        # contiguous shards per GPU, but first shard is tiny (first frames) to minimise time-to-first-frame
-        n = len(GPUS); per = total // n
-        ranges = []
-        for gi in range(n):
-            a = gi * per + 1; b = total if gi == n - 1 else (gi + 1) * per
-            ranges.append((a, b))
-        # One contiguous shard per GPU: each Blender process renders its range in order, so frame 1 is the
-        # first frame GPU0 produces (a separate 1-frame warm shard only paid the ~15 s scene setup twice).
-        gpu_for = GPUS[:len(ranges)]
-        j["shards"] = []
-        sample_thread_stop = threading.Event(); samples_log = []
-        def sampler():
-            while not sample_thread_stop.is_set():
-                samples_log.append({"utc": P.utc(), "t": round(time.time() - t_start, 1), "gpus": nvidia_sample()}); time.sleep(2)
-        threading.Thread(target=sampler, daemon=True).start()
-        t_render = time.time()
-        def launch(rng, gpu):
-            if str(gpu) not in ALLOWED_GPUS: raise RuntimeError(f"GPU policy: refusing to launch Blender on GPU {gpu}")
-            env = dict(os.environ, CUDA_DEVICE_ORDER="PCI_BUS_ID", CUDA_VISIBLE_DEVICES=str(gpu))
-            lf = open(os.path.join(d, f"blender_{rng[0]}_{rng[1]}.log"), "w")
-            p = subprocess.Popen([BLENDER, "-b", "--factory-startup", "-noaudio", "-P", os.path.join(os.path.dirname(__file__), "blender_scene.py"), "--",
-                                  scene_path, frames_dir, str(rng[0]), str(rng[1]), str(samples), str(RES_W), str(RES_H)], env=env, stdout=lf, stderr=subprocess.STDOUT)
-            j["shards"].append({"frames": list(rng), "gpu": gpu, "pid": p.pid, "started_utc": P.utc()})
-            return p
-        # run the warm shard and the big shards concurrently (warm shard on GPU0 first, remainder of GPU0 queued after it)
-        queue0 = [r for r, g in zip(ranges, gpu_for) if g == GPUS[0]]
-        others = [(r, g) for r, g in zip(ranges, gpu_for) if g != GPUS[0]]
-        procs = [launch(r, g) for r, g in others]
-        def gpu0_chain():
-            for r in queue0:
-                p = launch(r, GPUS[0]); p.wait()
-        th0 = threading.Thread(target=gpu0_chain); th0.start()
-        first_seen = None
-        while True:
-            done = sorted(glob.glob(os.path.join(frames_dir, "f_*.png")))
-            j["frames_done"] = len(done); j["progress"] = round(len(done) / total, 3)
-            if done and first_seen is None:
-                first_seen = time.time(); j["ttff_s"] = round(first_seen - t_start, 2); j["ttff_render_only_s"] = round(first_seen - t_render, 2)
-                L("first_frame", {"ttff_s": j["ttff_s"], "frame": os.path.basename(done[0])})
-            if not th0.is_alive() and all(p.poll() is not None for p in procs): break
-            time.sleep(1)
-        sample_thread_stop.set()
-        done = sorted(glob.glob(os.path.join(frames_dir, "f_*.png"))); j["frames_done"] = len(done)
-        j["wall_clock_render_s"] = round(time.time() - t_render, 2); j["wall_clock_total_s"] = round(time.time() - t_start, 2)
-        j["fps_sustained"] = round(len(done) / max(0.001, j["wall_clock_render_s"]), 3)
-        # steady-state rate once Blender scene setup is over: frames after the first / time since the first
-        mt = sorted(os.path.getmtime(f) for f in done)
-        j["fps_after_first_frame"] = round((len(mt) - 1) / max(0.001, mt[-1] - mt[0]), 3) if len(mt) > 1 else None
-        j["realtime_factor"] = round(j["fps_sustained"] / FPS, 4)
-        json.dump(samples_log, open(os.path.join(d, "nvidia-smi-samples.json"), "w"))
-        def agg(rows):
-            if not rows: return None
-            return {"util_pct_mean": round(sum(r["util_pct"] for r in rows) / len(rows), 1), "util_pct_max": max(r["util_pct"] for r in rows),
-                    "mem_used_mib_max": max(r["mem_used_mib"] for r in rows), "mem_total_mib": rows[0]["mem_total_mib"], "samples": len(rows)}
-        j["gpu_metrics"] = {str(g): agg([r for s in samples_log for r in s["gpus"] if r.get("gpu") == int(g)]) for g in GPUS}
-        for lf in glob.glob(os.path.join(d, "blender_*.log")):
-            for ln in open(lf, errors="ignore"):
-                if ln.startswith("SCENE_READY") or ln.startswith("SHARD_DONE"): L("blender", {"log": os.path.basename(lf), "line": ln.strip()[:300]})
-        if len(done) < total:
-            j["warnings"] = j.get("warnings", []) + [f"only {len(done)}/{total} frames rendered; see blender logs"]
-        # ---- encode
-        j["stage"] = "encode"
-        mp4 = os.path.join(d, "video.mp4"); t_enc = time.time()
-        enc = ["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", os.path.join(frames_dir, "f_%04d.png"),
-               "-c:v", "libx264", "-b:v", "8M", "-pix_fmt", "yuv420p", mp4]
-        # CPU encode only: NVENC is unsupported on this host and a CUDA context must never open outside GPUs 2/6.
-        r = subprocess.run(enc, capture_output=True, text=True, env=dict(os.environ, CUDA_VISIBLE_DEVICES=""))
-        j["encoder"] = "libx264 (CPU)"
-        j["encode_s"] = round(time.time() - t_enc, 2)
-        j["mp4_bytes"] = os.path.getsize(mp4) if os.path.exists(mp4) else 0
-        j["stage"] = "complete" if j["mp4_bytes"] and len(done) >= total else "partial"
-        j["finished_utc"] = P.utc()
-        L("done", {"stage": j["stage"], "frames": len(done), "ttff_s": j.get("ttff_s"), "fps_sustained": j["fps_sustained"], "mp4_bytes": j["mp4_bytes"]})
-    except Exception as e:
-        j["stage"] = "failed"; j["error"] = f"{type(e).__name__}: {e}"[:500]; j["finished_utc"] = P.utc(); L("error", {"error": j["error"]})
+        check_job(j)
+        if j["kind"]=="initial":scene,pose=prepare(j)
+        else:scene=SCENES[j["sceneId"]]["scene"];pose=j["pose"]
+        check_job(j);j["stage"]="render";j["_render_start"]=time.monotonic();persist(j)
+        render_frame(j,scene,pose,1,"preview")
+        render_frame(j,scene,pose,1,"quality")
+        if j["kind"]=="initial":
+            for index in range(2,j["total_frames"]+1):
+                check_job(j)
+                try:pose=C.validate_pose(C.orbit_pose(pose,1.0),scene)
+                except C.CameraError:
+                    j.setdefault("warnings",[]).append("Sequence stopped at camera/geography boundary; no invented views or hidden buildings.")
+                    break
+                render_frame(j,scene,pose,index,"sequence")
+            encode(j)
+        j["stage"]="complete" if j["frames_done"]==j["total_frames"] else "partial"
+    except CancelledError:j["stage"]="cancelled"
+    except Exception as exc:
+        j["_cancel"].set();j["stage"]="failed";j["error"]=type(exc).__name__+": "+str(exc)[:400];log_event(j,"error",{"error":j["error"]})
     finally:
-        json.dump(public(j), open(os.path.join(d, "job.json"), "w"), indent=1, default=str)
+        with LOCK:
+            j["finished_utc"]=P.utc();j["wall_clock_total_s"]=round(time.monotonic()-j["_started"],3)
+            log_event(j,"done",{"stage":j["stage"],"frames":j["frames_done"],"uniqueViewsPerSecond":j.get("unique_views_per_second")});persist(j)
+        ADMISSION.release()
+
+@app.post("/render",dependencies=[Depends(auth)])
+@app.post("/render/start",dependencies=[Depends(auth)])
+def render(body:RenderBody):
+    try:
+        focal=G.resolve_location(body.prompt,body.lat,body.lon,body.locationVerification,body.selectedCoordinates)
+        patch=G.make_patch(focal,body.aoi,half_m=body.radius_m)
+    except G.GeographicError as exc:raise HTTPException(422,str(exc))
+    ensure_pool();j=new_job(body.model_dump());j.update(focal=focal,patch=patch)
+    COORDINATORS.submit(run_job,j["jobId"])
+    return response_job(j)
+
+
+def valid_id(jid):
+    if not re.fullmatch(r"[a-f0-9]{12,20}",jid):raise HTTPException(404,"unknown job")
+
+def get_job(jid):
+    valid_id(jid)
+    with LOCK:
+        if jid in JOBS:return JOBS[jid]
+    path=JOBS_DIR/jid/"job.json"
+    if not path.is_file():raise HTTPException(404,"unknown job")
+    stored=json.loads(path.read_text())
+    if stored.get("schema")!="geo-render-v2":raise HTTPException(410,"legacy unverified render; start a source-verified scene")
+    return stored
+
+@app.post("/render/{jid}/camera",dependencies=[Depends(auth)])
+def camera_update(jid:str,body:CameraBody):
+    parent=get_job(jid)
+    with LOCK:
+        record=SCENES.get(parent.get("sceneId"))
+        if not record:raise HTTPException(409,"scene not ready or evicted; start a new render")
+        if body.revision<=record["revision"]:raise HTTPException(409,"stale camera revision")
+        try:pose=C.move(record["pose"],body.model_dump(exclude_none=True),record["scene"])
+        except C.CameraError as exc:raise HTTPException(422,str(exc))
+        j=new_job(parent["request"],"camera",parent=jid)
+        j.update(sceneId=parent["sceneId"],patchId=record["scene"]["patch"]["id"],patch=record["scene"]["patch"],
+                 pose=pose,revision=body.revision,total_frames=1,timeline_fps=1,_scene_path=record["path"])
+        for key in ("spec","model","focal","land_patch","references","placement","time_of_day"):
+            if key in parent:j[key]=parent[key]
+        j["jobHash"]=G.digest({"request":j["request"],"scene":record["scene"]["cacheKey"],"pose":pose,"revision":body.revision})
+        record.update(revision=body.revision,pose=pose,jobId=j["jobId"])
+        for other in JOBS.values():
+            if other["jobId"]!=j["jobId"] and other.get("sceneId")==j["sceneId"] and other["stage"] not in TERMINAL:other["_cancel"].set()
+        persist(j)
+    COORDINATORS.submit(run_job,j["jobId"])
+    return response_job(j)
+
+@app.post("/render/{jid}/cancel",dependencies=[Depends(auth)])
+def cancel(jid:str):
+    j=get_job(jid)
+    with LOCK:
+        if j.get("_cancel") is not None and j["stage"] not in TERMINAL:j["_cancel"].set()
+    return {"jobId":jid,"cancelRequested":True,"stage":j["stage"]}
+
+@app.get("/status/{jid}",dependencies=[Depends(auth)])
+def status(jid:str):
+    with LOCK:
+        j=get_job(jid);out=public(j);out.pop("events",None);out["events_tail"]=j.get("events",[])[-6:]
+        return out
+
+@app.get("/patch/{jid}",dependencies=[Depends(auth)])
+def get_patch(jid:str):
+    j=get_job(jid)
+    return j.get("patch", {})
+
+@app.get("/jobs",dependencies=[Depends(auth)])
+def jobs():
+    with LOCK:return [{k:j.get(k) for k in ("jobId","job_id","stage","sceneId","patchId","revision","progress","created_utc","ttff_s","fps_sustained")} for j in JOBS.values()]
+
+
+def frame_path(jid,frame):return JOBS_DIR/jid/"frames"/Path(frame["url"]).name
+
+def frame_headers(frame):
+    return {"Cache-Control":"no-store","X-Illustrative":"true","X-Frame-Id":frame["id"],"X-Frame-SHA256":frame["hash"],
+            "X-Frame-Created-Utc":frame["createdUtc"],"X-Scene-Id":frame["sceneId"],"X-Patch-Id":frame["patchId"],"X-Camera-Revision":str(frame["revision"])}
+
+@app.get("/frames/{jid}/latest.jpg",dependencies=[Depends(auth)])
+def latest(jid:str):
+    j=get_job(jid);frame=j.get("latestFrame")
+    if not frame:raise HTTPException(404,"no published frame yet")
+    return FileResponse(frame_path(jid,frame),media_type="image/jpeg",headers=frame_headers(frame))
+
+@app.get("/frames/{jid}/file/{name}",dependencies=[Depends(auth)])
+def immutable_frame(jid:str,name:str):
+    j=get_job(jid);frame=next((f for f in j["frames"] if Path(f["url"]).name==name),None)
+    if not frame:raise HTTPException(404,"unknown frame")
+    return FileResponse(frame_path(jid,frame),media_type="image/jpeg",headers=frame_headers(frame))
+
+@app.get("/frames/{jid}/{n}.jpg",dependencies=[Depends(auth)])
+def jpeg_frame(jid:str,n:int):
+    j=get_job(jid);frame=next((f for f in reversed(j["frames"]) if f["index"]==n),None)
+    if not frame:raise HTTPException(404,"frame not published")
+    return FileResponse(frame_path(jid,frame),media_type="image/jpeg",headers=frame_headers(frame))
+
+@app.get("/frames/{jid}/{n}.png",dependencies=[Depends(auth)])
+def legacy_frame(jid:str,n:int):
+    j=get_job(jid);frame=next((f for f in reversed(j["frames"]) if f["index"]==n),None)
+    if not frame:raise HTTPException(404,"frame not published")
+    buf=io.BytesIO()
+    with Image.open(frame_path(jid,frame)) as image:image.save(buf,"PNG")
+    headers=frame_headers(frame);headers["X-Source-JPEG-SHA256"]=headers.pop("X-Frame-SHA256")
+    headers["X-Frame-SHA256"]=hashlib.sha256(buf.getvalue()).hexdigest()
+    return Response(buf.getvalue(),media_type="image/png",headers=headers)
+
+@app.get("/video/{jid}.mp4",dependencies=[Depends(auth)])
+def video(jid:str):
+    j=get_job(jid);path=JOBS_DIR/jid/"video.mp4"
+    if j["stage"] not in ("complete","partial") or not path.is_file():raise HTTPException(404,"video not ready")
+    return FileResponse(path,media_type="video/mp4",headers={"X-Illustrative":"true","X-Timeline-FPS":str(j["timeline_fps"]),"X-Rendered-FPS":str(j.get("fps_sustained",0))})
+
+@app.get("/stream/{jid}",dependencies=[Depends(auth)])
+async def stream(jid:str):
+    get_job(jid)
+    async def generate():
+        last=None
+        while True:
+            j=get_job(jid);frame=j.get("latestFrame")
+            if frame and frame["id"]!=last:
+                data=frame_path(jid,frame).read_bytes();last=frame["id"]
+                yield (b"--frame\r\nContent-Type: image/jpeg\r\nX-Frame-Id: "+last.encode()+b"\r\nX-Frame-SHA256: "+frame["hash"].encode()+
+                       b"\r\nContent-Length: "+str(len(data)).encode()+b"\r\n\r\n"+data+b"\r\n")
+            if j["stage"] in TERMINAL:break
+            await asyncio.sleep(.12)
+    return StreamingResponse(generate(),media_type="multipart/x-mixed-replace; boundary=frame",headers={"Cache-Control":"no-store","X-Illustrative":"true"})
 
 @app.get("/health")
 def health():
-    return {"ok": True, "service": "gods-eye-view-render", "utc": P.utc(), "gpus": GPUS,
-            "gpu_policy": {"allowed": list(ALLOWED_GPUS), "rejected_from_env": REJECTED_GPUS, "device_order": "PCI_BUS_ID", "backend": "OPTIX", "mode": "blender -b"},
-            "seeding": "sha256(prompt)", "references": [r["id"] for r in P.REFS.REFERENCES if P.REFS.reference_path(r["id"])], "fps": FPS, "resolution": [RES_W, RES_H], "samples": SAMPLES,
-            "blender": os.path.exists(BLENDER), "assets": len(P.ASSET_KEYS), "ondemand_configured": bool(os.environ.get("ONDEMAND_API_KEY")),
-            "nvidia": nvidia_sample(), "jobs": len(JOBS), "illustrative": True, "label": LABEL}
-
-@app.post("/render", dependencies=[Depends(auth)])
-def render(body: RenderBody):
-    jid = uuid.uuid4().hex[:12]; d = os.path.join(JOBS_DIR, jid); os.makedirs(d, exist_ok=True)
-    j = {"job_id": jid, "illustrative": True, "label": LABEL, "created_utc": P.utc(), "request": body.model_dump(), "stage": "queued", "progress": 0.0,
-         "frames_done": 0, "events": [], "dir": d, **job_urls(jid)}
-    with LOCK: JOBS[jid] = j
-    th = threading.Thread(target=run_job, args=(jid,), daemon=True); th.start()
-    return {"job_id": jid, "illustrative": True, "label": LABEL, **job_urls(jid)}
-
-@app.get("/jobs", dependencies=[Depends(auth)])
-def jobs():
-    return [{k: j.get(k) for k in ("job_id", "stage", "progress", "created_utc", "ttff_s", "fps_sustained")} for j in JOBS.values()]
-
-def get_job(jid):
-    j = JOBS.get(jid)
-    if not j:
-        p = os.path.join(JOBS_DIR, jid, "job.json")
-        if os.path.exists(p): return json.load(open(p))
-        raise HTTPException(404, "unknown job")
-    return public(j)
-
-@app.get("/status/{jid}", dependencies=[Depends(auth)])
-def status(jid: str):
-    j = get_job(jid)
-    out = {k: v for k, v in j.items() if k not in ("events", "dir")}
-    out["events_tail"] = j.get("events", [])[-6:]
-    return out
-
-def frame_paths(jid):
-    return sorted(glob.glob(os.path.join(JOBS_DIR, jid, "frames", "f_*.png")))
-
-@app.get("/frames/{jid}/latest.jpg", dependencies=[Depends(auth)])
-def latest(jid: str):
-    fr = frame_paths(jid)
-    if not fr: raise HTTPException(404, "no frame yet")
-    from PIL import Image; import io
-    # Blender may still be writing the newest PNG: fall back to the previous complete frame
-    # instead of answering 500 (seen once mid-render in the browser console).
-    buf = None
-    for cand in reversed(fr[-3:]):
-        try:
-            im = Image.open(cand); im.load(); im = im.convert("RGB"); buf = io.BytesIO(); im.save(buf, "JPEG", quality=85); break
-        except Exception:
-            buf = None
-    if buf is None: raise HTTPException(404, "frame still being written")
-    return StreamingResponse(iter([buf.getvalue()]), media_type="image/jpeg", headers={"Cache-Control": "no-store", "X-Illustrative": "true"})
-
-@app.get("/frames/{jid}/{n}.png", dependencies=[Depends(auth)])
-def frame(jid: str, n: int):
-    p = os.path.join(JOBS_DIR, jid, "frames", f"f_{n:04d}.png")
-    if not os.path.exists(p): raise HTTPException(404, "frame not rendered")
-    return FileResponse(p, media_type="image/png", headers={"X-Illustrative": "true"})
-
-@app.get("/video/{jid}.mp4", dependencies=[Depends(auth)])
-def video(jid: str):
-    p = os.path.join(JOBS_DIR, jid, "video.mp4")
-    if not os.path.exists(p): raise HTTPException(404, "video not ready")
-    return FileResponse(p, media_type="video/mp4", headers={"X-Illustrative": "true"})
-
-@app.get("/stream/{jid}", dependencies=[Depends(auth)])
-async def stream(jid: str):
-    """MJPEG: pushes the newest rendered frame whenever it changes (max 10 Hz); ends when the job finishes."""
-    from PIL import Image; import io
-    async def gen():
-        last = None; idle = 0
-        while True:
-            fr = frame_paths(jid); j = JOBS.get(jid) or {}
-            if fr and fr[-1] != last:
-                last = fr[-1]
-                try:
-                    im = Image.open(last).convert("RGB"); buf = io.BytesIO(); im.save(buf, "JPEG", quality=80); b = buf.getvalue()
-                    yield b"--frame\r\nContent-Type: image/jpeg\r\nX-Frame: " + os.path.basename(last).encode() + b"\r\nContent-Length: " + str(len(b)).encode() + b"\r\n\r\n" + b + b"\r\n"
-                except Exception: pass
-                idle = 0
-            else:
-                idle += 1
-            if j.get("stage") in ("complete", "partial", "failed") and (not fr or fr[-1] == last) and idle > 20: break
-            await asyncio.sleep(0.1)
-    return StreamingResponse(gen(), media_type="multipart/x-mixed-replace; boundary=frame", headers={"Cache-Control": "no-store", "X-Illustrative": "true"})
+    try:devices=GPU.resolve_devices();policy_error=None
+    except GPU.GPUError as exc:devices=[];policy_error=str(exc)
+    workers=POOL.status() if POOL else []
+    return {"ok":bool(devices) and bool(TOKEN) and Path(BLENDER).is_file() and bool(P.ASSET_KEYS),"service":"gods-eye-view-render","utc":P.utc(),"sourceVersion":SOURCE_VERSION,"buildReference":os.environ.get("GEV_SERVICE_REVISION","unrecorded"),
+            "gpus":[str(d["physicalIndex"]) for d in devices],"gpu_policy":{"allowed":[2,6],"resolved":devices,"backend":"OPTIX","cpuRendering":False,
+             "visibility":"UUID per worker","error":policy_error,"verification":"Cycles PCI device attested on each render; see frame.gpu"},
+            "workers":workers,"fps":CAPTURE_FPS,"fpsMeaning":"export timeline, not a realtime render claim","resolutions":[[640,360],[960,540]],
+            "samples":SAMPLES,"blender":Path(BLENDER).is_file(),"assets":len(P.ASSET_KEYS),"jobs":len(JOBS),"illustrative":True,"label":LABEL}
 
 @app.get("/")
 def index():
-    return JSONResponse({"service": "gods-eye-view render service", "label": LABEL, "endpoints": ["/health", "POST /render", "/status/{id}", "/stream/{id}", "/frames/{id}/{n}.png", "/video/{id}.mp4"]})
+    return {"service":"gods-eye-view render service","label":LABEL,"endpoints":["POST /render/start","POST /render/{id}/camera","POST /render/{id}/cancel","/status/{id}","/frames/{id}/latest.jpg","/stream/{id}"]}
+
+def shutdown():
+    with LOCK:
+        for j in JOBS.values():j["_cancel"].set()
+    COORDINATORS.shutdown(wait=False,cancel_futures=True)
+    if POOL:POOL.close()

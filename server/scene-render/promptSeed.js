@@ -26,11 +26,24 @@ export function promptSeed(prompt) {
   return Number.parseInt(promptHash(prompt).slice(0, 8), 16) & 0x7fffffff;
 }
 
-/** GPUs Blender may use (PCI_BUS_ID order). 0,3,4,5 = DeepSeek pods, 1 = Gemma. */
+/** Physical host indices. The service must resolve these to UUID + PCI identity. */
 export const ALLOWED_RENDER_GPUS = Object.freeze(['2', '6']);
 
-/** Returns the list of advertised GPUs that violate the policy (empty = OK). */
+/** Fail closed if the allowlist cannot be verified; absence is not permission. */
 export function gpuPolicyViolations(health) {
   const gpus = Array.isArray(health?.gpus) ? health.gpus.map(String) : [];
-  return gpus.filter((g) => !ALLOWED_RENDER_GPUS.includes(g));
+  if (!gpus.length) return ['unverified_gpu_inventory'];
+  const violations = gpus.filter((g) => !ALLOWED_RENDER_GPUS.includes(g));
+  for (const expected of ALLOWED_RENDER_GPUS) {
+    if (!gpus.includes(expected))
+      violations.push(`missing_physical_gpu_${expected}`);
+  }
+  if (health?.gpu_policy?.backend && health.gpu_policy.backend !== 'OPTIX')
+    violations.push('optix_required');
+  if (
+    health?.gpu_policy?.cpu_rendering === true ||
+    health?.gpu_policy?.cpu_enabled === true
+  )
+    violations.push('cpu_rendering_forbidden');
+  return violations;
 }

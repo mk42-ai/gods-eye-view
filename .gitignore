@@ -20,3 +20,8 @@ pinokio/.installed
 .env.*
 !.env.example
 *.secret.env
+# Python render-service runtime and test caches are never source artifacts.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+render_service/.build-check/

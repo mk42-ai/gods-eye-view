@@ -1,129 +1,83 @@
-/**
- * Scene Workstation — pure presentation model (no DOM).
- *
- * Everything the Build loop shows is derived here from the render job record
- * so it can be unit-tested without a browser: the progress line
- * ("Building — rendering frame i/N on GPU x"), the failure banner (HTTP status
- * + service message, never a silent return to "Ready"), the outliner rows
- * (environment, placed assets, reference-asset bindings), the properties
- * entries (frames / GPUs / time-to-first-frame) and the timeline state.
- */
-
+/** Presentation derived only from service records; planned assets are not evidence. */
 export const ASSET_LABELS = Object.freeze({
+  civilian_sedan: 'Civilian sedan',
+  civilian_hatchback: 'Civilian hatchback',
   police_patrol_car: 'Police patrol car',
-  police_escort_motorcycle: 'Police motorcycle',
-  ambulance_medical_point: 'Ambulance',
-  crowd_control_barrier: 'Crowd barrier',
-  road_closed_barricade: 'Road barricade',
-  traffic_cone_cluster: 'Traffic cone',
-  checkpoint_cordon_node: 'Checkpoint barrier',
-  start_finish_gate: 'Start/finish gate',
-  foot_patrol_officer: 'Officer on foot',
-  spectator_crowd_cluster: 'Pedestrian group',
-  cctv_camera: 'CCTV camera',
-  city_bus: 'Bus',
-  event_command_post: 'Command post',
-  marine_patrol_boat: 'Patrol boat',
-  civilian_sedan: 'Silver sedan (crash vehicle)',
-  civilian_suv: 'Civilian SUV',
-  civilian_taxi: 'Civilian taxi',
-  civilian_hatchback: 'Blue hatchback (crash vehicle)',
-  debris_bumper: 'Debris · bumper',
-  debris_tire: 'Debris · tyre',
-  debris_door: 'Debris · door',
-  debris_plate: 'Debris · plate',
-  debris_cluster_decal: 'Debris cluster (reference decal)',
-  mall_facade_module: 'Mall facade module',
+  cctv_camera: 'Staged CCTV camera',
 });
-
-/**
- * The four studio reference images supplied for crash scenes and the scene
- * element each one drives. `applies_to` lists the placement keys the render
- * service binds the reference to (paint/material + decal/facade texture).
- */
-export const REFERENCE_ASSETS = Object.freeze([
-  {
-    id: 'silver_sedan',
-    file: 'D3IfJIiClM.png',
-    label: 'Silver sedan · crumpled front (reference)',
-    applies_to: ['civilian_sedan'],
-  },
-  {
-    id: 'blue_hatchback',
-    file: 'Rv6TULP5dW.png',
-    label: 'Blue hatchback · dented corner (reference)',
-    applies_to: ['civilian_hatchback'],
-  },
-  {
-    id: 'mall_facade_module',
-    file: 'HrOVNUqLwL.png',
-    label: 'Mall entrance facade module (reference)',
-    applies_to: ['mall_facade_module'],
-  },
-  {
-    id: 'debris_cluster',
-    file: 'ewvknQr9AP.png',
-    label: 'Collision debris cluster (reference)',
-    applies_to: [
-      'debris_cluster_decal',
-      'debris_bumper',
-      'debris_tire',
-      'debris_door',
-      'debris_plate',
-    ],
-  },
-]);
-
-const STAGE_LABELS = Object.freeze({
+export const REFERENCE_ASSETS = Object.freeze([]); // No implied bindings: service must report actual references.
+const STAGES = {
   queued: 'Queued',
   geocode: 'Locating',
   land_patch: 'Fetching land patch',
   scene_spec: 'Planning scene',
   placement: 'Placing assets',
-  render: 'Rendering (Cycles · OptiX)',
+  render: 'Rendering',
   encode: 'Encoding',
-});
-
+  complete: 'Complete',
+  partial: 'Partial',
+};
 export function assetLabel(key) {
   return ASSET_LABELS[key] || String(key || '').replace(/_/g, ' ');
 }
-
-/** Distinct GPU indices the job's shards run on, in launch order. */
 export function jobGpus(job) {
-  const out = [];
-  for (const s of job?.shards || []) {
-    const g = String(s?.gpu ?? '');
-    if (g && !out.includes(g)) out.push(g);
-  }
-  return out;
+  return [
+    ...new Set(
+      [
+        ...(job?.shards || []).map((s) => String(s.gpu ?? '')),
+        ...(job?.frameMetadata || job?.frames || []).map((f) =>
+          String(f.gpu?.physicalIndex ?? ''),
+        ),
+      ].filter(Boolean),
+    ),
+  ];
 }
-
-/**
- * Progress line for the viewport while a Build is in flight.
- * "Building — rendering frame 22/96 on GPUs 2, 6" during the render stage,
- * "Building — planning scene…" before it.
- */
+export function normalizeJob(raw, start = {}) {
+  const job = { ...start, ...raw };
+  job.job_id = raw.jobId || raw.job_id || start.jobId || start.job_id;
+  job.sceneId = raw.sceneId || raw.scene_id || start.sceneId || start.scene_id;
+  job.stage = raw.stage || raw.status || 'queued';
+  job.frames_done = Number(
+    raw.frames_done ?? raw.framesDone ?? raw.frames?.done ?? 0,
+  );
+  job.total_frames = Number(
+    raw.total_frames ?? raw.totalFrames ?? raw.frames?.total ?? 0,
+  );
+  job.patch = raw.patch || raw.land_patch?.patch || start.patch || null;
+  job.camera =
+    raw.camera ||
+    raw.pose ||
+    raw.camera_pose ||
+    start.camera ||
+    start.pose ||
+    null;
+  job.frames_url_template =
+    raw.frames_url_template ||
+    raw.framesUrlTemplate ||
+    raw.frames?.urlTemplate ||
+    start.frames_url_template ||
+    '';
+  job.mp4_url =
+    raw.mp4_url || raw.mp4Url || raw.videoUrl || raw.video?.url || '';
+  job.frameMetadata = Array.isArray(raw.frames)
+    ? raw.frames
+    : raw.frameMetadata || [];
+  return job;
+}
+export function stageLabel(stage) {
+  return STAGES[stage] || stage || 'Queued';
+}
 export function progressText(job, prompt = '') {
-  if (!job)
-    return `Building “${prompt}” — locating, planning scene, starting Blender…`;
-  const stage = job.stage || 'queued';
-  const gpus = jobGpus(job);
-  const gpuText = gpus.length
-    ? ` on GPU${gpus.length > 1 ? 's' : ''} ${gpus.join(', ')}`
-    : '';
-  if (stage === 'render' || stage === 'encode') {
-    const i = job.frames_done || 0;
-    const n = job.total_frames || '?';
-    return `Building — rendering frame ${i}/${n}${gpuText}`;
-  }
-  const label = STAGE_LABELS[stage] || stage;
-  return `Building — ${label.toLowerCase()}…`;
+  if (!job) return 'Building — submitting explicit scene request…';
+  const g = jobGpus(job),
+    gpu = g.length ? ` on GPU${g.length > 1 ? 's' : ''} ${g.join(', ')}` : '';
+  if (job.stage === 'render')
+    return `Building — rendering frame ${job.frames_done || 0}/${job.total_frames || '?'}${gpu}`;
+  if (job.stage === 'encode')
+    return `Encoding video — ${job.frames_done || 0} rendered frames (encoding is not rendering)`;
+  return `${stageLabel(job.stage)}${prompt ? '' : ''}…`;
 }
-
-/** 0..1 progress for the progress bar (stage-weighted before frames arrive). */
 export function progressFraction(job) {
-  if (!job) return 0.02;
-  const stage = job.stage || 'queued';
   const pre = {
     queued: 0.03,
     geocode: 0.06,
@@ -131,205 +85,328 @@ export function progressFraction(job) {
     scene_spec: 0.15,
     placement: 0.2,
   };
-  if (stage in pre) return pre[stage];
-  if (stage === 'render' || stage === 'encode') {
-    const n = job.total_frames || 0;
-    const i = job.frames_done || 0;
-    return n ? 0.2 + 0.8 * Math.min(1, i / n) : 0.2;
-  }
-  if (stage === 'complete' || stage === 'partial') return 1;
-  return typeof job.progress === 'number' ? job.progress : 0.2;
+  if (!job) return 0.02;
+  if (job.stage in pre) return pre[job.stage];
+  if (['complete', 'partial'].includes(job.stage)) return 1;
+  if (job.total_frames)
+    return 0.2 + 0.8 * Math.min(1, job.frames_done / job.total_frames);
+  return Math.max(0, Math.min(1, Number(job.progress) || 0.2));
 }
-
-/**
- * Failure banner contents. `kind` separates the three ways a Build can fail
- * so the banner never collapses them into "Ready":
- *   request  — POST /api/scenes/render answered non-2xx (HTTP status + body)
- *   job      — the Blender job reached stage 'failed'
- *   network  — fetch threw (offline / proxy unreachable)
- */
-export function buildFailure({ kind, status, body, error, prompt }) {
-  const detail = body && typeof body === 'object' ? body : {};
-  const code = detail.error || detail.detail || null;
-  let message =
+export function buildFailure({ kind, status, body, error }) {
+  const detail =
+    body?.detail && typeof body.detail === 'object' ? body.detail : body || {};
+  const code =
+    typeof detail.error === 'string' ? detail.error : detail.code || null;
+  const message =
     detail.message ||
     (typeof detail.detail === 'string' ? detail.detail : '') ||
-    (error ? String(error.message || error) : '') ||
-    'no message from service';
-  if (kind === 'request' && code === 'gpu_policy_violation')
-    message = `${message} Advertised GPUs: ${(detail.advertised_gpus || []).join(', ') || 'unknown'}.`;
-  const httpText = status ? `HTTP ${status}` : 'no response';
+    error?.message ||
+    code ||
+    'No service detail returned.';
   const title =
-    kind === 'job'
-      ? 'Blender job failed'
-      : kind === 'network'
-        ? 'Render service unreachable'
-        : 'Scene build failed';
+    kind === 'network'
+      ? 'Render service unreachable'
+      : kind === 'job'
+        ? 'Blender job failed'
+        : 'Request unavailable';
   return {
     kind,
-    title,
     status: status || null,
     code,
     message,
-    text: `${title} · ${httpText}${code ? ` ${code}` : ''} — ${message}${prompt ? ` (prompt: “${prompt}”)` : ''}`,
+    title,
+    text: `${title}${status ? ' · HTTP ' + status : ''}${code ? ' · ' + code : ''} — ${message}`,
   };
 }
-
-function envRows(job) {
-  const rows = [
-    { group: 'Environment' },
-    {
-      object: 'land_patch',
-      label: 'Ground · satellite patch + roads',
-      count: 1,
-    },
-  ];
-  if (job?.land_patch?.roads)
-    rows.push({
-      object: 'roads',
-      label: 'OSM roads',
-      count: job.land_patch.roads,
-    });
-  if (job?.land_patch?.buildings)
-    rows.push({
-      object: 'buildings',
-      label: 'OSM buildings (extruded)',
-      count: job.land_patch.buildings,
-    });
-  const facade = job?.references?.find((r) => r.id === 'mall_facade_module');
-  if (facade?.applied_count)
-    rows.push({
-      object: 'mall_facade_module',
-      label: `${job?.focal?.name || 'Mall'} facade modules (reference)`,
-      count: facade.applied_count,
-      reference: facade.file,
-    });
-  rows.push({
-    object: 'sun_sky',
-    label: `Sun + sky (${job?.time_of_day || 'auto'})`,
-    count: 1,
-  });
-  rows.push({ object: 'camera', label: 'Camera (crane orbit)', count: 1 });
-  return rows;
+export function patchFeatures(job) {
+  const p = job?.patch;
+  const raw = p?.features || job?.features || [];
+  return Array.isArray(raw)
+    ? raw
+    : Array.isArray(raw?.features)
+      ? raw.features
+      : [];
 }
-
-/**
- * Outliner rows: environment, placed assets (from the job's real
- * `placement.by_asset`), then the reference-asset bindings the service
- * reports in `job.references` (or, for a service that predates the binding
- * step, the four references marked "not applied on render host").
- */
 export function outlinerRows(job) {
   if (!job) return [];
-  const rows = envRows(job);
-  const by = job?.placement?.by_asset || {};
-  const keys = Object.keys(by).sort();
-  if (keys.length) {
-    rows.push({ group: 'Placed assets' });
-    for (const k of keys)
-      rows.push({ object: k, label: assetLabel(k), count: by[k], asset: true });
-  }
-  const refs = Array.isArray(job?.references) ? job.references : null;
-  rows.push({ group: 'Reference assets' });
-  for (const ref of REFERENCE_ASSETS) {
-    const applied = refs?.find((r) => r.id === ref.id);
-    const placed = ref.applies_to.reduce((n, k) => n + (by[k] || 0), 0);
+  const rows = [];
+  if (job.patch)
+    rows.push(
+      { group: 'Geographic data (service)' },
+      {
+        object: 'land_patch',
+        label: `AOI patch · ${job.patch.id || 'identifier unavailable'}`,
+        count: 1,
+        data: job.patch,
+      },
+    );
+  if (!patchFeatures(job).length)
+    for (const id of job.patch?.featureIds || [])
+      rows.push({
+        object: `feature:${id}`,
+        label: String(id),
+        count: 1,
+        data: { id, geometry: 'Not returned by service' },
+        feature: true,
+      });
+  for (const [index, feature] of patchFeatures(job).entries())
+    rows.push({
+      object: `feature:${feature.id ?? feature.properties?.id ?? index}`,
+      label:
+        feature.properties?.name ||
+        feature.name ||
+        feature.properties?.type ||
+        feature.type ||
+        'Geographic feature',
+      count: 1,
+      data: feature,
+      feature: true,
+    });
+  if (job.camera)
+    rows.push({
+      object: 'camera',
+      label: 'Render camera',
+      count: 1,
+      data: job.camera,
+    });
+  const assets = job.placement?.by_asset || {};
+  if (Object.keys(assets).length)
+    rows.push({ group: 'Illustrative staging · not evidence' });
+  for (const [key, count] of Object.entries(assets))
+    rows.push({
+      object: key,
+      label: assetLabel(key),
+      count,
+      asset: true,
+      data: {
+        asset: key,
+        instances: count,
+        verification: 'illustrative — not observed',
+      },
+    });
+  if (Array.isArray(job.references) && job.references.length)
+    rows.push({ group: 'Reported reference bindings · not observations' });
+  for (const ref of job.references || [])
     rows.push({
       object: `ref_${ref.id}`,
-      label: ref.label,
+      label: ref.label || ref.id,
       reference: ref.file,
-      count: applied ? applied.applied_count || placed : placed,
-      state: applied
-        ? 'applied'
-        : refs
-          ? 'not used in this scene'
-          : 'not applied on render host',
+      count: ref.applied_count ?? 0,
+      state: ref.applied_count > 0 ? 'applied (reported)' : 'not applied',
+      data: ref,
     });
-  }
   return rows;
 }
-
-/** Device string parsed from the Blender SCENE_READY log line, if present. */
 export function deviceFromEvents(job) {
+  if (job?.latestFrame?.gpu?.cyclesDevice)
+    return `${job.latestFrame.gpu.cyclesDevice.name} · ${job.latestFrame.gpu.cyclesDevice.type} · CPU disabled: ${job.latestFrame.gpu.cpuEnabled === false}`;
   const line = (job?.events_tail || [])
     .map((e) => e?.data?.line || '')
     .find((l) => l.startsWith('SCENE_READY'));
-  if (!line) return null;
-  const m = line.match(/devices=\[([^\]]*)\]/);
-  return m ? m[1].replace(/'/g, '') : null;
+  return line?.match(/devices=\[([^\]]*)\]/)?.[1]?.replace(/'/g, '') || null;
 }
-
-/** Properties panel entries as [label, value] pairs. */
 export function propertyEntries(job, extra = {}, result = null) {
-  const gpus = jobGpus(job);
-  const refs = Array.isArray(job?.references) ? job.references : null;
-  const dev = deviceFromEvents(job);
-  return [
-    ['Renderer', 'Blender Cycles · OptiX'],
-    ['Device', dev || 'GPU (OptiX)'],
-    ['GPUs', gpus.length ? gpus.join(', ') : 'allowed 2, 6'],
+  const selected = outlinerRows(job).find((r) => r.object === extra.selection);
+  const rows = [
+    ['Selected', selected?.label || 'None — select an Outliner or AOI feature'],
+    ['Scene', job?.sceneId || '—'],
+    ['Job', job?.job_id || '—'],
+    ['Revision', extra.revision ?? '—'],
     [
-      'Place',
-      job?.focal
-        ? `${job.focal.name} (${Number(job.focal.lat).toFixed(4)}, ${Number(job.focal.lon).toFixed(4)})`
-        : extra.place || '—',
+      'Renderer',
+      job?.renderer || (job ? 'Blender (service)' : 'Awaiting service'),
     ],
-    ['Located by', extra.locationSource || job?.focal?.source || '—'],
-    [
-      'Scene spec',
-      job?.model?.attempts?.[0]?.endpointId || job?.model?.endpointId || '—',
-    ],
-    ['Scenario', job?.spec?.scenarioType || '—'],
-    ['Prompt seed', job?.seed ?? extra.seed ?? '—'],
-    ['Objects', job?.placement?.instances ?? '—'],
-    [
-      'Reference assets',
-      refs
-        ? `${refs.filter((r) => r.applied_count).length} / ${REFERENCE_ASSETS.length} applied`
-        : job
-          ? 'not applied on render host (service predates binding step)'
-          : '—',
-    ],
+    ['Device', deviceFromEvents(job) || 'Not reported'],
+    ['GPUs', jobGpus(job).join(', ') || 'Not reported'],
     ['Stage', job?.stage || '—'],
     [
-      'Frames',
-      job?.total_frames ? `${job.frames_done || 0} / ${job.total_frames}` : '—',
+      'Frames rendered',
+      job ? `${job.frames_done} / ${job.total_frames || '?'}` : '—',
     ],
-    ['First frame', job?.ttff_s ? `${job.ttff_s} s (service)` : '—'],
+    ['Rendered FPS', job?.fps_sustained ?? job?.renderedFps ?? 'Not reported'],
+    ['Steady render FPS', job?.fps_after_first_frame ?? 'Not reported'],
+    [
+      'Video playback FPS',
+      job?.timeline_fps ??
+        job?.video_fps ??
+        job?.encoding_fps ??
+        job?.fps ??
+        'Not reported',
+    ],
     [
       'Client first frame',
-      result?.clientTtffS ? `${result.clientTtffS} s` : '—',
+      result?.clientTtffS != null ? `${result.clientTtffS} s` : '—',
     ],
-    ['Sustained fps', job?.fps_sustained ?? '—'],
-    ['Steady fps', job?.fps_after_first_frame ?? '—'],
-    ['Encoder', job?.encoder || '—'],
-    ['Job', job?.job_id || '—'],
+    ['Service first frame', job?.ttff_s != null ? `${job.ttff_s} s` : '—'],
+    ['Patch', job?.patch?.id || 'Not reported'],
+    ['CRS', job?.patch?.crs ? stringify(job.patch.crs) : 'Not reported'],
+    [
+      'Elevation',
+      job?.patch?.elevation ? stringify(job.patch.elevation) : 'Not reported',
+    ],
+    [
+      'Geographic provenance',
+      job?.patch?.provenance ? stringify(job.patch.provenance) : 'Not reported',
+    ],
+    ['Unique views / second', job?.unique_views_per_second ?? 'Not reported'],
+    [
+      'Verification',
+      job?.patch?.verification
+        ? stringify(job.patch.verification)
+        : 'Unverified / not reported',
+    ],
+    [
+      'Coordinates',
+      extra.aoi
+        ? `${extra.aoi.lat}, ${extra.aoi.lon} · ${extra.aoi.verification === 'verified' ? 'source-verified mapped site' : 'operator-selected, unverified'}`
+        : 'Selection required',
+    ],
   ];
+  if (selected)
+    for (const [key, value] of Object.entries(selected.data || {}))
+      rows.push([key, stringify(value)]);
+  return rows;
 }
-
-/** Timeline state derived from the job: scrub range, enabled flag, readout. */
+export function stringify(value) {
+  return typeof value === 'object'
+    ? JSON.stringify(value)
+    : String(value ?? '—');
+}
 export function timelineState(job, current = 0) {
-  const total = job?.total_frames || 0;
-  const done = job?.frames_done || 0;
-  const shown = Math.min(done, Math.max(0, current)) || done;
+  const total = job?.total_frames || 0,
+    done = job?.frames_done || 0;
   return {
     total,
     done,
-    current: shown,
+    current,
     max: Math.max(1, done),
     disabled: done < 1,
-    readout: `${shown} / ${total}`,
+    readout: `${current} / ${total || '?'}`,
   };
 }
-
-/**
- * Request sequencing guard: a result belongs to the latest Build only when its
- * run id equals the current run id. Older runs must drop every write.
- */
 export function isCurrentRun(mine, current) {
   return Number.isInteger(mine) && mine === current;
 }
+/** GeoJSON uses WGS84; local geometry is accepted only if explicitly designated. Never invent a patch. */
+export function planGeometry(job) {
+  const patch = job?.patch;
+  const geographic =
+    Array.isArray(patch?.bounds) &&
+    patch.bounds.length === 4 &&
+    patch.bounds.every(Number.isFinite);
+  const local = patch?.localBounds;
+  const bounds = geographic
+    ? patch.bounds
+    : local && [local.minX, local.minY, local.maxX, local.maxY];
+  if (
+    !bounds ||
+    !bounds.every(Number.isFinite) ||
+    bounds[0] >= bounds[2] ||
+    bounds[1] >= bounds[3]
+  )
+    return null;
+  const [w, s, e, n] = bounds;
+  const project = (p) => [
+    16 + ((p[0] - w) / (e - w)) * 268,
+    174 - ((p[1] - s) / (n - s)) * 158,
+  ];
+  const shapes = [];
+  const inBounds = (p) =>
+    Array.isArray(p) &&
+    p.length >= 2 &&
+    p.slice(0, 2).every(Number.isFinite) &&
+    p[0] >= w &&
+    p[0] <= e &&
+    p[1] >= s &&
+    p[1] <= n;
+  for (const [index, feature] of patchFeatures(job).entries()) {
+    const g = geographic
+      ? feature.geometry
+      : feature.localGeometry ||
+        (feature.coordinateSpace === 'local' ? feature.geometry : null);
+    if (!g) continue;
+    const id = `feature:${feature.id ?? feature.properties?.id ?? index}`;
+    const add = (coords, close = false) => {
+      if (coords?.length && coords.every(inBounds))
+        shapes.push({
+          id,
+          close,
+          points: coords.map(project),
+          label: feature.properties?.name || feature.name || id,
+        });
+    };
+    if (g.type === 'Point') add([g.coordinates]);
+    if (g.type === 'LineString') add(g.coordinates);
+    if (g.type === 'Polygon') for (const ring of g.coordinates) add(ring, true);
+    if (g.type === 'MultiLineString')
+      for (const line of g.coordinates) add(line);
+    if (g.type === 'MultiPolygon')
+      for (const poly of g.coordinates)
+        for (const ring of poly) add(ring, true);
+  }
+  return { bounds, geographic, shapes };
+}
+export function frameSource(job, n) {
+  const explicit =
+    job?.frames?.items?.find((f) => Number(f.number ?? f.index) === n) ||
+    (Array.isArray(job?.frameMetadata)
+      ? [...job.frameMetadata]
+          .reverse()
+          .find((f) => Number(f.number ?? f.index) === n)
+      : null);
+  if (explicit?.url) return explicit.url;
+  if (job?.frames_url_template)
+    return job.frames_url_template.replace('{n}', String(n));
+  return (
+    job?.latest_frame_url ||
+    job?.latestFrameUrl ||
+    (job?.job_id
+      ? `/api/scenes/render/${encodeURIComponent(job.job_id)}/latest.jpg?n=${n}`
+      : null)
+  );
+}
 
-export function stageLabel(stage) {
-  return STAGE_LABELS[stage] || stage || 'Queued';
+export function canSeek(job) {
+  return (
+    !!job?.frames_url_template ||
+    !!job?.frames?.items?.length ||
+    !!job?.frameMetadata?.length
+  );
+}
+/** Counts are not indices (parallel GPU shards can finish out of order). */
+export function latestFrameNumber(job) {
+  const reported =
+    job?.latestFrame?.index ??
+    job?.latest_frame_number ??
+    job?.latestFrameNumber ??
+    job?.frames?.latestNumber;
+  if (Number.isInteger(reported) && reported >= 0) return reported;
+  const records =
+    job?.frames?.items ||
+    (Array.isArray(job?.frameMetadata) ? job.frameMetadata : []);
+  if (records.length) {
+    const numbers = records
+      .map((f) => Number(f.number ?? f.index))
+      .filter((v) => Number.isInteger(v) && v > 0);
+    if (numbers.length) return Math.max(...numbers);
+  }
+  // Without a reported index, use the latest URL but label it "latest", not frames_done.
+  return null;
+}
+
+/** Fail closed if rendered geography cannot be tied to the operator's selected AOI. */
+export function patchSelectionIssue(job, aoi) {
+  const patch = job?.patch;
+  if (
+    !Array.isArray(patch?.bounds) ||
+    patch.bounds.length !== 4 ||
+    !patch.bounds.every(Number.isFinite)
+  )
+    return 'No geographic patch bounds returned; cannot verify this render against the selected AOI.';
+  const [w, s, e, n] = patch.bounds;
+  if (w >= e || s >= n || w < -180 || e > 180 || s < -90 || n > 90)
+    return 'Invalid geographic patch bounds returned.';
+  if (!aoi || aoi.lon < w || aoi.lon > e || aoi.lat < s || aoi.lat > n)
+    return 'Returned patch does not contain the selected AOI. Refusing a substituted location.';
+  return null;
 }

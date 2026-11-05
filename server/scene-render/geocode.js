@@ -1,73 +1,45 @@
 /**
- * Server-side, never-blocking geocoder for the Blender render proxy.
+ * Source-verified site resolver for the Blender workstation.
  *
- * The GPU render service raises `geocode_failed` (and the job dies before any
- * Blender frame) when Nominatim has no hit for the raw prompt — e.g.
- * "kanes boxing gym abu dhabi" or "concert crowd at etihad arena". Perplexity
- * ("Not enough credits") and the verified-geocoder gate ("A verified,
- * attributed geocoder candidate is required") used to block Build the same way.
- *
- * resolvePromptLocation() therefore always returns coordinates:
- *   1. known-places table (same landmarks the render service knows),
- *   2. Nominatim (UAE-scoped) on the prompt with scenario words stripped,
- *      then progressively shorter word windows,
- *   3. city fallback (Abu Dhabi / Dubai / Sharjah mentioned in the prompt),
- *   4. prompt-only fallback: Abu Dhabi city centre, flagged approximate.
- * The result travels with the job so the UI can say how the place was found.
+ * A saved coordinate, city name, or arbitrary first geocoder hit is NOT a site.
+ * Known records below identify actual OSM features, not hardcoded coordinates.
+ * Their geometry and names are revalidated before use. Missing/ambiguous sites
+ * return null, requiring an explicit operator map selection. No city fallback.
  */
 
-import { matchKnownPlace } from '../scene-plans/known-places.js';
-
-export const KNOWN_PLACES = Object.freeze([
+export const VERIFIED_SITES = Object.freeze([
   {
+    id: 'yas-mall',
     name: 'Yas Mall',
-    lat: 24.4886,
-    lng: 54.6085,
     aliases: ['yas mall', 'yasmall'],
+    osmType: 'way',
+    osmId: 312812656,
+    expectedNames: ['yas mall'],
+    precision: 'mapped-building-footprint',
+    radiusM: 750,
+    reviewedUtc: '2026-11-05T05:22:30Z',
   },
   {
-    name: 'Etihad Arena',
-    lat: 24.46036,
-    lng: 54.60422,
-    aliases: ['etihad arena'],
-  },
-  {
-    name: 'Emirates Palace',
-    lat: 24.4617,
-    lng: 54.3173,
-    aliases: ['emirates palace'],
-  },
-  {
-    name: 'Dubai Marina',
-    lat: 25.0805,
-    lng: 55.1403,
-    aliases: ['dubai marina', 'marina dubai'],
-  },
-  {
-    name: 'Burj Khalifa',
-    lat: 25.1972,
-    lng: 55.2744,
-    aliases: ['burj khalifa', 'burjkhalifa'],
-  },
-  {
-    name: 'Umm Suqeim',
-    lat: 25.1556,
-    lng: 55.2122,
-    aliases: ['umm suqeim', 'um suqeim'],
+    id: 'kanes-fotouh',
+    name: "Kane's Boxing Academy · Fotouh Al Khair Centre",
+    aliases: ['kanes boxing', 'kane boxing'],
+    osmType: 'way',
+    osmId: 27374404,
+    expectedNames: ['foutouh al khair centre', 'fotouh al khair centre'],
+    precision: 'official-address-mapped-building',
+    radiusM: 420,
+    officialSource: 'https://kanesboxingacademy.com/contact-us',
+    officialAddress:
+      'Fotouh Al Khair Centre - Abu Dhabi - United Arab Emirates',
+    reviewedUtc: '2026-11-05T05:22:06.683Z',
+    limitation:
+      'Official contact address identifies the shopping centre, not the gym unit, entrance, interior, or a measured building height.',
   },
 ]);
-
-const CITIES = Object.freeze([
-  { name: 'Abu Dhabi', lat: 24.4539, lng: 54.3773, re: /abu\s*dhabi/i },
-  { name: 'Dubai', lat: 25.2048, lng: 55.2708, re: /dubai/i },
-  { name: 'Sharjah', lat: 25.3463, lng: 55.4209, re: /sharjah/i },
-]);
-
-const DEFAULT_CITY = CITIES[0];
-
+// Kept as a public name for existing importers. No approximate coordinate table.
+export const KNOWN_PLACES = VERIFIED_SITES;
 const SCENARIO_WORDS =
-  /\b(police|raid|crash|car|cars|outside|near|at|in|on|the|a|an|crowd|concert|staging|event|world|protection|night|dusk|midday|im|i'm|doing|scene|of|with|and|checkpoint|accident|fire|riot)\b/g;
-
+  /\b(police|raid|crash|car|cars|outside|near|at|in|on|the|a|an|crowd|concert|staging|event|night|dusk|midday|scene|of|with|and|checkpoint|accident|fire|riot)\b/g;
 export function cleanPlaceQuery(prompt) {
   return String(prompt || '')
     .toLowerCase()
@@ -77,117 +49,242 @@ export function cleanPlaceQuery(prompt) {
     .replace(/\s+/g, ' ')
     .trim();
 }
-
-/** Word windows from longest to shortest, keeping order: "a b c" -> ["a b c","a b","b c","a","b","c"]. */
+/** Retained utility; resolution deliberately does not shorten to city-only terms. */
 export function queryLadder(query, maxQueries = 6) {
   const words = query.split(' ').filter(Boolean);
   const out = [];
-  for (let len = words.length; len >= 1 && out.length < maxQueries; len -= 1) {
-    for (
-      let i = 0;
-      i + len <= words.length && out.length < maxQueries;
-      i += 1
-    ) {
-      const q = words.slice(i, i + len).join(' ');
+  for (let n = words.length; n >= 1 && out.length < maxQueries; n -= 1) {
+    for (let i = 0; i + n <= words.length && out.length < maxQueries; i += 1) {
+      const q = words.slice(i, i + n).join(' ');
       if (q.length >= 3 && !out.includes(q)) out.push(q);
     }
   }
   return out;
 }
+function norm(v) {
+  return String(v || '')
+    .toLowerCase()
+    .replace(/[’']/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+function validCoordinate(lat, lng) {
+  return (
+    Number.isFinite(lat) &&
+    Number.isFinite(lng) &&
+    Math.abs(lat) <= 90 &&
+    Math.abs(lng) <= 180
+  );
+}
+export function polygonCentre(points) {
+  if (!Array.isArray(points) || points.length < 4) return null;
+  const [ox, oy] = points[0];
+  let area2 = 0,
+    cx = 0,
+    cy = 0;
+  for (let i = 0; i < points.length - 1; i += 1) {
+    const [x, y] = [points[i][0] - ox, points[i][1] - oy];
+    const [xx, yy] = [points[i + 1][0] - ox, points[i + 1][1] - oy];
+    const cross = x * yy - xx * y;
+    area2 += cross;
+    cx += (x + xx) * cross;
+    cy += (y + yy) * cross;
+  }
+  if (Math.abs(area2) < 1e-14) return null;
+  return { lng: ox + cx / (3 * area2), lat: oy + cy / (3 * area2) };
+}
+export function locationFromOsm(
+  document,
+  site,
+  now = new Date().toISOString(),
+) {
+  const els = Array.isArray(document?.elements) ? document.elements : [];
+  const way = els.find((e) => e.type === site.osmType && e.id === site.osmId);
+  if (!way || !way.tags?.building) return null;
+  const names = ['name', 'name:en', 'official_name', 'alt_name']
+    .flatMap((k) => String(way.tags[k] || '').split(';'))
+    .map(norm);
+  if (!site.expectedNames.some((n) => names.includes(norm(n)))) return null;
+  const nodes = new Map(
+    els.filter((e) => e.type === 'node').map((e) => [e.id, e]),
+  );
+  if (!way.nodes?.length || way.nodes[0] !== way.nodes.at(-1)) return null;
+  const pts = way.nodes.map((id) => nodes.get(id));
+  if (pts.some((p) => !p || !validCoordinate(p.lat, p.lon))) return null;
+  const geometry = pts.map((p) => [p.lon, p.lat]);
+  const center = polygonCentre(geometry);
+  if (!center || !validCoordinate(center.lat, center.lng)) return null;
+  const bounds = [
+    Math.min(...pts.map((p) => p.lon)),
+    Math.min(...pts.map((p) => p.lat)),
+    Math.max(...pts.map((p) => p.lon)),
+    Math.max(...pts.map((p) => p.lat)),
+  ];
+  const sourceUrl = `https://www.openstreetmap.org/${site.osmType}/${site.osmId}`;
+  const apiUrl = `https://api.openstreetmap.org/api/0.6/${site.osmType}/${site.osmId}/full.json`;
+  return {
+    name: site.name,
+    ...center,
+    source: 'verified-osm-feature',
+    verification: 'verified',
+    approximate: false,
+    precision: site.precision,
+    siteId: site.id,
+    osmType: site.osmType,
+    osmId: site.osmId,
+    sourceFeatureId: `${site.osmType}/${site.osmId}`,
+    featureVersion: way.version,
+    featureTimestamp: way.timestamp,
+    bounds,
+    radiusM: site.radiusM,
+    verifiedUtc: now,
+    reviewedUtc: site.reviewedUtc,
+    sourceUrl,
+    apiUrl,
+    limitation:
+      site.limitation ||
+      'Mapped footprint centroid, not a surveyed entrance or evidence of an incident.',
+    provenance: [
+      {
+        source: 'OpenStreetMap contributors',
+        url: sourceUrl,
+        apiUrl,
+        license: 'ODbL-1.0',
+        attribution: '© OpenStreetMap contributors',
+        retrievedUtc: now,
+        featureId: `${site.osmType}/${site.osmId}`,
+        version: way.version,
+        sourceModifiedUtc: way.timestamp,
+      },
+      ...(site.officialSource
+        ? [
+            {
+              source: "Kane's Boxing Academy official contact page",
+              url: site.officialSource,
+              fact: site.officialAddress,
+              reviewedUtc: site.reviewedUtc,
+              precision: 'venue-address-not-gym-unit',
+            },
+          ]
+        : []),
+    ],
+  };
+}
 
+// Per-fetch-client cache avoids test leakage; bounded process-local cache only.
+const caches = new WeakMap();
+function clientCache(fetchImpl) {
+  if (!caches.has(fetchImpl)) caches.set(fetchImpl, new Map());
+  return caches.get(fetchImpl);
+}
 export async function resolvePromptLocation(
   prompt,
-  { fetchImpl = globalThis.fetch, timeoutMs = 4000, log = () => {} } = {},
+  {
+    fetchImpl = globalThis.fetch,
+    timeoutMs = 9000,
+    log = () => {},
+    now = Date.now,
+  } = {},
 ) {
-  const p = String(prompt || '').toLowerCase();
-  for (const kp of KNOWN_PLACES) {
-    if (kp.aliases.some((a) => p.includes(a)))
-      return {
-        name: kp.name,
-        lat: kp.lat,
-        lng: kp.lng,
-        source: 'known-place-table',
-        approximate: true,
-        query: null,
-      };
-  }
-  // 1b. The app's full known-places table (scene-plans) — covers venues such as
-  // "kanes boxing gym abu dhabi" that Nominatim has no record of. Never throws.
-  try {
-    const kp = matchKnownPlace(String(prompt || ''));
-    if (kp && Number.isFinite(kp.lat) && Number.isFinite(kp.lon))
-      return {
-        name: kp.name,
-        lat: kp.lat,
-        lng: kp.lon,
-        source: 'known-place-table',
-        precision: kp.precision || 'landmark',
-        approximate: true,
-        query: null,
-      };
-  } catch {
-    /* table lookup is best-effort */
-  }
-  const ladder = queryLadder(cleanPlaceQuery(prompt), 4);
-  for (const q of ladder) {
-    if (CITIES.some((c) => c.re.test(q) && q.replace(c.re, '').trim() === ''))
-      continue; // city-only: handled below
+  const query = cleanPlaceQuery(prompt);
+  if (
+    !query ||
+    /\{\{[^}]*\}\}|<[^>]+>|\[(?:location|place|insert)[^\]]*\]/i.test(
+      String(prompt),
+    )
+  )
+    return null;
+  const site = VERIFIED_SITES.find((p) =>
+    p.aliases.some((a) => norm(prompt).includes(a)),
+  );
+  const cache = clientCache(fetchImpl),
+    key = site ? `osm:${site.osmType}/${site.osmId}:v2` : `query:${query}`;
+  const hit = cache.get(key);
+  if (hit && hit.until > now()) return hit.promise;
+  const promise = (async () => {
     try {
+      if (site) {
+        const url = `https://api.openstreetmap.org/api/0.6/${site.osmType}/${site.osmId}/full.json`;
+        const r = await fetchImpl(url, {
+          headers: {
+            'user-agent': 'OnDemand-Scene-Workstation/1.0 (site verification)',
+            accept: 'application/json',
+          },
+          signal: AbortSignal.timeout(timeoutMs),
+        });
+        if (!r.ok) {
+          log('site_source_http', { status: r.status, site: site.id });
+          return null;
+        }
+        return locationFromOsm(
+          await r.json(),
+          site,
+          new Date(now()).toISOString(),
+        );
+      }
       const url =
-        'https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=ae&q=' +
-        encodeURIComponent(q);
+        'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&countrycodes=ae&q=' +
+        encodeURIComponent(query);
       const r = await fetchImpl(url, {
         headers: {
-          'user-agent': 'gods-eye-view-render-proxy/1.0 (scene builder)',
+          'user-agent': 'OnDemand-Scene-Workstation/1.0 (site verification)',
           accept: 'application/json',
         },
         signal: AbortSignal.timeout(timeoutMs),
       });
-      if (!r.ok) {
-        log('nominatim_http', { q, status: r.status });
-        continue;
-      }
+      if (!r.ok) return null;
       const rows = await r.json();
-      if (Array.isArray(rows) && rows.length) {
-        const lat = Number(rows[0].lat);
-        const lng = Number(rows[0].lon);
-        if (Number.isFinite(lat) && Number.isFinite(lng))
-          return {
-            name: String(rows[0].name || rows[0].display_name || q).slice(
-              0,
-              80,
-            ),
-            lat,
-            lng,
-            source: 'nominatim',
-            approximate: true,
-            query: q,
-          };
-      }
-    } catch (error) {
-      log('nominatim_error', {
-        q,
-        error: String(error?.message || error).slice(0, 120),
+      if (!Array.isArray(rows)) return null;
+      const candidates = rows.filter((row) => {
+        const name = norm(row.name);
+        const asked = norm(query);
+        const tokens = name.split(' ').filter(Boolean);
+        return (
+          tokens.length >= 2 &&
+          (asked === name ||
+            asked.startsWith(name + ' ') ||
+            asked.endsWith(' ' + name)) &&
+          !['city', 'town', 'village', 'state', 'country'].includes(row.type) &&
+          row.osm_type &&
+          row.osm_id &&
+          validCoordinate(Number(row.lat), Number(row.lon))
+        );
       });
-      break; // network trouble: do not burn the budget on more lookups
+      if (candidates.length !== 1) return null;
+      const row = candidates[0];
+      return {
+        name: row.name,
+        lat: Number(row.lat),
+        lng: Number(row.lon),
+        source: 'nominatim-exact-name',
+        verification: 'verified',
+        approximate: false,
+        precision: row.type,
+        sourceFeatureId: `${row.osm_type}/${row.osm_id}`,
+        verifiedUtc: new Date(now()).toISOString(),
+        sourceUrl: `https://www.openstreetmap.org/${row.osm_type}/${row.osm_id}`,
+        radiusM: 500,
+        limitation:
+          'Single exact-name mapped feature; map data is not a survey or incident evidence.',
+        provenance: [
+          {
+            source: 'OpenStreetMap contributors / Nominatim',
+            url: `https://www.openstreetmap.org/${row.osm_type}/${row.osm_id}`,
+            apiUrl: url,
+            license: 'ODbL-1.0',
+            attribution: '© OpenStreetMap contributors',
+            retrievedUtc: new Date(now()).toISOString(),
+          },
+        ],
+      };
+    } catch (error) {
+      log('site_lookup_failed', { kind: error?.name || 'Error' });
+      return null;
     }
-  }
-  const city = CITIES.find((c) => c.re.test(p));
-  if (city)
-    return {
-      name: city.name,
-      lat: city.lat,
-      lng: city.lng,
-      source: 'city-fallback',
-      approximate: true,
-      query: null,
-    };
-  return {
-    name: DEFAULT_CITY.name,
-    lat: DEFAULT_CITY.lat,
-    lng: DEFAULT_CITY.lng,
-    source: 'prompt-only-fallback',
-    approximate: true,
-    query: null,
-  };
+  })();
+  cache.set(key, { until: now() + 3600000, promise });
+  if (cache.size > 64) cache.delete(cache.keys().next().value);
+  const result = await promise;
+  if (!result) cache.delete(key);
+  return result;
 }

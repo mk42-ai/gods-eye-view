@@ -33,7 +33,7 @@ REFERENCES = [
 # Paint colours were sampled from the reference PNGs (median foreground colour vs. the grey
 # studio backdrop) on 2026-11-04; they are what the Principled BSDF base colour uses.
 
-MALL_KINDS = ("mall", "venue", "shopping")
+MALL_KINDS = ("mall", "shopping")
 
 
 def reference_path(ref_id: str) -> Optional[str]:
@@ -73,7 +73,7 @@ def bindings(instances: list, focal: dict, prompt: str, scenario_type: Optional[
 
 def facade_building_indices(buildings: list, focal: dict, max_count: int = 6) -> list:
     """Indices of the OSM footprints that receive the mall-facade texture: the named focal mall
-    first (name match), else the largest footprints within 120 m of the focal point. Only for
+    first (name match), only; never a nearby unnamed building. Only for
     mall/venue focal kinds so a marathon or palace scene never grows a shopping-mall facade."""
     if not buildings or str(focal.get("kind", "")).lower() not in MALL_KINDS:
         return []
@@ -89,7 +89,7 @@ def facade_building_indices(buildings: list, focal: dict, max_count: int = 6) ->
         area = (max(xs) - min(xs)) * (max(ys) - min(ys))
         bname = str(b.get("name") or "").lower()
         named = bool(name and bname and (name in bname or bname in name))
-        if named or dist <= 120:
+        if named:
             scored.append((0 if named else 1, -area, idx))
     scored.sort()
     return [idx for _, _, idx in scored[:max_count]]
