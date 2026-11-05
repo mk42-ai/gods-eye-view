@@ -184,10 +184,14 @@ export function openApiDocument(origin) {
                     time_of_day: {
                       type: 'string',
                       enum: ['midday', 'dusk', 'night', 'auto'],
+                      description:
+                        'Lighting preset; auto infers night/dusk from the prompt, otherwise midday.',
                     },
                     camera_mode: {
                       type: 'string',
                       enum: ['street', 'low_oblique', 'orbit'],
+                      description:
+                        'Camera height band: street (default), low_oblique or orbit. Never tilts to the horizon or passes through buildings.',
                     },
                     duration: {
                       type: 'integer',
@@ -222,6 +226,7 @@ export function openApiDocument(origin) {
               name: 'jobId',
               in: 'path',
               required: true,
+              description: 'job_id returned by ondemandPatchRender.',
               schema: { type: 'string' },
             },
           ],
@@ -243,27 +248,54 @@ export function openApiDocument(origin) {
         PatchRenderJob: {
           type: 'object',
           properties: {
-            job_id: { type: 'string' },
+            job_id: { type: 'string', description: 'Render job identifier.' },
             status: {
               type: 'string',
               description:
                 'queued | land_patch | scene_spec | placement | render | encode | complete | partial | failed | cancelled',
             },
-            stream_url: { type: 'string' },
-            latest_frame_url: { type: 'string' },
-            mp4_url: { type: 'string' },
-            gpu_uuids: { type: 'array', items: { type: 'string' } },
+            stream_url: {
+              type: 'string',
+              description: 'MJPEG stream of newly published frames.',
+            },
+            latest_frame_url: {
+              type: 'string',
+              description: 'Latest published JPEG frame.',
+            },
+            mp4_url: {
+              type: 'string',
+              description: 'H.264 MP4 (CPU libx264) once status is complete.',
+            },
+            gpu_uuids: {
+              type: 'array',
+              items: { type: 'string' },
+              description:
+                'GPU UUIDs attested on the rendered frames (approved GPUs 2 and 6 only).',
+            },
             nvidia_smi: {
               type: 'object',
               description:
                 'nvidia-smi compute-app rows for this renderer (pid, gpuUuid).',
             },
-            first_frame_s: { type: 'number' },
-            steady_fps: { type: 'number' },
-            frames_done: { type: 'integer' },
-            total_frames: { type: 'integer' },
+            first_frame_s: {
+              type: 'number',
+              description: 'Seconds from job accept to first published frame.',
+            },
+            steady_fps: {
+              type: 'number',
+              description: 'Measured steady sequence render rate (frames/s).',
+            },
+            frames_done: { type: 'integer', description: 'Published frames.' },
+            total_frames: {
+              type: 'integer',
+              description: 'Frames planned for the timeline.',
+            },
             camera: pose,
-            illustrative: { type: 'boolean' },
+            illustrative: {
+              type: 'boolean',
+              description:
+                'Always true: renders are illustrative staging, not evidence.',
+            },
           },
         },
       },
