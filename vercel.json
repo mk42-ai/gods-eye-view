@@ -19,6 +19,10 @@
       "destination": "/api/route"
     },
     {
+      "source": "/workstation",
+      "destination": "/workstation.html"
+    },
+    {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
     }

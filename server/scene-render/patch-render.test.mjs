@@ -91,3 +91,25 @@ test('openapi document exposes both operations', () => {
   assert.equal(d.paths['/api/patch-render/{jobId}'].get.operationId, 'getPatchRenderStatus');
   assert.equal(d.servers[0].url, 'https://x.test');
 });
+
+test('resolution is an optional bounded 16:9 enum forwarded to the render host', () => {
+  const ok = validatePatchRequest({
+    prompt: 'car crash outside Yas Mall',
+    lat: 24.4884,
+    lon: 54.6088,
+    resolution: '1280x720',
+  });
+  assert.equal(ok.error, undefined);
+  assert.equal(ok.value.resolution, '1280x720');
+  const bad = validatePatchRequest({
+    prompt: 'car crash outside Yas Mall',
+    resolution: '4096x2160',
+  });
+  assert.equal(bad.error, 'invalid_resolution');
+  const doc = openApiDocument('https://example.test');
+  const props =
+    doc.paths['/api/patch-render'].post.requestBody.content[
+      'application/json'
+    ].schema.properties;
+  assert.deepEqual(props.resolution.enum, ['640x360', '960x540', '1280x720']);
+});

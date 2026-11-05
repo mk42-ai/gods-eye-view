@@ -46,6 +46,23 @@ SOURCE_VERSION=hashlib.sha256(b"".join(p.read_bytes() for p in sorted(Path(__fil
 CAPTURE_FPS=max(1,min(30,int(os.environ.get("RENDER_TIMELINE_FPS","24"))))
 MAX_FRAMES=240
 SEQUENCE_SAMPLES=max(4,min(32,int(os.environ.get("RENDER_SEQUENCE_SAMPLES","8"))))
+# Bounded 16:9 render widths. preview = first (fast) frame; quality = hero still; sequence = timeline frames.
+# 1280x720 is the merged-workstation viewport size; per request `resolution` may raise/lower the sequence width.
+WIDTHS=(640,960,1280)
+def _width(name,default):
+    try:value=int(os.environ.get(name,default))
+    except ValueError:value=default
+    return value if value in WIDTHS else default
+PREVIEW_WIDTH=640
+QUALITY_WIDTH=_width("RENDER_QUALITY_WIDTH",1280)
+SEQUENCE_WIDTH=_width("RENDER_SEQUENCE_WIDTH",640)
+def frame_width(j,quality):
+    if quality=="preview":return PREVIEW_WIDTH
+    requested=(j.get("request") or {}).get("resolution")
+    if quality=="sequence":
+        if requested:return int(str(requested).split("x")[0])
+        return SEQUENCE_WIDTH
+    return QUALITY_WIDTH
 TERMINAL={"complete","partial","failed","cancelled"}
 @asynccontextmanager
 async def lifespan(_app):
@@ -83,6 +100,7 @@ class RenderBody(BaseModel):
     samples:Optional[int]=Field(default=None,ge=4,le=128)
     camera_mode:Literal["street","low_oblique","orbit"]="street"
     layers:Optional[dict[str,bool]]=None
+    resolution:Optional[Literal["640x360","960x540","1280x720"]]=None
     @model_validator(mode="after")
     def coordinate_alias(self):
         if self.lon is not None and self.lng is not None and self.lon!=self.lng:raise ValueError("lon and lng disagree")
@@ -202,7 +220,7 @@ def publish(j,result,index,quality,pose):
             persist(j);j["_persisted_at"]=now
 
 def frame_command(j,scene,pose,index,quality):
-    width=640 if quality=="preview" or quality=="sequence" else 960
+    width=frame_width(j,quality)
     fid=j["jobId"]+f"_{index:04d}_{quality}";stage=Path(j["dir"])/"staging"/(fid+".jpg")
     return {"requestId":uuid.uuid4().hex,"jobId":j["jobId"],"sceneId":j["sceneId"],"frameId":fid,"scenePath":j["_scene_path"],
              "cacheKey":scene["cacheKey"],"jobHash":j["jobHash"],"pose":pose,"width":width,"height":width*9//16,
@@ -242,7 +260,7 @@ def slot_submit(pool,slot,cmd,cancel):
 
 def render_frame(j,scene,pose,index,quality):
     check_job(j)
-    width=640 if quality=="preview" or quality=="sequence" else 960
+    width=frame_width(j,quality)
     fid=j["jobId"]+f"_{index:04d}_{quality}";stage=Path(j["dir"])/"staging"/(fid+".jpg")
     command={"requestId":uuid.uuid4().hex,"jobId":j["jobId"],"sceneId":j["sceneId"],"frameId":fid,"scenePath":j["_scene_path"],
              "cacheKey":scene["cacheKey"],"jobHash":j["jobHash"],"pose":pose,"width":width,"height":width*9//16,
@@ -338,7 +356,10 @@ def encode(j):
     frames=[f for f in j["frames"] if f["quality"]!="preview"]
     if len(frames)<2:return
     directory=Path(j["dir"]);manifest=directory/"encode.txt"
-    # concat supports mixed 640/960 progressive frames; output has a uniform 960x540 canvas.
+    # concat supports mixed progressive frame sizes; the canvas is the dominant (sequence) width so
+    # timeline frames are never upscaled (a lone 1280 hero still is letterboxed down instead).
+    widths=[int(f.get("width") or 640) for f in frames]
+    canvas_w=max(set(widths),key=widths.count);canvas_h=canvas_w*9//16
     lines=[]
     for frame in frames:
         name=f"frames/f_{frame['index']:04d}_{frame['quality']}.jpg"
@@ -346,7 +367,7 @@ def encode(j):
     lines.append(lines[-2]);manifest.write_text("\n".join(lines)+"\n")
     part=directory/"video.part.mp4";j["stage"]="encode"
     cmd=["ffmpeg","-nostdin","-y","-loglevel","error","-f","concat","-safe","1","-i",str(manifest),
-         "-vf","scale=960:540:force_original_aspect_ratio=decrease,pad=960:540:(ow-iw)/2:(oh-ih)/2", "-r",str(j["timeline_fps"]),
+         "-vf",f"scale={canvas_w}:{canvas_h}:force_original_aspect_ratio=decrease,pad={canvas_w}:{canvas_h}:(ow-iw)/2:(oh-ih)/2", "-r",str(j["timeline_fps"]),
          "-c:v","libx264","-threads","2","-preset","fast","-crf","22","-pix_fmt","yuv420p","-movflags","+faststart",str(part)]
     with open(directory/"encode.log","w") as log:
         proc=subprocess.Popen(cmd,stdout=log,stderr=log,env=dict(os.environ,CUDA_VISIBLE_DEVICES=""))
@@ -361,6 +382,7 @@ def encode(j):
             if proc.poll() is None:proc.terminate();proc.wait(timeout=5)
     with LOCK:
         check_job(j);os.replace(part,directory/"video.mp4");j["mp4_bytes"]=(directory/"video.mp4").stat().st_size;j["encoder"]="libx264 (CPU encode only)"
+        j["mp4_resolution"]=f"{canvas_w}x{canvas_h}"
 
 def run_job(jid):
     j=JOBS[jid]
@@ -565,7 +587,7 @@ def health():
     return {"ok":bool(devices) and bool(TOKEN) and Path(BLENDER).is_file() and bool(P.ASSET_KEYS),"service":"gods-eye-view-render","utc":P.utc(),"sourceVersion":SOURCE_VERSION,"buildReference":os.environ.get("GEV_SERVICE_REVISION","unrecorded"),
             "gpus":[str(d["physicalIndex"]) for d in devices],"gpu_policy":{"allowed":[2,6],"resolved":devices,"backend":"OPTIX","cpuRendering":False,
              "visibility":"UUID per worker","error":policy_error,"verification":"Cycles PCI device attested on each render; see frame.gpu"},
-            "workers":workers,"fps":CAPTURE_FPS,"fpsMeaning":"export timeline, not a realtime render claim","resolutions":[[640,360],[960,540]],
+            "workers":workers,"fps":CAPTURE_FPS,"fpsMeaning":"export timeline, not a realtime render claim","resolutions":[[w,w*9//16] for w in WIDTHS],"defaults":{"preview":[PREVIEW_WIDTH,PREVIEW_WIDTH*9//16],"quality":[QUALITY_WIDTH,QUALITY_WIDTH*9//16],"sequence":[SEQUENCE_WIDTH,SEQUENCE_WIDTH*9//16]},
             "samples":SAMPLES,"blender":Path(BLENDER).is_file(),"assets":len(P.ASSET_KEYS),"jobs":len(JOBS),"illustrative":True,"label":LABEL}
 
 @app.get("/")

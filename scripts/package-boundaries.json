@@ -1816,6 +1816,7 @@
       "src/incidents/ui/draftOwnership.js",
       "src/incidents/ui/sceneFootageControls.js",
       "src/incidents/ui/hyperRealRender.js",
+      "src/workstation/model.js",
       "src/incidents/ui/index.js",
       "src/sceneVideos/evidence.js",
       "src/sceneVideos/labels.js",

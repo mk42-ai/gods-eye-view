@@ -35,7 +35,7 @@ test('server identity honours PRODUCT_* env, falls back to VITE_* then defaults'
 });
 
 test('index.html carries only {{PRODUCT_*}} tokens and stamps to the identity (HTML-escaped)', () => {
-  const html = readFileSync(new URL('../../legacy.html', import.meta.url), 'utf8');
+  const html = readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
   assert.doesNotMatch(html, /OnDemand Spatial/);
   assert.match(html, /<title>\{\{PRODUCT_NAME\}\}<\/title>/);
   const stamped = stampProductTokens(expandApplicationHtml(html), server.productIdentity({ PRODUCT_NAME: 'A & B "Console"' }));
@@ -55,7 +55,7 @@ test('the web manifest is stamped from the identity', () => {
 });
 
 test('no user-facing legacy brand strings remain in the templates (BRANDING_AUDIT §2 P0)', () => {
-  const html = expandApplicationHtml(readFileSync(new URL('../../legacy.html', import.meta.url), 'utf8'));
+  const html = expandApplicationHtml(readFileSync(new URL('../../index.html', import.meta.url), 'utf8'));
   assert.doesNotMatch(html, /God's Eye/);
   assert.doesNotMatch(html, /GEV MIC/);
   assert.doesNotMatch(html, /OnDemand Spatial/);

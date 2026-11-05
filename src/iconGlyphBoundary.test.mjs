@@ -59,7 +59,7 @@ const FORBIDDEN = [
   ['U+2197 north-east arrow used as an external-link glyph', 0x2197, 0x2197],
 ];
 const UI_ROOTS = ['src'];
-const UI_FILES = ['legacy.html', 'style.css'];
+const UI_FILES = ['index.html', 'style.css'];
 const UI_EXTENSIONS = /\.(?:js|mjs|cjs|html|css)$/;
 const ENTITY = /&#(x[0-9a-f]+|[0-9]+);/gi;
 const JS_ESCAPE =
@@ -154,7 +154,7 @@ test('UI source files carry no emoji or icon-glyph code points', () => {
 
 test('the assembled application markup renders icons, not glyphs', () => {
   const html = expandApplicationHtml(
-    readFileSync(path.join(REPO_ROOT, 'legacy.html'), 'utf8'),
+    readFileSync(path.join(REPO_ROOT, 'index.html'), 'utf8'),
   );
   assert.deepEqual(findForbiddenGlyphs(html), []);
   // Every former glyph slot is an inline Lucide icon.
@@ -893,7 +893,7 @@ test('each header surface template renders exactly one brand mark, tagged data-b
 
 test('the assembled application markup renders one data-brand-mark per header surface and no untagged brand asset', () => {
   const html = expandApplicationHtml(
-    readFileSync(path.join(REPO_ROOT, 'legacy.html'), 'utf8'),
+    readFileSync(path.join(REPO_ROOT, 'index.html'), 'utf8'),
   );
   const all = scanBrandMarks(html);
   const untagged = all.filter((m) => !m.hasAttribute);

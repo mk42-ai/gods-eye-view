@@ -19,6 +19,7 @@ import { ALLOWED_RENDER_GPUS, gpuPolicyViolations } from './promptSeed.js';
 const JOB_RE = /^[a-f0-9]{12,20}$/;
 const TIMES = new Set(['midday', 'dusk', 'night', 'auto']);
 const MODES = new Set(['street', 'low_oblique', 'orbit']);
+export const RESOLUTIONS = Object.freeze(['640x360', '960x540', '1280x720']);
 
 export function validatePatchRequest(body) {
   if (!body || typeof body !== 'object' || Array.isArray(body))
@@ -86,6 +87,14 @@ export function validatePatchRequest(body) {
       message: 'duration must be an integer 2–10 s',
     };
   out.duration_s = d;
+  if (body.resolution !== undefined && body.resolution !== null) {
+    if (!RESOLUTIONS.includes(body.resolution))
+      return {
+        error: 'invalid_resolution',
+        message: `resolution must be one of ${RESOLUTIONS.join(', ')}`,
+      };
+    out.resolution = body.resolution;
+  }
   if (
     body.layers &&
     typeof body.layers === 'object' &&
@@ -198,6 +207,12 @@ export function openApiDocument(origin) {
                       minimum: 2,
                       maximum: 10,
                       description: 'Timeline seconds (24 fps timeline).',
+                    },
+                    resolution: {
+                      type: 'string',
+                      enum: [...RESOLUTIONS],
+                      description:
+                        'Sequence frame size (16:9). Default is the service setting; 1280x720 matches the workstation viewport.',
                     },
                   },
                 },
@@ -427,6 +442,7 @@ export function createPatchRenderRoutes({
         time_of_day: req2.time_of_day,
         camera_mode: req2.camera_mode,
         ...(req2.layers ? { layers: req2.layers } : {}),
+        ...(req2.resolution ? { resolution: req2.resolution } : {}),
       };
       let location = null;
       if (req2.lat !== undefined) {

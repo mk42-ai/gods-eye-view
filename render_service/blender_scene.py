@@ -389,7 +389,7 @@ def render_command(cmd,device):
                 "gpu":evidence,"totalSeconds":round(time.monotonic()-start,4),"reusedScene":reused}
         emit("worker_warm",**result);return result
     width,height=int(cmd["width"]),int(cmd["height"])
-    if width not in (640,960) or height!=width*9//16:raise RuntimeError("unsupported bounded resolution")
+    if width not in (640,960,1280) or height!=width*9//16:raise RuntimeError("unsupported bounded resolution")
     pose=Camera.validate_pose(cmd["pose"],S,width/height)
     co.location=pose["position"];co.rotation_euler=(Vector(pose["target"])-co.location).to_track_quat("-Z","Y").to_euler()
     co.data.angle=math.radians(pose["fovDeg"]);co.data.clip_start=pose["nearClip"]

@@ -132,3 +132,259 @@
     max-width: 100%;
   }
 }
+
+/* ---- merged Scene Workstation panels (Outliner / Properties / Render / Timeline)
+ * inside the collapsible right-rail Render panel. Amber accents mark the
+ * illustrative GPU render; nothing here covers the map viewport. */
+#right-context-rail > #hyperreal-render-panel {
+  position: relative;
+  inset: auto;
+  flex: 0 1 auto;
+  pointer-events: auto;
+  max-height: min(78vh, 760px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.hyperreal-panel.collapsed {
+  padding-bottom: 6px;
+}
+.hyperreal-panel.collapsed .hyperreal-panel__status,
+.hyperreal-panel.collapsed .hyperreal-panel__progress,
+.hyperreal-panel.collapsed .hyperreal-panel__banner,
+.hyperreal-panel.collapsed .hyperreal-panel__body {
+  display: none;
+}
+.hyperreal-panel__collapse {
+  background: transparent;
+  border: 1px solid rgba(153, 154, 155, 0.25);
+  border-radius: 4px;
+  color: #9fa0a1;
+  font-size: 12px;
+  line-height: 1;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.hyperreal-panel__progress {
+  height: 3px;
+  margin: 0 0 6px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.hyperreal-panel__progress-bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #f5a623;
+  transition: width 240ms ease;
+}
+.hyperreal-panel__banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 6px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 120, 100, 0.55);
+  background: rgba(90, 20, 14, 0.55);
+  color: #ffd9d2;
+  font-size: 10.5px;
+}
+.hyperreal-panel__banner[hidden] {
+  display: none;
+}
+.hyperreal-panel__banner-status {
+  font: 600 10px/1 var(--font-mono);
+  color: #ffb4a6;
+  white-space: nowrap;
+}
+.hyperreal-panel__banner-text {
+  flex: 1 1 auto;
+  overflow-wrap: anywhere;
+}
+.hyperreal-panel__retry {
+  flex: 0 0 auto;
+  border: 1px solid rgba(245, 166, 35, 0.7);
+  background: rgba(245, 166, 35, 0.18);
+  color: #ffe3b0;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font: 600 10px/1.2 var(--font-mono);
+  cursor: pointer;
+}
+.hyperreal-panel__nav {
+  display: flex;
+  gap: 4px;
+  margin: 0 0 6px;
+  flex-wrap: wrap;
+}
+.hyperreal-panel__tab {
+  background: transparent;
+  border: 1px solid rgba(153, 154, 155, 0.25);
+  color: #bdbebf;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font: 500 10px/1.4 var(--font-mono);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+.hyperreal-panel__tab.is-active,
+.hyperreal-panel__tab[aria-selected='true'] {
+  border-color: rgba(245, 166, 35, 0.8);
+  color: #ffe3b0;
+  background: rgba(245, 166, 35, 0.14);
+}
+.hyperreal-panel__section[hidden] {
+  display: none;
+}
+.hyperreal-panel__idle {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  text-align: center;
+  color: #8a8b8c;
+  font-size: 10.5px;
+}
+.hyperreal-panel__idle[hidden] {
+  display: none;
+}
+.hyperreal-panel__hud {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  pointer-events: none;
+}
+.hyperreal-panel__hud > span {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(10, 10, 12, 0.7);
+  color: #e6e7e8;
+  font: 600 9px/1.2 var(--font-mono);
+  letter-spacing: 0.05em;
+}
+.hyperreal-panel__hud-gpu,
+.hyperreal-panel__gpu-badge {
+  color: #1a1a1c !important;
+  background: #f5a623 !important;
+}
+.hyperreal-panel__gpu-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font: 700 9.5px/1.2 var(--font-mono);
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.hyperreal-outliner {
+  max-height: 260px;
+  overflow: auto;
+  font-size: 10.5px;
+}
+.hyperreal-outliner__group-head {
+  color: #ffe3b0;
+  font: 600 10px/1.6 var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.hyperreal-outliner__children {
+  display: flex;
+  flex-direction: column;
+  padding-left: 8px;
+  border-left: 1px solid rgba(245, 166, 35, 0.25);
+}
+.hyperreal-outliner__item {
+  text-align: left;
+  background: transparent;
+  border: 0;
+  color: #d4d5d6;
+  padding: 1px 4px;
+  font: inherit;
+  font-size: 10.5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.hyperreal-outliner__item[aria-selected='true'] {
+  background: rgba(245, 166, 35, 0.18);
+  color: #fff;
+}
+.hyperreal-outliner__more {
+  color: #8a8b8c;
+  font-size: 10px;
+}
+.hyperreal-props,
+.hyperreal-render-stats {
+  display: grid;
+  grid-template-columns: minmax(90px, 38%) 1fr;
+  gap: 2px 8px;
+  margin: 0;
+  font-size: 10.5px;
+}
+.hyperreal-props dt,
+.hyperreal-render-stats dt {
+  color: #9fa0a1;
+}
+.hyperreal-props dd,
+.hyperreal-render-stats dd {
+  margin: 0;
+  color: #e6e7e8;
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+}
+.hyperreal-timeline {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 8px;
+  align-items: center;
+}
+.hyperreal-timeline__play {
+  border: 1px solid rgba(245, 166, 35, 0.7);
+  background: rgba(245, 166, 35, 0.16);
+  color: #ffe3b0;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font: 600 10px/1.2 var(--font-mono);
+  cursor: pointer;
+}
+.hyperreal-timeline__play:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.hyperreal-timeline__play[aria-pressed='true'] {
+  background: #f5a623;
+  color: #1a1a1c;
+}
+.hyperreal-timeline__scrub {
+  width: 100%;
+  accent-color: #f5a623;
+}
+.hyperreal-timeline__timecode {
+  grid-column: 1 / -1;
+  color: #9fa0a1;
+  font: 500 10px/1.2 var(--font-mono);
+}
+@media (max-width: 700px) {
+  #right-context-rail > #hyperreal-render-panel {
+    max-height: min(46dvh, 420px);
+  }
+  .hyperreal-outliner {
+    max-height: 140px;
+  }
+}
+.hyperreal-panel[data-collapsed='true'] {
+  padding-bottom: 6px;
+}
+.hyperreal-panel[data-collapsed='true'] .hyperreal-panel__header {
+  margin-bottom: 0;
+}
+.hyperreal-panel [hidden] {
+  display: none !important;
+}

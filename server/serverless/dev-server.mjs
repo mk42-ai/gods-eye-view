@@ -259,6 +259,10 @@ async function handleStatic(req, res, pathname) {
   } catch {
     decodedPath = pathname;
   }
+  // The Blender Scene Workstation page is a second Vite entry (workstation.html)
+  // served at /workstation on Vercel via vercel.json rewrites; mirror that here.
+  if (decodedPath === '/workstation' || decodedPath === '/workstation/')
+    decodedPath = '/workstation.html';
   const resolved = path.normalize(path.join(distDir, decodedPath));
   const withinDist =
     resolved === distDir || resolved.startsWith(distDir + path.sep);
