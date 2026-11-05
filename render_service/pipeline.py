@@ -240,7 +240,13 @@ def place(spec, focal, osm, half_m, seed, log=None):
     # Place explicit crash tableau first so optional staging never displaces its focus.
     if REFS.is_crash_prompt(spec.get("_prompt",""),spec.get("scenarioType")):
         if road_lines:
-            road,ln=min(road_lines,key=lambda r:r[1].distance(Point(0,0)))
+            rank={"primary":0,"trunk":0,"secondary":1,"tertiary":2,"residential":3,"unclassified":3,"living_street":4,"service":6}
+            def crash_score(item):
+                r,l=item;dist=l.distance(Point(0,0))
+                clear=min([Polygon(b["pts"]).distance(l.interpolate(l.project(Point(0,0)))) for b in osm["buildings"]] or [99])
+                return rank.get(r["kind"],5)*60+dist+(80 if clear<12 else 0)+(200 if l.length<40 else 0)
+            near=[(r,l) for r,l in road_lines if l.distance(Point(0,0))<min(half_m*.8,350)] or road_lines
+            road,ln=min(near,key=crash_score)
             d=max(15,min(ln.length-15,ln.project(Point(0,0))))
             civ=next((k for k in ("civilian_sedan","civilian_suv","civilian_taxi") if available(k)),None)
             if civ:
@@ -287,7 +293,7 @@ def _asset_hashes(instances):
             with open(path,"rb") as f:result["reference:"+r["id"]]=hashlib.sha256(f.read()).hexdigest()
     return result
 
-def build_scene_json(job, focal, spec, model_rec, osm, img, inst, shapes, roads, time_of_day, duration_s, fps, gpus):
+def build_scene_json(job, focal, spec, model_rec, osm, img, inst, shapes, roads, time_of_day, duration_s, fps, gpus, ambient=None, sidewalks=None, camera_mode="orbit"):
     buildings=osm["buildings"]
     indices=REFS.facade_building_indices(buildings,focal) if REFS.reference_path("mall_facade_module") else []
     for index in indices:buildings[index]["facade"]="mall_facade_module"
@@ -295,11 +301,65 @@ def build_scene_json(job, focal, spec, model_rec, osm, img, inst, shapes, roads,
     assets=_asset_hashes(inst)
     stable_patch={k:osm["patch"][k] for k in ("id","bounds","origin","crs")}
     key=G.digest({"schema":"bounded-blender-v3", "patch":stable_patch,"spec":spec,"time":time_of_day,
-                  "instances":inst,"assets":assets,"terrain":osm.get("terrain",{}).get("id"),"duration":duration_s,"fps":fps})
+                  "instances":inst,"assets":assets,"terrain":osm.get("terrain",{}).get("id"),"duration":duration_s,"fps":fps,
+                  "imagery":{k:(img or {}).get(k,{}).get("sourceSha256") for k in ("fine","context")},"ambient":len(ambient or []),"sidewalks":len(sidewalks or []),"scenery":"v3"})
     return {"job_id":job,"sceneId":"scene_"+key[:24],"cacheKey":key,"patch":osm["patch"],"seed":spec.get("seed"),
             "prompt_hash":spec.get("prompt_hash"),"illustrative":True,"label":"Illustrative render · not evidence", "created_utc":utc(),
             "focal":focal,"spec":spec,"model":model_rec,"time_of_day":time_of_day,"duration_s":duration_s,"fps":fps,
             "gpus":gpus,"terrain":osm.get("terrain"),"buildings":buildings,"roads":osm["roads"],"water":osm["water"],"instances":inst,"shapes":shapes,
             "assets_root":os.path.join(ROOT,"assets"),"assetHashes":assets,"assetProvenance":MANIFEST.get("assets",[]),
             "placementOmissions":osm.get("placementOmissions",{}),"references":refs,"references_dir":REFS.REFERENCES_DIR,
-            "virtual_assets":VIRTUAL_ASSETS,"hdri":{"dusk":"kiara_9_dusk_2k.hdr","night":"dikhololo_night_2k.hdr","midday":"clarens_midday_2k.hdr"}[time_of_day]}
+            "virtual_assets":VIRTUAL_ASSETS,"imagery":img,"ambient":ambient or [],"sidewalks":sidewalks or [],"cameraMode":camera_mode,"hdri":{"dusk":"kiara_9_dusk_2k.hdr","night":"dikhololo_night_2k.hdr","midday":"clarens_midday_2k.hdr"}[time_of_day]}
+
+
+AMBIENT_LICENSE = {"street_lamp": "Poly Haven street_lamp_01 (CC0)", "street_tree": "Poly Haven island_tree_02 (CC0)",
+                   "shrub": "Poly Haven shrub_01 (CC0)", "bench": "Poly Haven modular_street_seating (CC0)"}
+
+def place_ambient(osm, seed, radius_m=420, max_items=650):
+    """Illustrative street furniture / vegetation beside mapped roads (Poly Haven CC0).
+
+    Deterministic per prompt seed. Items stay inside the patch, off road surfaces,
+    buildings, water and staged-incident footprints; heights come from the same DSM mesh.
+    These are scenery for visual context only — not mapped street furniture."""
+    rnd = random.Random(seed ^ 0x5EED)
+    boundary = Polygon(osm["patch"]["boundary"]).buffer(-3)
+    road_union = [LineString(r["pts"]).buffer(r["width"] / 2 + .4, cap_style=2) for r in osm["roads"]]
+    from shapely.strtree import STRtree
+    blockers = road_union + [Polygon(b["pts"], b.get("holes", [])).buffer(.8) for b in osm["buildings"]] + \
+        [Polygon(w["pts"], w.get("holes", [])) for w in osm.get("water", [])]
+    blockers = [b for b in blockers if b.is_valid and not b.is_empty]
+    tree = STRtree(blockers) if blockers else None
+    urban = {"primary", "secondary", "tertiary", "residential", "trunk", "living_street", "unclassified", "service"}
+    out, taken = [], []
+    def free(pt, clearance, footprint):
+        if not boundary.contains(pt) or pt.distance(Point(0, 0)) > radius_m: return False
+        probe = pt.buffer(footprint)
+        if tree is not None and any(blockers[int(i)].intersects(probe) for i in tree.query(probe)): return False
+        return not any(pt.distance(q) < clearance for q in taken[-400:])
+    roads = sorted((r for r in osm["roads"] if r["kind"] in urban and r.get("groundingAvailable")),
+                   key=lambda r: LineString(r["pts"]).distance(Point(0, 0)))
+    for road in roads:
+        ln = LineString(road["pts"])
+        if ln.length < 12: continue
+        major = road["kind"] in ("primary", "secondary", "trunk", "tertiary")
+        for station in range(6, int(ln.length) - 4, 9):
+            if len(out) >= max_items: break
+            a = ln.interpolate(max(0, station - 1)); b = ln.interpolate(min(ln.length, station + 1))
+            hdg = math.atan2(b.y - a.y, b.x - a.x); nx, ny = -math.sin(hdg), math.cos(hdg)
+            kind = "street_lamp" if station % 36 < 9 else ("street_tree" if (major or rnd.random() < .6) and station % 18 < 9 else
+                   ("shrub" if rnd.random() < .5 else ("bench" if rnd.random() < .12 else None)))
+            if not kind: continue
+            off = road["width"] / 2 + {"street_lamp": 1.1, "street_tree": 2.6, "shrub": 2.2, "bench": 2.0}[kind]
+            for side in ((1, -1) if (station // 9) % 2 else (-1, 1)):
+                c = ln.interpolate(station); pt = Point(c.x + nx * off * side, c.y + ny * off * side)
+                clearance = {"street_lamp": 2.5, "street_tree": 4.0, "shrub": 1.6, "bench": 2.2}[kind]
+                if not free(pt, clearance, {"street_lamp": .25, "street_tree": .9, "shrub": .5, "bench": .7}[kind]): continue
+                try: z = Terrain.surface_height(osm["terrain"], pt.x, pt.y) + .1
+                except Exception: continue
+                taken.append(pt)
+                out.append({"asset": kind, "x": pt.x, "y": pt.y, "z": z,
+                            "heading_deg": math.degrees(hdg) + (90 if side > 0 else -90) if kind in ("street_lamp", "bench") else rnd.uniform(0, 360),
+                            "scale": rnd.uniform(.85, 1.2) if kind in ("street_tree", "shrub") else 1.0,
+                            "illustrative": True, "basis": "scenery beside OSM road " + road["sourceId"], "license": AMBIENT_LICENSE[kind]})
+                break
+    return out

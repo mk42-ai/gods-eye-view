@@ -68,7 +68,7 @@ class Slot:
                     Path(cmd["stagingPath"]).unlink(missing_ok=True);raise CancelledError()
                 if result.get("error"):raise RuntimeError(result["error"])
                 self.cache_key=cmd["cacheKey"];return result
-            time.sleep(.04)
+            time.sleep(.004)
         self.stop_process()
         raise TimeoutError("bounded Blender render timeout (180s)")
     def loop(self):
@@ -94,9 +94,12 @@ class Slot:
             except queue.Empty:break
 
 class WorkerPool:
-    def __init__(self,devices,root,blender):
+    def __init__(self,devices,root,blender,per_gpu=1):
         if not devices:raise GPU.GPUError("no eligible GPU workers")
-        self.slots=[Slot(device,root,blender) for device in devices];self.lock=threading.Lock()
+        per_gpu=max(1,min(4,int(per_gpu)))
+        # Several persistent Blender processes per *approved* GPU (same UUID mask) keep the H100s fed;
+        # interleaved so round-robin spreads consecutive frames across both GPUs.
+        self.slots=[Slot(device,root,blender) for _ in range(per_gpu) for device in devices];self.lock=threading.Lock()
     def submit(self,cmd,cancel):
         with self.lock:
             # Prefer hot scene state; queued work is capped, never fork per camera.

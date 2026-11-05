@@ -276,3 +276,19 @@ test('explicit local save and session persistence are separate; full draft metad
   assert.equal(restored.job, null);
   assert.equal(restored.displayed, null);
 });
+
+test('merged UI persistence: layers, render settings, chat and saved-scene library survive malformed data', async () => {
+  const m = await import('./state.js');
+  assert.deepEqual(Object.values(m.sanitizeLayers({ imagery: false, bogus: 1, roads: 'x' })).filter((v) => v === false).length, 1);
+  const s = m.createState({ timeOfDay: 'dusk', cameraMode: 'low_oblique', chat: [{ role: 'user', text: 'hi' }, { role: 'evil', text: 1 }], evidenceWindowHours: 72 });
+  assert.equal(s.timeOfDay, 'dusk');
+  assert.equal(s.cameraMode, 'low_oblique');
+  assert.equal(s.chat.length, 1);
+  assert.equal(s.evidenceWindowHours, 72);
+  assert.equal(m.createState({ timeOfDay: 'noon', cameraMode: 'drone' }).cameraMode, 'street');
+  assert.deepEqual(m.readLibrary('not json'), []);
+  assert.deepEqual(m.readLibrary('[{"id":1}]'), []);
+  const lib = m.addToLibrary([], 'Yas crash', { version: 1, prompt: 'p' }, new Date(0));
+  assert.equal(m.readLibrary(JSON.stringify(lib)).length, 1);
+  assert.deepEqual(m.rememberPrompt(['a b c'], 'a b c'), ['a b c']);
+});

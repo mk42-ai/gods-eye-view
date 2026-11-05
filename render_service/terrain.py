@@ -515,10 +515,39 @@ def clipped_mesh(terrain):
         raise TerrainError("terrain_clip_failed: " + type(exc).__name__) from exc
 
 
+_FACE_INDEX = {}
+
+def _face_candidates(mesh, x, y):
+    """Uniform-grid bucket of clipped faces (same exact triangle test, ~O(1) lookup).
+
+    The previous linear scan dominated Blender scene construction (~5 s per patch).
+    Buckets are inclusive of triangle bounding boxes, so results are identical.
+    """
+    key = id(mesh)
+    entry = _FACE_INDEX.get(key)
+    if entry is None or entry[0] is not mesh:
+        verts = mesh["vertices"]; faces = mesh["faces"]
+        xs = [v[0] for v in verts]; ys = [v[1] for v in verts]
+        x0, y0, x1, y1 = min(xs), min(ys), max(xs), max(ys)
+        n = max(1, min(64, int(math.sqrt(len(faces)) or 1)))
+        cw = max((x1 - x0) / n, 1e-6); ch = max((y1 - y0) / n, 1e-6)
+        grid = {}
+        for fi, face in enumerate(faces):
+            tx = [verts[i][0] for i in face]; ty = [verts[i][1] for i in face]
+            for gx in range(max(0, int((min(tx) - x0) / cw) - 1), min(n, int((max(tx) - x0) / cw) + 2)):
+                for gy in range(max(0, int((min(ty) - y0) / ch) - 1), min(n, int((max(ty) - y0) / ch) + 2)):
+                    grid.setdefault((gx, gy), []).append(face)
+        entry = (mesh, x0, y0, cw, ch, n, grid)
+        if len(_FACE_INDEX) > 32: _FACE_INDEX.clear()
+        _FACE_INDEX[key] = entry
+    _, x0, y0, cw, ch, n, grid = entry
+    gx = min(n - 1, max(0, int((x - x0) / cw))); gy = min(n - 1, max(0, int((y - y0) / ch)))
+    return grid.get((gx, gy), ())
+
 def surface_height(terrain, x, y):
     """Height of the actual piecewise-triangular Blender mesh, not bilinear proxy."""
     mesh = terrain["clippedMesh"]
-    for face in mesh["faces"]:
+    for face in _face_candidates(mesh, x, y):
         a,b,c=[mesh["vertices"][i] for i in face]
         if x < min(a[0],b[0],c[0])-1e-6 or x > max(a[0],b[0],c[0])+1e-6 or y < min(a[1],b[1],c[1])-1e-6 or y > max(a[1],b[1],c[1])+1e-6:continue
         den=(b[1]-c[1])*(a[0]-c[0])+(c[0]-b[0])*(a[1]-c[1])

@@ -7,6 +7,7 @@ import { mountFoundationRoutes } from '../ondemand/foundation/proxy-route.js';
 import { createToolInvoker } from '../ondemand/foundation/tool-contracts.js';
 import { mountSceneFootageRoutes } from '../scene-footage/routes.js';
 import { mountSceneRenderRoutes } from '../scene-render/routes.js';
+import { mountPatchRenderRoutes } from '../scene-render/patch-render.js';
 
 /** VITE_SERVERLESS_MODE / SERVERLESS_MODE mirror the client-side build-time flag; VERCEL is set by the platform itself. */
 /** Accept the usual truthy spellings (`true`, `1`, `yes`) for an env flag. */
@@ -272,6 +273,8 @@ async function createServerlessApi({ serverlessMode: explicitMode } = {}) {
   // token/base URL stay server-side (RENDER_SERVICE_URL/_TOKEN); every payload
   // is re-stamped 'Illustrative render · not evidence' (server/scene-render/).
   mountSceneRenderRoutes(router);
+  // ondemandPatchRender (custom OnDemand tool + Build button): /api/patch-render
+  mountPatchRenderRoutes(router);
   mountFoundationRoutes(router, { toolInvoker: createToolInvoker() });
 
   for (const plugin of localProviderPlugins()) {

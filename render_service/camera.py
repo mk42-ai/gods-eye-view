@@ -123,23 +123,78 @@ def move(pose,command,scene):
     else:raise CameraError("unsupported camera action")
     return changed(result)
 
-def initial_pose(scene):
-    candidates=[]
+MODES = {
+    # mode: (AGL metres to try, horizontal distance factor, label)
+    "street": ((7, 10, 14, 18), 2.4, "street-level (pedestrian/vehicle eye height band)"),
+    "low_oblique": ((22, 30, 40, 55), 1.9, "low-oblique (rooftop height)"),
+    "orbit": ((95, 65, 130, 180, 40), .35, "high orbit (legacy overview)"),
+}
+FALLBACK = {"street": ("street", "low_oblique", "orbit"), "low_oblique": ("low_oblique", "street", "orbit"), "orbit": ("orbit", "low_oblique")}
+
+def _targets(scene):
     priorities=[]
     for instance in scene.get("instances",[]):
         if str(instance.get("element","")).startswith("crash_vehicle"):
             priorities.append([instance["x"],instance["y"],0.1])
+    candidates=[]
     for road in scene.get("roads",[]):
         if road.get("groundingAvailable") and road.get("drivable", True):
             pts=road["pts"]
             candidates.extend([[ (a[0]+b[0])/2,(a[1]+b[1])/2,.1] for a,b in zip(pts,pts[1:])])
-    candidates=priorities+sorted((p for p in candidates if not any(inside_building(p,b) for b in scene.get("buildings",[]))),key=lambda p:p[0]**2+p[1]**2)[:100]+[[0,0,.1]]
-    for target in candidates:
-        if scene.get("terrain"):target[2]=Terrain.surface_height(scene["terrain"],target[0],target[1])+.15
-        for agl in (95,65,130,180,40):
-            z=target[2]+agl
-            for angle in (-90,0,90,180):
-                a=math.radians(angle);r=z*.35
-                try:return validate_pose({"position":[target[0]+r*math.cos(a),target[1]+r*math.sin(a),z],"target":target,"fovDeg":45},scene)
-                except CameraError:continue
+    return priorities+sorted((p for p in candidates if not any(inside_building(p,b) for b in scene.get("buildings",[]))),key=lambda p:p[0]**2+p[1]**2)[:60]+[[0,0,.1]]
+
+def _crowded(p, scene, clearance):
+    """Street/low cameras keep horizontal clearance from walls taller than the lens,
+    so a view is never pressed against (or shadowed inside) a facade."""
+    for b in scene.get("buildings",[]):
+        if b.get("z",0)+b["h"] < p[2]:continue
+        if inside_building(p,b):return True
+        if any(point_segment_distance(p,a,c)<clearance for ring in [b["pts"]]+b.get("holes",[]) for a,c in zip(ring,ring[1:]+ring[:1])):return True
+    return False
+
+def initial_pose(scene, mode="orbit"):
+    """First valid pose for the requested mode, falling back street -> low-oblique -> orbit.
+
+    Every candidate passes validate_pose: no horizon in frame, footprint inside the
+    patch, no camera/near-plane inside a building, target not occluded."""
+    for used in FALLBACK.get(mode, FALLBACK["orbit"]):
+        agls, factor, label = MODES[used]
+        for target in _targets(scene):
+            target=list(target)
+            if scene.get("terrain"):target[2]=Terrain.surface_height(scene["terrain"],target[0],target[1])+(1.0 if used=="street" else .15)
+            for agl in agls:
+                z=target[2]+agl
+                for angle in (-90,-45,0,45,90,135,180,-135):
+                    a=math.radians(angle);r=agl*factor
+                    position=[target[0]+r*math.cos(a),target[1]+r*math.sin(a),z]
+                    if used!="orbit" and _crowded(position,scene,clearance=7.0 if used=="street" else 4.0):continue
+                    try:
+                        pose=validate_pose({"position":position,"target":target,"fovDeg":50 if used=="street" else 45},scene)
+                    except CameraError:continue
+                    pose["mode"]=used;pose["modeLabel"]=label;pose["requestedMode"]=mode
+                    return pose
     raise CameraError("no valid downward camera inside patch; select a different bounded patch")
+
+def sequence_poses(scene, pose, count, degrees_per_frame):
+    """Deterministic, validated camera path. Orbits the target; at street level a
+    blocked orbit step tries the opposite direction and then a short dolly, never
+    passing through buildings or tilting to the horizon. Stops when nothing is valid."""
+    out=[];direction=1;cur=pose
+    for _ in range(count):
+        nxt=None
+        for attempt in ("orbit","reverse","dolly-in","dolly-out"):
+            try:
+                if attempt=="orbit":cand=orbit_pose(cur,degrees_per_frame*direction)
+                elif attempt=="reverse":cand=orbit_pose(cur,-degrees_per_frame*direction)
+                else:
+                    p=cur["position"];t=cur["target"];k=.985 if attempt=="dolly-in" else 1.015
+                    cand={"position":[t[0]+(p[0]-t[0])*k,t[1]+(p[1]-t[1])*k,p[2]],"target":list(t),"fovDeg":cur.get("fovDeg",45)}
+                nxt=validate_pose(cand,scene)
+                if attempt=="reverse":direction=-direction
+                break
+            except CameraError:continue
+        if nxt is None:break
+        for key in ("mode","modeLabel","requestedMode"):
+            if key in pose:nxt[key]=pose[key]
+        out.append(nxt);cur=nxt
+    return out
